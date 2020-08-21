@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@kleros/components*": ["components"],
+      "@kleros/icons*": ["icons"]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+# Dependencies
+/node_modules/
+
+# Build
+/.next/
+
+# Relay
+/.relay/
+
+# Subgraph
+/subgraph/subgraph.yaml
+/subgraph/generated/
+/subgraph/build/

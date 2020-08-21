@@ -1,0 +1,333 @@
+enum Status {
+  """
+  The submission doesn't have a pending status.
+  """
+  None
+  """
+  The submission is in the state where it can be vouched for and crowdfunded.
+  """
+  Vouching
+  """
+  The submission is in the state where it can be challenged, or accepted to the list, if there are no challenges within the time limit.
+  """
+  PendingRegistration
+  """
+  The submission is in the state where it can be challenged, or removed from the list, if there are no challenges within the time limit.
+  """
+  PendingRemoval
+}
+
+enum Reason {
+  """
+  No reason specified. This option should be used to challenge removal requests.
+  """
+  None
+  """
+  The submission does not comply with the submission rules.
+  """
+  IncorrectSubmission
+  """
+  The submitter has existed but does not exist anymore.
+  """
+  Deceased
+  """
+  The submitter is already registered. The challenger has to point to the identity already registered or to a duplicate submission.
+  """
+  Duplicate
+  """
+  The submitter is not real. For example, this can be used for videos showing computer generated persons.
+  """
+  DoesNotExist
+}
+
+type MetaEvidence @entity {
+  """
+  The meta evidence ID.
+  """
+  id: ID!
+  """
+  The URI of the meta evidence file.
+  """
+  URI: String!
+}
+
+type Contract @entity {
+  """
+  The singleton entity's ID, "0".
+  """
+  id: ID!
+  """
+  The arbitrator contract's address.
+  """
+  arbitrator: Bytes!
+  """
+  Extra data to require particular dispute and appeal behaviour.
+  """
+  arbitratorExtraData: Bytes!
+  """
+  The address that can make governance changes to the parameters of the contract.
+  """
+  governor: Bytes!
+  """
+  The base deposit to make a new request for a submission.
+  """
+  submissionBaseDeposit: BigInt!
+  """
+  The base deposit to challenge a request.
+  """
+  submissionChallengeBaseDeposit: BigInt!
+  """
+  Time after which the registered submission will no longer be considered registered. The submitter has to reapply to the list to refresh it.
+  """
+  submissionDuration: BigInt!
+  """
+  Denotes the point in time of the submission period after which it becomes possible for the submission to reapply (to refresh the duration of the submission period).
+  """
+  renewalTime: BigInt!
+  """
+  The time after which a request becomes executable if not challenged. Note that this value should be less than the time spent on potential dispute's resolution, to avoid complications of parallel dispute handling.
+  """
+  challengePeriodDuration: BigInt!
+  """
+  The number of registered users that have to vouch for a new registration request in order for it to enter `Status.PendingRegistration` status.
+  """
+  requiredNumberOfVouches: BigInt!
+  """
+  The number of times the meta evidence has been updated. Used to track the latest meta evidence ID.
+  """
+  metaEvidenceUpdates: BigInt!
+  """
+  Multiplier for calculating the fee stake that must be paid in a case where the arbitrator refused to arbitrate.
+  """
+  sharedStakeMultiplier: BigInt!
+  """
+  Multiplier for calculating the fee stake paid by the party that won the previous round.
+  """
+  winnerStakeMultiplier: BigInt!
+  """
+  Multiplier for calculating the fee stake paid by the party that lost the previous round.
+  """
+  loserStakeMultiplier: BigInt!
+  """
+  The current registration meta evidence.
+  """
+  registrationMetaEvidence: MetaEvidence
+  """
+  The current clearing meta evidence.
+  """
+  clearingMetaEvidence: MetaEvidence
+}
+
+type Submission @entity {
+  """
+  The submission's address.
+  """
+  id: ID!
+  """
+  The current status of the submission.
+  """
+  status: Status!
+  """
+  Whether the submission is in the registry or not.
+  """
+  registered: Boolean!
+  """
+  The time when the submission was accepted to the list.
+  """
+  submissionTime: BigInt!
+  """
+  The time after which it becomes possible to reapply the submission.
+  """
+  renewalTimestamp: BigInt!
+  """
+  Submissions the submissions has vouched for.
+  """
+  vouchees: [Submission!]!
+  """
+  Indicates whether or not the submission has vouched for a submission that entered `Status.PendingRegistration` status.
+  """
+  usedVouch: Boolean!
+  """
+  The submission's status change requests.
+  """
+  requests: [Request!]! @derivedFrom(field: "submission")
+}
+
+type Request @entity {
+  """
+  The submission the request is for.
+  """
+  submission: Submission!
+  """
+  The request's ID, keccak256(submissionID, submissionRequestsLength).
+  """
+  id: ID!
+  """
+  True if a dispute was raised. Note that the request can enter disputed state multiple times, once per reason.
+  """
+  disputed: Boolean!
+  """
+  Time when the submission's status was last updated. It's used to track when the challenge period ends.
+  """
+  lastStatusChange: BigInt!
+  """
+  True if the request is executed and/or all raised disputes are resolved.
+  """
+  resolved: Boolean!
+  """
+  Address that made the request. It matches the submission's ID in registration requests.
+  """
+  requester: Bytes!
+  """
+  The arbitrator trusted to resolve disputes for the request.
+  """
+  arbitrator: Bytes!
+  """
+  The extra data for the trusted arbitrator of the request.
+  """
+  arbitratorExtraData: Bytes!
+  """
+  The submissions that vouched for the request.
+  """
+  vouches: [Submission!]!
+  """
+  Stores all reasons that were used to challenge the request, to make sure that each reason was only used once.
+  """
+  usedReasons: [Reason!]!
+  """
+  Current reason the registration request was challenged with. It's left empty for removal requests.
+  """
+  currentReason: Reason!
+  """
+  Tracks the number of simultaneously raised disputes. Parallel disputes are only allowed for `Reason.Duplicate`.
+  """
+  nbParallelDisputes: BigInt!
+  """
+  Address of the challenger who won a dispute, and who users, that vouched for the request, must pay fines to.
+  """
+  ultimateChallenger: Bytes
+  """
+  True if the requester has already had a dispute that wasn't ruled in his favor.
+  """
+  requesterLost: Boolean!
+  """
+  Stores the index of the last processed vouch in the array of vouches. It's used for partial processing of the vouches in resolved requests.
+  """
+  penaltyIndex: BigInt!
+  """
+  The duplicate submission provided by the challenger who is currently winning.
+  """
+  currentDuplicate: Submission
+  """
+  The meta evidence for the request.
+  """
+  metaEvidence: MetaEvidence!
+  """
+  The evidence for the request.
+  """
+  evidence: [Evidence!]! @derivedFrom(field: "request")
+  """
+  The challenges for the request.
+  """
+  challenges: [Challenge!]! @derivedFrom(field: "request")
+}
+
+type Evidence @entity {
+  """
+  The request the evidence is for.
+  """
+  request: Request!
+  """
+  The evidence's ID, keccak256(requestID, requestEvidenceLength).
+  """
+  id: ID!
+  """
+  The URI of the evidence file.
+  """
+  URI: String!
+  """
+  The address of the sender.
+  """
+  sender: Bytes!
+}
+
+type Challenge @entity {
+  """
+  The request the challenge is for.
+  """
+  request: Request!
+  """
+  The challenge's ID, keccak256(requestID, requestChallengesLength).
+  """
+  id: ID!
+  """
+  The challenge's dispute ID.
+  """
+  disputeID: BigInt!
+  """
+  The address of the challenger.
+  """
+  challenger: Bytes!
+  """
+  The submission which is a supposed duplicate of the challenged submission. This is only used for `Reason.Duplicate`.
+  """
+  duplicateSubmission: Submission
+  """
+  The final ruling.
+  """
+  ruling: BigInt
+  """
+  The rounds for the challenge.
+  """
+  rounds: [Round!]! @derivedFrom(field: "challenge")
+}
+
+type Round @entity {
+  """
+  The challenge the round is for.
+  """
+  challenge: Challenge!
+  """
+  The round's ID, keccak256(challengeID, challengeRoundsLength).
+  """
+  id: ID!
+  """
+  Tracks the fees paid by each side in the round.
+  """
+  paidFees: [BigInt!]!
+  """
+  True for a side when it has fully paid its fee. False otherwise.
+  """
+  hasPaid: [BigInt!]!
+  """
+  Sum of reimbursable fees and stake rewards available to the parties that made contributions to the side that ultimately won.
+  """
+  feeRewards: BigInt!
+  """
+  The contributions for the round.
+  """
+  contributions: [Contribution!]! @derivedFrom(field: "round")
+}
+
+type Contribution @entity {
+  """
+  The round the contribution is for.
+  """
+  round: Round!
+  """
+  The contribution's ID, keccak256(roundID, roundContributionsLength).
+  """
+  id: ID!
+  """
+  The address of the contributor.
+  """
+  contributor: Bytes!
+  """
+  The side the contribution is for.
+  """
+  side: BigInt!
+  """
+  The size of the contribution.
+  """
+  size: BigInt!
+}

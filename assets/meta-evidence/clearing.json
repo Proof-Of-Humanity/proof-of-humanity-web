@@ -1,0 +1,14 @@
+{
+  "category": "Curated List",
+  "title": "Proof of Humanity Clearing Request",
+  "description": "A request to remove the specified entry from a list of provable humans.",
+  "question": "Should the request to remove be accepted?",
+  "rulingOptions": {
+    "type": "single-select",
+    "titles": ["Yes", "No"],
+    "descriptions": [
+      "Accept the request to remove the entry.",
+      "Deny the request."
+    ]
+  }
+}

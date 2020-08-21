@@ -1,0 +1,11 @@
+{
+  "fileURI": {
+    "name": "Alice Smith",
+    "firstName": "Alice",
+    "lastName": "Smith",
+    "bio": "Software Engineer, Solidity Expert, Blockchain, Crypto.",
+    "photo": "photo.png",
+    "video": "video.mp4"
+  },
+  "name": "Registration"
+}

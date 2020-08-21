@@ -1,0 +1,14 @@
+{
+  "category": "Curated List",
+  "title": "Proof of Humanity Registration Request",
+  "description": "A request to register the specified entry to a list of provable humans.",
+  "question": "Should the request to register be accepted?",
+  "rulingOptions": {
+    "type": "single-select",
+    "titles": ["Yes", "No"],
+    "descriptions": [
+      "Accept the request to register the entry.",
+      "Deny the request."
+    ]
+  }
+}

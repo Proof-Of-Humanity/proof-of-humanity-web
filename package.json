@@ -1,0 +1,95 @@
+{
+  "name": "proof-of-humanity-web",
+  "license": "UNLICENSED",
+  "private": true,
+  "devDependencies": {
+    "@commitlint/cli": "^9.1.2",
+    "@commitlint/config-conventional": "^9.1.2",
+    "@graphprotocol/graph-cli": "^0.18.0",
+    "@graphprotocol/graph-ts": "^0.18.1",
+    "@next/bundle-analyzer": "^9.5.2",
+    "babel-plugin-relay": "^10.0.1",
+    "cross-env": "^7.0.2",
+    "depcheck": "^1.0.0",
+    "eslint": "^7.5.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-graphql": "^4.0.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-react": "^7.20.5",
+    "eslint-plugin-react-hooks": "^4.0.8",
+    "eslint-plugin-regex": "^1.1.0",
+    "get-graphql-schema": "^2.1.2",
+    "graphql": "^15.3.0",
+    "husky": "^4.2.5",
+    "isomorphic-unfetch": "^3.0.0",
+    "lint-staged": "^10.2.11",
+    "mustache": "^4.0.1",
+    "prettier": "^2.0.5",
+    "relay-compiler": "^10.0.1",
+    "relay-config": "^10.0.1",
+    "vscode-apollo-relay": "^1.5.0"
+  },
+  "dependencies": {
+    "@kleros/archon": "^0.10.3",
+    "@theme-ui/presets": "^0.3.0",
+    "@theme-ui/typography": "^0.3.0",
+    "@unilogin/provider": "^0.6.1",
+    "@walletconnect/web3-provider": "^1.2.1",
+    "authereum": "0.0.4-beta.186",
+    "dataloader": "^2.0.0",
+    "lodash.kebabcase": "^4.1.1",
+    "lodash.startcase": "^4.4.0",
+    "next": "^9.5.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-loading-skeleton": "^2.1.1",
+    "react-promise": "^3.0.2",
+    "react-relay-network-modern": "^4.7.4",
+    "react-tabs": "^3.1.1",
+    "reactjs-popup": "^1.5.0",
+    "relay-hooks": "^3.5.2",
+    "relay-runtime": "^10.0.1",
+    "theme-ui": "^0.3.1",
+    "typography-theme-sutro": "^0.16.19",
+    "web3": "^1.2.11",
+    "web3modal": "^1.9.0"
+  },
+  "lint-staged": {
+    "*.json": "prettier --write",
+    "*.js": "eslint --fix"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "rules": {
+      "body-leading-blank": [
+        2,
+        "always"
+      ],
+      "footer-leading-blank": [
+        2,
+        "always"
+      ]
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm run depcheck && npm run build && npm run build:graph",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "scripts": {
+    "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional",
+    "lint": "eslint .",
+    "dev": "next",
+    "dev:relay": "get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan --json > subgraph/build/full-schema.json && relay-compiler --watch",
+    "build": "npm run dev:relay -- --watch=false && next build",
+    "build:analyze": "cross-env ANALYZE=true npm run build",
+    "build:graph": "cd subgraph && mustache config/kovan.json subgraph.template.yaml > subgraph.yaml && graph codegen && graph build",
+    "deploy:graph:kovan": "npm run build:graph && cd subgraph && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ epiqueras/proof-of-humanity-kovan"
+  }
+}

@@ -1,0 +1,36 @@
+specVersion: 0.0.2
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: ProofOfHumanity
+    network: "{{network}}"
+    source:
+      address: "{{address}}"
+      abi: ProofOfHumanity
+      startBlock: 20289663
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - MetaEvidence
+        - Contract
+        - Submission
+        - Request
+        - Evidence
+        - Challenge
+        - Round
+        - Contribution
+      abis:
+        - name: ProofOfHumanity
+          file: ./abis/proof-of-humanity.json
+      eventHandlers:
+        - event: MetaEvidence(indexed uint256,string)
+          handler: metaEvidence
+        - event: ArbitratorComplete(address,indexed address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
+          handler: arbitratorComplete
+      callHandlers:
+        - function: addSubmissionManually(address,string,string,string)
+          handler: addSubmissionManually
+      file: ./src/mapping.ts
