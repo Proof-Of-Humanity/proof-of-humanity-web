@@ -45,6 +45,7 @@ module.exports = {
     "no-console": "error",
     "no-duplicate-imports": ["error", { includeExports: true }],
     "no-else-return": ["error", { allowElseIf: false }],
+    "no-extra-bind": "error",
     "no-iterator": "error",
     "no-lonely-if": "error", // In else blocks.
     "no-new-wrappers": "error",
@@ -282,7 +283,12 @@ module.exports = {
     ],
 
     // React Hooks Plugin
-    "react-hooks/exhaustive-deps": "error",
+    "react-hooks/exhaustive-deps": [
+      "error",
+      {
+        additionalHooks: "usePromise",
+      },
+    ],
 
     // Regex Plugin
     "regex/invalid": [

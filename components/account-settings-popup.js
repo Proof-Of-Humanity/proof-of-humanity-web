@@ -9,8 +9,8 @@ import Text from "./text";
 import { useWeb3 } from "./web3-provider";
 
 export default function AccountSettingsPopup() {
-  const { value: accounts } = useWeb3("eth", "getAccounts");
-  const { value: networkID } = useWeb3("eth.net", "getId");
+  const [accounts] = useWeb3("eth", "getAccounts");
+  const [networkID] = useWeb3("eth.net", "getId");
   const { connect } = useWeb3();
   return (
     <Popup

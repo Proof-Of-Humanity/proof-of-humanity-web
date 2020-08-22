@@ -2,24 +2,48 @@ import UniLoginProvider from "@unilogin/provider";
 import WalletConnectWeb3Provider from "@walletconnect/web3-provider";
 import Authereum from "authereum";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import usePromise from "react-promise";
+import usePromise from "react-use-promise";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 
+const newWeb3 = (infuraURL) => {
+  const web3 = new Web3(infuraURL);
+  web3.infuraURL = infuraURL;
+  web3.modal = new Web3Modal({
+    cacheProvider: true,
+    providerOptions: {
+      walletconnect: {
+        package: WalletConnectWeb3Provider,
+        options: {
+          infuraId: infuraURL.slice(infuraURL.lastIndexOf("/") + 1),
+        },
+      },
+      authereum: {
+        package: Authereum,
+      },
+      unilogin: {
+        package: UniLoginProvider,
+      },
+    },
+  });
+  return web3;
+};
 const Context = createContext();
 export default function Web3Provider({ infuraURL, children }) {
-  const [web3, setWeb3] = useState(() => {
-    const _web3 = new Web3(infuraURL);
-    _web3.infuraURL = infuraURL;
-    return _web3;
-  });
+  const [web3, setWeb3] = useState(() => newWeb3(infuraURL));
   useEffect(() => {
-    if (infuraURL !== web3.infuraURL && !web3.isCustom) {
-      const _web3 = new Web3(infuraURL);
-      _web3.infuraURL = infuraURL;
-      setWeb3(_web3);
-    }
-  }, [infuraURL, web3]);
+    if (infuraURL !== web3.infuraURL) setWeb3(newWeb3(infuraURL));
+  }, [infuraURL, web3.infuraURL]);
+  useEffect(() => {
+    (async () => {
+      if (web3.modal.cachedProvider) {
+        const _web3 = new Web3(await web3.modal.connect());
+        _web3.infuraURL = web3.infuraURL;
+        _web3.modal = web3.modal;
+        setWeb3(_web3);
+      }
+    })();
+  }, [web3.infuraURL, web3.modal]);
   return (
     <Context.Provider
       value={useMemo(
@@ -27,29 +51,14 @@ export default function Web3Provider({ infuraURL, children }) {
           web3,
           setWeb3,
           async connect() {
-            const infuraId = infuraURL.slice(infuraURL.lastIndexOf("/") + 1);
-            const provider = await new Web3Modal({
-              providerOptions: {
-                walletconnect: {
-                  package: WalletConnectWeb3Provider,
-                  options: {
-                    infuraId,
-                  },
-                },
-                authereum: {
-                  package: Authereum,
-                },
-                unilogin: {
-                  package: UniLoginProvider,
-                },
-              },
-            }).connect();
-            const _web3 = new Web3(provider);
-            _web3.isCustom = true;
+            web3.modal.clearCachedProvider();
+            const _web3 = new Web3(await web3.modal.connect());
+            _web3.infuraURL = web3.infuraURL;
+            _web3.modal = web3.modal;
             setWeb3(_web3);
           },
         }),
-        [web3, setWeb3, infuraURL]
+        [web3, setWeb3]
       )}
     >
       {children}
@@ -57,12 +66,11 @@ export default function Web3Provider({ infuraURL, children }) {
   );
 }
 
-const noOpPromise = Promise.resolve();
 export function useWeb3(namespace, method, args) {
   const isNotCall = !namespace || !method;
 
   const web3Context = useContext(Context);
-  const promise = useMemo(
+  const data = usePromise(
     () =>
       !isNotCall &&
       [...namespace.split("."), method].reduce(
@@ -71,7 +79,6 @@ export function useWeb3(namespace, method, args) {
       )(...(args || [])),
     [isNotCall, namespace, method, web3Context, args]
   );
-  const data = usePromise(isNotCall ? noOpPromise : promise);
 
   return isNotCall ? web3Context : data;
 }
