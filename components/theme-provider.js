@@ -5,7 +5,16 @@ import { SkeletonTheme } from "react-loading-skeleton";
 import { ThemeProvider as _ThemeProvider, merge } from "theme-ui";
 import typographyThemeSutro from "typography-theme-sutro";
 
-const theme = merge(merge(base, toTheme(typographyThemeSutro)), {
+export const typographyTheme = {
+  ...typographyThemeSutro,
+  boldWeight: 600,
+  googleFonts: [
+    { name: "Open Sans", styles: [300, "300i", 600, "600i"] },
+    { name: "Merriweather", styles: [300, "300i", 600, "600i"] },
+  ],
+  headerWeight: 600,
+};
+const theme = merge(merge(base, toTheme(typographyTheme)), {
   // Settings
   initialColorModeName: "light",
   useColorSchemeMediaQuery: true,

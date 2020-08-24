@@ -6,6 +6,7 @@ import {
   List,
   ListItem,
   RelayProvider,
+  SocialIcons,
   ThemeProvider,
   Web3Provider,
 } from "@kleros/components";
@@ -46,8 +47,7 @@ const header = {
   right: <AccountSettingsPopup />,
 };
 const footer = {
-  left: "Find out more.",
-  right: "Socials",
+  right: <SocialIcons />,
 };
 const queries = {
   "/": homeQuery,

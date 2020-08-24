@@ -32,6 +32,7 @@ export default function SubmissionCard({ submission }) {
       headerSx={{
         backgroundColor: status.camelCase,
         color: "background",
+        fontWeight: "bold",
       }}
       mainSx={{ flexDirection: "column" }}
       footer={<EtherscanLogo />}

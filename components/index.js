@@ -13,6 +13,7 @@ export { default as List, ListItem } from "./list";
 export { default as RelayProvider, useQuery } from "./relay-provider";
 export { default as SVG } from "./svg";
 export { default as Select, Option } from "./select";
+export { default as SocialIcons } from "./social-icons";
 export { default as Text } from "./text";
-export { default as ThemeProvider } from "./theme-provider";
+export { default as ThemeProvider, typographyTheme } from "./theme-provider";
 export { default as Web3Provider } from "./web3-provider";
