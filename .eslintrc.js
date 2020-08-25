@@ -85,6 +85,7 @@ module.exports = {
           "!@kleros/icons",
           "..", // No relative parent imports.
           "theme-ui", // This should be internal to the design system.
+          "next/link", // Use the custom version that maintains query parameters instead.
         ],
       },
     ],
@@ -103,17 +104,13 @@ module.exports = {
         missingExports: true,
         unusedExports: true,
         // Ignore Next.js default default page exports and our CLI scripts.
-        ignoreExports: [
-          "pages/{_app,_document,*,*/index}.js",
-          "./*.js",
-          "scripts",
-        ],
+        ignoreExports: ["pages", "./*.js", "scripts"],
       },
     ],
     // Don't allow reaching into modules, except for Next.js imports, and assets.
     "import/no-internal-modules": [
       "error",
-      { allow: ["next/*", "assets/**", "subgraph/**"] },
+      { allow: ["next/*", "_pages/**", "assets/**", "subgraph/**"] },
     ],
     "import/no-useless-path-segments": [
       "error",
@@ -313,6 +310,7 @@ module.exports = {
       alias: [
         ["@kleros/components", "./components"],
         ["@kleros/icons", "./icons"],
+        ["_pages", "./_pages"],
         ["assets", "./assets"],
         ["data", "./data"],
         ["subgraph", "./subgraph"],
@@ -351,6 +349,7 @@ module.exports = {
               "@kleros/icons",
               "..", // No relative parent imports.
               "theme-ui", // This should be internal to the design system.
+              "next/link", // Use the custom version that maintains query parameters instead.
             ],
           },
         ],

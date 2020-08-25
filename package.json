@@ -43,6 +43,7 @@
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
     "next": "^9.5.1",
+    "path-to-regexp": "^6.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-loading-skeleton": "^2.1.1",
@@ -84,7 +85,7 @@
     }
   },
   "scripts": {
-    "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional",
+    "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,_pages,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional",
     "lint": "eslint .",
     "dev": "next",
     "dev:relay": "get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan --json > subgraph/build/full-schema.json && relay-compiler --watch",

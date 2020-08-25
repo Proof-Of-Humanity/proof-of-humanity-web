@@ -30,9 +30,7 @@ const Context = createContext();
 export default function RelayProvider({
   endpoint,
   queries,
-  path,
-  query,
-  subscribeToRouteChange,
+  connectToRouteChange,
   children,
 }) {
   const [prefetch] = useState(loadQuery);
@@ -48,14 +46,20 @@ export default function RelayProvider({
 
   useEffect(() => {
     if (environment) {
-      prefetch.next(environment, queries[path], query);
+      connectToRouteChange((path, query) => {
+        if (queries[path]) {
+          const cacheKey = JSON.stringify([queries[path], query]);
+          if (cacheKey === prefetch.lastCacheKey) {
+            prefetch.getValue().retry();
+            return;
+          }
+          prefetch.lastCacheKey = cacheKey;
+          prefetch.next(environment, queries[path], query);
+        }
+      });
       setInitialized(true);
-
-      return subscribeToRouteChange((newPath) =>
-        prefetch.next(environment, queries[newPath], query)
-      );
     }
-  }, [environment, prefetch, queries, path, query, subscribeToRouteChange]);
+  }, [environment, connectToRouteChange, queries, prefetch]);
   return initialized ? (
     <RelayEnvironmentProvider environment={environment}>
       <Context.Provider value={prefetch}>{children}</Context.Provider>

@@ -5,18 +5,18 @@ import {
   Link,
   List,
   ListItem,
+  NextLink,
   RelayProvider,
   SocialIcons,
   ThemeProvider,
   Web3Provider,
+  createWrapConnection,
 } from "@kleros/components";
 import { ProofOfHumanityLogo } from "@kleros/icons";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-import { homeQuery } from "./home";
-
+import { indexQuery } from "_pages/index";
 import { queryEnums } from "data";
 
 const theme = {
@@ -28,6 +28,10 @@ const theme = {
     removed: "#4a4a4a",
   },
 };
+const queries = {
+  "/": indexQuery,
+};
+const wrapConnection = createWrapConnection(queries, queryEnums);
 const header = {
   left: (
     <>
@@ -38,7 +42,7 @@ const header = {
   middle: (
     <List sx={{ listStyle: "none" }}>
       <ListItem>
-        <NextLink href="/?network=kovan" passHref>
+        <NextLink href="/">
           <Link variant="navigation">Profiles</Link>
         </NextLink>
       </ListItem>
@@ -49,48 +53,30 @@ const header = {
 const footer = {
   right: <SocialIcons />,
 };
-const queries = {
-  "/": homeQuery,
-  "/home": homeQuery,
-};
-const createSubscribeToRouteChange = (router) => {
-  const subscribeToRouteChange = (handleRouteChange) => {
-    router.events.on("routeChangeStart", handleRouteChange);
-    return () => router.events.off("routeChangeStart", handleRouteChange);
-  };
-  subscribeToRouteChange.router = router;
-  return subscribeToRouteChange;
-};
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const { network = "mainnet", ...query } = useMemo(
-    () =>
-      [...new URLSearchParams(router.asPath.split("?")[1]).entries()].reduce(
-        (acc, [key, value]) => {
-          const queryEnumQuery = queryEnums[key]?.[value]?.query;
-          if (queryEnumQuery) acc = { ...acc, ...queryEnumQuery };
-          else acc[key] = isNaN(value) ? value : Number(value);
-          return acc;
-        },
-        {}
-      ),
+  const { network = "mainnet" } = useMemo(
+    () => wrapConnection.parseAsPath(router.asPath).query,
     [router.asPath]
   );
-  const [subscribeToRouteChange, setSubscribeToRouteChange] = useState(() =>
-    createSubscribeToRouteChange(router)
-  );
+  const [routeChangeConnection, setRouteChangeConnection] = useState();
+  const connectToRouteChange = useCallback((connection) => {
+    const wrappedConnection = wrapConnection(connection);
+    wrappedConnection(location.pathname + location.search);
+    setRouteChangeConnection(() => wrappedConnection);
+  }, []);
   useEffect(() => {
-    if (router && router !== subscribeToRouteChange.router)
-      setSubscribeToRouteChange(createSubscribeToRouteChange(router));
-  }, [router, subscribeToRouteChange.router]);
+    if (routeChangeConnection) {
+      router.events.on("routeChangeStart", routeChangeConnection);
+      return () => router.events.off("routeChangeStart", routeChangeConnection);
+    }
+  }, [routeChangeConnection, router.events]);
   return (
     <ThemeProvider theme={theme}>
       <RelayProvider
         endpoint={`https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-${network}`}
         queries={queries}
-        path={router.pathname}
-        query={query}
-        subscribeToRouteChange={subscribeToRouteChange}
+        connectToRouteChange={connectToRouteChange}
       >
         <Web3Provider
           infuraURL={`wss://${network}.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d`}

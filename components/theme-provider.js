@@ -132,6 +132,10 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       fontWeight: "bold",
       textDecoration: "none",
     },
+    unstyled: {
+      color: "inherit",
+      textDecoration: "none",
+    },
   },
   tabs: {
     tabList: {

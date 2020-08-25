@@ -1,0 +1,57 @@
+import _NextLink from "next/link";
+import { useRouter } from "next/router";
+import { match } from "path-to-regexp";
+
+export function NextLink({ passHref = true, href, as, ...rest }) {
+  const { query } = useRouter();
+  return (
+    <_NextLink
+      passHref={passHref}
+      href={{
+        pathname: href.pathname || href,
+        query: query.network && { network: query.network },
+      }}
+      as={as && as + (query.network ? `?network=${query.network}` : "")}
+      {...rest}
+    />
+  );
+}
+
+export const createWrapConnection = (queries, queryEnums) => {
+  const matchers = Object.keys(queries).reduce((acc, key) => {
+    acc[key] = match(key, { decode: decodeURIComponent });
+    return acc;
+  }, {});
+
+  const parseAsPath = (asPath) => {
+    let [path, query] = asPath.split("?");
+
+    query = [...new URLSearchParams(query).entries()].reduce(
+      (acc, [key, value]) => {
+        const queryEnumQuery = queryEnums[key]?.[value]?.query;
+        if (queryEnumQuery) acc = { ...acc, ...queryEnumQuery };
+        else acc[key] = isNaN(value) ? value : Number(value);
+        return acc;
+      },
+      {}
+    );
+
+    for (const [key, matcher] of Object.entries(matchers)) {
+      const _match = matcher(path);
+      if (_match) {
+        path = key;
+        query = { ...query, ..._match.params };
+        break;
+      }
+    }
+
+    return { path, query };
+  };
+
+  const wrapConnection = (connection) => (asPath) => {
+    const { path, query } = parseAsPath(asPath);
+    connection(path, query);
+  };
+  wrapConnection.parseAsPath = parseAsPath;
+  return wrapConnection;
+};
