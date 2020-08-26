@@ -1,6 +1,6 @@
 import { SVG } from "@kleros/components";
 
-export default function Telegram({ size = 16 }) {
+export default function Telegram({ size = 16, ...rest }) {
   return (
     <SVG
       width={size}
@@ -8,6 +8,7 @@ export default function Telegram({ size = 16 }) {
       viewBox="0 0 17 15"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...rest}
     >
       <path
         d="M16.7959 1.78231L14.2771 13.5168C14.0871 14.345 13.5916 14.5511 12.8874 14.161L9.0497 11.3672L7.19792 13.1266C6.993 13.3291 6.8216 13.4984 6.42666 13.4984L6.70237 9.63721L13.8151 3.28777C14.1244 3.01539 13.7481 2.86447 13.3345 3.13685L4.54135 8.60658L0.755821 7.43607C-0.0676051 7.18209 -0.0825088 6.62261 0.927213 6.23244L15.734 0.597076C16.4195 0.343098 17.0194 0.747991 16.7959 1.78231Z"
