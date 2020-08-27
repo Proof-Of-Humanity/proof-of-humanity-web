@@ -10,7 +10,7 @@ export default function Index() {
     <>
       <SubmissionFilters />
       <Grid gap={2} columns={[1, 2, 3, 4]}>
-        {props?.submissions.map((submission) => (
+        {props?.submissions?.map((submission) => (
           <SubmissionCard key={submission.id} submission={submission} />
         ))}
       </Grid>

@@ -63,7 +63,7 @@ export const submissionStatusEnum = createEnum(
     status === submissionStatusEnum.None.key
       ? registered
         ? submissionStatusEnum.Registered
-        : submissionStatusEnum.Rejected
+        : submissionStatusEnum.Removed
       : submissionStatusEnum[status]
 );
 

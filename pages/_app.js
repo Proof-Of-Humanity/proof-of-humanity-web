@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
 import { indexQuery } from "_pages/index";
+import { IdQuery } from "_pages/profile/[id]";
 import { queryEnums } from "data";
 
 const theme = {
@@ -30,6 +31,7 @@ const theme = {
 };
 const queries = {
   "/": indexQuery,
+  "/profile/:id": IdQuery,
 };
 const wrapConnection = createWrapConnection(queries, queryEnums);
 const header = {

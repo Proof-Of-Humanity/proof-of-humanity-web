@@ -157,6 +157,13 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       },
     },
   },
+  text: {
+    clipped: {
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      whiteSpace: "nowrap",
+    },
+  },
 });
 export default function ThemeProvider({ theme: _theme, children }) {
   const mergedTheme = useMemo(() => (_theme ? merge(theme, _theme) : theme), [

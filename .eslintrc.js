@@ -110,7 +110,15 @@ module.exports = {
     // Don't allow reaching into modules, except for Next.js imports, and assets.
     "import/no-internal-modules": [
       "error",
-      { allow: ["next/*", "_pages/**", "assets/**", "subgraph/**"] },
+      {
+        allow: [
+          "next/*",
+          "_pages/**",
+          "assets/**",
+          "subgraph/**",
+          "react-player/lazy",
+        ],
+      },
     ],
     "import/no-useless-path-segments": [
       "error",

@@ -140,7 +140,7 @@ type Submission @entity {
   """
   renewalTimestamp: BigInt!
   """
-  Submissions the submissions has vouched for.
+  Submissions the submission has vouched for.
   """
   vouchees: [Submission!]!
   """

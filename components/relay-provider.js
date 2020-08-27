@@ -48,13 +48,8 @@ export default function RelayProvider({
     if (environment) {
       connectToRouteChange((path, query) => {
         if (queries[path]) {
-          const cacheKey = JSON.stringify([queries[path], query]);
-          if (cacheKey === prefetch.lastCacheKey) {
-            prefetch.getValue().retry();
-            return;
-          }
-          prefetch.lastCacheKey = cacheKey;
           prefetch.next(environment, queries[path], query);
+          prefetch.getValue().retry();
         }
       });
       setInitialized(true);

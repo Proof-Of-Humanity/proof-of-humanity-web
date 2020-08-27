@@ -3,7 +3,10 @@ import { Text as _Text } from "theme-ui";
 
 export default function Text({ sx, children, ...rest }) {
   return (
-    <_Text sx={children ? sx : { width: "100%", ...sx }} {...rest}>
+    <_Text
+      sx={children ? sx : { display: "inline-block", width: "80%", ...sx }}
+      {...rest}
+    >
       {children || <ReactLoadingSkeleton {...rest} />}
     </_Text>
   );
