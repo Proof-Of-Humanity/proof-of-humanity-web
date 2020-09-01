@@ -298,8 +298,13 @@ module.exports = {
     // Regex Plugin
     "regex/invalid": [
       "error",
-      // Don't use trailing slashes or cyclic index imports. Don't use numerical strings. Don't use "styled" components. Don't disable rules.
-      ['import.*(/|\\.)";', '"\\d+"', "Style[d]", "eslint\\-disable"],
+      [
+        'import.*(/|\\.)";', // Don't use trailing slashes or cyclic index imports.
+        '"\\d+"', // Don't use numerical strings.
+        "[^\\d]0\\px", // Don't use pixels unit for zero values.
+        "Style[d]", // Don't use "styled" components.
+        "eslint\\-disable", // Don't disable rules.
+      ],
     ],
 
     // GraphQL Plugin

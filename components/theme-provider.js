@@ -60,6 +60,27 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
   },
 
   // Components
+  accordion: {
+    item: {
+      marginY: 2,
+    },
+    heading: {
+      backgroundColor: "accent",
+      borderRadius: 3,
+      color: "background",
+      fontWeight: "bold",
+      paddingX: 2,
+      paddingY: 1,
+    },
+    panel: {
+      backgroundColor: "background",
+      bordeRadius: 3,
+      boxShadow: "0 6px 90px rgba(255, 153, 0, 0.25)",
+      fontSize: 1,
+      paddingX: 4,
+      paddingY: 3,
+    },
+  },
   buttons: {
     primary: {
       borderRadius: 300,

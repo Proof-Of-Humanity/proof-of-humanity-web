@@ -1,5 +1,11 @@
 export { Box, Flex } from "theme-ui";
 
+export {
+  default as Accordion,
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemPanel,
+} from "./accordion";
 export { default as AccountSettingsPopup } from "./account-settings-popup";
 export { default as ArchonProvider, useArchon } from "./archon-provider";
 export { default as Button } from "./button";

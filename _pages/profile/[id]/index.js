@@ -1,6 +1,7 @@
 import { Card, Text, useQuery } from "@kleros/components";
 import { graphql } from "relay-hooks";
 
+import SubmissionDetailsAccordion from "./submission-details-accordion";
 import SubmissionDetailsCard from "./submission-details-card";
 
 import { submissionStatusEnum } from "data";
@@ -36,6 +37,7 @@ export default function ProfileWithID() {
       {props?.submission && (
         <SubmissionDetailsCard submission={props.submission} />
       )}
+      <SubmissionDetailsAccordion />
     </>
   );
 }
