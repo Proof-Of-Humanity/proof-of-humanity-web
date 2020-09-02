@@ -20,7 +20,7 @@ export default function EtherscanLogo({ size = 16, ...rest }) {
         width={25}
         height={25}
       >
-        <circle cx="12.5" cy="12.5" r="12.5" fill="#C4C4C4" />
+        <circle cx="12.5" cy="12.5" r="12.5" fill="#c4c4c4" />
       </mask>
       <g mask="url(#mask0)">
         <rect

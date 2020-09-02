@@ -30,6 +30,10 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     muted: "#fffcf0",
     skeleton: "#eee",
     skeletonHighlight: "#f5f5f5",
+    success: "#00c851",
+    warning: "#ffbb33",
+    danger: "#ff4444",
+    info: "#33b5e5",
   },
 
   // Styles
@@ -133,12 +137,27 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     },
   },
   forms: {
-    input: { border: "none" },
+    field: { error: { color: "danger" } },
+    input: { borderColor: "skeleton" },
+    label: {
+      display: "flex",
+      flexDirection: "column",
+      marginBottom: 2,
+      input: {
+        marginTop: 1,
+      },
+    },
+    mutedInput: { border: "none" },
     select: {
       borderColor: "skeleton",
       paddingRight: 3,
       paddingY: 1,
     },
+    textarea: { borderColor: "skeleton" },
+  },
+  form: {
+    flex: 1,
+    width: "100%",
   },
   images: {
     avatar: {

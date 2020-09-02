@@ -11,6 +11,7 @@ import {
   ThemeProvider,
   Web3Provider,
   createWrapConnection,
+  useWeb3,
 } from "@kleros/components";
 import { ProofOfHumanityLogo } from "@kleros/icons";
 import { useRouter } from "next/router";
@@ -34,6 +35,14 @@ const queries = {
   "/profile/:id": IdQuery,
 };
 const wrapConnection = createWrapConnection(queries, queryEnums);
+function MyProfileLink() {
+  const [accounts] = useWeb3("eth", "getAccounts");
+  return accounts?.[0] ? (
+    <NextLink href="/profile/[id]" as={`/profile/${accounts[0]}`}>
+      <Link variant="navigation">My Profile</Link>
+    </NextLink>
+  ) : null;
+}
 const header = {
   left: (
     <>
@@ -42,11 +51,21 @@ const header = {
     </>
   ),
   middle: (
-    <List sx={{ listStyle: "none" }}>
+    <List
+      sx={{
+        display: "flex",
+        justifyContent: "space-around",
+        listStyle: "none",
+        width: "100%",
+      }}
+    >
       <ListItem>
         <NextLink href="/">
           <Link variant="navigation">Profiles</Link>
         </NextLink>
+      </ListItem>
+      <ListItem>
+        <MyProfileLink />
       </ListItem>
     </List>
   ),

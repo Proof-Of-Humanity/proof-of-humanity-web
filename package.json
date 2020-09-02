@@ -40,6 +40,7 @@
     "@walletconnect/web3-provider": "^1.2.1",
     "authereum": "0.0.4-beta.186",
     "dataloader": "^2.0.0",
+    "formik": "^2.1.5",
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
     "next": "^9.5.1",
@@ -59,7 +60,8 @@
     "theme-ui": "^0.3.1",
     "typography-theme-sutro": "^0.16.19",
     "web3": "^1.2.11",
-    "web3modal": "^1.9.0"
+    "web3modal": "^1.9.0",
+    "yup": "^0.29.3"
   },
   "lint-staged": {
     "*.json": "prettier --write",

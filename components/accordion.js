@@ -31,18 +31,13 @@ export function AccordionItem(props) {
   return <Box as={_AccordionItem} variant="accordion.item" {...props} />;
 }
 
-export function AccordionItemHeading(props) {
+export function AccordionItemHeading({ children, rest }) {
   return (
-    <Box
-      as={({ children, ...rest }) => (
-        <_AccordionItemHeading {...props} {...rest}>
-          <Box as={_AccordionItemButton} variant="accordion.heading">
-            {children}
-          </Box>
-        </_AccordionItemHeading>
-      )}
-      {...props}
-    />
+    <Box as={_AccordionItemHeading} {...rest}>
+      <Box as={_AccordionItemButton} variant="accordion.heading">
+        {children}
+      </Box>
+    </Box>
   );
 }
 

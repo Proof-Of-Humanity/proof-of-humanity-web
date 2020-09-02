@@ -1,13 +1,23 @@
-import { Card, Text, useQuery } from "@kleros/components";
+import { Card, Text, useQuery, useWeb3 } from "@kleros/components";
+import { useRouter } from "next/router";
 import { graphql } from "relay-hooks";
 
 import SubmissionDetailsAccordion from "./submission-details-accordion";
 import SubmissionDetailsCard from "./submission-details-card";
+import SubmitProfileCard from "./submit-profile-card";
 
 import { submissionStatusEnum } from "data";
 
 export default function ProfileWithID() {
+  const { query } = useRouter();
   const { props } = useQuery();
+  const [accounts] = useWeb3("eth", "getAccounts");
+
+  if (!accounts) return null;
+
+  if (accounts[0] === query.id && props?.submission === null)
+    return <SubmitProfileCard />;
+
   const status =
     props?.submission && submissionStatusEnum.parse(props.submission);
   return (

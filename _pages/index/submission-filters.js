@@ -19,7 +19,12 @@ export default function SubmissionFilters() {
       headerSx={{ fontWeight: "bold", justifyContent: "flex-end" }}
       mainSx={{ paddingX: 2, paddingY: 1 }}
     >
-      <Input aria-label="Search" placeholder="Search" icon={<Search />} />
+      <Input
+        variant="mutedInput"
+        aria-label="Search"
+        placeholder="Search"
+        icon={<Search />}
+      />
       <Select
         sx={{ width: "190px" }}
         value={

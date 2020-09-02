@@ -10,6 +10,7 @@ export { default as AccountSettingsPopup } from "./account-settings-popup";
 export { default as ArchonProvider, useArchon } from "./archon-provider";
 export { default as Button } from "./button";
 export { default as Card } from "./card";
+export { default as Form, Field } from "./form";
 export { default as Grid } from "./grid";
 export { default as Image } from "./image";
 export { default as InitializeColorMode } from "./initialize-color-mode";
@@ -22,8 +23,9 @@ export { default as SVG } from "./svg";
 export { default as Select, Option } from "./select";
 export { default as SocialIcons } from "./social-icons";
 export { default as Text } from "./text";
+export { default as Textarea } from "./textarea";
 export { default as ThemeProvider, typographyTheme } from "./theme-provider";
 export { default as Video } from "./video";
-export { default as Web3Provider } from "./web3-provider";
+export { default as Web3Provider, useWeb3 } from "./web3-provider";
 
 export { NextLink, createWrapConnection } from "./next-router";

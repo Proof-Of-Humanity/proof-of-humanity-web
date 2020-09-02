@@ -50,7 +50,9 @@ export default function AccountSettingsPopup() {
             </Text>
             <Text
               sx={{
-                color: "highlight",
+                color: "success",
+                fontSize: 1,
+                fontWeight: "bold",
                 marginBottom: 1,
                 textAlign: "center",
               }}
