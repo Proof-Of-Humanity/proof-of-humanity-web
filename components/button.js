@@ -1,19 +1,33 @@
+import { forwardRef } from "react";
 import { Button as _Button } from "theme-ui";
 
 import Text from "./text";
 
-export default function Button({ sx, disabled, children, ...rest }) {
-  return (
-    <_Button
+const Button = forwardRef(({ id, sx, disabled, children, ...rest }, ref) => (
+  <_Button
+    ref={ref}
+    id={id}
+    sx={{
+      backgroundImage({ colors: { primary, secondary } }) {
+        return `linear-gradient(90deg, ${primary} 0%, ${secondary} 100%)`;
+      },
+      ...sx,
+    }}
+    disabled={disabled || !children}
+    {...rest}
+  >
+    <Text
+      id={id && `${id}-text`}
       sx={{
-        backgroundImage: ({ colors: { primary, secondary } }) =>
-          `linear-gradient(90deg, ${primary} 0%, ${secondary} 100%)`,
-        ...sx,
+        alignItems: "center",
+        display: "flex",
+        justifyContent: "space-evenly",
+        minWidth: "100px",
       }}
-      disabled={disabled || !children}
-      {...rest}
     >
-      <Text sx={{ minWidth: "100px" }}>{children}</Text>
-    </_Button>
-  );
-}
+      {children}
+    </Text>
+  </_Button>
+));
+Button.displayName = "Button";
+export default Button;

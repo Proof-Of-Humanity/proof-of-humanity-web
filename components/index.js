@@ -10,6 +10,7 @@ export { default as AccountSettingsPopup } from "./account-settings-popup";
 export { default as ArchonProvider, useArchon } from "./archon-provider";
 export { default as Button } from "./button";
 export { default as Card } from "./card";
+export { default as FileUpload } from "./file-upload";
 export { default as Form, Field } from "./form";
 export { default as Grid } from "./grid";
 export { default as Image } from "./image";

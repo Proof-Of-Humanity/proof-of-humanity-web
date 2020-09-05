@@ -88,11 +88,16 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
   buttons: {
     primary: {
       borderRadius: 300,
+      fill: "background",
       fontSize: 1,
       padding: 2,
       "&:disabled": {
         backgroundColor: "skeleton",
       },
+    },
+    secondary: {
+      backgroundColor: "secondary",
+      backgroundImage: "none !important",
     },
   },
   cards: {
@@ -138,6 +143,14 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
   },
   forms: {
     field: { error: { color: "danger" } },
+    fileUpload: {
+      backgroundColor: "muted",
+      borderColor: "primary",
+      borderRadius: 3,
+      borderStyle: "dashed",
+      borderWidth: 1,
+      padding: 2,
+    },
     input: { borderColor: "skeleton" },
     label: {
       display: "flex",
@@ -163,6 +176,10 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     avatar: {
       borderRadius: 62,
       height: 124,
+      width: 124,
+    },
+    thumbnail: {
+      borderRadius: 3,
       width: 124,
     },
   },
@@ -202,6 +219,13 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       overflow: "hidden",
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
+    },
+  },
+  video: {
+    responsive: { paddingTop: "56.25%" },
+    thumbnail: {
+      height: "124px !important",
+      width: "124px !important",
     },
   },
 });

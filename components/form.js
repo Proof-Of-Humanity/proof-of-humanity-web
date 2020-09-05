@@ -7,6 +7,19 @@ import Input from "./input";
 import Label from "./label";
 import Text from "./text";
 
+function File(...args) {
+  return object.apply(this, args);
+}
+File.prototype = Object.create(object.prototype, {
+  constructor: {
+    value: File,
+    configurable: true,
+    enumerable: false,
+    writable: true,
+  },
+});
+File.prototype._typeCheck = (value) => value?.toString() === "[object File]";
+
 export default function Form({
   createValidationSchema,
   sx,
@@ -15,7 +28,16 @@ export default function Form({
 }) {
   const validationSchema = useMemo(
     () =>
-      object(createValidationSchema({ string: () => string().default("") })),
+      object(
+        createValidationSchema({
+          file() {
+            return new File().nullable();
+          },
+          string() {
+            return string().default("");
+          },
+        })
+      ),
     [createValidationSchema]
   );
   return (

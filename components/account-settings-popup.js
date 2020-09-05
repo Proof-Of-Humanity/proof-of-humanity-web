@@ -15,8 +15,8 @@ export default function AccountSettingsPopup() {
   return (
     <Popup
       contentStyle={{ width: 300 }}
-      position="bottom right"
       trigger={Settings}
+      position="bottom right"
     >
       <Box
         sx={{

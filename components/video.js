@@ -2,9 +2,14 @@ import ReactLoadingSkeleton from "react-loading-skeleton";
 import ReactPlayerLazy from "react-player/lazy";
 import { Box } from "theme-ui";
 
-export default function Video({ controls = true, sx, ...rest }) {
+export default function Video({
+  variant = "responsive",
+  sx,
+  controls = true,
+  ...rest
+}) {
   return (
-    <Box sx={{ paddingTop: "56.25%", position: "relative" }}>
+    <Box variant={`video.${variant}`} sx={{ position: "relative", ...sx }}>
       <Box
         as={(props) =>
           rest.url ? (
@@ -19,7 +24,6 @@ export default function Video({ controls = true, sx, ...rest }) {
           position: "absolute",
           top: 0,
           width: "100% !important",
-          ...sx,
         }}
       />
     </Box>
