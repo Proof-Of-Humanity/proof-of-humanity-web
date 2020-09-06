@@ -1,7 +1,15 @@
 import UniLoginProvider from "@unilogin/provider";
 import WalletConnectWeb3Provider from "@walletconnect/web3-provider";
 import Authereum from "authereum";
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { useStorageReducer } from "react-storage-hooks";
 import usePromise from "react-use-promise";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
@@ -51,15 +59,17 @@ export default function Web3Provider({ infuraURL, contracts, children }) {
     let cancelled = false;
     (async () => {
       if (contracts !== web3._contracts) {
-        const ETHNetID = await web3.eth.net.getId();
+        const [ETHNetID, accounts] = await Promise.all([
+          web3.eth.net.getId(),
+          web3.eth.getAccounts(),
+        ]);
         if (!cancelled) {
           web3.contracts = contracts.reduce(
             (acc, { name, abi, address, options }) => {
-              acc[name] = new web3.eth.Contract(
-                abi,
-                address[ETHNetID],
-                options
-              );
+              acc[name] = new web3.eth.Contract(abi, address[ETHNetID], {
+                from: accounts[0],
+                ...options,
+              });
               return acc;
             },
             {}
@@ -104,4 +114,82 @@ export function useWeb3(namespace, method, args) {
   );
 
   return isNotCall ? web3Context : data;
+}
+
+const sendStateReducer = (
+  state,
+  { type, transactionHash, confirmation, receipt, error }
+) => {
+  switch (type) {
+    case "transactionHash":
+      return { transactionHash };
+    case "confirmation":
+      return { ...state, confirmation };
+    case "receipt":
+      return { ...state, receipt };
+    case "error":
+      return { ...state, error };
+  }
+};
+export function useContract(
+  contract,
+  method,
+  { args, type = "call", options }
+) {
+  const { web3 } = useWeb3();
+  const run = useCallback(
+    (_args) =>
+      web3.contracts[contract].methods[method](...(args || []), ..._args)[type](
+        ...(options || [])
+      ),
+    [web3.contracts, contract, method, args, type, options]
+  );
+  const isSend = type === "send";
+
+  const [sendState, dispatch] = useStorageReducer(
+    localStorage,
+    JSON.stringify({ contract, method, type }),
+    sendStateReducer,
+    {}
+  );
+  const send = useCallback(
+    (..._args) => {
+      run(_args)
+        .on("transactionHash", (transactionHash) =>
+          dispatch({ type: "transactionHash", transactionHash })
+        )
+        .on("confirmation", (confirmation) =>
+          dispatch({ type: "confirmation", confirmation })
+        )
+        .on("receipt", (receipt) => dispatch({ type: "receipt", receipt }))
+        .on("error", (error) => dispatch({ type: "error", error }));
+    },
+    [run, dispatch]
+  );
+  const [receipt] = usePromise(
+    () =>
+      sendState.transactionHash &&
+      !sendState.receipt &&
+      new Promise((resolve) => {
+        const poll = async () => {
+          const _receipt = await web3.eth.getTransactionReceipt(
+            sendState.transactionHash
+          );
+          if (_receipt) resolve(_receipt);
+          else setTimeout(poll, 2000);
+        };
+        poll();
+      }),
+    [sendState.transactionHash, sendState.receipt, web3]
+  );
+  const data = usePromise(() => !isSend && run(), [isSend, run]);
+
+  return isSend
+    ? {
+        receipt,
+        ...sendState,
+        send,
+        loading: sendState.transactionHash && !sendState.receipt && !receipt,
+      }
+    : data;
 }

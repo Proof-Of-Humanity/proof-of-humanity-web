@@ -5,7 +5,7 @@ export default function Grid({ children, ...rest }) {
   return (
     <_Grid {...rest}>
       {children ||
-        [...Array(rest.columns)].map((_, i) => (
+        [...new Array(rest.columns)].map((_, i) => (
           <ReactLoadingSkeleton key={i} />
         ))}
     </_Grid>

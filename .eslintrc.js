@@ -20,6 +20,9 @@ module.exports = {
     // Import Plugin
     "plugin:import/errors",
 
+    // Unicorn Plugin
+    "plugin:unicorn/recommended",
+
     // React Plugin
     "plugin:react/recommended",
 
@@ -143,6 +146,37 @@ module.exports = {
       },
     ],
     "import/newline-after-import": "error",
+
+    // Unicorn Plugin
+    "unicorn/prevent-abbreviations": [
+      "error",
+      {
+        replacements: {
+          acc: false,
+          args: false,
+          arr: false,
+          err: false,
+          props: false,
+          ref: false,
+          res: false,
+        },
+      },
+    ],
+    "unicorn/no-nested-ternary": "off",
+    "unicorn/no-null": "off",
+    "unicorn/no-reduce": "off",
+    "unicorn/catch-error-name": [
+      "error",
+      {
+        name: "err",
+      },
+    ],
+    "unicorn/custom-error-definition": "error",
+    "unicorn/no-unsafe-regex": "error",
+    "unicorn/no-unused-properties": "error",
+    "unicorn/prefer-flat-map": "error",
+    "unicorn/prefer-replace-all": "error",
+    "unicorn/string-content": "error",
 
     // React Plugin
     "react/react-in-jsx-scope": "off",

@@ -91,9 +91,15 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       fill: "background",
       fontSize: 1,
       padding: 2,
-      "&:disabled": {
+      "&:disabled:not([data-loading=true])": {
         backgroundColor: "skeleton",
         backgroundImage: "none !important",
+      },
+      spinner: {
+        "div > div": {
+          backgroundColor: "background",
+          borderColor: "background",
+        },
       },
     },
     secondary: {

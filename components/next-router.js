@@ -30,7 +30,7 @@ export const createWrapConnection = (queries, queryEnums) => {
       (acc, [key, value]) => {
         const queryEnumQuery = queryEnums[key]?.[value]?.query;
         if (queryEnumQuery) acc = { ...acc, ...queryEnumQuery };
-        else acc[key] = isNaN(value) ? value : Number(value);
+        else acc[key] = Number.isNaN(Number(value)) ? value : Number(value);
         return acc;
       },
       {}

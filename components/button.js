@@ -1,10 +1,11 @@
 import { forwardRef } from "react";
-import { Button as _Button } from "theme-ui";
+import { MoonLoader } from "react-spinners";
+import { Box, Button as _Button } from "theme-ui";
 
 import Text from "./text";
 
 const Button = forwardRef(
-  ({ id, sx, type = "button", disabled, children, ...rest }, ref) => (
+  ({ id, sx, type = "button", disabled, children, loading, ...rest }, ref) => (
     <_Button
       ref={ref}
       id={id}
@@ -15,7 +16,8 @@ const Button = forwardRef(
         ...sx,
       }}
       type={type}
-      disabled={disabled || !children}
+      disabled={disabled || !children || loading}
+      data-loading={loading}
       {...rest}
     >
       <Text
@@ -28,6 +30,11 @@ const Button = forwardRef(
         }}
       >
         {children}
+        {loading && (
+          <Box variant="buttons.primary.spinner">
+            <MoonLoader size={16} />
+          </Box>
+        )}
       </Text>
     </_Button>
   )
