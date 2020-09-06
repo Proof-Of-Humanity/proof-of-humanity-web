@@ -93,6 +93,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       padding: 2,
       "&:disabled": {
         backgroundColor: "skeleton",
+        backgroundImage: "none !important",
       },
     },
     secondary: {

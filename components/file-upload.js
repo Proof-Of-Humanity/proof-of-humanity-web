@@ -128,7 +128,6 @@ export default function FileUpload({
                 right: 1,
                 top: 1,
               }}
-              type="button"
             >
               Use Webcam
             </Button>

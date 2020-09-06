@@ -20,7 +20,14 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { indexQuery } from "_pages/index";
 import { IdQuery } from "_pages/profile/[id]";
 import { queryEnums } from "data";
+import ProofOfHumanity from "subgraph/abis/proof-of-humanity";
+import { address } from "subgraph/config/kovan";
 
+const queries = {
+  "/": indexQuery,
+  "/profile/:id": IdQuery,
+};
+const wrapConnection = createWrapConnection(queries, queryEnums);
 const theme = {
   colors: {
     vouching: "#4d00b4",
@@ -30,11 +37,9 @@ const theme = {
     removed: "#4a4a4a",
   },
 };
-const queries = {
-  "/": indexQuery,
-  "/profile/:id": IdQuery,
-};
-const wrapConnection = createWrapConnection(queries, queryEnums);
+const contracts = [
+  { name: "proofOfHumanity", abi: ProofOfHumanity, address: { 42: address } },
+];
 function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");
   return accounts?.[0] ? (
@@ -101,6 +106,7 @@ export default function App({ Component, pageProps }) {
       >
         <Web3Provider
           infuraURL={`wss://${network}.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d`}
+          contracts={contracts}
         >
           <ArchonProvider>
             <Layout header={header} footer={footer}>

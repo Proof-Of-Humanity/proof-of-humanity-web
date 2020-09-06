@@ -13,9 +13,9 @@ export default function ProfileWithID() {
   const { props } = useQuery();
   const [accounts] = useWeb3("eth", "getAccounts");
 
-  if (!accounts) return null;
+  if (!props || !accounts) return null;
 
-  if (accounts[0] === query.id && props?.submission === null)
+  if (props?.submission === null && (!accounts[0] || accounts[0] === query.id))
     return <SubmitProfileCard />;
 
   const status =

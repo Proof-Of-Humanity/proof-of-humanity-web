@@ -1,4 +1,12 @@
-import { Card, Field, FileUpload, Form, Textarea } from "@kleros/components";
+import {
+  Button,
+  Card,
+  Field,
+  FileUpload,
+  Form,
+  Textarea,
+  useWeb3,
+} from "@kleros/components";
 
 const createValidationSchema = ({ string, file }) => ({
   name: string().max(50, "Must be 50 characters or less.").required("Required"),
@@ -13,6 +21,8 @@ const createValidationSchema = ({ string, file }) => ({
   video: file().required("Required"),
 });
 export default function SubmitProfileCard() {
+  const { web3, connect } = useWeb3();
+  const [accounts] = useWeb3("eth", "getAccounts");
   return (
     <Card
       header="Submit Profile"
@@ -51,6 +61,11 @@ export default function SubmitProfileCard() {
           maxSize={2}
           video
         />
+        {!web3.contracts?.proofOfHumanity || !accounts?.[0] ? (
+          <Button onClick={connect}>Connect Account</Button>
+        ) : (
+          <Button type="submit">Submit</Button>
+        )}
       </Form>
     </Card>
   );

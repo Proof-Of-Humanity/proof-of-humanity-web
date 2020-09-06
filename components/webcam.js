@@ -68,7 +68,6 @@ export default function Webcam({
         >
           {photo && (
             <Button
-              type="button"
               onClick={() =>
                 ref.current.getCanvas().toBlob(async (blob) => {
                   const _file = new File([blob], "capture", {
@@ -87,15 +86,11 @@ export default function Webcam({
           )}
           {video &&
             (recording ? (
-              <Button
-                type="button"
-                onClick={() => mediaRecorderRef.current.stop()}
-              >
+              <Button onClick={() => mediaRecorderRef.current.stop()}>
                 <Stop /> Stop
               </Button>
             ) : (
               <Button
-                type="button"
                 onClick={() => {
                   setRecording(true);
                   ref.current.recording = true;

@@ -6,9 +6,8 @@ import usePromise from "react-use-promise";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 
-const newWeb3 = (infuraURL) => {
+const createWeb3 = (infuraURL) => {
   const web3 = new Web3(infuraURL);
-  web3.infuraURL = infuraURL;
   web3.modal = new Web3Modal({
     cacheProvider: true,
     providerOptions: {
@@ -26,24 +25,51 @@ const newWeb3 = (infuraURL) => {
       },
     },
   });
+  web3.infuraURL = infuraURL;
+  return web3;
+};
+const createWeb3FromModal = async (modal, infuraURL) => {
+  const web3 = new Web3(await modal.connect());
+  web3.modal = modal;
+  web3.infuraURL = infuraURL;
   return web3;
 };
 const Context = createContext();
-export default function Web3Provider({ infuraURL, children }) {
-  const [web3, setWeb3] = useState(() => newWeb3(infuraURL));
+export default function Web3Provider({ infuraURL, contracts, children }) {
+  const [web3, setWeb3] = useState(() => createWeb3(infuraURL));
   useEffect(() => {
-    if (infuraURL !== web3.infuraURL) setWeb3(newWeb3(infuraURL));
+    if (infuraURL !== web3.infuraURL) setWeb3(createWeb3(infuraURL));
   }, [infuraURL, web3.infuraURL]);
   useEffect(() => {
     (async () => {
-      if (web3.modal.cachedProvider) {
-        const _web3 = new Web3(await web3.modal.connect());
-        _web3.infuraURL = web3.infuraURL;
-        _web3.modal = web3.modal;
-        setWeb3(_web3);
+      if (web3.modal.cachedProvider)
+        setWeb3(await createWeb3FromModal(web3.modal, web3.infuraURL));
+    })();
+  }, [web3.modal, web3.infuraURL]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      if (contracts !== web3._contracts) {
+        const ETHNetID = await web3.eth.net.getId();
+        if (!cancelled) {
+          web3.contracts = contracts.reduce(
+            (acc, { name, abi, address, options }) => {
+              acc[name] = new web3.eth.Contract(
+                abi,
+                address[ETHNetID],
+                options
+              );
+              return acc;
+            },
+            {}
+          );
+          web3._contracts = contracts;
+        }
       }
     })();
-  }, [web3.infuraURL, web3.modal]);
+    return () => (cancelled = true);
+  }, [contracts, web3]);
   return (
     <Context.Provider
       value={useMemo(
@@ -52,10 +78,7 @@ export default function Web3Provider({ infuraURL, children }) {
           setWeb3,
           async connect() {
             web3.modal.clearCachedProvider();
-            const _web3 = new Web3(await web3.modal.connect());
-            _web3.infuraURL = web3.infuraURL;
-            _web3.modal = web3.modal;
-            setWeb3(_web3);
+            setWeb3(await createWeb3FromModal(web3.modal, web3.infuraURL));
           },
         }),
         [web3, setWeb3]

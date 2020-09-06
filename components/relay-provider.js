@@ -12,7 +12,7 @@ import {
 } from "relay-hooks";
 import { Environment, RecordSource, Store } from "relay-runtime";
 
-const newEnvironment = (endpoint) => {
+const createEnvironment = (endpoint) => {
   const environment = new Environment({
     network: new RelayNetworkLayer([
       cacheMiddleware(),
@@ -37,11 +37,11 @@ export default function RelayProvider({
   const [initialized, setInitialized] = useState(false);
 
   const [environment, setEnvironment] = useState(() =>
-    newEnvironment(endpoint)
+    createEnvironment(endpoint)
   );
   useEffect(() => {
     if (endpoint !== environment.endpoint)
-      setEnvironment(newEnvironment(endpoint));
+      setEnvironment(createEnvironment(endpoint));
   }, [endpoint, environment]);
 
   useEffect(() => {
