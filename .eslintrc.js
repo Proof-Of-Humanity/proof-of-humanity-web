@@ -64,6 +64,7 @@ module.exports = {
     "no-useless-return": "error",
     "no-var": "error",
     "object-shorthand": "error",
+    "one-var": ["error", "never"],
     "operator-assignment": "error",
     "prefer-arrow-callback": "error",
     "prefer-const": "error",

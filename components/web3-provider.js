@@ -70,6 +70,13 @@ export default function Web3Provider({ infuraURL, contracts, children }) {
                 from: accounts[0],
                 ...options,
               });
+              acc[name].jsonInterfaceMap = acc[name]._jsonInterface.reduce(
+                (_acc, method) => {
+                  _acc[method.name] = method;
+                  return _acc;
+                },
+                {}
+              );
               return acc;
             },
             {}
@@ -131,17 +138,18 @@ const sendStateReducer = (
       return { ...state, error };
   }
 };
-export function useContract(
-  contract,
-  method,
-  { args, type = "call", options }
-) {
+export function useContract(contract, method, { args, type, options } = {}) {
   const { web3 } = useWeb3();
+  type =
+    type ||
+    (web3.contracts[contract].jsonInterfaceMap[method].constant
+      ? "call"
+      : "send");
   const run = useCallback(
-    (_args) =>
-      web3.contracts[contract].methods[method](...(args || []), ..._args)[type](
-        ...(options || [])
-      ),
+    (_args, _options) =>
+      web3.contracts[contract].methods[method](...(args || []), ..._args)[
+        type
+      ]({ ...options, ..._options }),
     [web3.contracts, contract, method, args, type, options]
   );
   const isSend = type === "send";
@@ -153,8 +161,15 @@ export function useContract(
     {}
   );
   const send = useCallback(
-    (..._args) => {
-      run(_args)
+    (...__args) => {
+      let _args;
+      let _options;
+      if (__args.length === 1) _args = __args;
+      else {
+        _args = __args.slice(0, -1);
+        _options = __args[__args.length - 1];
+      }
+      run(_args, _options)
         .on("transactionHash", (transactionHash) =>
           dispatch({ type: "transactionHash", transactionHash })
         )

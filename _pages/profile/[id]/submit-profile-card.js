@@ -26,10 +26,7 @@ export default function SubmitProfileCard() {
   const { connect } = useWeb3();
   const { loading, send } = useContract(
     "proofOfHumanity",
-    "changeRequiredNumberOfVouches",
-    {
-      type: "send",
-    }
+    "changeRequiredNumberOfVouches"
   );
   return (
     <Card
