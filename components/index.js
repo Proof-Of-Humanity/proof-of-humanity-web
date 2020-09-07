@@ -7,7 +7,11 @@ export {
   AccordionItemPanel,
 } from "./accordion";
 export { default as AccountSettingsPopup } from "./account-settings-popup";
-export { default as ArchonProvider, useArchon } from "./archon-provider";
+export {
+  default as ArchonProvider,
+  useArchon,
+  createUseDataloaders,
+} from "./archon-provider";
 export { default as Button } from "./button";
 export { default as Card } from "./card";
 export { default as FileUpload } from "./file-upload";

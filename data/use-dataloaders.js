@@ -1,8 +1,6 @@
-import { useArchon } from "@kleros/components";
-import Dataloader from "dataloader";
-import { useEffect, useRef, useState } from "react";
+import { createUseDataloaders } from "@kleros/components";
 
-const fetchers = {
+const { getEvidenceFile: useEvidenceFile } = createUseDataloaders({
   async getEvidenceFile(archon, URI) {
     const fetchFile = (_URI) =>
       archon.utils
@@ -21,47 +19,5 @@ const fetchers = {
       }, nestedFile),
     };
   },
-};
-const dataloaders = Object.keys(fetchers).reduce((acc, name) => {
-  acc[name] = new Dataloader(
-    (argsArr) =>
-      Promise.all(
-        argsArr.map((args) => fetchers[name](...args).catch((err) => err))
-      ),
-    {
-      cacheKeyFn([, ...args]) {
-        return JSON.stringify(args);
-      },
-    }
-  );
-  return acc;
-}, {});
-const { getEvidenceFile: useEvidenceFile } = Object.keys(dataloaders).reduce(
-  (acc, name) => {
-    acc[name] = function useDataloader() {
-      const [state, setState] = useState({});
-      const loadedRef = useRef({});
-      const mountedRef = useRef({});
-      useEffect(() => () => (mountedRef.current = false), []);
-
-      const { archon } = useArchon();
-      return (...args) => {
-        const key = JSON.stringify(args);
-        const cacheResult = (res) => {
-          if (mountedRef.current) {
-            loadedRef.current[key] = true;
-            setState((_state) => ({ ..._state, [key]: res }));
-          }
-        };
-        return loadedRef.current[key]
-          ? state[key]
-          : dataloaders[name]
-              .load([archon, ...args])
-              .then(cacheResult, cacheResult) && undefined;
-      };
-    };
-    return acc;
-  },
-  {}
-);
+});
 export { useEvidenceFile };

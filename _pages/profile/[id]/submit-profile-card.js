@@ -5,6 +5,7 @@ import {
   FileUpload,
   Form,
   Textarea,
+  useArchon,
   useContract,
   useWeb3,
 } from "@kleros/components";
@@ -22,6 +23,7 @@ const createValidationSchema = ({ string, file }) => ({
   video: file().required("Required"),
 });
 export default function SubmitProfileCard() {
+  const { upload } = useArchon();
   const [accounts] = useWeb3("eth", "getAccounts");
   const { connect } = useWeb3();
   const { loading, send } = useContract(
@@ -37,7 +39,13 @@ export default function SubmitProfileCard() {
         fontWeight: "bold",
       }}
     >
-      <Form createValidationSchema={createValidationSchema}>
+      <Form
+        createValidationSchema={createValidationSchema}
+        onSubmit={(values) => {
+          window.upload = upload;
+          window.values = values;
+        }}
+      >
         <Field name="name" label="Name" placeholder="The name you go by." />
         <Field
           name="firstName"

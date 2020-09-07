@@ -147,6 +147,10 @@ module.exports = {
       },
     ],
     "import/newline-after-import": "error",
+    "import/no-anonymous-default-export": [
+      "error",
+      { allowCallExpression: false },
+    ],
 
     // Unicorn Plugin
     "unicorn/prevent-abbreviations": [
@@ -173,6 +177,7 @@ module.exports = {
       },
     ],
     "unicorn/custom-error-definition": "error",
+    "unicorn/no-keyword-prefix": "error",
     "unicorn/no-unsafe-regex": "error",
     "unicorn/no-unused-properties": "error",
     "unicorn/prefer-flat-map": "error",
