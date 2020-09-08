@@ -164,11 +164,10 @@ export function useContract(contract, method, { args, type, options } = {}) {
     (...__args) => {
       let _args;
       let _options;
-      if (__args.length === 1) _args = __args;
-      else {
+      if (typeof __args[__args.length - 1] === "object") {
         _args = __args.slice(0, -1);
         _options = __args[__args.length - 1];
-      }
+      } else _args = __args;
       run(_args, _options)
         .on("transactionHash", (transactionHash) =>
           dispatch({ type: "transactionHash", transactionHash })

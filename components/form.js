@@ -46,9 +46,11 @@ export default function Form({
       validationSchema={validationSchema}
       {...rest}
     >
-      <Box as={_Form} variant="form" sx={sx}>
-        {children}
-      </Box>
+      {(props) => (
+        <Box as={_Form} variant="form" sx={sx}>
+          {typeof children === "function" ? children(props) : children}
+        </Box>
+      )}
     </Formik>
   );
 }

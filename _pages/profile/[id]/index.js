@@ -9,13 +9,16 @@ import SubmitProfileCard from "./submit-profile-card";
 import { submissionStatusEnum } from "data";
 
 export default function ProfileWithID() {
-  const { query } = useRouter();
   const { props } = useQuery();
   const [accounts] = useWeb3("eth", "getAccounts");
+  const { query } = useRouter();
 
-  if (!props || !accounts) return null;
-
-  if (props?.submission === null && (!accounts[0] || accounts[0] === query.id))
+  const notLoading = props && accounts;
+  if (
+    notLoading &&
+    props.submission === null &&
+    (!accounts[0] || accounts[0] === query.id)
+  )
     return <SubmitProfileCard />;
 
   const status =
@@ -47,7 +50,7 @@ export default function ProfileWithID() {
       {props?.submission && (
         <SubmissionDetailsCard submission={props.submission} />
       )}
-      <SubmissionDetailsAccordion />
+      {notLoading && <SubmissionDetailsAccordion />}
     </>
   );
 }

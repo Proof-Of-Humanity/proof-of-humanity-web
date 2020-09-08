@@ -40,7 +40,15 @@ export const createWrapConnection = (queries, queryEnums) => {
       const _match = matcher(path);
       if (_match) {
         path = key;
-        query = { ...query, ..._match.params };
+        query = {
+          ...query,
+          ...Object.keys(_match.params).reduce((acc, _key) => {
+            acc[_key] = _match.params[_key].toLowerCase
+              ? _match.params[_key].toLowerCase()
+              : _match.params[_key];
+            return acc;
+          }, {}),
+        };
         break;
       }
     }

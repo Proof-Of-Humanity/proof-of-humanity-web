@@ -42,7 +42,9 @@ export default function ArchonProvider({ children }) {
               .then((res) => res.json())
               .then(
                 ({ data }) =>
-                  `https://ipfs.kleros.io/ipfs/${data[1].hash}${data[0].path}`
+                  new URL(
+                    `https://ipfs.kleros.io/ipfs/${data[1].hash}${data[0].path}`
+                  )
               );
           },
         }),
