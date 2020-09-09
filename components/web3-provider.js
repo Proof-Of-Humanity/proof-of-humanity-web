@@ -43,7 +43,12 @@ const createWeb3FromModal = async (modal, infuraURL) => {
   return web3;
 };
 const Context = createContext();
-export default function Web3Provider({ infuraURL, contracts, children }) {
+export default function Web3Provider({
+  infuraURL,
+  contracts,
+  onNetworkChange,
+  children,
+}) {
   const [web3, setWeb3] = useState(() => createWeb3(infuraURL));
   useEffect(() => {
     if (infuraURL !== web3.infuraURL) setWeb3(createWeb3(infuraURL));
@@ -82,11 +87,12 @@ export default function Web3Provider({ infuraURL, contracts, children }) {
             {}
           );
           web3._contracts = contracts;
+          onNetworkChange(ETHNetID);
         }
       }
     })();
     return () => (cancelled = true);
-  }, [contracts, web3]);
+  }, [contracts, web3, onNetworkChange]);
   return (
     <Context.Provider
       value={useMemo(

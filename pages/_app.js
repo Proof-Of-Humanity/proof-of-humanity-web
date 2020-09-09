@@ -85,6 +85,7 @@ export default function App({ Component, pageProps }) {
     () => wrapConnection.parseAsPath(router.asPath).query,
     [router.asPath]
   );
+
   const [routeChangeConnection, setRouteChangeConnection] = useState();
   const connectToRouteChange = useCallback((connection) => {
     const wrappedConnection = wrapConnection(connection);
@@ -97,6 +98,22 @@ export default function App({ Component, pageProps }) {
       return () => router.events.off("routeChangeStart", routeChangeConnection);
     }
   }, [routeChangeConnection, router.events]);
+
+  const onNetworkChange = useCallback(
+    (_network) => {
+      _network = { 42: "kovan" }[_network];
+      if (router.query.network !== _network) {
+        const query = new URLSearchParams(location.search);
+        if (!_network) query.delete("network");
+        else query.set("network", _network);
+        router.replace({
+          pathname: location.pathname,
+          query: query.toString(),
+        });
+      }
+    },
+    [router]
+  );
   return (
     <ThemeProvider theme={theme}>
       <RelayProvider
@@ -107,6 +124,7 @@ export default function App({ Component, pageProps }) {
         <Web3Provider
           infuraURL={`wss://${network}.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d`}
           contracts={contracts}
+          onNetworkChange={onNetworkChange}
         >
           <ArchonProvider>
             <Layout header={header} footer={footer}>
