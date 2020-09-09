@@ -142,14 +142,17 @@ export function useContract(contract, method, { args, type, options } = {}) {
   const { web3 } = useWeb3();
   type =
     type ||
-    (web3.contracts[contract].jsonInterfaceMap[method].constant
-      ? "call"
-      : "send");
+    (web3.contracts?.[contract] &&
+      (web3.contracts[contract].jsonInterfaceMap[method].constant
+        ? "call"
+        : "send"));
   const run = useCallback(
     (_args, _options) =>
-      web3.contracts[contract].methods[method](...(args || []), ..._args)[
-        type
-      ]({ ...options, ..._options }),
+      web3.contracts?.[contract] &&
+      web3.contracts[contract].methods[method](
+        ...(args || []),
+        ...(_args || [])
+      )[type]({ ...options, ..._options }),
     [web3.contracts, contract, method, args, type, options]
   );
   const isSend = type === "send";
@@ -196,7 +199,7 @@ export function useContract(contract, method, { args, type, options } = {}) {
       }),
     [sendState.transactionHash, sendState.receipt, web3]
   );
-  const data = usePromise(() => !isSend && run(), [isSend, run]);
+  const data = usePromise(() => type && !isSend && run(), [type, isSend, run]);
 
   return isSend
     ? {

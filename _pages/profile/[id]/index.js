@@ -19,7 +19,7 @@ export default function ProfileWithID() {
     props.submission === null &&
     (!accounts[0] || accounts[0] === query.id)
   )
-    return <SubmitProfileCard />;
+    return <SubmitProfileCard contract={props.contracts[0]} />;
 
   const status =
     props?.submission && submissionStatusEnum.parse(props.submission);
@@ -57,6 +57,9 @@ export default function ProfileWithID() {
 
 export const IdQuery = graphql`
   query IdQuery($id: ID!) {
+    contracts(first: 1) {
+      ...submitProfileCard
+    }
     submission(id: $id) {
       status
       registered

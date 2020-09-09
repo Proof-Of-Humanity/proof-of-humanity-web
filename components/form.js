@@ -1,11 +1,51 @@
-import { ErrorMessage, Formik, Field as _Field, Form as _Form } from "formik";
-import { useMemo } from "react";
+import {
+  ErrorMessage,
+  Formik,
+  Field as _Field,
+  Form as _Form,
+  useField,
+} from "formik";
+import prettyNum from "pretty-num";
+import { createContext, useContext, useMemo } from "react";
 import { Box } from "theme-ui";
-import { object, string } from "yup";
+import Web3 from "web3";
+import { object, reach, string } from "yup";
 
 import Input from "./input";
 import Label from "./label";
 import Text from "./text";
+import { useWeb3 } from "./web3-provider";
+
+function ETH(...args) {
+  string.apply(this, args);
+  this.withMutation(() => {
+    this.transform((value) => {
+      if (!value) return this.default();
+      if (this.isType(value) || typeof value !== "string") return value;
+      const [units, decimals] = (/[Ee]/.test(value)
+        ? prettyNum(value)
+        : value
+      ).split(".");
+      value = `${units}${decimals ? `.${decimals.slice(0, 18)}` : ""}`;
+      const bn = Web3.utils.toBN(Web3.utils.toWei(value));
+      bn.originalString = value;
+      return bn;
+    });
+  });
+}
+ETH.prototype = Object.create(string.prototype, {
+  constructor: {
+    value: ETH,
+    configurable: true,
+    enumerable: false,
+    writable: true,
+  },
+});
+ETH.prototype._typeCheck = (value) => Web3.utils.isBN(value);
+ETH.prototype.render = function (value) {
+  value = this.cast(value);
+  return this.isType(value) && value.originalString;
+};
 
 function File(...args) {
   return object.apply(this, args);
@@ -20,46 +60,73 @@ File.prototype = Object.create(object.prototype, {
 });
 File.prototype._typeCheck = (value) => value?.toString() === "[object File]";
 
+const ValidationSchemaContext = createContext();
 export default function Form({
   createValidationSchema,
   sx,
   children,
   ...rest
 }) {
+  const { web3 } = useWeb3();
   const validationSchema = useMemo(
     () =>
       object(
         createValidationSchema({
+          eth() {
+            const initialValue = Web3.utils.toBN("");
+            initialValue.toString = () => "";
+            initialValue.originalString = "";
+            return new ETH().default(initialValue);
+          },
           file() {
             return new File().nullable();
           },
           string() {
             return string().default("");
           },
+          web3,
         })
       ),
-    [createValidationSchema]
+    [createValidationSchema, web3]
   );
   return (
-    <Formik
-      initialValues={validationSchema.default()}
-      validationSchema={validationSchema}
-      {...rest}
-    >
-      {(props) => (
-        <Box as={_Form} variant="form" sx={sx}>
-          {typeof children === "function" ? children(props) : children}
-        </Box>
-      )}
-    </Formik>
+    <ValidationSchemaContext.Provider value={validationSchema}>
+      <Formik
+        initialValues={validationSchema.default()}
+        validationSchema={validationSchema}
+        {...rest}
+      >
+        {(props) => (
+          <Box as={_Form} variant="form" sx={sx}>
+            {typeof children === "function" ? children(props) : children}
+          </Box>
+        )}
+      </Formik>
+    </ValidationSchemaContext.Provider>
   );
 }
 
 export function Field({ label, as = Input, name, ...rest }) {
+  const validationSchema = useContext(ValidationSchemaContext);
+  const [{ onChange }] = useField(name);
   return (
     <Label>
       {label}
-      <_Field as={as} name={name} {...rest} />
+      <_Field
+        as={as}
+        name={name}
+        onChange={(event) => {
+          try {
+            event.target.value = reach(validationSchema, name).render(
+              event.target.value
+            );
+            onChange(event);
+          } catch {
+            onChange(event);
+          }
+        }}
+        {...rest}
+      />
       <Text variant="forms.field.error">
         <ErrorMessage name={name} />
       </Text>
