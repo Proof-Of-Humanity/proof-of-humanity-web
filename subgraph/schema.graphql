@@ -140,6 +140,14 @@ type Submission @entity {
   """
   renewalTimestamp: BigInt!
   """
+  The name of the submission.
+  """
+  name: String!
+  """
+  The bio of the submission.
+  """
+  bio: String!
+  """
   Submissions the submission has vouched for.
   """
   vouchees: [Submission!]!
@@ -331,3 +339,13 @@ type Contribution @entity {
   """
   size: BigInt!
 }
+
+type _Schema_
+  @fulltext(
+    name: "submissionSearch"
+    language: en
+    algorithm: rank
+    include: [
+      { entity: "Submission", fields: [{ name: "name" }, { name: "bio" }] }
+    ]
+  )

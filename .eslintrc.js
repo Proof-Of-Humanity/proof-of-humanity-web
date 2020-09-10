@@ -108,7 +108,7 @@ module.exports = {
         missingExports: true,
         unusedExports: true,
         // Ignore Next.js default default page exports and our CLI scripts.
-        ignoreExports: ["pages", "./*.js", "scripts"],
+        ignoreExports: ["pages", "./*.js", "scripts", "subgraph"],
       },
     ],
     // Don't allow reaching into modules, except for Next.js imports, and assets.
@@ -412,7 +412,7 @@ module.exports = {
     },
     // Node config files and scripts.
     {
-      files: ["./*.js", "scripts/**.js"],
+      files: ["./*.js", "scripts/**.js", "subgraph/**.js"],
       env: { node: true },
     },
   ],

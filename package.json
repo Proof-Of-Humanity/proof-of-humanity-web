@@ -99,7 +99,7 @@
     "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,_pages,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional,buffer",
     "lint": "eslint .",
     "dev": "next",
-    "dev:relay": "get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan --json > subgraph/build/full-schema.json && relay-compiler --watch",
+    "dev:relay": "get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan --json | node subgraph/eslint-compat.js > subgraph/build/full-schema.json && relay-compiler --watch",
     "build": "npm run dev:relay -- --watch=false && next build",
     "build:analyze": "cross-env ANALYZE=true npm run build",
     "build:graph": "cd subgraph && mustache config/kovan.json subgraph.template.yaml > subgraph.yaml && graph codegen && graph build",

@@ -24,6 +24,15 @@ export default function SubmissionFilters() {
         aria-label="Search"
         placeholder="Search"
         icon={<Search />}
+        value={router.query.search?.replaceAll(" & ", " ") || ""}
+        onChange={(event) => {
+          const query = { ...router.query };
+          if (!event.target.value) delete query.search;
+          else query.search = event.target.value.replaceAll(" ", " & ");
+          router.push({
+            query,
+          });
+        }}
       />
       <Select
         sx={{ width: "190px" }}

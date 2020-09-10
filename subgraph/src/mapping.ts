@@ -67,6 +67,8 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   submission.renewalTimestamp = call.block.timestamp.plus(
     contract.submissionDuration.minus(contract.renewalTime)
   );
+  submission.name = call.inputs._name;
+  submission.bio = call.inputs._bio;
   submission.vouchees = [];
   submission.usedVouch = false;
   submission.save();
