@@ -2,8 +2,21 @@ import { BigInt, ByteArray, crypto } from "@graphprotocol/graph-ts";
 import {
   AddSubmissionManuallyCall,
   ArbitratorComplete,
+  ChangeArbitratorCall,
+  ChangeChallengePeriodDurationCall,
+  ChangeGovernorCall,
+  ChangeLoserStakeMultiplierCall,
+  ChangeMetaEvidenceCall,
+  ChangeRenewalTimeCall,
+  ChangeRequiredNumberOfVouchesCall,
+  ChangeSharedStakeMultiplierCall,
+  ChangeSubmissionBaseDepositCall,
+  ChangeSubmissionChallengeBaseDepositCall,
+  ChangeSubmissionDurationCall,
+  ChangeWinnerStakeMultiplierCall,
   MetaEvidence as MetaEvidenceEvent,
   ProofOfHumanity as _ProofOfHumanity,
+  RemoveSubmissionManuallyCall,
 } from "../generated/ProofOfHumanity/ProofOfHumanity";
 import {
   Challenge,
@@ -122,4 +135,122 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   round.hasPaid = [false, false];
   round.feeRewards = new BigInt(0);
   round.save();
+}
+
+export function removeSubmissionManually(
+  call: RemoveSubmissionManuallyCall
+): void {
+  let submission = Submission.load(call.inputs._submissionID.toHexString());
+  submission.registered = false;
+  submission.save();
+}
+
+export function changeSubmissionBaseDeposit(
+  call: ChangeSubmissionBaseDepositCall
+): void {
+  let contract = Contract.load("0");
+  contract.submissionBaseDeposit = call.inputs._submissionBaseDeposit;
+  contract.save();
+}
+
+export function changeSubmissionChallengeBaseDeposit(
+  call: ChangeSubmissionChallengeBaseDepositCall
+): void {
+  let contract = Contract.load("0");
+  contract.submissionChallengeBaseDeposit =
+    call.inputs._submissionChallengeBaseDeposit;
+  contract.save();
+}
+
+export function changeSubmissionDuration(
+  call: ChangeSubmissionDurationCall
+): void {
+  let contract = Contract.load("0");
+  contract.submissionDuration = call.inputs._submissionDuration;
+  contract.save();
+}
+
+export function changeRenewalTime(call: ChangeRenewalTimeCall): void {
+  let contract = Contract.load("0");
+  contract.renewalTime = call.inputs._renewalTime;
+  contract.save();
+}
+
+export function changeChallengePeriodDuration(
+  call: ChangeChallengePeriodDurationCall
+): void {
+  let contract = Contract.load("0");
+  contract.challengePeriodDuration = call.inputs._challengePeriodDuration;
+  contract.save();
+}
+
+export function changeRequiredNumberOfVouches(
+  call: ChangeRequiredNumberOfVouchesCall
+): void {
+  let contract = Contract.load("0");
+  contract.requiredNumberOfVouches = call.inputs._requiredNumberOfVouches;
+  contract.save();
+}
+
+export function changeSharedStakeMultiplier(
+  call: ChangeSharedStakeMultiplierCall
+): void {
+  let contract = Contract.load("0");
+  contract.sharedStakeMultiplier = call.inputs._sharedStakeMultiplier;
+  contract.save();
+}
+
+export function changeWinnerStakeMultiplier(
+  call: ChangeWinnerStakeMultiplierCall
+): void {
+  let contract = Contract.load("0");
+  contract.winnerStakeMultiplier = call.inputs._winnerStakeMultiplier;
+  contract.save();
+}
+
+export function changeLoserStakeMultiplier(
+  call: ChangeLoserStakeMultiplierCall
+): void {
+  let contract = Contract.load("0");
+  contract.loserStakeMultiplier = call.inputs._loserStakeMultiplier;
+  contract.save();
+}
+
+export function changeGovernor(call: ChangeGovernorCall): void {
+  let contract = Contract.load("0");
+  contract.governor = call.inputs._governor;
+  contract.save();
+}
+
+export function changeMetaEvidence(call: ChangeMetaEvidenceCall): void {
+  let contract = Contract.load("0");
+  contract.metaEvidenceUpdates = contract.metaEvidenceUpdates.plus(
+    new BigInt(1)
+  );
+
+  let registrationMetaEvidenceID = contract.metaEvidenceUpdates.times(
+    new BigInt(2)
+  );
+  let registrationMetaEvidence = new MetaEvidence(
+    registrationMetaEvidenceID.toHexString()
+  );
+  registrationMetaEvidence.URI = call.inputs._registrationMetaEvidence;
+  registrationMetaEvidence.save();
+
+  let clearingMetaEvidence = new MetaEvidence(
+    registrationMetaEvidenceID.plus(new BigInt(1)).toHexString()
+  );
+  clearingMetaEvidence.URI = call.inputs._clearingMetaEvidence;
+  clearingMetaEvidence.save();
+
+  contract.registrationMetaEvidence = registrationMetaEvidence.id;
+  contract.clearingMetaEvidence = clearingMetaEvidence.id;
+  contract.save();
+}
+
+export function changeArbitrator(call: ChangeArbitratorCall): void {
+  let contract = Contract.load("0");
+  contract.arbitrator = call.inputs._arbitrator;
+  contract.arbitratorExtraData = call.inputs._arbitratorExtraData;
+  contract.save();
 }

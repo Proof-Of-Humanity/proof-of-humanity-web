@@ -33,4 +33,30 @@ dataSources:
       callHandlers:
         - function: addSubmissionManually(address,string,string,string)
           handler: addSubmissionManually
+        - function: removeSubmissionManually(address)
+          handler: removeSubmissionManually
+        - function: changeSubmissionBaseDeposit(uint256)
+          handler: changeSubmissionBaseDeposit
+        - function: changeSubmissionChallengeBaseDeposit(uint256)
+          handler: changeSubmissionChallengeBaseDeposit
+        - function: changeSubmissionDuration(uint256)
+          handler: changeSubmissionDuration
+        - function: changeRenewalTime(uint256)
+          handler: changeRenewalTime
+        - function: changeChallengePeriodDuration(uint256)
+          handler: changeChallengePeriodDuration
+        - function: changeRequiredNumberOfVouches(uint256)
+          handler: changeRequiredNumberOfVouches
+        - function: changeSharedStakeMultiplier(uint256)
+          handler: changeSharedStakeMultiplier
+        - function: changeWinnerStakeMultiplier(uint256)
+          handler: changeWinnerStakeMultiplier
+        - function: changeLoserStakeMultiplier(uint256)
+          handler: changeLoserStakeMultiplier
+        - function: changeGovernor(address)
+          handler: changeGovernor
+        - function: changeMetaEvidence(string,string)
+          handler: changeMetaEvidence
+        - function: changeArbitrator(address,bytes)
+          handler: changeArbitrator
       file: ./src/mapping.ts
