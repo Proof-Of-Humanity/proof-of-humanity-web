@@ -246,7 +246,7 @@ type Evidence @entity {
   """
   request: Request!
   """
-  The evidence's ID, keccak256(requestID, requestEvidenceLength).
+  The evidence's ID, keccak256(requestID, "Evidence-" + requestEvidenceLength).
   """
   id: ID!
   """
@@ -265,17 +265,17 @@ type Challenge @entity {
   """
   request: Request!
   """
-  The challenge's ID, keccak256(requestID, requestChallengesLength).
+  The challenge's ID, keccak256(requestID, "Challenge-" + requestChallengesLength).
   """
   id: ID!
   """
   The challenge's dispute ID.
   """
-  disputeID: BigInt!
+  disputeID: BigInt
   """
   The address of the challenger.
   """
-  challenger: Bytes!
+  challenger: Bytes
   """
   The submission which is a supposed duplicate of the challenged submission. This is only used for `Reason.Duplicate`.
   """
@@ -306,7 +306,7 @@ type Round @entity {
   """
   True for a side when it has fully paid its fee. False otherwise.
   """
-  hasPaid: [BigInt!]!
+  hasPaid: [Boolean!]!
   """
   Sum of reimbursable fees and stake rewards available to the parties that made contributions to the side that ultimately won.
   """

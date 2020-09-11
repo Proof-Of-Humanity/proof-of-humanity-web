@@ -1,16 +1,18 @@
-import { ByteArray, BigInt, crypto } from "@graphprotocol/graph-ts";
+import { BigInt, ByteArray, crypto } from "@graphprotocol/graph-ts";
 import {
-  ProofOfHumanity as _ProofOfHumanity,
-  MetaEvidence as MetaEvidenceEvent,
-  ArbitratorComplete,
   AddSubmissionManuallyCall,
+  ArbitratorComplete,
+  MetaEvidence as MetaEvidenceEvent,
+  ProofOfHumanity as _ProofOfHumanity,
 } from "../generated/ProofOfHumanity/ProofOfHumanity";
 import {
-  MetaEvidence,
+  Challenge,
   Contract,
-  Submission,
-  Request,
   Evidence,
+  MetaEvidence,
+  Request,
+  Round,
+  Submission,
 } from "../generated/schema";
 
 function concatByteArrays(a: ByteArray, b: ByteArray): ByteArray {
@@ -95,11 +97,29 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
 
   let evidence = new Evidence(
     crypto
-      .keccak256(concatByteArrays(requestID, ByteArray.fromUTF8("0")))
+      .keccak256(concatByteArrays(requestID, ByteArray.fromUTF8("Evidence-0")))
       .toHexString()
   );
   evidence.request = request.id;
   evidence.URI = call.inputs._evidence;
   evidence.sender = call.from;
   evidence.save();
+
+  let challengeID = crypto.keccak256(
+    concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
+  );
+  let challenge = new Challenge(challengeID.toHexString());
+  challenge.request = request.id;
+  challenge.save();
+
+  let round = new Round(
+    crypto
+      .keccak256(concatByteArrays(challengeID, ByteArray.fromUTF8("0")))
+      .toHexString()
+  );
+  round.challenge = challenge.id;
+  round.paidFees = [new BigInt(0), new BigInt(0)];
+  round.hasPaid = [false, false];
+  round.feeRewards = new BigInt(0);
+  round.save();
 }
