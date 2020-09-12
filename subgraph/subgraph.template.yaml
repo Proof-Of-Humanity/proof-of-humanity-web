@@ -61,4 +61,18 @@ dataSources:
           handler: changeArbitrator
         - function: addSubmission(string,string,string)
           handler: addSubmission
+        - function: reapplySubmission(string,string,string)
+          handler: reapplySubmission
+        - function: removeSubmission(address,string)
+          handler: removeSubmission
+        - function: fundSubmission(address)
+          handler: fundSubmission
+        - function: addVouch(address)
+          handler: addVouch
+        - function: removeVouch(address)
+          handler: removeVouch
+        - function: withdrawSubmission()
+          handler: withdrawSubmission
+        - function: changeStateToPending(address,address[])
+          handler: changeStateToPending
       file: ./src/mapping.ts

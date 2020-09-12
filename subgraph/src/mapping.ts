@@ -2,6 +2,7 @@ import { Address, BigInt, ByteArray, crypto } from "@graphprotocol/graph-ts";
 import {
   AddSubmissionCall,
   AddSubmissionManuallyCall,
+  AddVouchCall,
   ArbitratorComplete,
   ChangeArbitratorCall,
   ChangeChallengePeriodDurationCall,
@@ -11,13 +12,19 @@ import {
   ChangeRenewalTimeCall,
   ChangeRequiredNumberOfVouchesCall,
   ChangeSharedStakeMultiplierCall,
+  ChangeStateToPendingCall,
   ChangeSubmissionBaseDepositCall,
   ChangeSubmissionChallengeBaseDepositCall,
   ChangeSubmissionDurationCall,
   ChangeWinnerStakeMultiplierCall,
+  FundSubmissionCall,
   MetaEvidence as MetaEvidenceEvent,
   ProofOfHumanity,
+  ReapplySubmissionCall,
+  RemoveSubmissionCall,
   RemoveSubmissionManuallyCall,
+  RemoveVouchCall,
+  WithdrawSubmissionCall,
 } from "../generated/ProofOfHumanity/ProofOfHumanity";
 import {
   Challenge,
@@ -87,7 +94,6 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   submission.name = call.inputs._name;
   submission.bio = call.inputs._bio;
   submission.vouchees = [];
-  submission.usedVouch = false;
   submission.requestsLength = new BigInt(1);
   submission.save();
 
@@ -391,7 +397,6 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.name = call.inputs._name;
     submission.bio = call.inputs._bio;
     submission.vouchees = [];
-    submission.usedVouch = false;
     submission.requestsLength = new BigInt(0);
   }
   submission.status = "Vouching";
@@ -404,4 +409,147 @@ export function addSubmission(call: AddSubmissionCall): void {
     call.inputs._evidence,
     call.to
   );
+}
+
+export function reapplySubmission(call: ReapplySubmissionCall): void {
+  let submission = Submission.load(call.from.toHexString());
+  submission.status = "Vouching";
+  submission.save();
+
+  requestStatusChange(
+    call.from,
+    call.block.timestamp,
+    call.from,
+    call.inputs._evidence,
+    call.to
+  );
+}
+
+export function removeSubmission(call: RemoveSubmissionCall): void {
+  let submission = Submission.load(call.inputs._submissionID.toHexString());
+  submission.status = "PendingRemoval";
+  submission.save();
+
+  requestStatusChange(
+    call.inputs._submissionID,
+    call.block.timestamp,
+    call.from,
+    call.inputs._evidence,
+    call.to
+  );
+}
+
+export function fundSubmission(call: FundSubmissionCall): void {
+  let submission = Submission.load(call.inputs._submissionID.toHexString());
+  let requestIndex = submission.requestsLength.minus(new BigInt(1));
+  let requestID = crypto.keccak256(
+    concatByteArrays(
+      call.inputs._submissionID,
+      ByteArray.fromUTF8(requestIndex.toString())
+    )
+  );
+  let challengeID = crypto.keccak256(
+    concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
+  );
+  let roundID = crypto.keccak256(
+    concatByteArrays(challengeID, ByteArray.fromUTF8("0"))
+  );
+  contribute(
+    call.to,
+    call.inputs._submissionID,
+    requestIndex,
+    new BigInt(0),
+    new BigInt(0),
+    roundID,
+    call.from
+  );
+}
+
+export function addVouch(call: AddVouchCall): void {
+  let submission = Submission.load(call.from.toHexString());
+  if (submission != null) {
+    submission.vouchees = submission.vouchees.concat([
+      call.inputs._submissionID.toHexString(),
+    ]);
+    submission.save();
+  }
+}
+
+export function removeVouch(call: RemoveVouchCall): void {
+  let submission = Submission.load(call.from.toHexString());
+  if (submission != null) {
+    submission.vouchees = submission.vouchees.filter(
+      (vouchee) => vouchee != call.inputs._submissionID.toHexString()
+    );
+    submission.save();
+  }
+}
+
+export function withdrawSubmission(call: WithdrawSubmissionCall): void {
+  let submission = Submission.load(call.from.toHexString());
+  submission.status = "None";
+  submission.save();
+
+  let requestIndex = submission.requestsLength.minus(new BigInt(1));
+  let requestID = crypto.keccak256(
+    concatByteArrays(call.from, ByteArray.fromUTF8(requestIndex.toString()))
+  );
+  let request = Request.load(requestID.toHexString());
+  request.resolved = true;
+  request.save();
+
+  let challengeID = crypto.keccak256(
+    concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
+  );
+  let roundID = crypto.keccak256(
+    concatByteArrays(challengeID, ByteArray.fromUTF8("0"))
+  );
+  contribute(
+    call.to,
+    call.from,
+    requestIndex,
+    new BigInt(0),
+    new BigInt(0),
+    roundID,
+    call.from
+  );
+}
+
+export function changeStateToPending(call: ChangeStateToPendingCall): void {
+  let contract = Contract.load("0");
+  let submission = Submission.load(call.inputs._submissionID.toHexString());
+  submission.status = "PendingRegistration";
+  submission.save();
+
+  let request = Request.load(
+    crypto
+      .keccak256(
+        concatByteArrays(
+          call.inputs._submissionID,
+          ByteArray.fromUTF8(
+            submission.requestsLength.minus(new BigInt(1)).toString()
+          )
+        )
+      )
+      .toHexString()
+  );
+  request.lastStatusChange = call.block.timestamp;
+
+  let vouches = call.inputs._vouches;
+  for (let i = 0; i < vouches.length; i++) {
+    let voucher = Submission.load(vouches[i].toHexString());
+    if (
+      !voucher.usedVouch &&
+      voucher.registered &&
+      call.block.timestamp
+        .minus(voucher.submissionTime as BigInt)
+        .le(contract.submissionDuration) &&
+      voucher.vouchees.includes(submission.id)
+    ) {
+      request.vouches = request.vouches.concat([voucher.id]);
+      voucher.usedVouch = submission.id;
+      voucher.save();
+    }
+  }
+  request.save();
 }

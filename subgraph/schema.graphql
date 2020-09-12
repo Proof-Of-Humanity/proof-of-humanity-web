@@ -152,9 +152,9 @@ type Submission @entity {
   """
   vouchees: [Submission!]!
   """
-  Indicates whether or not the submission has vouched for a submission that entered `Status.PendingRegistration` status.
+  The vouchee that entered `Status.PendingRegistration` status and is using the submission's vouch.
   """
-  usedVouch: Boolean!
+  usedVouch: Submission
   """
   The submission's status change requests.
   """
