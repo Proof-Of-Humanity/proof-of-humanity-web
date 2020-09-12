@@ -134,11 +134,11 @@ type Submission @entity {
   """
   The time when the submission was accepted to the list.
   """
-  submissionTime: BigInt!
+  submissionTime: BigInt
   """
   The time after which it becomes possible to reapply the submission.
   """
-  renewalTimestamp: BigInt!
+  renewalTimestamp: BigInt
   """
   The name of the submission.
   """
@@ -159,6 +159,10 @@ type Submission @entity {
   The submission's status change requests.
   """
   requests: [Request!]! @derivedFrom(field: "submission")
+  """
+  The submission's number of requests.
+  """
+  requestsLength: BigInt!
 }
 
 type Request @entity {
@@ -235,9 +239,17 @@ type Request @entity {
   """
   evidence: [Evidence!]! @derivedFrom(field: "request")
   """
+  The request's number of evidence.
+  """
+  evidenceLength: BigInt!
+  """
   The challenges for the request.
   """
   challenges: [Challenge!]! @derivedFrom(field: "request")
+  """
+  The request's number of challenges.
+  """
+  challengesLength: BigInt!
 }
 
 type Evidence @entity {
@@ -288,6 +300,10 @@ type Challenge @entity {
   The rounds for the challenge.
   """
   rounds: [Round!]! @derivedFrom(field: "challenge")
+  """
+  The challenge's number of rounds.
+  """
+  roundsLength: BigInt!
 }
 
 type Round @entity {
@@ -323,7 +339,7 @@ type Contribution @entity {
   """
   round: Round!
   """
-  The contribution's ID, keccak256(roundID, roundContributionsLength).
+  The contribution's ID, keccak256(roundID, contributor).
   """
   id: ID!
   """
@@ -331,13 +347,9 @@ type Contribution @entity {
   """
   contributor: Bytes!
   """
-  The side the contribution is for.
+  The contributions for each side.
   """
-  side: BigInt!
-  """
-  The size of the contribution.
-  """
-  size: BigInt!
+  contributions: [BigInt!]!
 }
 
 type _Schema_

@@ -59,4 +59,6 @@ dataSources:
           handler: changeMetaEvidence
         - function: changeArbitrator(address,bytes)
           handler: changeArbitrator
+        - function: addSubmission(string,string,string)
+          handler: addSubmission
       file: ./src/mapping.ts

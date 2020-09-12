@@ -1,5 +1,6 @@
-import { BigInt, ByteArray, crypto } from "@graphprotocol/graph-ts";
+import { Address, BigInt, ByteArray, crypto } from "@graphprotocol/graph-ts";
 import {
+  AddSubmissionCall,
   AddSubmissionManuallyCall,
   ArbitratorComplete,
   ChangeArbitratorCall,
@@ -15,12 +16,13 @@ import {
   ChangeSubmissionDurationCall,
   ChangeWinnerStakeMultiplierCall,
   MetaEvidence as MetaEvidenceEvent,
-  ProofOfHumanity as _ProofOfHumanity,
+  ProofOfHumanity,
   RemoveSubmissionManuallyCall,
 } from "../generated/ProofOfHumanity/ProofOfHumanity";
 import {
   Challenge,
   Contract,
+  Contribution,
   Evidence,
   MetaEvidence,
   Request,
@@ -52,16 +54,16 @@ export function metaEvidence(event: MetaEvidenceEvent): void {
 }
 
 export function arbitratorComplete(event: ArbitratorComplete): void {
-  let ProofOfHumanity = _ProofOfHumanity.bind(event.address);
+  let proofOfHumanity = ProofOfHumanity.bind(event.address);
   let contract = new Contract("0");
   contract.arbitrator = event.params.arbitrator;
-  contract.arbitratorExtraData = ProofOfHumanity.arbitratorExtraData();
+  contract.arbitratorExtraData = proofOfHumanity.arbitratorExtraData();
   contract.governor = event.params.governor;
   contract.submissionBaseDeposit = event.params.submissionBaseDeposit;
   contract.submissionChallengeBaseDeposit =
     event.params.submissionChallengeBaseDeposit;
   contract.submissionDuration = event.params.submissionDuration;
-  contract.renewalTime = ProofOfHumanity.renewalTime();
+  contract.renewalTime = proofOfHumanity.renewalTime();
   contract.challengePeriodDuration = event.params.challengePeriodDuration;
   contract.requiredNumberOfVouches = event.params.requiredNumberOfVouches;
   contract.metaEvidenceUpdates = new BigInt(0);
@@ -86,6 +88,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   submission.bio = call.inputs._bio;
   submission.vouchees = [];
   submission.usedVouch = false;
+  submission.requestsLength = new BigInt(1);
   submission.save();
 
   let requestID = crypto.keccak256(
@@ -106,6 +109,8 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   request.requesterLost = false;
   request.penaltyIndex = new BigInt(0);
   request.metaEvidence = contract.registrationMetaEvidence;
+  request.evidenceLength = new BigInt(1);
+  request.challengesLength = new BigInt(1);
   request.save();
 
   let evidence = new Evidence(
@@ -123,6 +128,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   );
   let challenge = new Challenge(challengeID.toHexString());
   challenge.request = request.id;
+  challenge.roundsLength = new BigInt(1);
   challenge.save();
 
   let round = new Round(
@@ -253,4 +259,149 @@ export function changeArbitrator(call: ChangeArbitratorCall): void {
   contract.arbitrator = call.inputs._arbitrator;
   contract.arbitratorExtraData = call.inputs._arbitratorExtraData;
   contract.save();
+}
+
+function contribute(
+  proofOfHumanityAddress: Address,
+  submissionID: Address,
+  requestIndex: BigInt,
+  challengeIndex: BigInt,
+  roundIndex: BigInt,
+  roundID: ByteArray,
+  contributor: Address
+): void {
+  let proofOfHumanity = ProofOfHumanity.bind(proofOfHumanityAddress);
+  let roundInfo = proofOfHumanity.getRoundInfo(
+    submissionID,
+    requestIndex,
+    challengeIndex,
+    roundIndex
+  );
+  let contributions = proofOfHumanity.getContributions(
+    submissionID,
+    requestIndex,
+    challengeIndex,
+    roundIndex,
+    contributor
+  );
+
+  let round = Round.load(roundID.toHexString());
+  round.paidFees = roundInfo.value1;
+  round.hasPaid = roundInfo.value2;
+  round.feeRewards = roundInfo.value3;
+  round.save();
+
+  let contributionID = crypto
+    .keccak256(concatByteArrays(roundID, contributor))
+    .toHexString();
+  let contribution = Contribution.load(contributionID);
+  if (contribution == null) contribution = new Contribution(contributionID);
+  contribution.round = round.id;
+  contribution.contributor = contributor;
+  contribution.contributions = [contributions[1], contributions[2]];
+  contribution.save();
+}
+
+function requestStatusChange(
+  submissionID: Address,
+  timestamp: BigInt,
+  msgSender: Address,
+  evidenceURI: string,
+  proofOfHumanityAddress: Address
+): void {
+  let contract = Contract.load("0");
+  let submission = Submission.load(submissionID.toHexString());
+
+  let requestID = crypto.keccak256(
+    concatByteArrays(
+      submissionID,
+      ByteArray.fromUTF8(submission.requestsLength.toString())
+    )
+  );
+  submission.requestsLength = submission.requestsLength.plus(new BigInt(1));
+  submission.save();
+
+  let request = new Request(requestID.toHexString());
+  request.submission = submission.id;
+  request.disputed = false;
+  request.lastStatusChange = timestamp;
+  request.resolved = false;
+  request.requester = msgSender;
+  request.arbitrator = contract.arbitrator;
+  request.arbitratorExtraData = contract.arbitratorExtraData;
+  request.vouches = [];
+  request.usedReasons = [];
+  request.currentReason = "None";
+  request.nbParallelDisputes = new BigInt(0);
+  request.requesterLost = false;
+  request.penaltyIndex = new BigInt(0);
+  request.metaEvidence =
+    submission.status === "PendingRemoval"
+      ? contract.clearingMetaEvidence
+      : contract.registrationMetaEvidence;
+  request.evidenceLength = new BigInt(1);
+  request.challengesLength = new BigInt(1);
+  request.save();
+
+  let evidence = new Evidence(
+    crypto
+      .keccak256(concatByteArrays(requestID, ByteArray.fromUTF8("Evidence-0")))
+      .toHexString()
+  );
+  evidence.request = request.id;
+  evidence.URI = evidenceURI;
+  evidence.sender = msgSender;
+  evidence.save();
+
+  let challengeID = crypto.keccak256(
+    concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
+  );
+  let challenge = new Challenge(challengeID.toHexString());
+  challenge.request = request.id;
+  challenge.roundsLength = new BigInt(1);
+  challenge.save();
+
+  let roundID = crypto.keccak256(
+    concatByteArrays(challengeID, ByteArray.fromUTF8("0"))
+  );
+  let round = new Round(roundID.toHexString());
+  round.challenge = challenge.id;
+  round.paidFees = [new BigInt(0), new BigInt(0)];
+  round.hasPaid = [false, false];
+  round.feeRewards = new BigInt(0);
+  round.save();
+
+  contribute(
+    proofOfHumanityAddress,
+    submissionID,
+    submission.requestsLength.minus(new BigInt(1)),
+    new BigInt(0),
+    new BigInt(0),
+    roundID,
+    msgSender
+  );
+}
+
+export function addSubmission(call: AddSubmissionCall): void {
+  let submissionID = call.from.toHexString();
+  let submission = Submission.load(submissionID);
+  if (submission == null) {
+    submission = new Submission(submissionID);
+    submission.registered = false;
+    submission.name = call.inputs._name;
+    submission.bio = call.inputs._bio;
+    submission.vouchees = [];
+    submission.usedVouch = false;
+    submission.requestsLength = new BigInt(0);
+  }
+  submission.status = "Vouching";
+  submission.save();
+
+  requestStatusChange(
+    call.from,
+    call.block.timestamp,
+    call.from,
+    call.inputs._evidence,
+    call.to
+  );
 }
