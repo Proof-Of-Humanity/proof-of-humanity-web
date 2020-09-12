@@ -227,10 +227,6 @@ type Request @entity {
   """
   penaltyIndex: BigInt!
   """
-  The duplicate submission provided by the challenger who is currently winning.
-  """
-  currentDuplicate: Submission
-  """
   The meta evidence for the request.
   """
   metaEvidence: MetaEvidence!

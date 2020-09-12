@@ -75,4 +75,16 @@ dataSources:
           handler: withdrawSubmission
         - function: changeStateToPending(address,address[])
           handler: changeStateToPending
+        - function: challengeRequest(address,uint8,address,string)
+          handler: challengeRequest
+        - function: fundAppeal(address,uint256,uint8)
+          handler: fundAppeal
+        - function: executeRequest(address)
+          handler: executeRequest
+        - function: processVouches(address,uint256,uint256)
+          handler: processVouches
+        - function: withdrawFeesAndRewards(address,address,uint256,uint256,uint256)
+          handler: withdrawFeesAndRewards
+        - function: rule(uint256,uint256)
+          handler: rule
       file: ./src/mapping.ts
