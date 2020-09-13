@@ -144,22 +144,35 @@ const sendStateReducer = (
       return { ...state, error };
   }
 };
-export function useContract(contract, method, { args, type, options } = {}) {
+export function useContract(
+  contract,
+  method,
+  { address, type, args, options } = {}
+) {
   const { web3 } = useWeb3();
+  contract = useMemo(() => {
+    let _contract = web3.contracts?.[contract];
+    if (_contract && address && _contract.options.address !== address) {
+      const jsonInterfaceMap = _contract.jsonInterfaceMap;
+      _contract = _contract.clone();
+      _contract.options.address = address;
+      _contract.jsonInterfaceMap = jsonInterfaceMap;
+    }
+    return _contract;
+  }, [web3, contract, address]);
+
   type =
     type ||
-    (web3.contracts?.[contract] &&
-      (web3.contracts[contract].jsonInterfaceMap[method].constant
-        ? "call"
-        : "send"));
+    (contract &&
+      (contract.jsonInterfaceMap[method].constant ? "call" : "send"));
   const run = useCallback(
     (_args, _options) =>
-      web3.contracts?.[contract] &&
-      web3.contracts[contract].methods[method](
-        ...(args || []),
-        ...(_args || [])
-      )[type]({ ...options, ..._options }),
-    [web3.contracts, contract, method, args, type, options]
+      contract &&
+      contract.methods[method](...(args || []), ...(_args || []))[type]({
+        ...options,
+        ..._options,
+      }),
+    [contract, method, args, type, options]
   );
   const isSend = type === "send";
 
@@ -205,7 +218,19 @@ export function useContract(contract, method, { args, type, options } = {}) {
       }),
     [sendState.transactionHash, sendState.receipt, web3]
   );
-  const data = usePromise(() => type && !isSend && run(), [type, isSend, run]);
+  const data = usePromise(
+    () =>
+      type &&
+      !isSend &&
+      run().then((res) =>
+        typeof res === "boolean" ||
+        Number.isNaN(Number(res)) ||
+        res?.startsWith("0x")
+          ? res
+          : web3.utils.toBN(res)
+      ),
+    [type, isSend, run, web3]
+  );
 
   return isSend
     ? {

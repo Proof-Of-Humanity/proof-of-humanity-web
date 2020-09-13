@@ -1,4 +1,5 @@
 {
   "network": "kovan",
-  "address": "0x413752ADd5ff51CC1928FA73BEFA65b37dEB8730"
+  "address": "0x413752ADd5ff51CC1928FA73BEFA65b37dEB8730",
+  "klerosLiquidAddress": "0x60B2AbfDfaD9c0873242f59f2A8c32A3Cc682f80"
 }

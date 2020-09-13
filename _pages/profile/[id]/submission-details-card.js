@@ -6,36 +6,83 @@ import {
   Image,
   Text,
   Video,
+  useContract,
+  useWeb3,
 } from "@kleros/components";
 import { Ether, User } from "@kleros/icons";
+import { useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
-import { submissionStatusEnum, useEvidenceFile } from "data";
+import { partyEnum, submissionStatusEnum, useEvidenceFile } from "data";
 
-const submissionDetailsCardFragment = graphql`
-  fragment submissionDetailsCard on Submission {
-    id
-    status
-    registered
-    requests(orderDirection: desc, first: 2) {
-      vouches {
-        id
-      }
-      evidence(first: 1) {
-        URI
+const submissionDetailsCardFragments = {
+  contract: graphql`
+    fragment submissionDetailsCardContract on Contract {
+      submissionBaseDeposit
+      sharedStakeMultiplier
+    }
+  `,
+  submission: graphql`
+    fragment submissionDetailsCardSubmission on Submission {
+      id
+      status
+      registered
+      requests(orderDirection: desc, first: 2) {
+        arbitrator
+        arbitratorExtraData
+        vouches {
+          id
+        }
+        evidence(first: 1) {
+          URI
+        }
+        challenges(first: 1) {
+          rounds(first: 1) {
+            contributions {
+              values
+            }
+          }
+        }
       }
     }
-  }
-`;
-export default function SubmissionDetailsCard({ submission }) {
+  `,
+};
+export default function SubmissionDetailsCard({ submission, contract }) {
   const { requests, id, ...rest } = useFragment(
-    submissionDetailsCardFragment,
+    submissionDetailsCardFragments.submission,
     submission
   );
   const status = submissionStatusEnum.parse(rest);
-  const evidence = useEvidenceFile()(
-    requests[status.registrationEvidenceFileIndex || 0].evidence[0].URI
+  const request = requests[status.registrationEvidenceFileIndex || 0];
+
+  const evidence = useEvidenceFile()(request.evidence[0].URI);
+  const contributions = request.challenges[0].rounds[0].contributions.map(
+    (contribution) => partyEnum.parse(contribution)
   );
+
+  const [arbitrationCost] = useContract(
+    "klerosLiquid",
+    "arbitrationCost",
+    useMemo(
+      () => ({
+        address: request.arbitrator,
+        args: [request.arbitratorExtraData],
+      }),
+      [request]
+    )
+  );
+  const { web3 } = useWeb3();
+  const { sharedStakeMultiplier, submissionBaseDeposit } = useFragment(
+    submissionDetailsCardFragments.contract,
+    contract
+  );
+  const totalCost = arbitrationCost
+    ?.add(
+      arbitrationCost
+        .mul(web3.utils.toBN(sharedStakeMultiplier))
+        .div(web3.utils.toBN(10000))
+    )
+    .add(web3.utils.toBN(submissionBaseDeposit));
   return (
     <Card
       mainSx={{
@@ -83,12 +130,25 @@ export default function SubmissionDetailsCard({ submission }) {
           >
             <Text>Vouchers</Text>
             <Text sx={{ fontWeight: "bold" }}>
-              {String(requests[0].vouches.length)}
+              {String(request.vouches.length)}
             </Text>
           </Box>
           <Box sx={{ flex: 1 }}>
             <Text>Deposit</Text>
-            <Text sx={{ fontWeight: "bold" }}>100%</Text>
+            <Text sx={{ fontWeight: "bold" }}>
+              {totalCost &&
+                `${Math.floor(
+                  contributions
+                    .reduce(
+                      (acc, { values: { Requester } }) =>
+                        acc.add(web3.utils.toBN(Requester)),
+                      web3.utils.toBN(0)
+                    )
+                    .mul(web3.utils.toBN(100))
+                    .div(totalCost)
+                    .toNumber()
+                )}%`}
+            </Text>
           </Box>
         </Flex>
       </Box>

@@ -345,7 +345,7 @@ type Contribution @entity {
   """
   The contributions for each side.
   """
-  contributions: [BigInt!]!
+  values: [BigInt!]!
 }
 
 type _Schema_

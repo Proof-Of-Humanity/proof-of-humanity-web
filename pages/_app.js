@@ -20,8 +20,9 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { indexQuery } from "_pages/index";
 import { IdQuery } from "_pages/profile/[id]";
 import { queryEnums } from "data";
+import KlerosLiquid from "subgraph/abis/kleros-liquid";
 import ProofOfHumanity from "subgraph/abis/proof-of-humanity";
-import { address } from "subgraph/config/kovan";
+import { address, klerosLiquidAddress } from "subgraph/config/kovan";
 
 const queries = {
   "/": indexQuery,
@@ -39,6 +40,11 @@ const theme = {
 };
 const contracts = [
   { name: "proofOfHumanity", abi: ProofOfHumanity, address: { 42: address } },
+  {
+    name: "klerosLiquid",
+    abi: KlerosLiquid,
+    address: { 42: klerosLiquidAddress },
+  },
 ];
 function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");

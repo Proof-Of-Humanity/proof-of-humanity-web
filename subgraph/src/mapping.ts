@@ -104,7 +104,7 @@ function updateContribution(
   if (contribution == null) contribution = new Contribution(contributionID);
   contribution.round = round.id;
   contribution.contributor = contributor;
-  contribution.contributions = [contributions[1], contributions[2]];
+  contribution.values = [contributions[1], contributions[2]];
   contribution.save();
 }
 

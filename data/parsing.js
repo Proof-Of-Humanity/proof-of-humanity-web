@@ -31,6 +31,19 @@ const createEnum = (keys, parse) => {
   return _enum;
 };
 
+export const partyEnum = createEnum(["Requester", "Challenger"], (struct) =>
+  Object.keys(struct).reduce((acc, key) => {
+    acc[key] =
+      Array.isArray(struct[key]) && struct[key].length === 2
+        ? {
+            [partyEnum.Requester.key]: struct[key][0],
+            [partyEnum.Challenger.key]: struct[key][1],
+          }
+        : struct[key];
+    return acc;
+  }, {})
+);
+
 export const submissionStatusEnum = createEnum(
   [
     ["None", { kebabCase: undefined, startCase: "All" }],
