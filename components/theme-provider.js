@@ -228,6 +228,12 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       textOverflow: "ellipsis",
       whiteSpace: "nowrap",
     },
+    multiClipped: {
+      "-webkitBoxOrient": "vertical",
+      "-webkitLineClamp": " 2 ",
+      display: "-webkit-box",
+      overflow: "hidden",
+    },
   },
   video: {
     responsive: { paddingTop: "56.25%" },

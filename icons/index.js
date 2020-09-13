@@ -1,5 +1,6 @@
 export { default as Blog } from "./blog";
 export { default as Camera } from "./camera";
+export { default as Check } from "./check";
 export { default as Ether } from "./ether";
 export { default as EtherscanLogo } from "./etherscan-logo";
 export { default as Github } from "./github";
@@ -14,3 +15,4 @@ export { default as Trash } from "./trash";
 export { default as Twitter } from "./twitter";
 export { default as User } from "./user";
 export { default as Video } from "./video";
+export { default as X } from "./x";

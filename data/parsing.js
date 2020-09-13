@@ -1,4 +1,4 @@
-import { Pending } from "@kleros/icons";
+import { Check, Pending, X } from "@kleros/icons";
 import lodashKebabCase from "lodash.kebabcase";
 import lodashStartCase from "lodash.startcase";
 
@@ -49,12 +49,12 @@ export const submissionStatusEnum = createEnum(
     ],
     [
       "Registered",
-      { Icon: Pending, query: { where: { status: "None", registered: true } } },
+      { Icon: Check, query: { where: { status: "None", registered: true } } },
     ],
     [
       "Removed",
       {
-        Icon: Pending,
+        Icon: X,
         query: { where: { status: "None", registered: false } },
       },
     ],

@@ -53,7 +53,14 @@ export default function SubmissionCard({ submission }) {
           >
             {evidence?.file?.name}
           </Text>
-          <Text sx={{ textAlign: "center" }} count={2}>
+          <Text
+            variant="multiClipped"
+            sx={{
+              height: 52,
+              textAlign: "center",
+            }}
+            count={2}
+          >
             {evidence?.file?.bio}
           </Text>
         </Card>
