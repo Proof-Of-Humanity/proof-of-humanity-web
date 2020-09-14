@@ -23,6 +23,7 @@ export { default as Input } from "./input";
 export { default as Layout } from "./layout";
 export { default as Link } from "./link";
 export { default as List, ListItem } from "./list";
+export { default as Popup } from "./popup";
 export { default as RelayProvider, useQuery } from "./relay-provider";
 export { default as SVG } from "./svg";
 export { default as Select, Option } from "./select";

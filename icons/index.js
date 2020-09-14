@@ -15,4 +15,5 @@ export { default as Trash } from "./trash";
 export { default as Twitter } from "./twitter";
 export { default as User } from "./user";
 export { default as Video } from "./video";
+export { default as Warning } from "./warning";
 export { default as X } from "./x";

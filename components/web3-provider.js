@@ -7,6 +7,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useReducer,
   useState,
 } from "react";
 import { useStorageReducer } from "react-storage-hooks";
@@ -168,6 +169,9 @@ export function useContract(
   const run = useCallback(
     (_args, _options) =>
       contract &&
+      (!args ||
+        args.findIndex((value) => value === undefined || value === null) ===
+          -1) &&
       contract.methods[method](...(args || []), ...(_args || []))[type]({
         ...options,
         ..._options,
@@ -190,15 +194,20 @@ export function useContract(
         _args = __args.slice(0, -1);
         _options = __args[__args.length - 1];
       } else _args = __args;
-      run(_args, _options)
-        .on("transactionHash", (transactionHash) =>
-          dispatch({ type: "transactionHash", transactionHash })
-        )
-        .on("confirmation", (confirmation) =>
-          dispatch({ type: "confirmation", confirmation })
-        )
-        .on("receipt", (receipt) => dispatch({ type: "receipt", receipt }))
-        .on("error", (error) => dispatch({ type: "error", error }));
+      return new Promise((resolve) =>
+        run(_args, _options)
+          .on("transactionHash", (transactionHash) =>
+            dispatch({ type: "transactionHash", transactionHash })
+          )
+          .on("confirmation", (confirmation) =>
+            dispatch({ type: "confirmation", confirmation })
+          )
+          .on("receipt", (receipt) => {
+            dispatch({ type: "receipt", receipt });
+            resolve(receipt);
+          })
+          .on("error", (error) => dispatch({ type: "error", error }))
+      );
     },
     [run, dispatch]
   );
@@ -218,18 +227,20 @@ export function useContract(
       }),
     [sendState.transactionHash, sendState.receipt, web3]
   );
+  const [reCallRef, reCall] = useReducer(() => ({}), {});
   const data = usePromise(
     () =>
+      reCallRef &&
       type &&
       !isSend &&
-      run().then((res) =>
+      run().then?.((res) =>
         typeof res === "boolean" ||
         Number.isNaN(Number(res)) ||
         res?.startsWith("0x")
           ? res
           : web3.utils.toBN(res)
       ),
-    [type, isSend, run, web3]
+    [reCallRef, type, isSend, run, web3]
   );
 
   return isSend
@@ -239,5 +250,5 @@ export function useContract(
         send,
         loading: sendState.transactionHash && !sendState.receipt && !receipt,
       }
-    : data;
+    : [...data, reCall];
 }

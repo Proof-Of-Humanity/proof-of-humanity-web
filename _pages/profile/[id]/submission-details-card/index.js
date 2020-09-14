@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Card,
   Flex,
   Image,
@@ -12,6 +11,8 @@ import {
 import { Ether, User } from "@kleros/icons";
 import { useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
+
+import VouchButton from "./vouch-button";
 
 import { partyEnum, submissionStatusEnum, useEvidenceFile } from "data";
 
@@ -111,14 +112,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
           {evidence?.file?.name}
         </Text>
         <Text count={2}>{evidence?.file?.bio}</Text>
-        <Button
-          sx={{
-            marginY: 2,
-            width: "100%",
-          }}
-        >
-          Vouch
-        </Button>
+        <VouchButton submissionID={id} />
         <Flex>
           <Box
             sx={{
