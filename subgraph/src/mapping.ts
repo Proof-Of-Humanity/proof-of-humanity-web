@@ -501,9 +501,12 @@ export function addVouch(call: AddVouchCall): void {
 export function removeVouch(call: RemoveVouchCall): void {
   let submission = Submission.load(call.from.toHexString());
   if (submission != null) {
-    submission.vouchees = submission.vouchees.filter(
-      (vouchee) => vouchee != call.inputs._submissionID.toHexString()
-    );
+    let vouchees = submission.vouchees;
+    let nextVouchees = new Array<string>(vouchees.length - 1);
+    for (let i = 0; i < vouchees.length; i++)
+      if (vouchees[i] != call.inputs._submissionID.toHexString())
+        nextVouchees.push(vouchees[i]);
+    submission.vouchees = nextVouchees;
     submission.save();
   }
 }
