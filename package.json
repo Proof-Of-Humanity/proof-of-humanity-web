@@ -65,6 +65,7 @@
     "relay-hooks": "^3.6.0",
     "relay-runtime": "^10.0.1",
     "theme-ui": "^0.3.1",
+    "timeago-react": "^3.0.0",
     "typography-theme-sutro": "^0.16.19",
     "web3": "^1.2.11",
     "web3modal": "^1.9.0",

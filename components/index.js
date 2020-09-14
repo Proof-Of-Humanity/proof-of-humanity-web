@@ -31,6 +31,7 @@ export { default as SocialIcons } from "./social-icons";
 export { default as Text } from "./text";
 export { default as Textarea } from "./textarea";
 export { default as ThemeProvider, typographyTheme } from "./theme-provider";
+export { default as TimeAgo } from "./time-ago";
 export { default as Video } from "./video";
 export { default as Web3Provider, useWeb3, useContract } from "./web3-provider";
 

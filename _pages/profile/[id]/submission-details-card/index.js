@@ -12,6 +12,7 @@ import { Ether, User } from "@kleros/icons";
 import { useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
+import Deadlines from "./deadlines";
 import VouchButton from "./vouch-button";
 
 import { partyEnum, submissionStatusEnum, useEvidenceFile } from "data";
@@ -20,7 +21,9 @@ const submissionDetailsCardFragments = {
   contract: graphql`
     fragment submissionDetailsCardContract on Contract {
       submissionBaseDeposit
+      requiredNumberOfVouches
       sharedStakeMultiplier
+      ...deadlinesContract
     }
   `,
   submission: graphql`
@@ -45,14 +48,15 @@ const submissionDetailsCardFragments = {
           }
         }
       }
+      ...deadlinesSubmission
     }
   `,
 };
 export default function SubmissionDetailsCard({ submission, contract }) {
-  const { requests, id, ...rest } = useFragment(
+  const { requests, id, ...rest } = (submission = useFragment(
     submissionDetailsCardFragments.submission,
     submission
-  );
+  ));
   const status = submissionStatusEnum.parse(rest);
   const request = requests[status.registrationEvidenceFileIndex || 0];
 
@@ -73,10 +77,14 @@ export default function SubmissionDetailsCard({ submission, contract }) {
     )
   );
   const { web3 } = useWeb3();
-  const { sharedStakeMultiplier, submissionBaseDeposit } = useFragment(
+  const {
+    sharedStakeMultiplier,
+    submissionBaseDeposit,
+    requiredNumberOfVouches,
+  } = (contract = useFragment(
     submissionDetailsCardFragments.contract,
     contract
-  );
+  ));
   const totalCost = arbitrationCost
     ?.add(
       arbitrationCost
@@ -92,9 +100,11 @@ export default function SubmissionDetailsCard({ submission, contract }) {
         padding: 0,
       }}
     >
-      <Box
+      <Flex
         sx={{
+          alignItems: "center",
           backgroundColor: "muted",
+          flexDirection: "column",
           maxWidth: [null, null, null, 300],
           paddingX: 3,
           paddingY: 4,
@@ -113,18 +123,19 @@ export default function SubmissionDetailsCard({ submission, contract }) {
         </Text>
         <Text count={2}>{evidence?.file?.bio}</Text>
         <VouchButton submissionID={id} />
-        <Flex>
+        <Flex sx={{ width: "100%" }}>
           <Box
             sx={{
               borderRightColor: "text",
               borderRightStyle: "solid",
               borderRightWidth: 1,
               flex: 1,
+              marginBottom: 3,
             }}
           >
             <Text>Vouchers</Text>
             <Text sx={{ fontWeight: "bold" }}>
-              {String(request.vouches.length)}
+              {String(request.vouches.length)}/{requiredNumberOfVouches}
             </Text>
           </Box>
           <Box sx={{ flex: 1 }}>
@@ -145,7 +156,10 @@ export default function SubmissionDetailsCard({ submission, contract }) {
             </Text>
           </Box>
         </Flex>
-      </Box>
+        <Box sx={{ marginTop: "auto" }}>
+          <Deadlines submission={submission} contract={contract} />
+        </Box>
+      </Flex>
       <Box sx={{ flex: 1, padding: 4 }}>
         <Box>
           <User />{" "}
