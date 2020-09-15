@@ -13,6 +13,7 @@ import { useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
 import Deadlines from "./deadlines";
+import FundButton from "./fund-button";
 import VouchButton from "./vouch-button";
 
 import { partyEnum, submissionStatusEnum, useEvidenceFile } from "data";
@@ -61,8 +62,12 @@ export default function SubmissionDetailsCard({ submission, contract }) {
   const request = requests[status.registrationEvidenceFileIndex || 0];
 
   const evidence = useEvidenceFile()(request.evidence[0].URI);
-  const contributions = request.challenges[0].rounds[0].contributions.map(
-    (contribution) => partyEnum.parse(contribution)
+  const contributions = useMemo(
+    () =>
+      request.challenges[0].rounds[0].contributions.map((contribution) =>
+        partyEnum.parse(contribution)
+      ),
+    [request]
   );
 
   const [arbitrationCost] = useContract(
@@ -85,13 +90,25 @@ export default function SubmissionDetailsCard({ submission, contract }) {
     submissionDetailsCardFragments.contract,
     contract
   ));
-  const totalCost = arbitrationCost
-    ?.add(
+  const totalCost = useMemo(
+    () =>
       arbitrationCost
-        .mul(web3.utils.toBN(sharedStakeMultiplier))
-        .div(web3.utils.toBN(10000))
-    )
-    .add(web3.utils.toBN(submissionBaseDeposit));
+        ?.add(
+          arbitrationCost
+            .mul(web3.utils.toBN(sharedStakeMultiplier))
+            .div(web3.utils.toBN(10000))
+        )
+        .add(web3.utils.toBN(submissionBaseDeposit)),
+    [arbitrationCost, web3.utils, sharedStakeMultiplier, submissionBaseDeposit]
+  );
+  const totalContribution = useMemo(
+    () =>
+      contributions.reduce(
+        (acc, { values: { Requester } }) => acc.add(web3.utils.toBN(Requester)),
+        web3.utils.toBN(0)
+      ),
+    [contributions, web3.utils]
+  );
   return (
     <Card
       mainSx={{
@@ -122,7 +139,20 @@ export default function SubmissionDetailsCard({ submission, contract }) {
           {evidence?.file?.name}
         </Text>
         <Text count={2}>{evidence?.file?.bio}</Text>
-        <VouchButton submissionID={id} />
+        <Box sx={{ marginY: 2, width: "100%" }}>
+          {status === submissionStatusEnum.Vouching ? (
+            <>
+              {totalCost?.gt(totalContribution) && (
+                <FundButton
+                  totalCost={totalCost}
+                  totalContribution={totalContribution}
+                  submissionID={id}
+                />
+              )}
+              <VouchButton submissionID={id} />
+            </>
+          ) : null}
+        </Box>
         <Flex sx={{ width: "100%" }}>
           <Box
             sx={{
@@ -143,12 +173,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
             <Text sx={{ fontWeight: "bold" }}>
               {totalCost &&
                 `${Math.floor(
-                  contributions
-                    .reduce(
-                      (acc, { values: { Requester } }) =>
-                        acc.add(web3.utils.toBN(Requester)),
-                      web3.utils.toBN(0)
-                    )
+                  totalContribution
                     .mul(web3.utils.toBN(100))
                     .div(totalCost)
                     .toNumber()

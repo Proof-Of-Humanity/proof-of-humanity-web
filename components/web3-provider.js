@@ -151,6 +151,7 @@ export function useContract(
   { address, type, args, options } = {}
 ) {
   const { web3 } = useWeb3();
+  const contractName = contract;
   contract = useMemo(() => {
     let _contract = web3.contracts?.[contract];
     if (_contract && address && _contract.options.address !== address) {
@@ -182,7 +183,7 @@ export function useContract(
 
   const [sendState, dispatch] = useStorageReducer(
     localStorage,
-    JSON.stringify({ contract, method, type }),
+    JSON.stringify({ contract: contractName, method, type }),
     sendStateReducer,
     {}
   );

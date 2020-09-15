@@ -26,7 +26,9 @@ function ETH(...args) {
         ? prettyNum(value)
         : value
       ).split(".");
-      value = `${units}${decimals ? `.${decimals.slice(0, 18)}` : ""}`;
+      value = `${units[0] === "-" ? 0 : units}${
+        decimals ? `.${decimals.slice(0, 18)}` : ""
+      }`;
       const bn = Web3.utils.toBN(Web3.utils.toWei(value));
       bn.originalString = value;
       return bn;
@@ -63,6 +65,7 @@ File.prototype._typeCheck = (value) => value?.toString() === "[object File]";
 const ValidationSchemaContext = createContext();
 export default function Form({
   createValidationSchema,
+  onSubmit,
   sx,
   children,
   ...rest
@@ -94,6 +97,9 @@ export default function Form({
       <Formik
         initialValues={validationSchema.default()}
         validationSchema={validationSchema}
+        onSubmit={(values, formikBag) =>
+          onSubmit(validationSchema.cast(values), formikBag)
+        }
         {...rest}
       >
         {(props) => (
@@ -108,10 +114,11 @@ export default function Form({
 
 export function Field({ label, as = Input, name, ...rest }) {
   const validationSchema = useContext(ValidationSchemaContext);
-  const [{ onChange }] = useField(name);
+  const field = useField(name);
+  const [{ onChange }] = field;
   return (
     <Label>
-      {label}
+      {typeof label === "function" ? label({ field }) : label}
       <_Field
         as={as}
         name={name}

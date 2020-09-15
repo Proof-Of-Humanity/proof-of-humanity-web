@@ -23,7 +23,7 @@ export default function VouchButton({ submissionID }) {
     "proofOfHumanity",
     vouched ? "removeVouch" : "addVouch"
   );
-  const text = status !== "pending" && `${vouched ? "Remove " : ""}Vouch`;
+  const text = `${vouched ? "Remove " : ""}Vouch`;
   return (
     <Popup
       trigger={
@@ -32,7 +32,10 @@ export default function VouchButton({ submissionID }) {
             marginY: 2,
             width: "100%",
           }}
-          disabled={accounts?.[0]?.toLowerCase() === submissionID}
+          disabled={
+            status === "pending" ||
+            accounts?.[0]?.toLowerCase() === submissionID
+          }
         >
           {text}
         </Button>

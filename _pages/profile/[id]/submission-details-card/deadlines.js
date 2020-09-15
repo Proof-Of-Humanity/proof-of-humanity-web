@@ -39,7 +39,7 @@ export default function Deadlines({ submission, contract, status }) {
   return (
     <>
       <Deadline
-        label="Submitted"
+        label="Last Change"
         datetime={request[0].lastStatusChange * 1000}
       />
       {status === submissionStatusEnum.PendingRegistration ||
