@@ -43,11 +43,11 @@ import {
   Submission,
 } from "../generated/schema";
 
-function getStatus(reason: number): string {
-  if (reason == 0) return "None";
-  if (reason == 1) return "Vouching";
-  if (reason == 2) return "PendingRegistration";
-  if (reason == 3) return "PendingRemoval";
+function getStatus(status: number): string {
+  if (status == 0) return "None";
+  if (status == 1) return "Vouching";
+  if (status == 2) return "PendingRegistration";
+  if (status == 3) return "PendingRemoval";
   return "Error";
 }
 

@@ -65,7 +65,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
   const contributions = useMemo(
     () =>
       request.challenges[0].rounds[0].contributions.map((contribution) =>
-        partyEnum.parse(contribution)
+        partyEnum.parse(contribution.values)
       ),
     [request]
   );
@@ -104,7 +104,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
   const totalContribution = useMemo(
     () =>
       contributions.reduce(
-        (acc, { values: { Requester } }) => acc.add(web3.utils.toBN(Requester)),
+        (acc, { Requester }) => acc.add(web3.utils.toBN(Requester)),
         web3.utils.toBN(0)
       ),
     [contributions, web3.utils]
@@ -140,7 +140,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
         </Text>
         <Text count={2}>{evidence?.file?.bio}</Text>
         <Box sx={{ marginY: 2, width: "100%" }}>
-          {status === submissionStatusEnum.Vouching ? (
+          {status === submissionStatusEnum.Vouching && (
             <>
               {totalCost?.gt(totalContribution) && (
                 <FundButton
@@ -151,7 +151,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
               )}
               <VouchButton submissionID={id} />
             </>
-          ) : null}
+          )}
         </Box>
         <Flex sx={{ width: "100%" }}>
           <Box
@@ -182,7 +182,11 @@ export default function SubmissionDetailsCard({ submission, contract }) {
           </Box>
         </Flex>
         <Box sx={{ marginTop: "auto" }}>
-          <Deadlines submission={submission} contract={contract} />
+          <Deadlines
+            submission={submission}
+            contract={contract}
+            status={status}
+          />
         </Box>
       </Flex>
       <Box sx={{ flex: 1, padding: 4 }}>

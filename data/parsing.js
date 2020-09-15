@@ -2,6 +2,10 @@ import { Check, Pending, X } from "@kleros/icons";
 import lodashKebabCase from "lodash.kebabcase";
 import lodashStartCase from "lodash.startcase";
 
+export const zeroAddress = "0x0000000000000000000000000000000000000000";
+
+export const ethereumAddressRegExp = /^0x[\dA-Fa-f]{40}$/;
+
 const createEnum = (keys, parse) => {
   const _enum = keys.reduce(
     (acc, key, index) => {
@@ -23,26 +27,28 @@ const createEnum = (keys, parse) => {
       acc[value.startCase] = value;
       return acc;
     },
-    { parse }
+    {
+      parse:
+        parse ||
+        ((arrayOrKey) =>
+          Array.isArray(arrayOrKey)
+            ? arrayOrKey.reduce((acc, key) => {
+                const value = _enum[key];
+                acc[key] = value;
+                acc[value.index] = value;
+                acc[value.camelCase] = value;
+                acc[value.kebabCase] = value;
+                acc[value.startCase] = value;
+                return acc;
+              }, {})
+            : _enum[arrayOrKey]),
+    }
   );
   _enum.map = (callback) => keys.map((_, index) => callback(_enum[index]));
   _enum.find = (callback) =>
     Object.values(_enum).find((value) => callback(value));
   return _enum;
 };
-
-export const partyEnum = createEnum(["Requester", "Challenger"], (struct) =>
-  Object.keys(struct).reduce((acc, key) => {
-    acc[key] =
-      Array.isArray(struct[key]) && struct[key].length === 2
-        ? {
-            [partyEnum.Requester.key]: struct[key][0],
-            [partyEnum.Challenger.key]: struct[key][1],
-          }
-        : struct[key];
-    return acc;
-  }, {})
-);
 
 export const submissionStatusEnum = createEnum(
   [
@@ -79,5 +85,42 @@ export const submissionStatusEnum = createEnum(
         : submissionStatusEnum.Removed
       : submissionStatusEnum[status]
 );
+
+export const partyEnum = createEnum(["Requester", "Challenger"], (array) => ({
+  [partyEnum.Requester.key]: array[0],
+  [partyEnum.Challenger.key]: array[1],
+}));
+
+export const challengeReasonEnum = createEnum([
+  "None",
+  [
+    "IncorrectSubmission",
+    {
+      imageSrc: "/images/incorrect-submission.png",
+      description: "Parts of the submission are incorrect.",
+    },
+  ],
+  [
+    "Deceased",
+    {
+      imageSrc: "/images/deceased.png",
+      description: "The submitter has passed away.",
+    },
+  ],
+  [
+    "Duplicate",
+    {
+      imageSrc: "/images/duplicate.png",
+      description: "The submitter is already registered.",
+    },
+  ],
+  [
+    "DoesNotExist",
+    {
+      imageSrc: "/images/does-not-exist.png",
+      description: "The submitter does not exist.",
+    },
+  ],
+]);
 
 export const queryEnums = { status: submissionStatusEnum };

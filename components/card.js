@@ -1,6 +1,7 @@
 import { Flex, Card as _Card } from "theme-ui";
 
 export default function Card({
+  active,
   header,
   headerSx,
   mainSx,
@@ -10,7 +11,11 @@ export default function Card({
   ...rest
 }) {
   return (
-    <_Card {...rest}>
+    <_Card
+      as={rest.disabled || rest.onClick ? "button" : _Card}
+      className={active ? "active" : undefined}
+      {...rest}
+    >
       <Flex sx={{ flexDirection: "column" }}>
         {header && (
           <Flex

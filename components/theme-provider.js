@@ -113,7 +113,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       boxShadow: "0 6px 90px rgba(255, 153, 0, 0.25)",
       fontFamily: "heading",
       fontSize: 0,
-      "&:hover": {
+      "&:hover:not([disabled])": {
         boxShadow: "0 6px 20px rgba(255, 153, 0, 0.25)",
       },
     },
@@ -125,7 +125,13 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       borderWidth: 2,
       fontSize: 1,
       padding: 2,
-      "&:hover": {
+      "&:focus": {
+        outline: "none",
+      },
+      "&:disabled": {
+        backgroundColor: "skeleton",
+      },
+      "&:focus,&:hover:not([disabled]),&.active": {
         borderColor: "primary",
       },
     },
