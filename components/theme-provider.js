@@ -105,6 +105,10 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     secondary: {
       backgroundColor: "secondary",
       backgroundImage: "none !important",
+      "&:disabled:not([data-loading=true])": {
+        backgroundColor: "skeleton",
+        backgroundImage: "none !important",
+      },
     },
   },
   cards: {

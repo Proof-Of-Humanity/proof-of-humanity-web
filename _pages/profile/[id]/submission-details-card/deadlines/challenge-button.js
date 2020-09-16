@@ -148,6 +148,7 @@ export default function ChallengeButton({ request, contract, submissionID }) {
             width: "100%",
           }}
           disabled={disputed && currentReasonIsNotDuplicate}
+          disabledTooltip="Already Challenged"
         >
           Challenge Request
         </Button>
