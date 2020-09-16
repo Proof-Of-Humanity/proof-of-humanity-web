@@ -49,7 +49,7 @@ export default function RelayProvider({
       connectToRouteChange((path, query) => {
         if (queries[path]) {
           prefetch.next(environment, queries[path], query);
-          prefetch.getValue().retry();
+          setTimeout(() => prefetch.getValue().retry(), 0);
         }
       });
       setInitialized(true);

@@ -14,12 +14,15 @@ export default function ProfileWithID() {
   const { query } = useRouter();
 
   const notLoading = props && accounts;
+  const reapply = query.id === "reapply";
   if (
     notLoading &&
     props.submission === null &&
-    (!accounts[0] || accounts[0] === query.id)
+    (!accounts[0] || accounts[0] === query.id || reapply)
   )
-    return <SubmitProfileCard contract={props.contracts[0]} />;
+    return (
+      <SubmitProfileCard contract={props.contracts[0]} reapply={reapply} />
+    );
 
   const status =
     props?.submission && submissionStatusEnum.parse(props.submission);

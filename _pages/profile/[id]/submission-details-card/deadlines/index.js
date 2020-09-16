@@ -1,4 +1,4 @@
-import { Text, TimeAgo } from "@kleros/components";
+import { Link, NextLink, Text, TimeAgo } from "@kleros/components";
 import { graphql, useFragment } from "relay-hooks";
 
 import ChallengeButton from "./challenge-button";
@@ -24,12 +24,12 @@ const deadlinesFragments = {
     }
   `,
 };
-function Deadline({ label, datetime, button }) {
+function Deadline({ label, datetime, afterDatetime, button }) {
   return (
     <Text>
       <Text sx={{ fontWeight: "bold" }}>{label}: </Text>
       <TimeAgo datetime={datetime} />
-      {Date.now() < datetime && button}
+      {afterDatetime ? Date.now() >= datetime : Date.now() < datetime && button}
     </Text>
   );
 }
@@ -69,7 +69,16 @@ export default function Deadlines({ submission, contract, status }) {
         submissionTime && (
           <>
             <Deadline label="Accepted" datetime={submissionTime * 1000} />
-            <Deadline label="Renewal" datetime={renewalTimestamp * 1000} />
+            <Deadline
+              label="Renewal"
+              datetime={renewalTimestamp * 1000}
+              afterDatetime
+              button={
+                <NextLink href="/profile/[id]" as="/profile/reapply">
+                  <Link>Reapply</Link>
+                </NextLink>
+              }
+            />
           </>
         )
       )}

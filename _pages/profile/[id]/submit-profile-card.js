@@ -19,13 +19,16 @@ const submitProfileCardFragment = graphql`
     submissionBaseDeposit
   }
 `;
-export default function SubmitProfileCard({ contract }) {
+export default function SubmitProfileCard({ contract, reapply }) {
   const { submissionBaseDeposit } = useFragment(
     submitProfileCardFragment,
     contract
   );
   const { upload } = useArchon();
-  const { send, loading } = useContract("proofOfHumanity", "addSubmission");
+  const { send, loading } = useContract(
+    "proofOfHumanity",
+    reapply ? "reapplySubmission" : "addSubmission"
+  );
   const { web3 } = useWeb3();
   const [accounts] = useWeb3("eth", "getAccounts");
   const { connect } = useWeb3();
