@@ -25,13 +25,11 @@ export default function SubmitProfileCard({ contract, reapply }) {
     contract
   );
   const { upload } = useArchon();
-  const { send, loading } = useContract(
+  const { send } = useContract(
     "proofOfHumanity",
     reapply ? "reapplySubmission" : "addSubmission"
   );
   const { web3 } = useWeb3();
-  const [accounts] = useWeb3("eth", "getAccounts");
-  const { connect } = useWeb3();
   return (
     <Card
       header="Submit Profile"
@@ -111,7 +109,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
             "registration.json",
             JSON.stringify({ fileURI, name: "Registration" })
           );
-          send(evidence, name, bio, { value: contribution });
+          return send(evidence, name, bio, { value: contribution });
         }}
       >
         {({ isSubmitting }) => (
@@ -185,13 +183,9 @@ export default function SubmitProfileCard({ contract, reapply }) {
               placeholder="The rest will be left for crowdfunding."
               type="number"
             />
-            {!accounts?.[0] ? (
-              <Button onClick={connect}>Connect Account</Button>
-            ) : (
-              <Button type="submit" loading={loading || isSubmitting}>
-                Submit
-              </Button>
-            )}
+            <Button type="submit" loading={isSubmitting}>
+              Submit
+            </Button>
           </>
         )}
       </Form>

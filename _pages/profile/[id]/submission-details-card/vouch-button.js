@@ -42,21 +42,27 @@ export default function VouchButton({ submissionID }) {
       }
       modal
     >
-      <Box sx={{ padding: 2 }}>
-        <Warning />
-        <Text sx={{ marginBottom: 2 }}>
-          Make sure the person exists and that you have physically encountered
-          them. Note that in the case of a dispute, if a submission is rejected
-          for reason “Duplicate” or “Does not exist”, everyone who had vouched
-          for it will get removed from the registry.
-        </Text>
-        <Button
-          onClick={() => send(submissionID).then(reCall)}
-          loading={loading}
-        >
-          {text}
-        </Button>
-      </Box>
+      {(close) => (
+        <Box sx={{ padding: 2 }}>
+          <Warning />
+          <Text sx={{ marginBottom: 2 }}>
+            Make sure the person exists and that you have physically encountered
+            them. Note that in the case of a dispute, if a submission is
+            rejected for reason “Duplicate” or “Does not exist”, everyone who
+            had vouched for it will get removed from the registry.
+          </Text>
+          <Button
+            onClick={() =>
+              send(submissionID)
+                .then(reCall)
+                .then(() => close())
+            }
+            loading={loading}
+          >
+            {text}
+          </Button>
+        </Box>
+      )}
     </Popup>
   );
 }

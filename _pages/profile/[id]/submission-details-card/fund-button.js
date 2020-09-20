@@ -1,5 +1,4 @@
 import {
-  Box,
   Button,
   Field,
   Form,
@@ -15,14 +14,37 @@ export default function FundButton({
   totalContribution,
   submissionID,
 }) {
-  const [accounts] = useWeb3("eth", "getAccounts");
   const amountNeeded = useMemo(() => totalCost.sub(totalContribution), [
     totalCost,
     totalContribution,
   ]);
+  const createValidationSchema = useCallback(
+    ({ eth, web3: _web3 }) => ({
+      contribution: eth()
+        .test({
+          test(value) {
+            if (value.lte(_web3.utils.toBN(0)))
+              return this.createError({
+                message: `You need to contribute something.`,
+              });
+            return true;
+          },
+        })
+        .test({
+          test(value) {
+            if (value.gt(amountNeeded))
+              return this.createError({
+                message: `There's no need to contribute this much.`,
+              });
+            return true;
+          },
+        }),
+    }),
+    [amountNeeded]
+  );
+  const { send } = useContract("proofOfHumanity", "fundSubmission");
   const { web3 } = useWeb3();
   const amountNeededString = web3.utils.fromWei(amountNeeded);
-  const { send } = useContract("proofOfHumanity", "fundSubmission");
   return (
     <Popup
       trigger={
@@ -31,42 +53,20 @@ export default function FundButton({
             marginBottom: 1,
             width: "100%",
           }}
-          disabled={!accounts?.[0]}
         >
           Fund Submission
         </Button>
       }
       modal
     >
-      <Box sx={{ padding: 2 }}>
+      {(close) => (
         <Form
-          createValidationSchema={useCallback(
-            ({ eth, web3: _web3 }) => ({
-              contribution: eth()
-                .test({
-                  test(value) {
-                    if (value.lte(_web3.utils.toBN(0)))
-                      return this.createError({
-                        message: `You need to contribute something.`,
-                      });
-                    return true;
-                  },
-                })
-                .test({
-                  test(value) {
-                    if (value.gt(amountNeeded))
-                      return this.createError({
-                        message: `There's no need to contribute this much.`,
-                      });
-                    return true;
-                  },
-                }),
-            }),
-            [amountNeeded]
-          )}
-          onSubmit={({ contribution }) =>
-            send(submissionID, { value: contribution })
-          }
+          sx={{ padding: 2 }}
+          createValidationSchema={createValidationSchema}
+          onSubmit={async ({ contribution }) => {
+            await send(submissionID, { value: contribution });
+            close();
+          }}
         >
           {({ isSubmitting }) => (
             <>
@@ -91,7 +91,7 @@ export default function FundButton({
             </>
           )}
         </Form>
-      </Box>
+      )}
     </Popup>
   );
 }

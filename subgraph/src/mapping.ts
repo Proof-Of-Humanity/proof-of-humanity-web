@@ -29,6 +29,7 @@ import {
   RemoveSubmissionManuallyCall,
   RemoveVouchCall,
   RuleCall,
+  SubmitEvidenceCall,
   WithdrawFeesAndRewardsCall,
   WithdrawSubmissionCall,
 } from "../generated/ProofOfHumanity/ProofOfHumanity";
@@ -124,7 +125,7 @@ function requestStatusChange(
       ByteArray.fromUTF8(submission.requestsLength.toString())
     )
   );
-  submission.requestsLength = submission.requestsLength.plus(new BigInt(1));
+  submission.requestsLength = submission.requestsLength.plus(BigInt.fromI32(1));
   submission.save();
 
   let request = new Request(requestID.toHexString());
@@ -138,15 +139,15 @@ function requestStatusChange(
   request.vouches = [];
   request.usedReasons = [];
   request.currentReason = "None";
-  request.nbParallelDisputes = new BigInt(0);
+  request.nbParallelDisputes = BigInt.fromI32(0);
   request.requesterLost = false;
-  request.penaltyIndex = new BigInt(0);
+  request.penaltyIndex = BigInt.fromI32(0);
   request.metaEvidence =
     submission.status === "PendingRemoval"
       ? contract.clearingMetaEvidence
       : contract.registrationMetaEvidence;
-  request.evidenceLength = new BigInt(1);
-  request.challengesLength = new BigInt(1);
+  request.evidenceLength = BigInt.fromI32(1);
+  request.challengesLength = BigInt.fromI32(1);
   request.save();
 
   let evidence = new Evidence(
@@ -164,7 +165,7 @@ function requestStatusChange(
   );
   let challenge = new Challenge(challengeID.toHexString());
   challenge.request = request.id;
-  challenge.roundsLength = new BigInt(1);
+  challenge.roundsLength = BigInt.fromI32(1);
   challenge.save();
 
   let roundID = crypto.keccak256(
@@ -172,17 +173,17 @@ function requestStatusChange(
   );
   let round = new Round(roundID.toHexString());
   round.challenge = challenge.id;
-  round.paidFees = [new BigInt(0), new BigInt(0)];
+  round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0)];
   round.hasPaid = [false, false];
-  round.feeRewards = new BigInt(0);
+  round.feeRewards = BigInt.fromI32(0);
   round.save();
 
   updateContribution(
     proofOfHumanityAddress,
     submissionID,
-    submission.requestsLength.minus(new BigInt(1)),
-    new BigInt(0),
-    new BigInt(0),
+    submission.requestsLength.minus(BigInt.fromI32(1)),
+    BigInt.fromI32(0),
+    BigInt.fromI32(0),
     roundID,
     msgSender
   );
@@ -196,9 +197,13 @@ export function metaEvidence(event: MetaEvidenceEvent): void {
   let contract = Contract.load("0");
   if (contract == null) return;
   contract.metaEvidenceUpdates = contract.metaEvidenceUpdates.plus(
-    new BigInt(1)
+    BigInt.fromI32(1)
   );
-  if (event.params._metaEvidenceID.mod(new BigInt(2)).equals(new BigInt(0)))
+  if (
+    event.params._metaEvidenceID
+      .mod(BigInt.fromI32(2))
+      .equals(BigInt.fromI32(0))
+  )
     contract.registrationMetaEvidence = metaEvidence.id;
   else contract.clearingMetaEvidence = metaEvidence.id;
   contract.save();
@@ -217,7 +222,7 @@ export function arbitratorComplete(event: ArbitratorComplete): void {
   contract.renewalTime = proofOfHumanity.renewalTime();
   contract.challengePeriodDuration = event.params.challengePeriodDuration;
   contract.requiredNumberOfVouches = event.params.requiredNumberOfVouches;
-  contract.metaEvidenceUpdates = new BigInt(0);
+  contract.metaEvidenceUpdates = BigInt.fromI32(0);
   contract.sharedStakeMultiplier = event.params.sharedStakeMultiplier;
   contract.winnerStakeMultiplier = event.params.winnerStakeMultiplier;
   contract.loserStakeMultiplier = event.params.loserStakeMultiplier;
@@ -238,7 +243,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   submission.name = call.inputs._name;
   submission.bio = call.inputs._bio;
   submission.vouchees = [];
-  submission.requestsLength = new BigInt(1);
+  submission.requestsLength = BigInt.fromI32(1);
   submission.save();
 
   let requestID = crypto.keccak256(
@@ -255,12 +260,12 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   request.vouches = [];
   request.usedReasons = [];
   request.currentReason = "None";
-  request.nbParallelDisputes = new BigInt(0);
+  request.nbParallelDisputes = BigInt.fromI32(0);
   request.requesterLost = false;
-  request.penaltyIndex = new BigInt(0);
+  request.penaltyIndex = BigInt.fromI32(0);
   request.metaEvidence = contract.registrationMetaEvidence;
-  request.evidenceLength = new BigInt(1);
-  request.challengesLength = new BigInt(1);
+  request.evidenceLength = BigInt.fromI32(1);
+  request.challengesLength = BigInt.fromI32(1);
   request.save();
 
   let evidence = new Evidence(
@@ -278,7 +283,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   );
   let challenge = new Challenge(challengeID.toHexString());
   challenge.request = request.id;
-  challenge.roundsLength = new BigInt(1);
+  challenge.roundsLength = BigInt.fromI32(1);
   challenge.save();
 
   let round = new Round(
@@ -287,9 +292,9 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
       .toHexString()
   );
   round.challenge = challenge.id;
-  round.paidFees = [new BigInt(0), new BigInt(0)];
+  round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0)];
   round.hasPaid = [false, false];
-  round.feeRewards = new BigInt(0);
+  round.feeRewards = BigInt.fromI32(0);
   round.save();
 }
 
@@ -381,11 +386,11 @@ export function changeGovernor(call: ChangeGovernorCall): void {
 export function changeMetaEvidence(call: ChangeMetaEvidenceCall): void {
   let contract = Contract.load("0");
   contract.metaEvidenceUpdates = contract.metaEvidenceUpdates.plus(
-    new BigInt(1)
+    BigInt.fromI32(1)
   );
 
   let registrationMetaEvidenceID = contract.metaEvidenceUpdates.times(
-    new BigInt(2)
+    BigInt.fromI32(2)
   );
   let registrationMetaEvidence = new MetaEvidence(
     registrationMetaEvidenceID.toHexString()
@@ -394,7 +399,7 @@ export function changeMetaEvidence(call: ChangeMetaEvidenceCall): void {
   registrationMetaEvidence.save();
 
   let clearingMetaEvidence = new MetaEvidence(
-    registrationMetaEvidenceID.plus(new BigInt(1)).toHexString()
+    registrationMetaEvidenceID.plus(BigInt.fromI32(1)).toHexString()
   );
   clearingMetaEvidence.URI = call.inputs._clearingMetaEvidence;
   clearingMetaEvidence.save();
@@ -420,7 +425,7 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.name = call.inputs._name;
     submission.bio = call.inputs._bio;
     submission.vouchees = [];
-    submission.requestsLength = new BigInt(0);
+    submission.requestsLength = BigInt.fromI32(0);
   }
   submission.status = "Vouching";
   submission.save();
@@ -464,7 +469,7 @@ export function removeSubmission(call: RemoveSubmissionCall): void {
 
 export function fundSubmission(call: FundSubmissionCall): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
-  let requestIndex = submission.requestsLength.minus(new BigInt(1));
+  let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestID = crypto.keccak256(
     concatByteArrays(
       call.inputs._submissionID,
@@ -481,8 +486,8 @@ export function fundSubmission(call: FundSubmissionCall): void {
     call.to,
     call.inputs._submissionID,
     requestIndex,
-    new BigInt(0),
-    new BigInt(0),
+    BigInt.fromI32(0),
+    BigInt.fromI32(0),
     roundID,
     call.from
   );
@@ -516,7 +521,7 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   submission.status = "None";
   submission.save();
 
-  let requestIndex = submission.requestsLength.minus(new BigInt(1));
+  let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestID = crypto.keccak256(
     concatByteArrays(call.from, ByteArray.fromUTF8(requestIndex.toString()))
   );
@@ -534,8 +539,8 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
     call.to,
     call.from,
     requestIndex,
-    new BigInt(0),
-    new BigInt(0),
+    BigInt.fromI32(0),
+    BigInt.fromI32(0),
     roundID,
     call.from
   );
@@ -553,7 +558,7 @@ export function changeStateToPending(call: ChangeStateToPendingCall): void {
         concatByteArrays(
           call.inputs._submissionID,
           ByteArray.fromUTF8(
-            submission.requestsLength.minus(new BigInt(1)).toString()
+            submission.requestsLength.minus(BigInt.fromI32(1)).toString()
           )
         )
       )
@@ -585,7 +590,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   let proofOfHumanity = ProofOfHumanity.bind(call.to);
   let submission = Submission.load(call.inputs._submissionID.toHexString());
 
-  let requestIndex = submission.requestsLength.minus(new BigInt(1));
+  let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestID = crypto.keccak256(
     concatByteArrays(
       call.inputs._submissionID,
@@ -596,9 +601,11 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   request.disputed = true;
   request.usedReasons = request.usedReasons.concat([callInputsReason]);
   request.currentReason = callInputsReason;
-  request.nbParallelDisputes = request.nbParallelDisputes.plus(new BigInt(1));
+  request.nbParallelDisputes = request.nbParallelDisputes.plus(
+    BigInt.fromI32(1)
+  );
   let evidenceIndex = request.evidenceLength;
-  request.evidenceLength = evidenceIndex.plus(new BigInt(1));
+  request.evidenceLength = evidenceIndex.plus(BigInt.fromI32(1));
 
   let evidence = new Evidence(
     crypto
@@ -615,7 +622,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   evidence.sender = call.from;
   evidence.save();
 
-  let challengeIndex = request.challengesLength.minus(new BigInt(1));
+  let challengeIndex = request.challengesLength.minus(BigInt.fromI32(1));
   let challengeID = crypto.keccak256(
     concatByteArrays(
       requestID,
@@ -625,7 +632,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   let challenge = Challenge.load(challengeID.toHexString());
   if (challenge.disputeID) {
     challengeIndex = request.challengesLength;
-    request.challengesLength = request.challengesLength.plus(new BigInt(1));
+    request.challengesLength = request.challengesLength.plus(BigInt.fromI32(1));
     challengeID = concatByteArrays(
       requestID,
       ByteArray.fromUTF8("Challenge-" + challengeIndex.toString())
@@ -645,7 +652,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   if (callInputsReason == "Duplicate") {
     challenge.duplicateSubmission = call.inputs._duplicateID.toHexString();
   }
-  challenge.roundsLength = new BigInt(2);
+  challenge.roundsLength = BigInt.fromI32(2);
   challenge.save();
 
   let round = new Round(
@@ -654,9 +661,9 @@ export function challengeRequest(call: ChallengeRequestCall): void {
       .toHexString()
   );
   round.challenge = challenge.id;
-  round.paidFees = [new BigInt(0), new BigInt(0)];
+  round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0)];
   round.hasPaid = [false, false];
-  round.feeRewards = new BigInt(0);
+  round.feeRewards = BigInt.fromI32(0);
   round.save();
 
   updateContribution(
@@ -664,7 +671,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     call.inputs._submissionID,
     requestIndex,
     challengeIndex,
-    new BigInt(0),
+    BigInt.fromI32(0),
     crypto.keccak256(concatByteArrays(challengeID, ByteArray.fromUTF8("0"))),
     call.from
   );
@@ -672,7 +679,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
 
 export function fundAppeal(call: FundAppealCall): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
-  let requestIndex = submission.requestsLength.minus(new BigInt(1));
+  let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestID = crypto.keccak256(
     concatByteArrays(
       call.inputs._submissionID,
@@ -686,7 +693,7 @@ export function fundAppeal(call: FundAppealCall): void {
     )
   );
   let challenge = Challenge.load(challengeID.toHexString());
-  let roundIndex = challenge.roundsLength.minus(new BigInt(1));
+  let roundIndex = challenge.roundsLength.minus(BigInt.fromI32(1));
   let roundID = crypto.keccak256(
     concatByteArrays(challengeID, ByteArray.fromUTF8(roundIndex.toString()))
   );
@@ -704,7 +711,7 @@ export function fundAppeal(call: FundAppealCall): void {
   let round = Round.load(roundID.toHexString());
   if (!round.hasPaid.includes(false)) {
     roundIndex = challenge.roundsLength;
-    challenge.roundsLength = roundIndex.plus(new BigInt(1));
+    challenge.roundsLength = roundIndex.plus(BigInt.fromI32(1));
     challenge.save();
     round = new Round(
       crypto
@@ -717,9 +724,9 @@ export function fundAppeal(call: FundAppealCall): void {
         .toHexString()
     );
     round.challenge = challenge.id;
-    round.paidFees = [new BigInt(0), new BigInt(0)];
+    round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0)];
     round.hasPaid = [false, false];
-    round.feeRewards = new BigInt(0);
+    round.feeRewards = BigInt.fromI32(0);
     round.save();
   }
 }
@@ -737,7 +744,7 @@ export function executeRequest(call: ExecuteRequestCall): void {
   submission.renewalTimestamp = submissionInfo.value2;
   submission.save();
 
-  let requestIndex = submission.requestsLength.minus(new BigInt(1));
+  let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestID = crypto.keccak256(
     concatByteArrays(
       call.inputs._submissionID,
@@ -755,8 +762,8 @@ export function executeRequest(call: ExecuteRequestCall): void {
     call.to,
     call.inputs._submissionID,
     requestIndex,
-    new BigInt(0),
-    new BigInt(0),
+    BigInt.fromI32(0),
+    BigInt.fromI32(0),
     crypto.keccak256(concatByteArrays(challengeID, ByteArray.fromUTF8("0"))),
     request.requester as Address
   );
@@ -773,7 +780,7 @@ export function processVouches(call: ProcessVouchesCall): void {
       )
       .toHexString()
   );
-  let requestVouchesLength = new BigInt(request.vouches.length);
+  let requestVouchesLength = BigInt.fromI32(request.vouches.length);
   let actualIterations = call.inputs._iterations
     .plus(request.penaltyIndex)
     .gt(requestVouchesLength)
@@ -805,7 +812,7 @@ export function processVouches(call: ProcessVouchesCall): void {
                 concatByteArrays(
                   ByteArray.fromHexString(voucher.id),
                   ByteArray.fromUTF8(
-                    voucher.requestsLength.minus(new BigInt(1)).toString()
+                    voucher.requestsLength.minus(BigInt.fromI32(1)).toString()
                   )
                 )
               )
@@ -869,7 +876,7 @@ export function rule(call: RuleCall): void {
   submission.renewalTimestamp = submissionInfo.value2;
   submission.save();
 
-  let requestIndex = submission.requestsLength.minus(new BigInt(1));
+  let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestInfo = proofOfHumanity.getRequestInfo(
     challengeStruct.value2,
     requestIndex
@@ -906,4 +913,35 @@ export function rule(call: RuleCall): void {
     challengeStruct.value0
   ).value2;
   challenge.save();
+}
+
+export function submitEvidence(call: SubmitEvidenceCall): void {
+  let submission = Submission.load(call.inputs._submissionID.toHexString());
+  let requestID = crypto.keccak256(
+    concatByteArrays(
+      call.inputs._submissionID,
+      ByteArray.fromUTF8(
+        submission.requestsLength.minus(BigInt.fromI32(1)).toString()
+      )
+    )
+  );
+  let request = Request.load(requestID.toHexString());
+  let evidenceIndex = request.evidenceLength;
+  request.evidenceLength = evidenceIndex.plus(BigInt.fromI32(1));
+  request.save();
+
+  let evidence = new Evidence(
+    crypto
+      .keccak256(
+        concatByteArrays(
+          requestID,
+          ByteArray.fromUTF8("Evidence-" + evidenceIndex.toString())
+        )
+      )
+      .toHexString()
+  );
+  evidence.request = request.id;
+  evidence.URI = call.inputs._evidence;
+  evidence.sender = call.from;
+  evidence.save();
 }

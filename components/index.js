@@ -14,6 +14,7 @@ export {
 } from "./archon-provider";
 export { default as Button } from "./button";
 export { default as Card } from "./card";
+export { default as Evidence } from "./evidence";
 export { default as FileUpload } from "./file-upload";
 export { default as Form, Field } from "./form";
 export { default as Grid } from "./grid";
@@ -35,4 +36,4 @@ export { default as TimeAgo } from "./time-ago";
 export { default as Video } from "./video";
 export { default as Web3Provider, useWeb3, useContract } from "./web3-provider";
 
-export { NextLink, createWrapConnection } from "./next-router";
+export { NextLink, NextETHLink, createWrapConnection } from "./next-router";

@@ -2,6 +2,8 @@ import _NextLink from "next/link";
 import { useRouter } from "next/router";
 import { match } from "path-to-regexp";
 
+import Link from "./link";
+
 export function NextLink({ passHref = true, href, as, ...rest }) {
   const { query } = useRouter();
   return (
@@ -14,6 +16,20 @@ export function NextLink({ passHref = true, href, as, ...rest }) {
       as={as && as + (query.network ? `?network=${query.network}` : "")}
       {...rest}
     />
+  );
+}
+
+export function NextETHLink({ address, children }) {
+  const { query } = useRouter();
+  return (
+    <Link
+      newTab
+      href={`https://${
+        query.network ? `${query.network}.` : ""
+      }etherscan.io/address/${address}`}
+    >
+      {children}
+    </Link>
   );
 }
 

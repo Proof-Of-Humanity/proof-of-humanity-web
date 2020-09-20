@@ -87,4 +87,6 @@ dataSources:
           handler: withdrawFeesAndRewards
         - function: rule(uint256,uint256)
           handler: rule
+        - function: submitEvidence(address,string)
+          handler: submitEvidence
       file: ./src/mapping.ts

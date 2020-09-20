@@ -3,6 +3,7 @@ import {
   Card,
   Flex,
   Image,
+  NextETHLink,
   Text,
   Video,
   useContract,
@@ -198,7 +199,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
           </Text>
         </Box>
         <Text variant="clipped" sx={{ fontWeight: "bold", marginBottom: 2 }}>
-          <Ether /> {id}
+          <Ether /> <NextETHLink address={id}>{id}</NextETHLink>
         </Text>
         <Video url={evidence?.file?.video} />
       </Box>

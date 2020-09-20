@@ -3,8 +3,24 @@ import {
   AccordionItem,
   AccordionItemHeading,
   AccordionItemPanel,
+  Evidence,
 } from "@kleros/components";
+import { graphql, useFragment } from "relay-hooks";
 
+import { useEvidenceFile } from "data";
+
+const submissionDetailsAccordionFragment = graphql`
+  fragment submissionDetailsAccordion on Submission {
+    id
+    request: requests(orderDirection: desc, first: 1) {
+      evidence(orderDirection: desc) {
+        id
+        URI
+        sender
+      }
+    }
+  }
+`;
 function SubmissionDetailsAccordionItem({ heading, panel }) {
   return (
     <AccordionItem>
@@ -13,10 +29,24 @@ function SubmissionDetailsAccordionItem({ heading, panel }) {
     </AccordionItem>
   );
 }
-export default function SubmissionDetailsAccordion() {
+export default function SubmissionDetailsAccordion({ submission }) {
+  const {
+    id,
+    request: [{ evidence }],
+  } = useFragment(submissionDetailsAccordionFragment, submission);
   return (
     <Accordion>
-      <SubmissionDetailsAccordionItem heading="Evidence" panel="Evidence" />
+      <SubmissionDetailsAccordionItem
+        heading="Evidence"
+        panel={
+          <Evidence
+            contract="proofOfHumanity"
+            args={[id]}
+            evidence={evidence}
+            useEvidenceFile={useEvidenceFile}
+          />
+        }
+      />
       <SubmissionDetailsAccordionItem
         heading="Voting History"
         panel="Voting History"

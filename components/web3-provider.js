@@ -1,3 +1,4 @@
+import { Global } from "@emotion/core";
 import UniLoginProvider from "@unilogin/provider";
 import WalletConnectWeb3Provider from "@walletconnect/web3-provider";
 import Authereum from "authereum";
@@ -88,6 +89,7 @@ export default function Web3Provider({
             {}
           );
           web3._contracts = contracts;
+          setWeb3({ ...web3 });
           onNetworkChange(ETHNetID);
         }
       }
@@ -108,6 +110,7 @@ export default function Web3Provider({
         [web3, setWeb3]
       )}
     >
+      <Global styles={{ ".web3modal-modal-lightbox": { zIndex: 1000 } }} />
       {children}
     </Context.Provider>
   );
@@ -150,7 +153,7 @@ export function useContract(
   method,
   { address, type, args, options } = {}
 ) {
-  const { web3 } = useWeb3();
+  const { web3, connect } = useWeb3();
   const contractName = contract;
   contract = useMemo(() => {
     let _contract = web3.contracts?.[contract];
@@ -161,8 +164,7 @@ export function useContract(
       _contract.jsonInterfaceMap = jsonInterfaceMap;
     }
     return _contract;
-  }, [web3, contract, address]);
-
+  }, [web3.contracts, contract, address]);
   type =
     type ||
     (contract &&
@@ -188,7 +190,9 @@ export function useContract(
     {}
   );
   const send = useCallback(
-    (...__args) => {
+    async (...__args) => {
+      if (!contract.options.from) await connect();
+
       let _args;
       let _options;
       if (typeof __args[__args.length - 1] === "object") {
@@ -210,7 +214,7 @@ export function useContract(
           .on("error", (error) => dispatch({ type: "error", error }))
       );
     },
-    [run, dispatch]
+    [contract, connect, run, dispatch]
   );
   const [receipt] = usePromise(
     () =>

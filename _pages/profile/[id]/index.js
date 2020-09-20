@@ -13,10 +13,10 @@ export default function ProfileWithID() {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { query } = useRouter();
 
-  const notLoading = props && accounts;
   const reapply = query.id === "reapply";
   if (
-    notLoading &&
+    props &&
+    accounts &&
     props.submission === null &&
     (!accounts[0] || accounts[0] === query.id || reapply)
   )
@@ -51,12 +51,14 @@ export default function ProfileWithID() {
         </Text>
       </Card>
       {props?.submission && (
-        <SubmissionDetailsCard
-          submission={props.submission}
-          contract={props.contracts[0]}
-        />
+        <>
+          <SubmissionDetailsCard
+            submission={props.submission}
+            contract={props.contracts[0]}
+          />
+          <SubmissionDetailsAccordion submission={props.submission} />
+        </>
       )}
-      {notLoading && <SubmissionDetailsAccordion />}
     </>
   );
 }
@@ -71,6 +73,7 @@ export const IdQuery = graphql`
       status
       registered
       ...submissionDetailsCardSubmission
+      ...submissionDetailsAccordion
     }
   }
 `;

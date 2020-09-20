@@ -1,4 +1,4 @@
-import { Card, Image, Link, NextLink, Text } from "@kleros/components";
+import { Card, Image, NextETHLink, NextLink, Text } from "@kleros/components";
 import { EtherscanLogo } from "@kleros/icons";
 import { graphql, useFragment } from "relay-hooks";
 
@@ -27,44 +27,46 @@ export default function SubmissionCard({ submission }) {
   );
   return (
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
-      <Link variant="unstyled">
-        <Card
-          header={
-            <>
-              <status.Icon />
-              <Text>{status.startCase}</Text>
-            </>
-          }
-          headerSx={{
-            backgroundColor: status.camelCase,
-            color: "background",
+      <Card
+        header={
+          <>
+            <status.Icon />
+            <Text>{status.startCase}</Text>
+          </>
+        }
+        headerSx={{
+          backgroundColor: status.camelCase,
+          color: "background",
+          fontWeight: "bold",
+        }}
+        mainSx={{ flexDirection: "column" }}
+        footer={
+          <NextETHLink address={id}>
+            <EtherscanLogo />
+          </NextETHLink>
+        }
+      >
+        <Image variant="avatar" src={evidence?.file?.photo} />
+        <Text
+          sx={{
+            fontSize: 1,
             fontWeight: "bold",
+            marginY: 1,
           }}
-          mainSx={{ flexDirection: "column" }}
-          footer={<EtherscanLogo />}
         >
-          <Image variant="avatar" src={evidence?.file?.photo} />
-          <Text
-            sx={{
-              fontSize: 1,
-              fontWeight: "bold",
-              marginY: 1,
-            }}
-          >
-            {evidence?.file?.name}
-          </Text>
-          <Text
-            variant="multiClipped"
-            sx={{
-              height: 52,
-              textAlign: "center",
-            }}
-            count={2}
-          >
-            {evidence?.file?.bio}
-          </Text>
-        </Card>
-      </Link>
+          {evidence?.file?.name}
+        </Text>
+        <Text
+          variant="multiClipped"
+          sx={{
+            height: 52,
+            textAlign: "center",
+          }}
+          count={2}
+        >
+          {evidence?.file?.bio}
+        </Text>
+      </Card>
     </NextLink>
   );
 }

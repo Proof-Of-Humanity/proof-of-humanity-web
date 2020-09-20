@@ -1,18 +1,14 @@
+import { forwardRef } from "react";
 import { Flex, Card as _Card } from "theme-ui";
 
-export default function Card({
-  active,
-  header,
-  headerSx,
-  mainSx,
-  children,
-  footer,
-  footerSx,
-  ...rest
-}) {
-  return (
+const Card = forwardRef(
+  (
+    { active, header, headerSx, mainSx, children, footer, footerSx, ...rest },
+    ref
+  ) => (
     <_Card
-      as={rest.disabled || rest.onClick ? "button" : _Card}
+      ref={ref}
+      role={rest.disabled || rest.onClick ? "button" : undefined}
       className={active ? "active" : undefined}
       {...rest}
     >
@@ -46,5 +42,7 @@ export default function Card({
         )}
       </Flex>
     </_Card>
-  );
-}
+  )
+);
+Card.displayName = "Card";
+export default Card;
