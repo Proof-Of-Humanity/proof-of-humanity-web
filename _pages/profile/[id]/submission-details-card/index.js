@@ -33,17 +33,17 @@ const submissionDetailsCardFragments = {
       id
       status
       registered
-      requests(orderDirection: desc, first: 2) {
+      requests(orderBy: creationTime, orderDirection: desc, first: 2) {
         arbitrator
         arbitratorExtraData
         vouches {
           id
         }
-        evidence(first: 1) {
+        evidence(orderBy: creationTime, first: 1) {
           URI
         }
-        challenges(first: 1) {
-          rounds(first: 1) {
+        challenges(orderBy: creationTime, first: 1) {
+          rounds(orderBy: creationTime, first: 1) {
             contributions {
               values
             }

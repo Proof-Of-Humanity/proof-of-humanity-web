@@ -17,7 +17,7 @@ const deadlinesFragments = {
       id
       submissionTime
       renewalTimestamp
-      request: requests(orderDirection: desc, first: 1) {
+      request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
         lastStatusChange
         ...challengeButtonRequest
       }

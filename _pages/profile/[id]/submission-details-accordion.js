@@ -12,8 +12,8 @@ import { useEvidenceFile } from "data";
 const submissionDetailsAccordionFragment = graphql`
   fragment submissionDetailsAccordion on Submission {
     id
-    request: requests(orderDirection: desc, first: 1) {
-      evidence(orderDirection: desc) {
+    request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
+      evidence(orderBy: creationTime, orderDirection: desc) {
         id
         URI
         sender

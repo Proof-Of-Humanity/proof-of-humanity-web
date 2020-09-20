@@ -9,8 +9,8 @@ const submissionCardFragment = graphql`
     id
     status
     registered
-    requests(orderDirection: desc, first: 2) {
-      evidence(first: 1) {
+    requests(orderBy: creationTime, orderDirection: desc, first: 2) {
+      evidence(orderBy: creationTime, first: 1) {
         URI
       }
     }

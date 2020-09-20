@@ -120,6 +120,10 @@ type Contract @entity {
 
 type Submission @entity {
   """
+  The creation time.
+  """
+  creationTime: BigInt!
+  """
   The submission's address.
   """
   id: ID!
@@ -166,6 +170,10 @@ type Submission @entity {
 }
 
 type Request @entity {
+  """
+  The creation time.
+  """
+  creationTime: BigInt!
   """
   The submission the request is for.
   """
@@ -250,6 +258,10 @@ type Request @entity {
 
 type Evidence @entity {
   """
+  The creation time.
+  """
+  creationTime: BigInt!
+  """
   The request the evidence is for.
   """
   request: Request!
@@ -268,6 +280,10 @@ type Evidence @entity {
 }
 
 type Challenge @entity {
+  """
+  The creation time.
+  """
+  creationTime: BigInt!
   """
   The request the challenge is for.
   """
@@ -304,6 +320,10 @@ type Challenge @entity {
 
 type Round @entity {
   """
+  The creation time.
+  """
+  creationTime: BigInt!
+  """
   The challenge the round is for.
   """
   challenge: Challenge!
@@ -330,6 +350,10 @@ type Round @entity {
 }
 
 type Contribution @entity {
+  """
+  The creation time.
+  """
+  creationTime: BigInt!
   """
   The round the contribution is for.
   """
