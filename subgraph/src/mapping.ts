@@ -44,6 +44,8 @@ import {
   Submission,
 } from "../generated/schema";
 
+let zeroAddress = "0x0000000000000000000000000000000000000000";
+
 function getStatus(status: number): string {
   if (status == 0) return "None";
   if (status == 1) return "Vouching";
@@ -149,7 +151,7 @@ function requestStatusChange(
   request.requesterLost = false;
   request.penaltyIndex = BigInt.fromI32(0);
   request.metaEvidence =
-    submission.status === "PendingRemoval"
+    submission.status == "PendingRemoval"
       ? contract.clearingMetaEvidence
       : contract.registrationMetaEvidence;
   request.evidenceLength = BigInt.fromI32(1);
@@ -625,24 +627,26 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   request.nbParallelDisputes = request.nbParallelDisputes.plus(
     BigInt.fromI32(1)
   );
-  let evidenceIndex = request.evidenceLength;
-  request.evidenceLength = evidenceIndex.plus(BigInt.fromI32(1));
 
-  let evidence = new Evidence(
-    crypto
-      .keccak256(
-        concatByteArrays(
-          requestID,
-          ByteArray.fromUTF8("Evidence-" + evidenceIndex.toString())
+  if (call.inputs._evidence != zeroAddress) {
+    let evidenceIndex = request.evidenceLength;
+    request.evidenceLength = evidenceIndex.plus(BigInt.fromI32(1));
+    let evidence = new Evidence(
+      crypto
+        .keccak256(
+          concatByteArrays(
+            requestID,
+            ByteArray.fromUTF8("Evidence-" + evidenceIndex.toString())
+          )
         )
-      )
-      .toHexString()
-  );
-  evidence.creationTime = call.block.timestamp;
-  evidence.request = request.id;
-  evidence.URI = call.inputs._evidence;
-  evidence.sender = call.from;
-  evidence.save();
+        .toHexString()
+    );
+    evidence.creationTime = call.block.timestamp;
+    evidence.request = request.id;
+    evidence.URI = call.inputs._evidence;
+    evidence.sender = call.from;
+    evidence.save();
+  }
 
   let challengeIndex = request.challengesLength.minus(BigInt.fromI32(1));
   let challengeID = crypto.keccak256(

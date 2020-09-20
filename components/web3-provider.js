@@ -65,18 +65,29 @@ export default function Web3Provider({
   useEffect(() => {
     let cancelled = false;
     (async () => {
+      const ETHNetID = await web3.eth.net.getId();
+      if (!cancelled && ETHNetID !== web3.ETHNet?.ID) {
+        web3.ETHNet = {
+          ID: ETHNetID,
+          name: { 42: "kovan", 1: "mainnet" }[ETHNetID],
+        };
+        setWeb3({ ...web3 });
+        onNetworkChange(web3.ETHNet);
+      }
+
       if (contracts !== web3._contracts) {
-        const [ETHNetID, accounts] = await Promise.all([
-          web3.eth.net.getId(),
-          web3.eth.getAccounts(),
-        ]);
+        const accounts = await web3.eth.getAccounts();
         if (!cancelled) {
           web3.contracts = contracts.reduce(
             (acc, { name, abi, address, options }) => {
-              acc[name] = new web3.eth.Contract(abi, address[ETHNetID], {
-                from: accounts[0],
-                ...options,
-              });
+              acc[name] = new web3.eth.Contract(
+                abi,
+                address[web3.ETHNet.name],
+                {
+                  from: accounts[0],
+                  ...options,
+                }
+              );
               acc[name].jsonInterfaceMap = acc[name]._jsonInterface.reduce(
                 (_acc, method) => {
                   _acc[method.name] = method;
@@ -90,12 +101,11 @@ export default function Web3Provider({
           );
           web3._contracts = contracts;
           setWeb3({ ...web3 });
-          onNetworkChange(ETHNetID);
         }
       }
     })();
     return () => (cancelled = true);
-  }, [contracts, web3, onNetworkChange]);
+  }, [web3, onNetworkChange, contracts]);
   return (
     <Context.Provider
       value={useMemo(

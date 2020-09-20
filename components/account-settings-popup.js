@@ -10,8 +10,7 @@ import { useWeb3 } from "./web3-provider";
 
 export default function AccountSettingsPopup() {
   const [accounts] = useWeb3("eth", "getAccounts");
-  const [networkID] = useWeb3("eth.net", "getId");
-  const { connect } = useWeb3();
+  const { web3, connect } = useWeb3();
   return (
     <Popup
       contentStyle={{ width: 300 }}
@@ -57,7 +56,7 @@ export default function AccountSettingsPopup() {
                 textAlign: "center",
               }}
             >
-              Network: {{ 42: "Kovan", 1: "Mainnet" }[networkID]}
+              Network: {web3.ETHNet?.name}
             </Text>
             <Divider />
             <Button

@@ -39,11 +39,15 @@ const theme = {
   },
 };
 const contracts = [
-  { name: "proofOfHumanity", abi: ProofOfHumanity, address: { 42: address } },
+  {
+    name: "proofOfHumanity",
+    abi: ProofOfHumanity,
+    address: { kovan: address },
+  },
   {
     name: "klerosLiquid",
     abi: KlerosLiquid,
-    address: { 42: klerosLiquidAddress },
+    address: { kovan: klerosLiquidAddress },
   },
 ];
 function MyProfileLink() {
@@ -106,8 +110,7 @@ export default function App({ Component, pageProps }) {
   }, [routeChangeConnection, router.events]);
 
   const onNetworkChange = useCallback(
-    (_network) => {
-      _network = { 42: "kovan" }[_network];
+    ({ name: _network }) => {
       if (router.query.network !== _network) {
         const query = new URLSearchParams(location.search);
         if (!_network) query.delete("network");
