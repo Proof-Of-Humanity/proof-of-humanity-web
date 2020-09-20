@@ -7,11 +7,9 @@ import typographyThemeSutro from "typography-theme-sutro";
 
 export const typographyTheme = {
   ...typographyThemeSutro,
+  bodyFontFamily: typographyThemeSutro.headerFontFamily,
   boldWeight: 600,
-  googleFonts: [
-    { name: "Open Sans", styles: [300, "300i", 600, "600i"] },
-    { name: "Merriweather", styles: [300, "300i", 600, "600i"] },
-  ],
+  googleFonts: [{ name: "Open Sans", styles: [300, "300i", 600, "600i"] }],
   headerWeight: 600,
 };
 const theme = merge(merge(base, toTheme(typographyTheme)), {

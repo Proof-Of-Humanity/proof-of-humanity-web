@@ -46,8 +46,8 @@ function ChallengeTypeCard({ type, setType, currentType, ...rest }) {
       {...rest}
     >
       <Image sx={{ marginBottom: 2 }} src={imageSrc} />
-      <Text sx={{ fontWeight: "bold", marginBottom: 2 }}>{startCase}</Text>
-      <Text>{description}</Text>
+      <Text sx={{ marginBottom: 2 }}>{startCase}</Text>
+      <Text sx={{ fontWeight: "body" }}>{description}</Text>
     </Card>
   );
 }
