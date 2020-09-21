@@ -7,6 +7,7 @@ export {
   AccordionItemPanel,
 } from "./accordion";
 export { default as AccountSettingsPopup } from "./account-settings-popup";
+export { default as Appeal } from "./appeal";
 export {
   default as ArchonProvider,
   useArchon,

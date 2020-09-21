@@ -3,24 +3,47 @@ import {
   AccordionItem,
   AccordionItemHeading,
   AccordionItemPanel,
+  Appeal,
   Evidence,
 } from "@kleros/components";
 import { graphql, useFragment } from "relay-hooks";
 
-import { useEvidenceFile } from "data";
+import { challengeReasonEnum, useEvidenceFile } from "data";
 
-const submissionDetailsAccordionFragment = graphql`
-  fragment submissionDetailsAccordion on Submission {
-    id
-    request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
-      evidence(orderBy: creationTime, orderDirection: desc) {
-        id
-        URI
-        sender
+const submissionDetailsAccordionFragments = {
+  contract: graphql`
+    fragment submissionDetailsAccordionContract on Contract {
+      sharedStakeMultiplier
+      winnerStakeMultiplier
+      loserStakeMultiplier
+    }
+  `,
+  submission: graphql`
+    fragment submissionDetailsAccordionSubmission on Submission {
+      id
+      request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
+        requester
+        arbitrator
+        arbitratorExtraData
+        evidence(orderBy: creationTime, orderDirection: desc) {
+          id
+          URI
+          sender
+        }
+        challenges(orderBy: creationTime) {
+          id
+          reason
+          disputeID
+          challenger
+          rounds(orderBy: creationTime, orderDirection: desc, first: 1) {
+            paidFees
+            hasPaid
+          }
+        }
       }
     }
-  }
-`;
+  `,
+};
 function SubmissionDetailsAccordionItem({ heading, panel }) {
   return (
     <AccordionItem>
@@ -29,11 +52,18 @@ function SubmissionDetailsAccordionItem({ heading, panel }) {
     </AccordionItem>
   );
 }
-export default function SubmissionDetailsAccordion({ submission }) {
+export default function SubmissionDetailsAccordion({ submission, contract }) {
   const {
     id,
-    request: [{ evidence }],
-  } = useFragment(submissionDetailsAccordionFragment, submission);
+    request: [
+      { evidence, challenges, requester, arbitrator, arbitratorExtraData },
+    ],
+  } = useFragment(submissionDetailsAccordionFragments.submission, submission);
+  const {
+    sharedStakeMultiplier,
+    winnerStakeMultiplier,
+    loserStakeMultiplier,
+  } = useFragment(submissionDetailsAccordionFragments.contract, contract);
   return (
     <Accordion>
       <SubmissionDetailsAccordionItem
@@ -51,7 +81,23 @@ export default function SubmissionDetailsAccordion({ submission }) {
         heading="Voting History"
         panel="Voting History"
       />
-      <SubmissionDetailsAccordionItem heading="Appeal" panel="Appeal" />
+      <SubmissionDetailsAccordionItem
+        heading="Appeal"
+        panel={
+          <Appeal
+            challenges={challenges.map((challenge) => ({
+              ...challenge,
+              reason: challengeReasonEnum.parse(challenge.reason),
+              parties: [requester, challenge.challenger],
+            }))}
+            sharedStakeMultiplier={sharedStakeMultiplier}
+            winnerStakeMultiplier={winnerStakeMultiplier}
+            loserStakeMultiplier={loserStakeMultiplier}
+            arbitrator={arbitrator}
+            arbitratorExtraData={arbitratorExtraData}
+          />
+        }
+      />
     </Accordion>
   );
 }

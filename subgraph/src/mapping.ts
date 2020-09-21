@@ -674,6 +674,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     requestIndex,
     challengeIndex
   );
+  challenge.reason = callInputsReason;
   challenge.disputeID = challengeInfo.value1;
   challenge.challenger = call.from;
   if (callInputsReason == "Duplicate") {

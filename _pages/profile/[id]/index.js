@@ -56,7 +56,10 @@ export default function ProfileWithID() {
             submission={props.submission}
             contract={props.contracts[0]}
           />
-          <SubmissionDetailsAccordion submission={props.submission} />
+          <SubmissionDetailsAccordion
+            submission={props.submission}
+            contract={props.contracts[0]}
+          />
         </>
       )}
     </>
@@ -68,12 +71,13 @@ export const IdQuery = graphql`
     contracts(first: 1) {
       ...submitProfileCard
       ...submissionDetailsCardContract
+      ...submissionDetailsAccordionContract
     }
     submission(id: $id) {
       status
       registered
       ...submissionDetailsCardSubmission
-      ...submissionDetailsAccordion
+      ...submissionDetailsAccordionSubmission
     }
   }
 `;

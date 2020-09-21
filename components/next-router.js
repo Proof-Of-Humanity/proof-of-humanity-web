@@ -50,7 +50,7 @@ export const createWrapConnection = (queries, queryEnums) => {
           acc[key] =
             typeof value === "boolean" ||
             Number.isNaN(Number(value)) ||
-            value?.startsWith("0x")
+            value.startsWith("0x")
               ? value
               : Number(value);
         return acc;

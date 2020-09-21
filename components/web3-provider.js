@@ -158,6 +158,12 @@ const sendStateReducer = (
       return { ...state, error };
   }
 };
+const parseRes = (value, web3) =>
+  typeof value === "boolean" ||
+  Number.isNaN(Number(value)) ||
+  value.startsWith("0x")
+    ? value
+    : web3.utils.toBN(value);
 export function useContract(
   contract,
   method,
@@ -249,11 +255,12 @@ export function useContract(
       type &&
       !isSend &&
       run().then?.((res) =>
-        typeof res === "boolean" ||
-        Number.isNaN(Number(res)) ||
-        res?.startsWith("0x")
-          ? res
-          : web3.utils.toBN(res)
+        typeof res === "object"
+          ? Object.keys(res).reduce((acc, key) => {
+              acc[key] = parseRes(res[key], web3);
+              return acc;
+            }, {})
+          : parseRes(res, web3)
       ),
     [reCallRef, type, isSend, run, web3]
   );

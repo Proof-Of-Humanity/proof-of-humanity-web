@@ -293,6 +293,10 @@ type Challenge @entity {
   """
   id: ID!
   """
+  The challenge's reason.
+  """
+  reason: Reason
+  """
   The challenge's dispute ID.
   """
   disputeID: BigInt
