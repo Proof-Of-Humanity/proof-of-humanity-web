@@ -5,6 +5,8 @@ import {
   AccordionItemPanel,
   Appeal,
   Evidence,
+  VotingHistory,
+  useWeb3,
 } from "@kleros/components";
 import { graphql, useFragment } from "relay-hooks";
 
@@ -39,6 +41,7 @@ const submissionDetailsAccordionFragments = {
             paidFees
             hasPaid
           }
+          roundsLength
         }
       }
     }
@@ -54,16 +57,28 @@ function SubmissionDetailsAccordionItem({ heading, panel }) {
 }
 export default function SubmissionDetailsAccordion({ submission, contract }) {
   const {
-    id,
     request: [
-      { evidence, challenges, requester, arbitrator, arbitratorExtraData },
+      {
+        challenges: _challenges,
+        requester,
+        evidence,
+        arbitrator,
+        arbitratorExtraData,
+      },
     ],
+    id,
   } = useFragment(submissionDetailsAccordionFragments.submission, submission);
+  const challenges = _challenges.map((challenge) => ({
+    ...challenge,
+    reason: challengeReasonEnum.parse(challenge.reason),
+    parties: [requester, challenge.challenger],
+  }));
   const {
     sharedStakeMultiplier,
     winnerStakeMultiplier,
     loserStakeMultiplier,
   } = useFragment(submissionDetailsAccordionFragments.contract, contract);
+  const { web3 } = useWeb3();
   return (
     <Accordion>
       <SubmissionDetailsAccordionItem
@@ -78,18 +93,10 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
         }
       />
       <SubmissionDetailsAccordionItem
-        heading="Voting History"
-        panel="Voting History"
-      />
-      <SubmissionDetailsAccordionItem
         heading="Appeal"
         panel={
           <Appeal
-            challenges={challenges.map((challenge) => ({
-              ...challenge,
-              reason: challengeReasonEnum.parse(challenge.reason),
-              parties: [requester, challenge.challenger],
-            }))}
+            challenges={challenges}
             sharedStakeMultiplier={sharedStakeMultiplier}
             winnerStakeMultiplier={winnerStakeMultiplier}
             loserStakeMultiplier={loserStakeMultiplier}
@@ -97,6 +104,16 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
             arbitratorExtraData={arbitratorExtraData}
             contract="proofOfHumanity"
             args={[id]}
+          />
+        }
+      />
+      <SubmissionDetailsAccordionItem
+        heading="Voting History"
+        panel={
+          <VotingHistory
+            challenges={challenges}
+            arbitrable={web3.contracts?.proofOfHumanity?.options?.address}
+            arbitrator={arbitrator}
           />
         }
       />

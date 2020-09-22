@@ -35,7 +35,6 @@ export default function AccountSettingsPopup() {
         <Tabs>
           <TabList>
             <Tab>Account</Tab>
-            <Tab>Notifications</Tab>
           </TabList>
           <TabPanel>
             <Text
@@ -71,7 +70,6 @@ export default function AccountSettingsPopup() {
                 `${accounts.length === 0 ? "Connect" : "Change"} Account`}
             </Button>
           </TabPanel>
-          <TabPanel>Notifications</TabPanel>
         </Tabs>
       </Box>
     </Popup>

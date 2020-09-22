@@ -43,8 +43,7 @@ export default function SubmissionFilters() {
         }
         onChange={(event) => {
           const query = { ...router.query };
-          const status =
-            submissionStatusEnum[event.currentTarget.value].kebabCase;
+          const status = submissionStatusEnum[event.target.value].kebabCase;
           if (!status) delete query.status;
           else query.status = status;
           router.push({

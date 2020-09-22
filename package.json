@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@emotion/core": "^10.0.35",
-    "@kleros/archon": "^0.10.3",
+    "@kleros/archon": "^0.10.4",
     "@theme-ui/presets": "^0.3.0",
     "@theme-ui/typography": "^0.3.0",
     "@unilogin/provider": "^0.6.1",
