@@ -34,10 +34,12 @@ function Deadline({ label, datetime, afterDatetime, button }) {
   );
 }
 export default function Deadlines({ submission, contract, status }) {
-  const { request, id, submissionTime, renewalTimestamp } = useFragment(
-    deadlinesFragments.submission,
-    submission
-  );
+  const {
+    request: [request],
+    id,
+    submissionTime,
+    renewalTimestamp,
+  } = useFragment(deadlinesFragments.submission, submission);
   const { challengePeriodDuration } = (contract = useFragment(
     deadlinesFragments.contract,
     contract
@@ -46,20 +48,20 @@ export default function Deadlines({ submission, contract, status }) {
     <>
       <Deadline
         label="Last Change"
-        datetime={request[0].lastStatusChange * 1000}
+        datetime={request.lastStatusChange * 1000}
       />
       {status === submissionStatusEnum.PendingRegistration ||
       status === submissionStatusEnum.PendingRemoval ? (
         <Deadline
           label="Challenge Deadline"
           datetime={
-            (Number(request[0].lastStatusChange) +
+            (Number(request.lastStatusChange) +
               Number(challengePeriodDuration)) *
             1000
           }
           button={
             <ChallengeButton
-              request={request[0]}
+              request={request}
               contract={contract}
               submissionID={id}
             />
