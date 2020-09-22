@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
 import Card from "./card";
+import FundButton from "./fund-button";
 import Grid from "./grid";
 import { NextETHLink } from "./next-router";
 import Progress from "./progress";
@@ -17,9 +18,11 @@ function AppealTabPanelCard({
   hasPaid,
   deadline,
   reward,
+  contract,
+  args,
 }) {
   const { web3 } = useWeb3();
-  return (
+  const card = (
     <Card mainSx={{ alignItems: "flex-start", flexDirection: "column" }}>
       <NextETHLink address={address}>{address}</NextETHLink>
       <Text sx={{ marginBottom: 3 }}>
@@ -53,6 +56,25 @@ function AppealTabPanelCard({
       <Text sx={{ fontWeight: "bold" }}>{reward && `Reward ${reward}%`}</Text>
     </Card>
   );
+  if (
+    !hasPaid &&
+    cost &&
+    deadline &&
+    !deadline.eq(web3.utils.toBN(0)) &&
+    deadline.lt(web3.utils.toBN(Date.now() / 1000))
+  )
+    return (
+      <FundButton
+        totalCost={cost}
+        totalContribution={web3.utils.toBN(paidFees)}
+        contract={contract}
+        method="fundAppeal"
+        args={args}
+      >
+        {card}
+      </FundButton>
+    );
+  return card;
 }
 function AppealTabPanel({
   sharedStakeMultiplier,
@@ -63,8 +85,11 @@ function AppealTabPanel({
     disputeID,
     parties: [party1, party2],
     rounds: [{ paidFees, hasPaid }],
+    id,
   },
   arbitratorExtraData,
+  contract,
+  args,
 }) {
   const { web3 } = useWeb3();
   sharedStakeMultiplier = web3.utils.toBN(sharedStakeMultiplier);
@@ -143,12 +168,16 @@ function AppealTabPanel({
           {...[undecided, winner, loser][currentRuling]}
           paidFees={paidFees[0]}
           hasPaid={hasPaid[0]}
+          contract={contract}
+          args={[...args, id, 1]}
         />
         <AppealTabPanelCard
           address={party2}
           {...[undecided, loser, winner][currentRuling]}
           paidFees={paidFees[1]}
           hasPaid={hasPaid[1]}
+          contract={contract}
+          args={[...args, id, 2]}
         />
       </Grid>
     </>
@@ -161,6 +190,8 @@ export default function Appeal({
   loserStakeMultiplier,
   arbitrator,
   arbitratorExtraData,
+  contract,
+  args,
 }) {
   return (
     <Tabs>
@@ -178,6 +209,8 @@ export default function Appeal({
             arbitrator={arbitrator}
             challenge={challenge}
             arbitratorExtraData={arbitratorExtraData}
+            contract={contract}
+            args={args}
           />
         </TabPanel>
       ))}

@@ -1,18 +1,18 @@
-import {
-  Button,
-  Field,
-  Form,
-  Popup,
-  Text,
-  useContract,
-  useWeb3,
-} from "@kleros/components";
 import { useCallback, useMemo } from "react";
+
+import Button from "./button";
+import Form, { Field } from "./form";
+import Popup from "./popup";
+import Text from "./text";
+import { useContract, useWeb3 } from "./web3-provider";
 
 export default function FundButton({
   totalCost,
   totalContribution,
-  submissionID,
+  contract,
+  method,
+  children,
+  args,
 }) {
   const amountNeeded = useMemo(() => totalCost.sub(totalContribution), [
     totalCost,
@@ -42,29 +42,33 @@ export default function FundButton({
     }),
     [amountNeeded]
   );
-  const { send } = useContract("proofOfHumanity", "fundSubmission");
+  const { send } = useContract(contract, method);
   const { web3 } = useWeb3();
   const amountNeededString = web3.utils.fromWei(amountNeeded);
   return (
     <Popup
       trigger={
-        <Button
-          sx={{
-            marginBottom: 1,
-            width: "100%",
-          }}
-        >
-          Fund Submission
-        </Button>
+        typeof children === "string" ? (
+          <Button
+            sx={{
+              marginBottom: 1,
+              width: "100%",
+            }}
+          >
+            {children}
+          </Button>
+        ) : (
+          children
+        )
       }
       modal
     >
       {(close) => (
         <Form
-          sx={{ padding: 2 }}
+          sx={{ padding: 2, textAlign: "center" }}
           createValidationSchema={createValidationSchema}
           onSubmit={async ({ contribution }) => {
-            await send(submissionID, { value: contribution });
+            await send(...args, { value: contribution });
             close();
           }}
         >
@@ -86,7 +90,7 @@ export default function FundButton({
                 type="number"
               />
               <Button type="submit" loading={isSubmitting}>
-                Fund Submission
+                Fund
               </Button>
             </>
           )}

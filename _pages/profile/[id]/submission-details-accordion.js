@@ -95,6 +95,8 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
             loserStakeMultiplier={loserStakeMultiplier}
             arbitrator={arbitrator}
             arbitratorExtraData={arbitratorExtraData}
+            contract="proofOfHumanity"
+            args={[id]}
           />
         }
       />

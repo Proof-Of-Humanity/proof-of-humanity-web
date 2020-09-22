@@ -2,6 +2,7 @@ import {
   Box,
   Card,
   Flex,
+  FundButton,
   Image,
   NextETHLink,
   Text,
@@ -14,7 +15,6 @@ import { useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
 import Deadlines from "./deadlines";
-import FundButton from "./fund-button";
 import VouchButton from "./vouch-button";
 
 import { partyEnum, submissionStatusEnum, useEvidenceFile } from "data";
@@ -147,8 +147,12 @@ export default function SubmissionDetailsCard({ submission, contract }) {
                 <FundButton
                   totalCost={totalCost}
                   totalContribution={totalContribution}
-                  submissionID={id}
-                />
+                  contract="proofOfHumanity"
+                  method="fundSubmission"
+                  args={[id]}
+                >
+                  Fund Submission
+                </FundButton>
               )}
               <VouchButton submissionID={id} />
             </>

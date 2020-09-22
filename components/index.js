@@ -18,6 +18,7 @@ export { default as Card } from "./card";
 export { default as Evidence } from "./evidence";
 export { default as FileUpload } from "./file-upload";
 export { default as Form, Field } from "./form";
+export { default as FundButton } from "./fund-button";
 export { default as Grid } from "./grid";
 export { default as Image } from "./image";
 export { default as InitializeColorMode } from "./initialize-color-mode";
