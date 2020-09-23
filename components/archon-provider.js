@@ -83,6 +83,7 @@ export function createUseDataloaders(fetchers) {
       const mountedRef = useRef({});
       useEffect(() => () => (mountedRef.current = false), []);
 
+      const { web3 } = useWeb3();
       const { archon } = useArchon();
       return (...args) => {
         const key = JSON.stringify(args);
@@ -95,7 +96,7 @@ export function createUseDataloaders(fetchers) {
         return loadedRef.current[key]
           ? state[key]
           : dataloaders[name]
-              .load([archon, ...args])
+              .load([{ web3, archon }, ...args])
               .then(cacheResult, cacheResult) && undefined;
       };
     };

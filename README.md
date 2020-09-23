@@ -11,6 +11,7 @@
 - chore: expand subgraph more ([4aca747](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4aca747))
 - chore: expand subgraph usage ([e77de34](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e77de34))
 - chore: finish subgraph ([41d22d4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/41d22d4))
+- chore: fix again ([42927b6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/42927b6))
 - chore: fix ci ([342e933](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/342e933))
 - chore: fix ci again ([2854a26](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2854a26))
 - chore: fix ci and add security policy ([07dcc94](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/07dcc94))

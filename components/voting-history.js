@@ -12,7 +12,11 @@ const {
   getVotes: useVotes,
 } = createUseDataloaders({
   async getRulingDescriptions(
-    { arbitrable: { getDispute, getMetaEvidence } },
+    {
+      archon: {
+        arbitrable: { getDispute, getMetaEvidence },
+      },
+    },
     arbitrableContractAddress,
     arbitratorContractAddress,
     disputeID
@@ -36,15 +40,8 @@ const {
     );
     return metaEvidence.metaEvidenceJSON.rulingOptions.descriptions;
   },
-  async getVotes(
-    _archon,
-    klerosLiquid,
-    arbitrator,
-    network,
-    disputeID,
-    appeal
-  ) {
-    klerosLiquid = klerosLiquid.clone();
+  async getVotes({ web3 }, arbitrator, disputeID, appeal) {
+    const klerosLiquid = web3.contracts.klerosLiquid.clone();
     klerosLiquid.options.address = arbitrator;
     const justifications = await fetch(
       "https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/justifications",
@@ -52,7 +49,7 @@ const {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          payload: { network, disputeID, appeal },
+          payload: { network: web3.ETHNet.name, disputeID, appeal },
         }),
       }
     ).then((res) => res.json());
@@ -92,13 +89,9 @@ function VotingHistoryTabPanel({
   const votes =
     web3.contracts?.klerosLiquid &&
     web3.ETHNet?.name &&
-    getVotes(
-      web3.contracts.klerosLiquid,
-      arbitrator,
-      web3.ETHNet.name,
-      disputeID,
-      round
-    )?.filter((vote) => vote.ruling === ruling);
+    getVotes(arbitrator, disputeID, round)?.filter(
+      (vote) => vote.ruling === ruling
+    );
   return (
     <>
       <Flex sx={{ marginBottom: 2 }}>
