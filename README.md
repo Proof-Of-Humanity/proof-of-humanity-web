@@ -37,7 +37,7 @@
 - chore: refactor submission details accordion ([725c829](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/725c829))
 - chore: respond to wallet network changes ([d283116](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d283116))
 - chore: set correct fonts ([1e6e24d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1e6e24d))
-- chore: set up CI ([dbfb084](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/dbfb084))
+- chore: set up CI ([72e9f6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/72e9f6e))
 - chore: set up project ([534bf60](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/534bf60))
 - chore: show challenged status in profile header ([55aa602](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/55aa602))
 - chore: track governance changes in subgraph ([8ccb7e9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8ccb7e9))

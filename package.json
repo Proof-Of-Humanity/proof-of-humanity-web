@@ -112,7 +112,7 @@
     "changelog": "conventional-changelog --infile README.md --same-file --release-count 0 && prettier --write README.md",
     "ci:depcheck": "npm run depcheck",
     "ci:prettier": "prettier --ignore-path .gitignore --check .",
-    "ci:lint": "npm run lint",
+    "ci:lint": "npm run build && npm run lint",
     "ci:graph": "npm run build:graph",
     "ci:commitlint": "git log -1 --pretty=format:\"%s\" | commitlint",
     "ci": "npm-run-all --parallel changelog ci:** && git diff --exit-code"
