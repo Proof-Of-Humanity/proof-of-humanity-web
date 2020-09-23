@@ -46,5 +46,5 @@
 - chore: set up project ([534bf60](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/534bf60))
 - chore: show challenged status in profile header ([55aa602](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/55aa602))
 - chore: track governance changes in subgraph ([8ccb7e9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8ccb7e9))
-- chore: update changelog ([84409c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/84409c9))
+- chore: update changelog ([a45d269](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a45d269))
 - chore: update eslint-plugin-regex ([2838bc3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2838bc3))
