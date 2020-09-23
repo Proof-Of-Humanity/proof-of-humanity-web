@@ -114,6 +114,6 @@
     "ci:prettier": "prettier --ignore-path .gitignore --check .",
     "ci:lint": "npm run build:graph && npm run build && npm run lint",
     "ci:commitlint": "git log -1 --pretty=format:\"%s\" | commitlint",
-    "ci": "npm-run-all --parallel ci:** && git checkout HEAD~1 && npm run changelog && git stash && git switch - && git stash pop && git diff --exit-code"
+    "ci": "npm-run-all --parallel ci:**"
   }
 }
