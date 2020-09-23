@@ -11,6 +11,7 @@
 - chore: expand subgraph more ([4aca747](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4aca747))
 - chore: expand subgraph usage ([e77de34](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e77de34))
 - chore: finish subgraph ([41d22d4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/41d22d4))
+- chore: fix ci ([342e933](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/342e933))
 - chore: fix ci and add security policy ([07dcc94](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/07dcc94))
 - chore: fix routing bugs and finish registration form ([d789c7b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d789c7b))
 - chore: fix subgraph memory access ([ba9cc9e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba9cc9e))
@@ -45,4 +46,5 @@
 - chore: set up project ([534bf60](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/534bf60))
 - chore: show challenged status in profile header ([55aa602](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/55aa602))
 - chore: track governance changes in subgraph ([8ccb7e9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8ccb7e9))
+- chore: update changelog ([84409c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/84409c9))
 - chore: update eslint-plugin-regex ([2838bc3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2838bc3))
