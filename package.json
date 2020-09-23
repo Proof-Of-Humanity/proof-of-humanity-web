@@ -9,6 +9,7 @@
     "@graphprotocol/graph-ts": "^0.18.1",
     "@next/bundle-analyzer": "^9.5.2",
     "babel-plugin-relay": "^10.0.1",
+    "conventional-changelog-cli": "^2.1.0",
     "cross-env": "^7.0.2",
     "depcheck": "^1.0.0",
     "eslint": "^7.8.1",
@@ -28,6 +29,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "lint-staged": "^10.2.11",
     "mustache": "^4.0.1",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
     "relay-compiler": "^10.0.1",
     "relay-config": "^10.0.1",
@@ -94,7 +96,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run depcheck && npm run build && npm run build:graph",
+      "pre-commit": "lint-staged && npm run depcheck && npm run build && npm run build:graph && npm run changelog && git stage README.md",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
@@ -106,6 +108,13 @@
     "build": "npm run dev:relay -- --watch=false && next build",
     "build:analyze": "cross-env ANALYZE=true npm run build",
     "build:graph": "cd subgraph && mustache config/kovan.json subgraph.template.yaml > subgraph.yaml && graph codegen && graph build",
-    "deploy:graph:kovan": "npm run build:graph && cd subgraph && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ epiqueras/proof-of-humanity-kovan"
+    "deploy:graph:kovan": "npm run build:graph && cd subgraph && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ epiqueras/proof-of-humanity-kovan",
+    "changelog": "conventional-changelog --infile README.md --same-file --release-count 0 && prettier --write README.md",
+    "ci:depcheck": "npm run depcheck",
+    "ci:prettier": "prettier --ignore-path .gitignore --check .",
+    "ci:lint": "npm run lint",
+    "ci:graph": "npm run build:graph",
+    "ci:commitlint": "git log -1 --pretty=format:\"%s\" | commitlint",
+    "ci": "npm-run-all --parallel changelog ci:** && git diff --exit-code"
   }
 }
