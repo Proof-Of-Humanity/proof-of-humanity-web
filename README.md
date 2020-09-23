@@ -36,6 +36,7 @@
 - chore: implement vouching ([9ca0ff4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9ca0ff4))
 - chore: improve ETH network API ([a497b47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a497b47))
 - chore: manually sort entities by creation time ([65142d8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/65142d8))
+- chore: more repo chores ([1f4c46f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1f4c46f))
 - chore: normalize form behavior and implement evidence module ([b035c76](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b035c76))
 - chore: refactor submission details accordion ([725c829](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/725c829))
 - chore: respond to wallet network changes ([d283116](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d283116))
