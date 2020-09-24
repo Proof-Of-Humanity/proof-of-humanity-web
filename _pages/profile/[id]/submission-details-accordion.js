@@ -68,11 +68,13 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
     ],
     id,
   } = useFragment(submissionDetailsAccordionFragments.submission, submission);
-  const challenges = _challenges.map((challenge) => ({
-    ...challenge,
-    reason: challengeReasonEnum.parse(challenge.reason),
-    parties: [requester, challenge.challenger],
-  }));
+  const challenges = _challenges
+    .map((challenge) => ({
+      ...challenge,
+      reason: challengeReasonEnum.parse(challenge.reason),
+      parties: [requester, challenge.challenger],
+    }))
+    .filter(({ disputeID }) => disputeID !== null);
   const {
     sharedStakeMultiplier,
     winnerStakeMultiplier,
@@ -92,31 +94,35 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
           />
         }
       />
-      <SubmissionDetailsAccordionItem
-        heading="Appeal"
-        panel={
-          <Appeal
-            challenges={challenges}
-            sharedStakeMultiplier={sharedStakeMultiplier}
-            winnerStakeMultiplier={winnerStakeMultiplier}
-            loserStakeMultiplier={loserStakeMultiplier}
-            arbitrator={arbitrator}
-            arbitratorExtraData={arbitratorExtraData}
-            contract="proofOfHumanity"
-            args={[id]}
+      {challenges.length > 0 && (
+        <>
+          <SubmissionDetailsAccordionItem
+            heading="Appeal"
+            panel={
+              <Appeal
+                challenges={challenges}
+                sharedStakeMultiplier={sharedStakeMultiplier}
+                winnerStakeMultiplier={winnerStakeMultiplier}
+                loserStakeMultiplier={loserStakeMultiplier}
+                arbitrator={arbitrator}
+                arbitratorExtraData={arbitratorExtraData}
+                contract="proofOfHumanity"
+                args={[id]}
+              />
+            }
           />
-        }
-      />
-      <SubmissionDetailsAccordionItem
-        heading="Voting History"
-        panel={
-          <VotingHistory
-            challenges={challenges}
-            arbitrable={web3.contracts?.proofOfHumanity?.options?.address}
-            arbitrator={arbitrator}
+          <SubmissionDetailsAccordionItem
+            heading="Voting History"
+            panel={
+              <VotingHistory
+                challenges={challenges}
+                arbitrable={web3.contracts?.proofOfHumanity?.options?.address}
+                arbitrator={arbitrator}
+              />
+            }
           />
-        }
-      />
+        </>
+      )}
     </Accordion>
   );
 }

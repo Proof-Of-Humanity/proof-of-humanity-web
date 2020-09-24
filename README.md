@@ -1,4 +1,4 @@
-## (2020-09-23)
+## (2020-09-24)
 
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add issue templates ([6adcbee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6adcbee))
@@ -17,6 +17,7 @@
 - chore: fix ci and add security policy ([07dcc94](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/07dcc94))
 - chore: fix routing bugs and finish registration form ([d789c7b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d789c7b))
 - chore: fix subgraph memory access ([ba9cc9e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba9cc9e))
+- chore: fix weird Web3 inconsistency ([5d205ad](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5d205ad))
 - chore: forward all props to svg in icons ([7507ab6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7507ab6))
 - chore: framework work ([b7b7e62](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b7b7e62))
 - chore: implement accordions ([c8e1d07](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c8e1d07))
