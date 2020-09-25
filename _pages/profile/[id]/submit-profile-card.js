@@ -139,7 +139,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
               name="video"
               label="Video (See Instructions)"
               accept="video/webm, video/mp4"
-              maxSize={2}
+              maxSize={10}
               video
             />
             <Card
