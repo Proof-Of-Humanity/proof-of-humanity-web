@@ -160,6 +160,10 @@ type Submission @entity {
   """
   usedVouch: Submission
   """
+  True if a dispute was raised. Note that the submission can enter disputed state multiple times, once per reason.
+  """
+  disputed: Boolean!
+  """
   The submission's status change requests.
   """
   requests: [Request!]! @derivedFrom(field: "submission")

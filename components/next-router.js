@@ -19,7 +19,7 @@ export function NextLink({ passHref = true, href, as, ...rest }) {
   );
 }
 
-export function NextETHLink({ address, children }) {
+export function NextETHLink({ address, children, ...rest }) {
   const { query } = useRouter();
   return (
     <Link
@@ -27,6 +27,7 @@ export function NextETHLink({ address, children }) {
       href={`https://${
         query.network ? `${query.network}.` : ""
       }etherscan.io/address/${address}`}
+      {...rest}
     >
       {children}
     </Link>

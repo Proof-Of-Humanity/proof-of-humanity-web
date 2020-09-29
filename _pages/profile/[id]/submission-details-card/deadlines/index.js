@@ -51,7 +51,9 @@ export default function Deadlines({ submission, contract, status }) {
         datetime={request.lastStatusChange * 1000}
       />
       {status === submissionStatusEnum.PendingRegistration ||
-      status === submissionStatusEnum.PendingRemoval ? (
+      status === submissionStatusEnum.PendingRemoval ||
+      status === submissionStatusEnum.ChallengedRegistration ||
+      status === submissionStatusEnum.ChallengedRemoval ? (
         <Deadline
           label="Challenge Deadline"
           datetime={

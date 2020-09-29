@@ -4,16 +4,15 @@ import { useRouter } from "next/router";
 
 import { submissionStatusEnum } from "data";
 
-export default function SubmissionFilters() {
-  const submissionsCount = 1;
+export default function SubmissionFilters({ numberOfSubmissions }) {
   const router = useRouter();
   return (
     <Card
       sx={{ marginBottom: 2 }}
       header={
         <Text>
-          <Text as="span">{submissionsCount}</Text> Profile
-          {Number(submissionsCount) === 1 ? "" : "s"}
+          <Text as="span">{numberOfSubmissions}</Text> Profile
+          {Number(numberOfSubmissions) === 1 ? "" : "s"}
         </Text>
       }
       headerSx={{ fontWeight: "bold", justifyContent: "flex-end" }}
@@ -35,7 +34,7 @@ export default function SubmissionFilters() {
         }}
       />
       <Select
-        sx={{ width: "190px" }}
+        sx={{ width: "205px" }}
         value={
           submissionStatusEnum.find(
             (status) => status.kebabCase === router.query.status

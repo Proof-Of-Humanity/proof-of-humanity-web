@@ -9,6 +9,7 @@ const submissionCardFragment = graphql`
     id
     status
     registered
+    disputed
     requests(orderBy: creationTime, orderDirection: desc, first: 2) {
       evidence(orderBy: creationTime, first: 1) {
         URI
@@ -30,15 +31,15 @@ export default function SubmissionCard({ submission }) {
       <Card
         header={
           <>
-            <status.Icon />
+            <status.Icon
+              sx={{
+                stroke: status.camelCase,
+                path: { fill: status.camelCase },
+              }}
+            />
             <Text>{status.startCase}</Text>
           </>
         }
-        headerSx={{
-          backgroundColor: status.camelCase,
-          color: "background",
-          fontWeight: "bold",
-        }}
         mainSx={{ flexDirection: "column" }}
         footer={
           <NextETHLink address={id}>

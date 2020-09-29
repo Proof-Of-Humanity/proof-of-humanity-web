@@ -8,15 +8,16 @@ import SubmissionFilters from "./submission-filters";
 export default function Index() {
   const { query } = useRouter();
   const { props } = useQuery();
+  const submissions = query.search
+    ? props?.submissionSearch
+    : props?.submissions;
   return (
     <>
-      <SubmissionFilters />
+      <SubmissionFilters numberOfSubmissions={submissions?.length} />
       <Grid gap={2} columns={[1, 2, 3, 4]}>
-        {(query.search ? props?.submissionSearch : props?.submissions)?.map(
-          (submission) => (
-            <SubmissionCard key={submission.id} submission={submission} />
-          )
-        )}
+        {submissions?.map((submission) => (
+          <SubmissionCard key={submission.id} submission={submission} />
+        ))}
       </Grid>
     </>
   );

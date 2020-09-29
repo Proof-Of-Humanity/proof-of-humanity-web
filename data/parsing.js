@@ -67,6 +67,21 @@ export const submissionStatusEnum = createEnum(
       },
     ],
     [
+      "ChallengedRegistration",
+      {
+        Icon: Pending,
+        query: { where: { status: "PendingRegistration", disputed: true } },
+      },
+    ],
+    [
+      "ChallengedRemoval",
+      {
+        Icon: Pending,
+        query: { where: { status: "PendingRemoval", disputed: true } },
+        registrationEvidenceFileIndex: 1,
+      },
+    ],
+    [
       "Registered",
       { Icon: Check, query: { where: { status: "None", registered: true } } },
     ],
@@ -78,12 +93,17 @@ export const submissionStatusEnum = createEnum(
       },
     ],
   ],
-  ({ status, registered }) =>
-    status === submissionStatusEnum.None.key
-      ? registered
+  ({ status, registered, disputed }) => {
+    if (status === submissionStatusEnum.None.key)
+      return registered
         ? submissionStatusEnum.Registered
-        : submissionStatusEnum.Removed
-      : submissionStatusEnum[status]
+        : submissionStatusEnum.Removed;
+    if (disputed)
+      return status === submissionStatusEnum.PendingRegistration.key
+        ? submissionStatusEnum.ChallengedRegistration
+        : submissionStatusEnum.ChallengedRemoval;
+    return submissionStatusEnum[status];
+  }
 );
 
 export const partyEnum = createEnum(["Requester", "Challenger"], (array) => ({

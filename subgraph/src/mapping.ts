@@ -256,6 +256,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   submission.name = call.inputs._name;
   submission.bio = call.inputs._bio;
   submission.vouchees = [];
+  submission.disputed = false;
   submission.requestsLength = BigInt.fromI32(1);
   submission.save();
 
@@ -443,6 +444,7 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.name = call.inputs._name;
     submission.bio = call.inputs._bio;
     submission.vouchees = [];
+    submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(0);
   }
   submission.status = "Vouching";
@@ -612,6 +614,8 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   let callInputsReason = getReason(call.inputs._reason);
   let proofOfHumanity = ProofOfHumanity.bind(call.to);
   let submission = Submission.load(call.inputs._submissionID.toHexString());
+  submission.disputed = true;
+  submission.save();
 
   let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestID = crypto.keccak256(
@@ -908,13 +912,14 @@ export function rule(call: RuleCall): void {
   submission.registered = submissionInfo.value4;
   submission.submissionTime = submissionInfo.value1;
   submission.renewalTimestamp = submissionInfo.value2;
-  submission.save();
 
   let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestInfo = proofOfHumanity.getRequestInfo(
     challengeStruct.value2,
     requestIndex
   );
+  submission.disputed = requestInfo.value0;
+  submission.save();
   let requestID = crypto.keccak256(
     concatByteArrays(
       challengeStruct.value2,

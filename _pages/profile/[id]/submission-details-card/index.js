@@ -33,6 +33,7 @@ const submissionDetailsCardFragments = {
       id
       status
       registered
+      disputed
       requests(orderBy: creationTime, orderDirection: desc, first: 2) {
         arbitrator
         arbitratorExtraData

@@ -34,6 +34,8 @@ const theme = {
     vouching: "#4d00b4",
     pendingRegistration: "#ccc",
     pendingRemoval: "#ff9900",
+    challengedRegistration: "#ffc700",
+    challengedRemoval: "#ffc700",
     registered: "#009aff",
     removed: "#4a4a4a",
   },

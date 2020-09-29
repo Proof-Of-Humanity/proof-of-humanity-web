@@ -46,14 +46,6 @@ export default function ProfileWithID() {
                   strokeWidth: 0,
                 }}
               />
-              {props.submission.request[0].disputed && (
-                <Text
-                  as="span"
-                  sx={{ color: "warning", fontWeight: "bold", marginLeft: 1 }}
-                >
-                  Challenged
-                </Text>
-              )}
             </>
           )}
         </Text>
@@ -84,9 +76,7 @@ export const IdQuery = graphql`
     submission(id: $id) {
       status
       registered
-      request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
-        disputed
-      }
+      disputed
       ...submissionDetailsCardSubmission
       ...submissionDetailsAccordionSubmission
     }
