@@ -43,6 +43,7 @@
 - chore: increase video size ([7ecccdf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7ecccdf))
 - chore: manually sort entities by creation time ([65142d8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/65142d8))
 - chore: more repo chores ([1f4c46f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1f4c46f))
+- chore: new card designs and challenged status ([80b71c2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/80b71c2))
 - chore: normalize form behavior and implement evidence module ([b035c76](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b035c76))
 - chore: refactor submission details accordion ([725c829](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/725c829))
 - chore: respond to wallet network changes ([d283116](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d283116))

@@ -34,7 +34,7 @@ export default function VouchButton({ submissionID }) {
           }}
           disabled={
             status === "pending" ||
-            accounts?.[0]?.toLowerCase() === submissionID
+            accounts?.[0]?.toLowerCase() === submissionID.toLowerCase()
           }
         >
           {text}

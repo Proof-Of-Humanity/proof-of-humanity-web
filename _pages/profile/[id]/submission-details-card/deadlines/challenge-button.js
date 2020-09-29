@@ -95,7 +95,12 @@ function DuplicateInput({ submissionID, setDuplicate }) {
     </Box>
   );
 }
-export default function ChallengeButton({ request, contract, submissionID }) {
+export default function ChallengeButton({
+  request,
+  contract,
+  status,
+  submissionID,
+}) {
   const {
     currentReason: _currentReason,
     arbitrator,
@@ -132,7 +137,7 @@ export default function ChallengeButton({ request, contract, submissionID }) {
     )
     .add(web3.utils.toBN(submissionChallengeBaseDeposit));
 
-  const [type, setType] = useState();
+  const [type, setType] = useState(challengeReasonEnum.None);
   const duplicateTypeSelected = type === challengeReasonEnum.Duplicate;
   const [duplicate, setDuplicate] = useState();
   const { send, loading } = useContract("proofOfHumanity", "challengeRequest");
@@ -160,40 +165,46 @@ export default function ChallengeButton({ request, contract, submissionID }) {
           <Text sx={{ marginBottom: 1 }}>Deposit:</Text>
           <Card
             variant="muted"
-            sx={{ fontSize: 2, marginBottom: 3 }}
+            sx={{ fontSize: 2, marginBottom: 2 }}
             mainSx={{ padding: 0 }}
           >
             <Text>
               {totalCost && `${web3.utils.fromWei(totalCost)} ETH Deposit`}
             </Text>
           </Card>
-          <Text sx={{ marginBottom: 1 }}>Challenge Type:</Text>
-          <Grid sx={{ marginBottom: 2 }} gap={1} columns={[1, 2, 4]}>
-            <ChallengeTypeCard
-              type={challengeReasonEnum.IncorrectSubmission}
-              setType={setType}
-              currentType={type}
-              disabled={usedReasons.IncorrectSubmission || disputed}
-            />
-            <ChallengeTypeCard
-              type={challengeReasonEnum.Deceased}
-              setType={setType}
-              currentType={type}
-              disabled={usedReasons.Deceased || disputed}
-            />
-            <ChallengeTypeCard
-              type={challengeReasonEnum.Duplicate}
-              setType={setType}
-              currentType={type}
-              disabled={usedReasons.Duplicate && currentReasonIsNotDuplicate}
-            />
-            <ChallengeTypeCard
-              type={challengeReasonEnum.DoesNotExist}
-              setType={setType}
-              currentType={type}
-              disabled={usedReasons.DoesNotExist || disputed}
-            />
-          </Grid>
+          {status === status.PendingRegistration && (
+            <>
+              <Text sx={{ marginBottom: 1 }}>Challenge Type:</Text>
+              <Grid sx={{ marginBottom: 2 }} gap={1} columns={[1, 2, 4]}>
+                <ChallengeTypeCard
+                  type={challengeReasonEnum.IncorrectSubmission}
+                  setType={setType}
+                  currentType={type}
+                  disabled={usedReasons.IncorrectSubmission || disputed}
+                />
+                <ChallengeTypeCard
+                  type={challengeReasonEnum.Deceased}
+                  setType={setType}
+                  currentType={type}
+                  disabled={usedReasons.Deceased || disputed}
+                />
+                <ChallengeTypeCard
+                  type={challengeReasonEnum.Duplicate}
+                  setType={setType}
+                  currentType={type}
+                  disabled={
+                    usedReasons.Duplicate && currentReasonIsNotDuplicate
+                  }
+                />
+                <ChallengeTypeCard
+                  type={challengeReasonEnum.DoesNotExist}
+                  setType={setType}
+                  currentType={type}
+                  disabled={usedReasons.DoesNotExist || disputed}
+                />
+              </Grid>
+            </>
+          )}
           {duplicateTypeSelected && (
             <DuplicateInput
               submissionID={submissionID}
@@ -202,9 +213,7 @@ export default function ChallengeButton({ request, contract, submissionID }) {
           )}
           <Button
             sx={{ display: "block", margin: "auto" }}
-            disabled={
-              !type || (duplicateTypeSelected && !duplicate) || !totalCost
-            }
+            disabled={(duplicateTypeSelected && !duplicate) || !totalCost}
             onClick={() =>
               send(
                 submissionID,
