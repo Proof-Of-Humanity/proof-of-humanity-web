@@ -9,6 +9,7 @@ import { submissionStatusEnum } from "data";
 const deadlinesFragments = {
   contract: graphql`
     fragment deadlinesContract on Contract {
+      submissionDuration
       challengePeriodDuration
       ...challengeButtonContract
       ...removeButtonContract
@@ -29,13 +30,17 @@ const deadlinesFragments = {
     }
   `,
 };
-function Deadline({ label, datetime, afterDatetime, button }) {
+function Deadline({
+  label,
+  datetime,
+  whenDatetime = (now, _datetime) => now < _datetime,
+  button,
+}) {
   return (
     <Text>
       <Text sx={{ fontWeight: "bold" }}>{label}: </Text>
       <TimeAgo datetime={datetime} />
-      {(afterDatetime ? Date.now() >= datetime : Date.now() < datetime) &&
-        button}
+      {whenDatetime(Date.now(), datetime) && button}
     </Text>
   );
 }
@@ -45,12 +50,13 @@ export default function Deadlines({ submission, contract, status }) {
     id,
     registered,
     submissionTime,
-    renewalTimestamp,
+    renewalTimestamp: _renewalTimestamp,
   } = useFragment(deadlinesFragments.submission, submission);
-  const { challengePeriodDuration } = (contract = useFragment(
-    deadlinesFragments.contract,
-    contract
-  ));
+  const {
+    challengePeriodDuration,
+    submissionDuration,
+  } = (contract = useFragment(deadlinesFragments.contract, contract));
+  const renewalTimestamp = _renewalTimestamp * 1000;
   const [accounts] = useWeb3("eth", "getAccounts");
   return (
     <>
@@ -85,7 +91,10 @@ export default function Deadlines({ submission, contract, status }) {
             <Deadline
               label="Accepted"
               datetime={submissionTime * 1000}
-              afterDatetime
+              whenDatetime={(now, datetime) =>
+                now < renewalTimestamp ||
+                now - datetime > submissionDuration * 1000
+              }
               button={
                 <RemoveButton
                   request={request}
@@ -96,8 +105,8 @@ export default function Deadlines({ submission, contract, status }) {
             />
             <Deadline
               label="Renewal"
-              datetime={renewalTimestamp * 1000}
-              afterDatetime
+              datetime={renewalTimestamp}
+              whenDatetime={(now, datetime) => now >= datetime}
               button={
                 accounts &&
                 accounts[0].toLowerCase() === id.toLowerCase() && (
