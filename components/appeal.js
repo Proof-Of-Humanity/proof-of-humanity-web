@@ -1,8 +1,10 @@
 import { useMemo } from "react";
+import { Box } from "theme-ui";
 
 import Card from "./card";
 import FundButton from "./fund-button";
 import Grid from "./grid";
+import Identicon from "./identicon";
 import { NextETHLink } from "./next-router";
 import Progress from "./progress";
 import Tabs, { Tab, TabList, TabPanel } from "./tabs";
@@ -23,11 +25,19 @@ function AppealTabPanelCard({
 }) {
   const { web3 } = useWeb3();
   const card = (
-    <Card mainSx={{ alignItems: "flex-start", flexDirection: "column" }}>
-      <NextETHLink address={address}>{address}</NextETHLink>
-      <Text sx={{ marginBottom: 3 }}>
-        {label && `Previous round ${label}.`}
-      </Text>
+    <Card
+      header={
+        <>
+          <Identicon address={address} />
+          <Box sx={{ marginLeft: 2 }}>
+            <NextETHLink address={address}>{address}</NextETHLink>
+            <Text>{label && `Previous round ${label}.`}</Text>
+          </Box>
+        </>
+      }
+      headerSx={{ justifyContent: "flex-start" }}
+      mainSx={{ alignItems: "flex-start", flexDirection: "column" }}
+    >
       <Text
         sx={{
           fontWeight: "bold",

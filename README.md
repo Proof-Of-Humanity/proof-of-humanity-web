@@ -1,4 +1,4 @@
-## (2020-09-29)
+## (2020-09-30)
 
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add issue templates ([6adcbee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6adcbee))
@@ -52,6 +52,7 @@
 - chore: set up CI ([72e9f6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/72e9f6e))
 - chore: set up project ([534bf60](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/534bf60))
 - chore: show challenged status in profile header ([55aa602](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/55aa602))
+- chore: take into account renewal grace periods ([c45ec84](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c45ec84))
 - chore: track governance changes in subgraph ([8ccb7e9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8ccb7e9))
 - chore: update changelog ([a45d269](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a45d269))
 - chore: update eslint-plugin-regex ([2838bc3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2838bc3))
