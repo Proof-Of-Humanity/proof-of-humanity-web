@@ -1,6 +1,7 @@
 export { default as Blog } from "./blog";
 export { default as Camera } from "./camera";
 export { default as Check } from "./check";
+export { default as Dot } from "./dot";
 export { default as DownArrow } from "./down-arrow";
 export { default as Ether } from "./ether";
 export { default as EtherscanLogo } from "./etherscan-logo";

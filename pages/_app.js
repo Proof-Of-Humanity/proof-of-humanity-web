@@ -1,5 +1,4 @@
 import {
-  AccountSettingsPopup,
   ArchonProvider,
   Layout,
   Link,
@@ -10,14 +9,17 @@ import {
   SocialIcons,
   ThemeProvider,
   Web3Provider,
+  AccountSettingsPopup as _AccountSettingsPopup,
   createWrapConnection,
   useWeb3,
 } from "@kleros/components";
 import { ProofOfHumanityLogo } from "@kleros/icons";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useQuery } from "relay-hooks";
 
 import { indexQuery } from "_pages/index";
+import { appQuery } from "_pages/index/app-query";
 import { IdQuery } from "_pages/profile/[id]";
 import { queryEnums } from "data";
 import KlerosLiquid from "subgraph/abis/kleros-liquid";
@@ -59,6 +61,15 @@ function MyProfileLink() {
       <Link variant="navigation">My Profile</Link>
     </NextLink>
   ) : null;
+}
+function AccountSettingsPopup() {
+  const [accounts] = useWeb3("eth", "getAccounts");
+  const { props } = useQuery(
+    appQuery,
+    { id: accounts?.[0]?.toLowerCase() },
+    { skip: !accounts?.[0] }
+  );
+  return <_AccountSettingsPopup name={props?.submission?.name} />;
 }
 const header = {
   left: (

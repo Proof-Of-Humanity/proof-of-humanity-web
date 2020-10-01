@@ -1,6 +1,7 @@
-## (2020-09-30)
+## (2020-10-01)
 
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
+- chore: add identicons ([45ddea1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/45ddea1))
 - chore: add issue templates ([6adcbee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6adcbee))
 - chore: add more status icons ([3225e43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3225e43))
 - chore: add social icons and fix font rendering ([b8e09b5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b8e09b5))
