@@ -97,7 +97,7 @@ function updateContribution(
 
   let round = Round.load(roundID.toHexString());
   round.paidFees = roundInfo.value1;
-  round.hasPaid = roundInfo.value2;
+  round.hasPaid = [roundInfo.value2[1], roundInfo.value2[2]];
   round.feeRewards = roundInfo.value3;
   round.save();
 
