@@ -10,6 +10,7 @@ import {
   useRef,
   useState,
 } from "react";
+import usePromise from "react-use-promise";
 
 import { useWeb3 } from "./web3-provider";
 
@@ -102,4 +103,88 @@ export function createUseDataloaders(fetchers) {
     };
     return acc;
   }, {});
+}
+
+export function createDerivedAccountAPIs(APIDescriptors, userSettingsURL) {
+  const APIs = APIDescriptors.reduce(
+    (acc, { name, method, URL, payloadKey }) => {
+      acc[name] = async (web3, payload) => {
+        const [account] = await web3.eth.getAccounts();
+        const derivedAccount = await web3.deriveAccount(
+          "To keep your data safe and to use certain features, we ask that you sign this message to create a secret key for your account. This key is unrelated from your main Ethereum account and will not be able to send any transactions.",
+          method !== "GET"
+        );
+
+        const fetcher = () =>
+          fetch(URL, {
+            method: method === "GET" ? "POST" : method,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              payload: {
+                address: account,
+                network: web3.ETHNet.name,
+                signature: derivedAccount?.sign?.(JSON.stringify(payload))
+                  .signature,
+                [payloadKey]: payload,
+              },
+            }),
+          }).then((res) => res.json());
+        const res = await fetcher();
+
+        if (res.error && derivedAccount) {
+          const settings = {
+            derivedAccountAddress: {
+              S: derivedAccount.address,
+            },
+          };
+          await fetch(userSettingsURL, {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              payload: {
+                address: account,
+                signature: await web3.eth.personal.sign(
+                  JSON.stringify(settings),
+                  account
+                ),
+                settings,
+              },
+            }),
+          }).then((_res) => _res.json());
+
+          return fetcher();
+        }
+
+        return res;
+      };
+      return acc;
+    },
+    {}
+  );
+
+  return {
+    APIs,
+    useAPIs: APIDescriptors.reduce((acc, { method, name }) => {
+      acc[name] = function useAPI(payload) {
+        const isGet = method === "GET";
+        const { web3 } = useWeb3();
+        const [promise, setPromise] = useState();
+        const data = usePromise(
+          () => (isGet ? APIs[name](web3, payload) : promise),
+          [isGet, web3, payload, promise]
+        );
+        return isGet
+          ? data
+          : {
+              send(_payload) {
+                const _promise = APIs[name](web3, { payload, ..._payload });
+                setPromise(_promise);
+                return _promise;
+              },
+              data,
+            };
+      };
+      return acc;
+    }, {}),
+  };
 }

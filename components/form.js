@@ -9,7 +9,7 @@ import prettyNum from "pretty-num";
 import { createContext, useContext, useMemo } from "react";
 import { Box } from "theme-ui";
 import Web3 from "web3";
-import { object, reach, string } from "yup";
+import { boolean, object, reach, string } from "yup";
 
 import Input from "./input";
 import Label from "./label";
@@ -75,6 +75,7 @@ export default function Form({
     () =>
       object(
         createValidationSchema({
+          boolean,
           eth() {
             const initialValue = Web3.utils.toBN("");
             initialValue.toString = () => "";
@@ -112,7 +113,7 @@ export default function Form({
   );
 }
 
-export function Field({ label, as = Input, name, ...rest }) {
+export function Field({ label, as = Input, name, info, ...rest }) {
   const validationSchema = useContext(ValidationSchemaContext);
   const field = useField(name);
   const [{ onChange }] = field;
@@ -134,6 +135,7 @@ export function Field({ label, as = Input, name, ...rest }) {
         }}
         {...rest}
       />
+      {info && <Text variant="forms.field.info">{info}</Text>}
       <Text variant="forms.field.error">
         <ErrorMessage name={name} />
       </Text>

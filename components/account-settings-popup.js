@@ -8,9 +8,16 @@ import { NextETHLink } from "./next-router";
 import Popup from "./popup";
 import Tabs, { Tab, TabList, TabPanel } from "./tabs";
 import Text from "./text";
+import UserSettings from "./user-settings";
 import { useWeb3 } from "./web3-provider";
 
-export default function AccountSettingsPopup({ name }) {
+export default function AccountSettingsPopup({
+  name,
+  userSettingsURL,
+  settings,
+  parseSettings,
+  normalizeSettings,
+}) {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { web3, connect } = useWeb3();
   return (
@@ -41,6 +48,7 @@ export default function AccountSettingsPopup({ name }) {
         <Tabs>
           <TabList>
             <Tab>Account</Tab>
+            <Tab>Notifications</Tab>
           </TabList>
           <TabPanel>
             <Text
@@ -90,6 +98,14 @@ export default function AccountSettingsPopup({ name }) {
               {accounts &&
                 `${accounts.length === 0 ? "Connect" : "Change"} Account`}
             </Button>
+          </TabPanel>
+          <TabPanel>
+            <UserSettings
+              userSettingsURL={userSettingsURL}
+              settings={settings}
+              parseSettings={parseSettings}
+              normalizeSettings={normalizeSettings}
+            />
           </TabPanel>
         </Tabs>
       </Box>

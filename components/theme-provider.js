@@ -157,7 +157,15 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     },
   },
   forms: {
-    field: { error: { color: "danger" } },
+    checkbox: { marginTop: 1 },
+    field: {
+      error: { color: "danger" },
+      info: {
+        color: "info",
+        fontSize: "0.75em",
+        marginTop: "0.5em",
+      },
+    },
     fileUpload: {
       backgroundColor: "muted",
       borderColor: "primary",
@@ -182,6 +190,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       paddingRight: 3,
       paddingY: 1,
     },
+    smallInput: { borderColor: "skeleton", padding: 1 },
     textarea: { borderColor: "skeleton" },
   },
   form: {

@@ -16,6 +16,19 @@ import usePromise from "react-use-promise";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 
+const deriveAccount = async function (message, create = true) {
+  const [account] = await this.eth.getAccounts();
+  const storageKey = `${account}-${message}`;
+
+  let secret = localStorage.getItem(storageKey);
+  if (secret === null) {
+    if (!create) return secret;
+    secret = await this.eth.personal.sign(message, account);
+    localStorage.setItem(storageKey, secret);
+  }
+
+  return this.eth.accounts.privateKeyToAccount(this.utils.keccak256(secret));
+};
 const createWeb3 = (infuraURL) => {
   const web3 = new Web3(infuraURL);
   web3.modal = new Web3Modal({
@@ -36,12 +49,14 @@ const createWeb3 = (infuraURL) => {
     },
   });
   web3.infuraURL = infuraURL;
+  web3.deriveAccount = deriveAccount;
   return web3;
 };
 const createWeb3FromModal = async (modal, infuraURL) => {
   const web3 = new Web3(await modal.connect());
   web3.modal = modal;
   web3.infuraURL = infuraURL;
+  web3.deriveAccount = deriveAccount;
   return web3;
 };
 const Context = createContext();
@@ -76,7 +91,7 @@ export default function Web3Provider({
       }
 
       if (contracts !== web3._contracts) {
-        const accounts = await web3.eth.getAccounts();
+        const [account] = await web3.eth.getAccounts();
         if (!cancelled) {
           web3.contracts = contracts.reduce(
             (acc, { name, abi, address, options }) => {
@@ -84,7 +99,7 @@ export default function Web3Provider({
                 abi,
                 address[web3.ETHNet.name],
                 {
-                  from: accounts[0],
+                  from: account,
                   ...options,
                 }
               );

@@ -62,6 +62,29 @@ function MyProfileLink() {
     </NextLink>
   ) : null;
 }
+const settings = {
+  proofOfHumanityNotifications: {
+    label: "Enable",
+    info: "Subscribe to updates about submissions you are involved in.",
+  },
+};
+const parseSettings = (rawSettings) => ({
+  ...Object.keys(settings).reduce((acc, setting) => {
+    acc[setting] =
+      rawSettings?.payload?.settings?.Item?.[setting]?.BOOL || false;
+    return acc;
+  }, {}),
+  email: rawSettings?.payload?.settings?.Item?.email?.S || "",
+});
+const normalizeSettings = ({ email, ...rest }) => ({
+  email: { S: email },
+  ...Object.keys(rest).reduce((acc, setting) => {
+    acc[setting] = {
+      BOOL: rest[setting] || false,
+    };
+    return acc;
+  }, {}),
+});
 function AccountSettingsPopup() {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { props } = useQuery(
@@ -69,7 +92,15 @@ function AccountSettingsPopup() {
     { id: accounts?.[0]?.toLowerCase() },
     { skip: !accounts?.[0] }
   );
-  return <_AccountSettingsPopup name={props?.submission?.name} />;
+  return (
+    <_AccountSettingsPopup
+      name={props?.submission?.name}
+      userSettingsURL="https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/user-settings"
+      settings={settings}
+      parseSettings={parseSettings}
+      normalizeSettings={normalizeSettings}
+    />
+  );
 }
 const header = {
   left: (
