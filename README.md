@@ -39,6 +39,7 @@
 - chore: implement reapply flow ([6589f7e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6589f7e))
 - chore: implement submission funding ([65a5ef2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/65a5ef2))
 - chore: implement transaction sender ([1bab6c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1bab6c5))
+- chore: implement user settings and notifications ([4fd68c0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4fd68c0))
 - chore: implement voting history module ([a79cd53](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a79cd53))
 - chore: implement vouching ([9ca0ff4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9ca0ff4))
 - chore: improve accounts modal ([1b88466](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1b88466))

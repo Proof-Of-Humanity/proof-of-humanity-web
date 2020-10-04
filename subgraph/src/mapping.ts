@@ -154,6 +154,7 @@ function requestStatusChange(
     submission.status == "PendingRemoval"
       ? contract.clearingMetaEvidence
       : contract.registrationMetaEvidence;
+  request.registration = submission.status == "Vouching";
   request.evidenceLength = BigInt.fromI32(1);
   request.challengesLength = BigInt.fromI32(1);
   request.save();
@@ -279,6 +280,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   request.requesterLost = false;
   request.penaltyIndex = BigInt.fromI32(0);
   request.metaEvidence = contract.registrationMetaEvidence;
+  request.registration = true;
   request.evidenceLength = BigInt.fromI32(1);
   request.challengesLength = BigInt.fromI32(1);
   request.save();

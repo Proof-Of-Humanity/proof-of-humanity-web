@@ -34,7 +34,12 @@ const submissionDetailsCardFragments = {
       status
       registered
       disputed
-      requests(orderBy: creationTime, orderDirection: desc, first: 2) {
+      requests(
+        orderBy: creationTime
+        orderDirection: desc
+        first: 1
+        where: { registration: true }
+      ) {
         arbitrator
         arbitratorExtraData
         vouches {
@@ -56,12 +61,15 @@ const submissionDetailsCardFragments = {
   `,
 };
 export default function SubmissionDetailsCard({ submission, contract }) {
-  const { requests, id, ...rest } = (submission = useFragment(
+  const {
+    requests: [request],
+    id,
+    ...rest
+  } = (submission = useFragment(
     submissionDetailsCardFragments.submission,
     submission
   ));
   const status = submissionStatusEnum.parse(rest);
-  const request = requests[status.registrationEvidenceFileIndex || 0];
 
   const evidence = useEvidenceFile()(request.evidence[0].URI);
   const contributions = useMemo(

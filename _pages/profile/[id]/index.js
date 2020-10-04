@@ -20,9 +20,7 @@ export default function ProfileWithID() {
     props.submission === null &&
     (!accounts[0] || accounts[0] === query.id || reapply)
   )
-    return (
-      <SubmitProfileCard contract={props.contracts[0]} reapply={reapply} />
-    );
+    return <SubmitProfileCard contract={props.contract} reapply={reapply} />;
 
   const status =
     props?.submission && submissionStatusEnum.parse(props.submission);
@@ -54,11 +52,11 @@ export default function ProfileWithID() {
         <>
           <SubmissionDetailsCard
             submission={props.submission}
-            contract={props.contracts[0]}
+            contract={props.contract}
           />
           <SubmissionDetailsAccordion
             submission={props.submission}
-            contract={props.contracts[0]}
+            contract={props.contract}
           />
         </>
       )}
@@ -68,7 +66,7 @@ export default function ProfileWithID() {
 
 export const IdQuery = graphql`
   query IdQuery($id: ID!) {
-    contracts(first: 1) {
+    contract(id: 0) {
       ...submitProfileCard
       ...submissionDetailsCardContract
       ...submissionDetailsAccordionContract

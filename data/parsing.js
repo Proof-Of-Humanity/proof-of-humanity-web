@@ -63,7 +63,6 @@ export const submissionStatusEnum = createEnum(
       {
         Icon: Pending,
         query: { where: { status: "PendingRemoval" } },
-        registrationEvidenceFileIndex: 1,
       },
     ],
     [
@@ -78,7 +77,6 @@ export const submissionStatusEnum = createEnum(
       {
         Icon: Pending,
         query: { where: { status: "PendingRemoval", disputed: true } },
-        registrationEvidenceFileIndex: 1,
       },
     ],
     [

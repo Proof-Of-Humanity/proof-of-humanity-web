@@ -10,7 +10,12 @@ const submissionCardFragment = graphql`
     status
     registered
     disputed
-    requests(orderBy: creationTime, orderDirection: desc, first: 2) {
+    requests(
+      orderBy: creationTime
+      orderDirection: desc
+      first: 1
+      where: { registration: true }
+    ) {
       evidence(orderBy: creationTime, first: 1) {
         URI
       }
@@ -18,14 +23,13 @@ const submissionCardFragment = graphql`
   }
 `;
 export default function SubmissionCard({ submission }) {
-  const { requests, id, ...rest } = useFragment(
-    submissionCardFragment,
-    submission
-  );
+  const {
+    requests: [request],
+    id,
+    ...rest
+  } = useFragment(submissionCardFragment, submission);
   const status = submissionStatusEnum.parse(rest);
-  const evidence = useEvidenceFile()(
-    requests[status.registrationEvidenceFileIndex || 0].evidence[0].URI
-  );
+  const evidence = useEvidenceFile()(request.evidence[0].URI);
   return (
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
       <Card

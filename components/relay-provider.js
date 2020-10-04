@@ -47,10 +47,7 @@ export default function RelayProvider({
   useEffect(() => {
     if (environment) {
       connectToRouteChange((path, query) => {
-        if (queries[path]) {
-          prefetch.next(environment, queries[path], query);
-          setTimeout(() => prefetch.getValue().retry(), 0);
-        }
+        if (queries[path]) prefetch.next(environment, queries[path], query);
       });
       setInitialized(true);
     }

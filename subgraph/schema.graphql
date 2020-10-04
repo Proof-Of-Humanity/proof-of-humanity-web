@@ -243,6 +243,10 @@ type Request @entity {
   """
   metaEvidence: MetaEvidence!
   """
+  True if the request is for registration.
+  """
+  registration: Boolean!
+  """
   The evidence for the request.
   """
   evidence: [Evidence!]! @derivedFrom(field: "request")
