@@ -28,6 +28,7 @@ const submissionDetailsAccordionFragments = {
         arbitrator
         arbitratorExtraData
         evidence(orderBy: creationTime, orderDirection: desc) {
+          creationTime
           id
           URI
           sender

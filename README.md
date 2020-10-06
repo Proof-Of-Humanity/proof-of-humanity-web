@@ -43,6 +43,7 @@
 - chore: implement voting history module ([a79cd53](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a79cd53))
 - chore: implement vouching ([9ca0ff4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9ca0ff4))
 - chore: improve accounts modal ([1b88466](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1b88466))
+- chore: improve button states ([35d8527](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/35d8527))
 - chore: improve buttons and button API ([e5bc20d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e5bc20d))
 - chore: improve ETH network API ([a497b47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a497b47))
 - chore: improve removal and renewal flow ([87fd4f8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/87fd4f8))

@@ -1,14 +1,28 @@
 import { DownArrow, File, UpArrow } from "@kleros/icons";
-import { Flex } from "theme-ui";
+import { Box, Flex } from "theme-ui";
 
 import Card from "./card";
+import Identicon from "./identicon";
 import Link from "./link";
 import { NextETHLink } from "./next-router";
 import ScrollTo, { ScrollArea } from "./scroll-to";
 import SubmitEvidenceButton from "./submit-evidence-button";
 import Text from "./text";
 
-function EvidenceItem({ useEvidenceFile, evidence: { URI, sender }, index }) {
+const intlDateTimeFormat = new Intl.DateTimeFormat("default", {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  timeZoneName: "short",
+  hour12: false,
+});
+function EvidenceItem({
+  useEvidenceFile,
+  evidence: { URI, sender, creationTime },
+  index,
+}) {
   const evidence = useEvidenceFile()(URI);
   return (
     <Card
@@ -16,10 +30,18 @@ function EvidenceItem({ useEvidenceFile, evidence: { URI, sender }, index }) {
       mainSx={{ alignItems: "flex-start", flexDirection: "column" }}
       footer={
         <>
-          <Text>
-            #{index} Submitted by{" "}
-            <NextETHLink address={sender}>{sender}</NextETHLink>
-          </Text>
+          <Flex sx={{ alignItems: "center" }}>
+            <Identicon address={sender} />
+            <Box sx={{ marginLeft: 1 }}>
+              <Text>
+                #{index} submitted by{" "}
+                <NextETHLink address={sender}>{sender}</NextETHLink>
+              </Text>
+              <Text>
+                {intlDateTimeFormat.format(new Date(creationTime * 1000))}
+              </Text>
+            </Box>
+          </Flex>
           {evidence?.fileURI && (
             <Link newTab href={evidence?.fileURI}>
               <File />

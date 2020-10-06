@@ -121,7 +121,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
   cards: {
     primary: {
       borderRadius: 3,
-      boxShadow: "0 6px 90px rgba(255, 153, 0, 0.25)",
+      boxShadow: "0 6px 10px rgba(255, 153, 0, 0.25)",
       fontFamily: "heading",
       fontSize: 0,
       "&:hover:not([disabled])": {
