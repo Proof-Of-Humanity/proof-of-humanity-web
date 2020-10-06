@@ -108,7 +108,7 @@ export default function Deadlines({ submission, contract, status }) {
               datetime={renewalTimestamp}
               whenDatetime={(now, datetime) => now >= datetime}
               button={
-                accounts &&
+                accounts?.[0] &&
                 accounts[0].toLowerCase() === id.toLowerCase() && (
                   <NextLink href="/profile/[id]" as="/profile/reapply">
                     <Link sx={{ display: "block" }}>Reapply</Link>

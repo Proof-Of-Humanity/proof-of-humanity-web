@@ -59,6 +59,7 @@
     "react-loading-skeleton": "^2.1.1",
     "react-player": "^2.6.1",
     "react-relay-network-modern": "^4.7.4",
+    "react-ripples": "^2.2.1",
     "react-scroll-to": "^3.0.0-beta.6",
     "react-spinners": "^0.9.0",
     "react-storage-hooks": "^4.0.1",

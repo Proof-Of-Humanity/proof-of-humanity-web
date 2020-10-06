@@ -1,4 +1,5 @@
-import { forwardRef } from "react";
+import { forwardRef, useRef } from "react";
+import ReactRipples from "react-ripples";
 import { MoonLoader } from "react-spinners";
 import { Box, Button as _Button } from "theme-ui";
 
@@ -9,6 +10,7 @@ const Button = forwardRef(
   (
     {
       id,
+      variant = "primary",
       sx,
       type = "button",
       disabled,
@@ -19,13 +21,21 @@ const Button = forwardRef(
     },
     ref
   ) => {
+    const innerRef = useRef();
     const button = (
       <_Button
         ref={ref}
         id={id}
+        variant={variant}
         sx={{
           backgroundImage({ colors: { primary, secondary } }) {
             return `linear-gradient(90deg, ${primary} 0%, ${secondary} 100%)`;
+          },
+          position: "relative",
+          "&:focus": {
+            boxShadow({ colors: { text } }) {
+              return `0 0 2px ${text}`;
+            },
           },
           ...sx,
         }}
@@ -35,6 +45,7 @@ const Button = forwardRef(
         {...rest}
       >
         <Text
+          ref={innerRef}
           id={id && `${id}-text`}
           sx={{
             alignItems: "center",
@@ -50,6 +61,24 @@ const Button = forwardRef(
             </Box>
           )}
         </Text>
+        <Box
+          as={ReactRipples}
+          sx={{
+            borderRadius({
+              buttons: {
+                [variant]: { borderRadius },
+              },
+            }) {
+              return borderRadius;
+            },
+            height: "100%",
+            left: 0,
+            position: "absolute !important",
+            top: 0,
+            width: "100%",
+          }}
+          onClick={() => innerRef.current.click()}
+        />
       </_Button>
     );
     return disabled && disabledTooltip ? (

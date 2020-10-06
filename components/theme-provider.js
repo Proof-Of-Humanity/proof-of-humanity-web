@@ -88,10 +88,17 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       borderRadius: 300,
       fill: "background",
       fontSize: 1,
-      padding: 1,
+      paddingX: 2,
+      paddingY: 1,
       "&:disabled:not([data-loading=true])": {
         backgroundColor: "skeleton",
         backgroundImage: "none !important",
+      },
+      "&:hover": {
+        opacity: 0.8,
+      },
+      "&:focus": {
+        outline: "none",
       },
       spinner: {
         "div > div": {
@@ -129,11 +136,11 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       borderWidth: 2,
       fontSize: 1,
       padding: 2,
-      "&:focus": {
-        outline: "none",
-      },
       "&:disabled": {
         backgroundColor: "skeleton",
+      },
+      "&:focus": {
+        outline: "none",
       },
       "&:focus,&:hover:not([disabled]),&.active": {
         borderColor: "primary",
@@ -192,7 +199,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       paddingRight: 3,
       paddingY: 1,
     },
-    smallInput: { borderColor: "skeleton", padding: 1 },
+    smallInput: { borderColor: "skeleton", fontSize: 1, padding: 1 },
     textarea: { borderColor: "skeleton" },
   },
   form: {
