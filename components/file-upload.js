@@ -123,7 +123,6 @@ export default function FileUpload({
             <Button
               variant="secondary"
               sx={{
-                padding: 1,
                 position: "absolute",
                 right: 1,
                 top: 1,

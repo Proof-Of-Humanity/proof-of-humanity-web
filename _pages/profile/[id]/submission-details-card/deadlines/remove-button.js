@@ -59,10 +59,8 @@ export default function RemoveButton({ request, contract, submissionID }) {
     <Popup
       trigger={
         <Button
-          variant="secondary"
           sx={{
             marginY: 1,
-            padding: 1,
             width: "100%",
           }}
         >

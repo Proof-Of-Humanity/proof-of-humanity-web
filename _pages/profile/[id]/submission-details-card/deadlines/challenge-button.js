@@ -146,10 +146,8 @@ export default function ChallengeButton({
       contentStyle={{ width: undefined }}
       trigger={
         <Button
-          variant="secondary"
           sx={{
             marginY: 1,
-            padding: 1,
             width: "100%",
           }}
           disabled={disputed && currentReasonIsNotDuplicate}

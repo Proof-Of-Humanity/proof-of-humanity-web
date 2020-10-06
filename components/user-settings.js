@@ -84,13 +84,10 @@ export default function UserSettings({
           <Field variant="smallInput" name="email" label="Email" />
           <Divider />
           <Button
-            variant="secondary"
             sx={{
               display: "block",
-              fontSize: 1,
               marginTop: -2,
               marginX: "auto",
-              padding: 1,
             }}
             type="submit"
             loading={isSubmitting}

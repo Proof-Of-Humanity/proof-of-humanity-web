@@ -88,7 +88,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       borderRadius: 300,
       fill: "background",
       fontSize: 1,
-      padding: 2,
+      padding: 1,
       "&:disabled:not([data-loading=true])": {
         backgroundColor: "skeleton",
         backgroundImage: "none !important",
@@ -103,6 +103,8 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     secondary: {
       backgroundColor: "secondary",
       backgroundImage: "none !important",
+      fontSize: 1,
+      padding: 1,
       "&:disabled:not([data-loading=true])": {
         backgroundColor: "skeleton",
         backgroundImage: "none !important",

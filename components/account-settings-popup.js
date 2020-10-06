@@ -24,7 +24,7 @@ export default function AccountSettingsPopup({
     <Popup
       contentStyle={{ width: 300 }}
       trigger={
-        <Button variant="secondary" sx={{ fontSize: 1, padding: 1 }}>
+        <Button>
           Account <Settings />
         </Button>
       }
@@ -85,13 +85,10 @@ export default function AccountSettingsPopup({
             </Text>
             <Divider />
             <Button
-              variant="secondary"
               sx={{
                 display: "block",
-                fontSize: 1,
                 marginTop: -2,
                 marginX: "auto",
-                padding: 1,
               }}
               onClick={connect}
             >
