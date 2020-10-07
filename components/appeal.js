@@ -1,5 +1,13 @@
 import { useMemo } from "react";
-import { Box } from "theme-ui";
+import {
+  RedditIcon,
+  RedditShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+} from "react-share";
+import { Box, Flex } from "theme-ui";
 
 import Alert from "./alert";
 import Card from "./card";
@@ -181,6 +189,7 @@ function AppealTabPanel({
     ])
   );
   currentRuling = currentRuling?.toNumber();
+  const shareTitle = `Crowdfunding Appeal Fees for ${party1} vs ${party2}.`;
   return (
     <>
       <Text sx={{ marginBottom: 2 }}>
@@ -188,7 +197,7 @@ function AppealTabPanel({
         when your side ultimately wins. If only one side manages to fund their
         fees, it automatically wins.
       </Text>
-      <Grid gap={2} columns={2}>
+      <Grid sx={{ marginBottom: 3 }} gap={2} columns={2}>
         <AppealTabPanelCard
           address={party1}
           {...[undecided, winner, loser][currentRuling]}
@@ -206,6 +215,22 @@ function AppealTabPanel({
           args={[...args, id, 2]}
         />
       </Grid>
+      <Flex sx={{ justifyContent: "center" }}>
+        <RedditShareButton url={location.href} title={shareTitle}>
+          <RedditIcon size={32} />
+        </RedditShareButton>
+        <TelegramShareButton url={location.href} title={shareTitle}>
+          <TelegramIcon size={32} />
+        </TelegramShareButton>
+        <TwitterShareButton
+          url={location.href}
+          title={shareTitle}
+          via="Kleros_io"
+          hashtags={["kleros", "appeals"]}
+        >
+          <TwitterIcon size={32} />
+        </TwitterShareButton>
+      </Flex>
     </>
   );
 }
