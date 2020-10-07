@@ -83,6 +83,19 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       paddingY: 3,
     },
   },
+  alert: {
+    info: {
+      borderColor: "info",
+      borderRadius: 3,
+      borderStyle: "solid",
+      borderWidth: 1,
+      padding: 2,
+      title: {
+        color: "info",
+        fontWeight: "bold",
+      },
+    },
+  },
   buttons: {
     primary: {
       borderRadius: 300,

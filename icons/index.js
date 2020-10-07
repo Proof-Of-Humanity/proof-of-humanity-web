@@ -7,6 +7,7 @@ export { default as Ether } from "./ether";
 export { default as EtherscanLogo } from "./etherscan-logo";
 export { default as File } from "./file";
 export { default as Github } from "./github";
+export { default as Info } from "./info";
 export { default as LinkedIn } from "./linked-in";
 export { default as Pending } from "./pending";
 export { default as ProofOfHumanityLogo } from "./proof-of-humanity-logo";

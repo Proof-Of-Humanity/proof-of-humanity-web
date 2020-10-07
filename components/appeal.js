@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { Box } from "theme-ui";
 
+import Alert from "./alert";
 import Card from "./card";
 import FundButton from "./fund-button";
 import Grid from "./grid";
@@ -24,6 +25,7 @@ function AppealTabPanelCard({
   args,
 }) {
   const { web3 } = useWeb3();
+  const totalContribution = web3.utils.toBN(paidFees);
   const card = (
     <Card
       header={
@@ -46,10 +48,20 @@ function AppealTabPanelCard({
           width: "100%",
         }}
       >
-        {cost && `Total Deposit Required:  ${web3.utils.fromWei(cost)}`}
+        {cost &&
+          `${totalContribution
+            .mul(web3.utils.toBN(100))
+            .div(cost)}% Funded / ${web3.utils.fromWei(
+            totalContribution
+          )} ETH of ${web3.utils.fromWei(cost)} ETH`}
       </Text>
       <Progress
-        sx={{ marginBottom: 1 }}
+        sx={{
+          borderRadius: 30,
+          color: "success",
+          height: 8,
+          marginBottom: 1,
+        }}
         value={paidFees}
         max={cost?.toString()}
       />
@@ -63,7 +75,11 @@ function AppealTabPanelCard({
               <TimeAgo datetime={deadline * 1000} />
             ))}
       </Text>
-      <Text sx={{ fontWeight: "bold" }}>{reward && `Reward ${reward}%`}</Text>
+      <Alert title="For Contributors">
+        {reward &&
+          `If this side wins, you get back your contribution and a ${reward}%
+        reward.`}
+      </Alert>
     </Card>
   );
   if (
@@ -76,7 +92,7 @@ function AppealTabPanelCard({
     return (
       <FundButton
         totalCost={cost}
-        totalContribution={web3.utils.toBN(paidFees)}
+        totalContribution={totalContribution}
         contract={contract}
         method="fundAppeal"
         args={args}
@@ -109,15 +125,15 @@ function AppealTabPanel({
   const hundred = web3.utils.toBN(100);
   const undecided = {
     label: "undecided",
-    reward: sharedStakeMultiplier.div(sharedStakeMultiplier).mul(hundred),
+    reward: sharedStakeMultiplier.mul(hundred).div(sharedStakeMultiplier),
   };
   const winner = {
     label: "winner",
-    reward: loserStakeMultiplier.div(winnerStakeMultiplier).mul(hundred),
+    reward: loserStakeMultiplier.mul(hundred).div(winnerStakeMultiplier),
   };
   const loser = {
     label: "loser",
-    reward: winnerStakeMultiplier.div(loserStakeMultiplier).mul(hundred),
+    reward: winnerStakeMultiplier.mul(hundred).div(loserStakeMultiplier),
   };
 
   const [appealCost] = useContract(
