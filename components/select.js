@@ -2,6 +2,8 @@ import { alpha } from "@theme-ui/color";
 import { useSelect } from "downshift";
 import { useRef } from "react";
 import { usePopper } from "react-popper";
+import { animated, useSpring } from "react-spring";
+import useMeasure from "react-use-measure";
 import { Box } from "theme-ui";
 
 import Button from "./button";
@@ -69,6 +71,13 @@ export default function Select({ items, onChange, value, label, ...rest }) {
   } = usePopper(toggleButtonRef.current, menuRef.current, popperOptions);
 
   const border = isOpen ? "borderBottom" : "borderTop";
+
+  const [measureMenuRef, { height }] = useMeasure();
+  const animatedMenuStyle = useSpring({
+    height: isOpen ? height : 0,
+    opacity: isOpen ? 1 : 0,
+    overflow: "hidden",
+  });
   return (
     <Box {...rest}>
       <Label
@@ -114,29 +123,32 @@ export default function Select({ items, onChange, value, label, ...rest }) {
           ...popperAttributes,
         })}
       >
-        {isOpen &&
-          items.map((item, index) => (
-            <ListItem
-              key={`${item}-${index}`}
-              {...getItemProps({
-                variant: "select.list.item",
-                sx: {
-                  backgroundColor:
-                    highlightedIndex === index && alpha("highlight", 0.06),
-                  ...(selectedItem === item && {
-                    borderLeftColor: "highlight",
-                    borderLeftStyle: "solid",
-                    borderLeftWidth: 3,
-                  }),
-                },
-                item,
-                index,
-              })}
-            >
-              <Icon item={item} />
-              {String(item)}
-            </ListItem>
-          ))}
+        <animated.div style={animatedMenuStyle}>
+          <Box ref={measureMenuRef}>
+            {items.map((item, index) => (
+              <ListItem
+                key={`${item}-${index}`}
+                {...getItemProps({
+                  variant: "select.list.item",
+                  sx: {
+                    backgroundColor:
+                      highlightedIndex === index && alpha("highlight", 0.06),
+                    ...(selectedItem === item && {
+                      borderLeftColor: "highlight",
+                      borderLeftStyle: "solid",
+                      borderLeftWidth: 3,
+                    }),
+                  },
+                  item,
+                  index,
+                })}
+              >
+                <Icon item={item} />
+                {String(item)}
+              </ListItem>
+            ))}
+          </Box>
+        </animated.div>
       </List>
     </Box>
   );

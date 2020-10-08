@@ -30,6 +30,7 @@
 - chore: implement challenging flow ([201b193](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/201b193))
 - chore: implement contract provider ([4cc1006](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4cc1006))
 - chore: implement deadlines ([9ba7ccf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9ba7ccf))
+- chore: implement design system selects ([4e08d7a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4e08d7a))
 - chore: implement disabled button tooltips ([c9e40c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c9e40c5))
 - chore: implement ETH input form APIs ([0051ecc](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0051ecc))
 - chore: implement file upload forms with webcam support ([2a1b8f0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2a1b8f0))
