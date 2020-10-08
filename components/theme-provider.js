@@ -73,6 +73,9 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       fontWeight: "bold",
       paddingX: 2,
       paddingY: 1,
+      ":hover": {
+        opacity: 0.8,
+      },
     },
     panel: {
       backgroundColor: "background",
@@ -154,9 +157,6 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       boxShadow: "0 6px 10px rgba(255, 153, 0, 0.25)",
       fontFamily: "heading",
       fontSize: 0,
-      ":hover:not([disabled])": {
-        boxShadow: "0 6px 20px rgba(255, 153, 0, 0.25)",
-      },
     },
     muted: {
       backgroundColor: "muted",

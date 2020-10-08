@@ -1,10 +1,13 @@
 import {
+  AccordionItemState,
   Accordion as _Accordion,
   AccordionItem as _AccordionItem,
   AccordionItemButton as _AccordionItemButton,
   AccordionItemHeading as _AccordionItemHeading,
   AccordionItemPanel as _AccordionItemPanel,
 } from "react-accessible-accordion";
+import { animated, useSpring } from "react-spring";
+import useMeasure from "react-use-measure";
 import { Box } from "theme-ui";
 
 export default function Accordion({
@@ -41,6 +44,26 @@ export function AccordionItemHeading({ children, rest }) {
   );
 }
 
+function AnimatedAccordionItemPanel({ expanded, ...rest }) {
+  const [measureRef, { height }] = useMeasure();
+  const animatedStyle = useSpring({
+    height: expanded ? height : 0,
+    overflow: "hidden",
+  });
+  return (
+    <animated.div style={animatedStyle}>
+      <Box ref={measureRef}>
+        <Box as={_AccordionItemPanel} variant="accordion.panel" {...rest} />
+      </Box>
+    </animated.div>
+  );
+}
 export function AccordionItemPanel(props) {
-  return <Box as={_AccordionItemPanel} variant="accordion.panel" {...props} />;
+  return (
+    <AccordionItemState>
+      {({ expanded }) => (
+        <AnimatedAccordionItemPanel expanded={expanded} {...props} />
+      )}
+    </AccordionItemState>
+  );
 }
