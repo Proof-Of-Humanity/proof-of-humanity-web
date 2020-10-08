@@ -29,7 +29,7 @@ export { default as List, ListItem } from "./list";
 export { default as Popup } from "./popup";
 export { default as RelayProvider, useQuery } from "./relay-provider";
 export { default as SVG } from "./svg";
-export { default as Select, Option } from "./select";
+export { default as Select } from "./select";
 export { default as SocialIcons } from "./social-icons";
 export { default as Text } from "./text";
 export { default as Textarea } from "./textarea";
@@ -40,3 +40,4 @@ export { default as VotingHistory } from "./voting-history";
 export { default as Web3Provider, useWeb3, useContract } from "./web3-provider";
 
 export { NextLink, NextETHLink, createWrapConnection } from "./next-router";
+export { zeroAddress, ethereumAddressRegExp, createEnum } from "./parsing";

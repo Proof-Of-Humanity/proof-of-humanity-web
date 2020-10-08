@@ -1,4 +1,4 @@
-import { Card, Input, Option, Select, Text } from "@kleros/components";
+import { Card, Input, Select, Text } from "@kleros/components";
 import { Search } from "@kleros/icons";
 import { useRouter } from "next/router";
 
@@ -10,9 +10,11 @@ export default function SubmissionFilters({ numberOfSubmissions }) {
     <Card
       sx={{ marginBottom: 2 }}
       header={
-        <Text>
-          <Text as="span">{numberOfSubmissions}</Text> Profile
-          {Number(numberOfSubmissions) === 1 ? "" : "s"}
+        <Text sx={{ maxWidth: 150 }}>
+          {(numberOfSubmissions || numberOfSubmissions === 0) &&
+            `${numberOfSubmissions} Profile${
+              numberOfSubmissions === 1 ? "" : "s"
+            }`}
         </Text>
       }
       headerSx={{ fontWeight: "bold", justifyContent: "flex-end" }}
@@ -34,26 +36,21 @@ export default function SubmissionFilters({ numberOfSubmissions }) {
         }}
       />
       <Select
-        sx={{ width: "205px" }}
-        value={
-          submissionStatusEnum.find(
-            (status) => status.kebabCase === router.query.status
-          ).startCase
-        }
-        onChange={(event) => {
+        sx={{ width: "240px" }}
+        items={submissionStatusEnum.array}
+        onChange={({ kebabCase }) => {
           const query = { ...router.query };
-          const status = submissionStatusEnum[event.target.value].kebabCase;
-          if (!status) delete query.status;
-          else query.status = status;
+          if (!kebabCase) delete query.status;
+          else query.status = kebabCase;
           router.push({
             query,
           });
         }}
-      >
-        {submissionStatusEnum.map((status) => (
-          <Option key={status.key}>{status.startCase}</Option>
-        ))}
-      </Select>
+        value={submissionStatusEnum.array.find(
+          ({ kebabCase }) => kebabCase === router.query.status
+        )}
+        label="Filter by status:"
+      />
     </Card>
   );
 }

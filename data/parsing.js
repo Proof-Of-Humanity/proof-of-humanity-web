@@ -1,54 +1,5 @@
+import { createEnum } from "@kleros/components";
 import { Check, Pending, X } from "@kleros/icons";
-import lodashKebabCase from "lodash.kebabcase";
-import lodashStartCase from "lodash.startcase";
-
-export const zeroAddress = "0x0000000000000000000000000000000000000000";
-
-export const ethereumAddressRegExp = /^0x[\dA-Fa-f]{40}$/;
-
-const createEnum = (keys, parse) => {
-  const _enum = keys.reduce(
-    (acc, key, index) => {
-      let extra;
-      if (Array.isArray(key)) [key, extra] = key;
-
-      const value = {
-        key,
-        index,
-        camelCase: key[0].toLowerCase() + key.slice(1),
-        kebabCase: lodashKebabCase(key),
-        startCase: lodashStartCase(key),
-        ...extra,
-      };
-      acc[key] = value;
-      acc[index] = value;
-      acc[value.camelCase] = value;
-      acc[value.kebabCase] = value;
-      acc[value.startCase] = value;
-      return acc;
-    },
-    {
-      parse:
-        parse ||
-        ((arrayOrKey) =>
-          Array.isArray(arrayOrKey)
-            ? arrayOrKey.reduce((acc, key) => {
-                const value = _enum[key];
-                acc[key] = value;
-                acc[value.index] = value;
-                acc[value.camelCase] = value;
-                acc[value.kebabCase] = value;
-                acc[value.startCase] = value;
-                return acc;
-              }, {})
-            : _enum[arrayOrKey]),
-    }
-  );
-  _enum.map = (callback) => keys.map((_, index) => callback(_enum[index]));
-  _enum.find = (callback) =>
-    Object.values(_enum).find((value) => callback(value));
-  return _enum;
-};
 
 export const submissionStatusEnum = createEnum(
   [

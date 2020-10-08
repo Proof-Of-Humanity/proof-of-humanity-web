@@ -3,7 +3,7 @@ import { Box, Flex } from "theme-ui";
 
 import { createUseDataloaders } from "./archon-provider";
 import Card from "./card";
-import Select, { Option } from "./select";
+import Select from "./select";
 import Tabs, { Tab, TabList, TabPanel } from "./tabs";
 import { useWeb3 } from "./web3-provider";
 
@@ -96,27 +96,19 @@ function VotingHistoryTabPanel({
     <>
       <Flex sx={{ marginBottom: 2 }}>
         <Select
+          items={[...new Array(roundsLength)].map((_, index) => index)}
+          onChange={(value) => setRound(value)}
           value={round}
-          onChange={(event) => setRound(Number(event.target.value))}
-        >
-          {[...new Array(roundsLength)].map((_, index) => (
-            <Option key={index} value={index}>
-              Round {index + 1}
-            </Option>
-          ))}
-        </Select>
+          label="Choose a round:"
+        />
         {rulingDescriptions && (
           <Box sx={{ flex: 1, marginLeft: 2 }}>
             <Select
-              value={ruling}
-              onChange={(event) => setRuling(Number(event.target.value))}
-            >
-              {rulingDescriptions.map((description, index) => (
-                <Option key={index} value={index}>
-                  {description}
-                </Option>
-              ))}
-            </Select>
+              items={rulingDescriptions}
+              onChange={(value) => setRuling(rulingDescriptions.indexOf(value))}
+              value={rulingDescriptions[ruling]}
+              label="Choose a voting option:"
+            />
           </Box>
         )}
       </Flex>

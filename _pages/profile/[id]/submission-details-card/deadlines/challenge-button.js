@@ -9,13 +9,15 @@ import {
   NextLink,
   Popup,
   Text,
+  ethereumAddressRegExp,
   useContract,
   useWeb3,
+  zeroAddress,
 } from "@kleros/components";
 import { useEffect, useMemo, useState } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
-import { challengeReasonEnum, ethereumAddressRegExp, zeroAddress } from "data";
+import { challengeReasonEnum } from "data";
 
 const challengeButtonFragments = {
   contract: graphql`

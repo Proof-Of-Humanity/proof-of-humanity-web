@@ -103,14 +103,14 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       fontSize: 1,
       paddingX: 2,
       paddingY: 1,
-      "&:disabled:not([data-loading=true])": {
+      ":disabled:not([data-loading=true])": {
         backgroundColor: "skeleton",
         backgroundImage: "none !important",
       },
-      "&:hover": {
+      ":hover": {
         opacity: 0.8,
       },
-      "&:focus": {
+      ":focus": {
         outline: "none",
       },
       spinner: {
@@ -125,9 +125,26 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       backgroundImage: "none !important",
       fontSize: 1,
       padding: 1,
-      "&:disabled:not([data-loading=true])": {
+      ":disabled:not([data-loading=true])": {
         backgroundColor: "skeleton",
         backgroundImage: "none !important",
+      },
+    },
+    select: {
+      backgroundColor: "background",
+      backgroundImage: "none !important",
+      borderColor: "skeleton",
+      borderStyle: "solid",
+      borderWidth: 1,
+      color: "text",
+      paddingLeft: 2,
+      paddingRight: 3,
+      paddingY: 1,
+      ":hover": {
+        opacity: 0.8,
+      },
+      ":focus": {
+        outline: "none",
       },
     },
   },
@@ -137,7 +154,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       boxShadow: "0 6px 10px rgba(255, 153, 0, 0.25)",
       fontFamily: "heading",
       fontSize: 0,
-      "&:hover:not([disabled])": {
+      ":hover:not([disabled])": {
         boxShadow: "0 6px 20px rgba(255, 153, 0, 0.25)",
       },
     },
@@ -149,13 +166,13 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       borderWidth: 2,
       fontSize: 1,
       padding: 2,
-      "&:disabled": {
+      ":disabled": {
         backgroundColor: "skeleton",
       },
-      "&:focus": {
+      ":focus": {
         outline: "none",
       },
-      "&:focus,&:hover:not([disabled]),&.active": {
+      ":focus,:hover:not([disabled]),&.active": {
         borderColor: "primary",
       },
     },
@@ -205,13 +222,18 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       input: {
         marginTop: 1,
       },
+      visuallyHidden: {
+        border: 0,
+        clip: "rect(0 0 0 0)",
+        height: "1px",
+        margin: "-1px",
+        overflow: "hidden",
+        padding: 0,
+        position: "absolute",
+        width: "1px",
+      },
     },
     mutedInput: { border: "none" },
-    select: {
-      borderColor: "skeleton",
-      paddingRight: 3,
-      paddingY: 1,
-    },
     smallInput: { borderColor: "skeleton", fontSize: 1, padding: 1 },
     textarea: { borderColor: "skeleton" },
   },
@@ -241,6 +263,19 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       textDecoration: "none",
     },
   },
+  select: {
+    list: {
+      backgroundColor: "background",
+      borderRadius: 3,
+      listStyle: "none",
+      padding: 0,
+      ":focus": { outline: "none" },
+      item: {
+        paddingX: 2,
+        paddingY: 1,
+      },
+    },
+  },
   tabs: {
     tabList: {
       fontSize: 1,
@@ -262,6 +297,18 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     },
   },
   text: {
+    buttons: {
+      primary: {
+        justifyContent: "space-evenly",
+      },
+      secondary: {
+        justifyContent: "space-evenly",
+      },
+      select: {
+        justifyContent: "flex-start",
+        paddingRight: 1,
+      },
+    },
     clipped: {
       overflow: "hidden",
       textOverflow: "ellipsis",

@@ -6,11 +6,10 @@ import {
   Text,
   useContract,
   useWeb3,
+  zeroAddress,
 } from "@kleros/components";
 import { useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
-
-import { zeroAddress } from "data";
 
 const removeButtonFragments = {
   contract: graphql`

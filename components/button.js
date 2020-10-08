@@ -32,9 +32,9 @@ const Button = forwardRef(
             return `linear-gradient(90deg, ${primary} 0%, ${secondary} 100%)`;
           },
           position: "relative",
-          "&:focus": {
+          ":focus": {
             boxShadow({ colors: { text } }) {
-              return `0 0 2px ${text}`;
+              return `0 0 1px ${text}`;
             },
           },
           ...sx,
@@ -47,10 +47,10 @@ const Button = forwardRef(
         <Text
           ref={innerRef}
           id={id && `${id}-text`}
+          variant={`buttons.${variant}`}
           sx={{
             alignItems: "center",
             display: "flex",
-            justifyContent: "space-evenly",
             minWidth: "100px",
           }}
         >
