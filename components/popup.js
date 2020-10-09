@@ -11,6 +11,7 @@ export default function Popup({
   ...rest
 }) {
   const [animatedStyle, setAnimatedStyle] = useSpring(() => ({
+    opacity: 0,
     scale: 0,
     config: { tension: 300 },
   }));
@@ -23,11 +24,11 @@ export default function Popup({
         ...contentStyle,
       }}
       onOpen={() => {
-        setAnimatedStyle({ scale: 1 });
+        setAnimatedStyle({ opacity: 1, scale: 1 });
         if (onOpen) onOpen();
       }}
       onClose={() => {
-        setAnimatedStyle({ scale: 0 });
+        setAnimatedStyle({ opacity: 0, scale: 0 });
         if (onClose) onClose();
       }}
       {...rest}
@@ -36,6 +37,7 @@ export default function Popup({
       {(props) => (
         <AnimatedBox
           style={{
+            ...animatedStyle,
             transform: animatedStyle.scale.interpolate(
               (scale) => `scale(${scale})`
             ),
