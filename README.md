@@ -1,4 +1,4 @@
-## (2020-10-08)
+## (2020-10-09)
 
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add identicons ([45ddea1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/45ddea1))
@@ -6,6 +6,7 @@
 - chore: add more status icons ([3225e43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3225e43))
 - chore: add share buttons to appeals ([4e35099](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4e35099))
 - chore: add social icons and fix font rendering ([b8e09b5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b8e09b5))
+- chore: animate cards on hover ([9cab895](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9cab895))
 - chore: animate select menu ([5e7b022](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5e7b022))
 - chore: auto-detect Web3 call type ([15ae304](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/15ae304))
 - chore: begin work on profile details page ([e4283ef](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e4283ef))

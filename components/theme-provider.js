@@ -172,7 +172,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       ":focus": {
         outline: "none",
       },
-      ":focus,:hover:not([disabled]),&.active": {
+      ":focus,:hover[role=button]:not([disabled]),&.active": {
         borderColor: "primary",
       },
     },
@@ -233,7 +233,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
         width: "1px",
       },
     },
-    mutedInput: { border: "none" },
+    mutedInput: { border: "none", paddingY: 1 },
     smallInput: { borderColor: "skeleton", fontSize: 1, padding: 1 },
     textarea: { borderColor: "skeleton" },
   },
