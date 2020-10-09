@@ -3,6 +3,7 @@
 
 # Build
 /.next/
+/out/
 
 # Relay
 /.relay/
