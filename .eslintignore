@@ -1,2 +1,5 @@
 # Don't ignore dotfiles.
 !/.*.js
+
+# Build
+/out/

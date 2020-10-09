@@ -14,6 +14,7 @@
 - chore: expand subgraph ([788c53f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/788c53f))
 - chore: expand subgraph more ([4aca747](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4aca747))
 - chore: expand subgraph usage ([e77de34](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e77de34))
+- chore: export pages statically ([df1b304](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/df1b304))
 - chore: finish subgraph ([41d22d4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/41d22d4))
 - chore: fix again ([42927b6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/42927b6))
 - chore: fix ci ([342e933](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/342e933))
