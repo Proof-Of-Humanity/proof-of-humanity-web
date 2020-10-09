@@ -1,5 +1,7 @@
 import { forwardRef } from "react";
+import reactMergeRefs from "react-merge-refs";
 import { animated, useSpring } from "react-spring";
+import useMeasure from "react-use-measure";
 import { Flex, Card as _Card } from "theme-ui";
 
 const AnimatedCard = animated(_Card);
@@ -20,9 +22,10 @@ const Card = forwardRef(
   ) => {
     const [animatedStyle, setAnimatedStyle] = useSpring(() => ({
       boxShadow: [10, 0],
-      position: "relative",
-      top: 0,
+      rotateXRotateYScale: [0, 0, 1],
+      zIndex: 0,
     }));
+    const [measureRef, { top, height, left, width }] = useMeasure();
     const hoverAnimationProps = variant === "primary" &&
       rest.onClick &&
       !rest.disabled && {
@@ -32,26 +35,42 @@ const Card = forwardRef(
             (blur, spread) =>
               `0 6px ${blur}px ${spread}px rgba(255, 153, 0, 0.25)`
           ),
+          transform: animatedStyle.rotateXRotateYScale.interpolate(
+            (rotateX, rotateY, scale) =>
+              `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`
+          ),
           ...rest.style,
         },
         onMouseEnter() {
           setAnimatedStyle({
             boxShadow: [20, 12],
-            top: -8,
+            zIndex: 1,
           });
           if (rest.onMouseEnter) rest.onMouseEnter();
+        },
+        onMouseMove({ pageY, pageX }) {
+          setAnimatedStyle({
+            boxShadow: [10, 0],
+            rotateXRotateYScale: [
+              -(pageY - top - height / 2) / 20,
+              (pageX - left - width / 2) / 20,
+              1.1,
+            ],
+          });
+          if (rest.onMouseMove) rest.onMouseMove();
         },
         onMouseLeave() {
           setAnimatedStyle({
             boxShadow: [10, 0],
-            top: 0,
+            rotateXRotateYScale: [0, 0, 1],
+            zIndex: 0,
           });
           if (rest.onMouseLeave) rest.onMouseLeave();
         },
       };
     return (
       <AnimatedCard
-        ref={ref}
+        ref={reactMergeRefs([ref, measureRef])}
         role={rest.onClick || rest.disabled ? "button" : undefined}
         className={active ? "active" : undefined}
         variant={variant}

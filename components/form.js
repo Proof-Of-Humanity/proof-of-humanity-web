@@ -1,3 +1,5 @@
+import { X } from "@kleros/icons";
+import { alpha } from "@theme-ui/color";
 import {
   ErrorMessage,
   Formik,
@@ -116,25 +118,48 @@ export default function Form({
 export function Field({ label, as = Input, name, info, ...rest }) {
   const validationSchema = useContext(ValidationSchemaContext);
   const field = useField(name);
-  const [{ onChange }] = field;
+  const [{ onChange }, { touched, error, initialValue }, { setValue }] = field;
+  const showError = touched && error;
   return (
     <Label>
       {typeof label === "function" ? label({ field }) : label}
-      <_Field
-        as={as}
-        name={name}
-        onChange={(event) => {
-          try {
-            event.target.value = reach(validationSchema, name).render(
-              event.target.value
-            );
-            onChange(event);
-          } catch {
-            onChange(event);
-          }
-        }}
-        {...rest}
-      />
+      <Box sx={{ marginTop: 1, position: "relative" }}>
+        <_Field
+          className={showError ? "error" : undefined}
+          as={as}
+          sx={{
+            ":focus": {
+              boxShadow(theme) {
+                return `0 0 6px ${alpha("highlight", 0.25)(theme)}`;
+              },
+            },
+          }}
+          name={name}
+          onChange={(event) => {
+            try {
+              event.target.value = reach(validationSchema, name).render(
+                event.target.value
+              );
+              onChange(event);
+            } catch {
+              onChange(event);
+            }
+          }}
+          {...rest}
+        />
+        {as === Input && showError && (
+          <X
+            variant="forms.field.error.icon"
+            sx={{
+              position: "absolute",
+              right: 2,
+              top: "50%",
+              transform: "translateY(-50%)",
+            }}
+            onClick={() => setValue(initialValue)}
+          />
+        )}
+      </Box>
       {info && <Text variant="forms.field.info">{info}</Text>}
       <Text variant="forms.field.error">
         <ErrorMessage name={name} />

@@ -198,7 +198,15 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
   forms: {
     checkbox: { marginTop: 1 },
     field: {
-      error: { color: "danger" },
+      error: {
+        color: "danger",
+        marginLeft: 1,
+        icon: {
+          stroke: "danger",
+          ":hover": { opacity: 0.8 },
+          path: { fill: "danger" },
+        },
+      },
       info: {
         color: "info",
         fontSize: "0.75em",
@@ -214,14 +222,21 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       padding: 2,
       paddingRight: 5,
     },
-    input: { borderColor: "skeleton" },
+    input: {
+      borderColor: "skeleton",
+      paddingY: 1,
+      "&:focus": {
+        borderColor: "highlight",
+        outline: "none",
+      },
+      "&.error": {
+        borderColor: "danger",
+      },
+    },
     label: {
       display: "flex",
       flexDirection: "column",
       marginBottom: 2,
-      input: {
-        marginTop: 1,
-      },
       visuallyHidden: {
         border: 0,
         clip: "rect(0 0 0 0)",
