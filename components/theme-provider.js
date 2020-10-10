@@ -24,6 +24,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     primary: "#ff9900",
     secondary: "#ffc700",
     accent: "#ffb978",
+    accentComplement: "#fdc9d3",
     highlight: "#009aff",
     muted: "#fffcf0",
     skeleton: "#eee",
@@ -44,7 +45,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
   // Layout
   layout: {
     header: {
-      backgroundColor: "accent",
+      boxShadow: "0 1px 0 rgba(216, 213, 213, 0.5)",
       color: "background",
       fontFamily: "heading",
       lineHeight: "heading",
@@ -54,7 +55,6 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       padding: 3,
     },
     footer: {
-      backgroundColor: "accent",
       color: "background",
       fontFamily: "heading",
       lineHeight: "heading",
@@ -67,7 +67,6 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       marginY: 2,
     },
     heading: {
-      backgroundColor: "accent",
       borderRadius: 3,
       color: "background",
       fontWeight: "bold",

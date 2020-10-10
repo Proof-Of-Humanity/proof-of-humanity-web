@@ -16,7 +16,7 @@ function LayoutColumn({ justifyContent, children }) {
     </Flex>
   );
 }
-function LayoutRow({ as, left, middle, right }) {
+function LayoutRow({ as, sx, left, middle, right }) {
   return (
     <Flex
       as={as}
@@ -27,6 +27,7 @@ function LayoutRow({ as, left, middle, right }) {
         "> *": {
           marginX: 1,
         },
+        ...sx,
       }}
     >
       <LayoutColumn>{left}</LayoutColumn>
@@ -35,14 +36,40 @@ function LayoutRow({ as, left, middle, right }) {
     </Flex>
   );
 }
-export default function Layout({ children, header, footer }) {
+export default function Layout({
+  header: { sx: headerSx, ...header },
+  children,
+  footer: { sx: footerSx, ...footer },
+}) {
   return (
     <Flex sx={{ flexDirection: "column", minHeight: "100vh" }}>
-      {header && <LayoutRow as="header" {...header} />}
+      {header && (
+        <LayoutRow
+          as="header"
+          sx={{
+            backgroundImage({ colors: { accent, accentComplement } }) {
+              return `linear-gradient(90.13deg, ${accent} 49.89%, ${accentComplement} 93.37%)`;
+            },
+            ...headerSx,
+          }}
+          {...header}
+        />
+      )}
       <Box as="main" variant="layout.main" sx={{ flex: 1 }}>
         {children}
       </Box>
-      {footer && <LayoutRow as="footer" {...footer} />}
+      {footer && (
+        <LayoutRow
+          as="footer"
+          sx={{
+            backgroundImage({ colors: { accent, accentComplement } }) {
+              return `linear-gradient(90.12deg, ${accent} 49.9%, ${accentComplement} 93.11%)`;
+            },
+            ...footerSx,
+          }}
+          {...footer}
+        />
+      )}
     </Flex>
   );
 }

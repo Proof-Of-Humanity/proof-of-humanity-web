@@ -60,7 +60,12 @@ function AnimatedAccordionItemHeading({ expanded, children, ...rest }) {
       <Box
         as={_AccordionItemButton}
         variant="accordion.heading"
-        sx={{ position: "relative" }}
+        sx={{
+          backgroundImage({ colors: { accent, accentComplement } }) {
+            return `linear-gradient(90deg, ${accent} 0%, ${accentComplement} 100%, ${accentComplement} 100%)`;
+          },
+          position: "relative",
+        }}
       >
         {children}
         <SVG

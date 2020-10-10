@@ -24,7 +24,17 @@ export default function AccountSettingsPopup({
     <Popup
       contentStyle={{ width: 300 }}
       trigger={
-        <Button>
+        <Button
+          variant="secondary"
+          sx={{
+            backgroundColor: "accent",
+            borderColor: "accent",
+            color: "background",
+            ":focus,&.active": {
+              color: "background",
+            },
+          }}
+        >
           Account <Settings sx={{ marginLeft: 1 }} />
         </Button>
       }
