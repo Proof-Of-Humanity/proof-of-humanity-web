@@ -1,5 +1,6 @@
 import {
   ArchonProvider,
+  Box,
   Layout,
   Link,
   List,
@@ -7,6 +8,7 @@ import {
   NextLink,
   RelayProvider,
   SocialIcons,
+  Text,
   ThemeProvider,
   Web3Provider,
   AccountSettingsPopup as _AccountSettingsPopup,
@@ -106,7 +108,10 @@ const header = {
   left: (
     <>
       <ProofOfHumanityLogo size={32} />
-      PROOF OF HUMANITY
+      <Box>
+        <Text>PROOF OF</Text>
+        <Text>HUMANITY</Text>
+      </Box>
     </>
   ),
   middle: (
