@@ -63,6 +63,7 @@
 - chore: more repo chores ([1f4c46f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1f4c46f))
 - chore: new card designs and challenged status ([80b71c2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/80b71c2))
 - chore: normalize form behavior and implement evidence module ([b035c76](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b035c76))
+- chore: pagination ([c4ed9b5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c4ed9b5))
 - chore: refactor submission details accordion ([725c829](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/725c829))
 - chore: relay updates and fixes ([3ab1170](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3ab1170))
 - chore: respond to wallet network changes ([d283116](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d283116))

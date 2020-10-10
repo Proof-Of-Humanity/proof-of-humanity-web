@@ -1,15 +1,8 @@
 import { SVG } from "@kleros/components";
 
-export default function Info({ size = 16, ...rest }) {
+export default function Info(props) {
   return (
-    <SVG
-      width={size}
-      height={size}
-      viewBox="0 0 24 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+    <SVG viewBox="0 0 24 24" {...props}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"

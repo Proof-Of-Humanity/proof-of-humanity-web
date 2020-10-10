@@ -1,15 +1,11 @@
 import { SVG } from "@kleros/components";
 
-export default function EtherscanLogo({ size = 16, ...rest }) {
+export default function EtherscanLogo(props) {
   return (
     <SVG
-      width={size}
-      height={size}
       viewBox="0 0 25 25"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
-      {...rest}
+      {...props}
     >
       <mask
         id="mask0"

@@ -1,15 +1,8 @@
 import { SVG } from "@kleros/components";
 
-export default function Blog({ size = 16, ...rest }) {
+export default function Blog(props) {
   return (
-    <SVG
-      width={size}
-      height={size}
-      viewBox="0 0 17 17"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+    <SVG viewBox="0 0 17 17" {...props}>
       <rect
         x="0.152344"
         y="0.152344"

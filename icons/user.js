@@ -1,15 +1,8 @@
 import { SVG } from "@kleros/components";
 
-export default function User({ size = 16, ...rest }) {
+export default function User(props) {
   return (
-    <SVG
-      width={size}
-      height={size}
-      viewBox="0 0 14 16"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...rest}
-    >
+    <SVG viewBox="0 0 14 16" {...props}>
       <path
         d="M6.96774 8C9.16694 8 10.9493 6.20937 10.9493 4C10.9493 1.79063 9.16694 0 6.96774 0C4.76855 0 2.98618 1.79063 2.98618 4C2.98618 6.20937 4.76855 8 6.96774 8ZM9.75484 9H9.23537C8.54482 9.31875 7.7765 9.5 6.96774 9.5C6.15899 9.5 5.39378 9.31875 4.70012 9H4.18064C1.87258 9 0 10.8813 0 13.2V14.5C0 15.3281 0.668779 16 1.49309 16H12.4424C13.2667 16 13.9355 15.3281 13.9355 14.5V13.2C13.9355 10.8813 12.0629 9 9.75484 9Z"
         fill="black"
