@@ -25,7 +25,7 @@ export default function AccountSettingsPopup({
       contentStyle={{ width: 300 }}
       trigger={
         <Button>
-          Account <Settings />
+          Account <Settings sx={{ marginLeft: 1 }} />
         </Button>
       }
       position="bottom right"

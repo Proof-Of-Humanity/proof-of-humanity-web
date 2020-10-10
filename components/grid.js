@@ -5,9 +5,9 @@ export default function Grid({ children, ...rest }) {
   return (
     <_Grid {...rest}>
       {children ||
-        [...new Array(rest.columns)].map((_, i) => (
-          <ReactLoadingSkeleton key={i} />
-        ))}
+        [
+          ...new Array(rest.columns[rest.columns.length - 1] || rest.columns),
+        ].map((_, i) => <ReactLoadingSkeleton key={i} height="100%" />)}
     </_Grid>
   );
 }

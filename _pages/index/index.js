@@ -1,35 +1,69 @@
-import { Grid, useQuery } from "@kleros/components";
+import { Grid, Pagination, useQuery } from "@kleros/components";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { graphql } from "relay-hooks";
 
 import SubmissionCard from "./submission-card";
 import SubmissionFilters from "./submission-filters";
 
+const pageSize = 8;
 export default function Index() {
-  const { query } = useRouter();
+  const router = useRouter();
   const { props } = useQuery();
-  const submissions = query.search
+  const submissions = router.query.search
     ? props?.submissionSearch
-    : props?.submissions;
+    : props?.submissions?.slice(0, pageSize);
+
+  const [numberOfPages, setNumberOfPages] = useState(
+    router.query.skip ? router.query.skip / pageSize + 1 : 1
+  );
+  const [page, setPage] = useState(numberOfPages);
+  const isLastPage = numberOfPages === page;
+  const hasMore = props?.submissions?.length === pageSize + 1;
+  useEffect(() => {
+    if (!isLastPage && !hasMore) setNumberOfPages(page);
+  }, [isLastPage, hasMore, page]);
   return (
     <>
       <SubmissionFilters numberOfSubmissions={submissions?.length} />
-      <Grid gap={2} columns={[1, 2, 3, 4]}>
+      <Grid sx={{ minHeight: 367 }} gap={2} columns={[1, 2, 3, 4]}>
         {submissions?.map((submission) => (
           <SubmissionCard key={submission.id} submission={submission} />
         ))}
       </Grid>
+      {!router.query.search && (
+        <Pagination
+          sx={{ marginTop: 2, width: "100%" }}
+          initialPage={page}
+          numberOfPages={
+            isLastPage && hasMore ? numberOfPages + 1 : numberOfPages
+          }
+          maxButtons={Math.min(numberOfPages, 5)}
+          onChange={(_page) => {
+            if (numberOfPages < _page) setNumberOfPages(_page);
+            setPage(_page);
+
+            const query = { ...router.query };
+            if (_page === 1) delete query.skip;
+            else query.skip = (_page - 1) * pageSize;
+            router.push({
+              query,
+            });
+          }}
+        />
+      )}
     </>
   );
 }
 
 export const indexQuery = graphql`
   query indexQuery(
-    $first: Int = 8
+    $skip: Int = 0
+    $first: Int = 9
     $where: Submission_filter
     $search: String = ""
   ) {
-    submissions(first: $first, where: $where) {
+    submissions(skip: $skip, first: $first, where: $where) {
       id
       ...submissionCard
     }

@@ -124,13 +124,25 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       },
     },
     secondary: {
-      backgroundColor: "secondary",
+      backgroundColor: "transparent",
       backgroundImage: "none !important",
+      borderColor: "skeleton",
+      borderStyle: "solid",
+      borderWidth: 1,
+      color: "text",
       fontSize: 1,
-      padding: 1,
+      paddingX: 2,
+      paddingY: 1,
       ":disabled:not([data-loading=true])": {
-        backgroundColor: "skeleton",
-        backgroundImage: "none !important",
+        color: "skeleton",
+      },
+      ":hover": {
+        opacity: 0.8,
+      },
+      ":focus,&.active": {
+        borderColor: "primary",
+        color: "primary",
+        outline: "none",
       },
     },
     select: {
@@ -147,6 +159,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
         opacity: 0.8,
       },
       ":focus": {
+        opacity: 0.8,
         outline: "none",
       },
     },
@@ -284,6 +297,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       borderRadius: 3,
       listStyle: "none",
       padding: 0,
+      zIndex: 1000,
       ":focus": { outline: "none" },
       item: {
         paddingX: 2,
