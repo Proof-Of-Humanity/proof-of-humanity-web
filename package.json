@@ -39,6 +39,7 @@
     "@emotion/core": "^10.0.35",
     "@kleros/archon": "^0.10.4",
     "@popperjs/core": "^2.5.3",
+    "@reach/checkbox": "^0.11.2",
     "@theme-ui/color": "^0.3.1",
     "@theme-ui/presets": "^0.3.0",
     "@theme-ui/typography": "^0.3.0",

@@ -81,7 +81,7 @@ export default function UserSettings({
               {...settings[setting]}
             />
           ))}
-          <Field variant="smallInput" name="email" label="Email" />
+          <Field name="email" label="Email" />
           <Divider />
           <Button
             sx={{

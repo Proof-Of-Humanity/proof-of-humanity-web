@@ -212,7 +212,9 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     field: {
       error: {
         color: "danger",
+        fontSize: "0.75em",
         marginLeft: 1,
+        marginTop: "0.5em",
         icon: {
           stroke: "danger",
           ":hover": { opacity: 0.8 },
@@ -237,7 +239,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     input: {
       borderColor: "skeleton",
       paddingY: 1,
-      "&:focus": {
+      ":focus": {
         borderColor: "highlight",
         outline: "none",
       },
@@ -248,6 +250,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     label: {
       display: "flex",
       flexDirection: "column",
+      fontSize: 1,
       marginBottom: 2,
       visuallyHidden: {
         border: 0,
@@ -261,7 +264,6 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       },
     },
     mutedInput: { border: "none", paddingY: 1 },
-    smallInput: { borderColor: "skeleton", fontSize: 1, padding: 1 },
     textarea: { borderColor: "skeleton" },
   },
   form: {
