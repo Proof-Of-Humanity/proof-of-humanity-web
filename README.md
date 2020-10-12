@@ -50,6 +50,7 @@
 - chore: implement voting history module ([a79cd53](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a79cd53))
 - chore: implement vouching ([9ca0ff4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9ca0ff4))
 - chore: improve accordions and icons ([737d20f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/737d20f))
+- chore: improve accounts button colors ([42db125](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/42db125))
 - chore: improve accounts modal ([1b88466](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1b88466))
 - chore: improve appeal cards ([02cedba](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/02cedba))
 - chore: improve button states ([35d8527](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/35d8527))

@@ -320,8 +320,6 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
       padding: 1,
       textAlign: "center",
       "&[aria-selected=true]": {
-        borderBottomColor: "primary",
-        borderBottomWidth: 2,
         color: "primary",
       },
     },
