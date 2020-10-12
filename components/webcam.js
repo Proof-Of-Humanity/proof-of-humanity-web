@@ -81,13 +81,13 @@ export default function Webcam({
                 })
               }
             >
-              <Camera /> Capture
+              <Camera sx={{ marginRight: 1 }} /> Capture
             </Button>
           )}
           {video &&
             (recording ? (
               <Button onClick={() => mediaRecorderRef.current.stop()}>
-                <Stop /> Stop
+                <Stop sx={{ marginRight: 1 }} /> Stop
               </Button>
             ) : (
               <Button
@@ -162,7 +162,7 @@ export default function Webcam({
                   mediaRecorderRef.current.start();
                 }}
               >
-                <VideoIcon /> Record
+                <VideoIcon sx={{ marginRight: 1 }} /> Record
               </Button>
             ))}
         </Flex>

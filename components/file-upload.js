@@ -102,6 +102,7 @@ export default function FileUpload({
               )}
               <Trash
                 sx={{
+                  fill: "text",
                   position: "absolute",
                   right: -1,
                   top: -1,

@@ -101,7 +101,6 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
   buttons: {
     primary: {
       borderRadius: 300,
-      fill: "background",
       fontSize: 1,
       paddingX: 2,
       paddingY: 1,
@@ -121,6 +120,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
           borderColor: "background",
         },
       },
+      svg: { fill: "background" },
     },
     secondary: {
       backgroundColor: "transparent",
