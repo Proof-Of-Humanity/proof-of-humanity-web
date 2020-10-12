@@ -1,4 +1,5 @@
 import { Dot, Settings } from "@kleros/icons";
+import { animated, useSpring } from "react-spring";
 import { Box, Flex } from "theme-ui";
 
 import Button from "./button";
@@ -11,6 +12,7 @@ import Text from "./text";
 import UserSettings from "./user-settings";
 import { useWeb3 } from "./web3-provider";
 
+const AnimatedSettings = animated(Settings);
 export default function AccountSettingsPopup({
   name,
   userSettingsURL,
@@ -18,6 +20,9 @@ export default function AccountSettingsPopup({
   parseSettings,
   normalizeSettings,
 }) {
+  const [animatedSettingsStyle, setAnimatedSettingsStyle] = useSpring(() => ({
+    rotate: 0,
+  }));
   const [accounts] = useWeb3("eth", "getAccounts");
   const { web3, connect } = useWeb3();
   return (
@@ -27,15 +32,25 @@ export default function AccountSettingsPopup({
         <Button
           variant="secondary"
           sx={{
-            backgroundColor: "accent",
-            borderColor: "accent",
-            color: "background",
+            backgroundColor: "background",
+            borderColor: "background",
+            color: "accent",
             ":focus,&.active": {
-              color: "background",
+              color: "accent",
             },
           }}
+          onMouseEnter={() => setAnimatedSettingsStyle({ rotate: 90 })}
+          onMouseLeave={() => setAnimatedSettingsStyle({ rotate: 0 })}
         >
-          Account <Settings sx={{ marginLeft: 1 }} />
+          Account{" "}
+          <AnimatedSettings
+            style={{
+              transform: animatedSettingsStyle.rotate.interpolate(
+                (rotate) => `rotate(${rotate}deg)`
+              ),
+            }}
+            sx={{ marginLeft: 1, path: { fill: "accent" } }}
+          />
         </Button>
       }
       position="bottom right"
