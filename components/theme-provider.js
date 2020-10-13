@@ -52,7 +52,6 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
     },
     main: {
       backgroundColor: "background",
-      padding: 3,
     },
     footer: {
       color: "background",

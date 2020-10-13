@@ -139,6 +139,7 @@ const header = {
 const footer = {
   right: <SocialIcons />,
 };
+const AnimatedBox = animated(Box);
 export default function App({ Component, pageProps }) {
   const router = useRouter();
   const { network = "mainnet" } = useMemo(
@@ -202,9 +203,9 @@ export default function App({ Component, pageProps }) {
           <ArchonProvider>
             <Layout header={header} footer={footer}>
               {transitions.map(({ key, props, item }) => (
-                <animated.div key={key} style={props}>
+                <AnimatedBox key={key} style={props} sx={{ padding: 3 }}>
                   <item.Component {...item.pageProps} />
-                </animated.div>
+                </AnimatedBox>
               ))}
             </Layout>
           </ArchonProvider>
