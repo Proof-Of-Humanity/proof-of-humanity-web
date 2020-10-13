@@ -34,7 +34,10 @@ function EvidenceItem({
             <Identicon address={sender} />
             <Box sx={{ marginLeft: 1 }}>
               <Text>
-                #{index} submitted by{" "}
+                <Text as="span" sx={{ fontWeight: "bold" }}>
+                  #{index}
+                </Text>{" "}
+                submitted by{" "}
                 <NextETHLink address={sender}>{sender}</NextETHLink>
               </Text>
               <Text>
@@ -74,7 +77,7 @@ export default function Evidence({
   return (
     <ScrollTo>
       {({ scroll }) => (
-        <>
+        <Box sx={{ paddingX: 4 }}>
           <Flex
             sx={{
               alignItems: "center",
@@ -94,8 +97,12 @@ export default function Evidence({
           <ScrollArea
             sx={{
               marginBottom: 2,
+              marginTop: -3,
+              marginX: -4,
               maxHeight: 618,
               overflowY: "scroll",
+              paddingTop: 3,
+              paddingX: 4,
             }}
           >
             {evidence.map((_evidence, index) => (
@@ -120,7 +127,7 @@ export default function Evidence({
               Scroll to Last Evidence <UpArrow />
             </Text>
           </Flex>
-        </>
+        </Box>
       )}
     </ScrollTo>
   );

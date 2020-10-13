@@ -48,11 +48,11 @@ const submissionDetailsAccordionFragments = {
     }
   `,
 };
-function SubmissionDetailsAccordionItem({ heading, panel }) {
+function SubmissionDetailsAccordionItem({ heading, panelSx, panel }) {
   return (
     <AccordionItem>
       <AccordionItemHeading>{heading}</AccordionItemHeading>
-      <AccordionItemPanel>{panel}</AccordionItemPanel>
+      <AccordionItemPanel sx={panelSx}>{panel}</AccordionItemPanel>
     </AccordionItem>
   );
 }
@@ -86,6 +86,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
     <Accordion>
       <SubmissionDetailsAccordionItem
         heading="Evidence"
+        panelSx={{ paddingX: 0 }}
         panel={
           <Evidence
             contract="proofOfHumanity"
