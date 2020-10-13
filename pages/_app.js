@@ -18,6 +18,7 @@ import {
 import { ProofOfHumanityLogo } from "@kleros/icons";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { animated, useTransition } from "react-spring";
 import { useQuery } from "relay-hooks";
 
 import { indexQuery } from "_pages/index";
@@ -172,6 +173,20 @@ export default function App({ Component, pageProps }) {
     },
     [router]
   );
+
+  const transitions = useTransition(
+    [{ key: router.route, Component, pageProps }],
+    (item) => item.key,
+    {
+      from: { opacity: 0, transform: "translate3d(100%,0,0)" },
+      enter: { opacity: 1, transform: "translate3d(0%,0,0)" },
+      leave: {
+        opacity: 0,
+        position: "absolute",
+        transform: "translate3d(-50%,0,0)",
+      },
+    }
+  );
   return (
     <ThemeProvider theme={theme}>
       <RelayProvider
@@ -186,7 +201,11 @@ export default function App({ Component, pageProps }) {
         >
           <ArchonProvider>
             <Layout header={header} footer={footer}>
-              <Component {...pageProps} />
+              {transitions.map(({ key, props, item }) => (
+                <animated.div key={key} style={props}>
+                  <item.Component {...item.pageProps} />
+                </animated.div>
+              ))}
             </Layout>
           </ArchonProvider>
         </Web3Provider>

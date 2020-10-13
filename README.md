@@ -1,4 +1,4 @@
-## (2020-10-12)
+## (2020-10-13)
 
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add identicons ([45ddea1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/45ddea1))
@@ -64,6 +64,7 @@
 - chore: improve navbar ([7d5b85f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7d5b85f))
 - chore: improve popup ([3fd3a19](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3fd3a19))
 - chore: improve removal and renewal flow ([87fd4f8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/87fd4f8))
+- chore: improve tabs ([ffb87c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ffb87c9))
 - chore: increase video size ([7ecccdf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7ecccdf))
 - chore: manually sort entities by creation time ([65142d8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/65142d8))
 - chore: more repo chores ([1f4c46f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1f4c46f))
