@@ -179,12 +179,12 @@ export default function App({ Component, pageProps }) {
     [{ key: router.route, Component, pageProps }],
     (item) => item.key,
     {
-      from: { opacity: 0, transform: "translate3d(100%,0,0)" },
+      from: { opacity: 0, transform: "translate3d(0%,0,0)" },
       enter: { opacity: 1, transform: "translate3d(0%,0,0)" },
       leave: {
         opacity: 0,
         position: "absolute",
-        transform: "translate3d(-50%,0,0)",
+        transform: "translate3d(-100%,0,0)",
       },
     }
   );
