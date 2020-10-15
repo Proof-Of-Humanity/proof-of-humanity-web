@@ -164,6 +164,7 @@ const theme = merge(merge(base, toTheme(typographyTheme)), {
   },
   cards: {
     primary: {
+      backgroundColor: "background",
       borderRadius: 3,
       boxShadow: "0 6px 10px rgba(255, 153, 0, 0.25)",
       fontFamily: "heading",

@@ -1,4 +1,4 @@
-## (2020-10-14)
+## (2020-10-15)
 
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add identicons ([45ddea1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/45ddea1))
@@ -27,6 +27,7 @@
 - chore: fix subgraph ([68606c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/68606c9))
 - chore: fix subgraph memory access ([ba9cc9e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba9cc9e))
 - chore: fix submission details accordion ([56dafcc](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/56dafcc))
+- chore: fix transitions ([c73e049](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c73e049))
 - chore: fix weird Web3 inconsistency ([5d205ad](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5d205ad))
 - chore: forward all props to svg in icons ([7507ab6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7507ab6))
 - chore: framework work ([b7b7e62](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b7b7e62))
