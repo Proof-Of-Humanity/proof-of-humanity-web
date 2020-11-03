@@ -82,6 +82,15 @@ const metadata = {
         },
       },
     },
+    onClick: {
+      type: "function",
+      description: "The button's onClick handler.",
+      table: {
+        type: {
+          summary: "function",
+        },
+      },
+    },
     "...rest": {
       type: "object",
       description: "The button's additional props.",

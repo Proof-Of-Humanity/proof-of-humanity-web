@@ -81,6 +81,7 @@
 - chore: route transitions ([705b686](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/705b686))
 - chore: set correct fonts ([1e6e24d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1e6e24d))
 - chore: set up CI ([72e9f6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/72e9f6e))
+- chore: set up component documentation ([d04d26c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d04d26c))
 - chore: set up project ([534bf60](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/534bf60))
 - chore: show challenged status in profile header ([55aa602](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/55aa602))
 - chore: take into account renewal grace periods ([c45ec84](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c45ec84))
