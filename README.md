@@ -1,4 +1,4 @@
-## (2020-10-15)
+## (2020-11-03)
 
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add identicons ([45ddea1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/45ddea1))
@@ -17,6 +17,7 @@
 - chore: export pages statically ([df1b304](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/df1b304))
 - chore: finish subgraph ([41d22d4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/41d22d4))
 - chore: fix again ([42927b6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/42927b6))
+- chore: fix card backgrounds ([95f57c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/95f57c9))
 - chore: fix ci ([dbe2dff](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/dbe2dff))
 - chore: fix ci ([342e933](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/342e933))
 - chore: fix ci again ([2854a26](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2854a26))

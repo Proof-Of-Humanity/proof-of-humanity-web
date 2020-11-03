@@ -3,11 +3,18 @@
   "license": "UNLICENSED",
   "private": true,
   "devDependencies": {
+    "@babel/core": "^7.12.3",
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.2",
     "@graphprotocol/graph-cli": "^0.18.0",
     "@graphprotocol/graph-ts": "^0.18.1",
     "@next/bundle-analyzer": "^9.5.2",
+    "@storybook/addon-a11y": "^6.0.28",
+    "@storybook/addon-essentials": "^6.0.28",
+    "@storybook/addons": "^6.0.28",
+    "@storybook/react": "^6.0.28",
+    "@storybook/theming": "^6.0.28",
+    "babel-loader": "^8.1.0",
     "babel-plugin-relay": "^10.0.1",
     "conventional-changelog-cli": "^2.1.0",
     "cross-env": "^7.0.2",
@@ -31,8 +38,11 @@
     "mustache": "^4.0.1",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
+    "react-is": "^16.8.0",
     "relay-compiler": "^10.0.1",
     "relay-config": "^10.0.1",
+    "storybook-addon-theme-playground": "^1.3.4",
+    "storybook-mobile": "^0.1.24",
     "vscode-apollo-relay": "^1.5.0"
   },
   "dependencies": {
@@ -88,7 +98,7 @@
     "yup": "^0.29.3"
   },
   "lint-staged": {
-    "*.json": "prettier --write",
+    "*.{graphql,html,json,md,mdx,yaml,yml}": "prettier --write",
     "*.js": "eslint --fix"
   },
   "commitlint": {
@@ -113,7 +123,7 @@
     }
   },
   "scripts": {
-    "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,_pages,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional,buffer",
+    "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,_pages,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional,buffer,@storybook/addon-a11y,@storybook/addon-essentials,babel-loader,react-is,storybook-mobile",
     "lint": "eslint .",
     "dev": "next",
     "dev:relay": "get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan --json | node subgraph/eslint-compat.js > subgraph/build/full-schema.json && relay-compiler --watch",
@@ -122,6 +132,8 @@
     "build:graph": "cd subgraph && mustache config/kovan.json subgraph.template.yaml > subgraph.yaml && graph codegen && graph build",
     "deploy:graph:kovan": "npm run build:graph && cd subgraph && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ epiqueras/proof-of-humanity-kovan",
     "changelog": "conventional-changelog --infile README.md --same-file --release-count 0 && prettier --write README.md",
+    "storybook": "start-storybook --config-dir components/.storybook --static-dir components/.storybook/public --port 6006 --no-dll",
+    "build-storybook": "build-storybook --config-dir components/.storybook --static-dir components/.storybook/public --no-dll",
     "ci:depcheck": "npm run depcheck",
     "ci:prettier": "prettier --ignore-path .gitignore --check .",
     "ci:lint": "npm run build:graph && npm run build && npm run lint",

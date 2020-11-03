@@ -3,3 +3,6 @@
 
 # Build
 /out/
+
+# Storybook
+!/components/.storybook/

@@ -8,6 +8,7 @@ export default class Document extends NextDocument {
     return (
       <Html>
         <Head>
+          <Box as="link" rel="shortcut icon" href="/favicon.ico" />
           <GoogleFont typography={typography} />
         </Head>
         <Box as="body">

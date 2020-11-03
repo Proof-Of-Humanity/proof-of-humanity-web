@@ -7,6 +7,7 @@ export default function Popup({
   contentStyle,
   onOpen,
   onClose,
+  sx,
   children,
   ...rest
 }) {
@@ -46,6 +47,8 @@ export default function Popup({
             backgroundColor: "background",
             borderRadius: 3,
             boxShadow: "rgba(0, 0, 0, 0.2) 0 1px 3px",
+            padding: 1,
+            ...sx,
           }}
         >
           {typeof children === "function" ? children(props) : children}

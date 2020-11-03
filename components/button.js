@@ -94,6 +94,7 @@ const Button = forwardRef(
           </Box>
         }
         on={["focus", "hover"]}
+        sx={{ backgroundColor: "skeleton", fontSize: 1 }}
       >
         {disabledTooltip}
       </Popup>

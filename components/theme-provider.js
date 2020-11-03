@@ -12,7 +12,7 @@ export const typographyTheme = {
   googleFonts: [{ name: "Open Sans", styles: [300, "300i", 600, "600i"] }],
   headerWeight: 600,
 };
-const theme = merge(merge(base, toTheme(typographyTheme)), {
+export const theme = merge(merge(base, toTheme(typographyTheme)), {
   // Settings
   initialColorModeName: "light",
   useColorSchemeMediaQuery: true,
