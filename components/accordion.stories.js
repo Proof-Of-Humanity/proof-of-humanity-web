@@ -38,7 +38,7 @@ const metadata = {
       },
     },
     children: {
-      type: "object",
+      type: { name: "object", required: true },
       description:
         "AccordionItem elements wrapping AccordionItemHeading and AccordionItemPanel elements.",
       table: {

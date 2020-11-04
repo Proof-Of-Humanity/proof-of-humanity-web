@@ -20,12 +20,12 @@ export function NextLink({ passHref = true, href, as, ...rest }) {
 }
 
 export function NextETHLink({ address, children, ...rest }) {
-  const { query } = useRouter();
+  const router = useRouter();
   return (
     <Link
       newTab
       href={`https://${
-        query.network ? `${query.network}.` : ""
+        router?.query?.network ? `${router.query.network}.` : ""
       }etherscan.io/address/${address}`}
       {...rest}
     >

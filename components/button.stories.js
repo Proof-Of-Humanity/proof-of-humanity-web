@@ -56,7 +56,7 @@ const metadata = {
       },
     },
     children: {
-      type: "string",
+      type: { name: "object", required: true },
       description: "The button's content.",
       table: {
         type: {

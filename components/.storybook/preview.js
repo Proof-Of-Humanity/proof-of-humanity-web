@@ -9,7 +9,6 @@ export const parameters = {
   backgrounds: {
     disable: true,
   },
-  layout: "centered",
 };
 
 const typography = { options: typographyTheme };

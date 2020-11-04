@@ -27,7 +27,7 @@ export default function AccountSettingsPopup({
   const { web3, connect } = useWeb3();
   return (
     <Popup
-      contentStyle={{ width: 300 }}
+      contentStyle={{ width: 320 }}
       trigger={
         <Button
           variant="secondary"
