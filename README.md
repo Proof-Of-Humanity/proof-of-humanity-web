@@ -1,5 +1,6 @@
-## (2020-11-03)
+## (2020-11-04)
 
+- chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add identicons ([45ddea1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/45ddea1))
 - chore: add issue templates ([6adcbee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6adcbee))

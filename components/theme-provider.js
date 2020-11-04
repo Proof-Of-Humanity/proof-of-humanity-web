@@ -69,7 +69,8 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       borderRadius: 3,
       color: "background",
       fontWeight: "bold",
-      paddingX: 2,
+      paddingLeft: 2,
+      paddingRight: 5,
       paddingY: 1,
       ":hover": {
         opacity: 0.8,
