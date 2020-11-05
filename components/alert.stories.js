@@ -19,7 +19,7 @@ const metadata = {
       },
     },
     title: {
-      type: "object",
+      type: "string",
       description: "The alert's title.",
       table: {
         type: {
@@ -28,7 +28,7 @@ const metadata = {
       },
     },
     children: {
-      type: "object",
+      type: "string",
       description: "The alert's content.",
       table: {
         type: {

@@ -74,6 +74,7 @@
 - chore: improve tabs ([ffb87c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ffb87c9))
 - chore: increase video size ([7ecccdf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7ecccdf))
 - chore: manually sort entities by creation time ([65142d8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/65142d8))
+- chore: more documentation ([3a02314](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3a02314))
 - chore: more repo chores ([1f4c46f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1f4c46f))
 - chore: new card designs and challenged status ([80b71c2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/80b71c2))
 - chore: normalize form behavior and implement evidence module ([b035c76](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b035c76))
