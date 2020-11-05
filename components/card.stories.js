@@ -93,7 +93,7 @@ const metadata = {
     },
     onClick: {
       type: "function",
-      description: "The button's onClick handler.",
+      description: "The card's onClick handler.",
       table: {
         type: {
           summary: "function",

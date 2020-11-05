@@ -11,6 +11,7 @@
 - chore: animate select menu ([5e7b022](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5e7b022))
 - chore: auto-detect Web3 call type ([15ae304](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/15ae304))
 - chore: begin work on profile details page ([e4283ef](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e4283ef))
+- chore: card documentation ([4a4bf13](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4a4bf13))
 - chore: document accordion ([2c0cd55](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2c0cd55))
 - chore: document account settings popup ([955683b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/955683b))
 - chore: expand subgraph ([31e87b2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/31e87b2))

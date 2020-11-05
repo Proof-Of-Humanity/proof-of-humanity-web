@@ -40,7 +40,11 @@ export default function Checkbox({ value, onChange, disabled, name, ...rest }) {
     config: { mass: 3, tension: 300 },
   });
   return (
-    <Box variant="forms.checkbox" {...rest}>
+    <Box
+      variant="forms.checkbox"
+      onClick={() => onChange({ target: { name, value: !checked } })}
+      {...rest}
+    >
       <Input
         ref={ref}
         sx={{

@@ -99,7 +99,7 @@ export default function Evidence({
               marginBottom: 2,
               marginTop: -3,
               marginX: -4,
-              maxHeight: 618,
+              maxHeight: 650,
               overflowY: "scroll",
               paddingTop: 3,
               paddingX: 4,
