@@ -1,4 +1,4 @@
-## (2020-11-04)
+## (2020-11-05)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -12,6 +12,7 @@
 - chore: auto-detect Web3 call type ([15ae304](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/15ae304))
 - chore: begin work on profile details page ([e4283ef](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e4283ef))
 - chore: document accordion ([2c0cd55](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2c0cd55))
+- chore: document account settings popup ([955683b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/955683b))
 - chore: expand subgraph ([31e87b2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/31e87b2))
 - chore: expand subgraph ([788c53f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/788c53f))
 - chore: expand subgraph more ([4aca747](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4aca747))

@@ -92,6 +92,10 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       borderStyle: "solid",
       borderWidth: 1,
       padding: 2,
+      icon: {
+        stroke: "info",
+        path: { fill: "info" },
+      },
       title: {
         color: "info",
         fontWeight: "bold",

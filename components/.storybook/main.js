@@ -16,6 +16,7 @@ module.exports = {
           "core-js/modules": "@storybook/core/node_modules/core-js/modules",
           "@kleros/components": path.resolve(__dirname, ".."),
           "@kleros/icons": path.resolve(__dirname, "../../icons"),
+          subgraph: path.resolve(__dirname, "../../subgraph"),
         },
       },
     });

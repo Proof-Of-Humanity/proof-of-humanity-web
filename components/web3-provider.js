@@ -87,7 +87,7 @@ export default function Web3Provider({
           name: { 42: "kovan", 1: "mainnet" }[ETHNetID],
         };
         setWeb3({ ...web3 });
-        onNetworkChange(web3.ETHNet);
+        if (onNetworkChange) onNetworkChange(web3.ETHNet);
       }
 
       if (contracts !== web3._contracts) {

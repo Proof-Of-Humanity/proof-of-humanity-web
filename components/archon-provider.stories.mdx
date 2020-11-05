@@ -1,0 +1,115 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import ArchonProvider from "./archon-provider";
+
+<Meta title="Providers/ArchonProvider" component={ArchonProvider} />
+
+# ArchonProvider
+
+This provider can be used inside a Web3 provider so that your components can easily leverage the [Archon API](https://archon.readthedocs.io).
+
+```jsx
+import { ArchonProvider, Web3Provider } from "@kleros/components";
+
+export default function App() {
+  return (
+    <Web3Provider infuraURL="wss://kovan.infura.io/ws/v3/...">
+      <ArchonProvider>{/*...*/}</ArchonProvider>
+    </Web3Provider>
+  );
+}
+```
+
+## useArchon
+
+Is a hook that returns an archon instance and an IPFS upload function.
+
+```jsx
+import { Button, useArchon } from "@kleros/components";
+
+export default function Component({ file }) {
+  const { archon, upload } = useArchon();
+  return (
+    <Button
+      onClick={async () => {
+        const { pathname } = await upload(file.name, file.content);
+        alert(`Uploaded ${pathname}.`);
+      }}
+    >
+      Upload to {archon.arbitrable.ipfsGateway}
+    </Button>
+  );
+}
+```
+
+## createUseDataloaders
+
+Takes promise returning fetcher functions and returns hooks that call [dataloader cached](https://github.com/graphql/dataloader) versions of them.
+
+```jsx
+import { Box, createUseDataloaders } from "@kleros/components";
+
+const { getData: useData } = createUseDataloaders({
+  async getData(archon, fetch, URI, id) {
+    return fetch(URI, id);
+  },
+});
+export default function Component({ fetch, URI, id }) {
+  const getData = useData();
+  return (
+    <>
+      <Box>{getData(fetch, URI, id)}</Box>
+      <Box>{getData(fetch, URI, id)}</Box>
+      <Box>{getData(fetch, URI, id)}</Box>
+      <Box>{getData(fetch, URI, id)}</Box>
+    </>
+  );
+}
+```
+
+## createDerivedAccountAPIs
+
+Takes API descriptors and returns promise returning functions and hooks that call the APIs leveraging the [Web3 derived accounts pattern](https://blog.kleros.io/kleros-athena-release-built-on-trees-hooks-and-derived-accounts).
+
+```js
+import { Button, createDerivedAccountAPIs } from "@kleros/components";
+
+const userSettingsURL =
+  "https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/user-settings";
+const {
+  useAPIs: {
+    getUserSettings: useUserSettings,
+    patchUserSettings: usePatchUserSettings,
+  },
+} = createDerivedAccountAPIs(
+  [
+    {
+      name: "getUserSettings",
+      method: "GET",
+      URL: userSettingsURL,
+      payloadKey: "settings",
+    },
+    {
+      name: "patchUserSettings",
+      method: "PATCH",
+      URL: userSettingsURL,
+      payloadKey: "settings",
+    },
+  ],
+  userSettingsURL
+);
+export default function Component() {
+  const [userSettings] = useUserSettings({ email: true });
+  const { send } = usePatchUserSettings();
+  return (
+    <Button
+      onClick={async () => {
+        await send({ email: { S: "" } });
+        alert("Cleared email.");
+      }}
+    >
+      Clear Email {userSettings?.payload?.settings?.Item?.email?.S}
+    </Button>
+  );
+}
+```

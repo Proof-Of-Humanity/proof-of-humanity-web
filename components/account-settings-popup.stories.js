@@ -2,7 +2,7 @@ import AccountSettingsPopup from "./account-settings-popup";
 import Web3Provider from "./web3-provider";
 
 const metadata = {
-  title: "Components/AccountSettingsPopup",
+  title: "Web3/AccountSettingsPopup",
   component: AccountSettingsPopup,
   argTypes: {
     name: {

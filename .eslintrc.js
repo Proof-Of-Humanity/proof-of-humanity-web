@@ -35,6 +35,9 @@ module.exports = {
     // Prettier Plugin
     "plugin:prettier/recommended",
     "prettier/react",
+
+    // MDX Plugin
+    "plugin:mdx/recommended",
   ],
   plugins: ["regex", "graphql"],
 
@@ -114,7 +117,7 @@ module.exports = {
           "scripts",
           "subgraph",
           "components/.storybook",
-          "components/*.stories.js",
+          "components/*.stories.{js,mdx}",
         ],
       },
     ],
@@ -128,6 +131,7 @@ module.exports = {
           "assets/**",
           "subgraph/**",
           "react-player/lazy",
+          "@storybook/addon-docs/blocks",
         ],
       },
     ],
@@ -341,6 +345,11 @@ module.exports = {
         additionalHooks: "usePromise",
       },
     ],
+
+    // MDX Plugin
+    "mdx/no-jsx-html-comments": "error",
+    "mdx/no-unescaped-entities": "error",
+    "mdx/no-unused-expressions": "error",
 
     // Regex Plugin
     "regex/invalid": [

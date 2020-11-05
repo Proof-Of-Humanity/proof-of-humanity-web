@@ -1,0 +1,132 @@
+import Appeal from "./appeal";
+import Web3Provider from "./web3-provider";
+
+import KlerosLiquid from "subgraph/abis/kleros-liquid";
+import ProofOfHumanity from "subgraph/abis/proof-of-humanity";
+import { address, klerosLiquidAddress } from "subgraph/config/kovan";
+
+const metadata = {
+  title: "Arbitration/Appeal",
+  component: Appeal,
+  argTypes: {
+    challenges: {
+      type: { name: "array", required: true },
+      description: "The list of challenge objects.",
+      table: {
+        type: {
+          summary: "array",
+        },
+      },
+    },
+    sharedStakeMultiplier: {
+      type: { name: "number", required: true },
+      description: "The shared stake multiplier.",
+      table: {
+        type: {
+          summary: "number",
+        },
+      },
+    },
+    loserStakeMultiplier: {
+      type: { name: "number", required: true },
+      description: "The loser stake multiplier.",
+      table: {
+        type: {
+          summary: "number",
+        },
+      },
+    },
+    winnerStakeMultiplier: {
+      type: { name: "number", required: true },
+      description: "The winner stake multiplier.",
+      table: {
+        type: {
+          summary: "number",
+        },
+      },
+    },
+    arbitrator: {
+      type: { name: "string", required: true },
+      description: "The arbitrator's address.",
+      table: {
+        type: {
+          summary: "string",
+        },
+      },
+    },
+    arbitratorExtraData: {
+      type: { name: "string", required: true },
+      description: "The extra data passed to the arbitrator.",
+      table: {
+        type: {
+          summary: "string",
+        },
+      },
+    },
+    contract: {
+      type: { name: "string", required: true },
+      description: "The arbitrable contract name in the Web3 Provider.",
+      table: {
+        type: {
+          summary: "string",
+        },
+      },
+    },
+    args: {
+      type: { name: "array", required: true },
+      description: "Arguments to pass to the fundAppeal function.",
+      table: {
+        type: {
+          summary: "array",
+        },
+      },
+    },
+  },
+};
+export default metadata;
+
+const contracts = [
+  {
+    name: "proofOfHumanity",
+    abi: ProofOfHumanity,
+    address: { kovan: address },
+  },
+  {
+    name: "klerosLiquid",
+    abi: KlerosLiquid,
+    address: { kovan: klerosLiquidAddress },
+  },
+];
+function Template(args) {
+  return (
+    <Web3Provider
+      infuraURL="wss://kovan.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d"
+      contracts={contracts}
+    >
+      <Appeal {...args} />
+    </Web3Provider>
+  );
+}
+
+export const Default = Template.bind();
+Default.args = {
+  challenges: [
+    {
+      id: 1,
+      reason: { startCase: "Duplicate" },
+      disputeID: 10,
+      parties: [
+        "0xDb3ea8CbFd37D558eAcF8d0352bE3701352C1D9B",
+        "0x77AAbcA64973590C56D121510753b3324823d75E",
+      ],
+      rounds: [{ paidFees: [1e18, 0], hasPaid: [false, false] }],
+    },
+  ],
+  sharedStakeMultiplier: 2,
+  loserStakeMultiplier: 3,
+  winnerStakeMultiplier: 3,
+  arbitrator: "0x60b2abfdfad9c0873242f59f2a8c32a3cc682f80",
+  arbitratorExtraData: "0x",
+  contract: "proofOfHumanity",
+  args: ["0xDb3ea8CbFd37D558eAcF8d0352bE3701352C1D9B"],
+};

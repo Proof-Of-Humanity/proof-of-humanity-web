@@ -36,6 +36,7 @@ function AppealTabPanelCard({
   const totalContribution = web3.utils.toBN(paidFees);
   const card = (
     <Card
+      sx={{ minWidth: 480 }}
       header={
         <>
           <Identicon address={address} />
@@ -197,7 +198,7 @@ function AppealTabPanel({
         when your side ultimately wins. If only one side manages to fund their
         fees, it automatically wins.
       </Text>
-      <Grid sx={{ marginBottom: 3 }} gap={2} columns={2}>
+      <Grid sx={{ marginBottom: 3 }} gap={2} columns={[1, 1, 1, 2]}>
         <AppealTabPanelCard
           address={party1}
           {...[undecided, winner, loser][currentRuling]}
