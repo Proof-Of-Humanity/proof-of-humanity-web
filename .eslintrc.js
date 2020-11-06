@@ -116,7 +116,7 @@ module.exports = {
           "./*.js",
           "scripts",
           "subgraph",
-          "components/.storybook",
+          "components/.storybook/**",
           "components/*.stories.{js,mdx}",
         ],
       },

@@ -7,7 +7,7 @@ module.exports = {
     "storybook-addon-theme-playground/dist",
     "storybook-mobile",
   ],
-  stories: ["../*.stories.@(js|mdx)"],
+  stories: ["./introduction/*.stories.@(js|mdx)", "../*.stories.@(js|mdx)"],
   webpackFinal(config) {
     config.module.rules.push({
       include: (name) => !name.includes("relay"),

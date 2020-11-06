@@ -1,0 +1,56 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Introduction/Getting Started" />
+
+# Getting Started
+
+This design system is built on [Theme UI](https://theme-ui.com/home).
+
+To get started, add the `ThemeProvider` to the root of your app. The default `theme`, and [typography.js](https://kyleamathews.github.io/typography.js) `typographyTheme` are also exported.
+
+You can also pass theme overrides to merge in to the `ThemeProvider`.
+
+```jsx
+import { ThemeProvider, theme, typographyTheme } from "@kleros/components";
+
+import myTheme from "./my-theme";
+
+console.log(theme, typographyTheme); // Default themes.
+
+export default function App() {
+  return <ThemeProvider theme={myTheme}>{/*...*/}</ThemeProvider>;
+}
+```
+
+## Fonts & Server-Side Rendering
+
+We recommend you use [react-typography](https://github.com/KyleAMathews/typography.js) to manage fonts.
+
+You should also use `InitializeColorMode` from Theme UI to avoid flashes of unstyled content when server-side rendering.
+
+Here is an example using [Next.js](https://nextjs.org):
+
+```jsx
+import { Box, InitializeColorMode, typographyTheme } from "@kleros/components";
+import NextDocument, { Head, Html, Main, NextScript } from "next/document";
+import { GoogleFont } from "react-typography";
+
+const typography = { options: typographyTheme };
+export default class Document extends NextDocument {
+  render() {
+    return (
+      <Html>
+        <Head>
+          <Box as="link" rel="shortcut icon" href="/favicon.ico" />
+          <GoogleFont typography={typography} />
+        </Head>
+        <Box as="body">
+          <InitializeColorMode />
+          <Main />
+          <NextScript />
+        </Box>
+      </Html>
+    );
+  }
+}
+```

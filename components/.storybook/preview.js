@@ -9,6 +9,18 @@ export const parameters = {
   backgrounds: {
     disable: true,
   },
+  options: {
+    storySort: {
+      order: [
+        "Introduction",
+        "Components",
+        "Inputs",
+        "Providers",
+        "Web3",
+        "Arbitration",
+      ],
+    },
+  },
 };
 
 const typography = { options: typographyTheme };
