@@ -239,7 +239,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       borderStyle: "dashed",
       borderWidth: 1,
       padding: 2,
-      paddingRight: 5,
+      paddingRight: 6,
     },
     input: {
       borderColor: "skeleton",

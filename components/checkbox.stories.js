@@ -3,7 +3,7 @@ import { useState } from "react";
 import Checkbox from "./checkbox";
 
 const metadata = {
-  title: "Components/Checkbox",
+  title: "Inputs/Checkbox",
   component: Checkbox,
   argTypes: {
     value: {

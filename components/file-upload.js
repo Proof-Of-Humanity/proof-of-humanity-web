@@ -71,7 +71,7 @@ export default function FileUpload({
         {...getRootProps({
           variant: "forms.fileUpload",
           onBlur() {
-            onBlur({ target: { name } });
+            if (onBlur) onBlur({ target: { name } });
           },
           ...rest,
         })}
