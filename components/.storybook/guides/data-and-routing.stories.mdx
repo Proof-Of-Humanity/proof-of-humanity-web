@@ -1,0 +1,197 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guides/Data & Routing" />
+
+# Data & Routing
+
+There are a few utilities for dealing with ETH data and integrating it in routing with [Next.js](https://nextjs.org) and other frameworks that support [React Relay's](https://relay.dev/docs/en/experimental/api-reference) [render-as-you-fetch pattern](https://reactjs.org/docs/concurrent-mode-suspense.html#approach-3-render-as-you-fetch-using-suspense).
+
+## zeroAddress
+
+ETH zero address constant.
+
+```js
+import { zeroAddress } from "@kleros/components";
+
+console.log(zeroAddress); // "0x0000000000000000000000000000000000000000"
+```
+
+## ethereumAddressRegExp
+
+A regular expression that matches ETH addresses.
+
+```js
+import { ethereumAddressRegExp } from "@kleros/components";
+
+console.log(ethereumAddressRegExp); // /^0x[\dA-Fa-f]{40}$/
+```
+
+## createEnum
+
+Takes a list of strings or configuration objects, and an optional custom parse function, and returns a useful enum for dealing with smart contract data.
+
+```js
+import { createEnum } from "@kleros/components";
+
+const challengeReasonEnum = createEnum(
+  [
+    "None",
+    [
+      "IncorrectSubmission",
+      {
+        imageSrc: "/images/incorrect-submission.png",
+        description: "Parts of the submission are incorrect.",
+      },
+    ],
+    [
+      "Deceased",
+      {
+        imageSrc: "/images/deceased.png",
+        description: "The submitter has passed away.",
+      },
+    ],
+    [
+      "Duplicate",
+      {
+        imageSrc: "/images/duplicate.png",
+        description: "The submitter is already registered.",
+      },
+    ],
+    [
+      "DoesNotExist",
+      {
+        imageSrc: "/images/does-not-exist.png",
+        description: "The submitter does not exist.",
+      },
+    ],
+  ]
+  // Optional custom parse function.
+);
+
+// Enum Object
+console.log(challengeReasonEnum.IncorrectSubmission.key); // "IncorrectSubmission"
+console.log(challengeReasonEnum.IncorrectSubmission.index); // 1
+console.log(challengeReasonEnum.IncorrectSubmission.camelCase); // "incorrectSubmission"
+console.log(challengeReasonEnum.IncorrectSubmission.kebabCase); // "incorrect-submission"
+console.log(challengeReasonEnum.IncorrectSubmission.startCase); // "Incorrect Submission"
+console.log(challengeReasonEnum.IncorrectSubmission.imageSrc); // "/images/incorrect-submission.png"
+console.log(challengeReasonEnum.IncorrectSubmission.description); // "Parts of the submission are incorrect."
+
+// Enum Equality
+console.log(
+  challengeReasonEnum.DoesNotExist === challengeReasonEnum[3] &&
+    challengeReasonEnum.DoesNotExist === challengeReasonEnum.doesNotExist &&
+    challengeReasonEnum.DoesNotExist ===
+      challengeReasonEnum["does-not-exist"] &&
+    challengeReasonEnum.DoesNotExist === challengeReasonEnum["Does Not Exist"]
+); // true
+
+// Parsing
+console.log(
+  challengeReasonEnum.parse("IncorrectSubmission") ===
+    challengeReasonEnum.IncorrectSubmission
+); // true
+
+// Parsing Lists
+console.log(
+  JSON.stringify(challengeReasonEnum.parse(["None", "IncorrectSubmission"])) ===
+    JSON.stringify({
+      ...challengeReasonEnum.None,
+      ...challengeReasonEnum.IncorrectSubmission,
+    })
+); // true
+
+// Array Form
+console.log(
+  JSON.stringify(challengeReasonEnum.array) ===
+    JSON.stringify([
+      challengeReasonEnum.None,
+      challengeReasonEnum.IncorrectSubmission,
+      challengeReasonEnum.Deceased,
+      challengeReasonEnum.Duplicate,
+      challengeReasonEnum.DoesNotExist,
+    ])
+); // true
+```
+
+## createWrapConnection
+
+This allows you to wrap a route change subscription function to parse ETH values and enums with query properties.
+
+```js
+import { createEnum, createWrapConnection } from "@kleros/components";
+
+import { idQuery, indexQuery } from "./queries";
+
+const submissionStatusEnum = createEnum(
+  [
+    ["None", { kebabCase: undefined, startCase: "All" }],
+    ["Vouching", { Icon: Pending, query: { where: { status: "Vouching" } } }],
+    [
+      "PendingRegistration",
+      { Icon: Pending, query: { where: { status: "PendingRegistration" } } },
+    ],
+    [
+      "PendingRemoval",
+      {
+        Icon: Pending,
+        query: { where: { status: "PendingRemoval" } },
+      },
+    ],
+    [
+      "ChallengedRegistration",
+      {
+        Icon: Pending,
+        query: { where: { status: "PendingRegistration", disputed: true } },
+      },
+    ],
+    [
+      "ChallengedRemoval",
+      {
+        Icon: Pending,
+        query: { where: { status: "PendingRemoval", disputed: true } },
+      },
+    ],
+    [
+      "Registered",
+      { Icon: Check, query: { where: { status: "None", registered: true } } },
+    ],
+    [
+      "Removed",
+      {
+        Icon: X,
+        query: { where: { status: "None", registered: false } },
+      },
+    ],
+  ],
+  // Custom parse function.
+  ({ status, registered, disputed }) => {
+    if (status === submissionStatusEnum.None.key)
+      return registered
+        ? submissionStatusEnum.Registered
+        : submissionStatusEnum.Removed;
+    if (disputed)
+      return status === submissionStatusEnum.PendingRegistration.key
+        ? submissionStatusEnum.ChallengedRegistration
+        : submissionStatusEnum.ChallengedRemoval;
+    return submissionStatusEnum[status];
+  }
+);
+
+const wrapConnection = createWrapConnection(
+  {
+    "/": indexQuery,
+    "/profile/:id": IdQuery,
+  },
+  { status: submissionStatusEnum }
+);
+
+console.log(
+  JSON.stringify(
+    wrapConnection.parseAsPath("/?network=kovan&status=challenged-registration")
+  )
+); // "{"path":"/","query":{"network":"kovan","where":{"status":"PendingRegistration","disputed":true}}}"
+
+const wrappedConnection = wrapConnection(console.log);
+wrappedConnection("/?network=kovan&status=challenged-registration"); // "{"path":"/","query":{"network":"kovan","where":{"status":"PendingRegistration","disputed":true}}}"
+```

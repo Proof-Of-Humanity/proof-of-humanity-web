@@ -12,7 +12,8 @@ export const parameters = {
   options: {
     storySort: {
       order: [
-        "Introduction",
+        "Guides",
+        ["Getting Started", "Working With Next.js", "Data & Routing"],
         "Components",
         "Inputs",
         "Providers",

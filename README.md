@@ -1,4 +1,4 @@
-## (2020-11-06)
+## (2020-11-07)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -75,6 +75,7 @@
 - chore: improve tabs ([ffb87c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ffb87c9))
 - chore: increase video size ([7ecccdf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7ecccdf))
 - chore: manually sort entities by creation time ([65142d8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/65142d8))
+- chore: more documentation ([96eea1f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/96eea1f))
 - chore: more documentation ([5fb032a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5fb032a))
 - chore: more documentation ([e35c917](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e35c917))
 - chore: more documentation ([3a02314](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3a02314))

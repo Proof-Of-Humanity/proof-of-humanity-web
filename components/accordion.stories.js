@@ -40,7 +40,7 @@ const metadata = {
     children: {
       type: { name: "object", required: true },
       description:
-        "AccordionItem elements wrapping AccordionItemHeading and AccordionItemPanel elements.",
+        "`AccordionItem` elements wrapping `AccordionItemHeading` and `AccordionItemPanel` elements.",
       table: {
         type: {
           summary: "AccordionItem[[AccordionItemHeading,AccordionItemPanel]]",

@@ -172,6 +172,7 @@ module.exports = {
           args: false,
           arr: false,
           err: false,
+          prop: false,
           props: false,
           ref: false,
           res: false,

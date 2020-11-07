@@ -1,0 +1,39 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+<Meta title="Guides/Working With Next.js" />
+
+# Working With Next.js
+
+There are a few utilities that can help you work with [Next.js](https://nextjs.org).
+
+## NextLink
+
+Is the Next.js link component, enhanced with the Theme UI sx prop, and automatic forwarding of the `network` query parameter so that you can write links once and have them work for multiple ETH networks.
+
+```jsx
+import { Link, NextLink, useWeb3 } from "@kleros/components";
+
+export default function MyProfileLink() {
+  const [accounts] = useWeb3("eth", "getAccounts");
+  return accounts?.[0] ? (
+    <NextLink href="/profile/[id]" as={`/profile/${accounts[0]}`}>
+      <Link variant="navigation">My Profile</Link>
+    </NextLink>
+  ) : null;
+}
+```
+
+## NextETHLink
+
+This uses the current `network` query parameter to create links to the correct Etherscan site.
+
+```jsx
+import { NextETHLink, useWeb3 } from "@kleros/components";
+
+export default function MyEtherscanProfileLink() {
+  const [accounts] = useWeb3("eth", "getAccounts");
+  return accounts?.[0] ? (
+    <NextETHLink address={accounts[0]}>{accounts[0]}</NextETHLink>
+  ) : null;
+}
+```
