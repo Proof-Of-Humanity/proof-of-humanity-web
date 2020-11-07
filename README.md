@@ -14,6 +14,7 @@
 - chore: card documentation ([4a4bf13](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4a4bf13))
 - chore: document accordion ([2c0cd55](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2c0cd55))
 - chore: document account settings popup ([955683b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/955683b))
+- chore: documentation theming ([009daaa](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/009daaa))
 - chore: expand subgraph ([31e87b2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/31e87b2))
 - chore: expand subgraph ([788c53f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/788c53f))
 - chore: expand subgraph more ([4aca747](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4aca747))

@@ -42,7 +42,10 @@ export default function Checkbox({ value, onChange, disabled, name, ...rest }) {
   return (
     <Box
       variant="forms.checkbox"
-      onClick={() => onChange({ target: { name, value: !checked } })}
+      onClick={(event) => {
+        event.preventDefault();
+        onChange({ target: { name, value: !checked } });
+      }}
       {...rest}
     >
       <Input
