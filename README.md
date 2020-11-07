@@ -24,6 +24,7 @@
 - chore: finish subgraph ([41d22d4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/41d22d4))
 - chore: fix again ([42927b6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/42927b6))
 - chore: fix card backgrounds ([95f57c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/95f57c9))
+- chore: fix checkbox click handler ([0119728](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0119728))
 - chore: fix ci ([dbe2dff](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/dbe2dff))
 - chore: fix ci ([342e933](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/342e933))
 - chore: fix ci again ([2854a26](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2854a26))
