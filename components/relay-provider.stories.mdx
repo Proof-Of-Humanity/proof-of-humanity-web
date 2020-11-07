@@ -1,0 +1,50 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import RelayProvider from "./relay-provider";
+
+<Meta title="Providers/RelayProvider" component={RelayProvider} />
+
+# RelayProvider
+
+This provider can be used to bootstrap [React Relay's](https://relay.dev/docs/en/experimental/api-reference) [render-as-you-fetch pattern](https://reactjs.org/docs/concurrent-mode-suspense.html#approach-3-render-as-you-fetch-using-suspense).
+
+It provides context for [Relay Hooks](https://github.com/relay-tools/relay-hooks) to work.
+
+```jsx
+import { RelayProvider } from "@kleros/components";
+import { useCallback } from "react";
+
+import { IdQuery, indexQuery } from "./queries";
+
+const queries = {
+  "/": indexQuery,
+  "/profile/:id": IdQuery,
+};
+export default function App({ router }) {
+  const connectToRouteChange = useCallback((connection) => {
+    router.events.on("routeChangeStart", connection);
+  }, []);
+  return (
+    <RelayProvider
+      endpoint="https://api.thegraph.com/subgraphs/..."
+      queries={queries}
+      connectToRouteChange={connectToRouteChange}
+    >
+      {/*...*/}
+    </RelayProvider>
+  );
+}
+```
+
+## useQuery
+
+Gets the preloaded query based on the current route.
+
+```jsx
+import { useQuery } from "@kleros/components";
+
+export default function Index() {
+  const { props } = useQuery();
+  // ...
+}
+```

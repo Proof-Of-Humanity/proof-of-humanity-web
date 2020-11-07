@@ -1,0 +1,103 @@
+import { Meta } from "@storybook/addon-docs/blocks";
+
+import Web3Provider from "./web3-provider";
+
+<Meta title="Providers/Web3Provider" component={Web3Provider} />
+
+# Web3Provider
+
+This provider allows you to initialize and leverage Web3 using hooks and efficient caching.
+
+```jsx
+import { Web3Provider } from "@kleros/components";
+
+import KlerosLiquid from "subgraph/abis/kleros-liquid";
+import ProofOfHumanity from "subgraph/abis/proof-of-humanity";
+import { address, klerosLiquidAddress } from "subgraph/config/kovan";
+
+const contracts = [
+  {
+    name: "proofOfHumanity",
+    abi: ProofOfHumanity,
+    address: { kovan: address },
+  },
+  {
+    name: "klerosLiquid",
+    abi: KlerosLiquid,
+    address: { kovan: klerosLiquidAddress },
+  },
+];
+export default function App({ changeNetwork }) {
+  return (
+    <Web3Provider
+      infuraURL="wss://kovan.infura.io/ws/v3/..."
+      contracts={contracts}
+      onNetworkChange={changeNetwork}
+    >
+      {/*...*/}
+    </Web3Provider>
+  );
+}
+```
+
+## useWeb3
+
+Is a hook that returns the Web3 context when called with no arguments, and also doubles as an interface to call Web3 methods.
+
+```jsx
+import { useWeb3 } from "@kleros/components";
+
+export default function Component() {
+  // Web3 Context
+  const {
+    web3, // Web3 instance.
+    setWeb3, // Setter for changing the Web3 instance manually.
+    connect, // Opens a modal to change Web3 providers/accounts.
+  } = useWeb3();
+
+  // Method Calls
+  const [
+    accounts, // The eventual result.
+    error, // Potential errors.
+  ] = useWeb3("eth", "getAccounts" /* , ...args */);
+  // ...
+}
+```
+
+## useContract
+
+Lets you call methods and send transactions on your loaded contracts.
+
+```jsx
+import { useContract } from "@kleros/components";
+import { useMemo } from "react";
+
+export default function Component({ arbitrator, arbitratorExtraData }) {
+  // Method Calls
+  const [
+    arbitrationCost, // The eventual result.
+    error, // Potential errors.
+  ] = useContract(
+    "klerosLiquid",
+    "arbitrationCost",
+    useMemo(
+      () => ({
+        address: arbitrator, // Optional address override.
+        args: [arbitratorExtraData],
+      }),
+      [arbitrator, arbitratorExtraData]
+    )
+  );
+
+  // Transaction Sends
+  const {
+    send, // Call with transaction arguments.
+    loading, // True if the transaction is not mined yet.
+    transactionHash,
+    confirmation,
+    receipt,
+    error, // Potential errors.
+  } = useContract(contract, "submitEvidence");
+  //...
+}
+```

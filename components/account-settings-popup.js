@@ -78,7 +78,7 @@ export default function AccountSettingsPopup({
           <TabPanel>
             <Text
               sx={{
-                fontSize: "10px",
+                fontSize: 10,
                 marginBottom: 3,
               }}
             >

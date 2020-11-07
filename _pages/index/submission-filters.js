@@ -36,7 +36,7 @@ export default function SubmissionFilters({ numberOfSubmissions }) {
         }}
       />
       <Select
-        sx={{ marginLeft: 1, width: "240px" }}
+        sx={{ marginLeft: 1, width: 240 }}
         items={submissionStatusEnum.array}
         onChange={({ kebabCase }) => {
           const query = { ...router.query };

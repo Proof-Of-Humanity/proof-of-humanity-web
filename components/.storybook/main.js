@@ -10,7 +10,8 @@ module.exports = {
   stories: ["./guides/*.stories.@(js|mdx)", "../*.stories.@(js|mdx)"],
   webpackFinal(config) {
     config.module.rules.push({
-      include: (name) => !name.includes("relay"),
+      include: (name) =>
+        !name.includes("relay") || name.includes("relay-provider"),
       resolve: {
         alias: {
           "core-js/modules": "@storybook/core/node_modules/core-js/modules",

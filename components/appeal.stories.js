@@ -125,7 +125,7 @@ Default.args = {
   sharedStakeMultiplier: 2,
   loserStakeMultiplier: 3,
   winnerStakeMultiplier: 3,
-  arbitrator: "0x60b2abfdfad9c0873242f59f2a8c32a3cc682f80",
+  arbitrator: klerosLiquidAddress,
   arbitratorExtraData: "0x",
   contract: "proofOfHumanity",
   args: ["0xDb3ea8CbFd37D558eAcF8d0352bE3701352C1D9B"],

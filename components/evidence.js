@@ -89,7 +89,7 @@ export default function Evidence({
             <Text
               sx={{ color: "primary" }}
               role="button"
-              onClick={() => scroll({ y: evidence.length * 180, smooth: true })}
+              onClick={() => scroll({ y: evidence.length * 190, smooth: true })}
             >
               Scroll to 1st Evidence <DownArrow />
             </Text>
