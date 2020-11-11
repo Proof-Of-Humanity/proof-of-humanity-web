@@ -47,7 +47,7 @@ function EvidenceItem({
           </Flex>
           {evidence?.fileURI && (
             <Link newTab href={evidence?.fileURI}>
-              <File />
+              <File sx={{ stroke: "background", path: { fill: "primary" } }} />
             </Link>
           )}
         </>
@@ -91,7 +91,10 @@ export default function Evidence({
               role="button"
               onClick={() => scroll({ y: evidence.length * 190, smooth: true })}
             >
-              Scroll to 1st Evidence <DownArrow />
+              Scroll to 1st Evidence{" "}
+              <DownArrow
+                sx={{ stroke: "background", path: { fill: "primary" } }}
+              />
             </Text>
           </Flex>
           <ScrollArea
@@ -124,7 +127,10 @@ export default function Evidence({
               role="button"
               onClick={() => scroll({ y: 0, smooth: true })}
             >
-              Scroll to Last Evidence <UpArrow />
+              Scroll to Last Evidence{" "}
+              <UpArrow
+                sx={{ stroke: "background", path: { fill: "primary" } }}
+              />
             </Text>
           </Flex>
         </Box>

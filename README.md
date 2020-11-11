@@ -1,4 +1,4 @@
-## (2020-11-07)
+## (2020-11-11)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -36,6 +36,7 @@
 - chore: fix subgraph memory access ([ba9cc9e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba9cc9e))
 - chore: fix submission details accordion ([56dafcc](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/56dafcc))
 - chore: fix transitions ([c73e049](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c73e049))
+- chore: fix typo ([80e4c50](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/80e4c50))
 - chore: fix weird Web3 inconsistency ([5d205ad](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5d205ad))
 - chore: forward all props to svg in icons ([7507ab6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7507ab6))
 - chore: framework work ([b7b7e62](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b7b7e62))

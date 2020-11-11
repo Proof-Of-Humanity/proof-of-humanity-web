@@ -2,7 +2,11 @@ import { GoogleFont } from "react-typography";
 import { withThemePlayground } from "storybook-addon-theme-playground";
 import { Flex } from "theme-ui";
 
-import ThemeProvider, { theme, typographyTheme } from "../theme-provider";
+import ThemeProvider, {
+  klerosTheme,
+  theme,
+  typographyTheme,
+} from "../theme-provider";
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
@@ -40,6 +44,9 @@ export const decorators = [
   ),
   withThemePlayground({
     provider: ThemeProvider,
-    theme,
+    theme: [
+      { name: "Kleros", theme: klerosTheme },
+      { name: "Proof Of Humanity", theme },
+    ],
   }),
 ];

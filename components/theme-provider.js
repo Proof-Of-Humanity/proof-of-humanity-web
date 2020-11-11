@@ -79,7 +79,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     panel: {
       backgroundColor: "background",
       bordeRadius: 3,
-      boxShadow: "0 6px 90px rgba(255, 153, 0, 0.25)",
+      boxShadow: "0 6px 90px rgba(153, 153, 153, 0.25)",
       fontSize: 1,
       paddingX: 4,
       paddingY: 3,
@@ -171,7 +171,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     primary: {
       backgroundColor: "background",
       borderRadius: 3,
-      boxShadow: "0 6px 10px rgba(255, 153, 0, 0.25)",
+      boxShadow: "0 6px 10px rgba(153, 153, 153, 0.25)",
       fontFamily: "heading",
       fontSize: 0,
     },
@@ -359,6 +359,23 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     thumbnail: {
       height: "124px !important",
       width: "124px !important",
+    },
+  },
+});
+export const klerosTheme = merge(theme, {
+  // Colors
+  colors: {
+    primary: "#009aff",
+    secondary: "#009aff",
+    accent: "#4d00b4",
+    accentComplement: "#4d00b4",
+    muted: "#fbf9fe",
+  },
+
+  // Components
+  buttons: {
+    primary: {
+      borderRadius: 3,
     },
   },
 });

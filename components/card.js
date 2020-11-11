@@ -33,7 +33,7 @@ const Card = forwardRef(
           ...animatedStyle,
           boxShadow: animatedStyle.boxShadow.interpolate(
             (blur, spread) =>
-              `0 6px ${blur}px ${spread}px rgba(255, 153, 0, 0.25)`
+              `0 6px ${blur}px ${spread}px rgba(153, 153, 153, 0.25)`
           ),
           transform: animatedStyle.rotateXRotateYScale.interpolate(
             (rotateX, rotateY, scale) =>
