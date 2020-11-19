@@ -24,6 +24,7 @@ export const parameters = {
         "Web3",
         "Arbitration",
         "Widgets",
+        "SDKs",
       ],
     },
   },

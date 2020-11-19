@@ -1,4 +1,4 @@
-## 1.0.0-beta.1 (2020-11-19)
+## 1.0.0-beta.2 (2020-11-19)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -49,6 +49,7 @@
 - chore: implement deadlines ([9ba7ccf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9ba7ccf))
 - chore: implement design system selects ([4e08d7a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4e08d7a))
 - chore: implement disabled button tooltips ([c9e40c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c9e40c5))
+- chore: implement escrow SDK and widget ([4fb0015](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4fb0015))
 - chore: implement ETH input form APIs ([0051ecc](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0051ecc))
 - chore: implement file upload forms with webcam support ([2a1b8f0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2a1b8f0))
 - chore: implement forms ([a2034f8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a2034f8))

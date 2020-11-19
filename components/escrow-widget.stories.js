@@ -60,7 +60,7 @@ const metadata = {
       description: "The amount escrowed in a transaction.",
       table: {
         type: {
-          summary: "number",
+          summary: "number|string|BN",
         },
       },
     },
@@ -89,7 +89,7 @@ const metadata = {
         "The time in seconds until a transaction becomes executable.",
       table: {
         type: {
-          summary: "number",
+          summary: "number|string|BN",
         },
       },
     },
