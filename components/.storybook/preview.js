@@ -23,6 +23,7 @@ export const parameters = {
         "Providers",
         "Web3",
         "Arbitration",
+        "Widgets",
       ],
     },
   },

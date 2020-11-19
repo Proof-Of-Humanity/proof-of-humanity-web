@@ -1,4 +1,4 @@
-import { Box } from "theme-ui";
+import { Flex } from "theme-ui";
 
 import Button from "./button";
 import ScrollTo, { ScrollArea } from "./scroll-to";
@@ -50,15 +50,14 @@ function Template(args) {
           <Button onClick={() => scroll({ y: 1000, smooth: true })}>
             Scroll Down
           </Button>
-          <Box
+          <Flex
             sx={{
               alignItems: "center",
-              display: "flex",
               height: 500,
             }}
           >
             Content
-          </Box>
+          </Flex>
           <Button onClick={() => scroll({ y: 0, smooth: true })}>
             Scroll Up
           </Button>

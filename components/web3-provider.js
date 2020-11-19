@@ -29,7 +29,7 @@ const deriveAccount = async function (message, create = true) {
 
   return this.eth.accounts.privateKeyToAccount(this.utils.keccak256(secret));
 };
-const createWeb3 = (infuraURL) => {
+export const createWeb3 = (infuraURL) => {
   const web3 = new Web3(infuraURL);
   web3.modal = new Web3Modal({
     cacheProvider: true,
@@ -52,7 +52,7 @@ const createWeb3 = (infuraURL) => {
   web3.deriveAccount = deriveAccount;
   return web3;
 };
-const createWeb3FromModal = async (modal, infuraURL) => {
+export const createWeb3FromModal = async (modal, infuraURL) => {
   const web3 = new Web3(await modal.connect());
   web3.modal = modal;
   web3.infuraURL = infuraURL;

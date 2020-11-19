@@ -1,4 +1,4 @@
-## 1.0.0-beta.1 (2020-11-11)
+## 1.0.0-beta.1 (2020-11-19)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -89,6 +89,7 @@
 - chore: new card designs and challenged status ([80b71c2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/80b71c2))
 - chore: normalize form behavior and implement evidence module ([b035c76](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b035c76))
 - chore: pagination ([c4ed9b5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c4ed9b5))
+- chore: publish components ([cfaa63c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cfaa63c))
 - chore: refactor submission details accordion ([725c829](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/725c829))
 - chore: relay updates and fixes ([3ab1170](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3ab1170))
 - chore: respond to wallet network changes ([d283116](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d283116))
