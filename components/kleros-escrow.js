@@ -128,10 +128,38 @@ export default class KlerosEscrow {
       delete metaEvidence.file;
     }
 
-    const metaEvidenceURI = await this.upload(
-      "metaEvidence.json",
-      metaEvidence
-    );
+    const sender = await this.getAccount();
+    const metaEvidenceURI = await this.upload("metaEvidence.json", {
+      ...metaEvidence,
+
+      category: "Escrow",
+      question: "Which party abided by terms of the contract?",
+      rulingOptions: {
+        type: "single-select",
+        titles: ["Refund Sender", "Pay Receiver"],
+        descriptions: [
+          "Select to return funds to the Sender",
+          "Select to release funds to the Receiver",
+        ],
+      },
+      evidenceDisplayInterfaceURI:
+        "/ipfs/QmfPnVdcCjApHdiCC8wAmyg5iR246JvVuQGQjQYgtF8gZU/index.html",
+      aliases: {
+        [sender]: "sender",
+        [recipient]: "receiver",
+      },
+
+      // Non-standard
+      amount: this.web3.utils.fromWei(String(amount)),
+      arbitrableAddress: this.contract.options.address,
+      receiver: recipient,
+      sender,
+      subCategory: "Cryptocurrency Transaction",
+      timeout,
+      token: this.tokenContract && {
+        address: this.tokenContract.options.address,
+      },
+    });
     return this.contract.methods
       .createTransaction(
         ...(this.tokenContract

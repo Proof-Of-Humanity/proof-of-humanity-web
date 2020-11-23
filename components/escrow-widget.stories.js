@@ -110,7 +110,7 @@ Default.args = {
     file: { contract: "someContractText" },
   },
   children: "Pay Now",
-  amount: 1e18,
+  amount: 1e16,
   recipient: "0x4b93A94ca58594FAF5f64948A26F3E195Eb63B6E",
   timeout: 604800,
 };

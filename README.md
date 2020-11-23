@@ -1,4 +1,4 @@
-## 1.0.0-beta.2 (2020-11-19)
+## 1.0.0-beta.2 (2020-11-23)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -15,6 +15,7 @@
 - chore: card documentation ([4a4bf13](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4a4bf13))
 - chore: document accordion ([2c0cd55](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2c0cd55))
 - chore: document account settings popup ([955683b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/955683b))
+- chore: document kleros escrow class ([cbcf029](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cbcf029))
 - chore: documentation theming ([009daaa](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/009daaa))
 - chore: expand subgraph ([31e87b2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/31e87b2))
 - chore: expand subgraph ([788c53f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/788c53f))
