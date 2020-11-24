@@ -22,6 +22,8 @@ export default function EscrowWidget({
   ticker = "ETH",
   recipient,
   timeout,
+  onOpen,
+  onClose,
 }) {
   if (!web3) web3 = defaultWeb3;
 
@@ -50,13 +52,16 @@ export default function EscrowWidget({
     return () => (cancelled = true);
   }, [metaEvidence, metaEvidenceFileURI]);
 
-  const [loading, setLoading] = useState();
+  const loadingRef = useRef(false);
+  const [loading, setLoading] = useState(false);
   return (
     <Popup
       trigger={
         typeof children === "string" ? <Button>{children}</Button> : children
       }
       modal
+      onOpen={onOpen}
+      onClose={() => onClose(loadingRef.current)}
     >
       {(close) => (
         <Box
@@ -116,10 +121,20 @@ export default function EscrowWidget({
               sx={{ width: 80 }}
               loading={loading}
               onClick={() => {
+                loadingRef.current = true;
                 setLoading(true);
                 klerosEscrowRef.current
                   .createTransaction(amount, recipient, timeout, metaEvidence)
-                  .then(() => close());
+                  .then(() => {
+                    close();
+                    loadingRef.current = false;
+                    setLoading(false);
+                  })
+                  .catch(() => {
+                    loadingRef.current = false;
+                    setLoading(false);
+                    close();
+                  });
               }}
             >
               Pay

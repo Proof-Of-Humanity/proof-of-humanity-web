@@ -93,6 +93,25 @@ const metadata = {
         },
       },
     },
+    onOpen: {
+      type: "function",
+      description: "Called with no arguments when the modal is opened.",
+      table: {
+        type: {
+          summary: "function",
+        },
+      },
+    },
+    onClose: {
+      type: "function",
+      description:
+        "Called with true or false when the modal is closed depending on whether the transaction was made successfully or not.",
+      table: {
+        type: {
+          summary: "function",
+        },
+      },
+    },
   },
 };
 export default metadata;
