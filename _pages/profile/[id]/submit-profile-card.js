@@ -164,7 +164,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
                   The video quality should be at least 360p, at most 2 minutes
                   long, and in the one of the supported formats. Lightning
                   conditions and recording device quality should be high enough
-                  for the video to have appropiate visual quality for a
+                  for the video to have appropriate visual quality for a
                   &gt;=360p video.
                 </ListItem>
                 <ListItem>
