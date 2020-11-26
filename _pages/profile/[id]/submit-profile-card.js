@@ -162,7 +162,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
                 </ListItem>
                 <ListItem>
                   The video quality should be at least 360p, at most 2 minutes
-                  long, and in the one of the supported formats. Lightning
+                  long, and in one of the supported formats. Lightning
                   conditions and recording device quality should be high enough
                   for the video to have appropriate visual quality for a
                   &gt;=360p video.
@@ -170,8 +170,8 @@ export default function SubmitProfileCard({ contract, reapply }) {
                 <ListItem>
                   The quality of the audio should be high enough such that the
                   speaker can be understood clearly. Small background noises are
-                  acceptable as long as they don’t prevent the clear
-                  understanding of the speaker.
+                  acceptable as long as they don’t prevent a clear understanding
+                  of the speaker.
                 </ListItem>
               </List>
             </Card>
