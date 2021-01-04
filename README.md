@@ -100,6 +100,7 @@
 - chore: relay updates and fixes ([3ab1170](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3ab1170))
 - chore: respond to wallet network changes ([d283116](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d283116))
 - chore: route transitions ([705b686](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/705b686))
+- chore: seed submissions script and new contract ([c58aff8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c58aff8))
 - chore: set correct fonts ([1e6e24d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1e6e24d))
 - chore: set up CI ([72e9f6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/72e9f6e))
 - chore: set up component documentation ([d04d26c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d04d26c))
