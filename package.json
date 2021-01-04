@@ -130,7 +130,7 @@
     "lint": "eslint --ext js,mdx .",
     "dev": "next",
     "dev:relay": "get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan --json | node subgraph/eslint-compat.js > subgraph/build/full-schema.json && relay-compiler --watch",
-    "build": "npm run dev:relay -- --watch=false && next build && next export",
+    "build": "npm run dev:relay -- --watch=false && next build",
     "build:analyze": "cross-env ANALYZE=true npm run build",
     "build:graph": "cd subgraph && mustache config/kovan.json subgraph.template.yaml > subgraph.yaml && graph codegen && graph build",
     "deploy:graph:kovan": "npm run build:graph && cd subgraph && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ epiqueras/proof-of-humanity-kovan",
