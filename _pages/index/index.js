@@ -26,7 +26,7 @@ export default function Index() {
   return (
     <>
       <SubmissionFilters numberOfSubmissions={submissions?.length} />
-      <Grid sx={{ minHeight: 367 }} gap={2} columns={[1, 2, 3, 4]}>
+      <Grid sx={{ minHeight: 750 }} gap={2} columns={[1, 2, 3, 4]} rows={2}>
         {submissions?.map((submission) => (
           <SubmissionCard key={submission.id} submission={submission} />
         ))}

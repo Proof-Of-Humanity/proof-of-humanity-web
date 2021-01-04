@@ -279,6 +279,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     avatar: {
       borderRadius: 62,
       height: 124,
+      objectFit: "cover",
       width: 124,
     },
     thumbnail: {
