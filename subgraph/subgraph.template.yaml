@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "{{address}}"
       abi: ProofOfHumanity
-      startBlock: 20289663
+      startBlock: 22883382
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

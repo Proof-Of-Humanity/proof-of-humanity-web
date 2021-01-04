@@ -1,4 +1,4 @@
-## 1.0.0-beta.2 (2020-11-26)
+## 1.0.0-beta.2 (2021-01-04)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -33,6 +33,7 @@
 - chore: fix ci ([342e933](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/342e933))
 - chore: fix ci again ([2854a26](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2854a26))
 - chore: fix ci and add security policy ([07dcc94](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/07dcc94))
+- chore: fix grammar ([6021559](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6021559))
 - chore: fix icon colors ([cefcc45](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cefcc45))
 - chore: fix paddings ([b07a529](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b07a529))
 - chore: fix routing bugs and finish registration form ([d789c7b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d789c7b))

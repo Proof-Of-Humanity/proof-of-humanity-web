@@ -12,3 +12,6 @@
 /subgraph/subgraph.yaml
 /subgraph/generated/
 /subgraph/build/
+
+# Assets
+/assets/seed-submissions/
