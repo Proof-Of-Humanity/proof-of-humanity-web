@@ -35,6 +35,7 @@
 - chore: fix ci and add security policy ([07dcc94](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/07dcc94))
 - chore: fix grammar ([6021559](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6021559))
 - chore: fix icon colors ([cefcc45](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cefcc45))
+- chore: fix netlify plugin ([d7223ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d7223ee))
 - chore: fix paddings ([b07a529](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b07a529))
 - chore: fix routing bugs and finish registration form ([d789c7b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d789c7b))
 - chore: fix subgraph ([68606c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/68606c9))

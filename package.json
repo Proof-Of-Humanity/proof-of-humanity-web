@@ -21,6 +21,7 @@
     "cross-env": "^7.0.2",
     "csv": "^5.3.2",
     "depcheck": "^1.0.0",
+    "electron": "^11.1.1",
     "eslint": "^7.8.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -126,7 +127,7 @@
     }
   },
   "scripts": {
-    "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,_pages,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional,buffer,@storybook/addon-a11y,@storybook/addon-essentials,babel-loader,react-is,storybook-mobile",
+    "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,_pages,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional,buffer,@storybook/addon-a11y,@storybook/addon-essentials,babel-loader,react-is,storybook-mobile,electron",
     "lint": "eslint --ext js,mdx .",
     "dev": "next",
     "dev:relay": "get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan --json | node subgraph/eslint-compat.js > subgraph/build/full-schema.json && relay-compiler --watch",
