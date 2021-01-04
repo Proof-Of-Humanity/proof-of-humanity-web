@@ -33,6 +33,7 @@ export default function SubmissionCard({ submission }) {
   return (
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
       <Card
+        sx={{ height: 367 }}
         header={
           <>
             <status.Icon

@@ -27,6 +27,7 @@
 - chore: finish base documentation ([bcff013](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bcff013))
 - chore: finish subgraph ([41d22d4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/41d22d4))
 - chore: fix again ([42927b6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/42927b6))
+- chore: fix avatar aspect ratios ([7e6f892](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7e6f892))
 - chore: fix card backgrounds ([95f57c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/95f57c9))
 - chore: fix checkbox click handler ([0119728](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0119728))
 - chore: fix ci ([dbe2dff](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/dbe2dff))
