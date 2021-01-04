@@ -70,7 +70,7 @@ export default function SubmissionCard({ submission }) {
           }}
           count={2}
         >
-          {evidence?.file?.bio}
+          {evidence?.file ? evidence.file.bio || " " : null}
         </Text>
       </Card>
     </NextLink>

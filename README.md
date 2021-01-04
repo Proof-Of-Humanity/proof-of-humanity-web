@@ -40,6 +40,7 @@
 - chore: fix netlify plugin again ([1ba38b1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1ba38b1))
 - chore: fix paddings ([b07a529](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b07a529))
 - chore: fix routing bugs and finish registration form ([d789c7b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d789c7b))
+- chore: fix single row card heights ([8621337](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8621337))
 - chore: fix subgraph ([68606c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/68606c9))
 - chore: fix subgraph memory access ([ba9cc9e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba9cc9e))
 - chore: fix submission details accordion ([56dafcc](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/56dafcc))

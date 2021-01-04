@@ -148,7 +148,9 @@ export default function SubmissionDetailsCard({ submission, contract }) {
         >
           {evidence?.file?.name}
         </Text>
-        <Text count={2}>{evidence?.file?.bio}</Text>
+        <Text count={2}>
+          {evidence?.file ? evidence.file.bio || " " : null}
+        </Text>
         <Box sx={{ marginY: 2, width: "100%" }}>
           {status === submissionStatusEnum.Vouching && (
             <>
