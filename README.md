@@ -35,6 +35,7 @@
 - chore: fix ci again ([2854a26](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2854a26))
 - chore: fix ci and add security policy ([07dcc94](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/07dcc94))
 - chore: fix grammar ([6021559](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6021559))
+- chore: fix home logo link ([4780d96](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4780d96))
 - chore: fix icon colors ([cefcc45](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cefcc45))
 - chore: fix netlify plugin ([d7223ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d7223ee))
 - chore: fix netlify plugin again ([1ba38b1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1ba38b1))

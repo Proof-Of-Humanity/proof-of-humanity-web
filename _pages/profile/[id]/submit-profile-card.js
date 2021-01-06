@@ -150,7 +150,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
               <List>
                 <ListItem>
                   Hold a sign with your Ethereum address on it in a way that is
-                  legible to viewers.
+                  legible to viewers. A screen is fine as well.
                 </ListItem>
                 <ListItem>
                   Say, in your normal voice, “I certify that I am a real human
