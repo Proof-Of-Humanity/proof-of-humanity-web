@@ -15,6 +15,7 @@
 - chore: auto-detect Web3 call type ([15ae304](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/15ae304))
 - chore: begin work on profile details page ([e4283ef](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e4283ef))
 - chore: card documentation ([4a4bf13](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4a4bf13))
+- chore: clarify sign requirements for submissions ([b50edf3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b50edf3))
 - chore: document accordion ([2c0cd55](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2c0cd55))
 - chore: document account settings popup ([955683b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/955683b))
 - chore: document kleros escrow class ([cbcf029](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cbcf029))

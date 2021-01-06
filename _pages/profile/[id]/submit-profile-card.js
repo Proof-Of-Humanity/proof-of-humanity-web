@@ -179,7 +179,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
               name="contribution"
               label={`Initial Contribution (Total: ${web3.utils.fromWei(
                 submissionBaseDeposit
-              )})`}
+              )} ETH)`}
               placeholder="The rest will be left for crowdfunding."
               type="number"
             />
