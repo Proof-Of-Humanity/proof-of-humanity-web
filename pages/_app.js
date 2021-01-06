@@ -107,13 +107,15 @@ function AccountSettingsPopup() {
 }
 const header = {
   left: (
-    <>
-      <ProofOfHumanityLogo size={32} />
-      <Box>
-        <Text>PROOF OF</Text>
-        <Text>HUMANITY</Text>
-      </Box>
-    </>
+    <NextLink href="/">
+      <Link variant="unstyled" sx={{ display: "flex" }}>
+        <ProofOfHumanityLogo size={32} />
+        <Box sx={{ marginLeft: 1 }}>
+          <Text>PROOF OF</Text>
+          <Text>HUMANITY</Text>
+        </Box>
+      </Link>
+    </NextLink>
   ),
   middle: (
     <List

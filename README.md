@@ -1,4 +1,4 @@
-## 1.0.0-beta.2 (2021-01-04)
+## 1.0.0-beta.2 (2021-01-06)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -89,6 +89,7 @@
 - chore: improve removal and renewal flow ([87fd4f8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/87fd4f8))
 - chore: improve tabs ([ffb87c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ffb87c9))
 - chore: increase video size ([7ecccdf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7ecccdf))
+- chore: make bios optional ([7d7e84a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7d7e84a))
 - chore: manually sort entities by creation time ([65142d8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/65142d8))
 - chore: more documentation ([2f5044d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2f5044d))
 - chore: more documentation ([96eea1f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/96eea1f))
