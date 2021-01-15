@@ -27,7 +27,12 @@ import { IdQuery } from "_pages/profile/[id]";
 import { queryEnums } from "data";
 import KlerosLiquid from "subgraph/abis/kleros-liquid";
 import ProofOfHumanity from "subgraph/abis/proof-of-humanity";
-import { address, klerosLiquidAddress } from "subgraph/config/kovan";
+import UBI from "subgraph/abis/ubi";
+import {
+  UBIAddress,
+  address,
+  klerosLiquidAddress,
+} from "subgraph/config/kovan";
 
 const queries = {
   "/": indexQuery,
@@ -56,6 +61,7 @@ const contracts = [
     abi: KlerosLiquid,
     address: { kovan: klerosLiquidAddress },
   },
+  { name: "UBI", abi: UBI, address: { kovan: UBIAddress } },
 ];
 function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");

@@ -18,6 +18,7 @@ export { default as Stop } from "./stop";
 export { default as Telegram } from "./telegram";
 export { default as Trash } from "./trash";
 export { default as Twitter } from "./twitter";
+export { default as UBI } from "./ubi";
 export { default as UpArrow } from "./up-arrow";
 export { default as User } from "./user";
 export { default as Video } from "./video";

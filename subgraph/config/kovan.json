@@ -1,5 +1,6 @@
 {
   "network": "kovan",
   "address": "0x403cf41bd4ee41a04f09761e363799ed55c8ce57",
-  "klerosLiquidAddress": "0x60B2AbfDfaD9c0873242f59f2A8c32A3Cc682f80"
+  "klerosLiquidAddress": "0x60B2AbfDfaD9c0873242f59f2A8c32A3Cc682f80",
+  "UBIAddress": "0xDdAdE19B13833d1bF52c1fe1352d41A8DD9fE8C9"
 }

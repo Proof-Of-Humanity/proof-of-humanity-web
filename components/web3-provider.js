@@ -199,10 +199,12 @@ export function useContract(
   type =
     type ||
     (contract &&
+      method &&
       (contract.jsonInterfaceMap[method].constant ? "call" : "send"));
   const run = useCallback(
     (_args, _options) =>
       contract &&
+      method &&
       (!args ||
         args.findIndex((value) => value === undefined || value === null) ===
           -1) &&
@@ -263,6 +265,7 @@ export function useContract(
       }),
     [sendState.transactionHash, sendState.receipt, web3]
   );
+
   const [reCallRef, reCall] = useReducer(() => ({}), {});
   const data = usePromise(
     () =>

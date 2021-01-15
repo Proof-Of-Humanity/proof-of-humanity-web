@@ -147,6 +147,13 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
         color: "primary",
         outline: "none",
       },
+      spinner: {
+        marginLeft: 1,
+        "div > div": {
+          backgroundColor: "text",
+          borderColor: "text",
+        },
+      },
     },
     select: {
       backgroundColor: "background",

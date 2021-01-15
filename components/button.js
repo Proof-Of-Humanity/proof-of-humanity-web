@@ -55,7 +55,7 @@ const Button = forwardRef(
         >
           {children}
           {loading && (
-            <Box variant="buttons.primary.spinner">
+            <Box variant={`buttons.${variant}.spinner`}>
               <MoonLoader size={16} />
             </Box>
           )}
