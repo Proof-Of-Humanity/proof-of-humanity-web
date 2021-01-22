@@ -1,4 +1,4 @@
-## 1.0.0-beta.2 (2021-01-15)
+## 1.0.0-beta.3 (2021-01-22)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -11,6 +11,7 @@
 - chore: add more status icons ([3225e43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3225e43))
 - chore: add share buttons to appeals ([4e35099](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4e35099))
 - chore: add social icons and fix font rendering ([b8e09b5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b8e09b5))
+- chore: add UBI integration ([5dad77b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5dad77b))
 - chore: animate cards on hover ([9cab895](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9cab895))
 - chore: animate select menu ([5e7b022](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5e7b022))
 - chore: auto-detect Web3 call type ([15ae304](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/15ae304))
