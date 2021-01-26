@@ -1,4 +1,4 @@
-## 1.0.0-beta.3 (2021-01-22)
+## 1.0.0-beta.4 (2021-01-26)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -27,6 +27,7 @@
 - chore: expand subgraph more ([4aca747](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4aca747))
 - chore: expand subgraph usage ([e77de34](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e77de34))
 - chore: export pages statically ([df1b304](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/df1b304))
+- chore: export themes ([aafec41](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/aafec41))
 - chore: finish base documentation ([bcff013](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bcff013))
 - chore: finish subgraph ([41d22d4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/41d22d4))
 - chore: fix again ([42927b6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/42927b6))

@@ -15,6 +15,15 @@ const metadata = {
           summary: "object",
         },
       },
+      mainSx: {
+        type: "object",
+        description: "Theme UI sx prop for the main area.",
+        table: {
+          type: {
+            summary: "object",
+          },
+        },
+      },
       children: {
         type: "string",
         description: "The content of the main area.",
