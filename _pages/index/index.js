@@ -1,4 +1,4 @@
-import { Grid, Pagination, useQuery } from "@kleros/components";
+import { Grid, Pagination, useContract, useQuery } from "@kleros/components";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { graphql } from "relay-hooks";
@@ -10,6 +10,12 @@ const pageSize = 8;
 export default function Index() {
   const router = useRouter();
   const { props } = useQuery();
+
+  const [submissionCounter] = useContract(
+    "proofOfHumanity",
+    "submissionCounter"
+  );
+
   const submissions = router.query.search
     ? props?.submissionSearch
     : props?.submissions?.slice(0, pageSize);
@@ -25,7 +31,7 @@ export default function Index() {
   }, [isLastPage, hasMore, page]);
   return (
     <>
-      <SubmissionFilters numberOfSubmissions={submissions?.length} />
+      <SubmissionFilters numberOfSubmissions={submissionCounter} />
       <Grid sx={{ minHeight: 750 }} gap={2} columns={[1, 2, 3, 4]} rows={2}>
         {submissions?.map((submission) => (
           <SubmissionCard key={submission.id} submission={submission} />

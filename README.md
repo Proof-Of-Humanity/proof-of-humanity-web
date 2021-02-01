@@ -34,6 +34,7 @@
 - chore: fix again ([42927b6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/42927b6))
 - chore: fix avatar aspect ratios ([7e6f892](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7e6f892))
 - chore: fix card backgrounds ([95f57c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/95f57c9))
+- chore: fix card hover issue ([c2ec33f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c2ec33f))
 - chore: fix checkbox click handler ([0119728](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0119728))
 - chore: fix ci ([dbe2dff](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/dbe2dff))
 - chore: fix ci ([342e933](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/342e933))
