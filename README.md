@@ -109,6 +109,7 @@
 - chore: publish components ([cfaa63c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cfaa63c))
 - chore: refactor submission details accordion ([725c829](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/725c829))
 - chore: relay updates and fixes ([3ab1170](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3ab1170))
+- chore: remove renewal timestamp ([38fe4d5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/38fe4d5))
 - chore: respond to wallet network changes ([d283116](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d283116))
 - chore: route transitions ([705b686](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/705b686))
 - chore: seed submissions script and new contract ([c58aff8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c58aff8))

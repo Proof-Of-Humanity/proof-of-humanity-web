@@ -66,8 +66,13 @@ const { uploadToKleros } = require("./utils");
     bios.push(bio);
   }
 
+  process.stdout.write("\n");
   process.stdout.write(JSON.stringify(addresses));
+  process.stdout.write("\n");
   process.stdout.write(JSON.stringify(evidences));
+  process.stdout.write("\n");
   process.stdout.write(JSON.stringify(names));
+  process.stdout.write("\n");
   process.stdout.write(JSON.stringify(bios));
+  process.stdout.write("\n");
 })();
