@@ -60,11 +60,13 @@ const Card = forwardRef(
           if (rest.onMouseMove) rest.onMouseMove();
         },
         onMouseLeave() {
-          setAnimatedStyle({
-            boxShadow: [10, 0],
-            rotateXRotateYScale: [0, 0, 1],
-            zIndex: 0,
-          });
+          setTimeout(() => {
+            setAnimatedStyle({
+              boxShadow: [10, 0],
+              rotateXRotateYScale: [0, 0, 1],
+              zIndex: 0,
+            });
+          }, 400);
           if (rest.onMouseLeave) rest.onMouseLeave();
         },
       };
