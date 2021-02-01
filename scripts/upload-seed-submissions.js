@@ -13,7 +13,10 @@ const { uploadToKleros } = require("./utils");
   const videos = fs.readdirSync(videosPath);
 
   const records = fs.createReadStream(process.argv[2]).pipe(parse());
-  const rows = [];
+  const addresses = [];
+  const evidences = [];
+  const names = [];
+  const bios = [];
   for await (const record of records) {
     const address = record[7];
     const name = record[1];
@@ -28,14 +31,16 @@ const { uploadToKleros } = require("./utils");
           photosPath,
           photos.find(
             (photo) =>
-              photo.slice(0, photo.indexOf(".")) === String(rows.length + 1)
+              photo.slice(0, photo.indexOf(".")) ===
+              String(addresses.length + 1)
           )
         ),
         video: path.join(
           videosPath,
           videos.find(
             (video) =>
-              video.slice(0, video.indexOf(".")) === String(rows.length + 1)
+              video.slice(0, video.indexOf(".")) ===
+              String(addresses.length + 1)
           )
         ),
       },
@@ -55,8 +60,14 @@ const { uploadToKleros } = require("./utils");
       Buffer.from(JSON.stringify(evidence))
     );
 
-    rows.push([address, evidence, name, bio]);
+    addresses.push(address);
+    evidences.push(evidence);
+    names.push(name);
+    bios.push(bio);
   }
 
-  process.stdout.write(JSON.stringify(rows));
+  process.stdout.write(JSON.stringify(addresses));
+  process.stdout.write(JSON.stringify(evidences));
+  process.stdout.write(JSON.stringify(names));
+  process.stdout.write(JSON.stringify(bios));
 })();

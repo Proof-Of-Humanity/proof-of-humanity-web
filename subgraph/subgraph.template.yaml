@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "{{address}}"
       abi: ProofOfHumanity
-      startBlock: 22883382
+      startBlock: 23262369
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -28,24 +28,18 @@ dataSources:
       eventHandlers:
         - event: MetaEvidence(indexed uint256,string)
           handler: metaEvidence
-        - event: ArbitratorComplete(address,indexed address,uint256,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
+        - event: ArbitratorComplete(address,indexed address,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
           handler: arbitratorComplete
       callHandlers:
-        - function: addSubmissionManually(address,string,string,string)
+        - function: addSubmissionManually(address[],string[],string[],string[])
           handler: addSubmissionManually
         - function: removeSubmissionManually(address)
           handler: removeSubmissionManually
         - function: changeSubmissionBaseDeposit(uint256)
           handler: changeSubmissionBaseDeposit
-        - function: changeSubmissionChallengeBaseDeposit(uint256)
-          handler: changeSubmissionChallengeBaseDeposit
-        - function: changeSubmissionDuration(uint256)
-          handler: changeSubmissionDuration
-        - function: changeRenewalTime(uint256)
-          handler: changeRenewalTime
-        - function: changeChallengePeriodDuration(uint256)
-          handler: changeChallengePeriodDuration
-        - function: changeRequiredNumberOfVouches(uint256)
+        - function: changeDurations(uint64,uint64,uint64)
+          handler: changeDurations
+        - function: changeRequiredNumberOfVouches(uint64)
           handler: changeRequiredNumberOfVouches
         - function: changeSharedStakeMultiplier(uint256)
           handler: changeSharedStakeMultiplier
@@ -73,7 +67,7 @@ dataSources:
           handler: removeVouch
         - function: withdrawSubmission()
           handler: withdrawSubmission
-        - function: changeStateToPending(address,address[])
+        - function: changeStateToPending(address,address[],bytes[],uint256[])
           handler: changeStateToPending
         - function: challengeRequest(address,uint8,address,string)
           handler: challengeRequest

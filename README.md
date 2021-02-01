@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-01-26)
+## 1.0.0-beta.4 (2021-02-01)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -8,6 +8,7 @@
 - chore: add in missing properties for the escrow UI ([4f3c889](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4f3c889))
 - chore: add issue templates ([6adcbee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6adcbee))
 - chore: add Kleros theme ([bff1fa4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bff1fa4))
+- chore: add main sx prop to layout component ([e96eb1d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e96eb1d))
 - chore: add more status icons ([3225e43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3225e43))
 - chore: add share buttons to appeals ([4e35099](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4e35099))
 - chore: add social icons and fix font rendering ([b8e09b5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b8e09b5))
