@@ -140,10 +140,6 @@ type Submission @entity {
   """
   submissionTime: BigInt
   """
-  The time after which it becomes possible to reapply the submission.
-  """
-  renewalTimestamp: BigInt
-  """
   The name of the submission.
   """
   name: String!

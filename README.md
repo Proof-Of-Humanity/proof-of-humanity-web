@@ -121,4 +121,5 @@
 - chore: track governance changes in subgraph ([8ccb7e9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8ccb7e9))
 - chore: update changelog ([a45d269](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a45d269))
 - chore: update eslint-plugin-regex ([2838bc3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2838bc3))
+- chore: update subgraph ([bc81e6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bc81e6e))
 - chore: upgrade nextjs ([36de7a2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/36de7a2))

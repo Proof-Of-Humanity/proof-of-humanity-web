@@ -258,9 +258,6 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     submission.status = "None";
     submission.registered = true;
     submission.submissionTime = call.block.timestamp;
-    submission.renewalTimestamp = call.block.timestamp.plus(
-      contract.submissionDuration.minus(contract.renewalTime)
-    );
     submission.name = names[i];
     submission.bio = bios[i];
     submission.vouchees = [];
@@ -764,9 +761,8 @@ export function executeRequest(call: ExecuteRequestCall): void {
 
   let submission = Submission.load(call.inputs._submissionID.toHexString());
   submission.status = "None";
-  submission.registered = submissionInfo.value4;
+  submission.registered = submissionInfo.value3;
   submission.submissionTime = submissionInfo.value1;
-  submission.renewalTimestamp = submissionInfo.value2;
   submission.save();
 
   let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
@@ -896,9 +892,8 @@ export function rule(call: RuleCall): void {
 
   let submission = Submission.load(disputeData.value1.toHexString());
   submission.status = getStatus(submissionInfo.value0);
-  submission.registered = submissionInfo.value4;
+  submission.registered = submissionInfo.value3;
   submission.submissionTime = submissionInfo.value1;
-  submission.renewalTimestamp = submissionInfo.value2;
 
   let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestInfo = proofOfHumanity.getRequestInfo(

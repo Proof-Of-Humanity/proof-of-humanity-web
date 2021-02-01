@@ -10,6 +10,7 @@ const deadlinesFragments = {
   contract: graphql`
     fragment deadlinesContract on Contract {
       submissionDuration
+      renewalTime
       challengePeriodDuration
       ...challengeButtonContract
       ...removeButtonContract
@@ -20,7 +21,6 @@ const deadlinesFragments = {
       id
       registered
       submissionTime
-      renewalTimestamp
       request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
         lastStatusChange
         resolved
@@ -50,13 +50,14 @@ export default function Deadlines({ submission, contract, status }) {
     id,
     registered,
     submissionTime,
-    renewalTimestamp: _renewalTimestamp,
   } = useFragment(deadlinesFragments.submission, submission);
   const {
-    challengePeriodDuration,
     submissionDuration,
+    renewalTime,
+    challengePeriodDuration,
   } = (contract = useFragment(deadlinesFragments.contract, contract));
-  const renewalTimestamp = _renewalTimestamp * 1000;
+  const renewalTimestamp =
+    (Number(submissionTime) + (submissionDuration - renewalTime)) * 1000;
   const [accounts] = useWeb3("eth", "getAccounts");
   return (
     <>
