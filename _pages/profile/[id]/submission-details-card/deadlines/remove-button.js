@@ -1,12 +1,15 @@
 import {
-  Box,
   Button,
   Card,
+  Field,
+  FileUpload,
+  Form,
   Popup,
   Text,
+  Textarea,
+  useArchon,
   useContract,
   useWeb3,
-  zeroAddress,
 } from "@kleros/components";
 import { useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
@@ -25,11 +28,20 @@ const removeButtonFragments = {
     }
   `,
 };
+const createValidationSchema = ({ string, file }) => ({
+  name: string().max(50, "Must be 50 characters or less.").required("Required"),
+  description: string()
+    .max(300, "Must be 300 characters or less.")
+    .required("Required"),
+  file: file(),
+});
 export default function RemoveButton({ request, contract, submissionID }) {
   const { arbitrator, arbitratorExtraData } = useFragment(
     removeButtonFragments.request,
     request
   );
+  const { upload } = useArchon();
+
   const [arbitrationCost] = useContract(
     "klerosLiquid",
     "arbitrationCost",
@@ -53,9 +65,11 @@ export default function RemoveButton({ request, contract, submissionID }) {
         .div(web3.utils.toBN(10000))
     )
     .add(web3.utils.toBN(submissionBaseDeposit));
-  const { send, loading } = useContract("proofOfHumanity", "removeSubmission");
+
+  const { send } = useContract("proofOfHumanity", "removeSubmission");
   return (
     <Popup
+      contentStyle={{ width: undefined }}
       trigger={
         <Button
           sx={{
@@ -69,30 +83,63 @@ export default function RemoveButton({ request, contract, submissionID }) {
       modal
     >
       {(close) => (
-        <Box sx={{ fontWeight: "bold", padding: 2 }}>
-          <Text sx={{ marginBottom: 1 }}>Deposit:</Text>
-          <Card
-            variant="muted"
-            sx={{ fontSize: 2, marginBottom: 3 }}
-            mainSx={{ padding: 0 }}
-          >
-            <Text>
-              {totalCost && `${web3.utils.fromWei(totalCost)} ETH Deposit`}
-            </Text>
-          </Card>
-          <Button
-            sx={{ display: "block", margin: "auto" }}
-            disabled={!totalCost}
-            onClick={() =>
-              send(submissionID, zeroAddress, { value: totalCost }).then(() =>
-                close()
-              )
-            }
-            loading={loading}
-          >
-            Request Removal
-          </Button>
-        </Box>
+        <Form
+          sx={{ fontWeight: "bold", padding: 2 }}
+          createValidationSchema={createValidationSchema}
+          onSubmit={async ({ name, description, file }) => {
+            let evidence = { name, description };
+            if (file)
+              evidence.fileURI = (
+                await upload(file.name, file.content)
+              ).pathname;
+            ({ pathname: evidence } = await upload(
+              "evidence.json",
+              JSON.stringify(evidence)
+            ));
+            await send(submissionID, evidence, { value: totalCost });
+            close();
+          }}
+        >
+          {({ isSubmitting }) => (
+            <>
+              <Text sx={{ marginBottom: 1 }}>Deposit:</Text>
+              <Card
+                variant="muted"
+                sx={{ fontSize: 2, marginBottom: 3 }}
+                mainSx={{ padding: 0 }}
+              >
+                <Text>
+                  {totalCost && `${web3.utils.fromWei(totalCost)} ETH Deposit`}
+                </Text>
+              </Card>
+              <Field
+                name="name"
+                label="Evidence Name"
+                placeholder="E.g. The submitter is not a real person."
+              />
+              <Field
+                as={Textarea}
+                name="description"
+                label="Evidence Description (Your Arguments)"
+              />
+              <Field
+                as={FileUpload}
+                name="file"
+                label="File"
+                accept="image/png, image/jpeg, application/pdf"
+                maxSize={2}
+              />
+              <Button
+                sx={{ display: "block", margin: "auto" }}
+                type="submit"
+                disabled={!totalCost}
+                loading={isSubmitting}
+              >
+                Request Removal
+              </Button>
+            </>
+          )}
+        </Form>
       )}
     </Popup>
   );
