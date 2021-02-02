@@ -34,6 +34,7 @@ const submissionDetailsCardFragments = {
       id
       status
       registered
+      name
       disputed
       requests(
         orderBy: creationTime
@@ -66,6 +67,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
     requests: [request],
     id,
     registered,
+    name,
     ...rest
   } = (submission = useFragment(
     submissionDetailsCardFragments.submission,
@@ -148,7 +150,11 @@ export default function SubmissionDetailsCard({ submission, contract }) {
             marginY: 2,
           }}
         >
-          {evidence?.file?.name}
+          {evidence?.file?.name &&
+            (name.replaceAll(/[^\s\w]/g, "") ===
+            evidence.file.name.replaceAll(/[^\s\w]/g, "")
+              ? evidence.file.name
+              : "Tampered Data, Reject")}
         </Text>
         <Text count={2}>
           {evidence?.file ? evidence.file.bio || " " : null}

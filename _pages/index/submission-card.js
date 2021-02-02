@@ -9,6 +9,7 @@ const submissionCardFragment = graphql`
     id
     status
     registered
+    name
     disputed
     requests(
       orderBy: creationTime
@@ -26,6 +27,7 @@ export default function SubmissionCard({ submission }) {
   const {
     requests: [request],
     id,
+    name,
     ...rest
   } = useFragment(submissionCardFragment, submission);
   const status = submissionStatusEnum.parse(rest);
@@ -60,7 +62,11 @@ export default function SubmissionCard({ submission }) {
             marginY: 1,
           }}
         >
-          {evidence?.file?.name}
+          {evidence?.file?.name &&
+            (name.replaceAll(/[^\s\w]/g, "") ===
+            evidence.file.name.replaceAll(/[^\s\w]/g, "")
+              ? evidence.file.name
+              : "Tampered Data, Reject")}
         </Text>
         <Text
           variant="multiClipped"
