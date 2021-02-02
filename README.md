@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-02-01)
+## 1.0.0-beta.4 (2021-02-02)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -126,3 +126,4 @@
 - chore: update eslint-plugin-regex ([2838bc3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2838bc3))
 - chore: update subgraph ([bc81e6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bc81e6e))
 - chore: upgrade nextjs ([36de7a2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/36de7a2))
+- chore: use total profiles for counter ([00c505a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/00c505a))

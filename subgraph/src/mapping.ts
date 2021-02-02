@@ -250,7 +250,6 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   let submissionIDs = call.inputs._submissionIDs;
   let evidences = call.inputs._evidence;
   let names = call.inputs._names;
-  let bios = call.inputs._bios;
   for (let i = 0; i < submissionIDs.length; i++) {
     let contract = Contract.load("0");
     let submission = new Submission(submissionIDs[i].toHexString());
@@ -259,7 +258,6 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     submission.registered = true;
     submission.submissionTime = call.block.timestamp;
     submission.name = names[i];
-    submission.bio = bios[i];
     submission.vouchees = [];
     submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(1);
@@ -428,7 +426,6 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.creationTime = call.block.timestamp;
     submission.registered = false;
     submission.name = call.inputs._name;
-    submission.bio = call.inputs._bio;
     submission.vouchees = [];
     submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(0);

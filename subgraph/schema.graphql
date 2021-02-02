@@ -144,10 +144,6 @@ type Submission @entity {
   """
   name: String!
   """
-  The bio of the submission.
-  """
-  bio: String!
-  """
   Submissions the submission has vouched for.
   """
   vouchees: [Submission!]!
@@ -385,7 +381,5 @@ type _Schema_
     name: "submissionSearch"
     language: en
     algorithm: rank
-    include: [
-      { entity: "Submission", fields: [{ name: "name" }, { name: "bio" }] }
-    ]
+    include: [{ entity: "Submission", fields: [{ name: "name" }] }]
   )
