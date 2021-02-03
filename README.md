@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-02-02)
+## 1.0.0-beta.4 (2021-02-03)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -121,6 +121,7 @@
 - chore: set up component documentation ([d04d26c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d04d26c))
 - chore: set up project ([534bf60](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/534bf60))
 - chore: show challenged status in profile header ([55aa602](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/55aa602))
+- chore: show warning if name in subgraph does not match name in evidence file ([e557b2f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e557b2f))
 - chore: take into account renewal grace periods ([c45ec84](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c45ec84))
 - chore: track governance changes in subgraph ([8ccb7e9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8ccb7e9))
 - chore: update changelog ([a45d269](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a45d269))
