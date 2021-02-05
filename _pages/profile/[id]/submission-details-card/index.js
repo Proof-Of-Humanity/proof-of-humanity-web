@@ -25,7 +25,6 @@ const submissionDetailsCardFragments = {
     fragment submissionDetailsCardContract on Contract {
       submissionBaseDeposit
       requiredNumberOfVouches
-      sharedStakeMultiplier
       ...deadlinesContract
     }
   `,
@@ -97,7 +96,6 @@ export default function SubmissionDetailsCard({ submission, contract }) {
   );
   const { web3 } = useWeb3();
   const {
-    sharedStakeMultiplier,
     submissionBaseDeposit,
     requiredNumberOfVouches,
   } = (contract = useFragment(
@@ -105,15 +103,8 @@ export default function SubmissionDetailsCard({ submission, contract }) {
     contract
   ));
   const totalCost = useMemo(
-    () =>
-      arbitrationCost
-        ?.add(
-          arbitrationCost
-            .mul(web3.utils.toBN(sharedStakeMultiplier))
-            .div(web3.utils.toBN(10000))
-        )
-        .add(web3.utils.toBN(submissionBaseDeposit)),
-    [arbitrationCost, web3.utils, sharedStakeMultiplier, submissionBaseDeposit]
+    () => arbitrationCost?.add(web3.utils.toBN(submissionBaseDeposit)),
+    [arbitrationCost, web3.utils, submissionBaseDeposit]
   );
   const totalContribution = useMemo(
     () =>

@@ -11,25 +11,45 @@ import {
   useContract,
   useWeb3,
 } from "@kleros/components";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
 const submitProfileCardFragment = graphql`
   fragment submitProfileCard on Contract {
+    arbitrator
+    arbitratorExtraData
     submissionBaseDeposit
   }
 `;
 export default function SubmitProfileCard({ contract, reapply }) {
-  const { submissionBaseDeposit } = useFragment(
-    submitProfileCardFragment,
-    contract
+  const {
+    arbitrator,
+    arbitratorExtraData,
+    submissionBaseDeposit,
+  } = useFragment(submitProfileCardFragment, contract);
+
+  const { web3 } = useWeb3();
+  const [arbitrationCost] = useContract(
+    "klerosLiquid",
+    "arbitrationCost",
+    useMemo(
+      () => ({
+        address: arbitrator,
+        args: [arbitratorExtraData],
+      }),
+      [arbitrator, arbitratorExtraData]
+    )
   );
+  const totalCost = useMemo(
+    () => arbitrationCost?.add(web3.utils.toBN(submissionBaseDeposit)),
+    [arbitrationCost, web3.utils, submissionBaseDeposit]
+  );
+
   const { upload } = useArchon();
   const { send } = useContract(
     "proofOfHumanity",
     reapply ? "reapplySubmission" : "addSubmission"
   );
-  const { web3 } = useWeb3();
   return (
     <Card
       header="Submit Profile"
@@ -59,11 +79,10 @@ export default function SubmitProfileCard({ contract, reapply }) {
             contribution: eth()
               .test({
                 test(value) {
-                  const deposit = _web3.utils.toBN(submissionBaseDeposit);
-                  if (value.gt(deposit))
+                  if (totalCost && value.gt(totalCost))
                     return this.createError({
                       message: `You can't contribute more than the base deposit of ${_web3.utils.fromWei(
-                        deposit
+                        totalCost
                       )} ETH.`,
                     });
                   return true;
@@ -86,7 +105,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
                 },
               }),
           }),
-          [submissionBaseDeposit]
+          [totalCost]
         )}
         onSubmit={async ({
           name,
@@ -177,9 +196,9 @@ export default function SubmitProfileCard({ contract, reapply }) {
             </Card>
             <Field
               name="contribution"
-              label={`Initial Contribution (Total: ${web3.utils.fromWei(
-                submissionBaseDeposit
-              )} ETH)`}
+              label={`Initial Contribution (Total: ${
+                totalCost ? web3.utils.fromWei(totalCost) : "-"
+              } ETH)`}
               placeholder="The rest will be left for crowdfunding."
               type="number"
             />
