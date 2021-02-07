@@ -52,6 +52,7 @@
 - chore: fix subgraph ([68606c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/68606c9))
 - chore: fix subgraph memory access ([ba9cc9e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba9cc9e))
 - chore: fix submission details accordion ([56dafcc](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/56dafcc))
+- chore: fix submissions with empty contributions ([397306b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/397306b))
 - chore: fix transitions ([c73e049](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c73e049))
 - chore: fix typo ([f1f7f9f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f1f7f9f))
 - chore: fix typo ([80e4c50](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/80e4c50))

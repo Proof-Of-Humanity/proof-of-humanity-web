@@ -38,7 +38,7 @@ export default function Popup({
       {(props) => (
         <AnimatedBox
           style={{
-            ...animatedStyle,
+            opacity: animatedStyle.opacity,
             transform: animatedStyle.scale.interpolate(
               (scale) => `scale(${scale})`
             ),
