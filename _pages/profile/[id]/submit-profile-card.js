@@ -128,7 +128,9 @@ export default function SubmitProfileCard({ contract, reapply }) {
             "registration.json",
             JSON.stringify({ fileURI, name: "Registration" })
           );
-          return send(evidence, name, bio, { value: contribution });
+          return send(evidence, name, bio, {
+            value: String(contribution) === "" ? 0 : contribution,
+          });
         }}
       >
         {({ isSubmitting }) => (

@@ -244,7 +244,10 @@ export function useContract(
             dispatch({ type: "receipt", receipt });
             resolve(receipt);
           })
-          .on("error", (error) => dispatch({ type: "error", error }))
+          .on("error", (error) => {
+            dispatch({ type: "error", error });
+            resolve(error);
+          })
       );
     },
     [contract, connect, run, dispatch]
@@ -288,7 +291,11 @@ export function useContract(
         receipt,
         ...sendState,
         send,
-        loading: sendState.transactionHash && !sendState.receipt && !receipt,
+        loading:
+          sendState.transactionHash &&
+          !sendState.receipt &&
+          !receipt &&
+          !sendState.error,
       }
     : [...data, reCall];
 }
