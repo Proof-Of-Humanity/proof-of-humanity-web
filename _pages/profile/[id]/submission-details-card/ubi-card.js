@@ -22,18 +22,23 @@ function AccruedUBI({ lastMintedSecond, web3, accruedPerSecond }) {
     <Text>{accruedUBI && `${web3.utils.fromWei(accruedUBI)} UBI Accrued`}</Text>
   );
 }
-export default function UBICard({ submissionID, registered }) {
+export default function UBICard({ submissionID }) {
   const { web3 } = useWeb3();
   const [lastMintedSecond, , status, reCall] = useContract(
     "UBI",
     "lastMintedSecond",
     useMemo(() => ({ args: [submissionID] }), [submissionID])
   );
+  const [registered] = useContract(
+    "proofOfHumanity",
+    "isRegistered",
+    useMemo(() => ({ args: [submissionID] }), [submissionID])
+  );
   const [accruedPerSecond] = useContract("UBI", "accruedPerSecond");
 
   let method;
   let text;
-  if (lastMintedSecond)
+  if (lastMintedSecond && typeof registered === "boolean")
     if (lastMintedSecond.eq(web3.utils.toBN(0))) {
       if (registered) {
         method = "startAccruing";
@@ -59,14 +64,16 @@ export default function UBICard({ submissionID, registered }) {
         web3={web3}
         accruedPerSecond={accruedPerSecond}
       />
-      <Button
-        variant="secondary"
-        disabled={status === "pending"}
-        onClick={() => send(submissionID).then(reCall)}
-        loading={loading}
-      >
-        {text}
-      </Button>
+      {text && (
+        <Button
+          variant="secondary"
+          disabled={status === "pending"}
+          onClick={() => send(submissionID).then(reCall)}
+          loading={loading}
+        >
+          {text}
+        </Button>
+      )}
     </Card>
   );
 }

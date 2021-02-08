@@ -65,14 +65,13 @@ export default function SubmissionDetailsCard({ submission, contract }) {
   const {
     requests: [request],
     id,
-    registered,
     name,
     ...rest
   } = (submission = useFragment(
     submissionDetailsCardFragments.submission,
     submission
   ));
-  const status = submissionStatusEnum.parse({ registered, ...rest });
+  const status = submissionStatusEnum.parse({ ...rest });
 
   const evidence = useEvidenceFile()(request.evidence[0].URI);
   const contributions = useMemo(
@@ -216,7 +215,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
           <Ether /> <NextETHLink address={id}>{id}</NextETHLink>
         </Text>
         <Video url={evidence?.file?.video} />
-        <UBICard submissionID={id} registered={registered} />
+        <UBICard submissionID={id} />
       </Box>
     </Card>
   );

@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-02-07)
+## 1.0.0-beta.4 (2021-02-08)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -47,6 +47,7 @@
 - chore: fix netlify plugin ([d7223ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d7223ee))
 - chore: fix netlify plugin again ([1ba38b1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1ba38b1))
 - chore: fix paddings ([b07a529](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b07a529))
+- chore: fix popups CSS browser compatibility ([b4f4ee1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b4f4ee1))
 - chore: fix routing bugs and finish registration form ([d789c7b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d789c7b))
 - chore: fix single row card heights ([8621337](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8621337))
 - chore: fix subgraph ([68606c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/68606c9))
