@@ -17,7 +17,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
-import { challengeReasonEnum } from "data";
+import { challengeReasonEnum, submissionStatusEnum } from "data";
 
 const challengeButtonFragments = {
   contract: graphql`
@@ -172,7 +172,7 @@ export default function ChallengeButton({
               {totalCost && `${web3.utils.fromWei(totalCost)} ETH Deposit`}
             </Text>
           </Card>
-          {status === status.PendingRegistration && (
+          {status === submissionStatusEnum.PendingRegistration && (
             <>
               <Text sx={{ marginBottom: 1 }}>Challenge Type:</Text>
               <Grid sx={{ marginBottom: 2 }} gap={1} columns={[1, 2, 4]}>
