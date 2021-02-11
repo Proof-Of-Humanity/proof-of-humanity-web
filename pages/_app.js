@@ -24,7 +24,7 @@ import { useQuery } from "relay-hooks";
 import { indexQuery } from "_pages/index";
 import { appQuery } from "_pages/index/app-query";
 import { IdQuery } from "_pages/profile/[id]";
-import { queryEnums } from "data";
+import { queryEnums, useEvidenceFile } from "data";
 import KlerosLiquid from "subgraph/abis/kleros-liquid";
 import ProofOfHumanity from "subgraph/abis/proof-of-humanity";
 import UBI from "subgraph/abis/ubi";
@@ -101,9 +101,11 @@ function AccountSettingsPopup() {
     { id: accounts?.[0]?.toLowerCase() },
     { skip: !accounts?.[0] }
   );
+  const evidenceURI = props?.submission?.requests[0].evidence[0].URI;
+  const getEvidenceFile = useEvidenceFile();
   return (
     <_AccountSettingsPopup
-      name={props?.submission?.name}
+      name={evidenceURI && getEvidenceFile(evidenceURI)?.file?.name}
       userSettingsURL="https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/user-settings"
       settings={settings}
       parseSettings={parseSettings}

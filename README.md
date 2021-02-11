@@ -135,6 +135,7 @@
 - chore: update relay-hooks to patched version ([438569b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/438569b))
 - chore: update subgraph ([bc81e6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bc81e6e))
 - chore: update submission deposit formula ([692cc52](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/692cc52))
+- chore: update web3 when accounts change ([e7f099b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e7f099b))
 - chore: upgrade nextjs ([36de7a2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/36de7a2))
 - chore: use total profiles for counter ([00c505a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/00c505a))
 - chore: validate basic latin ([70192c1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/70192c1))
