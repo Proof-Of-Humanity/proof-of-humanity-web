@@ -67,9 +67,17 @@ export default function SubmitProfileCard({ contract, reapply }) {
               .required("Required"),
             firstName: string()
               .max(20, "Must be 20 characters or less.")
+              .matches(
+                /^[\s\w]*$/,
+                "Only letters from a to z and spaces are allowed."
+              )
               .required("Required"),
             lastName: string()
               .max(20, "Must be 20 characters or less.")
+              .matches(
+                /^[\s\w]*$/,
+                "Only letters from a to z and spaces are allowed."
+              )
               .required("Required"),
             bio: string()
               .max(70, "Must be 70 characters or less.")
