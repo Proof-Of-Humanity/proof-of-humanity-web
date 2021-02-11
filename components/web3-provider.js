@@ -71,16 +71,25 @@ export default function Web3Provider({
     if (infuraURL !== web3.infuraURL) setWeb3(createWeb3(infuraURL));
   }, [infuraURL, web3.infuraURL]);
   useEffect(() => {
+    let cancelled = false;
     (async () => {
-      if (web3.modal.cachedProvider)
-        setWeb3(await createWeb3FromModal(web3.modal, web3.infuraURL));
+      if (web3.modal.cachedProvider) {
+        const _web3 = await createWeb3FromModal(web3.modal, web3.infuraURL);
+        if (!cancelled) setWeb3(_web3);
+      }
     })();
-  }, [web3.modal, web3.infuraURL]);
-  useEffect(() => {
-    if (window.ethereum)
-      window.ethereum.on("accountsChanged", async () => {
+
+    if (window.ethereum) {
+      const listener = async () => {
         setWeb3(await createWeb3FromModal(web3.modal, web3.infuraURL));
-      });
+      };
+      window.ethereum.on("accountsChanged", listener);
+      return () => {
+        cancelled = true;
+        window.ethereum.removeListener("accountsChanged", listener);
+      };
+    }
+    return () => (cancelled = true);
   }, [web3.modal, web3.infuraURL]);
 
   useEffect(() => {

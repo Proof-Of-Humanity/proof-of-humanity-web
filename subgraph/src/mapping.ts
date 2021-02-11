@@ -203,7 +203,9 @@ function requestStatusChange(
 }
 
 export function metaEvidence(event: MetaEvidenceEvent): void {
-  let metaEvidence = new MetaEvidence(event.params._metaEvidenceID.toString());
+  let metaEvidence = new MetaEvidence(
+    event.params._metaEvidenceID.toHexString()
+  );
   metaEvidence.URI = event.params._evidence;
   metaEvidence.save();
 

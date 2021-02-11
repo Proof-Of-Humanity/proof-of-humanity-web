@@ -17,7 +17,11 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
-import { challengeReasonEnum, submissionStatusEnum } from "data";
+import {
+  challengeReasonEnum,
+  submissionStatusEnum,
+  useEvidenceFile,
+} from "data";
 
 const challengeButtonFragments = {
   contract: graphql`
@@ -33,6 +37,9 @@ const challengeButtonFragments = {
       arbitratorExtraData
       usedReasons
       currentReason
+      metaEvidence {
+        URI
+      }
     }
   `,
 };
@@ -104,6 +111,7 @@ export default function ChallengeButton({
   submissionID,
 }) {
   const {
+    metaEvidence: _metaEvidence,
     currentReason: _currentReason,
     arbitrator,
     arbitratorExtraData,
@@ -114,6 +122,8 @@ export default function ChallengeButton({
   const usedReasons = challengeReasonEnum.parse(_usedReasons);
   const currentReasonIsNotDuplicate =
     currentReason !== challengeReasonEnum.Duplicate;
+
+  const metaEvidence = useEvidenceFile()(_metaEvidence.URI);
 
   const [arbitrationCost] = useContract(
     "klerosLiquid",
@@ -162,6 +172,15 @@ export default function ChallengeButton({
     >
       {(close) => (
         <Box sx={{ fontWeight: "bold", padding: 2 }}>
+          <Card
+            variant="muted"
+            sx={{ fontSize: 1, marginBottom: 2 }}
+            mainSx={{ padding: 0 }}
+          >
+            <Link newTab href={metaEvidence?.fileURI}>
+              <Text>{metaEvidence && "Primary Document"}</Text>
+            </Link>
+          </Card>
           <Text sx={{ marginBottom: 1 }}>Deposit:</Text>
           <Card
             variant="muted"
