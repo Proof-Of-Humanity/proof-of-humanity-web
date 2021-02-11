@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Box, Flex } from "theme-ui";
 
 import { createUseDataloaders } from "./archon-provider";
@@ -77,7 +77,12 @@ function VotingHistoryTabPanel({
   arbitrator,
   challenge: { disputeID, roundsLength },
 }) {
-  const [round, setRound] = useState(0);
+  const [round, setRound] = useState({
+    index: 0,
+    toString() {
+      return `Round: 0`;
+    },
+  });
   const [ruling, setRuling] = useState(0);
 
   const getRulingDescriptions = useRulingDescriptions();
@@ -89,14 +94,23 @@ function VotingHistoryTabPanel({
   const votes =
     web3.contracts?.klerosLiquid &&
     web3.ETHNet?.name &&
-    getVotes(arbitrator, disputeID, round)?.filter(
+    getVotes(arbitrator, disputeID, round.index)?.filter(
       (vote) => vote.ruling === ruling
     );
   return (
     <>
       <Flex sx={{ marginBottom: 2 }}>
         <Select
-          items={[...new Array(roundsLength)].map((_, index) => index)}
+          items={useMemo(
+            () =>
+              [...new Array(roundsLength)].map((_, index) => ({
+                index,
+                toString() {
+                  return `Round: ${index}`;
+                },
+              })),
+            [roundsLength]
+          )}
           onChange={(value) => setRound(value)}
           value={round}
           label="Choose a round:"
