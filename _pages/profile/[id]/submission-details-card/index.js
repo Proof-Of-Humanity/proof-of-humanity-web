@@ -140,11 +140,13 @@ export default function SubmissionDetailsCard({ submission, contract }) {
             marginY: 2,
           }}
         >
-          {evidence?.file?.name &&
-            (name.replaceAll(/[^\s\w]/g, "") ===
-            evidence.file.name.replaceAll(/[^\s\w]/g, "")
-              ? evidence.file.name
-              : "Tampered Data, Reject")}
+          {evidence instanceof Error
+            ? "Tampered Data, Reject"
+            : evidence?.file?.name &&
+              (name.replaceAll(/[^\s\w]/g, "") ===
+              evidence.file.name.replaceAll(/[^\s\w]/g, "")
+                ? evidence.file.name
+                : "Tampered Data, Reject")}
         </Text>
         <Text count={2}>
           {evidence?.file ? evidence.file.bio || " " : null}

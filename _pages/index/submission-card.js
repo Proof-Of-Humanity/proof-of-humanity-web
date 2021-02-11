@@ -62,11 +62,13 @@ export default function SubmissionCard({ submission }) {
             marginY: 1,
           }}
         >
-          {evidence?.file?.name &&
-            (name.replaceAll(/[^\s\w]/g, "") ===
-            evidence.file.name.replaceAll(/[^\s\w]/g, "")
-              ? evidence.file.name
-              : "Tampered Data, Reject")}
+          {evidence instanceof Error
+            ? "Tampered Data, Reject"
+            : evidence?.file?.name &&
+              (name.replaceAll(/[^\s\w]/g, "") ===
+              evidence.file.name.replaceAll(/[^\s\w]/g, "")
+                ? evidence.file.name
+                : "Tampered Data, Reject")}
         </Text>
         <Text
           variant="multiClipped"
