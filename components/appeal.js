@@ -96,7 +96,7 @@ function AppealTabPanelCard({
     cost &&
     deadline &&
     !deadline.eq(web3.utils.toBN(0)) &&
-    deadline.lt(web3.utils.toBN(Date.now() / 1000))
+    deadline.lt(web3.utils.toBN(Math.floor(Date.now() / 1000)))
   )
     return (
       <FundButton
