@@ -76,6 +76,12 @@ export default function Web3Provider({
         setWeb3(await createWeb3FromModal(web3.modal, web3.infuraURL));
     })();
   }, [web3.modal, web3.infuraURL]);
+  useEffect(() => {
+    if (window.ethereum)
+      window.ethereum.on("accountsChanged", async () => {
+        setWeb3(await createWeb3FromModal(web3.modal, web3.infuraURL));
+      });
+  }, [web3.modal, web3.infuraURL]);
 
   useEffect(() => {
     let cancelled = false;

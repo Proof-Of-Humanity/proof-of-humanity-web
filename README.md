@@ -137,3 +137,4 @@
 - chore: update submission deposit formula ([692cc52](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/692cc52))
 - chore: upgrade nextjs ([36de7a2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/36de7a2))
 - chore: use total profiles for counter ([00c505a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/00c505a))
+- chore: validate basic latin ([70192c1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/70192c1))
