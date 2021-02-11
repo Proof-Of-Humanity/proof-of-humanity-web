@@ -193,10 +193,11 @@ export default function SubmissionDetailsCard({
               borderRightWidth: 1,
               flex: 1,
               marginBottom: 3,
+              paddingX: 1,
             }}
           >
             <Text>Vouchers</Text>
-            <Text sx={{ fontWeight: "bold" }}>
+            <Text sx={{ fontWeight: "bold", paddingX: 1 }}>
               {String(registeredVouchers.length)}/{requiredNumberOfVouches}
             </Text>
           </Box>
