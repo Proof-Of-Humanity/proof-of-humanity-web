@@ -79,9 +79,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
                 "Only letters from a to z and spaces are allowed."
               )
               .required("Required"),
-            bio: string()
-              .max(70, "Must be 70 characters or less.")
-              .required("Required"),
+            bio: string().max(70, "Must be 70 characters or less."),
             photo: file().required("Required"),
             video: file().required("Required"),
             contribution: eth()
