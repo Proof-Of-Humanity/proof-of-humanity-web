@@ -10,6 +10,7 @@
 - chore: add Kleros theme ([bff1fa4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bff1fa4))
 - chore: add main sx prop to layout component ([e96eb1d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e96eb1d))
 - chore: add more status icons ([3225e43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3225e43))
+- chore: add primary document to challenge modal and fix subgraph ([ec8e01d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ec8e01d))
 - chore: add round prefix to voting history dropdown ([d870bd0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d870bd0))
 - chore: add share buttons to appeals ([4e35099](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4e35099))
 - chore: add social icons and fix font rendering ([b8e09b5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b8e09b5))

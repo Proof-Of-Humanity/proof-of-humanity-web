@@ -24,6 +24,7 @@ const submissionDetailsCardFragments = {
   contract: graphql`
     fragment submissionDetailsCardContract on Contract {
       submissionBaseDeposit
+      submissionDuration
       requiredNumberOfVouches
       ...deadlinesContract
     }
@@ -43,9 +44,6 @@ const submissionDetailsCardFragments = {
       ) {
         arbitrator
         arbitratorExtraData
-        vouches {
-          id
-        }
         evidence(orderBy: creationTime, first: 1) {
           URI
         }
@@ -60,8 +58,17 @@ const submissionDetailsCardFragments = {
       ...deadlinesSubmission
     }
   `,
+  vouchers: graphql`
+    fragment submissionDetailsCardVouchers on Submission @relay(plural: true) {
+      submissionTime
+    }
+  `,
 };
-export default function SubmissionDetailsCard({ submission, contract }) {
+export default function SubmissionDetailsCard({
+  submission,
+  contract,
+  vouchers,
+}) {
   const {
     requests: [request],
     id,
@@ -96,6 +103,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
   const { web3 } = useWeb3();
   const {
     submissionBaseDeposit,
+    submissionDuration,
     requiredNumberOfVouches,
   } = (contract = useFragment(
     submissionDetailsCardFragments.contract,
@@ -112,6 +120,14 @@ export default function SubmissionDetailsCard({ submission, contract }) {
         web3.utils.toBN(0)
       ),
     [contributions, web3.utils]
+  );
+
+  const registeredVouchers = useFragment(
+    submissionDetailsCardFragments.vouchers,
+    vouchers
+  ).filter(
+    ({ submissionTime }) =>
+      Date.now() / 1000 - submissionTime < submissionDuration
   );
   return (
     <Card
@@ -181,7 +197,7 @@ export default function SubmissionDetailsCard({ submission, contract }) {
           >
             <Text>Vouchers</Text>
             <Text sx={{ fontWeight: "bold" }}>
-              {String(request.vouches.length)}/{requiredNumberOfVouches}
+              {String(registeredVouchers.length)}/{requiredNumberOfVouches}
             </Text>
           </Box>
           <Box sx={{ flex: 1 }}>

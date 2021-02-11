@@ -69,6 +69,7 @@ export const createWrapConnection = (queries, queryEnums) => {
             acc[_key] = _match.params[_key].toLowerCase
               ? _match.params[_key].toLowerCase()
               : _match.params[_key];
+            acc[`_${_key}`] = [acc[_key]];
             return acc;
           }, {}),
         };

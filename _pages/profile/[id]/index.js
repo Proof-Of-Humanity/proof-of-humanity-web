@@ -53,6 +53,7 @@ export default function ProfileWithID() {
           <SubmissionDetailsCard
             submission={props.submission}
             contract={props.contract}
+            vouchers={props.vouchers}
           />
           <SubmissionDetailsAccordion
             submission={props.submission}
@@ -65,7 +66,7 @@ export default function ProfileWithID() {
 }
 
 export const IdQuery = graphql`
-  query IdQuery($id: ID!) {
+  query IdQuery($id: ID!, $_id: [String!]) {
     contract(id: 0) {
       ...submitProfileCard
       ...submissionDetailsCardContract
@@ -77,6 +78,9 @@ export const IdQuery = graphql`
       disputed
       ...submissionDetailsCardSubmission
       ...submissionDetailsAccordionSubmission
+    }
+    vouchers: submissions(where: { vouchees_contains: $_id, usedVouch: null }) {
+      ...submissionDetailsCardVouchers
     }
   }
 `;
