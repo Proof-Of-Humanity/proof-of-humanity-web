@@ -134,6 +134,7 @@
 - chore: show challenged status in profile header ([55aa602](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/55aa602))
 - chore: show tampered data warning when evidence has invalid URIs ([817cf7f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/817cf7f))
 - chore: show warning if name in subgraph does not match name in evidence file ([e557b2f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e557b2f))
+- chore: show when submissions are expired ([6df5ca9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6df5ca9))
 - chore: take into account renewal grace periods ([c45ec84](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c45ec84))
 - chore: track governance changes in subgraph ([8ccb7e9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8ccb7e9))
 - chore: update changelog ([a45d269](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a45d269))

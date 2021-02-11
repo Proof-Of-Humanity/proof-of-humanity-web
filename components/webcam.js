@@ -43,9 +43,9 @@ export default function Webcam({
       <Box
         sx={{
           video: {
-            height: videoConstraints.height,
+            height: "80vh",
             marginBottom: -1,
-            width: videoConstraints.width,
+            width: "80vh",
           },
           ...sx,
         }}
@@ -197,8 +197,8 @@ export default function Webcam({
               position: "absolute",
               top: 0,
             }}
-            height={videoConstraints.height + 10}
-            width={videoConstraints.width + 10}
+            height="calc(80vh + 10px)"
+            width="calc(80vh + 10px)"
           />
         )}
       </Box>
