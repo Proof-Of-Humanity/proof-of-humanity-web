@@ -76,7 +76,13 @@ export const indexQuery = graphql`
     contract(id: 0) {
       ...submissionCardContract
     }
-    submissions(skip: $skip, first: $first, where: $where) {
+    submissions(
+      orderBy: creationTime
+      orderDirection: desc
+      skip: $skip
+      first: $first
+      where: $where
+    ) {
       id
       ...submissionCardSubmission
     }

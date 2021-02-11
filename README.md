@@ -133,6 +133,7 @@
 - chore: set up component documentation ([d04d26c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d04d26c))
 - chore: set up project ([534bf60](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/534bf60))
 - chore: show challenged status in profile header ([55aa602](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/55aa602))
+- chore: show reapplication button for removed submissions ([2259b80](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2259b80))
 - chore: show tampered data warning when evidence has invalid URIs ([817cf7f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/817cf7f))
 - chore: show warning if name in subgraph does not match name in evidence file ([e557b2f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e557b2f))
 - chore: show when submissions are expired ([6df5ca9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6df5ca9))
