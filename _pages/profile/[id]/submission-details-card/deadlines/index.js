@@ -107,7 +107,9 @@ export default function Deadlines({ submission, contract, status }) {
             <Deadline
               label="Renewal"
               datetime={renewalTimestamp}
-              whenDatetime={(now, datetime) => now >= datetime}
+              whenDatetime={(now, datetime) =>
+                now >= datetime || status === submissionStatusEnum.Removed
+              }
               button={
                 accounts?.[0] &&
                 accounts[0].toLowerCase() === id.toLowerCase() && (
