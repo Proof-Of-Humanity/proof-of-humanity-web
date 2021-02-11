@@ -4,33 +4,47 @@ import { graphql, useFragment } from "relay-hooks";
 
 import { submissionStatusEnum, useEvidenceFile } from "data";
 
-const submissionCardFragment = graphql`
-  fragment submissionCard on Submission {
-    id
-    status
-    registered
-    name
-    disputed
-    requests(
-      orderBy: creationTime
-      orderDirection: desc
-      first: 1
-      where: { registration: true }
-    ) {
-      evidence(orderBy: creationTime, first: 1) {
-        URI
+const submissionCardFragments = {
+  contract: graphql`
+    fragment submissionCardContract on Contract {
+      submissionDuration
+    }
+  `,
+  submission: graphql`
+    fragment submissionCardSubmission on Submission {
+      id
+      status
+      registered
+      submissionTime
+      name
+      disputed
+      requests(
+        orderBy: creationTime
+        orderDirection: desc
+        first: 1
+        where: { registration: true }
+      ) {
+        evidence(orderBy: creationTime, first: 1) {
+          URI
+        }
       }
     }
-  }
-`;
-export default function SubmissionCard({ submission }) {
+  `,
+};
+export default function SubmissionCard({ submission, contract }) {
   const {
+    submissionTime,
     requests: [request],
     id,
     name,
     ...rest
-  } = useFragment(submissionCardFragment, submission);
+  } = useFragment(submissionCardFragments.submission, submission);
+  const { submissionDuration } = useFragment(
+    submissionCardFragments.contract,
+    contract
+  );
   const status = submissionStatusEnum.parse(rest);
+  const isExpired = Date.now() / 1000 - submissionTime < submissionDuration;
   const evidence = useEvidenceFile()(request.evidence[0].URI);
   return (
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
@@ -44,7 +58,10 @@ export default function SubmissionCard({ submission }) {
                 path: { fill: status.camelCase },
               }}
             />
-            <Text>{status.startCase}</Text>
+            <Text>
+              {status.startCase}
+              {isExpired && " (Expired)"}
+            </Text>
           </>
         }
         mainSx={{ flexDirection: "column" }}

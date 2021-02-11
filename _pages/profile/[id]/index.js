@@ -24,6 +24,10 @@ export default function ProfileWithID() {
 
   const status =
     props?.submission && submissionStatusEnum.parse(props.submission);
+  const isExpired =
+    props?.submission &&
+    Date.now() / 1000 - props.submission.submissionTime <
+      props.contract.submissionDuration;
   return (
     <>
       <Card
@@ -36,7 +40,8 @@ export default function ProfileWithID() {
         <Text>
           {status && (
             <>
-              {status.startCase}{" "}
+              {status.startCase}
+              {isExpired && " (Expired)"}{" "}
               <status.Icon
                 sx={{
                   path: { fill: "text" },
@@ -68,6 +73,7 @@ export default function ProfileWithID() {
 export const IdQuery = graphql`
   query IdQuery($id: ID!, $_id: [String!]) {
     contract(id: 0) {
+      submissionDuration
       ...submitProfileCard
       ...submissionDetailsCardContract
       ...submissionDetailsAccordionContract
@@ -75,6 +81,7 @@ export const IdQuery = graphql`
     submission(id: $id) {
       status
       registered
+      submissionTime
       disputed
       ...submissionDetailsCardSubmission
       ...submissionDetailsAccordionSubmission

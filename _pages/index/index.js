@@ -34,7 +34,11 @@ export default function Index() {
       <SubmissionFilters numberOfSubmissions={submissionCounter} />
       <Grid sx={{ minHeight: 750 }} gap={2} columns={[1, 2, 3, 4]} rows={2}>
         {submissions?.map((submission) => (
-          <SubmissionCard key={submission.id} submission={submission} />
+          <SubmissionCard
+            key={submission.id}
+            submission={submission}
+            contract={props.contract}
+          />
         ))}
       </Grid>
       {!router.query.search && (
@@ -69,13 +73,16 @@ export const indexQuery = graphql`
     $where: Submission_filter
     $search: String = ""
   ) {
+    contract(id: 0) {
+      ...submissionCardContract
+    }
     submissions(skip: $skip, first: $first, where: $where) {
       id
-      ...submissionCard
+      ...submissionCardSubmission
     }
     submissionSearch(text: $search) {
       id
-      ...submissionCard
+      ...submissionCardSubmission
     }
   }
 `;
