@@ -24,6 +24,7 @@
 - chore: begin work on profile details page ([e4283ef](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e4283ef))
 - chore: browser number input compat ([e14a26b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e14a26b))
 - chore: card documentation ([4a4bf13](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4a4bf13))
+- chore: center relay loading message ([31e8109](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/31e8109))
 - chore: clarify sign requirements for submissions ([b50edf3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b50edf3))
 - chore: display pending valid vouches instead of confirmed ones ([1e568be](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1e568be))
 - chore: document accordion ([2c0cd55](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2c0cd55))

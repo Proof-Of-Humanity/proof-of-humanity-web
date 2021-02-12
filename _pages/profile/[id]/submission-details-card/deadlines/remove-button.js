@@ -68,11 +68,8 @@ export default function RemoveButton({ request, contract, submissionID }) {
     )
     .add(web3.utils.toBN(submissionBaseDeposit));
 
-  const { receipt, loading, send } = useContract(
-    "proofOfHumanity",
-    "removeSubmission"
-  );
-  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber, loading);
+  const { receipt, send } = useContract("proofOfHumanity", "removeSubmission");
+  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
   return (
     <Popup
       contentStyle={{ width: undefined }}

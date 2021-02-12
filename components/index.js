@@ -28,7 +28,11 @@ export { default as Link } from "./link";
 export { default as List, ListItem } from "./list";
 export { default as Pagination } from "./pagination";
 export { default as Popup } from "./popup";
-export { default as RelayProvider, useQuery } from "./relay-provider";
+export {
+  default as RelayProvider,
+  useQuery,
+  useRefetchQuery,
+} from "./relay-provider";
 export { default as SVG } from "./svg";
 export { default as Select } from "./select";
 export { default as SocialIcons } from "./social-icons";

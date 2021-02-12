@@ -48,7 +48,14 @@ export default function RelayProvider({
   useEffect(() => {
     if (environment) {
       connectToRouteChange((path, query) => {
-        if (queries[path]) prefetch.next(environment, queries[path], query);
+        if (queries[path]) {
+          prefetch.next(environment, queries[path], query);
+          prefetch.refetchQuery = () => {
+            prefetch.next(environment, queries[path], query, {
+              fetchPolicy: "network-only",
+            });
+          };
+        }
       });
       setInitialized(true);
     }
@@ -73,4 +80,8 @@ export default function RelayProvider({
 
 export function useQuery() {
   return usePreloadedQuery(useContext(Context));
+}
+
+export function useRefetchQuery() {
+  return useContext(Context).refetchQuery;
 }
