@@ -128,6 +128,7 @@
 - chore: new card designs and challenged status ([80b71c2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/80b71c2))
 - chore: new vouched by design ([6b04228](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6b04228))
 - chore: normalize form behavior and implement evidence module ([b035c76](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b035c76))
+- chore: only show registered submissions as expired ([2a4fc0d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2a4fc0d))
 - chore: order submissions by creation time ([774fb0d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/774fb0d))
 - chore: pading fixes ([b67d1de](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b67d1de))
 - chore: pagination ([c4ed9b5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c4ed9b5))

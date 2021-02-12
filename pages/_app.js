@@ -222,7 +222,16 @@ export default function App({ Component, pageProps }) {
             {{ kovan: true }[network] ? (
               <Layout header={header} footer={footer}>
                 {transitions.map(({ key, props, item }) => (
-                  <AnimatedBox key={key} style={props} sx={{ padding: 3 }}>
+                  <AnimatedBox
+                    key={key}
+                    style={{
+                      ...props,
+                      transform: props.transform.interpolate((t) =>
+                        t === "translate3d(0%,0,0)" ? undefined : t
+                      ),
+                    }}
+                    sx={{ padding: 3 }}
+                  >
                     <item.Component {...item.pageProps} />
                   </AnimatedBox>
                 ))}
