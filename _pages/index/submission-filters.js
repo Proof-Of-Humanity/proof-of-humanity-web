@@ -42,6 +42,7 @@ export default function SubmissionFilters({ numberOfSubmissions }) {
           const query = { ...router.query };
           if (!kebabCase) delete query.status;
           else query.status = kebabCase;
+          delete query.skip;
           router.push({
             query,
           });
