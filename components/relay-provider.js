@@ -50,9 +50,12 @@ export default function RelayProvider({
       connectToRouteChange((path, query) => {
         if (queries[path]) {
           prefetch.next(environment, queries[path], query);
-          prefetch.refetchQuery = () => {
+          const refetchedKeys = {};
+          prefetch.refetchQuery = (fetchKey) => {
+            refetchedKeys[fetchKey] = true;
             prefetch.next(environment, queries[path], query, {
               fetchPolicy: "network-only",
+              fetchKey: Object.keys(refetchedKeys).length,
             });
           };
         }

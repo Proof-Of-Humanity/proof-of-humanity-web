@@ -9,6 +9,8 @@ import {
 import { Warning } from "@kleros/icons";
 import { useMemo } from "react";
 
+import useIsGraphSynced from "_pages/index/use-is-graph-synced";
+
 export default function VouchButton({ submissionID }) {
   const [accounts] = useWeb3("eth", "getAccounts");
   const [vouched, , status, reCall] = useContract(
@@ -19,10 +21,11 @@ export default function VouchButton({ submissionID }) {
       submissionID,
     ])
   );
-  const { send, loading } = useContract(
+  const { receipt, send, loading } = useContract(
     "proofOfHumanity",
     vouched ? "removeVouch" : "addVouch"
   );
+  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
   const text = `${vouched ? "Remove " : ""}Vouch`;
   return (
     <Popup
@@ -36,6 +39,7 @@ export default function VouchButton({ submissionID }) {
             status === "pending" ||
             accounts?.[0]?.toLowerCase() === submissionID.toLowerCase()
           }
+          loading={!isGraphSynced}
         >
           {text}
         </Button>

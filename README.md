@@ -129,6 +129,7 @@
 - chore: patch relay-hooks ([7d1d8b8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7d1d8b8))
 - chore: publish components ([cfaa63c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cfaa63c))
 - chore: refactor submission details accordion ([725c829](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/725c829))
+- chore: refresh graph without full page reloads ([2695925](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2695925))
 - chore: relay updates and fixes ([3ab1170](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3ab1170))
 - chore: remove bios from subgraph ([7e254e0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7e254e0))
 - chore: remove renewal timestamp ([38fe4d5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/38fe4d5))

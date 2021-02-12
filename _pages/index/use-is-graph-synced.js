@@ -1,5 +1,5 @@
 import { useRefetchQuery } from "@kleros/components";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { graphql, useQuery } from "relay-hooks";
 
 export default function useIsGraphSynced(blockNumber) {
@@ -23,12 +23,10 @@ export default function useIsGraphSynced(blockNumber) {
     }
   }, [error, retry]);
 
-  const propsRef = useRef(props);
   const refetchQuery = useRefetchQuery();
   useEffect(() => {
-    if (!propsRef.current && props && refetchQuery) refetchQuery(props);
-    propsRef.current = props;
-  }, [props, refetchQuery]);
+    if (refetchQuery) refetchQuery(blockNumber);
+  }, [props, refetchQuery, blockNumber]);
 
   return Boolean(props) || !blockNumber;
 }
