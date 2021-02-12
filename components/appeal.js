@@ -121,6 +121,7 @@ function AppealTabPanel({
     parties: [party1, party2],
     rounds: [{ paidFees, hasPaid }],
     id,
+    roundsLength,
   },
   arbitratorExtraData,
   contract,
@@ -202,7 +203,10 @@ function AppealTabPanel({
         <AppealTabPanelCard
           address={party1}
           {...[undecided, winner, loser][currentRuling]}
-          paidFees={paidFees[0]}
+          {...(Number(roundsLength) === 2 && {
+            cost: web3.utils.toBN(paidFees[1]),
+          })}
+          paidFees={paidFees[1]}
           hasPaid={hasPaid[0]}
           contract={contract}
           args={[...args, id, 1]}
@@ -210,7 +214,10 @@ function AppealTabPanel({
         <AppealTabPanelCard
           address={party2}
           {...[undecided, loser, winner][currentRuling]}
-          paidFees={paidFees[1]}
+          {...(Number(roundsLength) === 2 && {
+            cost: web3.utils.toBN(paidFees[2]),
+          })}
+          paidFees={paidFees[2]}
           hasPaid={hasPaid[1]}
           contract={contract}
           args={[...args, id, 2]}

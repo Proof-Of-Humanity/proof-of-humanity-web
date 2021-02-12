@@ -38,7 +38,12 @@ const submissionDetailsAccordionFragments = {
           reason
           disputeID
           challenger
-          rounds(orderBy: creationTime, orderDirection: desc, first: 1) {
+          rounds(
+            orderBy: creationTime
+            orderDirection: desc
+            first: 1
+            skip: 1
+          ) {
             paidFees
             hasPaid
           }
