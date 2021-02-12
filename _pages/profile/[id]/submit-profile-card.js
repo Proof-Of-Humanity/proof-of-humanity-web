@@ -290,6 +290,11 @@ export default function SubmitProfileCard({ contract, reapply }) {
             <Button type="submit" loading={isSubmitting || !isGraphSynced}>
               Submit
             </Button>
+            <Text sx={{ marginTop: 1 }}>
+              Remember to subscribe to email notifications in Account &gt;
+              Notifications to be notified of status changes and any potential
+              challenge raised against your registration.
+            </Text>
           </>
         )}
       </Form>
