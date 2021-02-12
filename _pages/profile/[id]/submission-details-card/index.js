@@ -17,6 +17,7 @@ import { graphql, useFragment } from "relay-hooks";
 import Deadlines from "./deadlines";
 import UBICard from "./ubi-card";
 import VouchButton from "./vouch-button";
+import Voucher from "./voucher";
 
 import { partyEnum, submissionStatusEnum, useEvidenceFile } from "data";
 
@@ -60,7 +61,9 @@ const submissionDetailsCardFragments = {
   `,
   vouchers: graphql`
     fragment submissionDetailsCardVouchers on Submission @relay(plural: true) {
+      id
       submissionTime
+      ...voucher
     }
   `,
 };
@@ -235,6 +238,20 @@ export default function SubmissionDetailsCard({
         </Text>
         <Video url={evidence?.file?.video} />
         <UBICard submissionID={id} />
+        <Text
+          sx={{
+            marginTop: 2,
+            marginBottom: 1,
+            opacity: 0.45,
+          }}
+        >
+          Vouched by:
+        </Text>
+        <Flex>
+          {registeredVouchers.map((voucher) => (
+            <Voucher key={voucher.id} submission={voucher} />
+          ))}
+        </Flex>
       </Box>
     </Card>
   );

@@ -1,14 +1,15 @@
+import { forwardRef } from "react";
 import ReactLoadingSkeleton from "react-loading-skeleton";
 import { Image as _Image, useThemeUI } from "theme-ui";
 
-export default function Image(props) {
+const Image = forwardRef((props, ref) => {
   const {
     theme: {
       images: { [props.variant]: { width, height } = {} },
     },
   } = useThemeUI();
   return props.src ? (
-    <_Image {...props} />
+    <_Image ref={ref} {...props} />
   ) : (
     <ReactLoadingSkeleton
       circle={props.variant === "avatar"}
@@ -17,4 +18,6 @@ export default function Image(props) {
       height={props.height || height}
     />
   );
-}
+});
+Image.displayName = "Image";
+export default Image;
