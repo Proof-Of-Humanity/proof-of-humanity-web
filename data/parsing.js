@@ -14,13 +14,16 @@ export const submissionStatusEnum = createEnum(
     ],
     [
       "PendingRegistration",
-      { Icon: Pending, query: { where: { status: "PendingRegistration" } } },
+      {
+        Icon: Pending,
+        query: { where: { status: "PendingRegistration", disputed: false } },
+      },
     ],
     [
       "PendingRemoval",
       {
         Icon: Pending,
-        query: { where: { status: "PendingRemoval" } },
+        query: { where: { status: "PendingRemoval", disputed: false } },
       },
     ],
     [
