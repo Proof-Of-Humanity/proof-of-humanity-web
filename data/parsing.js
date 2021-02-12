@@ -4,7 +4,14 @@ import { Check, Pending, X } from "@kleros/icons";
 export const submissionStatusEnum = createEnum(
   [
     ["None", { kebabCase: undefined, startCase: "All" }],
-    ["Vouching", { Icon: Pending, query: { where: { status: "Vouching" } } }],
+    [
+      "Vouching",
+      {
+        startCase: "Vouching Phase",
+        Icon: Pending,
+        query: { where: { status: "Vouching" } },
+      },
+    ],
     [
       "PendingRegistration",
       { Icon: Pending, query: { where: { status: "PendingRegistration" } } },
