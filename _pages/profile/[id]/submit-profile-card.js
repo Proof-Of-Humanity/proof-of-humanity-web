@@ -4,8 +4,10 @@ import {
   Field,
   FileUpload,
   Form,
+  Link,
   List,
   ListItem,
+  Text,
   Textarea,
   useArchon,
   useContract,
@@ -15,12 +17,16 @@ import { useCallback, useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
+import { useEvidenceFile } from "data";
 
 const submitProfileCardFragment = graphql`
   fragment submitProfileCard on Contract {
     arbitrator
     arbitratorExtraData
     submissionBaseDeposit
+    registrationMetaEvidence {
+      URI
+    }
   }
 `;
 export default function SubmitProfileCard({ contract, reapply }) {
@@ -28,6 +34,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
     arbitrator,
     arbitratorExtraData,
     submissionBaseDeposit,
+    registrationMetaEvidence,
   } = useFragment(submitProfileCardFragment, contract);
 
   const { web3 } = useWeb3();
@@ -53,6 +60,8 @@ export default function SubmitProfileCard({ contract, reapply }) {
     reapply ? "reapplySubmission" : "addSubmission"
   );
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber, true);
+
+  const metaEvidence = useEvidenceFile()(registrationMetaEvidence.URI);
   return (
     <Card
       header="Submit Profile"
@@ -164,6 +173,25 @@ export default function SubmitProfileCard({ contract, reapply }) {
               maxSize={2}
               photo
             />
+            <Card
+              variant="muted"
+              sx={{ marginBottom: 2 }}
+              header="Photo Instructions:"
+            >
+              <List>
+                <ListItem>
+                  Faces should not be covered under heavy make-up or large
+                  piercings. Head covers not covering the internal region of the
+                  face are permitted. E.g. a hijab is permitted but a niqab is
+                  not.
+                </ListItem>
+                <ListItem>
+                  Items worn daily, e.g. headscarf, turban, wig, light make-up,
+                  etc, are permitted, provided they do not violate the previous
+                  point. Items worn only on special occasions are not.
+                </ListItem>
+              </List>
+            </Card>
             <Field
               as={FileUpload}
               name="video"
@@ -178,6 +206,17 @@ export default function SubmitProfileCard({ contract, reapply }) {
               header="Video Instructions:"
             >
               <List>
+                <ListItem>
+                  Faces should not be covered under heavy make-up or large
+                  piercings. Head covers not covering the internal region of the
+                  face are permitted. E.g. a hijab is permitted but a niqab is
+                  not.
+                </ListItem>
+                <ListItem>
+                  Items worn daily, e.g. headscarf, turban, wig, light make-up,
+                  etc, are permitted, provided they do not violate the previous
+                  point. Items worn only on special occasions are not.
+                </ListItem>
                 <ListItem>
                   Hold a sign with your Ethereum address on it in a way that is
                   legible to viewers. A screen is fine as well.
@@ -213,6 +252,15 @@ export default function SubmitProfileCard({ contract, reapply }) {
               placeholder="The rest will be left for crowdfunding."
               type="number"
             />
+            <Card
+              variant="muted"
+              sx={{ fontSize: 1, marginBottom: 2 }}
+              mainSx={{ padding: 0 }}
+            >
+              <Link newTab href={metaEvidence?.fileURI}>
+                <Text>{metaEvidence && "Primary Document"}</Text>
+              </Link>
+            </Card>
             <Button type="submit" loading={isSubmitting || !isGraphSynced}>
               Submit
             </Button>
