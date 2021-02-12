@@ -16,14 +16,11 @@ export default function useIsGraphSynced(blockNumber, reloadWhenSynced) {
 
   const reloadWhenSyncedRef = useRef(reloadWhenSynced);
   useEffect(() => {
-    reloadWhenSyncedRef.current = reloadWhenSynced;
+    if (reloadWhenSynced) reloadWhenSyncedRef.current = reloadWhenSynced;
   }, [reloadWhenSynced]);
 
-  const reloadWhenSyncedWorkingRef = useRef(false);
   useEffect(() => {
     if (error) {
-      // Only update `reloadWhenSynced` when we fall out of sync.
-      reloadWhenSyncedWorkingRef.current = reloadWhenSyncedRef.current;
       let cancelled = false;
       setTimeout(() => !cancelled && retry(), 1000);
       return () => (cancelled = true);
@@ -31,8 +28,7 @@ export default function useIsGraphSynced(blockNumber, reloadWhenSynced) {
   }, [error, retry]);
 
   useEffect(() => {
-    if (props && reloadWhenSyncedWorkingRef.current) location.reload();
+    if (props && reloadWhenSyncedRef.current) location.reload();
   }, [props]);
-
   return Boolean(props) || !blockNumber;
 }

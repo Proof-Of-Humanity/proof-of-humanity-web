@@ -153,11 +153,11 @@ export default function ChallengeButton({
   const [type, setType] = useState(challengeReasonEnum.None);
   const duplicateTypeSelected = type === challengeReasonEnum.Duplicate;
   const [duplicate, setDuplicate] = useState();
-  const { send, receipt, loading } = useContract(
+  const { receipt, loading, send } = useContract(
     "proofOfHumanity",
     "challengeRequest"
   );
-  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber, true);
+  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber, loading);
   return (
     <Popup
       contentStyle={{ width: undefined }}

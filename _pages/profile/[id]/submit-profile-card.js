@@ -55,11 +55,11 @@ export default function SubmitProfileCard({ contract, reapply }) {
   );
 
   const { upload } = useArchon();
-  const { receipt, send } = useContract(
+  const { receipt, loading, send } = useContract(
     "proofOfHumanity",
     reapply ? "reapplySubmission" : "addSubmission"
   );
-  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber, true);
+  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber, loading);
 
   const metaEvidence = useEvidenceFile()(registrationMetaEvidence.URI);
   return (
