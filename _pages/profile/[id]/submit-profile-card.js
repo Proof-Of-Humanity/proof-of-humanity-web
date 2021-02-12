@@ -72,57 +72,65 @@ export default function SubmitProfileCard({ contract, reapply }) {
       }}
     >
       <Form
+        enableReinitialize
         createValidationSchema={useCallback(
-          ({ string, file, eth, web3: _web3 }) => ({
-            name: string()
-              .max(50, "Must be 50 characters or less.")
-              .required("Required"),
-            firstName: string()
-              .max(20, "Must be 20 characters or less.")
-              .matches(
-                /^[\s\w]*$/,
-                "Only letters from a to z and spaces are allowed."
-              )
-              .required("Required"),
-            lastName: string()
-              .max(20, "Must be 20 characters or less.")
-              .matches(
-                /^[\s\w]*$/,
-                "Only letters from a to z and spaces are allowed."
-              )
-              .required("Required"),
-            bio: string().max(70, "Must be 70 characters or less."),
-            photo: file().required("Required"),
-            video: file().required("Required"),
-            contribution: eth()
-              .test({
-                test(value) {
-                  if (totalCost && value.gt(totalCost))
-                    return this.createError({
-                      message: `You can't contribute more than the base deposit of ${_web3.utils.fromWei(
-                        totalCost
-                      )} ETH.`,
-                    });
-                  return true;
-                },
-              })
-              .test({
-                async test(value) {
-                  const [account] = await _web3.eth.getAccounts();
-                  if (!account) return true;
-                  const balance = _web3.utils.toBN(
-                    await _web3.eth.getBalance(account)
-                  );
-                  if (value.gt(balance))
-                    return this.createError({
-                      message: `You can't contribute more than your balance of ${_web3.utils.fromWei(
-                        balance
-                      )} ETH.`,
-                    });
-                  return true;
-                },
-              }),
-          }),
+          ({ string, file, eth, web3: _web3 }) => {
+            const schema = {
+              name: string()
+                .max(50, "Must be 50 characters or less.")
+                .required("Required"),
+              firstName: string()
+                .max(20, "Must be 20 characters or less.")
+                .matches(
+                  /^[\s\w]*$/,
+                  "Only letters from a to z and spaces are allowed."
+                )
+                .required("Required"),
+              lastName: string()
+                .max(20, "Must be 20 characters or less.")
+                .matches(
+                  /^[\s\w]*$/,
+                  "Only letters from a to z and spaces are allowed."
+                )
+                .required("Required"),
+              bio: string().max(70, "Must be 70 characters or less."),
+              photo: file().required("Required"),
+              video: file().required("Required"),
+              contribution: eth()
+                .test({
+                  test(value) {
+                    if (totalCost && value.gt(totalCost))
+                      return this.createError({
+                        message: `You can't contribute more than the base deposit of ${_web3.utils.fromWei(
+                          totalCost
+                        )} ETH.`,
+                      });
+                    return true;
+                  },
+                })
+                .test({
+                  async test(value) {
+                    const [account] = await _web3.eth.getAccounts();
+                    if (!account) return true;
+                    const balance = _web3.utils.toBN(
+                      await _web3.eth.getBalance(account)
+                    );
+                    if (value.gt(balance))
+                      return this.createError({
+                        message: `You can't contribute more than your balance of ${_web3.utils.fromWei(
+                          balance
+                        )} ETH.`,
+                      });
+                    return true;
+                  },
+                }),
+            };
+            if (totalCost)
+              schema.contribution = schema.contribution.default(
+                _web3.utils.fromWei(totalCost)
+              );
+            return schema;
+          },
           [totalCost]
         )}
         onSubmit={async ({
@@ -246,9 +254,26 @@ export default function SubmitProfileCard({ contract, reapply }) {
             </Card>
             <Field
               name="contribution"
-              label={`Initial Contribution (Total: ${
-                totalCost ? web3.utils.fromWei(totalCost) : "-"
-              } ETH)`}
+              label={({ field }) => (
+                <Text>
+                  Initial Contribution
+                  <Button
+                    variant="secondary"
+                    sx={{ marginX: 2 }}
+                    onClick={() =>
+                      field[2].setValue(web3.utils.fromWei(totalCost))
+                    }
+                  >
+                    Total: {totalCost ? web3.utils.fromWei(totalCost) : "-"}
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    onClick={() => field[2].setValue(web3.utils.toBN(0))}
+                  >
+                    Crowdfund
+                  </Button>
+                </Text>
+              )}
               placeholder="The rest will be left for crowdfunding."
               type="number"
             />
