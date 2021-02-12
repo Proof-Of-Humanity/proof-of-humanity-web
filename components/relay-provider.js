@@ -11,6 +11,7 @@ import {
   usePreloadedQuery,
 } from "relay-hooks";
 import { Environment, RecordSource, Store } from "relay-runtime";
+import { Flex } from "theme-ui";
 
 const createEnvironment = (endpoint) => {
   const environment = new Environment({
@@ -57,7 +58,16 @@ export default function RelayProvider({
       <Context.Provider value={prefetch}>{children}</Context.Provider>
     </RelayEnvironmentProvider>
   ) : (
-    "Connecting to The Graph node..."
+    <Flex
+      sx={{
+        alignItems: "center",
+        height: "100vh",
+        justifyContent: "center",
+        width: "100vw",
+      }}
+    >
+      Connecting to The Graph node...
+    </Flex>
   );
 }
 
