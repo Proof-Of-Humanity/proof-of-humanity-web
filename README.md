@@ -60,6 +60,7 @@
 - chore: fix single row card heights ([8621337](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8621337))
 - chore: fix subgraph ([68606c9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/68606c9))
 - chore: fix subgraph memory access ([ba9cc9e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba9cc9e))
+- chore: fix subgraph sync ([7edefa7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7edefa7))
 - chore: fix submission details accordion ([56dafcc](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/56dafcc))
 - chore: fix submissions with empty contributions ([397306b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/397306b))
 - chore: fix transitions ([c73e049](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c73e049))

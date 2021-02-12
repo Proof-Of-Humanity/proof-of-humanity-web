@@ -201,18 +201,18 @@ export default function App({ Component, pageProps }) {
   );
   return (
     <ThemeProvider theme={theme}>
-      {{ kovan: true }[network] ? (
-        <RelayProvider
-          endpoint={`https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-${network}`}
-          queries={queries}
-          connectToRouteChange={connectToRouteChange}
+      <RelayProvider
+        endpoint={`https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-${network}`}
+        queries={queries}
+        connectToRouteChange={connectToRouteChange}
+      >
+        <Web3Provider
+          infuraURL={`wss://${network}.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d`}
+          contracts={contracts}
+          onNetworkChange={onNetworkChange}
         >
-          <Web3Provider
-            infuraURL={`wss://${network}.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d`}
-            contracts={contracts}
-            onNetworkChange={onNetworkChange}
-          >
-            <ArchonProvider>
+          <ArchonProvider>
+            {{ kovan: true }[network] ? (
               <Layout header={header} footer={footer}>
                 {transitions.map(({ key, props, item }) => (
                   <AnimatedBox key={key} style={props} sx={{ padding: 3 }}>
@@ -220,21 +220,21 @@ export default function App({ Component, pageProps }) {
                   </AnimatedBox>
                 ))}
               </Layout>
-            </ArchonProvider>
-          </Web3Provider>
-        </RelayProvider>
-      ) : (
-        <Flex
-          sx={{
-            alignItems: "center",
-            height: "100vh",
-            justifyContent: "center",
-            width: "100vw",
-          }}
-        >
-          Unsupported network. Please switch to Kovan.
-        </Flex>
-      )}
+            ) : (
+              <Flex
+                sx={{
+                  alignItems: "center",
+                  height: "100vh",
+                  justifyContent: "center",
+                  width: "100vw",
+                }}
+              >
+                Unsupported network. Please switch to Kovan.
+              </Flex>
+            )}
+          </ArchonProvider>
+        </Web3Provider>
+      </RelayProvider>
     </ThemeProvider>
   );
 }
