@@ -12,6 +12,14 @@ import {
 } from "@kleros/components";
 import { Ether, User } from "@kleros/icons";
 import { useMemo } from "react";
+import {
+  RedditIcon,
+  RedditShareButton,
+  TelegramIcon,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
+} from "react-share";
 import { graphql, useFragment } from "relay-hooks";
 
 import Deadlines from "./deadlines";
@@ -132,6 +140,11 @@ export default function SubmissionDetailsCard({
     ({ submissionTime }) =>
       Date.now() / 1000 - submissionTime < submissionDuration
   );
+
+  const shareTitle =
+    status === submissionStatusEnum.Vouching
+      ? "Register and vouch for me on Proof Of Humanity."
+      : "Check out my profile on Proof Of Humanity.";
   return (
     <Card
       mainSx={{
@@ -251,6 +264,22 @@ export default function SubmissionDetailsCard({
           {registeredVouchers.map((voucher) => (
             <Voucher key={voucher.id} submission={voucher} />
           ))}
+        </Flex>
+        <Flex sx={{ justifyContent: "flex-end" }}>
+          <RedditShareButton url={location.href} title={shareTitle}>
+            <RedditIcon size={32} />
+          </RedditShareButton>
+          <TelegramShareButton url={location.href} title={shareTitle}>
+            <TelegramIcon size={32} />
+          </TelegramShareButton>
+          <TwitterShareButton
+            url={location.href}
+            title={shareTitle}
+            via="Kleros_io"
+            hashtags={["kleros", "proofofhumanity"]}
+          >
+            <TwitterIcon size={32} />
+          </TwitterShareButton>
         </Flex>
       </Box>
     </Card>
