@@ -153,7 +153,7 @@ const footer = {
 const AnimatedBox = animated(Box);
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const { network = "mainnet" } = useMemo(
+  const { network = "kovan" } = useMemo(
     () => wrapConnection.parseAsPath(router.asPath).query,
     [router.asPath]
   );
