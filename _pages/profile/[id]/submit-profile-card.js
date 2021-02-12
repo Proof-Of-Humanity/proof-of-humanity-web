@@ -14,6 +14,8 @@ import {
 import { useCallback, useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
+import useIsGraphSynced from "_pages/index/use-is-graph-synced";
+
 const submitProfileCardFragment = graphql`
   fragment submitProfileCard on Contract {
     arbitrator
@@ -46,10 +48,11 @@ export default function SubmitProfileCard({ contract, reapply }) {
   );
 
   const { upload } = useArchon();
-  const { send } = useContract(
+  const { receipt, send } = useContract(
     "proofOfHumanity",
     reapply ? "reapplySubmission" : "addSubmission"
   );
+  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber, true);
   return (
     <Card
       header="Submit Profile"
@@ -210,7 +213,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
               placeholder="The rest will be left for crowdfunding."
               type="number"
             />
-            <Button type="submit" loading={isSubmitting}>
+            <Button type="submit" loading={isSubmitting || !isGraphSynced}>
               Submit
             </Button>
           </>
