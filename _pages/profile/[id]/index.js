@@ -25,6 +25,7 @@ export default function ProfileWithID() {
   const status =
     props?.submission && submissionStatusEnum.parse(props.submission);
   const isExpired =
+    status === submissionStatusEnum.Registered &&
     props?.submission &&
     Date.now() / 1000 - props.submission.submissionTime >
       props.contract.submissionDuration;
