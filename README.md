@@ -140,6 +140,7 @@
 - chore: show when submissions are expired ([6df5ca9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6df5ca9))
 - chore: take into account renewal grace periods ([c45ec84](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c45ec84))
 - chore: track governance changes in subgraph ([8ccb7e9](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8ccb7e9))
+- chore: unsupported network message ([820a2ba](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/820a2ba))
 - chore: update changelog ([a45d269](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a45d269))
 - chore: update contract ([95b9ebb](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/95b9ebb))
 - chore: update eslint-plugin-regex ([2838bc3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2838bc3))
@@ -152,3 +153,4 @@
 - chore: use total profiles for counter ([00c505a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/00c505a))
 - chore: use unicode name in account popup ([c4f8a24](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c4f8a24))
 - chore: validate basic latin ([70192c1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/70192c1))
+- chore: wait for graph to sync and reload after profile submission ([d2aff9a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d2aff9a))

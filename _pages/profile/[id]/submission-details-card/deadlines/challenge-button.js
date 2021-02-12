@@ -17,6 +17,7 @@ import {
 import { useEffect, useMemo, useState } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
+import useIsGraphSynced from "_pages/index/use-is-graph-synced";
 import {
   challengeReasonEnum,
   submissionStatusEnum,
@@ -152,7 +153,11 @@ export default function ChallengeButton({
   const [type, setType] = useState(challengeReasonEnum.None);
   const duplicateTypeSelected = type === challengeReasonEnum.Duplicate;
   const [duplicate, setDuplicate] = useState();
-  const { send, loading } = useContract("proofOfHumanity", "challengeRequest");
+  const { send, receipt, loading } = useContract(
+    "proofOfHumanity",
+    "challengeRequest"
+  );
+  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber, true);
   return (
     <Popup
       contentStyle={{ width: undefined }}
@@ -164,6 +169,7 @@ export default function ChallengeButton({
           }}
           disabled={disputed && currentReasonIsNotDuplicate}
           disabledTooltip="Already Challenged"
+          loading={!isGraphSynced}
         >
           Challenge Request
         </Button>

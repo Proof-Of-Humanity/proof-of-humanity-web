@@ -14,6 +14,8 @@ import {
 import { useMemo } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
+import useIsGraphSynced from "_pages/index/use-is-graph-synced";
+
 const removeButtonFragments = {
   contract: graphql`
     fragment removeButtonContract on Contract {
@@ -66,7 +68,8 @@ export default function RemoveButton({ request, contract, submissionID }) {
     )
     .add(web3.utils.toBN(submissionBaseDeposit));
 
-  const { send } = useContract("proofOfHumanity", "removeSubmission");
+  const { receipt, send } = useContract("proofOfHumanity", "removeSubmission");
+  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber, true);
   return (
     <Popup
       contentStyle={{ width: undefined }}
@@ -76,6 +79,7 @@ export default function RemoveButton({ request, contract, submissionID }) {
             marginY: 1,
             width: "100%",
           }}
+          loading={!isGraphSynced}
         >
           Request Removal
         </Button>
