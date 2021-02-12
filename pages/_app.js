@@ -66,9 +66,16 @@ const contracts = [
 ];
 function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");
+  const { props } = useQuery(
+    appQuery,
+    { id: accounts?.[0]?.toLowerCase() },
+    { skip: !accounts?.[0] }
+  );
   return accounts?.[0] ? (
     <NextLink href="/profile/[id]" as={`/profile/${accounts[0]}`}>
-      <Link variant="navigation">My Profile</Link>
+      <Link variant="navigation">
+        {props?.submission ? "My Profile" : "Submit Profile"}
+      </Link>
     </NextLink>
   ) : null;
 }

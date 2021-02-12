@@ -143,8 +143,8 @@ export default function SubmissionDetailsCard({
 
   const shareTitle =
     status === submissionStatusEnum.Vouching
-      ? "Register and vouch for me on Proof Of Humanity."
-      : "Check out my profile on Proof Of Humanity.";
+      ? "Register and vouch for this profile on Proof Of Humanity."
+      : "Check out this profile on Proof Of Humanity.";
   return (
     <Card
       mainSx={{
