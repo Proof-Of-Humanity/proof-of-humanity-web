@@ -44,7 +44,7 @@ export default function SubmissionCard({ submission, contract }) {
     contract
   );
   const status = submissionStatusEnum.parse(rest);
-  const isExpired = Date.now() / 1000 - submissionTime < submissionDuration;
+  const isExpired = Date.now() / 1000 - submissionTime > submissionDuration;
   const evidence = useEvidenceFile()(request.evidence[0].URI);
   return (
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
