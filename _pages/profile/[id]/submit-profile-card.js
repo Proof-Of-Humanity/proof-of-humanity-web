@@ -256,15 +256,15 @@ export default function SubmitProfileCard({ contract, reapply }) {
               name="contribution"
               label={({ field }) => (
                 <Text>
-                  Initial Contribution
+                  Initial Deposit (ETH)
                   <Button
                     variant="secondary"
-                    sx={{ marginX: 2 }}
+                    sx={{ backgroundColor: "skeleton", marginX: 2 }}
                     onClick={() =>
                       field[2].setValue(web3.utils.fromWei(totalCost))
                     }
                   >
-                    Total: {totalCost ? web3.utils.fromWei(totalCost) : "-"}
+                    Self Fund: {totalCost ? web3.utils.fromWei(totalCost) : "-"}
                   </Button>
                   <Button
                     variant="secondary"
@@ -276,6 +276,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
               )}
               placeholder="The rest will be left for crowdfunding."
               type="number"
+              info="The deposit is reimbursed after successful registration, and lost after failure. Any amount not contributed now can be put up by crowdfunders later."
             />
             <Card
               variant="muted"
