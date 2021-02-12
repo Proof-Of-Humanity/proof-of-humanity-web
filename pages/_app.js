@@ -1,6 +1,7 @@
 import {
   ArchonProvider,
   Box,
+  Flex,
   Layout,
   Link,
   List,
@@ -200,27 +201,40 @@ export default function App({ Component, pageProps }) {
   );
   return (
     <ThemeProvider theme={theme}>
-      <RelayProvider
-        endpoint={`https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-${network}`}
-        queries={queries}
-        connectToRouteChange={connectToRouteChange}
-      >
-        <Web3Provider
-          infuraURL={`wss://${network}.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d`}
-          contracts={contracts}
-          onNetworkChange={onNetworkChange}
+      {{ kovan: true }[network] ? (
+        <RelayProvider
+          endpoint={`https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-${network}`}
+          queries={queries}
+          connectToRouteChange={connectToRouteChange}
         >
-          <ArchonProvider>
-            <Layout header={header} footer={footer}>
-              {transitions.map(({ key, props, item }) => (
-                <AnimatedBox key={key} style={props} sx={{ padding: 3 }}>
-                  <item.Component {...item.pageProps} />
-                </AnimatedBox>
-              ))}
-            </Layout>
-          </ArchonProvider>
-        </Web3Provider>
-      </RelayProvider>
+          <Web3Provider
+            infuraURL={`wss://${network}.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d`}
+            contracts={contracts}
+            onNetworkChange={onNetworkChange}
+          >
+            <ArchonProvider>
+              <Layout header={header} footer={footer}>
+                {transitions.map(({ key, props, item }) => (
+                  <AnimatedBox key={key} style={props} sx={{ padding: 3 }}>
+                    <item.Component {...item.pageProps} />
+                  </AnimatedBox>
+                ))}
+              </Layout>
+            </ArchonProvider>
+          </Web3Provider>
+        </RelayProvider>
+      ) : (
+        <Flex
+          sx={{
+            alignItems: "center",
+            height: "100vh",
+            justifyContent: "center",
+            width: "100vw",
+          }}
+        >
+          Unsupported network. Please switch to Kovan.
+        </Flex>
+      )}
     </ThemeProvider>
   );
 }
