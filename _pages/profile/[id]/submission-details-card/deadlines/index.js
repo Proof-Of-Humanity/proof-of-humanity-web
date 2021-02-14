@@ -19,11 +19,9 @@ const deadlinesFragments = {
   submission: graphql`
     fragment deadlinesSubmission on Submission {
       id
-      registered
       submissionTime
       request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
         lastStatusChange
-        resolved
         ...challengeButtonRequest
         ...removeButtonRequest
       }
@@ -48,7 +46,6 @@ export default function Deadlines({ submission, contract, status }) {
   const {
     request: [request],
     id,
-    registered,
     submissionTime,
   } = useFragment(deadlinesFragments.submission, submission);
   const {
@@ -86,15 +83,15 @@ export default function Deadlines({ submission, contract, status }) {
           }
         />
       ) : (
-        request.resolved &&
-        registered && (
+        (status === submissionStatusEnum.Registered ||
+          status === submissionStatusEnum.Removed) && (
           <>
             <Deadline
               label="Accepted"
               datetime={submissionTime * 1000}
-              whenDatetime={(now, datetime) =>
-                now < renewalTimestamp ||
-                now - datetime > submissionDuration * 1000
+              whenDatetime={(now) =>
+                status === submissionStatusEnum.Registered &&
+                now < renewalTimestamp
               }
               button={
                 <RemoveButton
