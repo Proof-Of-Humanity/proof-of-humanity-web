@@ -106,14 +106,14 @@ export default function RemoveButton({ request, contract, submissionID }) {
         >
           {({ isSubmitting }) => (
             <>
-              <Text sx={{ marginBottom: 1 }}>Deposit:</Text>
+              <Text sx={{ fontSize: 1, marginBottom: 1 }}>Deposit:</Text>
               <Card
                 variant="muted"
                 sx={{ fontSize: 2, marginBottom: 3 }}
                 mainSx={{ padding: 0 }}
               >
                 <Text>
-                  {totalCost && `${web3.utils.fromWei(totalCost)} ETH Deposit`}
+                  {totalCost && `${web3.utils.fromWei(totalCost)} ETH`}
                 </Text>
               </Card>
               <Field
