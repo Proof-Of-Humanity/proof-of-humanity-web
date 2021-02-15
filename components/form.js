@@ -115,7 +115,7 @@ export default function Form({
   );
 }
 
-export function Field({ label, as = Input, name, info, ...rest }) {
+export function Field({ label, as = Input, sx, name, info, ...rest }) {
   const validationSchema = useContext(ValidationSchemaContext);
   const field = useField(name);
   const [{ onChange }, { touched, error, initialValue }, { setValue }] = field;
@@ -133,6 +133,7 @@ export function Field({ label, as = Input, name, info, ...rest }) {
                 return `0 0 6px ${alpha("highlight", 0.25)(theme)}`;
               },
             },
+            ...(typeof sx === "function" ? sx({ field }) : sx),
           }}
           name={name}
           onChange={(event) => {
