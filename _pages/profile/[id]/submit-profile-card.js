@@ -13,7 +13,9 @@ import {
   useContract,
   useWeb3,
 } from "@kleros/components";
-import { useCallback, useMemo } from "react";
+import { useField } from "formik";
+import { PersistFormikValues } from "formik-persist-values";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
@@ -29,6 +31,19 @@ const submitProfileCardFragment = graphql`
     }
   }
 `;
+function UpdateTotalCost({ totalCost }) {
+  const { web3 } = useWeb3();
+  const totalCostRef = useRef(totalCost);
+  const field = useField("contribution");
+  const setValue = field[2].setValue;
+  useEffect(() => {
+    if (totalCost && totalCostRef.current !== web3.utils.fromWei(totalCost)) {
+      totalCostRef.current = web3.utils.fromWei(totalCost);
+      setValue(totalCostRef.current);
+    }
+  }, [totalCost, setValue, web3.utils]);
+  return null;
+}
 export default function SubmitProfileCard({ contract, reapply }) {
   const {
     arbitrator,
@@ -72,7 +87,6 @@ export default function SubmitProfileCard({ contract, reapply }) {
       }}
     >
       <Form
-        enableReinitialize
         createValidationSchema={useCallback(
           ({ string, file, eth, web3: _web3 }) => {
             const schema = {
@@ -316,6 +330,11 @@ export default function SubmitProfileCard({ contract, reapply }) {
               Notifications to be notified of status changes and any potential
               challenge raised against your registration.
             </Text>
+            <UpdateTotalCost totalCost={totalCost} />
+            <PersistFormikValues
+              name="submit-profile-card-form"
+              persistInvalid
+            />
           </>
         )}
       </Form>

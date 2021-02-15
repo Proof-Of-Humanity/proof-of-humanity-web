@@ -10,6 +10,19 @@ import Text from "./text";
 import Video from "./video";
 import Webcam from "./webcam";
 
+const bufferToString = (buffer) => {
+  let string = "";
+  const bytes = new Uint8Array(buffer);
+  for (let i = 0; i < bytes.length; i++)
+    string += String.fromCharCode(bytes[i]);
+  return string;
+};
+const stringToBuffer = (string) => {
+  const buffer = new ArrayBuffer(string.length);
+  const bufferView = new Uint8Array(buffer);
+  for (let i = 0; i < string.length; i++) bufferView[i] = string.charCodeAt(i);
+  return buffer;
+};
 export default function FileUpload({
   value,
   onChange: _onChange,
@@ -24,9 +37,19 @@ export default function FileUpload({
   ...rest
 }) {
   const [files, setFiles] = useState(value);
-  const onChange = _onChange
-    ? (_files) => _onChange({ target: { name, value: _files } })
-    : setFiles;
+  const onChange = (_files, ...args) => {
+    if (_files)
+      for (const file of Array.isArray(_files) ? _files : [_files])
+        file.toJSON = () => ({
+          isSerializedFile: true,
+          type: file.type,
+          name: file.name,
+          content: bufferToString(file.content),
+        });
+    return _onChange
+      ? _onChange({ target: { name, value: _files } })
+      : setFiles(_files, ...args);
+  };
 
   const { getRootProps, getInputProps } = useDropzone({
     async onDrop(acceptedFiles) {
@@ -47,6 +70,29 @@ export default function FileUpload({
     ...rest,
   });
 
+  useEffect(() => {
+    if (value) {
+      const _files = Array.isArray(value) ? value : [value];
+      if (_files.some((file) => file.isSerializedFile)) {
+        const parsedFiles = _files.map((file) => {
+          if (!file.isSerializedFile) return file;
+
+          const buffer = stringToBuffer(file.content);
+          file = new File([buffer], file.name, { type: file.type });
+          file.preview = URL.createObjectURL(file);
+          file.content = buffer;
+          file.toJSON = () => ({
+            isSerializedFile: true,
+            type: file.type,
+            name: file.name,
+            content: bufferToString(file.content),
+          });
+          return file;
+        });
+        _onChange({ target: { name, value: parsedFiles } });
+      }
+    }
+  }, [value, _onChange, name]);
   useEffect(() => {
     if (value !== undefined && value !== files) setFiles(value);
   }, [value, files]);
@@ -84,33 +130,39 @@ export default function FileUpload({
       </Box>
       <Flex sx={{ marginTop: 1 }}>
         {files &&
-          (Array.isArray(files) ? files : [files]).map((file) => (
-            <Box
-              key={file.path || file.name}
-              sx={{ marginTop: 1, position: "relative", width: "fit-content" }}
-            >
-              {file.type.startsWith("video") ? (
-                <Video variant="thumbnail" url={file.preview} />
-              ) : (
-                <Image variant="thumbnail" src={file.preview} />
-              )}
-              <Trash
+          (Array.isArray(files) ? files : [files])
+            .filter((file) => !file.isSerializedFile)
+            .map((file) => (
+              <Box
+                key={file.path || file.name}
                 sx={{
-                  fill: "text",
-                  position: "absolute",
-                  right: -1,
-                  top: -1,
+                  marginTop: 1,
+                  position: "relative",
+                  width: "fit-content",
                 }}
-                onClick={(event) => {
-                  event.stopPropagation();
-                  event.preventDefault();
-                  onChange(
-                    multiple ? files.filter((_file) => _file !== file) : null
-                  );
-                }}
-              />
-            </Box>
-          ))}
+              >
+                {file.type.startsWith("video") ? (
+                  <Video variant="thumbnail" url={file.preview} />
+                ) : (
+                  <Image variant="thumbnail" src={file.preview} />
+                )}
+                <Trash
+                  sx={{
+                    fill: "text",
+                    position: "absolute",
+                    right: -1,
+                    top: -1,
+                  }}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    onChange(
+                      multiple ? files.filter((_file) => _file !== file) : null
+                    );
+                  }}
+                />
+              </Box>
+            ))}
       </Flex>
       {(photo || video) && (
         <Webcam

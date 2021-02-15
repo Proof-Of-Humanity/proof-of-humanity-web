@@ -139,6 +139,7 @@
 - chore: my profile link warning ([653e29d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/653e29d))
 - chore: network config ([add074e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/add074e))
 - chore: new card designs and challenged status ([80b71c2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/80b71c2))
+- chore: new file upload design ([fc39220](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fc39220))
 - chore: new vouched by design ([6b04228](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6b04228))
 - chore: normalize form behavior and implement evidence module ([b035c76](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b035c76))
 - chore: only show registered submissions as expired ([2a4fc0d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2a4fc0d))

@@ -125,14 +125,14 @@ const header = {
   sx: {
     flexWrap: "wrap",
     paddingY: 0,
-    "> div:first-child": {
+    "> div:first-of-type": {
       flexBasis: "auto",
       paddingY: 2,
     },
-    "> div:nth-child(2)": {
+    "> div:nth-of-type(2)": {
       flexBasis: 400,
     },
-    "> div:last-child": {
+    "> div:last-of-type": {
       flexBasis: "auto",
       paddingY: 2,
     },
