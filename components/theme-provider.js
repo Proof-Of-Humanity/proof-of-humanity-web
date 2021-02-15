@@ -300,7 +300,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     },
     thumbnail: {
       borderRadius: 3,
-      width: 124,
+      width: 200,
     },
   },
   links: {
@@ -374,8 +374,8 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
   video: {
     responsive: { paddingTop: "56.25%" },
     thumbnail: {
-      height: "124px !important",
-      width: "124px !important",
+      height: "200px !important",
+      width: "200px !important",
     },
   },
 });

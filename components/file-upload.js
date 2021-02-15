@@ -1,7 +1,7 @@
 import { Trash } from "@kleros/icons";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { Box } from "theme-ui";
+import { Box, Flex } from "theme-ui";
 
 import Button from "./button";
 import Image from "./image";
@@ -81,6 +81,8 @@ export default function FileUpload({
           (Max Size: {maxSize}MB | {accept})
         </Text>
         <Text>{placeholder}</Text>
+      </Box>
+      <Flex sx={{ marginTop: 1 }}>
         {files &&
           (Array.isArray(files) ? files : [files]).map((file) => (
             <Box
@@ -109,7 +111,7 @@ export default function FileUpload({
               />
             </Box>
           ))}
-      </Box>
+      </Flex>
       {(photo || video) && (
         <Webcam
           trigger={
