@@ -88,6 +88,7 @@ export default function FundButton({
                   </Text>
                 )}
                 type="number"
+                info="Contribute to this submission's deposit. You'll be reimbursed once accepted."
               />
               <Button type="submit" loading={isSubmitting}>
                 Fund
