@@ -79,6 +79,18 @@ function MyProfileLink() {
     </NextLink>
   ) : null;
 }
+function PoolLink({ ticker }) {
+  const { web3 } = useWeb3();
+  return (
+    <Link
+      variant="navigation"
+      newTab
+      href={`https://proof-of-humanity-pools.netlify.app/#/${web3.contracts?.UBI.options.address}/${ticker}`}
+    >
+      UBI/{ticker}
+    </Link>
+  );
+}
 const settings = {
   proofOfHumanityNotifications: {
     label: "Enable",
@@ -122,6 +134,21 @@ function AccountSettingsPopup() {
   );
 }
 const header = {
+  sx: {
+    flexWrap: "wrap",
+    paddingY: 0,
+    "> div:first-child": {
+      flexBasis: "auto",
+      paddingY: 2,
+    },
+    "> div:nth-child(2)": {
+      flexBasis: 400,
+    },
+    "> div:last-child": {
+      flexBasis: "auto",
+      paddingY: 2,
+    },
+  },
   left: (
     <NextLink href="/">
       <Link variant="unstyled" sx={{ display: "flex" }}>
@@ -137,24 +164,36 @@ const header = {
     <List
       sx={{
         display: "flex",
+        flexWrap: "wrap",
         justifyContent: "space-around",
         listStyle: "none",
         width: "100%",
       }}
     >
-      <ListItem>
+      <ListItem sx={{ marginX: 2, paddingY: 2 }}>
         <NextLink href="/">
           <Link variant="navigation">Profiles</Link>
         </NextLink>
       </ListItem>
-      <ListItem>
+      <ListItem sx={{ marginX: 2, paddingY: 2 }}>
         <MyProfileLink />
+      </ListItem>
+      <ListItem sx={{ marginX: 2, paddingY: 2 }}>
+        <PoolLink ticker="ETH" />
+      </ListItem>
+      <ListItem sx={{ marginX: 2, paddingY: 2 }}>
+        <PoolLink ticker="DAI" />
       </ListItem>
     </List>
   ),
   right: <AccountSettingsPopup />,
 };
 const footer = {
+  sx: {
+    "> div:last-child": {
+      flexBasis: "auto",
+    },
+  },
   right: <SocialIcons />,
 };
 const AnimatedBox = animated(Box);

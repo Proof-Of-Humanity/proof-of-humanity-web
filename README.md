@@ -28,6 +28,7 @@
 - chore: center relay loading message ([31e8109](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/31e8109))
 - chore: changing filters and pagination ([2179d15](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2179d15))
 - chore: clarify sign requirements for submissions ([b50edf3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b50edf3))
+- chore: copy fixes ([2b6bdbf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2b6bdbf))
 - chore: display pending valid vouches instead of confirmed ones ([1e568be](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1e568be))
 - chore: document accordion ([2c0cd55](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2c0cd55))
 - chore: document account settings popup ([955683b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/955683b))
