@@ -262,7 +262,8 @@ export default function SubmitProfileCard({ contract, reapply }) {
                     sx={{
                       marginX: 2,
                       ...(totalCost &&
-                        field[1].value === web3.utils.fromWei(totalCost) && {
+                        field[1].value.replaceAll?.(",", ".") ===
+                          web3.utils.fromWei(totalCost) && {
                           backgroundColor: "skeleton",
                         }),
                     }}
@@ -276,7 +277,8 @@ export default function SubmitProfileCard({ contract, reapply }) {
                     variant="secondary"
                     sx={
                       totalCost &&
-                      field[1].value !== web3.utils.fromWei(totalCost) && {
+                      field[1].value.replaceAll?.(",", ".") !==
+                        web3.utils.fromWei(totalCost) && {
                         backgroundColor: "skeleton",
                       }
                     }
@@ -290,7 +292,8 @@ export default function SubmitProfileCard({ contract, reapply }) {
               type="number"
               sx={({ field }) =>
                 totalCost &&
-                field[1].value === web3.utils.fromWei(totalCost) && {
+                field[1].value.replaceAll?.(",", ".") ===
+                  web3.utils.fromWei(totalCost) && {
                   display: "none",
                 }
               }
