@@ -32,7 +32,7 @@ export default function VouchButton({ submissionID }) {
   );
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
   const text = `${vouched ? "Remove " : ""}Vouch`;
-  return registered ? (
+  return registered || vouched ? (
     <Popup
       trigger={
         <Button
