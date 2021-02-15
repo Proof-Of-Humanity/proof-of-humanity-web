@@ -88,15 +88,7 @@ export default function FileUpload({
               sx={{ marginTop: 1, position: "relative", width: "fit-content" }}
             >
               {file.type.startsWith("video") ? (
-                <Video
-                  variant="thumbnail"
-                  url={file.preview}
-                  controls={false}
-                  playing
-                  loop
-                  muted
-                  playsinline
-                />
+                <Video variant="thumbnail" url={file.preview} />
               ) : (
                 <Image variant="thumbnail" src={file.preview} />
               )}
