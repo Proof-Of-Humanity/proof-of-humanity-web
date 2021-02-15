@@ -42,7 +42,7 @@ function AppealTabPanelCard({
           <Identicon address={address} />
           <Box sx={{ marginLeft: 2 }}>
             <NextETHLink address={address}>{address}</NextETHLink>
-            <Text>{label && `Previous round ${label}.`}</Text>
+            <Text>{label}</Text>
           </Box>
         </>
       }
@@ -134,15 +134,15 @@ function AppealTabPanel({
   const divisor = web3.utils.toBN(10000);
   const hundred = web3.utils.toBN(100);
   const undecided = {
-    label: "undecided",
+    label: "Previous round undecided.",
     reward: sharedStakeMultiplier.mul(hundred).div(sharedStakeMultiplier),
   };
   const winner = {
-    label: "winner",
+    label: "Previous round winner.",
     reward: loserStakeMultiplier.mul(hundred).div(winnerStakeMultiplier),
   };
   const loser = {
-    label: "loser",
+    label: "Previous round loser.",
     reward: winnerStakeMultiplier.mul(hundred).div(loserStakeMultiplier),
   };
 
@@ -204,7 +204,9 @@ function AppealTabPanel({
           address={party1}
           {...[undecided, winner, loser][currentRuling]}
           {...(Number(roundsLength) === 2 && {
+            label: "First round.",
             cost: web3.utils.toBN(paidFees[1]),
+            reward: " ",
           })}
           paidFees={paidFees[1]}
           hasPaid={hasPaid[0]}
@@ -215,7 +217,9 @@ function AppealTabPanel({
           address={party2}
           {...[undecided, loser, winner][currentRuling]}
           {...(Number(roundsLength) === 2 && {
+            label: "First round.",
             cost: web3.utils.toBN(paidFees[2]),
+            reward: " ",
           })}
           paidFees={paidFees[2]}
           hasPaid={hasPaid[1]}

@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-02-14)
+## 1.0.0-beta.4 (2021-02-15)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -166,6 +166,7 @@
 - chore: update eslint-plugin-regex ([2838bc3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2838bc3))
 - chore: update registration checks for UBI ([54d863d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/54d863d))
 - chore: update relay-hooks to patched version ([438569b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/438569b))
+- chore: update removal logic to match new contract ([0c9c863](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0c9c863))
 - chore: update subgraph ([bc81e6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bc81e6e))
 - chore: update submission deposit formula ([692cc52](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/692cc52))
 - chore: update web3 when accounts change ([e7f099b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e7f099b))
