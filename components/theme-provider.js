@@ -276,7 +276,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       },
     },
     mutedInput: { border: "none", paddingY: 1 },
-    textarea: { borderColor: "skeleton" },
+    textarea: { borderColor: "skeleton", fontFamily: "inherit" },
   },
   form: {
     flex: 1,

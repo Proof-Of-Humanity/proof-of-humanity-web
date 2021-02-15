@@ -79,18 +79,6 @@ function MyProfileLink() {
     </NextLink>
   ) : null;
 }
-function PoolLink({ ticker }) {
-  const { web3 } = useWeb3();
-  return (
-    <Link
-      variant="navigation"
-      newTab
-      href={`https://proof-of-humanity-pools.netlify.app/#/${web3.contracts?.UBI.options.address}/${ticker}`}
-    >
-      UBI/{ticker}
-    </Link>
-  );
-}
 const settings = {
   proofOfHumanityNotifications: {
     label: "Enable",
@@ -179,10 +167,13 @@ const header = {
         <MyProfileLink />
       </ListItem>
       <ListItem sx={{ marginX: 2, paddingY: 2 }}>
-        <PoolLink ticker="ETH" />
-      </ListItem>
-      <ListItem sx={{ marginX: 2, paddingY: 2 }}>
-        <PoolLink ticker="DAI" />
+        <Link
+          variant="navigation"
+          newTab
+          href="https://proof-of-humanity-pools.netlify.app"
+        >
+          Pools
+        </Link>
       </ListItem>
     </List>
   ),

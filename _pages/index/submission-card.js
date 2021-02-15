@@ -94,6 +94,7 @@ export default function SubmissionCard({ submission, contract }) {
           sx={{
             height: 52,
             textAlign: "center",
+            wordBreak: "break-word",
           }}
           count={2}
         >

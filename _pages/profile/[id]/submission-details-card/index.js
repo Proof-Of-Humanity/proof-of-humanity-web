@@ -180,7 +180,7 @@ export default function SubmissionDetailsCard({
                 ? evidence.file.name
                 : "Tampered Data, Reject")}
         </Text>
-        <Text count={2}>
+        <Text sx={{ wordBreak: "break-word" }} count={2}>
           {evidence?.file ? evidence.file.bio || " " : null}
         </Text>
         <Box sx={{ marginY: 2, width: "100%" }}>
