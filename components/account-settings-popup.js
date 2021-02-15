@@ -89,7 +89,11 @@ export default function AccountSettingsPopup({
                   <Flex sx={{ alignItems: "center" }}>
                     <Identicon address={accounts[0]} />
                     <Box sx={{ marginLeft: 1 }}>
-                      {name && <Text sx={{ marginBottom: 1 }}>{name}</Text>}
+                      {name && (
+                        <Text sx={{ fontSize: 1, marginBottom: 1 }}>
+                          {name}
+                        </Text>
+                      )}
                       <NextETHLink address={accounts[0]}>
                         {accounts[0]}
                       </NextETHLink>
