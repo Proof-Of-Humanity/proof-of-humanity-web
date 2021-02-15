@@ -13,6 +13,11 @@ import useIsGraphSynced from "_pages/index/use-is-graph-synced";
 
 export default function VouchButton({ submissionID }) {
   const [accounts] = useWeb3("eth", "getAccounts");
+  const [registered] = useContract(
+    "proofOfHumanity",
+    "isRegistered",
+    useMemo(() => ({ args: [accounts?.[0]] }), [accounts])
+  );
   const [vouched, , status, reCall] = useContract(
     "proofOfHumanity",
     "vouches",
@@ -27,7 +32,7 @@ export default function VouchButton({ submissionID }) {
   );
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
   const text = `${vouched ? "Remove " : ""}Vouch`;
-  return (
+  return registered ? (
     <Popup
       trigger={
         <Button
@@ -70,5 +75,5 @@ export default function VouchButton({ submissionID }) {
         </Box>
       )}
     </Popup>
-  );
+  ) : null;
 }
