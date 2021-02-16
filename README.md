@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-02-15)
+## 1.0.0-beta.4 (2021-02-16)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -149,6 +149,7 @@
 - chore: patch relay hooks bugs ([09908fe](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/09908fe))
 - chore: patch relay-hooks ([7d1d8b8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7d1d8b8))
 - chore: pending filters ([81aaed2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/81aaed2))
+- chore: persist the submission form ([697e6b3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/697e6b3))
 - chore: publish components ([cfaa63c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cfaa63c))
 - chore: refactor submission details accordion ([725c829](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/725c829))
 - chore: refresh graph without full page reloads ([2695925](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2695925))

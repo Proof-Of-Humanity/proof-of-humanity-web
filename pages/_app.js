@@ -181,10 +181,27 @@ const header = {
 };
 const footer = {
   sx: {
-    "> div:last-child": {
+    flexWrap: "wrap",
+    paddingY: 0,
+    "> div:first-of-type": {
       flexBasis: "auto",
+      paddingY: 2,
+    },
+    "> div:last-of-type": {
+      flexBasis: "auto",
+      paddingY: 2,
     },
   },
+  left: (
+    <Link
+      variant="navigation"
+      sx={{ fontSize: 1 }}
+      newTab
+      href="https://proof-of-humanity-website.webflow.io"
+    >
+      Learn More
+    </Link>
+  ),
   right: <SocialIcons />,
 };
 const AnimatedBox = animated(Box);
