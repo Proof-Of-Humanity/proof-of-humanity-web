@@ -131,6 +131,7 @@
 - chore: initial contribution message ([d4ec83e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d4ec83e))
 - chore: make bio optional ([a509f86](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a509f86))
 - chore: make bios optional ([7d7e84a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7d7e84a))
+- chore: make expired submissions have their own filterable status ([7d101d7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7d101d7))
 - chore: manually sort entities by creation time ([65142d8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/65142d8))
 - chore: more documentation ([2f5044d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2f5044d))
 - chore: more documentation ([96eea1f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/96eea1f))

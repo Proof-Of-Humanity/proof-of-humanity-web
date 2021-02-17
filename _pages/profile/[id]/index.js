@@ -1,4 +1,4 @@
-import { Card, Text, useQuery, useWeb3 } from "@kleros/components";
+import { Card, Image, Text, useQuery, useWeb3 } from "@kleros/components";
 import { useRouter } from "next/router";
 import { graphql } from "relay-hooks";
 
@@ -35,9 +35,24 @@ export default function ProfileWithID() {
     <>
       <Card
         sx={{ marginBottom: 2 }}
-        mainSx={{ justifyContent: "space-between", paddingY: 1 }}
+        mainSx={{
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          paddingY: 1,
+        }}
       >
-        <Text sx={{ fontWeight: "bold", minWidth: "fit-content" }}>
+        <Text
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            fontWeight: "bold",
+            minWidth: "fit-content",
+          }}
+        >
+          <Image
+            sx={{ height: 30, marginRight: 2 }}
+            src="/images/proof-of-humanity-logo-black.png"
+          />
           Profile Status
         </Text>
         <Text>
