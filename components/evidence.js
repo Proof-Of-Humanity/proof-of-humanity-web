@@ -100,7 +100,7 @@ export default function Evidence({
           <ScrollArea
             sx={{
               marginBottom: 2,
-              marginTop: -3,
+              marginTop: -2,
               marginX: -4,
               maxHeight: 650,
               overflowY: "scroll",

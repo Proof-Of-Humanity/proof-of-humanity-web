@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-02-16)
+## 1.0.0-beta.4 (2021-02-17)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -9,6 +9,7 @@
 - chore: add instructions for face captures ([ea8edfb](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ea8edfb))
 - chore: add issue templates ([6adcbee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6adcbee))
 - chore: add Kleros theme ([bff1fa4](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bff1fa4))
+- chore: add link to website ([d773916](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d773916))
 - chore: add main sx prop to layout component ([e96eb1d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e96eb1d))
 - chore: add more status icons ([3225e43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3225e43))
 - chore: add notifications suggestion ([5e07316](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5e07316))
