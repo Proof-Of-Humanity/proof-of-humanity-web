@@ -1,5 +1,5 @@
 import { createEnum } from "@kleros/components";
-import { Check, Pending, X } from "@kleros/icons";
+import { Check, Expired, Pending, X } from "@kleros/icons";
 
 export const submissionStatusEnum = createEnum(
   [
@@ -42,7 +42,31 @@ export const submissionStatusEnum = createEnum(
     ],
     [
       "Registered",
-      { Icon: Check, query: { where: { status: "None", registered: true } } },
+      {
+        Icon: Check,
+        query: ({ submissionDuration }) => ({
+          where: {
+            status: "None",
+            registered: true,
+            submissionTime_gte:
+              Math.floor(Date.now() / 1000) - (submissionDuration || 0),
+          },
+        }),
+      },
+    ],
+    [
+      "Expired",
+      {
+        Icon: Expired,
+        query: ({ submissionDuration }) => ({
+          where: {
+            status: "None",
+            registered: true,
+            submissionTime_lt:
+              Math.floor(Date.now() / 1000) - (submissionDuration || 0),
+          },
+        }),
+      },
     ],
     [
       "Removed",
@@ -52,11 +76,14 @@ export const submissionStatusEnum = createEnum(
       },
     ],
   ],
-  ({ status, registered, disputed }) => {
-    if (status === submissionStatusEnum.None.key)
-      return registered
+  ({ status, registered, submissionTime, submissionDuration, disputed }) => {
+    if (status === submissionStatusEnum.None.key) {
+      if (!registered) return submissionStatusEnum.Removed;
+      return submissionTime >=
+        Math.floor(Date.now() / 1000) - submissionDuration
         ? submissionStatusEnum.Registered
-        : submissionStatusEnum.Removed;
+        : submissionStatusEnum.Expired;
+    }
     if (disputed)
       return status === submissionStatusEnum.PendingRegistration.key
         ? submissionStatusEnum.ChallengedRegistration

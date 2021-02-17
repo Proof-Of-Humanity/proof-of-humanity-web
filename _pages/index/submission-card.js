@@ -43,7 +43,11 @@ export default function SubmissionCard({ submission, contract }) {
     submissionCardFragments.contract,
     contract
   );
-  const status = submissionStatusEnum.parse(rest);
+  const status = submissionStatusEnum.parse({
+    ...rest,
+    submissionTime,
+    submissionDuration,
+  });
   const isExpired =
     status === submissionStatusEnum.Registered &&
     Date.now() / 1000 - submissionTime > submissionDuration;

@@ -4,7 +4,10 @@ import { useRouter } from "next/router";
 
 import { submissionStatusEnum } from "data";
 
-export default function SubmissionFilters({ numberOfSubmissions }) {
+export default function SubmissionFilters({
+  numberOfSubmissions,
+  submissionDuration,
+}) {
   const router = useRouter();
   return (
     <Card
@@ -38,10 +41,21 @@ export default function SubmissionFilters({ numberOfSubmissions }) {
       <Select
         sx={{ marginLeft: 1, width: 240 }}
         items={submissionStatusEnum.array}
-        onChange={({ kebabCase }) => {
+        onChange={(submissionStatus) => {
           const query = { ...router.query };
-          if (!kebabCase) delete query.status;
-          else query.status = kebabCase;
+          if (!submissionStatus.kebabCase) {
+            delete query.status;
+            delete query.submissionDuration;
+          } else {
+            query.status = submissionStatus.kebabCase;
+            if (
+              submissionStatus === submissionStatusEnum.Registered ||
+              submissionStatus === submissionStatusEnum.Expired
+            ) {
+              if (submissionDuration)
+                query.submissionDuration = submissionDuration.toNumber();
+            } else delete query.submissionDuration;
+          }
           delete query.skip;
           router.push({
             query,

@@ -19,6 +19,7 @@
 - chore: add round prefix to voting history dropdown ([d870bd0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d870bd0))
 - chore: add share buttons to appeals ([4e35099](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4e35099))
 - chore: add social icons and fix font rendering ([b8e09b5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b8e09b5))
+- chore: add submit evidence button margin ([4746668](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4746668))
 - chore: add UBI integration ([5dad77b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5dad77b))
 - chore: allow submitting evidence with removal request ([0a35333](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0a35333))
 - chore: animate cards on hover ([9cab895](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9cab895))

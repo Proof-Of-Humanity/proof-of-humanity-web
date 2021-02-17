@@ -23,7 +23,9 @@ export default function ProfileWithID() {
     return <SubmitProfileCard contract={props.contract} reapply={reapply} />;
 
   const status =
-    props?.submission && submissionStatusEnum.parse(props.submission);
+    props?.submission &&
+    props?.contract &&
+    submissionStatusEnum.parse({ ...props.submission, ...props.contract });
   const isExpired =
     status === submissionStatusEnum.Registered &&
     props?.submission &&

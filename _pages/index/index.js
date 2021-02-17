@@ -15,6 +15,10 @@ export default function Index() {
     "proofOfHumanity",
     "submissionCounter"
   );
+  const [submissionDuration] = useContract(
+    "proofOfHumanity",
+    "submissionDuration"
+  );
 
   const submissions = router.query.search
     ? props?.submissionSearch
@@ -31,7 +35,10 @@ export default function Index() {
   }, [isLastPage, hasMore, page]);
   return (
     <>
-      <SubmissionFilters numberOfSubmissions={submissionCounter} />
+      <SubmissionFilters
+        numberOfSubmissions={submissionCounter}
+        submissionDuration={submissionDuration}
+      />
       <Grid sx={{ minHeight: 750 }} gap={2} columns={[1, 2, 3, 4]} rows={2}>
         {submissions?.map((submission) => (
           <SubmissionCard

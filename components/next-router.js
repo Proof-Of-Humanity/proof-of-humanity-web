@@ -43,10 +43,13 @@ export const createWrapConnection = (queries, queryEnums) => {
   const parseAsPath = (asPath) => {
     let [path, query] = asPath.split("?");
 
+    const funcQueryEnumQueries = [];
     query = [...new URLSearchParams(query).entries()].reduce(
       (acc, [key, value]) => {
         const queryEnumQuery = queryEnums[key]?.[value]?.query;
-        if (queryEnumQuery) acc = { ...acc, ...queryEnumQuery };
+        if (typeof queryEnumQuery === "function")
+          funcQueryEnumQueries.push(queryEnumQuery);
+        else if (queryEnumQuery) acc = { ...acc, ...queryEnumQuery };
         else
           acc[key] =
             typeof value === "boolean" ||
@@ -58,6 +61,8 @@ export const createWrapConnection = (queries, queryEnums) => {
       },
       {}
     );
+    for (const funcQueryEnumQuery of funcQueryEnumQueries)
+      query = { ...query, ...funcQueryEnumQuery(query) };
 
     for (const [key, matcher] of Object.entries(matchers)) {
       const _match = matcher(path);

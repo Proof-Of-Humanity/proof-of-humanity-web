@@ -43,6 +43,7 @@ const submissionDetailsCardFragments = {
       id
       status
       registered
+      submissionTime
       name
       disputed
       requests(
@@ -89,7 +90,15 @@ export default function SubmissionDetailsCard({
     submissionDetailsCardFragments.submission,
     submission
   ));
-  const status = submissionStatusEnum.parse({ ...rest });
+  const {
+    submissionBaseDeposit,
+    submissionDuration,
+    requiredNumberOfVouches,
+  } = (contract = useFragment(
+    submissionDetailsCardFragments.contract,
+    contract
+  ));
+  const status = submissionStatusEnum.parse({ ...rest, submissionDuration });
 
   const evidence = useEvidenceFile()(request.evidence[0].URI);
   const contributions = useMemo(
@@ -112,14 +121,6 @@ export default function SubmissionDetailsCard({
     )
   );
   const { web3 } = useWeb3();
-  const {
-    submissionBaseDeposit,
-    submissionDuration,
-    requiredNumberOfVouches,
-  } = (contract = useFragment(
-    submissionDetailsCardFragments.contract,
-    contract
-  ));
   const totalCost = useMemo(
     () => arbitrationCost?.add(web3.utils.toBN(submissionBaseDeposit)),
     [arbitrationCost, web3.utils, submissionBaseDeposit]
