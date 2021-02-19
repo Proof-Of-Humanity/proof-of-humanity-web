@@ -1,10 +1,11 @@
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { createDerivedAccountAPIs } from "./archon-provider";
 import Button from "./button";
 import Checkbox from "./checkbox";
 import Divider from "./divider";
 import Form, { Field } from "./form";
+import Text from "./text";
 
 export default function UserSettings({
   userSettingsURL,
@@ -52,6 +53,7 @@ export default function UserSettings({
     )
   );
   const { send } = usePatchUserSettings();
+  const [message, setMessage] = useState();
   return (
     <Form
       enableReinitialize
@@ -69,7 +71,11 @@ export default function UserSettings({
         }),
         [settings]
       )}
-      onSubmit={(_settings) => send(normalizeSettings(_settings))}
+      onSubmit={async (_settings) => {
+        setMessage("");
+        await send(normalizeSettings(_settings));
+        setMessage("Changes saved.");
+      }}
     >
       {({ isSubmitting }) => (
         <>
@@ -94,6 +100,19 @@ export default function UserSettings({
           >
             Save
           </Button>
+          {message && (
+            <Text
+              sx={{
+                bottom: 1,
+                color: "success",
+                fontSize: 12,
+                position: "absolute",
+                right: 1,
+              }}
+            >
+              {message}
+            </Text>
+          )}
         </>
       )}
     </Form>
