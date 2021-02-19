@@ -13,6 +13,7 @@ import { Box } from "theme-ui";
 import Web3 from "web3";
 import { boolean, object, reach, string } from "yup";
 
+import Checkbox from "./checkbox";
 import Input from "./input";
 import Label from "./label";
 import Text from "./text";
@@ -123,7 +124,13 @@ export function Field({ label, as = Input, sx, name, info, ...rest }) {
   return (
     <Label>
       {typeof label === "function" ? label({ field }) : label}
-      <Box sx={{ marginTop: 1, position: "relative" }}>
+      <Box
+        sx={{
+          marginTop: 1,
+          position: "relative",
+          ...(as === Checkbox && { display: "flex" }),
+        }}
+      >
         <_Field
           className={showError ? "error" : undefined}
           as={as}
@@ -148,6 +155,11 @@ export function Field({ label, as = Input, sx, name, info, ...rest }) {
           }}
           {...rest}
         />
+        {as === Checkbox && info && (
+          <Text variant="forms.field.info" sx={{ marginLeft: 2 }}>
+            {info}
+          </Text>
+        )}
         {as === Input && showError && (
           <X
             variant="forms.field.error.icon"
@@ -161,7 +173,9 @@ export function Field({ label, as = Input, sx, name, info, ...rest }) {
           />
         )}
       </Box>
-      {info && <Text variant="forms.field.info">{info}</Text>}
+      {as !== Checkbox && info && (
+        <Text variant="forms.field.info">{info}</Text>
+      )}
       <Text variant="forms.field.error">
         <ErrorMessage name={name} />
       </Text>
