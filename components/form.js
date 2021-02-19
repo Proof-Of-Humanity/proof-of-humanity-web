@@ -29,7 +29,7 @@ function ETH(...args) {
         : value
       ).split(".");
       value = `${units[0] === "-" ? 0 : units}${
-        decimals === undefined ? "" : `.${decimals.slice(0, 18)}`
+        !decimals ? "" : `.${decimals.slice(0, 18)}`
       }`;
       const bn = Web3.utils.toBN(Web3.utils.toWei(value));
       bn.originalString = value;
