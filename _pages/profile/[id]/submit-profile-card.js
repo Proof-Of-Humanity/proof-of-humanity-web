@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Card,
   Field,
@@ -272,6 +273,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
                 <Text>
                   Initial Deposit (ETH)
                   <Button
+                    as={Box}
                     variant="secondary"
                     sx={{
                       marginX: 2,
@@ -288,6 +290,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
                     Self Fund: {totalCost ? web3.utils.fromWei(totalCost) : "-"}
                   </Button>
                   <Button
+                    as={Box}
                     variant="secondary"
                     sx={
                       totalCost &&

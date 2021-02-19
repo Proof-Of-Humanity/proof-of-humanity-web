@@ -18,6 +18,7 @@
 - chore: add primary document to challenge modal and fix subgraph ([ec8e01d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ec8e01d))
 - chore: add quick fill buttons for initial contributions ([df10806](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/df10806))
 - chore: add round prefix to voting history dropdown ([d870bd0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d870bd0))
+- chore: add settings save message ([13ece41](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/13ece41))
 - chore: add share buttons to appeals ([4e35099](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4e35099))
 - chore: add social icons and fix font rendering ([b8e09b5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b8e09b5))
 - chore: add submit evidence button margin ([4746668](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4746668))

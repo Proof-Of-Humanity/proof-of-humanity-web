@@ -1,4 +1,4 @@
-import { Link, NextLink, Text, TimeAgo, useWeb3 } from "@kleros/components";
+import { Button, NextLink, Text, TimeAgo, useWeb3 } from "@kleros/components";
 import { graphql, useFragment } from "relay-hooks";
 
 import ChallengeButton from "./challenge-button";
@@ -114,7 +114,14 @@ export default function Deadlines({ submission, contract, status }) {
                 accounts?.[0] &&
                 accounts[0].toLowerCase() === id.toLowerCase() && (
                   <NextLink href="/profile/[id]" as="/profile/reapply">
-                    <Link sx={{ display: "block" }}>Reapply</Link>
+                    <Button
+                      sx={{
+                        marginY: 1,
+                        width: "100%",
+                      }}
+                    >
+                      Reapply
+                    </Button>
                   </NextLink>
                 )
               }
