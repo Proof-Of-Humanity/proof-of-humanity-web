@@ -84,6 +84,7 @@ export default function Deadlines({ submission, contract, status }) {
         />
       ) : (
         (status === submissionStatusEnum.Registered ||
+          status === submissionStatusEnum.Expired ||
           status === submissionStatusEnum.Removed) && (
           <>
             <Deadline
@@ -105,7 +106,9 @@ export default function Deadlines({ submission, contract, status }) {
               label="Renewal"
               datetime={renewalTimestamp}
               whenDatetime={(now, datetime) =>
-                now >= datetime || status === submissionStatusEnum.Removed
+                now >= datetime ||
+                status === submissionStatusEnum.Expired ||
+                status === submissionStatusEnum.Removed
               }
               button={
                 accounts?.[0] &&
