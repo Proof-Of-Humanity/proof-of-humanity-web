@@ -28,31 +28,6 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_recipient",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "_beneficiary",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "_value",
-        "type": "uint256"
-      }
-    ],
-    "name": "Mint",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
         "indexed": false,
         "internalType": "uint256",
         "name": "id",
@@ -152,7 +127,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "account",
+        "name": "_human",
         "type": "address"
       }
     ],
@@ -225,19 +200,6 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_accruedPerSecond",
-        "type": "uint256"
-      }
-    ],
-    "name": "changeAccruedPerSecond",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "contract IProofOfHumanity",
         "name": "_proofOfHumanity",
         "type": "address"
@@ -289,7 +251,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "human",
+        "name": "_human",
         "type": "address"
       }
     ],
@@ -413,19 +375,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "human",
-        "type": "address"
-      }
-    ],
-    "name": "mintAccrued",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "name",
     "outputs": [
@@ -455,7 +404,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "human",
+        "name": "_human",
         "type": "address"
       }
     ],
@@ -481,7 +430,7 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "human",
+        "name": "_human",
         "type": "address"
       }
     ],
@@ -586,6 +535,25 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "withdrawn",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   }
 ]
