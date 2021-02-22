@@ -32,6 +32,7 @@
 - chore: button changes ([0ae23f0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0ae23f0))
 - chore: card documentation ([4a4bf13](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4a4bf13))
 - chore: center relay loading message ([31e8109](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/31e8109))
+- chore: change contracts ([6f6680a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6f6680a))
 - chore: changing filters and pagination ([2179d15](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2179d15))
 - chore: clarify sign requirements for submissions ([b50edf3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b50edf3))
 - chore: copy fixes ([2b6bdbf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2b6bdbf))
