@@ -227,22 +227,22 @@ export function metaEvidence(event: MetaEvidenceEvent): void {
 export function arbitratorComplete(event: ArbitratorComplete): void {
   let proofOfHumanity = ProofOfHumanity.bind(event.address);
   let contract = new Contract("0");
-  contract.arbitrator = event.params.arbitrator;
+  contract.arbitrator = event.params._arbitrator;
   let arbitratorDataList = proofOfHumanity.arbitratorDataList(
     BigInt.fromI32(0)
   );
   contract.arbitratorExtraData = arbitratorDataList.value2;
-  contract.governor = event.params.governor;
-  contract.submissionBaseDeposit = event.params.submissionBaseDeposit;
+  contract.governor = event.params._governor;
+  contract.submissionBaseDeposit = event.params._submissionBaseDeposit;
   contract.submissionChallengeBaseDeposit = BigInt.fromI32(0);
-  contract.submissionDuration = event.params.submissionDuration;
+  contract.submissionDuration = event.params._submissionDuration;
   contract.renewalTime = proofOfHumanity.renewalPeriodDuration();
-  contract.challengePeriodDuration = event.params.challengePeriodDuration;
-  contract.requiredNumberOfVouches = event.params.requiredNumberOfVouches;
+  contract.challengePeriodDuration = event.params._challengePeriodDuration;
+  contract.requiredNumberOfVouches = event.params._requiredNumberOfVouches;
   contract.metaEvidenceUpdates = BigInt.fromI32(0);
-  contract.sharedStakeMultiplier = event.params.sharedStakeMultiplier;
-  contract.winnerStakeMultiplier = event.params.winnerStakeMultiplier;
-  contract.loserStakeMultiplier = event.params.loserStakeMultiplier;
+  contract.sharedStakeMultiplier = event.params._sharedStakeMultiplier;
+  contract.winnerStakeMultiplier = event.params._winnerStakeMultiplier;
+  contract.loserStakeMultiplier = event.params._loserStakeMultiplier;
   contract.registrationMetaEvidence = "0x0";
   contract.clearingMetaEvidence = "0x1";
   contract.save();

@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-02-19)
+## 1.0.0-beta.4 (2021-02-22)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -29,6 +29,7 @@
 - chore: auto-detect Web3 call type ([15ae304](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/15ae304))
 - chore: begin work on profile details page ([e4283ef](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e4283ef))
 - chore: browser number input compat ([e14a26b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e14a26b))
+- chore: button changes ([0ae23f0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0ae23f0))
 - chore: card documentation ([4a4bf13](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4a4bf13))
 - chore: center relay loading message ([31e8109](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/31e8109))
 - chore: changing filters and pagination ([2179d15](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2179d15))

@@ -44,10 +44,7 @@ export default function UBICard({ submissionID }) {
         method = "startAccruing";
         text = "Start Accruing";
       }
-    } else if (registered) {
-      method = "mintAccrued";
-      text = "Mint UBI";
-    } else {
+    } else if (!registered) {
       method = "reportRemoval";
       text = "Seize UBI";
     }

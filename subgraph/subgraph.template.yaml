@@ -8,7 +8,7 @@ dataSources:
     source:
       address: "{{address}}"
       abi: ProofOfHumanity
-      startBlock: 23262369
+      startBlock: 23599896
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
@@ -31,7 +31,7 @@ dataSources:
         - event: ArbitratorComplete(address,indexed address,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
           handler: arbitratorComplete
       callHandlers:
-        - function: addSubmissionManually(address[],string[],string[],string[])
+        - function: addSubmissionManually(address[],string[],string[])
           handler: addSubmissionManually
         - function: removeSubmissionManually(address)
           handler: removeSubmissionManually
@@ -53,9 +53,9 @@ dataSources:
           handler: changeMetaEvidence
         - function: changeArbitrator(address,bytes)
           handler: changeArbitrator
-        - function: addSubmission(string,string,string)
+        - function: addSubmission(string,string)
           handler: addSubmission
-        - function: reapplySubmission(string,string,string)
+        - function: reapplySubmission(string,string)
           handler: reapplySubmission
         - function: removeSubmission(address,string)
           handler: removeSubmission
