@@ -1,6 +1,5 @@
 ## 1.0.0-beta.4 (2021-03-10)
 
-- fix: broken criteria link ([3258831](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3258831))
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add escrow widget callbacks ([0016051](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0016051))
@@ -175,6 +174,7 @@
 - chore: route transitions ([705b686](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/705b686))
 - chore: seed submissions script and new contract ([c58aff8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c58aff8))
 - chore: set correct fonts ([1e6e24d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1e6e24d))
+- chore: set mainnet as the default network ([663fdb6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/663fdb6))
 - chore: set up CI ([72e9f6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/72e9f6e))
 - chore: set up component documentation ([d04d26c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d04d26c))
 - chore: set up project ([534bf60](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/534bf60))
@@ -205,3 +205,4 @@
 - chore: vouching message ([fb4c63e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb4c63e))
 - chore: vouching title ([86f9d92](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/86f9d92))
 - chore: wait for graph to sync and reload after profile submission ([d2aff9a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d2aff9a))
+- fix: broken criteria link ([3258831](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3258831))

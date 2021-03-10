@@ -142,7 +142,7 @@
     "storybook": "start-storybook --config-dir components/.storybook --static-dir components/.storybook/public --port 6006 --no-dll",
     "build-storybook": "build-storybook --config-dir components/.storybook --static-dir components/.storybook/public --no-dll",
     "ci:depcheck": "npm run depcheck",
-    "ci:prettier": "prettier --ignore-path .gitignore --check .",
+    "ci:prettier": "prettier --ignore-path .prettierignore --check .",
     "ci:lint": "npm run build:graph:kovan && npm run build && npm run lint",
     "ci:commitlint": "git log -1 --pretty=format:\"%s\" | commitlint",
     "ci": "npm-run-all --parallel ci:**",
