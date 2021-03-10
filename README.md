@@ -1,5 +1,6 @@
 ## 1.0.0-beta.4 (2021-03-10)
 
+- fix: support mov and revert to kovan ([250ecb5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/250ecb5))
 - fix: update media instructions ([c8f0b20](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c8f0b20))
 - feat/mainnet-launch (#91) ([f6810a6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f6810a6)), closes [#91](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/91)
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
