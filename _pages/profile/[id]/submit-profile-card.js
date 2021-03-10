@@ -223,7 +223,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
               as={FileUpload}
               name="video"
               label="Video (See Instructions)"
-              accept="video/webm, video/mp4"
+              accept="video/webm, video/mp4, video/quicktime"
               maxSize={10}
               video
             />
@@ -246,7 +246,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
                 </ListItem>
                 <ListItem>
                   The video quality should be at least 360p, at most 2 minutes
-                  long, and in the video/webm or video/MP4 format. Lighting
+                  long, and in the webm, MP4 or mov (quicktime) format. Lighting
                   conditions and recording device quality should be sufficient
                   to discern facial features and characters composing the
                   Ethereum address displayed.
