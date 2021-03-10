@@ -183,8 +183,11 @@ export default function ChallengeButton({
             sx={{ fontSize: 1, marginBottom: 2 }}
             mainSx={{ padding: 0 }}
           >
-            <Link newTab href={metaEvidence?.fileURI}>
-              <Text>{metaEvidence && "Primary Document"}</Text>
+            <Link
+              newTab
+              href={`https://ipfs.kleros.io${registrationMetaEvidence.URI}`}
+            >
+              <Text>{_metaEvidence.URI && "Primary Document"}</Text>
             </Link>
           </Card>
           <Text sx={{ marginBottom: 1 }}>Deposit:</Text>
