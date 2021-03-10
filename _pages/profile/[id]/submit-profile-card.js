@@ -20,7 +20,6 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
-import { useEvidenceFile } from "data";
 
 const submitProfileCardFragment = graphql`
   fragment submitProfileCard on Contract {
@@ -77,7 +76,6 @@ export default function SubmitProfileCard({ contract, reapply }) {
   );
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
 
-  const metaEvidence = useEvidenceFile()(registrationMetaEvidence.URI);
   return (
     <Card
       header="Submit Profile"

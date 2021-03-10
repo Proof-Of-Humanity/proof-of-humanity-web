@@ -163,6 +163,7 @@
 - chore: patch relay-hooks ([7d1d8b8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7d1d8b8))
 - chore: pending filters ([81aaed2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/81aaed2))
 - chore: persist the submission form ([697e6b3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/697e6b3))
+- chore: prittier ignore template ([4d8a97c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4d8a97c))
 - chore: publish components ([cfaa63c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cfaa63c))
 - chore: refactor submission details accordion ([725c829](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/725c829))
 - chore: refresh graph without full page reloads ([2695925](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2695925))
