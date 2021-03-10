@@ -20,7 +20,6 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
-import { useEvidenceFile } from "data";
 
 const submitProfileCardFragment = graphql`
   fragment submitProfileCard on Contract {
@@ -77,7 +76,6 @@ export default function SubmitProfileCard({ contract, reapply }) {
   );
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
 
-  const metaEvidence = useEvidenceFile()(registrationMetaEvidence.URI);
   return (
     <Card
       header="Submit Profile"
@@ -321,8 +319,13 @@ export default function SubmitProfileCard({ contract, reapply }) {
               sx={{ fontSize: 1, marginBottom: 2 }}
               mainSx={{ padding: 0 }}
             >
-              <Link newTab href={metaEvidence?.fileURI}>
-                <Text>{metaEvidence && "Primary Document"}</Text>
+              <Link
+                newTab
+                href={`https://ipfs.kleros.io${registrationMetaEvidence.URI}`}
+              >
+                <Text>
+                  {registrationMetaEvidence.URI && "Primary Document"}
+                </Text>
               </Link>
             </Card>
             <Button type="submit" loading={isSubmitting || !isGraphSynced}>

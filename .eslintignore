@@ -6,3 +6,5 @@
 
 # Storybook
 !/components/.storybook/
+
+subgraph/subgraph.template.yaml

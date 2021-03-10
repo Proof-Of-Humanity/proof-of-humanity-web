@@ -1,0 +1,18 @@
+# Dependencies
+/node_modules/
+
+# Build
+/.next/
+/out/
+
+# Relay
+/.relay/
+
+# Subgraph
+/subgraph/subgraph.template.yaml
+/subgraph/subgraph.yaml
+/subgraph/generated/
+/subgraph/build/
+
+# Assets
+/assets/seed-submissions/

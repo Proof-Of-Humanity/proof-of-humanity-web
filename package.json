@@ -123,7 +123,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run depcheck && npm run build && npm run build:graph && npm run changelog && git stage README.md",
+      "pre-commit": "lint-staged && npm run depcheck && npm run build && npm run build:graph:kovan && npm run changelog && git stage README.md",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
@@ -131,17 +131,19 @@
     "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,_pages,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional,buffer,@storybook/addon-a11y,@storybook/addon-essentials,babel-loader,react-is,storybook-mobile,electron",
     "lint": "eslint --ext js,mdx .",
     "dev": "next",
-    "dev:relay": "get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-kovan --json | node subgraph/eslint-compat.js > subgraph/build/full-schema.json && relay-compiler --watch",
+    "dev:relay": "get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-mainnet > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-mainnet --json | node subgraph/eslint-compat.js > subgraph/build/full-schema.json && relay-compiler --watch",
     "build": "npm run dev:relay -- --watch=false && next build",
     "build:analyze": "cross-env ANALYZE=true npm run build",
-    "build:graph": "cd subgraph && mustache config/kovan.json subgraph.template.yaml > subgraph.yaml && graph codegen && graph build",
-    "deploy:graph:kovan": "npm run build:graph && cd subgraph && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ epiqueras/proof-of-humanity-kovan",
+    "build:graph:kovan": "cd subgraph && mustache config/kovan.json subgraph.template.yaml > subgraph.yaml && graph codegen && graph build",
+    "build:graph:mainnet": "cd subgraph && mustache config/mainnet.json subgraph.template.yaml > subgraph.yaml && graph codegen && graph build",
+    "deploy:graph:kovan": "npm run build:graph:kovan && cd subgraph && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ kleros/proof-of-humanity-kovan",
+    "deploy:graph:mainnet": "npm run build:graph:mainnet && cd subgraph && graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ kleros/proof-of-humanity-mainnet",
     "changelog": "conventional-changelog --infile README.md --same-file --release-count 0 && prettier --write README.md",
     "storybook": "start-storybook --config-dir components/.storybook --static-dir components/.storybook/public --port 6006 --no-dll",
     "build-storybook": "build-storybook --config-dir components/.storybook --static-dir components/.storybook/public --no-dll",
     "ci:depcheck": "npm run depcheck",
-    "ci:prettier": "prettier --ignore-path .gitignore --check .",
-    "ci:lint": "npm run build:graph && npm run build && npm run lint",
+    "ci:prettier": "prettier --ignore-path .prettierignore --check .",
+    "ci:lint": "npm run build:graph:kovan && npm run build && npm run lint",
     "ci:commitlint": "git log -1 --pretty=format:\"%s\" | commitlint",
     "ci": "npm-run-all --parallel ci:**",
     "components:publish": "npm publish --access public --tag beta"
