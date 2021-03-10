@@ -10,7 +10,7 @@ import Popup from "./popup";
 import Text from "./text";
 
 const defaultWeb3 = new Web3(
-  "wss://kovan.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d"
+  "wss://mainnet.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d"
 );
 export default function EscrowWidget({
   web3,

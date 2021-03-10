@@ -33,7 +33,7 @@ import {
   UBIAddress,
   address,
   klerosLiquidAddress,
-} from "subgraph/config/kovan";
+} from "subgraph/config/mainnet";
 
 const queries = {
   "/": indexQuery,
@@ -55,14 +55,14 @@ const contracts = [
   {
     name: "proofOfHumanity",
     abi: ProofOfHumanity,
-    address: { kovan: address },
+    address: { mainnet: address },
   },
   {
     name: "klerosLiquid",
     abi: KlerosLiquid,
-    address: { kovan: klerosLiquidAddress },
+    address: { mainnet: klerosLiquidAddress },
   },
-  { name: "UBI", abi: UBI, address: { kovan: UBIAddress } },
+  { name: "UBI", abi: UBI, address: { mainnet: UBIAddress } },
 ];
 function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");
@@ -207,7 +207,7 @@ const footer = {
 const AnimatedBox = animated(Box);
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const { network = "kovan" } = useMemo(
+  const { network = "mainnet" } = useMemo(
     () => wrapConnection.parseAsPath(router.asPath).query,
     [router.asPath]
   );
@@ -256,7 +256,7 @@ export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme}>
       <RelayProvider
-        endpoint={`https://api.thegraph.com/subgraphs/name/epiqueras/proof-of-humanity-${network}`}
+        endpoint={`https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-${network}`}
         queries={queries}
         connectToRouteChange={connectToRouteChange}
       >
@@ -266,7 +266,7 @@ export default function App({ Component, pageProps }) {
           onNetworkChange={onNetworkChange}
         >
           <ArchonProvider>
-            {{ kovan: true }[network] ? (
+            {{ mainnet: true }[network] ? (
               <Layout header={header} footer={footer}>
                 {transitions.map(({ key, props, item }) => (
                   <AnimatedBox
@@ -292,7 +292,7 @@ export default function App({ Component, pageProps }) {
                   width: "100vw",
                 }}
               >
-                Unsupported network. Please switch to Kovan.
+                Unsupported network. Please switch to Mainnet.
               </Flex>
             )}
           </ArchonProvider>

@@ -1,5 +1,6 @@
-## 1.0.0-beta.4 (2021-02-22)
+## 1.0.0-beta.4 (2021-03-10)
 
+- fix: broken criteria link ([3258831](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3258831))
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add escrow widget callbacks ([0016051](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0016051))
@@ -12,6 +13,7 @@
 - chore: add link to website ([d773916](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d773916))
 - chore: add logo to profile status card ([7c3a58a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7c3a58a))
 - chore: add main sx prop to layout component ([e96eb1d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e96eb1d))
+- chore: add mainnet deployment scripts ([dd26ca6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/dd26ca6))
 - chore: add more status icons ([3225e43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3225e43))
 - chore: add notifications suggestion ([5e07316](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5e07316))
 - chore: add pool links ([b88b0e2](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b88b0e2))
@@ -35,6 +37,7 @@
 - chore: change contracts ([6f6680a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6f6680a))
 - chore: changing filters and pagination ([2179d15](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2179d15))
 - chore: clarify sign requirements for submissions ([b50edf3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b50edf3))
+- chore: copy ([c0a5a09](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c0a5a09))
 - chore: copy fixes ([2b6bdbf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2b6bdbf))
 - chore: display pending valid vouches instead of confirmed ones ([1e568be](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1e568be))
 - chore: document accordion ([2c0cd55](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2c0cd55))
