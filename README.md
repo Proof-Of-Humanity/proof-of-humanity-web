@@ -1,5 +1,6 @@
 ## 1.0.0-beta.4 (2021-03-10)
 
+- feat: support avi videos ([dc188b6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/dc188b6))
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add escrow widget callbacks ([0016051](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0016051))
