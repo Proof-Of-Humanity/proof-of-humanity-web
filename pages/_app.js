@@ -33,7 +33,7 @@ import {
   UBIAddress,
   address,
   klerosLiquidAddress,
-} from "subgraph/config/mainnet";
+} from "subgraph/config/kovan";
 
 const queries = {
   "/": indexQuery,
@@ -55,14 +55,14 @@ const contracts = [
   {
     name: "proofOfHumanity",
     abi: ProofOfHumanity,
-    address: { mainnet: address },
+    address: { kovan: address },
   },
   {
     name: "klerosLiquid",
     abi: KlerosLiquid,
-    address: { mainnet: klerosLiquidAddress },
+    address: { kovan: klerosLiquidAddress },
   },
-  { name: "UBI", abi: UBI, address: { mainnet: UBIAddress } },
+  { name: "UBI", abi: UBI, address: { kovan: UBIAddress } },
 ];
 function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");
@@ -207,7 +207,7 @@ const footer = {
 const AnimatedBox = animated(Box);
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const { network = "mainnet" } = useMemo(
+  const { network = "kovan" } = useMemo(
     () => wrapConnection.parseAsPath(router.asPath).query,
     [router.asPath]
   );
@@ -266,7 +266,7 @@ export default function App({ Component, pageProps }) {
           onNetworkChange={onNetworkChange}
         >
           <ArchonProvider>
-            {{ mainnet: true }[network] ? (
+            {{ kovan: true }[network] ? (
               <Layout header={header} footer={footer}>
                 {transitions.map(({ key, props, item }) => (
                   <AnimatedBox
@@ -292,7 +292,7 @@ export default function App({ Component, pageProps }) {
                   width: "100vw",
                 }}
               >
-                Unsupported network. Please switch to Mainnet.
+                Unsupported network. Please switch to Kovan.
               </Flex>
             )}
           </ArchonProvider>

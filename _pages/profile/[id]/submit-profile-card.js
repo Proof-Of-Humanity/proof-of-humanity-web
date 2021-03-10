@@ -201,15 +201,21 @@ export default function SubmitProfileCard({ contract, reapply }) {
             >
               <List>
                 <ListItem>
-                  Faces should not be covered under heavy make-up or large
-                  piercings. Head covers not covering the internal region of the
-                  face are permitted. E.g. a hijab is permitted but a niqab is
-                  not.
+                  The picture should include the face of the submitter facing
+                  the camera and the facial features must be visible.
                 </ListItem>
                 <ListItem>
-                  Items worn daily, e.g. headscarf, turban, wig, light make-up,
-                  etc, are permitted, provided they do not violate the previous
-                  point. Items worn only on special occasions are not.
+                  Face should not be covered under heavy make-up, large
+                  piercings or masks hindering the visibility of facial
+                  features. Headcover not covering the internal region of the
+                  face is acceptable (For example, a hijab is acceptable for a
+                  submitter but a niqab is not).
+                </ListItem>
+                <ListItem>
+                  It can include items worn daily (ex: headscarf, turban, wig,
+                  light makeup, etc) provided they do not violate the previous
+                  point. It cannot include special items worn only on special
+                  occasions.
                 </ListItem>
               </List>
             </Card>
@@ -217,7 +223,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
               as={FileUpload}
               name="video"
               label="Video (See Instructions)"
-              accept="video/webm, video/mp4"
+              accept="video/webm, video/mp4, video/quicktime, video/avi"
               maxSize={10}
               video
             />
@@ -228,40 +234,30 @@ export default function SubmitProfileCard({ contract, reapply }) {
             >
               <List>
                 <ListItem>
-                  Faces should not be covered under heavy make-up or large
-                  piercings. Head covers not covering the internal region of the
-                  face are permitted. E.g. a hijab is permitted but a niqab is
-                  not.
+                  The sign should display in a readable manner the full Ethereum
+                  address of the submitter (No ENS; no ellipsis). The sign can
+                  be a screen. The submitter must show the sign in the right
+                  orientation to be read on the video.
                 </ListItem>
                 <ListItem>
-                  Items worn daily, e.g. headscarf, turban, wig, light make-up,
-                  etc, are permitted, provided they do not violate the previous
-                  point. Items worn only on special occasions are not.
-                </ListItem>
-                <ListItem>
-                  Hold a sign with your Ethereum address on it in a way that is
-                  legible to viewers. A screen is fine as well.
-                </ListItem>
-                <ListItem>
-                  Say, in your normal voice, “I certify that I am a real human
-                  and that I am not already registered in this registry.”
-                </ListItem>
-                <ListItem>
-                  If you have any disabilities, just make sure the camera is
-                  pointed at your face. You may use assistance from someone.
+                  The submitter must say « I certify that I am a real human and
+                  that I am not already registered in this registry ».
+                  Submitters should speak in their normal voice.
                 </ListItem>
                 <ListItem>
                   The video quality should be at least 360p, at most 2 minutes
-                  long, and in one of the supported formats. Lightning
-                  conditions and recording device quality should be high enough
-                  for the video to have appropriate visual quality for a
-                  &gt;=360p video.
+                  long, and in the webm, MP4, avi or mov (quicktime) format.
+                  Lighting conditions and recording device quality should be
+                  sufficient to discern facial features and characters composing
+                  the Ethereum address displayed.
                 </ListItem>
                 <ListItem>
                   The quality of the audio should be high enough such that the
-                  speaker can be understood clearly. Small background noises are
-                  acceptable as long as they don’t prevent a clear understanding
-                  of the speaker.
+                  speaker can be understood clearly.
+                </ListItem>
+                <ListItem>
+                  The face of the submitter should follow the same requirements
+                  than for the photo
                 </ListItem>
               </List>
             </Card>
