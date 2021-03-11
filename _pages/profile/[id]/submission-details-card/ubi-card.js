@@ -26,7 +26,7 @@ export default function UBICard({ submissionID }) {
   const { web3 } = useWeb3();
   const [lastMintedSecond, , status, reCall] = useContract(
     "UBI",
-    "lastMintedSecond",
+    "accruedSince",
     useMemo(() => ({ args: [submissionID] }), [submissionID])
   );
   const [registered] = useContract(
