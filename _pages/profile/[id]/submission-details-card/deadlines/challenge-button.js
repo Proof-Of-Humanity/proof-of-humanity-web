@@ -18,7 +18,11 @@ import { useEffect, useMemo, useState } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
-import { challengeReasonEnum, submissionStatusEnum } from "data";
+import {
+  challengeReasonEnum,
+  submissionStatusEnum,
+  useEvidenceFile,
+} from "data";
 
 const challengeButtonFragments = {
   contract: graphql`
@@ -120,6 +124,8 @@ export default function ChallengeButton({
   const currentReasonIsNotDuplicate =
     currentReason !== challengeReasonEnum.Duplicate;
 
+  const metaEvidence = useEvidenceFile()(_metaEvidence.URI);
+
   const [arbitrationCost] = useContract(
     "klerosLiquid",
     "arbitrationCost",
@@ -177,8 +183,8 @@ export default function ChallengeButton({
             sx={{ fontSize: 1, marginBottom: 2 }}
             mainSx={{ padding: 0 }}
           >
-            <Link newTab href={`https://ipfs.kleros.io${_metaEvidence.URI}`}>
-              <Text>{_metaEvidence.URI && "Primary Document"}</Text>
+            <Link newTab href={metaEvidence?.fileURI}>
+              <Text>{metaEvidence && "Primary Document"}</Text>
             </Link>
           </Card>
           <Text sx={{ marginBottom: 1 }}>Deposit:</Text>
