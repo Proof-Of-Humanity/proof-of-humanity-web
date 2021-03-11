@@ -165,7 +165,11 @@ export default function SubmissionDetailsCard({
           textAlign: "center",
         }}
       >
-        <Image variant="avatar" src={evidence?.file?.photo} />
+        <Image
+          sx={{ objectFit: "contain" }}
+          variant="avatar"
+          src={evidence?.file?.photo}
+        />
         <Text
           sx={{
             fontSize: 2,
