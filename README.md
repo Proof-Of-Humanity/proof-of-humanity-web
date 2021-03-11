@@ -1,5 +1,7 @@
 ## 1.0.0-beta.4 (2021-03-10)
 
+- feat/mainnet-launch (#91) ([f6810a6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f6810a6)), closes [#91](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/91)
+- fix/seed-preparation (#92) ([12b384a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/12b384a)), closes [#92](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/92)
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add escrow widget callbacks ([0016051](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0016051))
@@ -192,7 +194,6 @@
 - chore: update registration checks for UBI ([54d863d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/54d863d))
 - chore: update relay-hooks to patched version ([438569b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/438569b))
 - chore: update removal logic to match new contract ([0c9c863](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0c9c863))
-- chore: update scripts for multiple networks ([09d4eb0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/09d4eb0))
 - chore: update subgraph ([bc81e6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bc81e6e))
 - chore: update submission deposit formula ([692cc52](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/692cc52))
 - chore: update web3 when accounts change ([e7f099b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e7f099b))
@@ -204,6 +205,3 @@
 - chore: vouching message ([fb4c63e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb4c63e))
 - chore: vouching title ([86f9d92](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/86f9d92))
 - chore: wait for graph to sync and reload after profile submission ([d2aff9a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d2aff9a))
-- fix: support mov and revert to kovan ([250ecb5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/250ecb5))
-- fix: update media instructions ([c8f0b20](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c8f0b20))
-- feat/mainnet-launch (#91) ([f6810a6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f6810a6)), closes [#91](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/91)
