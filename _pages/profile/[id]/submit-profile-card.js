@@ -21,6 +21,12 @@ import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
 
+const sanitize = (input) =>
+  input
+    .toString()
+    .toLowerCase()
+    .replace(/([^\d.a-z]+)/gi, "-"); // Only allow numbers and aplhanumeric.
+
 const submitProfileCardFragment = graphql`
   fragment submitProfileCard on Contract {
     arbitrator
@@ -156,8 +162,8 @@ export default function SubmitProfileCard({ contract, reapply }) {
           contribution,
         }) => {
           [{ pathname: photo }, { pathname: video }] = await Promise.all([
-            upload(photo.name, photo.content),
-            upload(video.name, video.content),
+            upload(sanitize(photo.name), photo.content),
+            upload(sanitize(video.name), video.content),
           ]);
           const { pathname: fileURI } = await upload(
             "file.json",

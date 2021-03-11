@@ -1,5 +1,6 @@
-## 1.0.0-beta.4 (2021-03-10)
+## 1.0.0-beta.4 (2021-03-11)
 
+- fix: remove support for avi and mov videos and decrease limit size (#95) ([83253f1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/83253f1)), closes [#95](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/95)
 - feat/mainnet-launch (#91) ([f6810a6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f6810a6)), closes [#91](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/91)
 - fix/seed-preparation (#92) ([12b384a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/12b384a)), closes [#92](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/92)
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
