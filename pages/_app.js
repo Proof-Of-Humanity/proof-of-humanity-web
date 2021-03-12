@@ -197,7 +197,7 @@ const footer = {
       variant="navigation"
       sx={{ fontSize: 1 }}
       newTab
-      href="https://proofofhumanity.id/"
+      href="https://www.proofofhumanity.id/"
     >
       Learn More
     </Link>
