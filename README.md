@@ -1,5 +1,6 @@
-## 1.0.0-beta.4 (2021-03-11)
+## 1.0.0-beta.4 (2021-03-12)
 
+- fix: provided better feedback for upload errors ([58c078d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/58c078d))
 - fix: broken/outdated links ([268a4ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/268a4ee))
 - fix: distored image on details view ([b1a1dcd](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b1a1dcd))
 - fix: permanent loading on ubi view ([572dd32](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/572dd32))
