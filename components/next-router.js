@@ -25,7 +25,9 @@ export function NextETHLink({ address, children, ...rest }) {
     <Link
       newTab
       href={`https://${
-        router?.query?.network ? `${router.query.network}.` : ""
+        router?.query?.network && router?.query?.network !== "mainnet"
+          ? `${router.query.network}.`
+          : ""
       }etherscan.io/address/${address}`}
       {...rest}
     >
