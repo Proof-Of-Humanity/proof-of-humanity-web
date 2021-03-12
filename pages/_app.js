@@ -170,7 +170,7 @@ const header = {
         <Link
           variant="navigation"
           newTab
-          href="https://proof-of-humanity-pools.netlify.app"
+          href="https://pools.proofofhumanity.id/"
         >
           Pools
         </Link>
