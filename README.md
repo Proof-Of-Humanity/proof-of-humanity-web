@@ -1,9 +1,9 @@
 ## 1.0.0-beta.4 (2021-03-12)
 
+- fix: provided better feedback for upload errors ([58c078d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/58c078d))
 - fix: broken/outdated links ([268a4ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/268a4ee))
 - fix: distored image on details view ([b1a1dcd](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b1a1dcd))
 - fix: permanent loading on ubi view ([572dd32](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/572dd32))
-- fix: provided better feedback for upload errors ([58c078d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/58c078d))
 - fix: remove support for avi and mov videos and decrease limit size (#95) ([83253f1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/83253f1)), closes [#95](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/95)
 - fix: sanitize photo and video names before uploading ([fa3754c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fa3754c))
 - fix: update ubi abi to latest version ([740c0a7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/740c0a7))
