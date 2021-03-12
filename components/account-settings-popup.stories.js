@@ -56,7 +56,7 @@ export default metadata;
 
 function Template(args) {
   return (
-    <Web3Provider infuraURL="wss://kovan.infura.io/ws/v3/f99874debfe448098019ae262646d083">
+    <Web3Provider infuraURL="wss://kovan.infura.io/ws/v3/76223180ca554cad9b16c8879ef4db76">
       <AccountSettingsPopup {...args} />
     </Web3Provider>
   );
