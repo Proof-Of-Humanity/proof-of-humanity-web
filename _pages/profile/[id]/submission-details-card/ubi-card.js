@@ -24,6 +24,8 @@ function AccruedUBI({ lastMintedSecond, web3, accruedPerSecond }) {
 }
 export default function UBICard({ submissionID }) {
   const { web3 } = useWeb3();
+  const [accounts] = useWeb3("eth", "getAccounts");
+
   const [lastMintedSecond, , status, reCall] = useContract(
     "UBI",
     "accruedSince",
@@ -61,7 +63,7 @@ export default function UBICard({ submissionID }) {
         web3={web3}
         accruedPerSecond={accruedPerSecond}
       />
-      {text && (
+      {text && accounts && accounts[0].toLowerCase() === submissionID && (
         <Button
           variant="secondary"
           disabled={status === "pending"}
