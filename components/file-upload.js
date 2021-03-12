@@ -123,9 +123,15 @@ export default function FileUpload({
         })}
       >
         <Input {...getInputProps()} />
-        <Text sx={{ fontStyle: "italic" }}>
-          (Max Size: {maxSize}MB | {accept})
-        </Text>
+        {maxSize && accept ? (
+          <Text sx={{ fontStyle: "italic" }}>
+            (Max Size: {maxSize}MB | {accept})
+          </Text>
+        ) : maxSize ? (
+          <Text sx={{ fontStyle: "italic" }}>(Max Size: {maxSize}MB)</Text>
+        ) : accept ? (
+          <Text sx={{ fontStyle: "italic" }}>{accept}</Text>
+        ) : null}
         <Text>{placeholder}</Text>
       </Box>
       <Flex sx={{ marginTop: 1 }}>
@@ -164,7 +170,7 @@ export default function FileUpload({
               </Box>
             ))}
       </Flex>
-      {(photo || video) && (
+      {photo || video ? (
         <Webcam
           trigger={
             <Button
@@ -182,7 +188,7 @@ export default function FileUpload({
           onChange={(file) => onChange(multiple ? [...files, file] : file)}
           video={video}
         />
-      )}
+      ) : null}
     </Box>
   );
 }

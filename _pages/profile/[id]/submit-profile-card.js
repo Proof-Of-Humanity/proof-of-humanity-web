@@ -22,6 +22,28 @@ import { graphql, useFragment } from "relay-hooks";
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
 import { useEvidenceFile } from "data";
 
+const VIDEO_OPTIONS = {
+  types: {
+    value: ["video/mp4", "video/webm"],
+    label: "*.mp4, *.webm",
+  },
+  size: {
+    value: 3 * 1024 * 1024,
+    label: "3 MB",
+  },
+};
+
+const PHOTO_OPTIONS = {
+  types: {
+    value: ["image/jpeg", "image/png"],
+    label: "*.jpg, *.jpeg, *.png",
+  },
+  size: {
+    value: 1 * 1024 * 1024,
+    label: "1 MB",
+  },
+};
+
 const sanitize = (input) =>
   input
     .toString()
@@ -115,8 +137,42 @@ export default function SubmitProfileCard({ contract, reapply }) {
                 )
                 .required("Required"),
               bio: string().max(70, "Must be 70 characters or less."),
-              photo: file().required("Required"),
-              video: file().required("Required"),
+              photo: file()
+                .required("Required")
+                .test(
+                  "fileSize",
+                  `Photo should be ${PHOTO_OPTIONS.size.label} or less`,
+                  (value) =>
+                    !value ? true : value.size <= PHOTO_OPTIONS.size.value
+                )
+                .test(
+                  "fileType",
+                  `Photo should be one of the following types: ${PHOTO_OPTIONS.types.label}`,
+                  (value) =>
+                    !value
+                      ? true
+                      : PHOTO_OPTIONS.types.value.includes(
+                          String(value.type).toLowerCase()
+                        )
+                ),
+              video: file()
+                .required("Required")
+                .test(
+                  "fileSize",
+                  `Video should be ${VIDEO_OPTIONS.size.label} or less`,
+                  (value) =>
+                    !value ? true : value.size <= VIDEO_OPTIONS.size.value
+                )
+                .test(
+                  "fileType",
+                  `Photo should be one of the following types: ${VIDEO_OPTIONS.types.label}`,
+                  (value) =>
+                    !value
+                      ? true
+                      : VIDEO_OPTIONS.types.value.includes(
+                          String(value.type).toLowerCase()
+                        )
+                ),
               contribution: eth()
                 .test({
                   test(value) {
@@ -198,8 +254,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
               as={FileUpload}
               name="photo"
               label="Face Photo"
-              accept="image/png, image/jpeg"
-              maxSize={1}
+              accept="image/*"
               photo
             />
             <Card
@@ -231,8 +286,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
               as={FileUpload}
               name="video"
               label="Video (See Instructions)"
-              accept="video/webm, video/mp4"
-              maxSize={3}
+              accept="video/*"
               video
             />
             <Card
