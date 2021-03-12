@@ -28,8 +28,8 @@ const VIDEO_OPTIONS = {
     label: "*.mp4, *.webm",
   },
   size: {
-    value: 3 * 1024 * 1024,
-    label: "3 MB",
+    value: 7 * 1024 * 1024,
+    label: "7 MB",
   },
 };
 
@@ -39,8 +39,8 @@ const PHOTO_OPTIONS = {
     label: "*.jpg, *.jpeg, *.png",
   },
   size: {
-    value: 1 * 1024 * 1024,
-    label: "1 MB",
+    value: 2 * 1024 * 1024,
+    label: "2 MB",
   },
 };
 
@@ -165,7 +165,7 @@ export default function SubmitProfileCard({ contract, reapply }) {
                 )
                 .test(
                   "fileType",
-                  `Photo should be one of the following types: ${VIDEO_OPTIONS.types.label}`,
+                  `Video should be one of the following types: ${VIDEO_OPTIONS.types.label}`,
                   (value) =>
                     !value
                       ? true
