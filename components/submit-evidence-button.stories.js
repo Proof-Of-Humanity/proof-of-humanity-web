@@ -42,7 +42,7 @@ const contracts = [
 function Template(args) {
   return (
     <Web3Provider
-      infuraURL="wss://kovan.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d"
+      infuraURL="wss://kovan.infura.io/ws/v3/f99874debfe448098019ae262646d083"
       contracts={contracts}
     >
       <ArchonProvider>

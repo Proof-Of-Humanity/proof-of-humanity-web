@@ -261,7 +261,7 @@ export default function App({ Component, pageProps }) {
         connectToRouteChange={connectToRouteChange}
       >
         <Web3Provider
-          infuraURL={`wss://${network}.infura.io/ws/v3/dd555294ec53482f952f78d2d955c34d`}
+          infuraURL={`wss://${network}.infura.io/ws/v3/f99874debfe448098019ae262646d083`}
           contracts={contracts}
           onNetworkChange={onNetworkChange}
         >
