@@ -28,7 +28,9 @@ export default function FileUpload({
   onChange: _onChange,
   name,
   accept,
+  acceptLabel,
   maxSize,
+  maxSizeLabel,
   multiple = false,
   onBlur,
   placeholder = `Drag your file${multiple ? "s" : ""} or click here to upload.`,
@@ -64,9 +66,9 @@ export default function FileUpload({
       const _files = readFiles.length === 1 ? readFiles[0] : readFiles;
       onChange(_files);
     },
-    accept,
-    maxSize: maxSize * 1e6,
     multiple,
+    accept,
+    maxSize,
     ...rest,
   });
 
@@ -123,14 +125,14 @@ export default function FileUpload({
         })}
       >
         <Input {...getInputProps()} />
-        {maxSize && accept ? (
+        {maxSizeLabel && acceptLabel ? (
           <Text sx={{ fontStyle: "italic" }}>
-            (Max Size: {maxSize}MB | {accept})
+            (Max Size: {maxSizeLabel} | {acceptLabel})
           </Text>
-        ) : maxSize ? (
-          <Text sx={{ fontStyle: "italic" }}>(Max Size: {maxSize}MB)</Text>
-        ) : accept ? (
-          <Text sx={{ fontStyle: "italic" }}>{accept}</Text>
+        ) : maxSizeLabel ? (
+          <Text sx={{ fontStyle: "italic" }}>(Max Size: {maxSizeLabel})</Text>
+        ) : acceptLabel ? (
+          <Text sx={{ fontStyle: "italic" }}>{acceptLabel}</Text>
         ) : null}
         <Text>{placeholder}</Text>
       </Box>

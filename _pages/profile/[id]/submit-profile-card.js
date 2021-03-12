@@ -255,6 +255,8 @@ export default function SubmitProfileCard({ contract, reapply }) {
               name="photo"
               label="Face Photo"
               accept="image/*"
+              acceptLabel={PHOTO_OPTIONS.types.label}
+              maxSizeLabel={PHOTO_OPTIONS.size.label}
               photo
             />
             <Card
@@ -287,6 +289,8 @@ export default function SubmitProfileCard({ contract, reapply }) {
               name="video"
               label="Video (See Instructions)"
               accept="video/*"
+              acceptLabel={VIDEO_OPTIONS.types.label}
+              maxSizeLabel={VIDEO_OPTIONS.size.label}
               video
             />
             <Card
