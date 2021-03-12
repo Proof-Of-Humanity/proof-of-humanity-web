@@ -63,16 +63,19 @@ export default function UBICard({ submissionID }) {
         web3={web3}
         accruedPerSecond={accruedPerSecond}
       />
-      {text && accounts && accounts[0].toLowerCase() === submissionID && (
-        <Button
-          variant="secondary"
-          disabled={status === "pending"}
-          onClick={() => send(submissionID).then(reCall)}
-          loading={loading}
-        >
-          {text}
-        </Button>
-      )}
+      {text &&
+        accounts &&
+        accounts[0] &&
+        accounts[0].toLowerCase() === submissionID && (
+          <Button
+            variant="secondary"
+            disabled={status === "pending"}
+            onClick={() => send(submissionID).then(reCall)}
+            loading={loading}
+          >
+            {text}
+          </Button>
+        )}
     </Card>
   );
 }
