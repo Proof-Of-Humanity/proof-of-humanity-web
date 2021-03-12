@@ -3,12 +3,10 @@ import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Box, Flex } from "theme-ui";
 
-import Button from "./button";
 import Image from "./image";
 import Input from "./input";
 import Text from "./text";
 import Video from "./video";
-import Webcam from "./webcam";
 
 const bufferToString = (buffer) => {
   let string = "";
@@ -34,8 +32,6 @@ export default function FileUpload({
   multiple = false,
   onBlur,
   placeholder = `Drag your file${multiple ? "s" : ""} or click here to upload.`,
-  photo = false,
-  video = false,
   ...rest
 }) {
   const [files, setFiles] = useState(value);
@@ -172,25 +168,6 @@ export default function FileUpload({
               </Box>
             ))}
       </Flex>
-      {photo || video ? (
-        <Webcam
-          trigger={
-            <Button
-              variant="secondary"
-              sx={{
-                position: "absolute",
-                right: 1,
-                top: 1,
-              }}
-            >
-              Use Webcam
-            </Button>
-          }
-          photo={photo}
-          onChange={(file) => onChange(multiple ? [...files, file] : file)}
-          video={video}
-        />
-      ) : null}
     </Box>
   );
 }
