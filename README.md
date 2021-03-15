@@ -2,6 +2,7 @@
 
 - fix: broken etherscan link ([05394af](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/05394af))
 - fix: broken/outdated links ([268a4ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/268a4ee))
+- fix: clarify renewal period availability ([9d31e5c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9d31e5c))
 - fix: distored image on details view ([b1a1dcd](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b1a1dcd))
 - fix: hide start accruing button if not profile ([21f0ad7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/21f0ad7))
 - fix: improved labels for video and photo upload (#99) ([f56f54b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f56f54b)), closes [#99](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/99)

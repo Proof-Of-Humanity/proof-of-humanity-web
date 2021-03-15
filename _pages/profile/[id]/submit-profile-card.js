@@ -15,7 +15,6 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { useField } from "formik";
-import { PersistFormikValues } from "formik-persist-values";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
@@ -394,10 +393,6 @@ export default function SubmitProfileCard({ contract, reapply }) {
               challenge raised against your registration.
             </Text>
             <UpdateTotalCost totalCost={totalCost} />
-            <PersistFormikValues
-              name="submit-profile-card-form"
-              persistInvalid
-            />
           </>
         )}
       </Form>
