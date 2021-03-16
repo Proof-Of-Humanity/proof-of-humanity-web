@@ -103,7 +103,7 @@ export default function Deadlines({ submission, contract, status }) {
               }
             />
             <Deadline
-              label="Renewal available since"
+              label="Renewal available"
               datetime={renewalTimestamp}
               whenDatetime={(now, datetime) =>
                 now >= datetime ||
