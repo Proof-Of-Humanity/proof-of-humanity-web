@@ -18,3 +18,5 @@
 
 # Assets
 /assets/seed-submissions/
+
+.env

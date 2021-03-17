@@ -8,6 +8,7 @@
 - fix: contain pictures instead of stretching ([71451ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/71451ee))
 - fix: distored image on details view ([b1a1dcd](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b1a1dcd))
 - fix: fixed build script ([042a884](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/042a884))
+- fix: fixed network name parameter derivation ([fb559ff](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb559ff))
 - fix: hide start accruing button if not profile ([21f0ad7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/21f0ad7))
 - fix: improved labels for video and photo upload (#99) ([f56f54b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f56f54b)), closes [#99](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/99)
 - fix: increase file size limit ([a9c3961](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a9c3961))
