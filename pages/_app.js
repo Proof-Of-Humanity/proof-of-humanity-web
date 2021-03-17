@@ -29,11 +29,7 @@ import { queryEnums, useEvidenceFile } from "data";
 import KlerosLiquid from "subgraph/abis/kleros-liquid";
 import ProofOfHumanity from "subgraph/abis/proof-of-humanity";
 import UBI from "subgraph/abis/ubi";
-import {
-  UBIAddress,
-  address,
-  klerosLiquidAddress,
-} from "subgraph/config/mainnet";
+import { UBIAddress, address, klerosLiquidAddress } from "subgraph/config";
 
 const queries = {
   "/": indexQuery,
@@ -51,18 +47,21 @@ const theme = {
     removed: "#4a4a4a",
   },
 };
+
+const network = process.env.NEXT_PUBLIC_NETWORK || "mainnet";
+
 const contracts = [
   {
     name: "proofOfHumanity",
     abi: ProofOfHumanity,
-    address: { mainnet: address },
+    address: { [network]: address },
   },
   {
     name: "klerosLiquid",
     abi: KlerosLiquid,
-    address: { mainnet: klerosLiquidAddress },
+    address: { [network]: klerosLiquidAddress },
   },
-  { name: "UBI", abi: UBI, address: { mainnet: UBIAddress } },
+  { name: "UBI", abi: UBI, address: { [network]: UBIAddress } },
 ];
 function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");
@@ -204,10 +203,16 @@ const footer = {
   ),
   right: <SocialIcons />,
 };
+
 const AnimatedBox = animated(Box);
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const { network = "mainnet" } = useMemo(
+  const { network: networkFromQuery = "mainnet" } = useMemo(
     () => wrapConnection.parseAsPath(router.asPath).query,
     [router.asPath]
   );
@@ -256,17 +261,17 @@ export default function App({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme}>
       <RelayProvider
-        endpoint={`https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-${network}`}
+        endpoint={`https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-${networkFromQuery}`}
         queries={queries}
         connectToRouteChange={connectToRouteChange}
       >
         <Web3Provider
-          infuraURL={`wss://${network}.infura.io/ws/v3/76223180ca554cad9b16c8879ef4db76`}
+          infuraURL={`wss://${networkFromQuery}.infura.io/ws/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`}
           contracts={contracts}
           onNetworkChange={onNetworkChange}
         >
           <ArchonProvider>
-            {{ mainnet: true }[network] ? (
+            {network === networkFromQuery ? (
               <Layout header={header} footer={footer}>
                 {transitions.map(({ key, props, item }) => (
                   <AnimatedBox
@@ -292,7 +297,7 @@ export default function App({ Component, pageProps }) {
                   width: "100vw",
                 }}
               >
-                Unsupported network. Please switch to Mainnet.
+                Unsupported network. Please switch to {capitalize(network)}.
               </Flex>
             )}
           </ArchonProvider>

@@ -1,6 +1,9 @@
 # Dependencies
 /node_modules/
 
+# Environment
+.env.local
+
 # Build
 /.next/
 /out/

@@ -3,7 +3,7 @@ import Evidence from "./evidence";
 import Web3Provider from "./web3-provider";
 
 import ProofOfHumanity from "subgraph/abis/proof-of-humanity";
-import { address } from "subgraph/config/kovan";
+import { address } from "subgraph/config";
 
 const metadata = {
   title: "Arbitration/Evidence",
@@ -49,17 +49,19 @@ const metadata = {
 };
 export default metadata;
 
+const network = process.env.NEXT_PUBLIC_NETWORK || "mainnet";
+
 const contracts = [
   {
     name: "proofOfHumanity",
     abi: ProofOfHumanity,
-    address: { kovan: address },
+    address: { [network]: address },
   },
 ];
 function Template(args) {
   return (
     <Web3Provider
-      infuraURL="wss://kovan.infura.io/ws/v3/76223180ca554cad9b16c8879ef4db76"
+      infuraURL={`wss://${network}.infura.io/ws/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`}
       contracts={contracts}
     >
       <ArchonProvider>

@@ -9,8 +9,10 @@ import Link from "./link";
 import Popup from "./popup";
 import Text from "./text";
 
+const network = process.env.NEXT_PUBLIC_NETWORK || "mainnet";
+
 const defaultWeb3 = new Web3(
-  "wss://mainnet.infura.io/ws/v3/76223180ca554cad9b16c8879ef4db76"
+  `wss://${network}.infura.io/ws/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`
 );
 export default function EscrowWidget({
   web3,
