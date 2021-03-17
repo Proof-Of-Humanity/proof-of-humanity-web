@@ -18,10 +18,12 @@
     "babel-loader": "^8.1.0",
     "babel-plugin-relay": "^10.0.1",
     "conventional-changelog-cli": "^2.1.0",
-    "cross-env": "^7.0.2",
+    "cross-env": "^7.0.3",
+    "cross-var": "^1.1.0",
     "csv": "^5.3.2",
     "depcheck": "^1.0.0",
     "electron": "^11.1.1",
+    "env-cmd": "^10.1.0",
     "eslint": "^7.8.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-import-resolver-alias": "^1.1.2",
@@ -122,12 +124,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run depcheck && npm run build:kovan && npm run build:graph:kovan && npm run changelog && git stage README.md",
+      "pre-commit": "lint-staged && npm run depcheck && env-cmd -f .env.local cross-var 'npm run build:$NEXT_PUBLIC_NETWORK && npm run build:graph:$NEXT_PUBLIC_NETWORK' && npm run changelog && git stage README.md",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "scripts": {
-    "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,_pages,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional,buffer,@storybook/addon-a11y,@storybook/addon-essentials,babel-loader,react-is,storybook-mobile,electron",
+    "depcheck": "depcheck . --ignores=@kleros/components,@kleros/icons,_pages,assets,data,subgraph,eslint-import-resolver-alias,@commitlint/cli,@commitlint/config-conventional,buffer,@storybook/addon-a11y,@storybook/addon-essentials,babel-loader,react-is,storybook-mobile,electron,env-cmd,cross-var",
     "lint": "eslint --ext js,mdx .",
     "dev": "next",
     "dev:relay:kovan": "get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-kovan --json | node subgraph/eslint-compat.js > subgraph/build/full-schema.json && relay-compiler --watch",
