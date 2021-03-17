@@ -10,7 +10,7 @@
    git clone https://github.com/proof-Of-Humanity/proof-Of-Humanity-web/
    ```
 
-2. Copy the `.env.example` file into `.env.local` and set the appropiate values:
+2. Copy the `.env.example` file into `.env.local` and set the appropriate values:
 
    ```bash
    cp .env.example .env.local
