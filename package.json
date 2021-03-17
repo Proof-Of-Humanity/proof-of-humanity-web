@@ -136,7 +136,7 @@
     "dev:relay": "cross-var 'npm run dev:relay:$NEXT_PUBLIC_NETWORK'",
     "dev:relay:kovan": "get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-kovan --json | node subgraph/eslint-compat.js > subgraph/build/full-schema.json && relay-compiler --watch",
     "dev:relay:mainnet": "get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-mainnet > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-mainnet --json | node subgraph/eslint-compat.js > subgraph/build/full-schema.json && relay-compiler --watch",
-    "build": "cross-var 'npm run build:graph:$NEXT_PUBLIC_NETWORK && npm run build:$NEXT_PUBLIC_NETWORK'",
+    "build": "cross-var 'npm run build:graph:$NEXT_PUBLIC_NETWORK' && cross-var 'npm run build:$NEXT_PUBLIC_NETWORK'",
     "build:kovan": "npm run dev:relay:kovan -- --watch=false && next build",
     "build:mainnet": "npm run dev:relay:mainnet -- --watch=false && next build",
     "build:analyze": "cross-env ANALYZE=true npm run build:kovan",

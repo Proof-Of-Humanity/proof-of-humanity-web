@@ -99,7 +99,7 @@ export default function Web3Provider({
       if (!cancelled && ETHNetID !== web3.ETHNet?.ID) {
         web3.ETHNet = {
           ID: ETHNetID,
-          name: { 42: "kovan", 1: "kovan" }[ETHNetID],
+          name: { 42: "kovan", 1: "mainnet" }[ETHNetID],
         };
         setWeb3({ ...web3 });
         if (onNetworkChange) onNetworkChange(web3.ETHNet);
