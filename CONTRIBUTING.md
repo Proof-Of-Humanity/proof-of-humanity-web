@@ -21,11 +21,11 @@
    NETWORK=kovan # or mainnet
    ```
 
-3. Build the subgraph and the relay schemas:
+3. Build the subgraph and the relay schemas locally:
 
    ```bash
-   npm run build:graph
-   npm run dev:relay
+   npm run local:build:graph
+   npm run local:dev:relay
    ```
 
 4. Start the development server:

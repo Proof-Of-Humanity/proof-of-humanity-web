@@ -1,6 +1,7 @@
 ## 1.0.0-beta.4 (2021-03-17)
 
 - docs: fixed typo in README ([aea1a0e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/aea1a0e))
+- docs: fixed typo on CONTRIBUTING ([0e8b925](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0e8b925))
 - refactor: added parametrization for network and Infura key ([336772f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/336772f))
 - refactor: made scripts responsive to the environment ([86d2b65](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/86d2b65))
 - refactor: removed webcam button from video and photo upload (#104) ([1352cb5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1352cb5)), closes [#104](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/104)
