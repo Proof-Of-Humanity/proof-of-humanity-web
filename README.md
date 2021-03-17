@@ -8,4 +8,4 @@ Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-Please see [CHANGELONG.md](./CHANGELONG.md).
+Please see [CHANGELOG.md](./CHANGELOG.md).

@@ -1,7 +1,7 @@
 ## 1.0.0-beta.4 (2021-03-17)
 
 - refactor: added parametrization for network and Infura key ([336772f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/336772f))
-- refactor: made scripts responsive to the environment ([5f8dc43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5f8dc43))
+- refactor: made scripts responsive to the environment ([86d2b65](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/86d2b65))
 - refactor: removed webcam button from video and photo upload (#104) ([1352cb5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1352cb5)), closes [#104](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/104)
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
