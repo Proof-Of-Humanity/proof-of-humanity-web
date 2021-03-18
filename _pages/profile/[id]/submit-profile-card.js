@@ -421,7 +421,15 @@ export default function SubmitProfileCard({
                 <Text>{metaEvidence && "Primary Document"}</Text>
               </Link>
             </Card>
-            <Button type="submit" loading={isSubmitting || !isGraphSynced}>
+            <Button
+              type="submit"
+              loading={isSubmitting || !isGraphSynced}
+              disabled={isSubmitting}
+              sx={{
+                width: "120px",
+                textAlign: "center",
+              }}
+            >
               Submit
             </Button>
             <Button
