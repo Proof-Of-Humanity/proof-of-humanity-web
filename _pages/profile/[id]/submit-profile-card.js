@@ -15,6 +15,7 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { useField } from "formik";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useRef } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
@@ -72,7 +73,12 @@ function UpdateTotalCost({ totalCost }) {
   }, [totalCost, setValue, web3.utils]);
   return null;
 }
-export default function SubmitProfileCard({ contract, reapply }) {
+export default function SubmitProfileCard({
+  contract,
+  submission,
+  reapply,
+  afterSend = () => {},
+}) {
   const {
     arbitrator,
     arbitratorExtraData,
@@ -105,6 +111,15 @@ export default function SubmitProfileCard({ contract, reapply }) {
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
 
   const metaEvidence = useEvidenceFile()(registrationMetaEvidence.URI);
+
+  const router = useRouter();
+
+  const handleFormReset = useCallback(() => {
+    router.back();
+  }, [router]);
+
+  const submissionName = submission?.name ?? "";
+
   return (
     <Card
       header="Submit Profile"
@@ -120,7 +135,8 @@ export default function SubmitProfileCard({ contract, reapply }) {
             const schema = {
               name: string()
                 .max(50, "Must be 50 characters or less.")
-                .required("Required"),
+                .required("Required")
+                .default(submissionName),
               firstName: string()
                 .max(20, "Must be 20 characters or less.")
                 .matches(
@@ -150,9 +166,12 @@ export default function SubmitProfileCard({ contract, reapply }) {
                   (value) =>
                     !value
                       ? true
-                      : PHOTO_OPTIONS.types.value.includes(
-                          String(value.type).toLowerCase()
-                        )
+                      : PHOTO_OPTIONS.types.value.some((allowedMimeType) => {
+                          const [mimeType] = String(value.type)
+                            .toLowerCase()
+                            .split(";");
+                          return mimeType === allowedMimeType;
+                        })
                 ),
               video: file()
                 .required("Required")
@@ -168,9 +187,12 @@ export default function SubmitProfileCard({ contract, reapply }) {
                   (value) =>
                     !value
                       ? true
-                      : VIDEO_OPTIONS.types.value.includes(
-                          String(value.type).toLowerCase()
-                        )
+                      : VIDEO_OPTIONS.types.value.some((allowedMimeType) => {
+                          const [mimeType] = String(value.type)
+                            .toLowerCase()
+                            .split(";");
+                          return mimeType === allowedMimeType;
+                        })
                 ),
               contribution: eth()
                 .test({
@@ -207,8 +229,9 @@ export default function SubmitProfileCard({ contract, reapply }) {
               );
             return schema;
           },
-          [totalCost]
+          [totalCost, submissionName]
         )}
+        onReset={handleFormReset}
         onSubmit={async ({
           name,
           firstName,
@@ -230,14 +253,28 @@ export default function SubmitProfileCard({ contract, reapply }) {
             "registration.json",
             JSON.stringify({ fileURI, name: "Registration" })
           );
-          return send(evidence, name, {
+          const result = await send(evidence, name, {
             value: String(contribution) === "" ? 0 : contribution,
           });
+
+          afterSend?.(result);
+
+          return result;
         }}
       >
         {({ isSubmitting }) => (
           <>
-            <Field name="name" label="Name" placeholder="The name you go by." />
+            <Field
+              name="name"
+              label="Name"
+              placeholder="The name you go by."
+              readOnly={submissionName !== ""}
+              info={
+                submissionName !== ""
+                  ? "You have set your name previously, so it cannot be changed"
+                  : ""
+              }
+            />
             <Field
               name="firstName"
               label="First Name"
@@ -386,6 +423,16 @@ export default function SubmitProfileCard({ contract, reapply }) {
             </Card>
             <Button type="submit" loading={isSubmitting || !isGraphSynced}>
               Submit
+            </Button>
+            <Button
+              type="reset"
+              variant="secondary"
+              disabled={isSubmitting}
+              sx={{
+                marginLeft: "1rem",
+              }}
+            >
+              Go Back
             </Button>
             <Text sx={{ marginTop: 1 }}>
               Remember to subscribe to email notifications in Account &gt;

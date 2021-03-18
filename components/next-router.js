@@ -7,15 +7,28 @@ import Link from "./link";
 const defaultNetwork = process.env.NEXT_PUBLIC_NETWORK;
 
 export function NextLink({ passHref = true, href, as, ...rest }) {
+  href = typeof href === "string" ? new URL(href, "http://localhost") : href;
+  const hrefQuery = href.query
+    ? href.query
+    : Object.fromEntries(href.searchParams?.entries() ?? {});
+
   const { query } = useRouter();
+
+  const networkMixin = query.network ? { network: query.network } : {};
+  const finalQuery = { ...hrefQuery, ...networkMixin };
+  const queryString =
+    Object.keys(finalQuery).length > 0
+      ? `?${new URLSearchParams(finalQuery)}`
+      : "";
+
   return (
     <_NextLink
       passHref={passHref}
       href={{
         pathname: href.pathname || href,
-        query: query.network && { network: query.network },
+        query: finalQuery,
       }}
-      as={as && as + (query.network ? `?network=${query.network}` : "")}
+      as={as && as + queryString}
       {...rest}
     />
   );

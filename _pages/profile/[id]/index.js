@@ -1,5 +1,6 @@
 import { Card, Image, Text, useQuery, useWeb3 } from "@kleros/components";
 import { useRouter } from "next/router";
+import { useCallback } from "react";
 import { graphql } from "relay-hooks";
 
 import SubmissionDetailsAccordion from "./submission-details-accordion";
@@ -11,16 +12,37 @@ import { submissionStatusEnum } from "data";
 export default function ProfileWithID() {
   const { props } = useQuery();
   const [accounts] = useWeb3("eth", "getAccounts");
-  const { query } = useRouter();
+  const account = accounts?.[0];
 
-  const reapply = query.id === "reapply";
-  if (
-    props &&
-    accounts &&
-    props.submission === null &&
-    (!accounts[0] || accounts[0] === query.id || reapply)
-  )
-    return <SubmitProfileCard contract={props.contract} reapply={reapply} />;
+  const router = useRouter();
+  const { query } = router;
+
+  const reapply = query.reapply === "true";
+  const registered = props?.submission?.registered ?? false;
+
+  const handleAfterSend = useCallback(() => {
+    if (reapply)
+      router.push({
+        pathname: "/profile/[id]",
+        query: {
+          id: account,
+          network: query.network,
+        },
+      });
+  }, [reapply, router, account, query.network]);
+
+  const isReapply = account === query.id && reapply;
+  const isRegistration = account === query.id && props?.submission === null;
+
+  if (props && account && (isReapply || isRegistration))
+    return (
+      <SubmitProfileCard
+        contract={props.contract}
+        submission={props.submission}
+        reapply={reapply && registered}
+        afterSend={handleAfterSend}
+      />
+    );
 
   const status =
     props?.submission &&
@@ -97,6 +119,7 @@ export const IdQuery = graphql`
       ...submissionDetailsAccordionContract
     }
     submission(id: $id) {
+      name
       status
       registered
       submissionTime
