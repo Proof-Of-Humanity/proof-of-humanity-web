@@ -3,7 +3,7 @@ import { useCallback } from "react";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
 
-export default function WithdrawButton(props) {
+export default function WithdrawButton({ sx, ...rest }) {
   const { receipt, send: sendWithdraw, loading: withdrawLoading } = useContract(
     "proofOfHumanity",
     "withdrawSubmission"
@@ -15,12 +15,19 @@ export default function WithdrawButton(props) {
 
   return (
     <Button
-      {...props}
+      {...rest}
       onClick={handleClick}
       loading={withdrawLoading}
       disabled={withdrawLoading || (!!receipt && !isGraphSynced)}
+      sx={{
+        backgroundImage({ colors }) {
+          const { danger, text } = colors;
+          return `linear-gradient(90deg, ${text} -500%, ${danger} 100%)`;
+        },
+        ...sx,
+      }}
     >
-      Withdraw Submission
+      Cancel Submission
     </Button>
   );
 }

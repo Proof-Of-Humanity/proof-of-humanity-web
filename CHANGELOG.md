@@ -1,5 +1,6 @@
 ## 1.0.0-beta.4 (2021-03-18)
 
+- style: made submit button width fixed ([0093a85](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0093a85))
 - refactor: added parametrization for network and Infura key ([336772f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/336772f))
 - refactor: extracted withdraw submission button into a component ([ba6f3a5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba6f3a5))
 - refactor: made scripts responsive to the environment ([86d2b65](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/86d2b65))
