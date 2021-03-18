@@ -1,15 +1,9 @@
-import {
-  Button,
-  NextLink,
-  Text,
-  TimeAgo,
-  useContract,
-  useWeb3,
-} from "@kleros/components";
+import { Button, NextLink, Text, TimeAgo, useWeb3 } from "@kleros/components";
 import { graphql, useFragment } from "relay-hooks";
 
 import ChallengeButton from "./challenge-button";
 import RemoveButton from "./remove-button";
+import WithdrawButton from "./withdraw-button";
 
 import { submissionStatusEnum } from "data";
 
@@ -55,10 +49,6 @@ export default function Deadlines({ submission, contract, status }) {
     id,
     submissionTime,
   } = useFragment(deadlinesFragments.submission, submission);
-  const { send: sendWithdraw, loading: withdrawLoading } = useContract(
-    "proofOfHumanity",
-    "withdrawSubmission"
-  );
   const {
     submissionDuration,
     renewalTime,
@@ -160,16 +150,12 @@ export default function Deadlines({ submission, contract, status }) {
           </Button>
         </NextLink>
       ) : status === submissionStatusEnum.Vouching && isSelf ? (
-        <Button
+        <WithdrawButton
           sx={{
             marginY: 1,
             width: "100%",
           }}
-          onClick={() => sendWithdraw()}
-          loading={withdrawLoading}
-        >
-          Withdraw Submission
-        </Button>
+        />
       ) : null}
     </>
   );
