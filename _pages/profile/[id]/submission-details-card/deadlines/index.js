@@ -1,15 +1,9 @@
-import {
-  Button,
-  NextLink,
-  Text,
-  TimeAgo,
-  useContract,
-  useWeb3,
-} from "@kleros/components";
+import { Button, NextLink, Text, TimeAgo, useWeb3 } from "@kleros/components";
 import { graphql, useFragment } from "relay-hooks";
 
 import ChallengeButton from "./challenge-button";
 import RemoveButton from "./remove-button";
+import WithdrawButton from "./withdraw-button";
 
 import { submissionStatusEnum } from "data";
 
@@ -55,10 +49,6 @@ export default function Deadlines({ submission, contract, status }) {
     id,
     submissionTime,
   } = useFragment(deadlinesFragments.submission, submission);
-  const { send: sendWithdraw, loading: withdrawLoading } = useContract(
-    "proofOfHumanity",
-    "withdrawSubmission"
-  );
   const {
     submissionDuration,
     renewalTime,
@@ -67,6 +57,10 @@ export default function Deadlines({ submission, contract, status }) {
   const renewalTimestamp =
     (Number(submissionTime) + (submissionDuration - renewalTime)) * 1000;
   const [accounts] = useWeb3("eth", "getAccounts");
+
+  const isSelf =
+    accounts?.[0] && accounts[0].toLowerCase() === id.toLowerCase();
+
   return (
     <>
       <Deadline
@@ -93,67 +87,76 @@ export default function Deadlines({ submission, contract, status }) {
             />
           }
         />
-      ) : (
-        (status === submissionStatusEnum.Registered ||
-          status === submissionStatusEnum.Expired ||
-          status === submissionStatusEnum.Removed) && (
-          <>
-            <Deadline
-              label="Accepted"
-              datetime={submissionTime * 1000}
-              whenDatetime={(now) =>
-                status === submissionStatusEnum.Registered &&
-                now < renewalTimestamp
-              }
-              button={
-                <RemoveButton
-                  request={request}
-                  contract={contract}
-                  submissionID={id}
-                />
-              }
-            />
-            <Deadline
-              label="Renewal available"
-              datetime={renewalTimestamp}
-              whenDatetime={(now, datetime) =>
-                now >= datetime ||
-                status === submissionStatusEnum.Expired ||
-                status === submissionStatusEnum.Removed
-              }
-              button={
-                accounts?.[0] &&
-                accounts[0].toLowerCase() === id.toLowerCase() && (
-                  <NextLink href="/profile/[id]" as="/profile/reapply">
-                    <Button
-                      sx={{
-                        marginY: 1,
-                        width: "100%",
-                      }}
-                    >
-                      Reapply
-                    </Button>
-                  </NextLink>
-                )
-              }
-            />
-          </>
-        )
-      )}
-      {status === submissionStatusEnum.Vouching &&
-        accounts?.[0] &&
-        accounts[0].toLowerCase() === id.toLowerCase() && (
+      ) : status === submissionStatusEnum.Registered ||
+        status === submissionStatusEnum.Expired ||
+        (status === submissionStatusEnum.Removed && submissionTime !== null) ? (
+        <>
+          <Deadline
+            label="Accepted"
+            datetime={submissionTime * 1000}
+            whenDatetime={(now) =>
+              status === submissionStatusEnum.Registered &&
+              now < renewalTimestamp
+            }
+            button={
+              <RemoveButton
+                request={request}
+                contract={contract}
+                submissionID={id}
+              />
+            }
+          />
+          <Deadline
+            label="Renewal available"
+            datetime={renewalTimestamp}
+            whenDatetime={(now, datetime) =>
+              now >= datetime ||
+              status === submissionStatusEnum.Expired ||
+              status === submissionStatusEnum.Removed
+            }
+            button={
+              isSelf && (
+                <NextLink
+                  href="/profile/[id]?reapply=true"
+                  as={`/profile/${accounts?.[0]}`}
+                >
+                  <Button
+                    sx={{
+                      marginY: 1,
+                      width: "100%",
+                    }}
+                  >
+                    Reapply
+                  </Button>
+                </NextLink>
+              )
+            }
+          />
+        </>
+      ) : status === submissionStatusEnum.Removed &&
+        submissionTime === null &&
+        isSelf ? (
+        <NextLink
+          href="/profile/[id]?reapply=true"
+          as={`/profile/${accounts?.[0]}`}
+        >
           <Button
             sx={{
               marginY: 1,
               width: "100%",
             }}
-            onClick={() => sendWithdraw()}
-            loading={withdrawLoading}
           >
-            Withdraw Submission
+            Reapply
           </Button>
-        )}
+        </NextLink>
+      ) : status === submissionStatusEnum.Vouching && isSelf ? (
+        <WithdrawButton
+          sx={{
+            marginY: 1,
+            width: "100%",
+          }}
+        />
+      ) : null}
     </>
   );
 }

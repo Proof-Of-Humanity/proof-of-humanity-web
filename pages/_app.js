@@ -212,7 +212,7 @@ function capitalize(string) {
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const { network: networkFromQuery = "mainnet" } = useMemo(
+  const { network: networkFromQuery = network } = useMemo(
     () => wrapConnection.parseAsPath(router.asPath).query,
     [router.asPath]
   );
