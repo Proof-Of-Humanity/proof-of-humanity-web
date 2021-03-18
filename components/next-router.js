@@ -4,6 +4,8 @@ import { match } from "path-to-regexp";
 
 import Link from "./link";
 
+const defaultNetwork = process.env.NEXT_PUBLIC_NETWORK;
+
 export function NextLink({ passHref = true, href, as, ...rest }) {
   const { query } = useRouter();
   return (
@@ -21,14 +23,13 @@ export function NextLink({ passHref = true, href, as, ...rest }) {
 
 export function NextETHLink({ address, children, ...rest }) {
   const router = useRouter();
+
+  const network = router.query?.network ?? defaultNetwork;
+  const prefix = network === "mainnet" ? "" : `${network}.`;
   return (
     <Link
       newTab
-      href={`https://${
-        router?.query?.network && router?.query?.network === "mainnet"
-          ? ""
-          : `${router.query.network}.`
-      }etherscan.io/address/${address}`}
+      href={`https://${prefix}etherscan.io/address/${address}`}
       {...rest}
     >
       {children}

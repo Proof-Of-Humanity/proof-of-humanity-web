@@ -1,6 +1,5 @@
 ## 1.0.0-beta.4 (2021-03-18)
 
-- feat: add withdraw button and close #128 ([52ed058](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/52ed058)), closes [#128](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/128)
 - fix: add webcam back without mirroring ([1085e47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1085e47))
 - fix: broken etherscan link ([05394af](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/05394af))
 - fix: broken/outdated links ([268a4ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/268a4ee))
@@ -20,6 +19,8 @@
 - fix: sanitize photo and video names before uploading ([fa3754c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fa3754c))
 - fix: undefined tolowercase ([b2fe9d1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b2fe9d1))
 - fix: update ubi abi to latest version ([740c0a7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/740c0a7))
+- fix(next-router): fixes #108 ([b8ea84e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b8ea84e)), closes [#108](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/108)
+- feat: add withdraw button and close #128 ([52ed058](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/52ed058)), closes [#128](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/128)
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
 - chore: add escrow widget callbacks ([0016051](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0016051))
