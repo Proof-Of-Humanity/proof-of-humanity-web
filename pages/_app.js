@@ -2,6 +2,7 @@ import {
   ArchonProvider,
   Box,
   Flex,
+  HelpPopup,
   Layout,
   Link,
   List,
@@ -11,6 +12,7 @@ import {
   SocialIcons,
   Text,
   ThemeProvider,
+  WalletConnection,
   Web3Provider,
   AccountSettingsPopup as _AccountSettingsPopup,
   createWrapConnection,
@@ -101,6 +103,11 @@ const normalizeSettings = ({ email, ...rest }) => ({
     return acc;
   }, {}),
 });
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 function AccountSettingsPopup() {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { props } = useQuery(
@@ -110,9 +117,11 @@ function AccountSettingsPopup() {
   );
   const evidenceURI = props?.submission?.requests[0].evidence[0].URI;
   const getEvidenceFile = useEvidenceFile();
+
   return (
     <_AccountSettingsPopup
       name={evidenceURI && getEvidenceFile(evidenceURI)?.file?.name}
+      photo={evidenceURI && getEvidenceFile(evidenceURI)?.file?.photo}
       userSettingsURL="https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/user-settings"
       settings={settings}
       parseSettings={parseSettings}
@@ -120,6 +129,7 @@ function AccountSettingsPopup() {
     />
   );
 }
+
 const header = {
   sx: {
     flexWrap: "wrap",
@@ -176,7 +186,51 @@ const header = {
       </ListItem>
     </List>
   ),
-  right: <AccountSettingsPopup />,
+  right: (
+    <Flex
+      sx={{
+        alignItems: "center",
+        gap: ["16px", "8px", 0],
+
+        "> button": {
+          cursor: "pointer",
+          padding: [0, "4px", "8px"],
+
+          ":hover, :focus": {
+            opacity: 0.8,
+          },
+
+          "> svg": {
+            fill: "white",
+          },
+        },
+      }}
+    >
+      <WalletConnection
+        buttonProps={{
+          sx: {
+            background: "background",
+            backgroundImage: "none !important",
+            color: "accent",
+            boxShadow: "none !important",
+            fontSize: [16, 12],
+            px: "16px !important",
+            py: "8px !important",
+            mx: [0, "4px", "8px"],
+          },
+        }}
+        tagProps={{
+          sx: {
+            opacity: 0.8,
+            fontSize: [20, 16, 12],
+            mx: [0, "4px", "8px"],
+          },
+        }}
+      />
+      <AccountSettingsPopup />
+      <HelpPopup />
+    </Flex>
+  ),
 };
 const footer = {
   sx: {
@@ -201,14 +255,10 @@ const footer = {
       Learn More
     </Link>
   ),
-  right: <SocialIcons />,
+  right: <SocialIcons color="#ffffff" />,
 };
 
 const AnimatedBox = animated(Box);
-
-function capitalize(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();

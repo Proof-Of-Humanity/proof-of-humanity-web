@@ -39,7 +39,7 @@ export default function SubmissionFilters({
         }}
       />
       <Select
-        sx={{ marginLeft: 1, width: 240 }}
+        sx={{ marginLeft: 1, width: 240, button: { textAlign: "left" } }}
         items={submissionStatusEnum.array}
         onChange={(submissionStatus) => {
           const query = { ...router.query };

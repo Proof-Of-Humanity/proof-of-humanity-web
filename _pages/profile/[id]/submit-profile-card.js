@@ -444,14 +444,13 @@ export default function SubmitProfileCard({
               disabled={isSubmitting}
               sx={{
                 width: "120px",
-                textAlign: "center",
               }}
             >
               Submit
             </Button>
             <Button
               type="reset"
-              variant="secondary"
+              variant="outlined"
               disabled={isSubmitting}
               sx={{
                 marginLeft: "1rem",

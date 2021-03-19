@@ -1,4 +1,6 @@
 export { default as Blog } from "./blog";
+export { default as Book } from "./book";
+export { default as Bug } from "./bug";
 export { default as Camera } from "./camera";
 export { default as Check } from "./check";
 export { default as Dot } from "./dot";
@@ -8,6 +10,7 @@ export { default as EtherscanLogo } from "./etherscan-logo";
 export { default as Expired } from "./expired";
 export { default as File } from "./file";
 export { default as Github } from "./github";
+export { default as Help } from "./help";
 export { default as Info } from "./info";
 export { default as LinkedIn } from "./linked-in";
 export { default as Pending } from "./pending";

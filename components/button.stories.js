@@ -24,7 +24,7 @@ const metadata = {
       defaultValue: "primary",
       control: {
         type: "radio",
-        options: ["primary", "secondary", "select"],
+        options: ["primary", "secondary", "outlined", "select"],
       },
     },
     sx: {
@@ -127,3 +127,6 @@ Secondary.args = { variant: "secondary", children: "Click Me" };
 
 export const Select = Template.bind();
 Select.args = { variant: "select", children: "Click Me" };
+
+export const Outlined = Template.bind();
+Outlined.args = { variant: "outlined", children: "Click Me" };

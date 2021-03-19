@@ -77,11 +77,17 @@ export default function ProfileWithID() {
           />
           Profile Status
         </Text>
-        <Text>
+        <Text
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
           {status && (
             <>
               {status.startCase}
-              {isExpired && " (Expired)"}{" "}
+              {isExpired && " (Expired)"}
               <status.Icon
                 sx={{
                   path: { fill: "text" },
