@@ -435,7 +435,7 @@ export default function SubmitProfileCard({
               mainSx={{ padding: 0 }}
             >
               <Link newTab href={metaEvidence?.fileURI}>
-                <Text>{metaEvidence && "Primary Document"}</Text>
+                <Text>{metaEvidence && "Registration Rules"}</Text>
               </Link>
             </Card>
             <Button
