@@ -2,6 +2,7 @@
 
 - feat: add withdraw button and close #128 ([52ed058](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/52ed058)), closes [#128](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/128)
 - feat: added privacy warning on profile submission form [fix #119](<[9e0e049](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9e0e049)>), closes [#119](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/119)
+- feat: introduced help menu in top navbar ([cb8d621](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cb8d621))
 - feat/mainnet-launch (#91) ([f6810a6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f6810a6)), closes [#91](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/91)
 - fix/seed-preparation (#92) ([12b384a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/12b384a)), closes [#92](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/92)
 - Update CONTRIBUTING.md ([28caaf5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/28caaf5))

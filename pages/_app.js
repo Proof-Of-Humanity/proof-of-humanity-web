@@ -198,6 +198,7 @@ const header = {
 
           ":hover, :focus": {
             opacity: 0.8,
+            outline: "none",
           },
 
           "> svg": {
