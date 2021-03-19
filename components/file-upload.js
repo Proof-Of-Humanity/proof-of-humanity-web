@@ -151,8 +151,10 @@ export default function FileUpload({
               >
                 {file.type.startsWith("video") ? (
                   <Video variant="thumbnail" url={file.preview} />
-                ) : (
+                ) : file.type.startsWith("image") ? (
                   <Image variant="thumbnail" src={file.preview} />
+                ) : (
+                  <Text>{file.name}</Text>
                 )}
                 <Trash
                   sx={{
