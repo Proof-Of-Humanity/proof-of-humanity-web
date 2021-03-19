@@ -198,6 +198,7 @@ const header = {
 
           ":hover, :focus": {
             opacity: 0.8,
+            outline: "none",
           },
 
           "> svg": {
@@ -209,7 +210,7 @@ const header = {
       <WalletConnection
         buttonProps={{
           sx: {
-            background: "background",
+            backgroundColor: "white",
             backgroundImage: "none !important",
             color: "accent",
             boxShadow: "none !important",
