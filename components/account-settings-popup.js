@@ -1,10 +1,11 @@
-import { Dot, Settings } from "@kleros/icons";
-import { animated, useSpring } from "react-spring";
-import { Box, Flex } from "theme-ui";
+import { Settings } from "@kleros/icons";
+import { Box, Flex, IconButton } from "theme-ui";
 
 import Button from "./button";
 import Divider from "./divider";
 import Identicon from "./identicon";
+import Image from "./image";
+import NetworkTag from "./network-tag";
 import { NextETHLink } from "./next-router";
 import Popup from "./popup";
 import Tabs, { Tab, TabList, TabPanel } from "./tabs";
@@ -12,46 +13,23 @@ import Text from "./text";
 import UserSettings from "./user-settings";
 import { useWeb3 } from "./web3-provider";
 
-const AnimatedSettings = animated(Settings);
 export default function AccountSettingsPopup({
   name,
+  photo,
   userSettingsURL,
   settings,
   parseSettings,
   normalizeSettings,
 }) {
-  const [animatedSettingsStyle, setAnimatedSettingsStyle] = useSpring(() => ({
-    rotate: 0,
-  }));
   const [accounts] = useWeb3("eth", "getAccounts");
-  const { web3, connect } = useWeb3();
+  const { connect } = useWeb3();
   return (
     <Popup
-      contentStyle={{ width: 320 }}
+      contentStyle={{ width: 490 }}
       trigger={
-        <Button
-          variant="secondary"
-          sx={{
-            backgroundColor: "background",
-            borderColor: "background",
-            color: "accent",
-            ":focus,&.active": {
-              color: "accent",
-            },
-          }}
-          onMouseEnter={() => setAnimatedSettingsStyle({ rotate: 90 })}
-          onMouseLeave={() => setAnimatedSettingsStyle({ rotate: 0 })}
-        >
-          Account{" "}
-          <AnimatedSettings
-            style={{
-              transform: animatedSettingsStyle.rotate.interpolate(
-                (rotate) => `rotate(${rotate}deg)`
-              ),
-            }}
-            sx={{ marginLeft: 1, path: { fill: "accent" } }}
-          />
-        </Button>
+        <IconButton>
+          <Settings size="auto" />
+        </IconButton>
       }
       position="bottom right"
     >
@@ -87,7 +65,19 @@ export default function AccountSettingsPopup({
                   "Connected to Infura"
                 ) : (
                   <Flex sx={{ alignItems: "center" }}>
-                    <Identicon address={accounts[0]} />
+                    {photo ? (
+                      <Image
+                        sx={{
+                          objectFit: "contain",
+                          width: 32,
+                          height: 32,
+                        }}
+                        variant="avatar"
+                        src={photo}
+                      />
+                    ) : (
+                      <Identicon address={accounts[0]} />
+                    )}
                     <Box sx={{ marginLeft: 1 }}>
                       {name && (
                         <Text sx={{ fontSize: 1, marginBottom: 1 }}>
@@ -101,17 +91,7 @@ export default function AccountSettingsPopup({
                   </Flex>
                 ))}
             </Text>
-            <Text
-              sx={{
-                color: "success",
-                fontSize: 1,
-                fontWeight: "bold",
-                marginBottom: 1,
-                textAlign: "center",
-              }}
-            >
-              <Dot size={8} /> {web3.ETHNet?.name}
-            </Text>
+            <NetworkTag sx={{ mb: 1 }} />
             <Divider />
             <Button
               sx={{

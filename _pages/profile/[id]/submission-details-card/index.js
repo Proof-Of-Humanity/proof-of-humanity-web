@@ -244,15 +244,25 @@ export default function SubmissionDetailsCard({
         </Box>
       </Flex>
       <Box sx={{ flex: 1, padding: 4 }}>
-        <Box>
+        <Flex sx={{ alignItems: "center", gap: 8 }}>
           <User />{" "}
           <Text as="span" sx={{ fontWeight: "bold" }}>
             {evidence?.file &&
               `${evidence.file.firstName} ${evidence.file.lastName}`}
           </Text>
-        </Box>
-        <Text variant="clipped" sx={{ fontWeight: "bold", marginBottom: 2 }}>
-          <Ether /> <NextETHLink address={id}>{id}</NextETHLink>
+        </Flex>
+        <Text
+          variant="clipped"
+          sx={{
+            fontWeight: "bold",
+            marginBottom: 2,
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+          }}
+        >
+          <Ether sx={{ fill: "text" }} />{" "}
+          <NextETHLink address={id}>{id}</NextETHLink>
         </Text>
         <Video url={evidence?.file?.video} />
         <UBICard submissionID={id} />

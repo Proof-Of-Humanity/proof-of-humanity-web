@@ -29,7 +29,9 @@ const Button = forwardRef(
         variant={variant}
         sx={{
           backgroundImage({ colors: { primary, secondary } }) {
-            return `linear-gradient(90deg, ${primary} 0%, ${secondary} 100%)`;
+            return variant === "primary"
+              ? `linear-gradient(90deg, ${primary} 0%, ${secondary} 100%)`
+              : undefined;
           },
           position: "relative",
           ":focus": {
@@ -37,6 +39,7 @@ const Button = forwardRef(
               return `0 0 1px ${text}`;
             },
           },
+          cursor: disabled ? "not-alowed" : "pointer",
           ...sx,
         }}
         type={type}
@@ -44,21 +47,22 @@ const Button = forwardRef(
         data-loading={loading}
         {...rest}
       >
-        <Text
-          ref={innerRef}
-          id={id && `${id}-text`}
-          variant={`buttons.${variant}`}
-          sx={{
-            alignItems: "center",
-            display: "flex",
-          }}
-        >
-          {children}
-          {loading && (
-            <Box variant={`buttons.${variant}.spinner`}>
-              <MoonLoader size={16} />
-            </Box>
-          )}
+        <Text ref={innerRef} id={id && `${id}-text`}>
+          <Box
+            as="span"
+            sx={{
+              display: "inline-flex",
+              alignItems: "center",
+              textAlign: "center",
+            }}
+          >
+            {children}
+            {loading && (
+              <Box variant={`buttons.${variant}.spinner`}>
+                <MoonLoader size={16} />
+              </Box>
+            )}
+          </Box>
         </Text>
         <Box
           as={ReactRipples}

@@ -101,6 +101,21 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
         fontWeight: "bold",
       },
     },
+    warning: {
+      borderColor: "warning",
+      borderRadius: 3,
+      borderStyle: "solid",
+      borderWidth: 1,
+      padding: 2,
+      icon: {
+        stroke: "warning",
+        path: { fill: "warning" },
+      },
+      title: {
+        color: "warning",
+        fontWeight: "bold",
+      },
+    },
   },
   buttons: {
     primary: {
@@ -125,6 +140,33 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
         },
       },
       svg: { fill: "background" },
+    },
+    outlined: {
+      borderRadius: 300,
+      border: "1px solid currentColor",
+      color: "primary",
+      backgroundColor: "transparent",
+      backgroundImage: "none !important",
+      fontSize: 1,
+      paddingX: 2,
+      paddingY: 1,
+      ":disabled:not([data-loading=true])": {
+        backgroundColor: "transparent",
+        backgroundImage: "none !important",
+      },
+      ":hover": {
+        opacity: 0.8,
+      },
+      ":focus": {
+        outline: "none",
+      },
+      spinner: {
+        "div > div": {
+          backgroundColor: "transparent",
+          borderColor: "primary",
+        },
+      },
+      svg: { fill: "primary" },
     },
     secondary: {
       backgroundColor: "transparent",

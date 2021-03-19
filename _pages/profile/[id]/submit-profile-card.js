@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Card,
@@ -264,26 +265,42 @@ export default function SubmitProfileCard({
       >
         {({ isSubmitting }) => (
           <>
+            <Alert type="warning" title="PRIVACY WARNING" sx={{ mb: 3 }}>
+              The Ethereum address you are using to submit your profile will be
+              publicly linked to your identity. If you don&rsquo;t want your
+              wallet holdings and transaction history to be linked to your
+              identity, we recommend using a new Ethereum address. To improve
+              your privacy, we recommend using an address which is already
+              public or a new one-seeded through{" "}
+              <Link
+                href="https://tornado.cash"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                tornado.cash
+              </Link>
+              .
+            </Alert>
             <Field
               name="name"
-              label="Name"
-              placeholder="The name you go by."
+              label="Display Name"
+              placeholder="The name you go by"
               readOnly={submissionName !== ""}
               info={
                 submissionName !== ""
-                  ? "You have set your name previously, so it cannot be changed"
+                  ? "You have set your display name previously, so it cannot be changed"
                   : ""
               }
             />
             <Field
               name="firstName"
               label="First Name"
-              placeholder="(In basic Latin.)"
+              placeholder="(In basic Latin)"
             />
             <Field
               name="lastName"
               label="Last Name"
-              placeholder="(In basic Latin.)"
+              placeholder="(In basic Latin)"
             />
             <Field as={Textarea} name="bio" label="Short Bio" />
             <Field
@@ -427,14 +444,13 @@ export default function SubmitProfileCard({
               disabled={isSubmitting}
               sx={{
                 width: "120px",
-                textAlign: "center",
               }}
             >
               Submit
             </Button>
             <Button
               type="reset"
-              variant="secondary"
+              variant="outlined"
               disabled={isSubmitting}
               sx={{
                 marginLeft: "1rem",

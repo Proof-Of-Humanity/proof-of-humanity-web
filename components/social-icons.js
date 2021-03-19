@@ -8,6 +8,7 @@ export default function SocialIcons({
   blog = true,
   linkedIn = true,
   telegram = true,
+  color = "#ffffff",
   sx,
 }) {
   return (
@@ -18,7 +19,7 @@ export default function SocialIcons({
           newTab
           href="https://twitter.com/Kleros_io"
         >
-          <Twitter />
+          <Twitter sx={{ fill: color }} />
         </Link>
       )}
       {github && (
@@ -27,7 +28,7 @@ export default function SocialIcons({
           newTab
           href="https://github.com/kleros"
         >
-          <Github />
+          <Github sx={{ fill: color }} />
         </Link>
       )}
       {blog && (
@@ -36,7 +37,7 @@ export default function SocialIcons({
           newTab
           href="https://blog.kleros.io"
         >
-          <Blog />
+          <Blog sx={{ fill: color }} />
         </Link>
       )}
       {linkedIn && (
@@ -45,12 +46,12 @@ export default function SocialIcons({
           newTab
           href="https://www.linkedin.com/company/kleros"
         >
-          <LinkedIn />
+          <LinkedIn sx={{ fill: color }} />
         </Link>
       )}
       {telegram && (
         <Link sx={{ marginX: "6px", ...sx }} newTab href="https://t.me/kleros">
-          <Telegram />
+          <Telegram sx={{ fill: color }} />
         </Link>
       )}
     </>

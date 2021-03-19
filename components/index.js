@@ -7,6 +7,7 @@ export {
   AccordionItemPanel,
 } from "./accordion";
 export { default as AccountSettingsPopup } from "./account-settings-popup";
+export { default as Alert } from "./alert";
 export { default as Appeal } from "./appeal";
 export {
   default as ArchonProvider,
@@ -20,6 +21,7 @@ export { default as FileUpload } from "./file-upload";
 export { default as Form, Field } from "./form";
 export { default as FundButton } from "./fund-button";
 export { default as Grid } from "./grid";
+export { default as HelpPopup } from "./help-popup";
 export { default as Image } from "./image";
 export { default as InitializeColorMode } from "./initialize-color-mode";
 export { default as Input } from "./input";
@@ -47,6 +49,7 @@ export {
 export { default as TimeAgo } from "./time-ago";
 export { default as Video } from "./video";
 export { default as VotingHistory } from "./voting-history";
+export { default as WalletConnection } from "./wallet-connection";
 export { default as Web3Provider, useWeb3, useContract } from "./web3-provider";
 
 export { NextLink, NextETHLink, createWrapConnection } from "./next-router";

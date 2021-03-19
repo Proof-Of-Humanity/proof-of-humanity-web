@@ -4,11 +4,17 @@
 
 ### Getting started
 
-1. Clone/fork this repo:
+0. Clone/fork this repo:
 
    ```bash
    git clone https://github.com/proof-Of-Humanity/proof-Of-Humanity-web/
    ```
+
+1. Install the dependencies:
+
+    ```bash
+    npm install
+    ```
 
 2. Copy the `.env.example` file into `.env.local` and set the appropriate values:
 
