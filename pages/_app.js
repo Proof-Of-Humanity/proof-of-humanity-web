@@ -210,7 +210,7 @@ const header = {
       <WalletConnection
         buttonProps={{
           sx: {
-            background: "background",
+            backgroundColor: "white",
             backgroundImage: "none !important",
             color: "accent",
             boxShadow: "none !important",

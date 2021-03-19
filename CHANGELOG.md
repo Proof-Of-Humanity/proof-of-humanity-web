@@ -1,5 +1,8 @@
 ## 1.0.0-beta.4 (2021-03-19)
 
+- style: fixed Chrome black outline for buttons on top navbar ([f44df36](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f44df36))
+- style: fixed connect button background color ([7bfabdb](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7bfabdb))
+- style: made submit button width fixed ([0093a85](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0093a85))
 - feat: add withdraw button and close #128 ([52ed058](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/52ed058)), closes [#128](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/128)
 - feat: added privacy warning on profile submission form [fix #119](<[9e0e049](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9e0e049)>), closes [#119](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/119)
 - feat: introduced help menu in top navbar ([cb8d621](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cb8d621))
@@ -12,7 +15,6 @@
 - refactor: made scripts responsive to the environment ([86d2b65](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/86d2b65))
 - refactor: removed webcam button from video and photo upload (#104) ([1352cb5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1352cb5)), closes [#104](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/104)
 - refactor(next-router): pick network from env var as a default for safety ([cb7b64b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cb7b64b))
-- style: made submit button width fixed ([0093a85](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0093a85))
 - fix: add webcam back without mirroring ([1085e47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1085e47))
 - fix: broken etherscan link ([05394af](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/05394af))
 - fix: broken/outdated links ([268a4ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/268a4ee))
