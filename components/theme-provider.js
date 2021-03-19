@@ -101,6 +101,21 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
         fontWeight: "bold",
       },
     },
+    warning: {
+      borderColor: "warning",
+      borderRadius: 3,
+      borderStyle: "solid",
+      borderWidth: 1,
+      padding: 2,
+      icon: {
+        stroke: "warning",
+        path: { fill: "warning" },
+      },
+      title: {
+        color: "warning",
+        fontWeight: "bold",
+      },
+    },
   },
   buttons: {
     primary: {

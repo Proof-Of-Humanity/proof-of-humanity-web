@@ -37,6 +37,7 @@ const Button = forwardRef(
               return `0 0 1px ${text}`;
             },
           },
+          cursor: disabled ? "not-alowed" : "pointer",
           ...sx,
         }}
         type={type}
@@ -49,6 +50,7 @@ const Button = forwardRef(
           id={id && `${id}-text`}
           variant={`buttons.${variant}`}
           sx={{
+            textAlign: "center",
             alignItems: "center",
             display: "flex",
           }}

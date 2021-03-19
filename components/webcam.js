@@ -103,7 +103,7 @@ export default function Webcam({
                   }
 
                   const renderFrame = () => {
-                    if (ref.current.recording) {
+                    if (ref.current?.recording) {
                       ref.current.ctx.drawImage(
                         ref.current.video,
                         0,
@@ -117,7 +117,7 @@ export default function Webcam({
                   requestAnimationFrame(renderFrame);
 
                   const stream = ref.current.canvas.captureStream();
-                  ref.current.stream
+                  ref.current?.stream
                     .getAudioTracks()
                     .forEach((track) => stream.addTrack(track));
                   mediaRecorderRef.current = new MediaRecorder(stream, {

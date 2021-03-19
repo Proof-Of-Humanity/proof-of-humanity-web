@@ -31,6 +31,7 @@ export function TabList({ sx, ...rest }) {
       <Box
         as={_TabList}
         sx={{
+          cursor: "pointer",
           display: "flex",
           listStyle: "none",
           variant: "tabs.tabList",

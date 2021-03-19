@@ -1,14 +1,15 @@
-import { Info } from "@kleros/icons";
+import { Info, Warning } from "@kleros/icons";
 import { Box, Flex } from "theme-ui";
 
 import Text from "./text";
 
-export default function Alert({ type = "info", title, children }) {
-  const Icon = { info: Info }[type];
+export default function Alert({ type = "info", title, children, sx, ...rest }) {
+  const Icon = { info: Info, warning: Warning }[type];
   return (
     <Flex
       variant={`alert.${type}`}
-      sx={{ alignItems: "center", backgroundColor: "background" }}
+      sx={{ ...sx, alignItems: "center", backgroundColor: "background" }}
+      {...rest}
     >
       <Icon variant={`alert.${type}.icon`} size={24} />
       <Box sx={{ marginLeft: 2 }}>

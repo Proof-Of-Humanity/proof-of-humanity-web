@@ -212,10 +212,11 @@ function capitalize(string) {
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const { network: networkFromQuery = network } = useMemo(
-    () => wrapConnection.parseAsPath(router.asPath).query,
-    [router.asPath]
-  );
+  const query = useMemo(() => wrapConnection.parseAsPath(router.asPath).query, [
+    router.asPath,
+  ]);
+
+  const networkFromQuery = query?.network ?? network;
 
   const [routeChangeConnection, setRouteChangeConnection] = useState();
   const connectToRouteChange = useCallback((connection) => {
@@ -233,12 +234,13 @@ export default function App({ Component, pageProps }) {
   const onNetworkChange = useCallback(
     ({ name: _network }) => {
       if (router.query.network !== _network) {
-        const query = new URLSearchParams(location.search);
-        if (!_network) query.delete("network");
-        else query.set("network", _network);
+        const searchParameters = new URLSearchParams(location.search);
+        if (!_network) searchParameters.delete("network");
+        else searchParameters.set("network", _network);
+
         router.replace({
           pathname: location.pathname,
-          query: query.toString(),
+          query: searchParameters.toString(),
         });
       }
     },
