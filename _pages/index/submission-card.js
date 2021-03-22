@@ -86,12 +86,12 @@ export default function SubmissionCard({ submission, contract }) {
           }}
         >
           {evidence instanceof Error
-            ? "Tampered Data, Reject"
+            ? "We are doing some maintenance work and will be online again soon."
             : evidence?.file?.name &&
               (name.replaceAll(/[^\s\w]/g, "") ===
               evidence.file.name.replaceAll(/[^\s\w]/g, "")
                 ? evidence.file.name
-                : "Tampered Data, Reject")}
+                : "We are doing some maintenance work and will be online again soon.")}
         </Text>
         <Text
           variant="multiClipped"
