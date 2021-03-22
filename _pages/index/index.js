@@ -34,6 +34,11 @@ export default function Index() {
     if (!isLastPage && !hasMore) setNumberOfPages(page);
   }, [isLastPage, hasMore, page]);
   return (
+    <div style={{ textAlign: "center" }}>
+      We are doing some maintenance work and will be online again soon.
+    </div>
+  );
+  return (
     <>
       <SubmissionFilters
         numberOfSubmissions={submissionCounter}
