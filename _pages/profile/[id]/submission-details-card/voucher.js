@@ -28,12 +28,12 @@ export default function Voucher({ submission }) {
   const evidence = useEvidenceFile()(request.evidence[0].URI);
   const name =
     evidence instanceof Error
-      ? "Tampered Data, Reject"
+      ? "We are doing some maintenance work and will be online again soon."
       : evidence?.file?.name &&
         (_name.replaceAll(/[^\s\w]/g, "") ===
         evidence.file.name.replaceAll(/[^\s\w]/g, "")
           ? evidence.file.name
-          : "Tampered Data, Reject");
+          : "We are doing some maintenance work and will be online again soon.");
   return (
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
       <Link
