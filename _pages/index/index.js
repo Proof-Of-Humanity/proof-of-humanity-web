@@ -21,14 +21,16 @@ export default function Index() {
   );
 
   const submissions = router.query.search
-    ? props?.startsWith.concat(
-        props?.endsWith.filter(
-          (endsW) =>
-            props?.startsWith &&
-            props?.startsWith.filter((startsW) => startsW.id === endsW.id)
-              .length === 0
+    ? props?.startsWith
+        .concat(
+          props?.endsWith.filter(
+            (endsW) =>
+              props?.startsWith &&
+              props?.startsWith.filter((startsW) => startsW.id === endsW.id)
+                .length === 0
+          )
         )
-      )
+        .concat(props?.byAddress)
     : props?.submissions?.slice(0, pageSize);
 
   const [numberOfPages, setNumberOfPages] = useState(
@@ -86,6 +88,7 @@ export const indexQuery = graphql`
     $first: Int = 9
     $where: Submission_filter
     $search: String = ""
+    $address: ID
   ) {
     contract(id: 0) {
       ...submissionCardContract
@@ -105,6 +108,10 @@ export const indexQuery = graphql`
       ...submissionCardSubmission
     }
     endsWith: submissions(where: { name_ends_with: $search }) {
+      id
+      ...submissionCardSubmission
+    }
+    byAddress: submissions(where: { id: $address }) {
       id
       ...submissionCardSubmission
     }
