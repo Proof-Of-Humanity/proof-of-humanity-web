@@ -98,6 +98,7 @@ export const createWrapConnection = (queries, queryEnums) => {
       }
     }
 
+    if (query.search) query.address = query.search;
     return { path, query };
   };
 

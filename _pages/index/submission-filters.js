@@ -25,8 +25,8 @@ export default function SubmissionFilters({
     >
       <Input
         variant="mutedInput"
-        aria-label="Search"
-        placeholder="Search"
+        aria-label="Search (case sensitive)"
+        placeholder="Search (case sensitive)"
         icon={<Search />}
         value={router.query.search?.replaceAll(" & ", " ") || ""}
         onChange={(event) => {
