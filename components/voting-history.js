@@ -28,7 +28,7 @@ const {
     );
     const metaEvidence = await getMetaEvidence(
       arbitrableContractAddress,
-      metaEvidenceID,
+      disputeID === String(560) ? String(2) : metaEvidenceID,
       {
         scriptParameters: {
           arbitrableContractAddress,
