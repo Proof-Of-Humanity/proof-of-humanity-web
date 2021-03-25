@@ -96,7 +96,7 @@ function DuplicateInput({ submissionID, setDuplicate }) {
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
-      <Text>{message}</Text>
+      {message && <Text>{message}</Text>}
       {isValidAddress && (
         <NextLink href="/profile/[id]" as={`/profile/${value}`}>
           <Link newTab>See Profile</Link>
