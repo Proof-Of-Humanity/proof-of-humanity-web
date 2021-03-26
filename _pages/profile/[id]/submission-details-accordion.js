@@ -40,7 +40,7 @@ const submissionDetailsAccordionFragments = {
           challenger
           rounds(
             orderBy: creationTime
-            orderDirection: desc
+            orderDirection: asc
             first: 1
             skip: 1
           ) {

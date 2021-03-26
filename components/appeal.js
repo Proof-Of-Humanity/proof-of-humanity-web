@@ -89,26 +89,24 @@ function AppealTabPanelCard({
           `If this side wins, you get back your contribution and a ${reward}%
         reward.`}
       </Alert>
+      {!hasPaid &&
+        cost &&
+        deadline &&
+        !deadline.eq(web3.utils.toBN(0)) &&
+        deadline.gt(web3.utils.toBN(Math.floor(Date.now() / 1000))) && (
+          <FundButton
+            totalCost={cost}
+            totalContribution={totalContribution}
+            contract={contract}
+            method="fundAppeal"
+            args={args}
+          >
+            Contribute
+          </FundButton>
+        )}
     </Card>
   );
-  if (
-    !hasPaid &&
-    cost &&
-    deadline &&
-    !deadline.eq(web3.utils.toBN(0)) &&
-    deadline.lt(web3.utils.toBN(Math.floor(Date.now() / 1000)))
-  )
-    return (
-      <FundButton
-        totalCost={cost}
-        totalContribution={totalContribution}
-        contract={contract}
-        method="fundAppeal"
-        args={args}
-      >
-        {card}
-      </FundButton>
-    );
+
   return card;
 }
 function AppealTabPanel({
@@ -121,7 +119,6 @@ function AppealTabPanel({
     parties: [party1, party2],
     rounds: [{ paidFees, hasPaid }],
     id,
-    roundsLength,
   },
   arbitratorExtraData,
   contract,
@@ -203,11 +200,6 @@ function AppealTabPanel({
         <AppealTabPanelCard
           address={party1}
           {...[undecided, winner, loser][currentRuling]}
-          {...(Number(roundsLength) === 2 && {
-            label: "First round.",
-            cost: web3.utils.toBN(paidFees[1]),
-            reward: " ",
-          })}
           paidFees={paidFees[1]}
           hasPaid={hasPaid[0]}
           contract={contract}
@@ -216,11 +208,6 @@ function AppealTabPanel({
         <AppealTabPanelCard
           address={party2}
           {...[undecided, loser, winner][currentRuling]}
-          {...(Number(roundsLength) === 2 && {
-            label: "First round.",
-            cost: web3.utils.toBN(paidFees[2]),
-            reward: " ",
-          })}
           paidFees={paidFees[2]}
           hasPaid={hasPaid[1]}
           contract={contract}

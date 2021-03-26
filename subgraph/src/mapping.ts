@@ -185,7 +185,7 @@ function requestStatusChange(
   let round = new Round(roundID.toHexString());
   round.creationTime = time;
   round.challenge = challenge.id;
-  round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0)];
+  round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
   round.hasPaid = [false, false];
   round.feeRewards = BigInt.fromI32(0);
   round.save();
@@ -318,7 +318,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     );
     round.creationTime = call.block.timestamp;
     round.challenge = challenge.id;
-    round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0)];
+    round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
     round.hasPaid = [false, false];
     round.feeRewards = BigInt.fromI32(0);
     round.save();
@@ -679,7 +679,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   );
   round.creationTime = call.block.timestamp;
   round.challenge = challenge.id;
-  round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0)];
+  round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
   round.hasPaid = [false, false];
   round.feeRewards = BigInt.fromI32(0);
   round.save();
@@ -745,7 +745,7 @@ export function fundAppeal(call: FundAppealCall): void {
     );
     round.creationTime = call.block.timestamp;
     round.challenge = challenge.id;
-    round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0)];
+    round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
     round.hasPaid = [false, false];
     round.feeRewards = BigInt.fromI32(0);
     round.save();
