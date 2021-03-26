@@ -115,6 +115,7 @@ function AppealTabPanel({
   loserStakeMultiplier,
   arbitrator,
   challenge: {
+    challengeID,
     disputeID,
     parties: [party1, party2],
     rounds: [{ paidFees, hasPaid }],
@@ -203,7 +204,7 @@ function AppealTabPanel({
           paidFees={paidFees[1]}
           hasPaid={hasPaid[0]}
           contract={contract}
-          args={[...args, id, 1]}
+          args={[...args, challengeID, 1]}
         />
         <AppealTabPanelCard
           address={party2}

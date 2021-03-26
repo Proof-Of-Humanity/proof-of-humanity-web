@@ -1,6 +1,7 @@
 ## 1.0.0-beta.4 (2021-03-26)
 
 - fix: add webcam back without mirroring ([1085e47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1085e47))
+- fix: appeal crowdfunding and close #160 ([ba942c7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba942c7)), closes [#160](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/160)
 - fix: broken etherscan link ([05394af](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/05394af))
 - fix: broken/outdated links ([268a4ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/268a4ee))
 - fix: clarify renewal period availability ([9d31e5c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9d31e5c))

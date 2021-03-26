@@ -176,6 +176,7 @@ function requestStatusChange(
   let challenge = new Challenge(challengeID.toHexString());
   challenge.creationTime = time;
   challenge.request = request.id;
+  challenge.challengeID = BigInt.fromI32(0);
   challenge.roundsLength = BigInt.fromI32(1);
   challenge.save();
 
@@ -306,6 +307,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
       concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
     );
     let challenge = new Challenge(challengeID.toHexString());
+    challenge.challengeID = BigInt.fromI32(0);
     challenge.creationTime = call.block.timestamp;
     challenge.request = request.id;
     challenge.roundsLength = BigInt.fromI32(1);
@@ -655,6 +657,12 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     challenge = new Challenge(challengeID.toHexString());
     challenge.creationTime = call.block.timestamp;
     challenge.request = request.id;
+
+    let requestInfo = proofOfHumanity.getRequestInfo(
+      call.inputs._submissionID,
+      requestIndex
+    );
+    challenge.challengeID = BigInt.fromI32(requestInfo.value6);
   }
   request.save();
 
