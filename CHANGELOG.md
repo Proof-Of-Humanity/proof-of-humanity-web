@@ -1,6 +1,7 @@
-## 1.0.0-beta.4 (2021-03-25)
+## 1.0.0-beta.4 (2021-03-26)
 
 - fix: add webcam back without mirroring ([1085e47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1085e47))
+- fix: appeal crowdfunding and close #160 ([ba942c7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba942c7)), closes [#160](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/160)
 - fix: broken etherscan link ([05394af](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/05394af))
 - fix: broken/outdated links ([268a4ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/268a4ee))
 - fix: clarify renewal period availability ([9d31e5c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9d31e5c))
@@ -22,6 +23,7 @@
 - fix: sanitize photo and video names before uploading ([fa3754c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fa3754c))
 - fix: undefined tolowercase ([b2fe9d1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b2fe9d1))
 - fix: update ubi abi to latest version ([740c0a7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/740c0a7))
+- fix: work around buggy meta evidence on pre-launch submission and close #560 ([6d2ee3f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6d2ee3f)), closes [#560](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/560)
 - fix(next-router): fixes #108 ([b8ea84e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b8ea84e)), closes [#108](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/108)
 - feat: add withdraw button and close #128 ([52ed058](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/52ed058)), closes [#128](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/128)
 - feat: added privacy warning on profile submission form [fix #119](<[9e0e049](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9e0e049)>), closes [#119](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/119)

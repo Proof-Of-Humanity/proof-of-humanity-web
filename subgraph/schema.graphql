@@ -320,6 +320,10 @@ type Challenge @entity {
   The challenge's number of rounds.
   """
   roundsLength: BigInt!
+  """
+  In-contract challenge ID
+  """
+  challengeID: BigInt!
 }
 
 type Round @entity {

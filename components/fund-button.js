@@ -53,6 +53,7 @@ export default function FundButton({
             sx={{
               marginBottom: 1,
               width: "100%",
+              marginTop: 2,
             }}
           >
             {children}

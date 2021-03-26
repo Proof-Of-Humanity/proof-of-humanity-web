@@ -27,6 +27,7 @@ const submissionDetailsAccordionFragments = {
         requester
         arbitrator
         arbitratorExtraData
+        id
         evidence(orderBy: creationTime, orderDirection: desc) {
           creationTime
           id
@@ -38,9 +39,10 @@ const submissionDetailsAccordionFragments = {
           reason
           disputeID
           challenger
+          challengeID
           rounds(
             orderBy: creationTime
-            orderDirection: desc
+            orderDirection: asc
             first: 1
             skip: 1
           ) {
@@ -87,6 +89,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
     loserStakeMultiplier,
   } = useFragment(submissionDetailsAccordionFragments.contract, contract);
   const { web3 } = useWeb3();
+
   return (
     <Accordion>
       <SubmissionDetailsAccordionItem
