@@ -21,7 +21,12 @@ export default function SubmissionFilters({
         </Text>
       }
       headerSx={{ fontWeight: "bold", justifyContent: "flex-end" }}
-      mainSx={{ paddingX: 2, paddingY: 1 }}
+      mainSx={{
+        paddingX: 2,
+        paddingY: 1,
+        display: "flex",
+        flexDirection: ["column", "row", "row", "row"],
+      }}
     >
       <Input
         variant="mutedInput"
@@ -39,7 +44,12 @@ export default function SubmissionFilters({
         }}
       />
       <Select
-        sx={{ marginLeft: 1, width: 240, button: { textAlign: "left" } }}
+        sx={{
+          marginLeft: 1,
+          width: 240,
+          button: { textAlign: "left" },
+          marginTop: [2, 0, 0, 0],
+        }}
         items={submissionStatusEnum.array}
         onChange={(submissionStatus) => {
           const query = { ...router.query };
