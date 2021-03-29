@@ -4,6 +4,7 @@ import {
   Flex,
   FundButton,
   Image,
+  Link,
   NextETHLink,
   Text,
   Video,
@@ -58,6 +59,7 @@ const submissionDetailsCardFragments = {
           URI
         }
         challenges(orderBy: creationTime, first: 1) {
+          disputeID
           rounds(orderBy: creationTime, first: 1) {
             contributions {
               values
@@ -99,6 +101,7 @@ export default function SubmissionDetailsCard({
     contract
   ));
   const status = submissionStatusEnum.parse({ ...rest, submissionDuration });
+  const { challenges } = request || {};
 
   const evidence = useEvidenceFile()(request.evidence[0].URI);
   const contributions = useMemo(
@@ -235,6 +238,21 @@ export default function SubmissionDetailsCard({
             </Text>
           </Box>
         </Flex>
+        {challenges?.length > 0 && (
+          <Flex>
+            {challenges?.length > 1 ? "Disputes" : "Dispute"}
+            {challenges.map(({ disputeID }, i) => (
+              <Link
+                key={i}
+                newTab
+                href={`https://court.kleros.io/cases/${disputeID}`}
+                sx={{ marginLeft: 1 }}
+              >
+                # {disputeID}
+              </Link>
+            ))}
+          </Flex>
+        )}
         <Box sx={{ marginTop: "auto" }}>
           <Deadlines
             submission={submission}

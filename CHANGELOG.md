@@ -21,6 +21,7 @@
 - fix: permanent loading on ubi view ([572dd32](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/572dd32))
 - fix: prevent submission quota exceeded error ([3ceb3f0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3ceb3f0))
 - fix: remove support for avi and mov videos and decrease limit size (#95) ([83253f1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/83253f1)), closes [#95](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/95)
+- fix: remove unreliable components ([aba821c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/aba821c))
 - fix: remove useless loading indicator and close #154 ([7c4c84d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7c4c84d)), closes [#154](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/154)
 - fix: sanitize photo and video names before uploading ([fa3754c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fa3754c))
 - fix: undefined tolowercase ([b2fe9d1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b2fe9d1))
