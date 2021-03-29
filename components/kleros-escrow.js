@@ -9,7 +9,10 @@ import { createWeb3, createWeb3FromModal } from "./web3-provider";
 export default class KlerosEscrow {
   constructor(
     web3,
-    archon = new Archon(web3.currentProvider, "https://ipfs.kleros.io")
+    archon = new Archon(
+      web3.currentProvider,
+      `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}`
+    )
   ) {
     this.web3 = web3;
     this.archon = archon;
@@ -79,7 +82,7 @@ export default class KlerosEscrow {
     if (typeof bufferOrJSON !== "string" && !Buffer.isBuffer(bufferOrJSON))
       bufferOrJSON = JSON.stringify(bufferOrJSON);
 
-    return fetch("https://ipfs.kleros.io/add", {
+    return fetch(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

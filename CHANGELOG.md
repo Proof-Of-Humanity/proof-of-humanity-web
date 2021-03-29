@@ -17,6 +17,7 @@
 - fix: improved labels for video and photo upload (#99) ([f56f54b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f56f54b)), closes [#99](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/99)
 - fix: increase file size limit ([a9c3961](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a9c3961))
 - fix: make search box responsive and close #148 ([52726ef](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/52726ef)), closes [#148](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/148)
+- fix: move ipfs gateway to env variable ([c959a24](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c959a24))
 - fix: outdated link and close #105 ([7c1669a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7c1669a)), closes [#105](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/105)
 - fix: permanent loading on ubi view ([572dd32](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/572dd32))
 - fix: prevent submission quota exceeded error ([3ceb3f0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3ceb3f0))

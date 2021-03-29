@@ -46,8 +46,7 @@ function Template(args) {
 
 export const Default = Template.bind();
 Default.args = {
-  src:
-    "https://ipfs.kleros.io/ipfs/QmWjb8GBPwdFZ5wctyGfExRt1ydaLUy8ywb18jYq9LuLkV/pepe.png",
+  src: `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/QmWjb8GBPwdFZ5wctyGfExRt1ydaLUy8ywb18jYq9LuLkV/pepe.png`,
   width: 300,
 };
 
@@ -59,8 +58,7 @@ Loading.args = {
 export const Avatar = Template.bind();
 Avatar.args = {
   variant: "avatar",
-  src:
-    "https://ipfs.kleros.io/ipfs/QmWjb8GBPwdFZ5wctyGfExRt1ydaLUy8ywb18jYq9LuLkV/pepe.png",
+  src: `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/QmWjb8GBPwdFZ5wctyGfExRt1ydaLUy8ywb18jYq9LuLkV/pepe.png`,
 };
 
 export const AvatarLoading = Template.bind();
@@ -71,8 +69,7 @@ AvatarLoading.args = {
 export const Thumbnail = Template.bind();
 Thumbnail.args = {
   variant: "thumbnail",
-  src:
-    "https://ipfs.kleros.io/ipfs/QmWjb8GBPwdFZ5wctyGfExRt1ydaLUy8ywb18jYq9LuLkV/pepe.png",
+  src: `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/QmWjb8GBPwdFZ5wctyGfExRt1ydaLUy8ywb18jYq9LuLkV/pepe.png`,
 };
 
 export const ThumbnailLoading = Template.bind();

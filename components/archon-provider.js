@@ -18,7 +18,11 @@ const Context = createContext();
 export default function ArchonProvider({ children }) {
   const { web3 } = useWeb3();
   const [archon] = useState(
-    () => new Archon(web3.currentProvider, "https://ipfs.kleros.io")
+    () =>
+      new Archon(
+        web3.currentProvider,
+        `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}`
+      )
   );
   useEffect(() => {
     if (web3.currentProvider !== archon.arbitrable.web3.currentProvider)
@@ -30,7 +34,7 @@ export default function ArchonProvider({ children }) {
         () => ({
           archon,
           upload(fileName, buffer) {
-            return fetch("https://ipfs.kleros.io/add", {
+            return fetch(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -44,7 +48,7 @@ export default function ArchonProvider({ children }) {
               .then(
                 ({ data }) =>
                   new URL(
-                    `https://ipfs.kleros.io/ipfs/${data[1].hash}${data[0].path}`
+                    `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${data[1].hash}${data[0].path}`
                   )
               );
           },
