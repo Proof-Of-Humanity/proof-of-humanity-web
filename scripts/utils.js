@@ -7,7 +7,7 @@ module.exports.uploadToKleros = (
   filePath,
   buffer = fs.readFileSync(filePath)
 ) =>
-  fetch("https://ipfs.kleros.io/add", {
+  fetch(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

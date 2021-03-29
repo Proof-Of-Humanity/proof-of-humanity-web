@@ -59,8 +59,7 @@ function Template(args) {
 export const Responsive = Template.bind();
 Responsive.args = {
   sx: { width: "80%" },
-  url:
-    "https://ipfs.kleros.io/ipfs/QmNW9RDNSLLTdk5GVpAkJSMigqsk7rJFTeT1ptCRrtoTRy/video.mp4",
+  url: `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/QmNW9RDNSLLTdk5GVpAkJSMigqsk7rJFTeT1ptCRrtoTRy/video.mp4`,
 };
 
 export const ResponsiveLoading = Template.bind();
@@ -70,8 +69,7 @@ ResponsiveLoading.args = {
 
 export const Thumbnail = Template.bind();
 Thumbnail.args = {
-  url:
-    "https://ipfs.kleros.io/ipfs/QmNW9RDNSLLTdk5GVpAkJSMigqsk7rJFTeT1ptCRrtoTRy/video.mp4",
+  url: `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/QmNW9RDNSLLTdk5GVpAkJSMigqsk7rJFTeT1ptCRrtoTRy/video.mp4`,
   variant: "thumbnail",
 };
 

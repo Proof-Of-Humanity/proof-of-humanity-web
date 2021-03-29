@@ -23,7 +23,7 @@ Constructs a `KlerosEscrow` instance.
 | Name   | Type     | Description                                           | Default                                                      |
 | ------ | -------- | ----------------------------------------------------- | ------------------------------------------------------------ |
 | web3\* | `Web3`   | A Web3 instance.                                      |                                                              |
-| archon | `Archon` | An [Archon](https://archon.readthedocs.io/) instance. | `new Archon(web3.currentProvider, "https://ipfs.kleros.io")` |
+| archon | `Archon` | An [Archon](https://archon.readthedocs.io/) instance. | `new Archon(web3.currentProvider, `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}`)` |
 
 #### Returns `(KlerosEscrow)`
 
