@@ -56,17 +56,13 @@ export default function RemoveButton({ request, contract, submissionID }) {
     )
   );
   const { web3 } = useWeb3();
-  const { sharedStakeMultiplier, submissionBaseDeposit } = useFragment(
+  const { submissionBaseDeposit } = useFragment(
     removeButtonFragments.contract,
     contract
   );
-  const totalCost = arbitrationCost
-    ?.add(
-      arbitrationCost
-        .mul(web3.utils.toBN(sharedStakeMultiplier))
-        .div(web3.utils.toBN(10000))
-    )
-    .add(web3.utils.toBN(submissionBaseDeposit));
+  const totalCost = arbitrationCost?.add(
+    web3.utils.toBN(submissionBaseDeposit)
+  );
 
   const { receipt, send } = useContract("proofOfHumanity", "removeSubmission");
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
