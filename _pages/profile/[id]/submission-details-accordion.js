@@ -5,8 +5,6 @@ import {
   AccordionItemPanel,
   Appeal,
   Evidence,
-  VotingHistory,
-  useWeb3,
 } from "@kleros/components";
 import { graphql, useFragment } from "relay-hooks";
 
@@ -88,7 +86,6 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
     winnerStakeMultiplier,
     loserStakeMultiplier,
   } = useFragment(submissionDetailsAccordionFragments.contract, contract);
-  const { web3 } = useWeb3();
 
   return (
     <Accordion>
@@ -105,33 +102,21 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
         }
       />
       {challenges.length > 0 && (
-        <>
-          <SubmissionDetailsAccordionItem
-            heading="Appeal"
-            panel={
-              <Appeal
-                challenges={challenges}
-                sharedStakeMultiplier={sharedStakeMultiplier}
-                winnerStakeMultiplier={winnerStakeMultiplier}
-                loserStakeMultiplier={loserStakeMultiplier}
-                arbitrator={arbitrator}
-                arbitratorExtraData={arbitratorExtraData}
-                contract="proofOfHumanity"
-                args={[id]}
-              />
-            }
-          />
-          <SubmissionDetailsAccordionItem
-            heading="Voting History"
-            panel={
-              <VotingHistory
-                challenges={challenges}
-                arbitrable={web3.contracts?.proofOfHumanity?.options?.address}
-                arbitrator={arbitrator}
-              />
-            }
-          />
-        </>
+        <SubmissionDetailsAccordionItem
+          heading="Appeal"
+          panel={
+            <Appeal
+              challenges={challenges}
+              sharedStakeMultiplier={sharedStakeMultiplier}
+              winnerStakeMultiplier={winnerStakeMultiplier}
+              loserStakeMultiplier={loserStakeMultiplier}
+              arbitrator={arbitrator}
+              arbitratorExtraData={arbitratorExtraData}
+              contract="proofOfHumanity"
+              args={[id]}
+            />
+          }
+        />
       )}
     </Accordion>
   );

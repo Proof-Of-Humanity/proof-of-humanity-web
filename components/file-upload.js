@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Box, Flex } from "theme-ui";
 
-import Button from "./button";
 import Image from "./image";
 import Input from "./input";
 import Text from "./text";
@@ -176,18 +175,6 @@ export default function FileUpload({
       </Flex>
       {photo || video ? (
         <Webcam
-          trigger={
-            <Button
-              variant="secondary"
-              sx={{
-                position: "absolute",
-                right: 1,
-                top: 1,
-              }}
-            >
-              Use Webcam
-            </Button>
-          }
           photo={photo}
           onChange={(file) => onChange(multiple ? [...files, file] : file)}
           video={video}
