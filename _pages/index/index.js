@@ -20,17 +20,21 @@ export default function Index() {
     "submissionDuration"
   );
 
+  const startsWithNormalized = props?.startsWith || [];
+  const endsWithNormalized = props?.endsWith || [];
+  const byAddressNormalized = props?.byAddress || [];
+
   const submissions = router.query.search
-    ? props?.startsWith
+    ? startsWithNormalized
         .concat(
-          props?.endsWith.filter(
+          endsWithNormalized.filter(
             (endsW) =>
-              props?.startsWith &&
-              props?.startsWith.filter((startsW) => startsW.id === endsW.id)
+              startsWithNormalized &&
+              startsWithNormalized.filter((startsW) => startsW.id === endsW.id)
                 .length === 0
           )
         )
-        .concat(props?.byAddress)
+        .concat(byAddressNormalized)
     : props?.submissions?.slice(0, pageSize);
 
   const [numberOfPages, setNumberOfPages] = useState(
