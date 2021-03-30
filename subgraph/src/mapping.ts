@@ -203,6 +203,71 @@ function requestStatusChange(
   );
 }
 
+function processVouchesHelper(
+  submissionID: Address,
+  requestID: BigInt,
+  iterations: BigInt,
+): void {
+  let request = Request.load(
+    crypto
+      .keccak256(
+        concatByteArrays(
+          submissionID,
+          ByteArray.fromUTF8(requestID.toString())
+        )
+      )
+      .toHexString()
+  );
+  let requestVouchesLength = BigInt.fromI32(request.vouches.length);
+  let actualIterations = iterations
+    .plus(request.penaltyIndex)
+    .gt(requestVouchesLength)
+    ? requestVouchesLength.minus(request.penaltyIndex)
+    : iterations;
+  let endIndex = actualIterations.plus(request.penaltyIndex);
+  request.penaltyIndex = endIndex;
+  request.save();
+
+  for (let i = 0; i < endIndex.toI32(); i++) {
+    let vouches = request.vouches;
+    let requestUsedReasons = request.usedReasons;
+
+    let voucher = Submission.load(vouches[i]);
+    voucher.usedVouch = null;
+
+    if (request.ultimateChallenger != null) {
+      if (
+        requestUsedReasons[requestUsedReasons.length - 1] == "Duplicate" ||
+        requestUsedReasons[requestUsedReasons.length - 1] == "DoesNotExist"
+      ) {
+        if (
+          voucher.status == "Vouching" ||
+          voucher.status == "PendingRegistration"
+        ) {
+          let voucherRequest = Request.load(
+            crypto
+              .keccak256(
+                concatByteArrays(
+                  ByteArray.fromHexString(voucher.id),
+                  ByteArray.fromUTF8(
+                    voucher.requestsLength.minus(BigInt.fromI32(1)).toString()
+                  )
+                )
+              )
+              .toHexString()
+          );
+          voucherRequest.requesterLost = true;
+          voucherRequest.save();
+        }
+
+        voucher.registered = false;
+      }
+    }
+
+    voucher.save();
+  }
+}
+
 export function metaEvidence(event: MetaEvidenceEvent): void {
   let metaEvidence = new MetaEvidence(
     event.params._metaEvidenceID.toHexString()
@@ -786,6 +851,11 @@ export function executeRequest(call: ExecuteRequestCall): void {
   let challengeID = crypto.keccak256(
     concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
   );
+  processVouchesHelper(
+    call.inputs._submissionID,
+    requestIndex,
+    BigInt.fromI32(10) // AUTO_PROCESSED_VOUCH
+  );
   updateContribution(
     call.to,
     call.inputs._submissionID,
@@ -799,64 +869,11 @@ export function executeRequest(call: ExecuteRequestCall): void {
 }
 
 export function processVouches(call: ProcessVouchesCall): void {
-  let request = Request.load(
-    crypto
-      .keccak256(
-        concatByteArrays(
-          call.inputs._submissionID,
-          ByteArray.fromUTF8(call.inputs._requestID.toString())
-        )
-      )
-      .toHexString()
+  processVouchesHelper(
+    call.inputs._submissionID,
+    call.inputs._requestID,
+    call.inputs._iterations
   );
-  let requestVouchesLength = BigInt.fromI32(request.vouches.length);
-  let actualIterations = call.inputs._iterations
-    .plus(request.penaltyIndex)
-    .gt(requestVouchesLength)
-    ? requestVouchesLength.minus(request.penaltyIndex)
-    : call.inputs._iterations;
-  let endIndex = actualIterations.plus(request.penaltyIndex);
-  request.penaltyIndex = endIndex;
-  request.save();
-
-  for (let i = 0; i < endIndex.toI32(); i++) {
-    let vouches = request.vouches;
-    let requestUsedReasons = request.usedReasons;
-
-    let voucher = Submission.load(vouches[i]);
-    voucher.usedVouch = null;
-
-    if (request.ultimateChallenger != null) {
-      if (
-        requestUsedReasons[requestUsedReasons.length - 1] == "Duplicate" ||
-        requestUsedReasons[requestUsedReasons.length - 1] == "DoesNotExist"
-      ) {
-        if (
-          voucher.status == "Vouching" ||
-          voucher.status == "PendingRegistration"
-        ) {
-          let voucherRequest = Request.load(
-            crypto
-              .keccak256(
-                concatByteArrays(
-                  ByteArray.fromHexString(voucher.id),
-                  ByteArray.fromUTF8(
-                    voucher.requestsLength.minus(BigInt.fromI32(1)).toString()
-                  )
-                )
-              )
-              .toHexString()
-          );
-          voucherRequest.requesterLost = true;
-          voucherRequest.save();
-        }
-
-        voucher.registered = false;
-      }
-    }
-
-    voucher.save();
-  }
 }
 
 export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
