@@ -1,6 +1,4 @@
 import { Global } from "@emotion/core";
-import UniLoginProvider from "@unilogin/provider";
-import WalletConnectWeb3Provider from "@walletconnect/web3-provider";
 import Authereum from "authereum";
 import {
   createContext,
@@ -34,17 +32,8 @@ export const createWeb3 = (infuraURL) => {
   web3.modal = new Web3Modal({
     cacheProvider: true,
     providerOptions: {
-      walletconnect: {
-        package: WalletConnectWeb3Provider,
-        options: {
-          infuraId: infuraURL.slice(infuraURL.lastIndexOf("/") + 1),
-        },
-      },
       authereum: {
         package: Authereum,
-      },
-      unilogin: {
-        package: UniLoginProvider,
       },
     },
   });
