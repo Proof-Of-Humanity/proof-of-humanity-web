@@ -376,6 +376,12 @@ export default function SubmitProfileCard({
                   The face of the submitter should follow the same requirements
                   than for the photo
                 </ListItem>
+                <ListItem>
+                  Be sure that the preview of your video works as expected
+                  before funding your submission. Even if your video file format
+                  is compatible, the codec inside might not be supported by
+                  popular web browsers.
+                </ListItem>
               </List>
             </Card>
             <Field
