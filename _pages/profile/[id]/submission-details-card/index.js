@@ -238,7 +238,7 @@ export default function SubmissionDetailsCard({
             </Text>
           </Box>
         </Flex>
-        {challenges?.length > 0 && (
+        {challenges?.length > 0 && challenges[0].disputeID !== null && (
           <Flex>
             {challenges?.length > 1 ? "Disputes" : "Dispute"}
             {challenges.map(({ disputeID }, i) => (
