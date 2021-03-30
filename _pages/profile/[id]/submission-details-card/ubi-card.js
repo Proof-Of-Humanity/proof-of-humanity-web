@@ -18,9 +18,7 @@ function AccruedUBI({ lastMintedSecond, web3, accruedPerSecond }) {
         .sub(lastMintedSecond)
         .mul(accruedPerSecond);
 
-  return (
-    <Text>{accruedUBI && `${web3.utils.fromWei(accruedUBI)} UBI Accrued`}</Text>
-  );
+  return <Text>{accruedUBI && `${web3.utils.fromWei(accruedUBI)} UBI`}</Text>;
 }
 export default function UBICard({ submissionID }) {
   const { web3 } = useWeb3();
