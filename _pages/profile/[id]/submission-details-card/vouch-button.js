@@ -26,7 +26,7 @@ export default function VouchButton({ submissionID }) {
       submissionID,
     ])
   );
-  const { receipt, send, loading } = useContract(
+  const { receipt, send } = useContract(
     "proofOfHumanity",
     vouched ? "removeVouch" : "addVouch"
   );
@@ -68,7 +68,6 @@ export default function VouchButton({ submissionID }) {
                 .then(reCall)
                 .then(() => close())
             }
-            loading={loading}
           >
             {text}
           </Button>
