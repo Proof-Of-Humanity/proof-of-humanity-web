@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-03-30)
+## 1.0.0-beta.4 (2021-03-31)
 
 - fix: add webcam back without mirroring ([1085e47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1085e47))
 - fix: appeal crowdfunding and close #160 ([ba942c7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba942c7)), closes [#160](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/160)
@@ -22,6 +22,7 @@
 - fix: outdated link and close #105 ([7c1669a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7c1669a)), closes [#105](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/105)
 - fix: permanent loading on ubi view ([572dd32](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/572dd32))
 - fix: prevent submission quota exceeded error ([3ceb3f0](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3ceb3f0))
+- fix: remove broken wallet options and close #171 ([02ff49c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/02ff49c)), closes [#171](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/171)
 - fix: remove support for avi and mov videos and decrease limit size (#95) ([83253f1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/83253f1)), closes [#95](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/95)
 - fix: remove unreliable components ([aba821c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/aba821c))
 - fix: remove useless loading indicator and close #154 ([7c4c84d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7c4c84d)), closes [#154](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/154)

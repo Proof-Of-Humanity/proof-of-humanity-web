@@ -59,6 +59,7 @@
     "@theme-ui/color": "^0.3.1",
     "@theme-ui/presets": "^0.3.0",
     "@theme-ui/typography": "^0.3.0",
+    "@walletconnect/web3-provider": "^1.4.1",
     "authereum": "0.0.4-beta.186",
     "buffer": "^5.6.0",
     "dataloader": "^2.0.0",
