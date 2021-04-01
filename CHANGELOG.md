@@ -17,6 +17,7 @@
 - fix: fund button was using the subgraph challenge id ([0d9b2b3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0d9b2b3))
 - fix: hide start accruing button if not profile ([21f0ad7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/21f0ad7))
 - fix: improved labels for video and photo upload (#99) ([f56f54b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f56f54b)), closes [#99](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/99)
+- fix: incorrect status display on resubmit and close #181 ([9cfa67a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9cfa67a)), closes [#181](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/181)
 - fix: increase file size limit ([a9c3961](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a9c3961))
 - fix: make search box responsive and close #148 ([52726ef](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/52726ef)), closes [#148](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/148)
 - fix: move ipfs gateway to env variable ([c959a24](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c959a24))
