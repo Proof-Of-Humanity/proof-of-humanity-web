@@ -327,6 +327,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     submission.submissionTime = call.block.timestamp;
     submission.name = names[i];
     submission.vouchees = [];
+    submission.vouchesReceived = [];
     submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(1);
     submission.save();
@@ -496,6 +497,7 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.registered = false;
     submission.name = call.inputs._name;
     submission.vouchees = [];
+    submission.vouchesReceived = [];
     submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(0);
   }
