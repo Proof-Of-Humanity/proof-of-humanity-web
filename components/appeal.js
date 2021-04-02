@@ -119,7 +119,6 @@ function AppealTabPanel({
     disputeID,
     parties: [party1, party2],
     rounds: [{ paidFees, hasPaid }],
-    id,
   },
   arbitratorExtraData,
   contract,
@@ -212,7 +211,7 @@ function AppealTabPanel({
           paidFees={paidFees[2]}
           hasPaid={hasPaid[1]}
           contract={contract}
-          args={[...args, id, 2]}
+          args={[...args, challengeID, 2]}
         />
       </Grid>
       <Flex sx={{ justifyContent: "center" }}>

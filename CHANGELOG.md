@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-04-01)
+## 1.0.0-beta.4 (2021-04-02)
 
 - fix: add webcam back without mirroring ([1085e47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1085e47))
 - fix: appeal crowdfunding and close #160 ([ba942c7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba942c7)), closes [#160](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/160)
@@ -9,6 +9,7 @@
 - fix: contain pictures instead of stretching ([71451ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/71451ee))
 - fix: distored image on details view ([b1a1dcd](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b1a1dcd))
 - fix: don't prevent vouching other people and close #120 ([8d77460](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/8d77460)), closes [#120](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/120)
+- fix: don't show appeal panel if there not in appeal period ([ce08edc](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ce08edc))
 - fix: don't show dispute on undisputed requests ([ac3e454](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ac3e454))
 - fix: fixed broken reapply on submission [fix #141][fix #145] ([f09f114](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f09f114)), closes [#141](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/141) [#145](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/145)
 - fix: fixed build script ([042a884](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/042a884))
