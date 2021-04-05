@@ -106,7 +106,7 @@
     "yup": "^0.29.3"
   },
   "lint-staged": {
-    "*.{graphql,html,json,md,mdx,yaml,yml}": "prettier --write",
+    "*.{graphql,html,json,md,mdx,yaml,yml,ts}": "prettier --write",
     "*.{js,mdx}": "eslint --fix"
   },
   "commitlint": {

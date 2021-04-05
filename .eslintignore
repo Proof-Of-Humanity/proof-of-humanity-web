@@ -9,3 +9,6 @@
 
 subgraph/subgraph.template.yaml
 subgraph/generated/
+
+# Assemblyscript doesn't play nice with ESlint
+subgraph/**/*.ts
