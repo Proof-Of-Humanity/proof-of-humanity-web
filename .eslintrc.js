@@ -462,9 +462,6 @@ module.exports = {
         // Import Plugin
         "plugin:import/errors",
 
-        // Unicorn Plugin
-        "plugin:unicorn/recommended",
-
         // Prettier Plugin
         "plugin:prettier/recommended",
 
@@ -472,6 +469,20 @@ module.exports = {
         // MDX Plugin
       ],
       plugins: ["@typescript-eslint"],
+      rules: {
+        eqeqeq: "off",
+        "import/no-internal-modules": "off",
+        "no-restricted-imports": "off",
+        "no-shadow": "off",
+        "regex/invalid": "off",
+      },
+      settings: {
+        "import/resolver": {
+          node: {
+            extensions: [".js", ".jsx", ".ts", ".tsx"],
+          },
+        },
+      },
     },
   ],
 };
