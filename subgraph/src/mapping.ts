@@ -206,15 +206,12 @@ function requestStatusChange(
 function processVouchesHelper(
   submissionID: Address,
   requestID: BigInt,
-  iterations: BigInt,
+  iterations: BigInt
 ): void {
   let request = Request.load(
     crypto
       .keccak256(
-        concatByteArrays(
-          submissionID,
-          ByteArray.fromUTF8(requestID.toString())
-        )
+        concatByteArrays(submissionID, ByteArray.fromUTF8(requestID.toString()))
       )
       .toHexString()
   );
@@ -579,7 +576,9 @@ export function addVouch(call: AddVouchCall): void {
     ]);
     submission.save();
 
-    let vouchedSubmission = Submission.load(call.inputs._submissionID.toHexString());
+    let vouchedSubmission = Submission.load(
+      call.inputs._submissionID.toHexString()
+    );
     if (vouchedSubmission != null) {
       vouchedSubmission.vouchesReceived = vouchedSubmission.vouchees.concat([
         call.from.toHexString(),
@@ -600,8 +599,9 @@ export function removeVouch(call: RemoveVouchCall): void {
     submission.vouchees = nextVouchees;
     submission.save();
 
-
-    let vouchedSubmission = Submission.load(call.inputs._submissionID.toHexString());
+    let vouchedSubmission = Submission.load(
+      call.inputs._submissionID.toHexString()
+    );
     if (vouchedSubmission != null) {
       let vouchers = vouchedSubmission.vouchesReceived;
       let updatedVouchers = new Array<string>(vouchers.length - 1);

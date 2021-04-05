@@ -449,5 +449,29 @@ module.exports = {
         ],
       },
     },
+    {
+      files: ["*.ts"],
+      parser: "@typescript-eslint/parser",
+      parserOptions: {
+        sourceType: "module",
+      },
+      extends: [
+        // Core
+        "eslint:recommended",
+
+        // Import Plugin
+        "plugin:import/errors",
+
+        // Unicorn Plugin
+        "plugin:unicorn/recommended",
+
+        // Prettier Plugin
+        "plugin:prettier/recommended",
+
+        "plugin:@typescript-eslint/recommended",
+        // MDX Plugin
+      ],
+      plugins: ["@typescript-eslint"],
+    },
   ],
 };
