@@ -8,3 +8,4 @@
 !/components/.storybook/
 
 subgraph/subgraph.template.yaml
+subgraph/generated/
