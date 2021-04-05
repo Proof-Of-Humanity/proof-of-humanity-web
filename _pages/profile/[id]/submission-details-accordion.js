@@ -21,6 +21,7 @@ const submissionDetailsAccordionFragments = {
   submission: graphql`
     fragment submissionDetailsAccordionSubmission on Submission {
       id
+      disputed
       request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
         requester
         arbitrator
@@ -38,12 +39,7 @@ const submissionDetailsAccordionFragments = {
           disputeID
           challenger
           challengeID
-          rounds(
-            orderBy: creationTime
-            orderDirection: asc
-            first: 1
-            skip: 1
-          ) {
+          rounds(orderBy: creationTime, orderDirection: desc, first: 1) {
             paidFees
             hasPaid
           }
@@ -73,6 +69,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
       },
     ],
     id,
+    disputed,
   } = useFragment(submissionDetailsAccordionFragments.submission, submission);
   const challenges = _challenges
     .map((challenge) => ({
@@ -86,6 +83,10 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
     winnerStakeMultiplier,
     loserStakeMultiplier,
   } = useFragment(submissionDetailsAccordionFragments.contract, contract);
+
+  const challengesWithPendingAppeals = challenges.filter(
+    ({ rounds }) => !rounds[0].hasPaid[0] || !rounds[0].hasPaid[0]
+  );
 
   return (
     <Accordion>
@@ -101,7 +102,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
           />
         }
       />
-      {challenges.length > 0 && (
+      {disputed && challengesWithPendingAppeals.length > 0 && (
         <SubmissionDetailsAccordionItem
           heading="Appeal"
           panel={

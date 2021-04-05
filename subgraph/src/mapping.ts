@@ -946,7 +946,7 @@ export function rule(call: RuleCall): void {
     disputeData.value1,
     requestIndex
   );
-  submission.disputed = requestInfo.value0;
+  submission.disputed = false;
   submission.save();
   let requestID = crypto.keccak256(
     concatByteArrays(

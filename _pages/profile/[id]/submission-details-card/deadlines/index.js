@@ -89,7 +89,9 @@ export default function Deadlines({ submission, contract, status }) {
         />
       ) : status === submissionStatusEnum.Registered ||
         status === submissionStatusEnum.Expired ||
-        (status === submissionStatusEnum.Removed && submissionTime !== null) ? (
+        (status === submissionStatusEnum.Removed &&
+          submissionTime !== null &&
+          submissionTime !== String(0)) ? (
         <>
           <Deadline
             label="Accepted"

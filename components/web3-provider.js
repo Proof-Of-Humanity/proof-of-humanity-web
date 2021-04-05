@@ -1,5 +1,4 @@
 import { Global } from "@emotion/core";
-import UniLoginProvider from "@unilogin/provider";
 import WalletConnectWeb3Provider from "@walletconnect/web3-provider";
 import Authereum from "authereum";
 import {
@@ -42,9 +41,6 @@ export const createWeb3 = (infuraURL) => {
       },
       authereum: {
         package: Authereum,
-      },
-      unilogin: {
-        package: UniLoginProvider,
       },
     },
   });
