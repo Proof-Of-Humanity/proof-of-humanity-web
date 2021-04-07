@@ -28,6 +28,7 @@ const deriveAccount = async function (message, create = true) {
 
   return this.eth.accounts.privateKeyToAccount(this.utils.keccak256(secret));
 };
+
 export const createWeb3 = (infuraURL) => {
   const web3 = new Web3(infuraURL);
   web3.modal = new Web3Modal({
@@ -184,12 +185,14 @@ const sendStateReducer = (
       return { ...state, error };
   }
 };
+
 const parseRes = (value, web3) =>
   typeof value === "boolean" ||
   Number.isNaN(Number(value)) ||
   value.startsWith("0x")
     ? value
     : web3.utils.toBN(value);
+
 export function useContract(
   contract,
   method,
@@ -212,6 +215,7 @@ export function useContract(
     (contract &&
       method &&
       (contract.jsonInterfaceMap[method].constant ? "call" : "send"));
+
   const run = useCallback(
     (_args, _options) =>
       contract &&
@@ -239,7 +243,10 @@ export function useContract(
 
       let _args;
       let _options;
-      if (typeof __args[__args.length - 1] === "object") {
+      if (
+        typeof __args[__args.length - 1] === "object" &&
+        !Array.isArray(__args[__args.length - 1])
+      ) {
         _args = __args.slice(0, -1);
         _options = __args[__args.length - 1];
       } else _args = __args;
@@ -263,6 +270,7 @@ export function useContract(
     },
     [contract, connect, run, dispatch]
   );
+
   const [receipt] = usePromise(
     () =>
       sendState.transactionHash &&
