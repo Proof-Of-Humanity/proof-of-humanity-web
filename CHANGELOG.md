@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-04-05)
+## 1.0.0-beta.4 (2021-04-07)
 
 - chore: add button on click documentation ([fb493c5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb493c5))
 - chore: add code of conduct ([6859555](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6859555))
@@ -86,6 +86,7 @@
 - chore: fix typo ([80e4c50](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/80e4c50))
 - chore: fix unsupported network switch ([d2b384a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d2b384a))
 - chore: fix weird Web3 inconsistency ([5d205ad](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5d205ad))
+- chore: fixed CI config for AssemblyScript TS files ([1703c74](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1703c74))
 - chore: fixes ([d55fd84](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d55fd84))
 - chore: fixes ([cb1aaa6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cb1aaa6))
 - chore: fixes ([e6cad14](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e6cad14))
