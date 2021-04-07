@@ -97,24 +97,23 @@ export default function UBICard({
           </Button>
         )}
       {status.key === submissionStatusEnum.PendingRegistration.key &&
-        challengeTimeRemaining <
-          0(
-            <Button
-              variant="secondary"
-              Disabled={lastMintedSecondStatus === "pending"}
-              onClick={() =>
-                batchSend(
-                  [pohAddress, UBIAddress],
-                  [web3.utils.toBN(0), web3.utils.toBN(0)],
-                  [pohData, ubiData],
-                  { gasLimit: 150000 }
-                ).then(reCall)
-              }
-              Loading={batchSendLoading}
-            >
-              Start Accruing
-            </Button>
-          )}
+        challengeTimeRemaining < 0 && (
+          <Button
+            variant="secondary"
+            Disabled={lastMintedSecondStatus === "pending"}
+            onClick={() =>
+              batchSend(
+                [pohAddress, UBIAddress],
+                [web3.utils.toBN(0), web3.utils.toBN(0)],
+                [pohData, ubiData],
+                { gasLimit: 150000 }
+              ).then(reCall)
+            }
+            Loading={batchSendLoading}
+          >
+            Start Accruing
+          </Button>
+        )}
     </Card>
   );
 }
