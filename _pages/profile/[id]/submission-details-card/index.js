@@ -112,6 +112,11 @@ export default function SubmissionDetailsCard({
     [request]
   );
 
+  const displayName =
+    [evidence?.file.firstName, evidence?.file.lastName]
+      .filter(Boolean)
+      .join(" ") || name;
+
   const [arbitrationCost] = useContract(
     "klerosLiquid",
     "arbitrationCost",
@@ -265,8 +270,7 @@ export default function SubmissionDetailsCard({
         <Flex sx={{ alignItems: "center", gap: 8 }}>
           <User />{" "}
           <Text as="span" sx={{ fontWeight: "bold" }}>
-            {evidence?.file &&
-              `${evidence.file.firstName} ${evidence.file.lastName}`}
+            {displayName}
           </Text>
         </Flex>
         <Text

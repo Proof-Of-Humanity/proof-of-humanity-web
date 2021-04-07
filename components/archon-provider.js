@@ -28,6 +28,7 @@ export default function ArchonProvider({ children }) {
     if (web3.currentProvider !== archon.arbitrable.web3.currentProvider)
       archon.setProvider(web3.currentProvider);
   }, [web3.currentProvider, archon]);
+
   return (
     <Context.Provider
       value={useMemo(
@@ -51,6 +52,58 @@ export default function ArchonProvider({ children }) {
                     `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${data[1].hash}${data[0].path}`
                   )
               );
+          },
+          uploadWithProgress(fileName, buffer, { onProgress = () => {} } = {}) {
+            const xhr = new XMLHttpRequest();
+
+            let loadListener;
+            let errorListener;
+
+            const responsePromise = new Promise((resolve, reject) => {
+              xhr.open("POST", `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`);
+              xhr.setRequestHeader("Content-Type", "application/json");
+
+              loadListener = () => {
+                resolve(xhr.response);
+              };
+
+              errorListener = () => {
+                const err = new Error("Failed to submit the request");
+                err.status = xhr.status;
+                reject(err);
+              };
+
+              xhr.addEventListener("load", loadListener);
+              xhr.addEventListener("error", errorListener);
+            });
+
+            xhr.upload.addEventListener("progress", onProgress);
+
+            xhr.send(
+              JSON.stringify({
+                fileName,
+                buffer: Buffer.from(buffer),
+              })
+            );
+
+            const promise = Promise.resolve().then(() =>
+              responsePromise
+                .then((res) => JSON.parse(res))
+                .then(
+                  ({ data }) =>
+                    new URL(
+                      `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${data[1].hash}${data[0].path}`
+                    )
+                )
+            );
+
+            promise.then(() => {
+              xhr.removeEventListener("load", loadListener);
+              xhr.removeEventListener("error", errorListener);
+              xhr.upload.removeEventListener("progress", onProgress);
+            });
+
+            return promise;
           },
         }),
         [archon]

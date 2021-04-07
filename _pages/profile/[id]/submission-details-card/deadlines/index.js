@@ -121,13 +121,11 @@ export default function Deadlines({ submission, contract, status }) {
                 <NextLink
                   href="/profile/[id]?reapply=true"
                   as={`/profile/${accounts?.[0]}`}
-                  sx={{
-                    marginY: 2,
-                  }}
                 >
                   <Button
                     sx={{
                       width: "100%",
+                      marginY: 1,
                     }}
                   >
                     Reapply
@@ -143,13 +141,11 @@ export default function Deadlines({ submission, contract, status }) {
         <NextLink
           href="/profile/[id]?reapply=true"
           as={`/profile/${accounts?.[0]}`}
-          sx={{
-            marginY: 2,
-          }}
         >
           <Button
             sx={{
               width: "100%",
+              marginY: 1,
             }}
           >
             Reapply
@@ -158,7 +154,7 @@ export default function Deadlines({ submission, contract, status }) {
       ) : status === submissionStatusEnum.Vouching && isSelf ? (
         <WithdrawButton
           sx={{
-            marginY: 2,
+            marginY: 1,
             width: "100%",
           }}
         />
