@@ -243,7 +243,10 @@ export function useContract(
 
       let _args;
       let _options;
-      if (typeof __args[__args.length - 1] === "object") {
+      if (
+        typeof __args[__args.length - 1] === "object" &&
+        !Array.isArray(__args[__args.length - 1])
+      ) {
         _args = __args.slice(0, -1);
         _options = __args[__args.length - 1];
       } else _args = __args;
