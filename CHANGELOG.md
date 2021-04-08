@@ -3,6 +3,7 @@
 - fix: add webcam back without mirroring ([1085e47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1085e47))
 - fix: appeal crowdfunding and close #160 ([ba942c7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba942c7)), closes [#160](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/160)
 - fix: broken etherscan link ([05394af](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/05394af))
+- fix: broken grid on ipad ([deab58e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/deab58e))
 - fix: broken/outdated links ([268a4ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/268a4ee))
 - fix: clarify renewal period availability ([9d31e5c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9d31e5c))
 - fix: clarify UI data ([e297fee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e297fee))

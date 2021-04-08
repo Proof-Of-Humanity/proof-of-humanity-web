@@ -363,7 +363,6 @@ module.exports = {
         "@js[x]", // Don't use a custom JSX pragma.
         "Style[d]", // Don't use "styled" components.
         ",\\s+&", // Don't use spaces between comma separated selectors.
-        "eslint-disabl[e]", // Don't disable rules.
       ],
     ],
 
