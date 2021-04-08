@@ -1,4 +1,12 @@
-import { Button, Card, Text, useContract, useWeb3 } from "@kleros/components";
+/* eslint-disable jsx-a11y/accessible-emoji */
+import {
+  Button,
+  Card,
+  Flex,
+  Text,
+  useContract,
+  useWeb3,
+} from "@kleros/components";
 import { UBI } from "@kleros/icons";
 import { useEffect, useMemo, useReducer } from "react";
 
@@ -7,7 +15,7 @@ import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
 import UBIAbi from "subgraph/abis/ubi";
 import { UBIAddress, address as pohAddress } from "subgraph/config";
 
-function AccruedUBI({ lastMintedSecond, web3, accruedPerSecond }) {
+function AccruedUBI({ lastMintedSecond, web3, accruedPerSecond, ...rest }) {
   const [, rerender] = useReducer(() => ({}), {});
   useEffect(() => {
     const timeout = setInterval(() => rerender(), 1000);
@@ -23,7 +31,11 @@ function AccruedUBI({ lastMintedSecond, web3, accruedPerSecond }) {
         .sub(lastMintedSecond)
         .mul(accruedPerSecond);
 
-  return <Text>{accruedUBI && `${web3.utils.fromWei(accruedUBI)} UBI`}</Text>;
+  return (
+    <Text {...rest}>
+      {accruedUBI && `${web3.utils.fromWei(accruedUBI)} UBI`}
+    </Text>
+  );
 }
 export default function UBICard({
   submissionID,
@@ -73,14 +85,21 @@ export default function UBICard({
   return (
     <Card
       variant="muted"
-      mainSx={{ justifyContent: "space-between", padding: 1 }}
+      mainSx={{
+        justifyContent: ["center", "center", "center", "space-between"],
+        padding: 1,
+        flexDirection: ["column", "column", "column", "row"],
+      }}
     >
-      <UBI size={32} />
-      <AccruedUBI
-        lastMintedSecond={lastMintedSecond}
-        web3={web3}
-        accruedPerSecond={accruedPerSecond}
-      />
+      <Flex sx={{ marginBottom: [2, 2, 2, 0] }}>
+        <UBI size={32} />
+        <AccruedUBI
+          lastMintedSecond={lastMintedSecond}
+          web3={web3}
+          accruedPerSecond={accruedPerSecond}
+          sx={{ marginLeft: 2 }}
+        />
+      </Flex>
       {lastMintedSecond &&
         lastMintedSecond.gt(web3.utils.toBN(0)) &&
         typeof registered === "boolean" &&
@@ -109,7 +128,10 @@ export default function UBICard({
             }
             Loading={batchSendLoading}
           >
-            Start Accruing
+            Finalize registration and start accruing{" "}
+            <Text as="span" role="img" sx={{ marginLeft: 1 }}>
+              💧
+            </Text>
           </Button>
         )}
     </Card>

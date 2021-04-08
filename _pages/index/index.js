@@ -6,7 +6,7 @@ import { graphql } from "relay-hooks";
 import SubmissionCard from "./submission-card";
 import SubmissionFilters from "./submission-filters";
 
-const pageSize = 8;
+const pageSize = 12;
 export default function Index() {
   const router = useRouter();
   const { props } = useQuery();
@@ -89,7 +89,7 @@ export default function Index() {
 export const indexQuery = graphql`
   query indexQuery(
     $skip: Int = 0
-    $first: Int = 9
+    $first: Int = 13
     $where: Submission_filter
     $search: String = ""
     $address: ID
