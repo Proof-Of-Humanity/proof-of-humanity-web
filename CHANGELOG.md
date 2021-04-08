@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-04-07)
+## 1.0.0-beta.4 (2021-04-08)
 
 - fix: add webcam back without mirroring ([1085e47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1085e47))
 - fix: appeal crowdfunding and close #160 ([ba942c7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba942c7)), closes [#160](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/160)
@@ -22,6 +22,7 @@
 - fix: incorrect status display on resubmit and close #181 ([9cfa67a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9cfa67a)), closes [#181](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/181)
 - fix: increase file size limit ([a9c3961](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a9c3961))
 - fix: init vouchesReceived ([f8f1959](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f8f1959))
+- fix: let popup scroll when content is long ([3eb398d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3eb398d))
 - fix: make search box responsive and close #148 ([52726ef](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/52726ef)), closes [#148](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/148)
 - fix: move ipfs gateway to env variable ([c959a24](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c959a24))
 - fix: null results otherwise would crash the app ([5b254f5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5b254f5))
@@ -35,6 +36,7 @@
 - fix: remove useless loading indicator and close #154 ([7c4c84d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7c4c84d)), closes [#154](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/154)
 - fix: sanitize photo and video names before uploading ([fa3754c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fa3754c))
 - fix: second round of appeal not showing ([00db988](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/00db988))
+- fix: typo in condition ([6c4d6a7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6c4d6a7))
 - fix: undefined tolowercase ([b2fe9d1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b2fe9d1))
 - fix: update ubi abi to latest version ([740c0a7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/740c0a7))
 - fix: use correct apiVersion ([bd62a65](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/bd62a65))

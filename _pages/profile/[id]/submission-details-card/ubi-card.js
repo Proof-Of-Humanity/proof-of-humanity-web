@@ -32,7 +32,6 @@ export default function UBICard({
   status,
 }) {
   const { web3 } = useWeb3();
-  const [accounts] = useWeb3("eth", "getAccounts");
 
   const [lastMintedSecond, , lastMintedSecondStatus, reCall] = useContract(
     "UBI",
@@ -82,9 +81,8 @@ export default function UBICard({
         web3={web3}
         accruedPerSecond={accruedPerSecond}
       />
-      {accounts &&
-        accounts[0]?.toLowerCase() === submissionID &&
-        lastMintedSecond &&
+      {lastMintedSecond &&
+        lastMintedSecond.gt(web3.utils.toBN(0)) &&
         typeof registered === "boolean" &&
         !registered && (
           <Button
