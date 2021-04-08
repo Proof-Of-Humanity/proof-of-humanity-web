@@ -36,6 +36,7 @@
 - fix: remove useless loading indicator and close #154 ([7c4c84d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7c4c84d)), closes [#154](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/154)
 - fix: sanitize photo and video names before uploading ([fa3754c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fa3754c))
 - fix: second round of appeal not showing ([00db988](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/00db988))
+- fix: seize ubi button conditionals ([5fd0f03](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5fd0f03))
 - fix: typo in condition ([6c4d6a7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6c4d6a7))
 - fix: undefined tolowercase ([b2fe9d1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/b2fe9d1))
 - fix: update ubi abi to latest version ([740c0a7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/740c0a7))
