@@ -30,6 +30,7 @@ export { default as Link } from "./link";
 export { default as List, ListItem } from "./list";
 export { default as Pagination } from "./pagination";
 export { default as Popup } from "./popup";
+export { default as Progress } from "./progress";
 export {
   default as RelayProvider,
   useQuery,
