@@ -36,6 +36,7 @@ const submissionDetailsCardFragments = {
       submissionBaseDeposit
       submissionDuration
       requiredNumberOfVouches
+      challengePeriodDuration
       ...deadlinesContract
     }
   `,
@@ -55,6 +56,7 @@ const submissionDetailsCardFragments = {
       ) {
         arbitrator
         arbitratorExtraData
+        lastStatusChange
         evidence(orderBy: creationTime, first: 1) {
           URI
         }
@@ -92,14 +94,18 @@ export default function SubmissionDetailsCard({
     submissionDetailsCardFragments.submission,
     submission
   ));
+
+  const { lastStatusChange } = request;
   const {
     submissionBaseDeposit,
     submissionDuration,
     requiredNumberOfVouches,
+    challengePeriodDuration,
   } = (contract = useFragment(
     submissionDetailsCardFragments.contract,
     contract
   ));
+
   const status = submissionStatusEnum.parse({ ...rest, submissionDuration });
   const { challenges } = request || {};
 
@@ -287,7 +293,12 @@ export default function SubmissionDetailsCard({
           <NextETHLink address={id}>{id}</NextETHLink>
         </Text>
         <Video url={evidence?.file?.video} />
-        <UBICard submissionID={id} />
+        <UBICard
+          submissionID={id}
+          lastStatusChange={lastStatusChange}
+          challengePeriodDuration={challengePeriodDuration}
+          status={status}
+        />
         <Text
           sx={{
             marginTop: 2,

@@ -5,6 +5,7 @@ import { Box } from "theme-ui";
 const AnimatedBox = animated(Box);
 export default function Popup({
   contentStyle,
+  overlayStyle,
   onOpen,
   onClose,
   sx,
@@ -24,6 +25,7 @@ export default function Popup({
         boxShadow: "none",
         ...contentStyle,
       }}
+      overlayStyle={{ overflow: "scroll", ...overlayStyle }}
       onOpen={() => {
         setAnimatedStyle({ opacity: 1, scale: 1 });
         if (onOpen) onOpen();

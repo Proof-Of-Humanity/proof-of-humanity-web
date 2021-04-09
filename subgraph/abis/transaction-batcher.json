@@ -1,0 +1,1 @@
+[{"constant":false,"inputs":[{"name":"targets","type":"address[]"},{"name":"values","type":"uint256[]"},{"name":"datas","type":"bytes[]"}],"name":"batchSend","outputs":[],"payable":true,"stateMutability":"payable","type":"function"}]

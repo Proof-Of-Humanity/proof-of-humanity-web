@@ -5,6 +5,10 @@ const configs = { kovan, mainnet };
 
 export const network = process.env.NEXT_PUBLIC_NETWORK || "mainnet";
 
-export const { address, block, klerosLiquidAddress, UBIAddress } = configs[
-  network
-];
+export const {
+  address,
+  block,
+  klerosLiquidAddress,
+  UBIAddress,
+  transactionBatcherAddress,
+} = configs[network];
