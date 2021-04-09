@@ -9,7 +9,6 @@ import {
   Link,
   List,
   ListItem,
-  Progress,
   Text,
   Textarea,
   useArchon,
@@ -18,7 +17,7 @@ import {
 } from "@kleros/components";
 import { useField } from "formik";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
@@ -62,40 +61,6 @@ const submitProfileCardFragment = graphql`
     }
   }
 `;
-
-function useUploadProgress() {
-  const [uploadProgress, _doSetUploadProgress] = useState(0);
-  const setUploadProgress = useCallback((event) => {
-    _doSetUploadProgress((current) =>
-      !current
-        ? {
-            loaded: event.loaded,
-            total: event.total,
-          }
-        : {
-            loaded:
-              event.loaded > current.loaded ? event.loaded : current.loaded,
-            total: current.total,
-          }
-    );
-  }, []);
-
-  return [uploadProgress, setUploadProgress];
-}
-
-function UploadProgress({ total, loaded, label, sx }) {
-  return (
-    <Box sx={{ ...sx }}>
-      {label}
-      <Progress
-        max={total ?? 1}
-        value={loaded ?? 0}
-        color={loaded >= total ? "success" : "primary"}
-      />
-    </Box>
-  );
-}
-
 function UpdateTotalCost({ totalCost }) {
   const { web3 } = useWeb3();
   const totalCostRef = useRef(totalCost);
@@ -109,7 +74,6 @@ function UpdateTotalCost({ totalCost }) {
   }, [totalCost, setValue, web3.utils]);
   return null;
 }
-
 export default function SubmitProfileCard({
   contract,
   submission,
@@ -140,7 +104,7 @@ export default function SubmitProfileCard({
     [arbitrationCost, web3.utils, submissionBaseDeposit]
   );
 
-  const { upload, uploadWithProgress } = useArchon();
+  const { upload } = useArchon();
   const { receipt, send } = useContract(
     "proofOfHumanity",
     reapply ? "reapplySubmission" : "addSubmission"
@@ -156,9 +120,6 @@ export default function SubmitProfileCard({
   }, [router]);
 
   const submissionName = submission?.name ?? "";
-
-  const [photoUploadProgress, setPhotoUploadProgress] = useUploadProgress();
-  const [videoUploadProgress, setVideoUploadProgress] = useUploadProgress();
 
   return (
     <Card
@@ -280,12 +241,8 @@ export default function SubmitProfileCard({
           contribution,
         }) => {
           [{ pathname: photo }, { pathname: video }] = await Promise.all([
-            uploadWithProgress(sanitize(photo.name), photo.content, {
-              onProgress: setPhotoUploadProgress,
-            }),
-            uploadWithProgress(sanitize(video.name), video.content, {
-              onProgress: setVideoUploadProgress,
-            }),
+            upload(sanitize(photo.name), photo.content),
+            upload(sanitize(video.name), video.content),
           ]);
           const { pathname: fileURI } = await upload(
             "file.json",
@@ -488,7 +445,7 @@ export default function SubmitProfileCard({
             <Button
               type="submit"
               loading={isSubmitting || !isGraphSynced}
-              disabled={isSubmitting || !isGraphSynced}
+              disabled={isSubmitting}
               sx={{
                 width: "120px",
               }}
@@ -511,30 +468,6 @@ export default function SubmitProfileCard({
               challenge raised against your registration.
             </Text>
             <UpdateTotalCost totalCost={totalCost} />
-
-            {videoUploadProgress || photoUploadProgress ? (
-              <Card
-                variant="muted"
-                sx={{ my: 1 }}
-                mainSx={{
-                  flexDirection: "column",
-                  gap: 3,
-                }}
-              >
-                <UploadProgress
-                  total={photoUploadProgress?.total}
-                  loaded={photoUploadProgress?.loaded}
-                  label={<Text sx={{ fontSize: 0 }}>Uploading photo...</Text>}
-                  sx={{ width: "100%" }}
-                />
-                <UploadProgress
-                  total={videoUploadProgress?.total}
-                  loaded={videoUploadProgress?.loaded}
-                  label={<Text sx={{ fontSize: 0 }}>Uploading video...</Text>}
-                  sx={{ width: "100%" }}
-                />
-              </Card>
-            ) : null}
           </>
         )}
       </Form>
