@@ -295,7 +295,7 @@ export default function App({ Component, pageProps }) {
 
   const onNetworkChange = useCallback(
     ({ name: _network }) => {
-      if (router.query.network !== _network) {
+      if (networkFromQuery !== _network) {
         const searchParameters = new URLSearchParams(location.search);
         if (!_network) searchParameters.delete("network");
         else searchParameters.set("network", _network);
@@ -306,7 +306,7 @@ export default function App({ Component, pageProps }) {
         });
       }
     },
-    [router]
+    [router, networkFromQuery]
   );
 
   const transitions = useTransition(
