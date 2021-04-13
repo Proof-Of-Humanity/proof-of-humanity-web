@@ -580,7 +580,7 @@ export function addVouch(call: AddVouchCall): void {
       call.inputs._submissionID.toHexString()
     );
     if (vouchedSubmission != null) {
-      vouchedSubmission.vouchesReceived = vouchedSubmission.vouchees.concat([
+      vouchedSubmission.vouchesReceived = vouchedSubmission.vouchesReceived.concat([
         call.from.toHexString(),
       ]);
       vouchedSubmission.save();
@@ -592,7 +592,7 @@ export function removeVouch(call: RemoveVouchCall): void {
   let submission = Submission.load(call.from.toHexString());
   if (submission != null) {
     let vouchees = submission.vouchees;
-    let nextVouchees = new Array<string>(vouchees.length - 1);
+    let nextVouchees = new Array<string>();
     for (let i = 0; i < vouchees.length; i++)
       if (vouchees[i] != call.inputs._submissionID.toHexString())
         nextVouchees.push(vouchees[i]);
@@ -604,7 +604,7 @@ export function removeVouch(call: RemoveVouchCall): void {
     );
     if (vouchedSubmission != null) {
       let vouchers = vouchedSubmission.vouchesReceived;
-      let updatedVouchers = new Array<string>(vouchers.length - 1);
+      let updatedVouchers = new Array<string>();
       for (let i = 0; i < vouchers.length; i++)
         if (vouchers[i] != call.from.toHexString())
           updatedVouchers.push(vouchers[i]);
