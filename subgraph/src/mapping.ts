@@ -580,9 +580,9 @@ export function addVouch(call: AddVouchCall): void {
       call.inputs._submissionID.toHexString()
     );
     if (vouchedSubmission != null) {
-      vouchedSubmission.vouchesReceived = vouchedSubmission.vouchesReceived.concat([
-        call.from.toHexString(),
-      ]);
+      vouchedSubmission.vouchesReceived = vouchedSubmission.vouchesReceived.concat(
+        [call.from.toHexString()]
+      );
       vouchedSubmission.save();
     }
   }
