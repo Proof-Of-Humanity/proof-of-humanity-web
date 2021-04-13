@@ -6,7 +6,6 @@ export { default as Check } from "./check";
 export { default as Dot } from "./dot";
 export { default as DownArrow } from "./down-arrow";
 export { default as Ether } from "./ether";
-export { default as EtherscanLogo } from "./etherscan-logo";
 export { default as Expired } from "./expired";
 export { default as File } from "./file";
 export { default as Github } from "./github";

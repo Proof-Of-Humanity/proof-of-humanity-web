@@ -1,5 +1,4 @@
-import { Card, Image, NextETHLink, NextLink, Text } from "@kleros/components";
-import { EtherscanLogo } from "@kleros/icons";
+import { Card, Image, NextLink, Text } from "@kleros/components";
 import { graphql, useFragment } from "relay-hooks";
 
 import { submissionStatusEnum, useEvidenceFile } from "data";
@@ -55,7 +54,9 @@ export default function SubmissionCard({ submission, contract }) {
   return (
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
       <Card
-        sx={{ height: 367 }}
+        as="a"
+        sx={{ height: 367, color: "text" }}
+        css={{ textDecoration: "none" }}
         header={
           <>
             <status.Icon
@@ -71,11 +72,6 @@ export default function SubmissionCard({ submission, contract }) {
           </>
         }
         mainSx={{ flexDirection: "column" }}
-        footer={
-          <NextETHLink address={id}>
-            <EtherscanLogo />
-          </NextETHLink>
-        }
       >
         <Image variant="avatar" src={evidence?.file?.photo} />
         <Text
