@@ -15,7 +15,7 @@ const metadata = {
       defaultValue: "info",
       control: {
         type: "radio",
-        options: ["info"],
+        options: ["info", "warning", "muted"],
       },
     },
     title: {
@@ -47,9 +47,26 @@ function Template(args) {
 export const Info = Template.bind();
 Info.args = {
   title: "For Contributors",
+  type: "info",
   children:
     "If this side wins, you get back your contribution and a 10% reward.",
 };
 
 export const InfoLoading = Template.bind();
 InfoLoading.args = { title: "For Contributors" };
+
+export const Warning = Template.bind();
+Warning.args = {
+  title: "For Contributors",
+  type: "warning",
+  children:
+    "If this side wins, you get back your contribution and a 10% reward.",
+};
+
+export const Muted = Template.bind();
+Muted.args = {
+  title: "For Contributors",
+  type: "muted",
+  children:
+    "If this side wins, you get back your contribution and a 10% reward.",
+};

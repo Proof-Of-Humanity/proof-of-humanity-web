@@ -1,5 +1,4 @@
 import _NextLink from "next/link";
-import { useRouter } from "next/router";
 import { match } from "path-to-regexp";
 
 import Link from "./link";
@@ -12,13 +11,9 @@ export function NextLink({ passHref = true, href, as, ...rest }) {
     ? href.query
     : Object.fromEntries(href.searchParams?.entries() ?? {});
 
-  const { query } = useRouter();
-
-  const networkMixin = query.network ? { network: query.network } : {};
-  const finalQuery = { ...hrefQuery, ...networkMixin };
   const queryString =
-    Object.keys(finalQuery).length > 0
-      ? `?${new URLSearchParams(finalQuery)}`
+    Object.keys(hrefQuery).length > 0
+      ? `?${new URLSearchParams(hrefQuery)}`
       : "";
 
   return (
@@ -26,7 +21,7 @@ export function NextLink({ passHref = true, href, as, ...rest }) {
       passHref={passHref}
       href={{
         pathname: href.pathname || href,
-        query: finalQuery,
+        query: hrefQuery,
       }}
       as={as && as + queryString}
       {...rest}
@@ -34,11 +29,8 @@ export function NextLink({ passHref = true, href, as, ...rest }) {
   );
 }
 
-export function NextETHLink({ address, children, ...rest }) {
-  const router = useRouter();
-
-  const network = router.query?.network ?? defaultNetwork;
-  const prefix = network === "mainnet" ? "" : `${network}.`;
+export function NextETHLink({ address, children = address, ...rest }) {
+  const prefix = defaultNetwork === "mainnet" ? "" : `${defaultNetwork}.`;
   return (
     <Link
       newTab

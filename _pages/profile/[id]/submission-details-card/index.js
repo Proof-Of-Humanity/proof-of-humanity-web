@@ -1,17 +1,17 @@
 import {
   Box,
   Card,
+  EthereumAccount,
   Flex,
   FundButton,
   Image,
   Link,
-  NextETHLink,
   Text,
   Video,
   useContract,
   useWeb3,
 } from "@kleros/components";
-import { Ether, User } from "@kleros/icons";
+import { User } from "@kleros/icons";
 import { useMemo } from "react";
 import {
   RedditIcon,
@@ -279,19 +279,15 @@ export default function SubmissionDetailsCard({
             {displayName}
           </Text>
         </Flex>
-        <Text
-          variant="clipped"
+        <EthereumAccount
+          diameter={16}
+          address={id}
           sx={{
-            fontWeight: "bold",
             marginBottom: 2,
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
+            color: "text",
+            fontWeight: "bold",
           }}
-        >
-          <Ether sx={{ fill: "text" }} />{" "}
-          <NextETHLink address={id}>{id}</NextETHLink>
-        </Text>
+        />
         <Video url={evidence?.file?.video} />
         <UBICard
           submissionID={id}

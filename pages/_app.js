@@ -129,9 +129,15 @@ function AccountSettingsPopup() {
   const evidenceURI = props?.submission?.requests[0].evidence[0].URI;
   const getEvidenceFile = useEvidenceFile();
 
+  const evidence = evidenceURI ? getEvidenceFile(evidenceURI) : null;
+  const displayName =
+    [evidence?.file.firstName, evidence?.file.lastName]
+      .filter(Boolean)
+      .join(" ") || evidence?.file.name;
+
   return (
     <_AccountSettingsPopup
-      name={evidenceURI && getEvidenceFile(evidenceURI)?.file?.name}
+      name={displayName}
       photo={evidenceURI && getEvidenceFile(evidenceURI)?.file?.photo}
       userSettingsURL="https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/user-settings"
       settings={settings}
