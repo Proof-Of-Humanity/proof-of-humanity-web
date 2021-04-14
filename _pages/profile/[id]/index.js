@@ -20,19 +20,13 @@ export default function ProfileWithID() {
   const reapply = query.reapply === "true";
   const registered = props?.submission?.registered ?? false;
 
-  const handleAfterSend = useCallback(
-    (result) => {
-      if (reapply && !result.stack)
-        router.push({
-          pathname: "/profile/[id]",
-          query: {
-            id: account,
-            network: query.network,
-          },
-        });
-    },
-    [reapply, router, account, query.network]
-  );
+  const handleAfterSend = useCallback(() => {
+    if (reapply)
+      router.push({
+        pathname: "/profile/[id]",
+        query: { id: account },
+      });
+  }, [reapply, router, account]);
 
   const isReapply = account === query.id && reapply;
   const isRegistration = account === query.id && props?.submission === null;

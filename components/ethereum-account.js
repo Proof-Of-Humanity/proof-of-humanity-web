@@ -42,10 +42,10 @@ export default function EthereumAccount({
         lineHeight: 0,
         ...sx,
 
-        "> span:first-child": {
+        "> span:first-of-type": {
           flex: "auto 0 0",
         },
-        "> span:last-child": {
+        "> span:last-of-type": {
           flex: "auto 1 1",
         },
       }}

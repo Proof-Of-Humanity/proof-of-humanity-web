@@ -123,7 +123,7 @@ export default function FileUpload({
           ...rest,
         })}
       >
-        <Input {...getInputProps()} />
+        <Input name={name} {...getInputProps()} />
         {maxSizeLabel && acceptLabel ? (
           <Text sx={{ fontStyle: "italic" }}>
             (Max Size: {maxSizeLabel} | {acceptLabel})

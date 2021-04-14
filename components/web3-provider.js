@@ -250,7 +250,7 @@ export function useContract(
         _args = __args.slice(0, -1);
         _options = __args[__args.length - 1];
       } else _args = __args;
-      return new Promise((resolve) =>
+      return new Promise((resolve, reject) =>
         run(_args, _options)
           .on("transactionHash", (transactionHash) =>
             dispatch({ type: "transactionHash", transactionHash })
@@ -264,7 +264,7 @@ export function useContract(
           })
           .on("error", (error) => {
             dispatch({ type: "error", error });
-            resolve(error);
+            reject(error);
           })
       );
     },
