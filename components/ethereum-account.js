@@ -29,9 +29,7 @@ export default function EthereumAccount({
       <Identicon
         diameter={diameter}
         address={address}
-        sx={{
-          minWidth: diameter,
-        }}
+        sx={{ minWidth: diameter }}
       />
       <Text variant="clipped">{address}</Text>
     </NextETHLink>

@@ -118,10 +118,12 @@ export default function SubmissionDetailsCard({
     [request]
   );
 
-  const displayName =
+  const compoundName =
     [evidence?.file.firstName, evidence?.file.lastName]
       .filter(Boolean)
       .join(" ") || name;
+  const displayName =
+    compoundName === name ? name : `${compoundName} (${name})`;
 
   const [arbitrationCost] = useContract(
     "klerosLiquid",
@@ -273,8 +275,14 @@ export default function SubmissionDetailsCard({
         </Box>
       </Flex>
       <Box sx={{ flex: 1, padding: 4 }}>
-        <Flex sx={{ alignItems: "center", gap: 8 }}>
-          <User />{" "}
+        <Flex
+          sx={{
+            alignItems: "center",
+            gap: 8,
+            marginBottom: "4px",
+          }}
+        >
+          <User />
           <Text as="span" sx={{ fontWeight: "bold" }}>
             {displayName}
           </Text>
@@ -284,7 +292,6 @@ export default function SubmissionDetailsCard({
           address={id}
           sx={{
             marginBottom: 2,
-            color: "text",
             fontWeight: "bold",
           }}
         />
