@@ -6,9 +6,10 @@ import {
   Field as _Field,
   Form as _Form,
   useField,
+  useFormikContext,
 } from "formik";
 import prettyNum from "pretty-num";
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useEffect, useMemo } from "react";
 import { Box } from "theme-ui";
 import Web3 from "web3";
 import { boolean, object, reach, string } from "yup";
@@ -65,6 +66,37 @@ File.prototype = Object.create(object.prototype, {
 });
 File.prototype._typeCheck = (value) => value?.toString() === "[object File]";
 
+const isObject = (value) => {
+  const type = typeof value;
+  return !!value && (type === "object" || type === "function");
+};
+
+const getFirstErrorKey = (errors, keys = []) => {
+  const firstErrorKey = Object.keys(errors)[0];
+  if (isObject(errors[firstErrorKey]))
+    return getFirstErrorKey(errors[firstErrorKey], [...keys, firstErrorKey]);
+
+  return [...keys, firstErrorKey].join(".");
+};
+
+function FocusOnFirstError({ children }) {
+  const formik = useFormikContext();
+
+  useEffect(() => {
+    if (!formik.isValid && formik.submitCount > 0) {
+      const firstErrorKey = getFirstErrorKey(formik.errors);
+      const firstErrorElement = global.window.document.getElementsByName(
+        firstErrorKey
+      )?.[0];
+      firstErrorElement?.focus();
+      // The element might be visually hidden, so we scroll to its parent.
+      firstErrorElement?.parentElement.scrollIntoView();
+    }
+  }, [formik.submitCount, formik.isValid, formik.errors]);
+
+  return children;
+}
+
 const ValidationSchemaContext = createContext();
 export default function Form({
   createValidationSchema,
@@ -107,9 +139,11 @@ export default function Form({
         {...rest}
       >
         {(props) => (
-          <Box as={_Form} variant="form" sx={sx}>
-            {typeof children === "function" ? children(props) : children}
-          </Box>
+          <FocusOnFirstError>
+            <Box as={_Form} variant="form" sx={sx}>
+              {typeof children === "function" ? children(props) : children}
+            </Box>
+          </FocusOnFirstError>
         )}
       </Formik>
     </ValidationSchemaContext.Provider>
