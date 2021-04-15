@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   Card,
+  EthereumAccount,
   Field,
   FileUpload,
   Form,
@@ -160,6 +161,9 @@ export default function SubmitProfileCard({
   const [photoUploadProgress, setPhotoUploadProgress] = useUploadProgress();
   const [videoUploadProgress, setVideoUploadProgress] = useUploadProgress();
 
+  const [accounts] = useWeb3("eth", "getAccounts");
+  const account = accounts?.[0] ?? null;
+
   return (
     <Card
       header="Submit Profile"
@@ -246,7 +250,6 @@ export default function SubmitProfileCard({
                 })
                 .test({
                   async test(value) {
-                    const [account] = await _web3.eth.getAccounts();
                     if (!account) return true;
                     const balance = _web3.utils.toBN(
                       await _web3.eth.getBalance(account)
@@ -267,7 +270,7 @@ export default function SubmitProfileCard({
               );
             return schema;
           },
-          [totalCost, submissionName]
+          [totalCost, submissionName, account]
         )}
         onReset={handleFormReset}
         onSubmit={async ({
@@ -306,21 +309,24 @@ export default function SubmitProfileCard({
       >
         {({ isSubmitting }) => (
           <>
-            <Alert type="warning" title="PRIVACY WARNING" sx={{ mb: 3 }}>
-              The Ethereum address you are using to submit your profile will be
-              publicly linked to your identity. If you don&rsquo;t want your
-              wallet holdings and transaction history to be linked to your
-              identity, we recommend using a new Ethereum address. To improve
-              your privacy, we recommend using an address which is already
-              public or a new one-seeded through{" "}
-              <Link
-                href="https://tornado.cash"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                tornado.cash
-              </Link>
-              .
+            <Alert type="muted" title="Public Address" sx={{ mb: 3 }}>
+              <EthereumAccount
+                address={account}
+                diameter={24}
+                sx={{ maxWidth: 388, color: "text", fontWeight: "bold" }}
+              />
+              <Text>
+                To improve your privacy, we recommend using an address which is
+                already public or a new one-seeded through{" "}
+                <Link
+                  href="https://tornado.cash"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  tornado.cash
+                </Link>
+                .
+              </Text>
             </Alert>
             <Field
               name="name"

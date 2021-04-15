@@ -16,6 +16,7 @@ export {
 } from "./archon-provider";
 export { default as Button } from "./button";
 export { default as Card } from "./card";
+export { default as EthereumAccount } from "./ethereum-account";
 export { default as Evidence } from "./evidence";
 export { default as FileUpload } from "./file-upload";
 export { default as Form, Field } from "./form";

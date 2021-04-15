@@ -4,7 +4,7 @@ import { Box, Flex } from "theme-ui";
 import Text from "./text";
 
 export default function Alert({ type = "info", title, children, sx, ...rest }) {
-  const Icon = { info: Info, warning: Warning }[type];
+  const Icon = { info: Info, warning: Warning, muted: Info }[type];
   return (
     <Flex
       variant={`alert.${type}`}

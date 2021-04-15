@@ -1,17 +1,17 @@
 import {
   Box,
   Card,
+  EthereumAccount,
   Flex,
   FundButton,
   Image,
   Link,
-  NextETHLink,
   Text,
   Video,
   useContract,
   useWeb3,
 } from "@kleros/components";
-import { Ether, User } from "@kleros/icons";
+import { User } from "@kleros/icons";
 import { useMemo } from "react";
 import {
   RedditIcon,
@@ -118,10 +118,12 @@ export default function SubmissionDetailsCard({
     [request]
   );
 
-  const displayName =
+  const compoundName =
     [evidence?.file.firstName, evidence?.file.lastName]
       .filter(Boolean)
       .join(" ") || name;
+  const displayName =
+    compoundName === name ? name : `${compoundName} (${name})`;
 
   const [arbitrationCost] = useContract(
     "klerosLiquid",
@@ -273,25 +275,26 @@ export default function SubmissionDetailsCard({
         </Box>
       </Flex>
       <Box sx={{ flex: 1, padding: 4 }}>
-        <Flex sx={{ alignItems: "center", gap: 8 }}>
-          <User />{" "}
+        <Flex
+          sx={{
+            alignItems: "center",
+            gap: 8,
+            marginBottom: "4px",
+          }}
+        >
+          <User />
           <Text as="span" sx={{ fontWeight: "bold" }}>
             {displayName}
           </Text>
         </Flex>
-        <Text
-          variant="clipped"
+        <EthereumAccount
+          diameter={16}
+          address={id}
           sx={{
-            fontWeight: "bold",
             marginBottom: 2,
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
+            fontWeight: "bold",
           }}
-        >
-          <Ether sx={{ fill: "text" }} />{" "}
-          <NextETHLink address={id}>{id}</NextETHLink>
-        </Text>
+        />
         <Video url={evidence?.file?.video} />
         <UBICard
           submissionID={id}

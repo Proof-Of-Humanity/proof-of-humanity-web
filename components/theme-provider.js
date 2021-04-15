@@ -33,6 +33,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     warning: "#ffbb33",
     danger: "#ff4444",
     info: "#33b5e5",
+    neutral: "#999",
   },
 
   // Styles
@@ -113,6 +114,22 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       },
       title: {
         color: "warning",
+        fontWeight: "bold",
+      },
+    },
+
+    muted: {
+      borderColor: "skeleton",
+      borderRadius: 3,
+      borderStyle: "solid",
+      borderWidth: 1,
+      padding: 2,
+      icon: {
+        stroke: "neutral",
+        path: { fill: "neutral" },
+      },
+      title: {
+        color: "neutral",
         fontWeight: "bold",
       },
     },

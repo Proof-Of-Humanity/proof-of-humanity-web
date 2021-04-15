@@ -80,7 +80,7 @@ export default function AccountSettingsPopup({
                     )}
                     <Box sx={{ marginLeft: 1 }}>
                       {name && (
-                        <Text sx={{ fontSize: 1, marginBottom: 1 }}>
+                        <Text sx={{ fontSize: 0, marginBottom: "4px" }}>
                           {name}
                         </Text>
                       )}

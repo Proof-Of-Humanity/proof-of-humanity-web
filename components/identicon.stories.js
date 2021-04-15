@@ -32,6 +32,15 @@ const metadata = {
         },
       },
     },
+    svgSx: {
+      type: "object",
+      description: "Theme UI sx prop for the inner SVG element.",
+      table: {
+        type: {
+          summary: "object",
+        },
+      },
+    },
     "...rest": {
       type: "object",
       description: "The identicon's additional props.",
