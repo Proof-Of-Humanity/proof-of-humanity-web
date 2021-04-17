@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-04-14)
+## 1.0.0-beta.4 (2021-04-17)
 
 - refactor: add vouchesReceived to submission entity ([a20388d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a20388d))
 - refactor: added parametrization for network and Infura key ([336772f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/336772f))
@@ -6,7 +6,7 @@
 - refactor: changed withdraw submission button ([3dbaa53](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/3dbaa53))
 - refactor: extracted withdraw submission button into a component ([ba6f3a5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba6f3a5))
 - refactor: made scripts responsive to the environment ([86d2b65](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/86d2b65))
-- refactor: re-structured submission form to avoid over-rendering ([4eeb2d3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4eeb2d3))
+- refactor: re-structured submission form to avoid over-rendering ([7fc7ebb](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7fc7ebb))
 - refactor: removed webcam button from video and photo upload (#104) ([1352cb5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1352cb5)), closes [#104](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/104)
 - refactor(next-router): pick network from env var as a default for safety ([cb7b64b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cb7b64b))
 - refactor(submission-card): change tampered data notice ([a9f63b1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a9f63b1))
