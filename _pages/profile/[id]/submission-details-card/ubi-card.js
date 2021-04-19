@@ -91,7 +91,6 @@ export default function UBICard({
     Date.now();
 
   const registerAndAdvance = useCallback(async () => {
-    console.info(requiredNumberOfVouches);
     if (!pohInstance || !submissionID || !requiredNumberOfVouches) return;
 
     const { vouches: users } = await (
@@ -101,8 +100,6 @@ export default function UBICard({
         )}`
       )
     ).json();
-
-    console.info(users);
 
     const toVouchCalls = [];
     for (const user of users) {
@@ -142,21 +139,29 @@ export default function UBICard({
       .startAccruing(submissionID)
       .encodeABI();
 
-    // batchSend(
-    //   [
-    //     pohAddress,
-    //     UBIAddress,
-    //     ...new Array(toVouchCalls.length).fill(pohAddress),
-    //   ],
-    //   [
-    //     web3.utils.toBN(0),
-    //     web3.utils.toBN(0),
-    //     ...new Array(toVouchCalls.length).fill(web3.utils.toBN(0)),
-    //   ],
-    //   [executeRequestCall, startAccruingCall, ...toVouchCalls],
-    //   { gasLimit: 10000000 }
-    // ).then(reCall);
-  }, [pohInstance, requiredNumberOfVouches, submissionID, ubiInstance.methods]);
+    batchSend(
+      [
+        pohAddress,
+        UBIAddress,
+        ...new Array(toVouchCalls.length).fill(pohAddress),
+      ],
+      [
+        web3.utils.toBN(0),
+        web3.utils.toBN(0),
+        ...new Array(toVouchCalls.length).fill(web3.utils.toBN(0)),
+      ],
+      [executeRequestCall, startAccruingCall, ...toVouchCalls],
+      { gasLimit: 280000 }
+    ).then(reCall);
+  }, [
+    batchSend,
+    pohInstance,
+    reCall,
+    requiredNumberOfVouches,
+    submissionID,
+    ubiInstance.methods,
+    web3.utils,
+  ]);
 
   return (
     <Card

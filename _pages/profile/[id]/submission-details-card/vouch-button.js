@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 import {
   Box,
   Button,
@@ -91,10 +92,7 @@ export default function VouchButton({ submissionID }) {
 
     const result = await promiseRequestSignature();
     const signature = result.result;
-    console.info({
-      signature,
-      msgData: messageParameters,
-    });
+
     return fetch(`${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
