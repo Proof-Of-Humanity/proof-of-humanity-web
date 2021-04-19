@@ -71,6 +71,10 @@ export default function UBICard({
     "UBI",
     "reportRemoval"
   );
+  const { send: startAccruing, loading: startAccruingLoading } = useContract(
+    "UBI",
+    "startAccruing"
+  );
 
   const pohInstance = useMemo(() => {
     if (!ProofOfHumanityAbi || !pohAddress) return;
@@ -193,8 +197,8 @@ export default function UBICard({
             Seize UBI
           </Button>
         )}
-      {status.key === submissionStatusEnum.PendingRegistration.key &&
-        challengeTimeRemaining < 0 && (
+      {challengeTimeRemaining < 0 &&
+        (status.key === submissionStatusEnum.PendingRegistration.key ? (
           <Button
             variant="secondary"
             Disabled={lastMintedSecondStatus === "pending"}
@@ -206,7 +210,22 @@ export default function UBICard({
               💧
             </Text>
           </Button>
-        )}
+        ) : (
+          status.key === submissionStatusEnum.Registered.key &&
+          lastMintedSecond?.eq(web3.utils.toBN(0)) && (
+            <Button
+              variant="secondary"
+              disabled={lastMintedSecondStatus === "pending"}
+              onClick={() => startAccruing(submissionID).then(reCall)}
+              loading={startAccruingLoading}
+            >
+              Start Accruing{" "}
+              <Text as="span" role="img" sx={{ marginLeft: 1 }}>
+                💧
+              </Text>
+            </Button>
+          )
+        ))}
     </Card>
   );
 }

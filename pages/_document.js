@@ -18,7 +18,10 @@ export default class Document extends NextDocument {
             property="og:description"
             content="Proof of Humanity, a system combining webs of trust, with reverse Turing tests, and dispute resolution to create a sybil-proof list of humans."
           />
-          <meta property="og:image" content="/images/open-graph-image.png" />
+          <meta
+            property="og:image"
+            content="https://app.proofofhumanity.id/images/open-graph-image.png"
+          />
           <meta property="og:url" content="https://www.proofofhumanity.id/" />
           <meta name="twitter:card" content="summary_large_image" />
         </Head>
