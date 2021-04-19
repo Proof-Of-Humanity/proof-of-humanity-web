@@ -156,15 +156,7 @@ export default function UBICard({
     //   [executeRequestCall, startAccruingCall, ...toVouchCalls],
     //   { gasLimit: 10000000 }
     // ).then(reCall);
-  }, [
-    batchSend,
-    pohInstance,
-    reCall,
-    requiredNumberOfVouches,
-    submissionID,
-    ubiInstance.methods,
-    web3.utils,
-  ]);
+  }, [pohInstance, requiredNumberOfVouches, submissionID, ubiInstance.methods]);
 
   return (
     <Card
