@@ -49,17 +49,16 @@ export default function VouchButton({ submissionID }) {
         chainId,
         name: "Proof of Humanity",
         verifyingContract: pohAddress,
-        version: 1,
       },
       message: {
         vouchedSubmission: submissionID,
-        voucherExpirationTimestamp: Math.floor(Date.now() / 1000) + 31536000,
+        voucherExpirationTimestamp:
+          Math.floor(Date.now() / 1000) + 6 * 30 * 24 * 60 * 60, // Expire in about ~6 months.
       },
       primaryType: "IsHumanVoucher",
       types: {
         EIP712Domain: [
           { name: "name", type: "string" },
-          { name: "version", type: "string" },
           { name: "chainId", type: "uint256" },
           { name: "verifyingContract", type: "address" },
         ],

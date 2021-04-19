@@ -1,3 +1,4 @@
+/* eslint-disable capitalized-comments */
 /* eslint-disable jsx-a11y/accessible-emoji */
 import {
   Button,
@@ -8,7 +9,7 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { UBI } from "@kleros/icons";
-import { useEffect, useMemo, useReducer } from "react";
+import { useCallback, useEffect, useMemo, useReducer } from "react";
 
 import { submissionStatusEnum } from "data";
 import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
@@ -55,6 +56,11 @@ export default function UBICard({
     "isRegistered",
     useMemo(() => ({ args: [submissionID] }), [submissionID])
   );
+
+  const [requiredNumberOfVouches] = useContract(
+    "proofOfHumanity",
+    "requiredNumberOfVouches"
+  );
   const [accruedPerSecond] = useContract("UBI", "accruedPerSecond");
 
   const { send: batchSend, loading: batchSendLoading } = useContract(
@@ -66,21 +72,95 @@ export default function UBICard({
     "reportRemoval"
   );
 
-  const pohData = useMemo(() => {
-    if (!ProofOfHumanityAbi || !submissionID) return;
-    const poHInstance = new web3.eth.Contract(ProofOfHumanityAbi);
-    return poHInstance.methods.executeRequest(submissionID).encodeABI();
-  }, [submissionID, web3.eth.Contract]);
+  const pohInstance = useMemo(() => {
+    if (!ProofOfHumanityAbi || !pohAddress) return;
+    return new web3.eth.Contract(ProofOfHumanityAbi, pohAddress);
+  }, [web3.eth.Contract]);
 
-  const ubiData = useMemo(() => {
-    if (!UBIAbi || !submissionID) return;
-    const ubiInstance = new web3.eth.Contract(UBIAbi);
-    return ubiInstance.methods.startAccruing(submissionID).encodeABI();
-  }, [submissionID, web3.eth.Contract]);
+  const ubiInstance = useMemo(() => {
+    if (!UBIAbi || !UBIAddress) return;
+    return new web3.eth.Contract(UBIAbi, UBIAddress);
+  }, [web3.eth.Contract]);
 
   const challengeTimeRemaining =
     (Number(lastStatusChange) + Number(challengePeriodDuration)) * 1000 -
     Date.now();
+
+  const registerAndAdvance = useCallback(async () => {
+    console.info(requiredNumberOfVouches);
+    if (!pohInstance || !submissionID || !requiredNumberOfVouches) return;
+
+    const { vouches: users } = await (
+      await fetch(
+        `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/all?minVouches=${Number(
+          requiredNumberOfVouches
+        )}`
+      )
+    ).json();
+
+    console.info(users);
+
+    const toVouchCalls = [];
+    for (const user of users) {
+      if (toVouchCalls.length >= 2) break;
+
+      // eslint-disable-next-line prefer-const
+      let [voucheeIsRegistered, ...voucherDatas] = await Promise.all([
+        pohInstance.methods.isRegistered(user.submissionId).call(),
+        ...user.vouchers.map((voucher) =>
+          pohInstance.methods.getSubmissionInfo(voucher).call()
+        ),
+      ]);
+
+      voucherDatas = voucherDatas.filter(
+        (voucherData) => !voucherData.hasVouched && voucherData.registered
+      );
+
+      if (voucheeIsRegistered || voucherDatas.length < requiredNumberOfVouches)
+        continue;
+
+      toVouchCalls.push(
+        pohInstance.methods
+          .changeStateToPending(
+            user.submissionId,
+            [],
+            user.signatures,
+            user.expirationTimestamps
+          )
+          .encodeABI()
+      );
+    }
+
+    const executeRequestCall = pohInstance.methods
+      .executeRequest(submissionID)
+      .encodeABI();
+    const startAccruingCall = ubiInstance.methods
+      .startAccruing(submissionID)
+      .encodeABI();
+
+    // batchSend(
+    //   [
+    //     pohAddress,
+    //     UBIAddress,
+    //     ...new Array(toVouchCalls.length).fill(pohAddress),
+    //   ],
+    //   [
+    //     web3.utils.toBN(0),
+    //     web3.utils.toBN(0),
+    //     ...new Array(toVouchCalls.length).fill(web3.utils.toBN(0)),
+    //   ],
+    //   [executeRequestCall, startAccruingCall, ...toVouchCalls],
+    //   { gasLimit: 10000000 }
+    // ).then(reCall);
+  }, [
+    batchSend,
+    pohInstance,
+    reCall,
+    requiredNumberOfVouches,
+    submissionID,
+    ubiInstance.methods,
+    web3.utils,
+  ]);
 
   return (
     <Card
@@ -118,14 +198,7 @@ export default function UBICard({
           <Button
             variant="secondary"
             Disabled={lastMintedSecondStatus === "pending"}
-            onClick={() =>
-              batchSend(
-                [pohAddress, UBIAddress],
-                [web3.utils.toBN(0), web3.utils.toBN(0)],
-                [pohData, ubiData],
-                { gasLimit: 150000 }
-              ).then(reCall)
-            }
+            onClick={registerAndAdvance}
             Loading={batchSendLoading}
           >
             Finalize registration and start accruing{" "}
