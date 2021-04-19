@@ -80,7 +80,7 @@ const contracts = [
 function Template(args) {
   return (
     <Web3Provider
-      infuraURL={`wss://${network}.infura.io/ws/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`}
+      infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT}
       contracts={contracts}
     >
       <FundButton {...args} />
