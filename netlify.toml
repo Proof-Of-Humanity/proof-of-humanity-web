@@ -5,8 +5,10 @@
   NEXT_PUBLIC_INFURA_API_KEY = "271258014f524ad78089bafc31409e45"
   NEXT_PUBLIC_NETWORK = "mainnet"
   NEXT_PUBLIC_IPFS_GATEWAY="https://ipfs.kleros.io"
+  NEXT_PUBLIC_VOUCH_DB_URL="https://vouches.proofofhumanity.id"
 
 [context.production.environment]
   NEXT_PUBLIC_INFURA_API_KEY = "76223180ca554cad9b16c8879ef4db76"
   NEXT_PUBLIC_NETWORK = "mainnet"
   NEXT_PUBLIC_IPFS_GATEWAY="https://ipfs.kleros.io"
+  NEXT_PUBLIC_VOUCH_DB_URL="https://vouches.proofofhumanity.id"
