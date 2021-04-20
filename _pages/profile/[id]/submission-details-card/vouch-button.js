@@ -9,14 +9,24 @@ import {
   useWeb3Context,
 } from "@kleros/components";
 import { Warning } from "@kleros/icons";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
 import { address as pohAddress } from "subgraph/config";
 
+const vouchText = `
+Make sure the person exists and that you have physically encountered
+them. Note that in the case of a dispute, if a submission is
+rejected for reason “Duplicate” or “Does not exist”, everyone who
+had vouched for it will get removed from the registry. Note that
+your vouch will only be counted when and as long as you are
+registered, and another submission is not using your vouch.
+`;
+
 export default function VouchButton({ submissionID }) {
   const web3Context = useWeb3Context();
   const [accounts] = useWeb3("eth", "getAccounts");
+  const [addVouchLabel, setAddVouchLabel] = useState(vouchText);
   const [registered] = useContract(
     "proofOfHumanity",
     "isRegistered",
@@ -124,14 +134,7 @@ export default function VouchButton({ submissionID }) {
       {(close) => (
         <Box sx={{ padding: 2 }}>
           <Warning />
-          <Text sx={{ marginBottom: 2 }}>
-            Make sure the person exists and that you have physically encountered
-            them. Note that in the case of a dispute, if a submission is
-            rejected for reason “Duplicate” or “Does not exist”, everyone who
-            had vouched for it will get removed from the registry. Note that
-            your vouch will only be counted when and as long as you are
-            registered, and another submission is not using your vouch.
-          </Text>
+          <Text sx={{ marginBottom: 2 }}>{addVouchLabel}</Text>
           {vouched ? (
             <Button
               onClick={() =>
@@ -143,13 +146,18 @@ export default function VouchButton({ submissionID }) {
               Remove Vouch
             </Button>
           ) : (
-            <Button
-              onClick={() => {
-                signVouch().then(() => close());
-              }}
-            >
-              Vouch
-            </Button>
+            addVouchLabel !== "Vouch saved successfully." && (
+              <Button
+                onClick={() => {
+                  signVouch().then(() => {
+                    setAddVouchLabel("Vouch saved successfully.");
+                    setTimeout(close, 3000);
+                  });
+                }}
+              >
+                Vouch
+              </Button>
+            )
           )}
         </Box>
       )}
