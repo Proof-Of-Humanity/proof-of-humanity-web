@@ -105,9 +105,12 @@ export default function UBICard({
     for (const user of users) {
       if (toVouchCalls.length >= 2) break;
 
-      // eslint-disable-next-line prefer-const
-      let [voucheeIsRegistered, ...voucherDatas] = await Promise.all([
-        pohInstance.methods.isRegistered(user.submissionId).call(),
+      let [
+        // eslint-disable-next-line prefer-const
+        userSubmission,
+        ...voucherDatas
+      ] = await Promise.all([
+        pohInstance.methods.getSubmissionInfo(user.submissionId).call(),
         ...user.vouchers.map((voucher) =>
           pohInstance.methods.getSubmissionInfo(voucher).call()
         ),
@@ -117,8 +120,30 @@ export default function UBICard({
         (voucherData) => !voucherData.hasVouched && voucherData.registered
       );
 
-      if (voucheeIsRegistered || voucherDatas.length < requiredNumberOfVouches)
+      if (
+        voucherDatas.length < requiredNumberOfVouches ||
+        Number(userSubmission.status) !== 1
+      )
         continue;
+
+      const [latestRequest, round] = await Promise.all([
+        pohInstance.methods
+          .getRequestInfo(
+            user.submissionId,
+            Number(userSubmission.numberOfRequests) - 1
+          )
+          .call(),
+        pohInstance.methods
+          .getRoundInfo(
+            user.submissionId,
+            Number(userSubmission.numberOfRequests) - 1,
+            0,
+            0
+          )
+          .call(),
+      ]);
+
+      if (latestRequest.disputed || Number(round.sideFunded) !== 1) continue;
 
       toVouchCalls.push(
         pohInstance.methods
@@ -151,7 +176,7 @@ export default function UBICard({
         ...new Array(toVouchCalls.length).fill(web3.utils.toBN(0)),
       ],
       [executeRequestCall, startAccruingCall, ...toVouchCalls],
-      { gasLimit: 280000 }
+      { gasLimit: 310000 }
     ).then(reCall);
   }, [
     batchSend,
