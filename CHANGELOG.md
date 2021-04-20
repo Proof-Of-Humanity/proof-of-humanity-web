@@ -6,6 +6,7 @@
 - feat: added privacy warning on profile submission form [fix #119](<[9e0e049](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9e0e049)>), closes [#119](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/119)
 - feat: added progress bar for photo and video upload ([263cdd6](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/263cdd6))
 - feat: allow address searches ([e3c2d3c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e3c2d3c))
+- feat: also save vouches added by changeStateToPending ([a08e53f](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a08e53f))
 - feat: display dispute links ([2db330a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2db330a))
 - feat: inform that searches are case sensitive ([f309795](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f309795))
 - feat: introduced help menu in top navbar ([cb8d621](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/cb8d621))
