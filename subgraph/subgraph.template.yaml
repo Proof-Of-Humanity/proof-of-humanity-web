@@ -30,6 +30,8 @@ dataSources:
           handler: metaEvidence
         - event: ArbitratorComplete(address,indexed address,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
           handler: arbitratorComplete
+        - event: VouchAdded(indexed address,indexed address)
+          handler: vouchAddedByChangeStateToPending
       callHandlers:
         - function: addSubmissionManually(address[],string[],string[])
           handler: addSubmissionManually

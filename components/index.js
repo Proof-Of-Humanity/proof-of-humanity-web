@@ -52,7 +52,12 @@ export { default as TimeAgo } from "./time-ago";
 export { default as Video } from "./video";
 export { default as VotingHistory } from "./voting-history";
 export { default as WalletConnection } from "./wallet-connection";
-export { default as Web3Provider, useWeb3, useContract } from "./web3-provider";
+export {
+  default as Web3Provider,
+  useWeb3,
+  useContract,
+  useWeb3Context,
+} from "./web3-provider";
 
 export { NextLink, NextETHLink, createWrapConnection } from "./next-router";
 export { zeroAddress, ethereumAddressRegExp, createEnum } from "./parsing";

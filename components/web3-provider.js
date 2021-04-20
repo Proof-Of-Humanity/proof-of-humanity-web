@@ -153,6 +153,10 @@ export default function Web3Provider({
   );
 }
 
+export function useWeb3Context() {
+  return useContext(Context);
+}
+
 export function useWeb3(namespace, method, args) {
   const isNotCall = !namespace || !method;
 
