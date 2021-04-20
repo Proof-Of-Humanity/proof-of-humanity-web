@@ -29,6 +29,7 @@ import {
   SubmitEvidenceCall,
   WithdrawFeesAndRewardsCall,
   WithdrawSubmissionCall,
+  VouchAdded as VouchAddedEvent,
 } from "../generated/ProofOfHumanity/ProofOfHumanity";
 import {
   Challenge,
@@ -262,6 +263,31 @@ function processVouchesHelper(
     }
 
     voucher.save();
+  }
+}
+
+export function vouchAddedByChangeStateToPending(event: VouchAddedEvent): void {
+  // This handler is exclusively for events VouchAdded events emited
+  // by calling changeStateToPending.
+  let functionSig = event.transaction.input.toHexString().slice(0, 10);
+  if (functionSig === "0x32fe596f") return; // Ignore if emitted by addVouch.
+
+  let submission = Submission.load(event.params._voucher.toHexString());
+  if (submission != null) {
+    submission.vouchees = submission.vouchees.concat([
+      event.params._submissionID.toHexString(),
+    ]);
+    submission.save();
+
+    let vouchedSubmission = Submission.load(
+      event.params._submissionID.toHexString()
+    );
+    if (vouchedSubmission != null) {
+      vouchedSubmission.vouchesReceived = vouchedSubmission.vouchesReceived.concat(
+        [event.params._voucher.toHexString()]
+      );
+      vouchedSubmission.save();
+    }
   }
 }
 
