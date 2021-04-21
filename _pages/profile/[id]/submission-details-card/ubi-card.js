@@ -94,9 +94,9 @@ export default function UBICard({
 
     const { vouches: users } = await (
       await fetch(
-        `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/all?minVouches=${Number(
-          requiredNumberOfVouches
-        )}`
+        `${
+          process.env.NEXT_PUBLIC_VOUCH_DB_URL
+        }/vouch/search?minVouches=${Number(requiredNumberOfVouches)}`
       )
     ).json();
 
