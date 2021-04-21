@@ -1,31 +1,35 @@
 import { Box, Image, Link, NextLink, Popup } from "@kleros/components";
-import { graphql, useFragment } from "relay-hooks";
+import { graphql, useQuery } from "relay-hooks";
 
 import { useEvidenceFile } from "data";
 
-const voucherFragment = graphql`
-  fragment voucher on Submission {
-    id
-    name
-    requests(
-      orderBy: creationTime
-      orderDirection: desc
-      first: 1
-      where: { registration: true }
-    ) {
-      evidence(orderBy: creationTime, first: 1) {
-        URI
+export default function Voucher({ submissionId }) {
+  const { props } = useQuery(
+    graphql`
+      query voucherQuery($id: ID!) {
+        submission(id: $id) {
+          id
+          name
+          requests(
+            orderBy: creationTime
+            orderDirection: desc
+            first: 1
+            where: { registration: true }
+          ) {
+            evidence(orderBy: creationTime, first: 1) {
+              URI
+            }
+          }
+        }
       }
-    }
-  }
-`;
-export default function Voucher({ submission }) {
-  const {
-    requests: [request],
-    id,
-    name: _name,
-  } = useFragment(voucherFragment, submission);
-  const evidence = useEvidenceFile()(request.evidence[0].URI);
+    `,
+    { id: submissionId }
+  );
+
+  const { submission } = props || {};
+  const { requests, name: _name } = submission || {};
+  const request = requests?.[0];
+  const evidence = useEvidenceFile()(request?.evidence?.[0]?.URI);
   const name =
     evidence instanceof Error
       ? "We are doing some maintenance work and will be online again soon."
@@ -35,7 +39,7 @@ export default function Voucher({ submission }) {
           ? evidence.file.name
           : "We are doing some maintenance work and will be online again soon.");
   return (
-    <NextLink href="/profile/[id]" as={`/profile/${id}`}>
+    <NextLink href="/profile/[id]" as={`/profile/${submissionId}`}>
       <Link
         sx={{
           height: 32,
