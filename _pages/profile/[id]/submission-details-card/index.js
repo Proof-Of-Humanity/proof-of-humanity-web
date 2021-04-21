@@ -12,7 +12,7 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { User } from "@kleros/icons";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   RedditIcon,
   RedditShareButton,
@@ -76,10 +76,21 @@ const submissionDetailsCardFragments = {
     fragment submissionDetailsCardVouchers on Submission @relay(plural: true) {
       id
       submissionTime
-      ...voucher
+      name
+      requests(
+        orderBy: creationTime
+        orderDirection: desc
+        first: 1
+        where: { registration: true }
+      ) {
+        evidence(orderBy: creationTime, first: 1) {
+          URI
+        }
+      }
     }
   `,
 };
+
 export default function SubmissionDetailsCard({
   submission,
   contract,
@@ -150,13 +161,34 @@ export default function SubmissionDetailsCard({
     [contributions, web3.utils]
   );
 
-  const registeredVouchers = useFragment(
+  const registeredGraphVouchers = useFragment(
     submissionDetailsCardFragments.vouchers,
     vouchers
   ).filter(
     ({ submissionTime }) =>
       Date.now() / 1000 - submissionTime < submissionDuration
   );
+
+  const [offChainVouches, setOffChainVouches] = useState([]);
+  useEffect(() => {
+    if (!id) return;
+    (async () => {
+      const res = await (
+        await fetch(
+          `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/search?submissionId=${id}`
+        )
+      ).json();
+      if (res && res.vouches && res.vouches.length > 0)
+        setOffChainVouches(res.vouches[0].vouchers);
+    })();
+  }, [id]);
+
+  const registeredVouchers = useMemo(() => {
+    const vouchersSet = new Set();
+    offChainVouches.forEach((v) => vouchersSet.add(v));
+    registeredGraphVouchers.forEach((v) => vouchersSet.add(v.id));
+    return [...vouchersSet];
+  }, [offChainVouches, registeredGraphVouchers]);
 
   const shareTitle =
     status === submissionStatusEnum.Vouching
@@ -311,9 +343,9 @@ export default function SubmissionDetailsCard({
         >
           Vouched by:
         </Text>
-        <Flex>
-          {registeredVouchers.map((voucher) => (
-            <Voucher key={voucher.id} submission={voucher} />
+        <Flex sx={{ flexWrap: "wrap" }}>
+          {registeredVouchers.map((voucherId) => (
+            <Voucher key={voucherId} submissionId={voucherId} />
           ))}
         </Flex>
         <Flex sx={{ justifyContent: "flex-end" }}>

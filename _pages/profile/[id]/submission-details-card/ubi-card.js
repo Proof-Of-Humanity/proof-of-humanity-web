@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments */
 /* eslint-disable jsx-a11y/accessible-emoji */
 import {
   Button,

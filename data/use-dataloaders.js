@@ -10,6 +10,7 @@ const { getEvidenceFile: useEvidenceFile } = createUseDataloaders({
     },
     URI
   ) {
+    if (!URI) return null;
     const fetchFile = (_URI) =>
       utils
         .validateFileFromURI(ipfsGateway + _URI, {

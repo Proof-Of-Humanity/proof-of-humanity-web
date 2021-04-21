@@ -45,7 +45,6 @@ module.exports = {
   rules: {
     // Core
     "arrow-body-style": "error", // Don't use unnecessary curly braces for arrow functions.
-    "capitalized-comments": "error",
     "new-cap": "error", // Require constructor names to begin with a capital letter.
     "new-parens": "error",
     "no-array-constructor": "error",
