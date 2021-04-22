@@ -9,6 +9,7 @@ import {
 } from "@kleros/components";
 import { UBI } from "@kleros/icons";
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
+import { graphql, useQuery } from "relay-hooks";
 
 import { submissionStatusEnum } from "data";
 import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
@@ -114,8 +115,21 @@ export default function UBICard({
   lastStatusChange,
   challengePeriodDuration,
   status,
+  registeredVouchers,
 }) {
   const { web3 } = useWeb3();
+  const { props: vouchesReceivedQuery } = useQuery(
+    graphql`
+      query ubiCardQuery($id: ID!) {
+        submission(id: $id) {
+          vouchesReceived {
+            id
+          }
+        }
+      }
+    `,
+    { id: submissionID }
+  );
 
   const [lastMintedSecond, , lastMintedSecondStatus, reCall] = useContract(
     "UBI",
@@ -205,6 +219,10 @@ export default function UBICard({
     web3.utils,
   ]);
 
+  // This counts how many vouches the profile received, but
+  // that are locked on another submission.
+  const [queuedVouches, setQueuedVouches] = useState(new Set());
+
   const [ownValidVouches, setOwnValidVouches] = useState(false);
   useEffect(() => {
     if (!submissionID) return;
@@ -230,22 +248,70 @@ export default function UBICard({
           validVouches.expirationTimestamps.push(
             vouches.expirationTimestamps[i]
           );
-        }
+        } else
+          setQueuedVouches((previous) => previous.add(vouches.vouchers[i]));
       }
       if (validVouches.signatures.length === 0) return;
       setOwnValidVouches(validVouches);
     })();
-  }, [pohInstance, requiredNumberOfVouches, status.key, submissionID]);
+  }, [
+    pohInstance,
+    requiredNumberOfVouches,
+    status.key,
+    submissionID,
+    vouchesReceivedQuery,
+  ]);
+
+  const { submission } = vouchesReceivedQuery || {};
+  const { vouchesReceived } = submission || {};
+  const [availableOnchainVouches, setAvailableOnchainVouches] = useState([]);
+  useEffect(() => {
+    if (!vouchesReceived || !pohInstance) return;
+    (async () => {
+      const onChainVouches = [];
+      for (const vouchReceived of vouchesReceived) {
+        if (onChainVouches.length >= requiredNumberOfVouches) break;
+
+        const { hasVouched } = await pohInstance.methods
+          .getSubmissionInfo(vouchReceived.id)
+          .call();
+
+        if (!hasVouched) onChainVouches.push(vouchReceived.id);
+        else setQueuedVouches((previous) => previous.add(vouchReceived.id));
+      }
+      setAvailableOnchainVouches(onChainVouches);
+    })();
+  }, [pohInstance, requiredNumberOfVouches, vouchesReceived]);
 
   const advanceToPending = useCallback(() => {
-    if (!ownValidVouches) return;
-    changeStateToPendingSend(
-      submissionID,
-      [],
-      ownValidVouches.signatures,
-      ownValidVouches.expirationTimestamps
-    ).then(reCall);
-  }, [changeStateToPendingSend, ownValidVouches, reCall, submissionID]);
+    if (
+      !ownValidVouches &&
+      (!availableOnchainVouches || availableOnchainVouches.length === 0)
+    )
+      return;
+
+    if (ownValidVouches.length > requiredNumberOfVouches)
+      changeStateToPendingSend(
+        submissionID,
+        [],
+        ownValidVouches.signatures,
+        ownValidVouches.expirationTimestamps
+      ).then(reCall);
+    else
+      changeStateToPendingSend(
+        submissionID,
+        availableOnchainVouches,
+        [],
+        []
+      ).then(reCall);
+  }, [
+    availableOnchainVouches,
+    changeStateToPendingSend,
+    ownValidVouches,
+    reCall,
+    requiredNumberOfVouches,
+    submissionID,
+  ]);
 
   return (
     <Card
@@ -278,7 +344,11 @@ export default function UBICard({
             Seize UBI
           </Button>
         )}
-      {ownValidVouches?.signatures?.length >= requiredNumberOfVouches &&
+      {status.key === submissionStatusEnum.Vouching.key &&
+        [...queuedVouches.keys()].length === registeredVouchers.length &&
+        `Queued vouches: ${[...queuedVouches.keys()].length}`}
+      {(ownValidVouches?.signatures?.length >= requiredNumberOfVouches ||
+        availableOnchainVouches?.length >= requiredNumberOfVouches) &&
         status.key === submissionStatusEnum.Vouching.key && (
           <Button
             variant="secondary"

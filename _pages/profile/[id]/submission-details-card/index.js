@@ -339,6 +339,7 @@ export default function SubmissionDetailsCard({
           lastStatusChange={lastStatusChange}
           challengePeriodDuration={challengePeriodDuration}
           status={status}
+          registeredVouchers={registeredVouchers}
         />
         <Text
           sx={{
