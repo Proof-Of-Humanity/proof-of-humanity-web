@@ -23,9 +23,9 @@
    ```
 
    ```bash
-   INFURA_API_KEY=API_key
-   NETWORK=kovan # or mainnet
-   NEXT_PUBLIC_IPFS_GATEWAY=https://ipfs.kleros.io # or else
+   NEXT_PUBLIC_NETWORK=kovan # or mainnet
+   NEXT_PUBLIC_INFURA_ENDPOINT='https://{network}.infura.io/v3/{api_key}'
+   NEXT_PUBLIC_IPFS_GATEWAY='https://ipfs.kleros.io'
    ```
 
 3. Build the subgraph and the relay schemas locally:

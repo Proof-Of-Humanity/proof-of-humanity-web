@@ -45,13 +45,9 @@ const metadata = {
 };
 export default metadata;
 
-const network = process.env.NEXT_PUBLIC_NETWORK || "mainnet";
-
 function Template(args) {
   return (
-    <Web3Provider
-      infuraURL={`wss://${network}.infura.io/ws/v3/${process.env.NEXT_PUBLIC_INFURA_API_KEY}`}
-    >
+    <Web3Provider infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT}>
       <UserSettings {...args} />
     </Web3Provider>
   );
