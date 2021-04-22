@@ -227,6 +227,7 @@ export default function UBICard({
   // that are locked on another submission.
   const [queuedVouches, setQueuedVouches] = useState(new Set());
 
+  // Gasless vouches.
   const [ownValidVouches, setOwnValidVouches] = useState(false);
   useEffect(() => {
     if (!submissionID) return;

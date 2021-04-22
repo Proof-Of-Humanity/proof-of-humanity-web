@@ -4,6 +4,7 @@
 - fix: add start accruing and close #210 ([20e6e43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/20e6e43)), closes [#210](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/210)
 - fix: add webcam back without mirroring ([1085e47](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/1085e47))
 - fix: add/remove vouch ([06c0beb](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/06c0beb))
+- fix: advance pending ([2b8b187](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/2b8b187))
 - fix: appeal crowdfunding and close #160 ([ba942c7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ba942c7)), closes [#160](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/160)
 - fix: broken etherscan link ([05394af](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/05394af))
 - fix: broken grid on ipad ([deab58e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/deab58e))
