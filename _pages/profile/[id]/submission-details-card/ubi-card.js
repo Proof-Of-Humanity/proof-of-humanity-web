@@ -127,11 +127,14 @@ export default function UBICard({
     "isRegistered",
     useMemo(() => ({ args: [submissionID] }), [submissionID])
   );
-
   const [requiredNumberOfVouches] = useContract(
     "proofOfHumanity",
     "requiredNumberOfVouches"
   );
+  const {
+    send: changeStateToPendingSend,
+    loading: changeStateToPendingSendLoading,
+  } = useContract("proofOfHumanity", "changeStateToPending");
   const [accruedPerSecond] = useContract("UBI", "accruedPerSecond");
 
   const { send: batchSend, loading: batchSendLoading } = useContract(
@@ -161,13 +164,16 @@ export default function UBICard({
     (Number(lastStatusChange) + Number(challengePeriodDuration)) * 1000 -
     Date.now();
 
+  const [fetchingElegible, setFetchingElegible] = useState(false);
   const registerAndAdvanceOthers = useCallback(async () => {
     if (!pohInstance || !submissionID || !requiredNumberOfVouches) return;
 
+    setFetchingElegible(true);
     const toVouchCalls = await findElegibleUsers(
       pohInstance,
       requiredNumberOfVouches
     );
+    setFetchingElegible(false);
     const executeRequestCall = pohInstance.methods
       .executeRequest(submissionID)
       .encodeABI();
@@ -210,6 +216,7 @@ export default function UBICard({
       ).json();
 
       const validVouches = { signatures: [], expirationTimestamps: [] };
+      if (user?.vouches?.length === 0) return;
       const vouches = user.vouches[0];
       for (let i = 0; i < vouches.vouchers.length; i++) {
         if (validVouches.signatures.length >= requiredNumberOfVouches) break;
@@ -230,39 +237,15 @@ export default function UBICard({
     })();
   }, [pohInstance, requiredNumberOfVouches, status.key, submissionID]);
 
-  const advanceToPending = useCallback(async () => {
+  const advanceToPending = useCallback(() => {
     if (!ownValidVouches) return;
-    const toVouchCalls = await findElegibleUsers(
-      pohInstance,
-      requiredNumberOfVouches
-    );
-    const changeStateToPendingCall = pohInstance.methods
-      .changeStateToPending(
-        submissionID,
-        [],
-        ownValidVouches.signatures,
-        ownValidVouches.expirationTimestamps
-      )
-      .encodeABI();
-
-    batchSend(
-      [pohAddress, ...new Array(toVouchCalls.length).fill(pohAddress)],
-      [
-        web3.utils.toBN(0),
-        ...new Array(toVouchCalls.length).fill(web3.utils.toBN(0)),
-      ],
-      [changeStateToPendingCall, ...toVouchCalls],
-      { gasLimit: 300000 }
+    changeStateToPendingSend(
+      submissionID,
+      [],
+      ownValidVouches.signatures,
+      ownValidVouches.expirationTimestamps
     ).then(reCall);
-  }, [
-    batchSend,
-    ownValidVouches,
-    pohInstance,
-    reCall,
-    requiredNumberOfVouches,
-    submissionID,
-    web3.utils,
-  ]);
+  }, [changeStateToPendingSend, ownValidVouches, reCall, submissionID]);
 
   return (
     <Card
@@ -300,7 +283,7 @@ export default function UBICard({
           <Button
             variant="secondary"
             onClick={advanceToPending}
-            loading={batchSendLoading}
+            loading={changeStateToPendingSendLoading}
           >
             Advance to pending
           </Button>
@@ -311,7 +294,7 @@ export default function UBICard({
             variant="secondary"
             disabled={lastMintedSecondStatus === "pending"}
             onClick={registerAndAdvanceOthers}
-            loading={batchSendLoading}
+            loading={batchSendLoading || fetchingElegible}
           >
             Finalize registration and start accruing{" "}
             <Text as="span" role="img" sx={{ marginLeft: 1 }}>
