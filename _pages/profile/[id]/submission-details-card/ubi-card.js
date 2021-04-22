@@ -141,9 +141,13 @@ export default function UBICard({
     "isRegistered",
     useMemo(() => ({ args: [submissionID] }), [submissionID])
   );
-  const [requiredNumberOfVouches] = useContract(
+  const [requiredNumberOfVouchesBN] = useContract(
     "proofOfHumanity",
     "requiredNumberOfVouches"
+  );
+  const requiredNumberOfVouches = useMemo(
+    () => Number(requiredNumberOfVouchesBN),
+    [requiredNumberOfVouchesBN]
   );
   const {
     send: changeStateToPendingSend,
@@ -223,6 +227,7 @@ export default function UBICard({
   // that are locked on another submission.
   const [queuedVouches, setQueuedVouches] = useState(new Set());
 
+  // Gasless vouches.
   const [ownValidVouches, setOwnValidVouches] = useState(false);
   useEffect(() => {
     if (!submissionID) return;
@@ -290,14 +295,14 @@ export default function UBICard({
     )
       return;
 
-    if (ownValidVouches.length > requiredNumberOfVouches)
+    if (ownValidVouches.signatures.length >= requiredNumberOfVouches)
       changeStateToPendingSend(
         submissionID,
         [],
         ownValidVouches.signatures,
         ownValidVouches.expirationTimestamps
       ).then(reCall);
-    else
+    else if (availableOnchainVouches.length >= requiredNumberOfVouches)
       changeStateToPendingSend(
         submissionID,
         availableOnchainVouches,
