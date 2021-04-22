@@ -350,13 +350,16 @@ export default function UBICard({
       {(ownValidVouches?.signatures?.length >= requiredNumberOfVouches ||
         availableOnchainVouches?.length >= requiredNumberOfVouches) &&
         status.key === submissionStatusEnum.Vouching.key && (
-          <Button
-            variant="secondary"
-            onClick={advanceToPending}
-            loading={changeStateToPendingSendLoading}
-          >
-            Advance to pending
-          </Button>
+          <Flex sx={{ alignItems: "center" }}>
+            <Text sx={{ marginRight: 2 }}>Wait or</Text>
+            <Button
+              variant="secondary"
+              onClick={advanceToPending}
+              loading={changeStateToPendingSendLoading}
+            >
+              Advance to Pending
+            </Button>
+          </Flex>
         )}
       {challengeTimeRemaining < 0 &&
         (status.key === submissionStatusEnum.PendingRegistration.key ? (

@@ -24,6 +24,7 @@ import {
 import { graphql, useFragment } from "relay-hooks";
 
 import Deadlines from "./deadlines";
+import GaslessVouchButton from "./gasless-vouch";
 import UBICard from "./ubi-card";
 import VouchButton from "./vouch-button";
 import Voucher from "./voucher";
@@ -250,6 +251,7 @@ export default function SubmissionDetailsCard({
                   Fund Submission
                 </FundButton>
               )}
+              <GaslessVouchButton submissionID={id} />
               <VouchButton submissionID={id} />
             </>
           )}
