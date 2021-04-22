@@ -8,7 +8,7 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { UBI } from "@kleros/icons";
-import { useCallback, useEffect, useMemo, useReducer } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
 
 import { submissionStatusEnum } from "data";
 import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
@@ -37,6 +37,78 @@ function AccruedUBI({ lastMintedSecond, web3, accruedPerSecond, ...rest }) {
     </Text>
   );
 }
+
+async function findElegibleUsers(
+  pohInstance,
+  requiredNumberOfVouches,
+  count = 1
+) {
+  const { vouches: users } = await (
+    await fetch(
+      `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/search?minVouches=${Number(
+        requiredNumberOfVouches
+      )}`
+    )
+  ).json();
+
+  const toVouchCalls = [];
+  for (const user of users) {
+    if (toVouchCalls.length >= count) break;
+
+    let [
+      // eslint-disable-next-line prefer-const
+      userSubmission,
+      ...voucherDatas
+    ] = await Promise.all([
+      pohInstance.methods.getSubmissionInfo(user.submissionId).call(),
+      ...user.vouchers.map((voucher) =>
+        pohInstance.methods.getSubmissionInfo(voucher).call()
+      ),
+    ]);
+
+    voucherDatas = voucherDatas.filter(
+      (voucherData) => !voucherData.hasVouched && voucherData.registered
+    );
+
+    if (
+      voucherDatas.length < requiredNumberOfVouches ||
+      Number(userSubmission.status) !== 1
+    )
+      continue;
+
+    const [latestRequest, round] = await Promise.all([
+      pohInstance.methods
+        .getRequestInfo(
+          user.submissionId,
+          Number(userSubmission.numberOfRequests) - 1
+        )
+        .call(),
+      pohInstance.methods
+        .getRoundInfo(
+          user.submissionId,
+          Number(userSubmission.numberOfRequests) - 1,
+          0,
+          0
+        )
+        .call(),
+    ]);
+
+    if (latestRequest.disputed || Number(round.sideFunded) !== 1) continue;
+
+    toVouchCalls.push(
+      pohInstance.methods
+        .changeStateToPending(
+          user.submissionId,
+          [],
+          user.signatures,
+          user.expirationTimestamps
+        )
+        .encodeABI()
+    );
+  }
+  return toVouchCalls;
+}
+
 export default function UBICard({
   submissionID,
   lastStatusChange,
@@ -89,73 +161,13 @@ export default function UBICard({
     (Number(lastStatusChange) + Number(challengePeriodDuration)) * 1000 -
     Date.now();
 
-  const registerAndAdvance = useCallback(async () => {
+  const registerAndAdvanceOthers = useCallback(async () => {
     if (!pohInstance || !submissionID || !requiredNumberOfVouches) return;
 
-    const { vouches: users } = await (
-      await fetch(
-        `${
-          process.env.NEXT_PUBLIC_VOUCH_DB_URL
-        }/vouch/search?minVouches=${Number(requiredNumberOfVouches)}`
-      )
-    ).json();
-
-    const toVouchCalls = [];
-    for (const user of users) {
-      if (toVouchCalls.length >= 2) break;
-
-      let [
-        // eslint-disable-next-line prefer-const
-        userSubmission,
-        ...voucherDatas
-      ] = await Promise.all([
-        pohInstance.methods.getSubmissionInfo(user.submissionId).call(),
-        ...user.vouchers.map((voucher) =>
-          pohInstance.methods.getSubmissionInfo(voucher).call()
-        ),
-      ]);
-
-      voucherDatas = voucherDatas.filter(
-        (voucherData) => !voucherData.hasVouched && voucherData.registered
-      );
-
-      if (
-        voucherDatas.length < requiredNumberOfVouches ||
-        Number(userSubmission.status) !== 1
-      )
-        continue;
-
-      const [latestRequest, round] = await Promise.all([
-        pohInstance.methods
-          .getRequestInfo(
-            user.submissionId,
-            Number(userSubmission.numberOfRequests) - 1
-          )
-          .call(),
-        pohInstance.methods
-          .getRoundInfo(
-            user.submissionId,
-            Number(userSubmission.numberOfRequests) - 1,
-            0,
-            0
-          )
-          .call(),
-      ]);
-
-      if (latestRequest.disputed || Number(round.sideFunded) !== 1) continue;
-
-      toVouchCalls.push(
-        pohInstance.methods
-          .changeStateToPending(
-            user.submissionId,
-            [],
-            user.signatures,
-            user.expirationTimestamps
-          )
-          .encodeABI()
-      );
-    }
-
+    const toVouchCalls = await findElegibleUsers(
+      pohInstance,
+      requiredNumberOfVouches
+    );
     const executeRequestCall = pohInstance.methods
       .executeRequest(submissionID)
       .encodeABI();
@@ -184,6 +196,71 @@ export default function UBICard({
     requiredNumberOfVouches,
     submissionID,
     ubiInstance.methods,
+    web3.utils,
+  ]);
+
+  const [ownValidVouches, setOwnValidVouches] = useState(false);
+  useEffect(() => {
+    if (!submissionID) return;
+    (async () => {
+      const user = await (
+        await fetch(
+          `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/search?submissionId=${submissionID}`
+        )
+      ).json();
+
+      const validVouches = { signatures: [], expirationTimestamps: [] };
+      const vouches = user.vouches[0];
+      for (let i = 0; i < vouches.vouchers.length; i++) {
+        if (validVouches.signatures.length >= requiredNumberOfVouches) break;
+
+        const { hasVouched } = await pohInstance.methods
+          .getSubmissionInfo(vouches.vouchers[i])
+          .call();
+
+        if (!hasVouched) {
+          validVouches.signatures.push(vouches.signatures[i]);
+          validVouches.expirationTimestamps.push(
+            vouches.expirationTimestamps[i]
+          );
+        }
+      }
+      if (validVouches.signatures.length === 0) return;
+      setOwnValidVouches(validVouches);
+    })();
+  }, [pohInstance, requiredNumberOfVouches, status.key, submissionID]);
+
+  const advanceToPending = useCallback(async () => {
+    if (!ownValidVouches) return;
+    const toVouchCalls = await findElegibleUsers(
+      pohInstance,
+      requiredNumberOfVouches
+    );
+    const changeStateToPendingCall = pohInstance.methods
+      .changeStateToPending(
+        submissionID,
+        [],
+        ownValidVouches.signatures,
+        ownValidVouches.expirationTimestamps
+      )
+      .encodeABI();
+
+    batchSend(
+      [pohAddress, ...new Array(toVouchCalls.length).fill(pohAddress)],
+      [
+        web3.utils.toBN(0),
+        ...new Array(toVouchCalls.length).fill(web3.utils.toBN(0)),
+      ],
+      [changeStateToPendingCall, ...toVouchCalls],
+      { gasLimit: 300000 }
+    ).then(reCall);
+  }, [
+    batchSend,
+    ownValidVouches,
+    pohInstance,
+    reCall,
+    requiredNumberOfVouches,
+    submissionID,
     web3.utils,
   ]);
 
@@ -218,13 +295,23 @@ export default function UBICard({
             Seize UBI
           </Button>
         )}
-      {challengeTimeRemaining < 0 &&
-        (status.key === submissionStatusEnum.PendingRegistration.key ? (
+      {ownValidVouches?.signatures?.length >= requiredNumberOfVouches &&
+        status.key === submissionStatusEnum.Vouching.key && (
           <Button
             variant="secondary"
-            Disabled={lastMintedSecondStatus === "pending"}
-            onClick={registerAndAdvance}
-            Loading={batchSendLoading}
+            onClick={advanceToPending}
+            loading={batchSendLoading}
+          >
+            Advance to pending
+          </Button>
+        )}
+      {challengeTimeRemaining < 0 &&
+        (status.key === submissionStatusEnum.PendingRegistration.hes ? (
+          <Button
+            variant="secondary"
+            disabled={lastMintedSecondStatus === "pending"}
+            onClick={registerAndAdvanceOthers}
+            loading={batchSendLoading}
           >
             Finalize registration and start accruing{" "}
             <Text as="span" role="img" sx={{ marginLeft: 1 }}>
