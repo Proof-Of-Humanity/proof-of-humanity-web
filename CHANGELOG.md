@@ -43,6 +43,7 @@
 - fix: remove support for avi and mov videos and decrease limit size (#95) ([83253f1](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/83253f1)), closes [#95](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/95)
 - fix: remove unreliable components ([aba821c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/aba821c))
 - fix: remove useless loading indicator and close #154 ([7c4c84d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7c4c84d)), closes [#154](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/154)
+- fix: removed multiplier from challenge deposit ([d8186f8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d8186f8)), closes [#178](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/178)
 - fix: sanitize photo and video names before uploading ([fa3754c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fa3754c))
 - fix: second round of appeal not showing ([00db988](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/00db988))
 - fix: seize ubi button conditionals ([5fd0f03](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5fd0f03))

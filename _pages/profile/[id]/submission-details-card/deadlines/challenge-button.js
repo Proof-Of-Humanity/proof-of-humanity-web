@@ -25,12 +25,6 @@ import {
 } from "data";
 
 const challengeButtonFragments = {
-  contract: graphql`
-    fragment challengeButtonContract on Contract {
-      submissionChallengeBaseDeposit
-      sharedStakeMultiplier
-    }
-  `,
   request: graphql`
     fragment challengeButtonRequest on Request {
       disputed
@@ -105,12 +99,7 @@ function DuplicateInput({ submissionID, setDuplicate }) {
     </Box>
   );
 }
-export default function ChallengeButton({
-  request,
-  contract,
-  status,
-  submissionID,
-}) {
+export default function ChallengeButton({ request, status, submissionID }) {
   const {
     metaEvidence: _metaEvidence,
     currentReason: _currentReason,
@@ -138,17 +127,6 @@ export default function ChallengeButton({
     )
   );
   const { web3 } = useWeb3();
-  const { sharedStakeMultiplier, submissionChallengeBaseDeposit } = useFragment(
-    challengeButtonFragments.contract,
-    contract
-  );
-  const totalCost = arbitrationCost
-    ?.add(
-      arbitrationCost
-        .mul(web3.utils.toBN(sharedStakeMultiplier))
-        .div(web3.utils.toBN(10000))
-    )
-    .add(web3.utils.toBN(submissionChallengeBaseDeposit));
 
   const [type, setType] = useState(challengeReasonEnum.None);
   const duplicateTypeSelected = type === challengeReasonEnum.Duplicate;
@@ -194,7 +172,8 @@ export default function ChallengeButton({
             mainSx={{ padding: 0 }}
           >
             <Text>
-              {totalCost && `${web3.utils.fromWei(totalCost)} ETH Deposit`}
+              {arbitrationCost &&
+                `${web3.utils.fromWei(arbitrationCost)} ETH Deposit`}
             </Text>
           </Card>
           {status === submissionStatusEnum.PendingRegistration && (
@@ -238,14 +217,14 @@ export default function ChallengeButton({
           )}
           <Button
             sx={{ display: "block", margin: "auto" }}
-            disabled={(duplicateTypeSelected && !duplicate) || !totalCost}
+            disabled={(duplicateTypeSelected && !duplicate) || !arbitrationCost}
             onClick={() =>
               send(
                 submissionID,
                 type.index,
                 duplicate || zeroAddress,
                 zeroAddress,
-                { value: totalCost }
+                { value: arbitrationCost }
               ).then(() => close())
             }
             loading={loading}

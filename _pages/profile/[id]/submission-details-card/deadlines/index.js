@@ -13,7 +13,6 @@ const deadlinesFragments = {
       submissionDuration
       renewalTime
       challengePeriodDuration
-      ...challengeButtonContract
       ...removeButtonContract
     }
   `,
@@ -81,7 +80,6 @@ export default function Deadlines({ submission, contract, status }) {
           button={
             <ChallengeButton
               request={request}
-              contract={contract}
               status={status}
               submissionID={id}
             />
