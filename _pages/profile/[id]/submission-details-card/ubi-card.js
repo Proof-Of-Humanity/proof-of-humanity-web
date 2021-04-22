@@ -297,7 +297,7 @@ export default function UBICard({
         ownValidVouches.signatures,
         ownValidVouches.expirationTimestamps
       ).then(reCall);
-    else
+    else if (availableOnchainVouches.length > 0)
       changeStateToPendingSend(
         submissionID,
         availableOnchainVouches,
