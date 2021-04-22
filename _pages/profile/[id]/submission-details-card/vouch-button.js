@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments */
 import {
   Box,
   Button,

@@ -12,7 +12,7 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { User } from "@kleros/icons";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   RedditIcon,
   RedditShareButton,
@@ -76,10 +76,21 @@ const submissionDetailsCardFragments = {
     fragment submissionDetailsCardVouchers on Submission @relay(plural: true) {
       id
       submissionTime
-      ...voucher
+      name
+      requests(
+        orderBy: creationTime
+        orderDirection: desc
+        first: 1
+        where: { registration: true }
+      ) {
+        evidence(orderBy: creationTime, first: 1) {
+          URI
+        }
+      }
     }
   `,
 };
+
 export default function SubmissionDetailsCard({
   submission,
   contract,
@@ -150,13 +161,34 @@ export default function SubmissionDetailsCard({
     [contributions, web3.utils]
   );
 
-  const registeredVouchers = useFragment(
+  const registeredGraphVouchers = useFragment(
     submissionDetailsCardFragments.vouchers,
     vouchers
   ).filter(
     ({ submissionTime }) =>
       Date.now() / 1000 - submissionTime < submissionDuration
   );
+
+  const [offChainVouches, setOffChainVouches] = useState([]);
+  useEffect(() => {
+    if (!id) return;
+    (async () => {
+      const res = await (
+        await fetch(
+          `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/search?submissionId=${id}`
+        )
+      ).json();
+      if (res && res.vouches && res.vouches.length > 0)
+        setOffChainVouches(res.vouches[0].vouchers);
+    })();
+  }, [id]);
+
+  const registeredVouchers = useMemo(() => {
+    const vouchersSet = new Set();
+    offChainVouches.forEach((v) => vouchersSet.add(v));
+    registeredGraphVouchers.forEach((v) => vouchersSet.add(v.id));
+    return [...vouchersSet];
+  }, [offChainVouches, registeredGraphVouchers]);
 
   const shareTitle =
     status === submissionStatusEnum.Vouching
@@ -225,9 +257,6 @@ export default function SubmissionDetailsCard({
         <Flex sx={{ width: "100%" }}>
           <Box
             sx={{
-              borderRightColor: "text",
-              borderRightStyle: "solid",
-              borderRightWidth: 1,
               flex: 1,
               marginBottom: 3,
               paddingX: 1,
@@ -238,18 +267,27 @@ export default function SubmissionDetailsCard({
               {String(registeredVouchers.length)}/{requiredNumberOfVouches}
             </Text>
           </Box>
-          <Box sx={{ flex: 1 }}>
-            <Text>Deposit</Text>
-            <Text sx={{ fontWeight: "bold" }}>
-              {totalCost &&
-                `${Math.floor(
-                  totalContribution
-                    .mul(web3.utils.toBN(100))
-                    .div(totalCost)
-                    .toNumber()
-                )}%`}
-            </Text>
-          </Box>
+          {status !== submissionStatusEnum.Registered && (
+            <Box
+              sx={{
+                flex: 1,
+                borderLeftColor: "text",
+                borderLeftStyle: "solid",
+                borderLeftWidth: 1,
+              }}
+            >
+              <Text>Deposit</Text>
+              <Text sx={{ fontWeight: "bold" }}>
+                {totalCost &&
+                  `${Math.floor(
+                    totalContribution
+                      .mul(web3.utils.toBN(100))
+                      .div(totalCost)
+                      .toNumber()
+                  )}%`}
+              </Text>
+            </Box>
+          )}
         </Flex>
         {challenges?.length > 0 && challenges[0].disputeID !== null && (
           <Flex>
@@ -301,6 +339,7 @@ export default function SubmissionDetailsCard({
           lastStatusChange={lastStatusChange}
           challengePeriodDuration={challengePeriodDuration}
           status={status}
+          registeredVouchers={registeredVouchers}
         />
         <Text
           sx={{
@@ -311,9 +350,9 @@ export default function SubmissionDetailsCard({
         >
           Vouched by:
         </Text>
-        <Flex>
-          {registeredVouchers.map((voucher) => (
-            <Voucher key={voucher.id} submission={voucher} />
+        <Flex sx={{ flexWrap: "wrap" }}>
+          {registeredVouchers.map((voucherId) => (
+            <Voucher key={voucherId} submissionId={voucherId} />
           ))}
         </Flex>
         <Flex sx={{ justifyContent: "flex-end" }}>

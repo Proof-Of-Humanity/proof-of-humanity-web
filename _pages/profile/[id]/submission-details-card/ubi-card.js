@@ -1,4 +1,3 @@
-/* eslint-disable capitalized-comments */
 /* eslint-disable jsx-a11y/accessible-emoji */
 import {
   Button,
@@ -9,7 +8,8 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { UBI } from "@kleros/icons";
-import { useCallback, useEffect, useMemo, useReducer } from "react";
+import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
+import { graphql, useQuery } from "relay-hooks";
 
 import { submissionStatusEnum } from "data";
 import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
@@ -38,13 +38,98 @@ function AccruedUBI({ lastMintedSecond, web3, accruedPerSecond, ...rest }) {
     </Text>
   );
 }
+
+async function findElegibleUsers(
+  pohInstance,
+  requiredNumberOfVouches,
+  count = 1
+) {
+  const { vouches: users } = await (
+    await fetch(
+      `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/search?minVouches=${Number(
+        requiredNumberOfVouches
+      )}`
+    )
+  ).json();
+
+  const toVouchCalls = [];
+  for (const user of users) {
+    if (toVouchCalls.length >= count) break;
+
+    let [
+      // eslint-disable-next-line prefer-const
+      userSubmission,
+      ...voucherDatas
+    ] = await Promise.all([
+      pohInstance.methods.getSubmissionInfo(user.submissionId).call(),
+      ...user.vouchers.map((voucher) =>
+        pohInstance.methods.getSubmissionInfo(voucher).call()
+      ),
+    ]);
+
+    voucherDatas = voucherDatas.filter(
+      (voucherData) => !voucherData.hasVouched && voucherData.registered
+    );
+
+    if (
+      voucherDatas.length < requiredNumberOfVouches ||
+      Number(userSubmission.status) !== 1
+    )
+      continue;
+
+    const [latestRequest, round] = await Promise.all([
+      pohInstance.methods
+        .getRequestInfo(
+          user.submissionId,
+          Number(userSubmission.numberOfRequests) - 1
+        )
+        .call(),
+      pohInstance.methods
+        .getRoundInfo(
+          user.submissionId,
+          Number(userSubmission.numberOfRequests) - 1,
+          0,
+          0
+        )
+        .call(),
+    ]);
+
+    if (latestRequest.disputed || Number(round.sideFunded) !== 1) continue;
+
+    toVouchCalls.push(
+      pohInstance.methods
+        .changeStateToPending(
+          user.submissionId,
+          [],
+          user.signatures,
+          user.expirationTimestamps
+        )
+        .encodeABI()
+    );
+  }
+  return toVouchCalls;
+}
+
 export default function UBICard({
   submissionID,
   lastStatusChange,
   challengePeriodDuration,
   status,
+  registeredVouchers,
 }) {
   const { web3 } = useWeb3();
+  const { props: vouchesReceivedQuery } = useQuery(
+    graphql`
+      query ubiCardQuery($id: ID!) {
+        submission(id: $id) {
+          vouchesReceived {
+            id
+          }
+        }
+      }
+    `,
+    { id: submissionID }
+  );
 
   const [lastMintedSecond, , lastMintedSecondStatus, reCall] = useContract(
     "UBI",
@@ -56,11 +141,14 @@ export default function UBICard({
     "isRegistered",
     useMemo(() => ({ args: [submissionID] }), [submissionID])
   );
-
   const [requiredNumberOfVouches] = useContract(
     "proofOfHumanity",
     "requiredNumberOfVouches"
   );
+  const {
+    send: changeStateToPendingSend,
+    loading: changeStateToPendingSendLoading,
+  } = useContract("proofOfHumanity", "changeStateToPending");
   const [accruedPerSecond] = useContract("UBI", "accruedPerSecond");
 
   const { send: batchSend, loading: batchSendLoading } = useContract(
@@ -90,73 +178,16 @@ export default function UBICard({
     (Number(lastStatusChange) + Number(challengePeriodDuration)) * 1000 -
     Date.now();
 
-  const registerAndAdvance = useCallback(async () => {
+  const [fetchingElegible, setFetchingElegible] = useState(false);
+  const registerAndAdvanceOthers = useCallback(async () => {
     if (!pohInstance || !submissionID || !requiredNumberOfVouches) return;
 
-    const { vouches: users } = await (
-      await fetch(
-        `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/all?minVouches=${Number(
-          requiredNumberOfVouches
-        )}`
-      )
-    ).json();
-
-    const toVouchCalls = [];
-    for (const user of users) {
-      if (toVouchCalls.length >= 2) break;
-
-      let [
-        // eslint-disable-next-line prefer-const
-        userSubmission,
-        ...voucherDatas
-      ] = await Promise.all([
-        pohInstance.methods.getSubmissionInfo(user.submissionId).call(),
-        ...user.vouchers.map((voucher) =>
-          pohInstance.methods.getSubmissionInfo(voucher).call()
-        ),
-      ]);
-
-      voucherDatas = voucherDatas.filter(
-        (voucherData) => !voucherData.hasVouched && voucherData.registered
-      );
-
-      if (
-        voucherDatas.length < requiredNumberOfVouches ||
-        Number(userSubmission.status) !== 1
-      )
-        continue;
-
-      const [latestRequest, round] = await Promise.all([
-        pohInstance.methods
-          .getRequestInfo(
-            user.submissionId,
-            Number(userSubmission.numberOfRequests) - 1
-          )
-          .call(),
-        pohInstance.methods
-          .getRoundInfo(
-            user.submissionId,
-            Number(userSubmission.numberOfRequests) - 1,
-            0,
-            0
-          )
-          .call(),
-      ]);
-
-      if (latestRequest.disputed || Number(round.sideFunded) !== 1) continue;
-
-      toVouchCalls.push(
-        pohInstance.methods
-          .changeStateToPending(
-            user.submissionId,
-            [],
-            user.signatures,
-            user.expirationTimestamps
-          )
-          .encodeABI()
-      );
-    }
-
+    setFetchingElegible(true);
+    const toVouchCalls = await findElegibleUsers(
+      pohInstance,
+      requiredNumberOfVouches
+    );
+    setFetchingElegible(false);
     const executeRequestCall = pohInstance.methods
       .executeRequest(submissionID)
       .encodeABI();
@@ -176,7 +207,7 @@ export default function UBICard({
         ...new Array(toVouchCalls.length).fill(web3.utils.toBN(0)),
       ],
       [executeRequestCall, startAccruingCall, ...toVouchCalls],
-      { gasLimit: 310000 }
+      { gasLimit: 220000 }
     ).then(reCall);
   }, [
     batchSend,
@@ -186,6 +217,100 @@ export default function UBICard({
     submissionID,
     ubiInstance.methods,
     web3.utils,
+  ]);
+
+  // This counts how many vouches the profile received, but
+  // that are locked on another submission.
+  const [queuedVouches, setQueuedVouches] = useState(new Set());
+
+  const [ownValidVouches, setOwnValidVouches] = useState(false);
+  useEffect(() => {
+    if (!submissionID) return;
+    (async () => {
+      const user = await (
+        await fetch(
+          `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/search?submissionId=${submissionID}`
+        )
+      ).json();
+
+      const validVouches = { signatures: [], expirationTimestamps: [] };
+      if (user?.vouches?.length === 0) return;
+      const vouches = user.vouches[0];
+      for (let i = 0; i < vouches.vouchers.length; i++) {
+        if (validVouches.signatures.length >= requiredNumberOfVouches) break;
+
+        const { hasVouched } = await pohInstance.methods
+          .getSubmissionInfo(vouches.vouchers[i])
+          .call();
+
+        if (!hasVouched) {
+          validVouches.signatures.push(vouches.signatures[i]);
+          validVouches.expirationTimestamps.push(
+            vouches.expirationTimestamps[i]
+          );
+        } else
+          setQueuedVouches((previous) => previous.add(vouches.vouchers[i]));
+      }
+      if (validVouches.signatures.length === 0) return;
+      setOwnValidVouches(validVouches);
+    })();
+  }, [
+    pohInstance,
+    requiredNumberOfVouches,
+    status.key,
+    submissionID,
+    vouchesReceivedQuery,
+  ]);
+
+  const { submission } = vouchesReceivedQuery || {};
+  const { vouchesReceived } = submission || {};
+  const [availableOnchainVouches, setAvailableOnchainVouches] = useState([]);
+  useEffect(() => {
+    if (!vouchesReceived || !pohInstance) return;
+    (async () => {
+      const onChainVouches = [];
+      for (const vouchReceived of vouchesReceived) {
+        if (onChainVouches.length >= requiredNumberOfVouches) break;
+
+        const { hasVouched } = await pohInstance.methods
+          .getSubmissionInfo(vouchReceived.id)
+          .call();
+
+        if (!hasVouched) onChainVouches.push(vouchReceived.id);
+        else setQueuedVouches((previous) => previous.add(vouchReceived.id));
+      }
+      setAvailableOnchainVouches(onChainVouches);
+    })();
+  }, [pohInstance, requiredNumberOfVouches, vouchesReceived]);
+
+  const advanceToPending = useCallback(() => {
+    if (
+      !ownValidVouches &&
+      (!availableOnchainVouches || availableOnchainVouches.length === 0)
+    )
+      return;
+
+    if (ownValidVouches.length > requiredNumberOfVouches)
+      changeStateToPendingSend(
+        submissionID,
+        [],
+        ownValidVouches.signatures,
+        ownValidVouches.expirationTimestamps
+      ).then(reCall);
+    else
+      changeStateToPendingSend(
+        submissionID,
+        availableOnchainVouches,
+        [],
+        []
+      ).then(reCall);
+  }, [
+    availableOnchainVouches,
+    changeStateToPendingSend,
+    ownValidVouches,
+    reCall,
+    requiredNumberOfVouches,
+    submissionID,
   ]);
 
   return (
@@ -219,13 +344,27 @@ export default function UBICard({
             Seize UBI
           </Button>
         )}
+      {status.key === submissionStatusEnum.Vouching.key &&
+        [...queuedVouches.keys()].length === registeredVouchers.length &&
+        `Queued vouches: ${[...queuedVouches.keys()].length}`}
+      {(ownValidVouches?.signatures?.length >= requiredNumberOfVouches ||
+        availableOnchainVouches?.length >= requiredNumberOfVouches) &&
+        status.key === submissionStatusEnum.Vouching.key && (
+          <Button
+            variant="secondary"
+            onClick={advanceToPending}
+            loading={changeStateToPendingSendLoading}
+          >
+            Advance to pending
+          </Button>
+        )}
       {challengeTimeRemaining < 0 &&
         (status.key === submissionStatusEnum.PendingRegistration.key ? (
           <Button
             variant="secondary"
-            Disabled={lastMintedSecondStatus === "pending"}
-            onClick={registerAndAdvance}
-            Loading={batchSendLoading}
+            disabled={lastMintedSecondStatus === "pending"}
+            onClick={registerAndAdvanceOthers}
+            loading={batchSendLoading || fetchingElegible}
           >
             Finalize registration and start accruing{" "}
             <Text as="span" role="img" sx={{ marginLeft: 1 }}>
