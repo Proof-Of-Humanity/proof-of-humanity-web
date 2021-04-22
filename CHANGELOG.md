@@ -21,6 +21,7 @@
 - fix: fixed evidence submission with attachment [fix #129](<[6872f6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/6872f6e)>), closes [#129](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/129)
 - fix: fixed network name parameter derivation ([fb559ff](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fb559ff))
 - fix: fund button was using the subgraph challenge id ([0d9b2b3](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/0d9b2b3))
+- fix: hide deposit label after registration and lower gas ([eab8823](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/eab8823))
 - fix: hide start accruing button if not profile ([21f0ad7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/21f0ad7))
 - fix: improve button label ([377c1a8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/377c1a8))
 - fix: improved labels for video and photo upload (#99) ([f56f54b](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/f56f54b)), closes [#99](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/99)
