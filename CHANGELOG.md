@@ -31,6 +31,7 @@
 - fix: make search box responsive and close #148 ([52726ef](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/52726ef)), closes [#148](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/148)
 - fix: missing checks when searching for profiles ([a67eb8e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a67eb8e))
 - fix: move ipfs gateway to env variable ([c959a24](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/c959a24))
+- fix: move own profile only ([4f05610](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/4f05610))
 - fix: null results otherwise would crash the app ([5b254f5](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5b254f5))
 - fix: outdated link and close #105 ([7c1669a](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7c1669a)), closes [#105](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/105)
 - fix: permanent loading on ubi view ([572dd32](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/572dd32))
