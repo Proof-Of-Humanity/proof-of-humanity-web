@@ -13,7 +13,6 @@ const deadlinesFragments = {
       submissionDuration
       renewalTime
       challengePeriodDuration
-      ...challengeButtonContract
       ...removeButtonContract
     }
   `,
