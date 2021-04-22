@@ -306,7 +306,7 @@ export default function UBICard({
           </Button>
         )}
       {challengeTimeRemaining < 0 &&
-        (status.key === submissionStatusEnum.PendingRegistration.hes ? (
+        (status.key === submissionStatusEnum.PendingRegistration.key ? (
           <Button
             variant="secondary"
             disabled={lastMintedSecondStatus === "pending"}
