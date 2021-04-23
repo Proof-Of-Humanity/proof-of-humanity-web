@@ -52,6 +52,7 @@
 - fix: remove useless loading indicator and close #154 ([7c4c84d](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/7c4c84d)), closes [#154](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/154)
 - fix: removed multiplier from challenge deposit ([d8186f8](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/d8186f8)), closes [#178](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/178)
 - fix: removed unneeded fragment from query ([280c5cf](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/280c5cf))
+- fix: sanitize evidence attachment and display unresolved ([050ccb7](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/050ccb7))
 - fix: sanitize photo and video names before uploading ([fa3754c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/fa3754c))
 - fix: second round of appeal not showing ([00db988](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/00db988))
 - fix: seize ubi button conditionals ([5fd0f03](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/5fd0f03))
