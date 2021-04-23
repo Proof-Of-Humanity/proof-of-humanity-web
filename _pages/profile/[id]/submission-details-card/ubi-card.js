@@ -268,7 +268,7 @@ export default function UBICard({
         ...new Array(toVouchCalls.length).fill(web3.utils.toBN(0)),
       ],
       [executeRequestCall, startAccruingCall, ...toVouchCalls],
-      { gasLimit: 220000 }
+      { gasLimit: 285000 }
     ).then(reCall);
   }, [
     batchSend,
