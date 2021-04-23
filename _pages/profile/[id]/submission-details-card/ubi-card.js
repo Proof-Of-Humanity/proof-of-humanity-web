@@ -39,6 +39,18 @@ function AccruedUBI({ lastMintedSecond, web3, accruedPerSecond, ...rest }) {
   );
 }
 
+/**
+ * Shuffles array in place. ES6 version
+ * @param {Array} a items An array containing the items.
+ */
+function shuffle(a) {
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 async function findElegibleUsers(
   pohInstance,
   requiredNumberOfVouches,
@@ -51,6 +63,11 @@ async function findElegibleUsers(
       )}`
     )
   ).json();
+
+  // Due to race conditions of transactions, there
+  // is a chance that resources are wasted trying to advance the same user.
+  // We can decrease this probability by shuffling the queue.
+  shuffle(users);
 
   const toVouchCalls = [];
   for (const user of users) {
