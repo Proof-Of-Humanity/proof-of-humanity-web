@@ -286,6 +286,9 @@ export function vouchAddedByChangeStateToPending(event: VouchAddedEvent): void {
       vouchedSubmission.vouchesReceived = vouchedSubmission.vouchesReceived.concat(
         [event.params._voucher.toHexString()]
       );
+      vouchedSubmission.vouchesReceivedLength = vouchedSubmission.vouchesReceivedLength.plus(
+        BigInt.fromI32(1)
+      );
       vouchedSubmission.save();
     }
   }
@@ -351,6 +354,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     submission.name = names[i];
     submission.vouchees = [];
     submission.vouchesReceived = [];
+    submission.vouchesReceivedLength = BigInt.fromI32(0);
     submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(1);
     submission.save();
@@ -523,6 +527,7 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.vouchesReceived = [];
     submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(0);
+    submission.vouchesReceivedLength = BigInt.fromI32(0);
   }
   submission.status = "Vouching";
   submission.save();
@@ -608,6 +613,9 @@ export function addVouch(call: AddVouchCall): void {
     if (vouchedSubmission != null) {
       vouchedSubmission.vouchesReceived = vouchedSubmission.vouchesReceived.concat(
         [call.from.toHexString()]
+      );
+      vouchedSubmission.vouchesReceivedLength = vouchedSubmission.vouchesReceivedLength.plus(
+        BigInt.fromI32(1)
       );
       vouchedSubmission.save();
     }
