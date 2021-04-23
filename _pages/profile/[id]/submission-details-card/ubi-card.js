@@ -189,7 +189,8 @@ export default function UBICard({
     setFetchingElegible(true);
     const toVouchCalls = await findElegibleUsers(
       pohInstance,
-      requiredNumberOfVouches
+      requiredNumberOfVouches,
+      2
     );
     setFetchingElegible(false);
     const executeRequestCall = pohInstance.methods
