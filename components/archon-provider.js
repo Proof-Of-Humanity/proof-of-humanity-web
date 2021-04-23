@@ -15,6 +15,12 @@ import usePromise from "react-use-promise";
 import { useWeb3 } from "./web3-provider";
 
 const Context = createContext();
+const sanitize = (input) =>
+  input
+    .toString()
+    .toLowerCase()
+    .replace(/([^\d.a-z]+)/gi, "-"); // Only allow numbers and aplhanumeric.
+
 export default function ArchonProvider({ children }) {
   const { web3 } = useWeb3();
   const [archon] = useState(
@@ -41,7 +47,7 @@ export default function ArchonProvider({ children }) {
                 "Content-Type": "application/json",
               },
               body: JSON.stringify({
-                fileName,
+                fileName: sanitize(fileName),
                 buffer: Buffer.from(buffer),
               }),
             })

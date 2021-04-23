@@ -63,7 +63,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
       {
         challenges: _challenges,
         requester,
-        evidence,
+        evidence: evidences,
         arbitrator,
         arbitratorExtraData,
       },
@@ -97,7 +97,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
           <Evidence
             contract="proofOfHumanity"
             args={[id]}
-            evidence={evidence}
+            evidences={evidences}
             useEvidenceFile={useEvidenceFile}
           />
         }

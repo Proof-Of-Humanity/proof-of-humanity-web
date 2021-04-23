@@ -71,7 +71,7 @@ function EvidenceItem({
 export default function Evidence({
   contract,
   args,
-  evidence,
+  evidences,
   useEvidenceFile,
 }) {
   return (
@@ -89,7 +89,9 @@ export default function Evidence({
             <Text
               sx={{ color: "primary" }}
               role="button"
-              onClick={() => scroll({ y: evidence.length * 190, smooth: true })}
+              onClick={() =>
+                scroll({ y: evidences.length * 190, smooth: true })
+              }
             >
               Scroll to 1st Evidence{" "}
               <DownArrow
@@ -108,12 +110,12 @@ export default function Evidence({
               paddingX: 4,
             }}
           >
-            {evidence.map((_evidence, index) => (
+            {evidences.map((evidence, index) => (
               <EvidenceItem
-                key={_evidence.id}
+                key={evidence.id}
                 useEvidenceFile={useEvidenceFile}
-                evidence={_evidence}
-                index={evidence.length - index}
+                evidence={evidence}
+                index={evidences.length - index}
               />
             ))}
           </ScrollArea>
