@@ -24,6 +24,7 @@ function EvidenceItem({
   index,
 }) {
   const evidence = useEvidenceFile()(URI);
+  if (evidence?.fileURIError) return null;
   return (
     <Card
       sx={{ marginBottom: 2 }}
