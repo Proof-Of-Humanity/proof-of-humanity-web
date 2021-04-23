@@ -228,7 +228,7 @@ export default function UBICard({
   const [queuedVouches, setQueuedVouches] = useState(new Set());
 
   // Gasless vouches.
-  const [ownValidVouches, setOwnValidVouches] = useState(false);
+  const [ownValidVouches, setOwnValidVouches] = useState([]);
   useEffect(() => {
     if (!submissionID) return;
     (async () => {
@@ -295,7 +295,7 @@ export default function UBICard({
     )
       return;
 
-    if (ownValidVouches.signatures.length >= requiredNumberOfVouches)
+    if (ownValidVouches?.signatures?.length >= requiredNumberOfVouches)
       changeStateToPendingSend(
         submissionID,
         [],
