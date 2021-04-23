@@ -51,18 +51,14 @@ function shuffle(a) {
   return a;
 }
 
-async function findElegibleUsers(
+async function getVouchCallsElegibleUsers(
   pohInstance,
   requiredNumberOfVouches,
+  offChainVouches,
+  onChainVouches,
   count = 1
 ) {
-  const { vouches: users } = await (
-    await fetch(
-      `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/search?minVouches=${Number(
-        requiredNumberOfVouches
-      )}`
-    )
-  ).json();
+  const users = [...offChainVouches, ...onChainVouches];
 
   // Due to race conditions of transactions, there
   // is a chance that resources are wasted trying to advance the same user.
@@ -113,17 +109,25 @@ async function findElegibleUsers(
 
     if (latestRequest.disputed || Number(round.sideFunded) !== 1) continue;
 
-    toVouchCalls.push(
-      pohInstance.methods
-        .changeStateToPending(
-          user.submissionId,
-          [],
-          user.signatures,
-          user.expirationTimestamps
-        )
-        .encodeABI()
-    );
+    if (user.signatures)
+      toVouchCalls.push(
+        pohInstance.methods
+          .changeStateToPending(
+            user.submissionId,
+            [],
+            user.signatures,
+            user.expirationTimestamps
+          )
+          .encodeABI()
+      );
+    else
+      toVouchCalls.push(
+        pohInstance.methods
+          .changeStateToPending(user.submissionId, user.vouchers, [], [])
+          .encodeABI()
+      );
   }
+
   return toVouchCalls;
 }
 
@@ -135,17 +139,39 @@ export default function UBICard({
   registeredVouchers,
 }) {
   const { web3 } = useWeb3();
+  const [requiredNumberOfVouchesBN] = useContract(
+    "proofOfHumanity",
+    "requiredNumberOfVouches"
+  );
+  const requiredNumberOfVouches = useMemo(
+    () => Number(requiredNumberOfVouchesBN),
+    [requiredNumberOfVouchesBN]
+  );
   const { props: vouchesReceivedQuery } = useQuery(
     graphql`
-      query ubiCardQuery($id: ID!) {
+      query ubiCardQuery($id: ID!, $vouchesReceivedLength: BigInt!) {
         submission(id: $id) {
+          vouchesReceived {
+            id
+          }
+        }
+        submissions(
+          first: 100
+          where: {
+            status: Vouching
+            vouchesReceivedLength_gt: $vouchesReceivedLength
+          }
+          orderBy: submissionTime
+          orderDirection: asc
+        ) {
+          id
           vouchesReceived {
             id
           }
         }
       }
     `,
-    { id: submissionID }
+    { id: submissionID, vouchesReceivedLength: requiredNumberOfVouches }
   );
 
   const [lastMintedSecond, , lastMintedSecondStatus, reCall] = useContract(
@@ -157,14 +183,6 @@ export default function UBICard({
     "proofOfHumanity",
     "isRegistered",
     useMemo(() => ({ args: [submissionID] }), [submissionID])
-  );
-  const [requiredNumberOfVouchesBN] = useContract(
-    "proofOfHumanity",
-    "requiredNumberOfVouches"
-  );
-  const requiredNumberOfVouches = useMemo(
-    () => Number(requiredNumberOfVouchesBN),
-    [requiredNumberOfVouchesBN]
   );
   const {
     send: changeStateToPendingSend,
@@ -200,13 +218,34 @@ export default function UBICard({
     Date.now();
 
   const [fetchingElegible, setFetchingElegible] = useState(false);
+  const { submissions } = vouchesReceivedQuery || {};
   const registerAndAdvanceOthers = useCallback(async () => {
-    if (!pohInstance || !submissionID || !requiredNumberOfVouches) return;
+    if (
+      !pohInstance ||
+      !submissionID ||
+      !requiredNumberOfVouches ||
+      !submissions
+    )
+      return;
 
     setFetchingElegible(true);
-    const toVouchCalls = await findElegibleUsers(
+    const { vouches: offChainVouches } = await (
+      await fetch(
+        `${
+          process.env.NEXT_PUBLIC_VOUCH_DB_URL
+        }/vouch/search?minVouches=${Number(requiredNumberOfVouches)}`
+      )
+    ).json();
+
+    const onChainVouches = submissions.map((s) => ({
+      submissionId: s.id,
+      vouchers: s.vouchesReceived.map((v) => v.id),
+    }));
+    const toVouchCalls = await getVouchCallsElegibleUsers(
       pohInstance,
       requiredNumberOfVouches,
+      offChainVouches,
+      onChainVouches,
       2
     );
     setFetchingElegible(false);
@@ -237,6 +276,7 @@ export default function UBICard({
     reCall,
     requiredNumberOfVouches,
     submissionID,
+    submissions,
     ubiInstance.methods,
     web3.utils,
   ]);
