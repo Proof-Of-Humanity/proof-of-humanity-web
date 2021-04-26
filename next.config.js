@@ -7,7 +7,9 @@ const disableSSRMixin = {
   },
 };
 
+console.warn(">>>>>>>>>>>>>", process.env.DISABLE_SSR);
+
 module.exports = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
-  ...(process.env.DISABLE_SSR ? disableSSRMixin : {}),
+  ...(process.env.DISABLE_SSR === "true" ? disableSSRMixin : {}),
 })({ target: "serverless" });
