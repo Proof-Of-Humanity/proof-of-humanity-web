@@ -1,0 +1,7 @@
+{
+  "org": "Proof-Of-Humanity",
+  "repo": "proof-of-humanity-web",
+  "tokenAddress": "0xDd1Ad9A21Ce722C151A836373baBe42c868cE9a4",
+  "votingMethod": "QUADRATIC",
+  "chainId": 1
+}
