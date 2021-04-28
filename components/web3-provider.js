@@ -1,4 +1,5 @@
 import { Global } from "@emotion/core";
+import Portis from "@portis/web3";
 import WalletConnectWeb3Provider from "@walletconnect/web3-provider";
 import Authereum from "authereum";
 import {
@@ -42,6 +43,12 @@ export const createWeb3 = (infuraURL) => {
       },
       authereum: {
         package: Authereum,
+      },
+      portis: {
+        package: Portis,
+        options: {
+          id: process.env.NEXT_PUBLIC_PORTIS_KEY,
+        },
       },
     },
   });
