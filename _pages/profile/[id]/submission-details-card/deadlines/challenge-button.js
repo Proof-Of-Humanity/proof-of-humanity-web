@@ -9,7 +9,9 @@ import {
   NextLink,
   Popup,
   Text,
+  Textarea,
   ethereumAddressRegExp,
+  useArchon,
   useContract,
   useWeb3,
   zeroAddress,
@@ -136,6 +138,8 @@ export default function ChallengeButton({ request, status, submissionID }) {
     "challengeRequest"
   );
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
+  const [reason, setReason] = useState();
+  const { upload } = useArchon();
   return (
     <Popup
       contentStyle={{ width: undefined }}
@@ -215,18 +219,35 @@ export default function ChallengeButton({ request, status, submissionID }) {
               setDuplicate={setDuplicate}
             />
           )}
+          <Text sx={{ marginBottom: 1 }}>Justification:</Text>
+          <Textarea
+            sx={{ marginBottom: 2 }}
+            onChange={(event_) => setReason(event_.target.value)}
+          />
           <Button
             sx={{ display: "block", margin: "auto" }}
             disabled={(duplicateTypeSelected && !duplicate) || !arbitrationCost}
-            onClick={() =>
-              send(
+            onClick={async () => {
+              let evidenceUploadResult;
+              if (reason && reason.length > 0)
+                evidenceUploadResult = await upload(
+                  "evidence.json",
+                  JSON.stringify({
+                    name: "Challenge Justification",
+                    description: reason,
+                  })
+                );
+
+              const { pathname } = evidenceUploadResult || {};
+              await send(
                 submissionID,
                 type.index,
                 duplicate || zeroAddress,
-                zeroAddress,
+                pathname || null,
                 { value: arbitrationCost }
-              ).then(() => close())
-            }
+              );
+              close();
+            }}
             loading={loading}
           >
             Challenge Request
