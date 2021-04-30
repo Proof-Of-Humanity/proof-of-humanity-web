@@ -63,10 +63,12 @@ const submissionDetailsCardFragments = {
         }
         challenges(orderBy: creationTime, first: 1) {
           disputeID
+          roundsLength
           rounds(orderBy: creationTime, first: 1) {
             contributions {
               values
             }
+            hasPaid
           }
         }
       }
@@ -120,6 +122,13 @@ export default function SubmissionDetailsCard({
 
   const status = submissionStatusEnum.parse({ ...rest, submissionDuration });
   const { challenges } = request || {};
+
+  // Note that there is a challenge object with first round data even if there
+  // is no challenge.
+  const challenge = challenges[0];
+  const { rounds, roundsLength } = challenge || {};
+  const round = rounds[0];
+  const { hasPaid } = round || {};
 
   const evidence = useEvidenceFile()(request.evidence[0].URI);
   const contributions = useMemo(
@@ -195,6 +204,11 @@ export default function SubmissionDetailsCard({
     status === submissionStatusEnum.Vouching
       ? "Register and vouch for this profile on Proof Of Humanity."
       : "Check out this profile on Proof Of Humanity.";
+
+  const fullyFunded =
+    totalCost?.gt(totalContribution) ||
+    (Number(roundsLength) === 1 && hasPaid[0]);
+
   return (
     <Card
       mainSx={{
@@ -240,7 +254,7 @@ export default function SubmissionDetailsCard({
         <Box sx={{ marginY: 2, width: "100%" }}>
           {status === submissionStatusEnum.Vouching && (
             <>
-              {totalCost?.gt(totalContribution) && (
+              {!fullyFunded && (
                 <FundButton
                   totalCost={totalCost}
                   totalContribution={totalContribution}
@@ -280,13 +294,15 @@ export default function SubmissionDetailsCard({
             >
               <Text>Deposit</Text>
               <Text sx={{ fontWeight: "bold" }}>
-                {totalCost &&
-                  `${Math.floor(
-                    totalContribution
-                      .mul(web3.utils.toBN(100))
-                      .div(totalCost)
-                      .toNumber()
-                  )}%`}
+                {fullyFunded
+                  ? "100%"
+                  : totalCost &&
+                    `${Math.floor(
+                      totalContribution
+                        .mul(web3.utils.toBN(100))
+                        .div(totalCost)
+                        .toNumber()
+                    )}%`}
               </Text>
             </Box>
           )}
