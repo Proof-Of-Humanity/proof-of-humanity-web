@@ -254,7 +254,7 @@ export default function SubmissionDetailsCard({
         <Box sx={{ marginY: 2, width: "100%" }}>
           {status === submissionStatusEnum.Vouching && (
             <>
-              {!fullyFunded && (
+              {totalCost?.gt(totalContribution) && !fullyFunded && (
                 <FundButton
                   totalCost={totalCost}
                   totalContribution={totalContribution}
