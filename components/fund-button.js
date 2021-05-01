@@ -14,10 +14,10 @@ export default function FundButton({
   children,
   args,
 }) {
-  const amountNeeded = useMemo(() => totalCost.sub(totalContribution), [
-    totalCost,
-    totalContribution,
-  ]);
+  const amountNeeded = useMemo(
+    () => (totalCost ? totalCost.sub(totalContribution) : String(0)),
+    [totalCost, totalContribution]
+  );
   const createValidationSchema = useCallback(
     ({ eth, web3: _web3 }) => ({
       contribution: eth()
