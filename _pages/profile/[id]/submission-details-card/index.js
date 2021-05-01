@@ -205,9 +205,7 @@ export default function SubmissionDetailsCard({
       ? "Register and vouch for this profile on Proof Of Humanity."
       : "Check out this profile on Proof Of Humanity.";
 
-  const fullyFunded =
-    totalCost?.gt(totalContribution) ||
-    (Number(roundsLength) === 1 && hasPaid[0]);
+  const firstRoundFullyFunded = Number(roundsLength) === 1 && hasPaid[0];
 
   return (
     <Card
@@ -254,7 +252,8 @@ export default function SubmissionDetailsCard({
         <Box sx={{ marginY: 2, width: "100%" }}>
           {status === submissionStatusEnum.Vouching && (
             <>
-              {totalCost?.gt(totalContribution) && !fullyFunded && (
+              {(totalCost?.gt(totalContribution) ||
+                (Number(roundsLength) === 1 && !hasPaid[0])) && (
                 <FundButton
                   totalCost={totalCost}
                   totalContribution={totalContribution}
@@ -294,15 +293,16 @@ export default function SubmissionDetailsCard({
             >
               <Text>Deposit</Text>
               <Text sx={{ fontWeight: "bold" }}>
-                {fullyFunded
+                {firstRoundFullyFunded
                   ? "100%"
-                  : totalCost &&
-                    `${Math.floor(
+                  : totalCost
+                  ? `${(
                       totalContribution
-                        .mul(web3.utils.toBN(100))
+                        .mul(web3.utils.toBN(10000)) // Basis points.
                         .div(totalCost)
-                        .toNumber()
-                    )}%`}
+                        .toNumber() / 100
+                    ).toFixed(2)}%`
+                  : "0%"}
               </Text>
             </Box>
           )}
@@ -358,6 +358,7 @@ export default function SubmissionDetailsCard({
           challengePeriodDuration={challengePeriodDuration}
           status={status}
           registeredVouchers={registeredVouchers}
+          firstRoundFullyFunded={firstRoundFullyFunded}
         />
         <Text
           sx={{

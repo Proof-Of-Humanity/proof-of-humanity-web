@@ -137,6 +137,7 @@ export default function UBICard({
   challengePeriodDuration,
   status,
   registeredVouchers,
+  firstRoundFullyFunded,
 }) {
   const { web3 } = useWeb3();
   const [requiredNumberOfVouchesBN] = useContract(
@@ -412,7 +413,8 @@ export default function UBICard({
         `Queued vouches: ${[...queuedVouches.keys()].length}`}
       {(ownValidVouches?.signatures?.length >= requiredNumberOfVouches ||
         availableOnchainVouches?.length >= requiredNumberOfVouches) &&
-        status.key === submissionStatusEnum.Vouching.key && (
+        status.key === submissionStatusEnum.Vouching.key &&
+        firstRoundFullyFunded && (
           <Flex sx={{ alignItems: "center" }}>
             <Text sx={{ marginRight: 2 }}>Wait or</Text>
             <Button
