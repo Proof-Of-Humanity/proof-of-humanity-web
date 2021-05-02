@@ -348,7 +348,6 @@ module.exports = {
 
     // MDX Plugin
     "mdx/no-jsx-html-comments": "error",
-    "mdx/no-unescaped-entities": "error",
     "mdx/no-unused-expressions": "error",
 
     // Regex Plugin
