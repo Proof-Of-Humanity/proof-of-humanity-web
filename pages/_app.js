@@ -18,7 +18,7 @@ import {
   createWrapConnection,
   useWeb3,
 } from "@kleros/components";
-import { ProofOfHumanityLogo } from "@kleros/icons";
+import { ProofOfHumanityLogo, SecuredByKlerosWhite } from "@kleros/icons";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { animated, useTransition } from "react-spring";
@@ -263,6 +263,15 @@ const footer = {
       paddingY: 2,
     },
   },
+  middle: (
+    <Link
+      sx={{ alignItems: "center", display: "flex" }}
+      newTab
+      href="https://kleros.io"
+    >
+      <SecuredByKlerosWhite sx={{ width: 200 }} />
+    </Link>
+  ),
   left: (
     <Link
       variant="navigation"

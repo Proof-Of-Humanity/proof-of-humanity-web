@@ -16,6 +16,7 @@ export { default as Pending } from "./pending";
 export { default as ProofOfHumanityLogo } from "./proof-of-humanity-logo";
 export { default as Search } from "./search";
 export { default as SecuredByKleros } from "./secured-by-kleros";
+export { default as SecuredByKlerosWhite } from "./secured-by-kleros-white";
 export { default as Settings } from "./settings";
 export { default as Stop } from "./stop";
 export { default as Telegram } from "./telegram";
