@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-05-02)
+## 1.0.0-beta.4 (2021-05-03)
 
 - fix: add missing netlify variables ([ebf5c6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ebf5c6e))
 - fix: add start accruing and close #210 ([20e6e43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/20e6e43)), closes [#210](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/210)

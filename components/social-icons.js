@@ -50,7 +50,11 @@ export default function SocialIcons({
         </Link>
       )}
       {telegram && (
-        <Link sx={{ marginX: "6px", ...sx }} newTab href="https://t.me/kleros">
+        <Link
+          sx={{ marginX: "6px", ...sx }}
+          newTab
+          href="https://t.me/proofhumanity"
+        >
           <Telegram sx={{ fill: color }} />
         </Link>
       )}
