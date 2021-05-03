@@ -1,4 +1,4 @@
-## 1.0.0-beta.4 (2021-05-01)
+## 1.0.0-beta.4 (2021-05-03)
 
 - fix: add missing netlify variables ([ebf5c6e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ebf5c6e))
 - fix: add start accruing and close #210 ([20e6e43](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/20e6e43)), closes [#210](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/210)
@@ -13,6 +13,7 @@
 - fix: broken profile and close #268 ([a83479e](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/a83479e)), closes [#268](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/268)
 - fix: broken/outdated links ([268a4ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/268a4ee))
 - fix: bump gas limit ([251b615](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/251b615))
+- fix: button and depoist percent and close #271 ([ad11e85](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/ad11e85)), closes [#271](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues/271)
 - fix: clarify renewal period availability ([9d31e5c](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/9d31e5c))
 - fix: clarify UI data ([e297fee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/e297fee))
 - fix: contain pictures instead of stretching ([71451ee](https://github.com/Proof-Of-Humanity/proof-of-humanity-web/commit/71451ee))
