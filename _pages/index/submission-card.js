@@ -79,6 +79,7 @@ export default function SubmissionCard({ submission, contract }) {
             fontSize: 1,
             fontWeight: "bold",
             marginY: 1,
+            overflowWrap: "anywhere",
           }}
         >
           {evidence instanceof Error

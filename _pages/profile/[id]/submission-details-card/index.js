@@ -236,6 +236,7 @@ export default function SubmissionDetailsCard({
             fontSize: 2,
             fontWeight: "bold",
             marginY: 2,
+            overflowWrap: "anywhere",
           }}
         >
           {evidence instanceof Error
