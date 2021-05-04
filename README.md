@@ -5,7 +5,3 @@ This is the Proof of Humanity web app you will find at [https://app.proofofhuman
 ## Contributing
 
 Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
-
-## Changelog
-
-Please see [CHANGELOG.md](./CHANGELOG.md).
