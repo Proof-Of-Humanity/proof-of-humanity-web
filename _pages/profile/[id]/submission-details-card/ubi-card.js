@@ -430,7 +430,7 @@ export default function UBICard({
         (status.key === submissionStatusEnum.PendingRegistration.key ? (
           <Button
             variant="secondary"
-            disabled={lastMintedSecondStatus === "pending"}
+            disabled={fetchingElegible}
             onClick={registerAndAdvanceOthers}
             loading={batchSendLoading || fetchingElegible}
           >
