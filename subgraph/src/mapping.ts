@@ -155,6 +155,9 @@ function requestStatusChange(
     submission.status == "PendingRemoval"
       ? contract.clearingMetaEvidence
       : contract.registrationMetaEvidence;
+  request.type =
+    submission.status == "PendingRemoval" ? "Removal" : "Registration";
+  request.resolutionTime = BigInt.fromI32(0);
   request.registration = submission.status == "Vouching";
   request.evidenceLength = BigInt.fromI32(1);
   request.challengesLength = BigInt.fromI32(1);
@@ -381,6 +384,8 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     request.registration = true;
     request.evidenceLength = BigInt.fromI32(1);
     request.challengesLength = BigInt.fromI32(1);
+    request.type = "Registration";
+    request.resolutionTime = call.block.timestamp;
     request.save();
 
     let evidence = new Evidence(
@@ -659,6 +664,7 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   );
   let request = Request.load(requestID.toHexString());
   request.resolved = true;
+  request.resolutionTime = call.block.timestamp;
   request.save();
 
   let challengeID = crypto.keccak256(
@@ -902,6 +908,7 @@ export function executeRequest(call: ExecuteRequestCall): void {
   );
   let request = Request.load(requestID.toHexString());
   request.resolved = true;
+  request.resolutionTime = call.block.timestamp;
   request.save();
 
   let challengeID = crypto.keccak256(

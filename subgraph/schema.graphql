@@ -40,6 +40,17 @@ enum Reason {
   DoesNotExist
 }
 
+enum RequestType {
+  """
+  This is a request to add a profile to the registry
+  """
+  Registration
+  """
+  This is a removal request
+  """
+  Removal
+}
+
 type MetaEvidence @entity {
   """
   The meta evidence ID.
@@ -262,6 +273,14 @@ type Request @entity {
   The request's number of challenges.
   """
   challengesLength: BigInt!
+  """
+  The request type
+  """
+  type: RequestType!
+  """
+  The time the request was resolved.
+  """
+  resolutionTime: BigInt!
 }
 
 type Evidence @entity {
