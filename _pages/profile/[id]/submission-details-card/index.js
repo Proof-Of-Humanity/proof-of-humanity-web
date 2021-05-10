@@ -61,7 +61,13 @@ const submissionDetailsCardFragments = {
         evidence(orderBy: creationTime, first: 1) {
           URI
         }
-        challenges(orderBy: creationTime, first: 1) {
+      }
+      latestRequest: requests(
+        orderBy: creationTime
+        orderDirection: desc
+        first: 1
+      ) {
+        challenges {
           disputeID
           roundsLength
           rounds(orderBy: creationTime, first: 1) {
@@ -101,6 +107,7 @@ export default function SubmissionDetailsCard({
 }) {
   const {
     requests: [request],
+    latestRequest: [latestRequest],
     id,
     name,
     ...rest
@@ -121,7 +128,7 @@ export default function SubmissionDetailsCard({
   ));
 
   const status = submissionStatusEnum.parse({ ...rest, submissionDuration });
-  const { challenges } = request || {};
+  const { challenges } = latestRequest || {};
 
   // Note that there is a challenge object with first round data even if there
   // is no challenge.
@@ -133,14 +140,14 @@ export default function SubmissionDetailsCard({
   const evidence = useEvidenceFile()(request.evidence[0].URI);
   const contributions = useMemo(
     () =>
-      request.challenges[0].rounds[0].contributions.map((contribution) =>
+      challenges[0].rounds[0].contributions.map((contribution) =>
         partyEnum.parse(contribution.values)
       ),
-    [request]
+    [challenges]
   );
 
   const compoundName =
-    [evidence?.file.firstName, evidence?.file.lastName]
+    [evidence?.file?.firstName, evidence?.file?.lastName]
       .filter(Boolean)
       .join(" ") || name;
   const displayName =
