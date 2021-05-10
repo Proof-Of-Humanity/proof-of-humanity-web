@@ -30,8 +30,13 @@ export default function ProfileWithID() {
 
   const isReapply = account === query.id && reapply;
   const isRegistration = account === query.id && props?.submission === null;
+  const isResubmit =
+    account === query.id &&
+    props?.submission &&
+    !registered &&
+    props.submission.status === "None";
 
-  if (props && account && (isReapply || isRegistration))
+  if (props && account && (isReapply || isRegistration || isResubmit))
     return (
       <SubmitProfileCard
         contract={props.contract}
