@@ -132,18 +132,18 @@ export default function SubmissionDetailsCard({
 
   // Note that there is a challenge object with first round data even if there
   // is no challenge.
-  const challenge = challenges[0];
+  const challenge = (challenges && challenges[0]) || {};
   const { rounds, roundsLength } = challenge || {};
-  const round = rounds[0];
+  const round = (rounds && rounds[0]) || {};
   const { hasPaid } = round || {};
 
   const evidence = useEvidenceFile()(request.evidence[0].URI);
   const contributions = useMemo(
     () =>
-      challenges[0].rounds[0].contributions.map((contribution) =>
+      round.contributions.map((contribution) =>
         partyEnum.parse(contribution.values)
       ),
-    [challenges]
+    [round.contributions]
   );
 
   const compoundName =
@@ -316,7 +316,7 @@ export default function SubmissionDetailsCard({
             </Box>
           )}
         </Flex>
-        {challenges?.length > 0 && challenges[0].disputeID !== null && (
+        {challenges?.length > 0 && challenge.disputeID !== null && (
           <Flex>
             {challenges?.length > 1 ? "Disputes" : "Dispute"}
             {challenges.map(({ disputeID }, i) => (
