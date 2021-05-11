@@ -83,8 +83,10 @@ function MyProfileLink() {
     { id: accounts?.[0]?.toLowerCase() },
     { skip: !accounts?.[0] }
   );
+
   const showSubmitProfile =
-    !props?.submission || !props?.submission?.registered;
+    !props?.submission ||
+    (!props?.submission?.registered && props?.submission?.status === "None");
   return accounts?.[0] ? (
     <NextLink href="/profile/[id]" as={`/profile/${accounts[0]}`}>
       <Link variant="navigation">

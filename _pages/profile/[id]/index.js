@@ -33,8 +33,8 @@ export default function ProfileWithID() {
   const isResubmit =
     account === query.id &&
     props?.submission &&
-    !registered &&
-    props.submission.status === "None";
+    props?.submission.status === "None" &&
+    !registered;
 
   if (props && account && (isReapply || isRegistration || isResubmit))
     return (
