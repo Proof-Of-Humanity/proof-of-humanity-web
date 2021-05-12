@@ -362,6 +362,14 @@ const SubmitProfileForm = memo(
                 </ListItem>
               </List>
             </Card>
+            <Alert type="muted" title="Tip" sx={{ mb: 3 }}>
+              <Text>
+                The video should display the same address as the one used for
+                the submission. Be careful with mirrored videos and consult the
+                acceptance criteria document at the bottom to avoid losing your
+                deposit.
+              </Text>
+            </Alert>
             <Field
               name="contribution"
               label={({ field }) => (
