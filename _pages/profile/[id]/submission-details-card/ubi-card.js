@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 import {
+  Alert,
   Button,
   Card,
   Flex,
@@ -140,6 +141,7 @@ export default function UBICard({
   firstRoundFullyFunded,
 }) {
   const { web3 } = useWeb3();
+  const [, rerender] = useReducer(() => ({}), {});
   const [requiredNumberOfVouchesBN] = useContract(
     "proofOfHumanity",
     "requiredNumberOfVouches"
@@ -191,10 +193,7 @@ export default function UBICard({
   } = useContract("proofOfHumanity", "changeStateToPending");
   const [accruedPerSecond] = useContract("UBI", "accruedPerSecond");
 
-  const { send: batchSend, loading: batchSendLoading } = useContract(
-    "transactionBatcher",
-    "batchSend"
-  );
+  const { send: batchSend } = useContract("transactionBatcher", "batchSend");
   const { send: reportRemoval, loading: reportRemovalLoading } = useContract(
     "UBI",
     "reportRemoval"
@@ -312,8 +311,10 @@ export default function UBICard({
           validVouches.expirationTimestamps.push(
             vouches.expirationTimestamps[i]
           );
-        } else
+        } else {
           setQueuedVouches((previous) => previous.add(vouches.vouchers[i]));
+          rerender();
+        }
       }
       if (validVouches.signatures.length === 0) return;
       setOwnValidVouches(validVouches);
@@ -378,83 +379,97 @@ export default function UBICard({
   ]);
 
   return (
-    <Card
-      variant="muted"
-      mainSx={{
-        justifyContent: ["center", "center", "center", "space-between"],
-        padding: 1,
-        flexDirection: ["column", "column", "column", "row"],
-      }}
-    >
-      <Flex sx={{ marginBottom: [2, 2, 2, 0] }}>
-        <UBI size={32} />
-        <AccruedUBI
-          lastMintedSecond={lastMintedSecond}
-          web3={web3}
-          accruedPerSecond={accruedPerSecond}
-          sx={{ marginLeft: 2 }}
-        />
-      </Flex>
-      {lastMintedSecond &&
-        lastMintedSecond.gt(web3.utils.toBN(0)) &&
-        typeof registered === "boolean" &&
-        !registered && (
-          <Button
-            variant="secondary"
-            disabled={lastMintedSecondStatus === "pending"}
-            onClick={() => reportRemoval(submissionID).then(reCall)}
-            loading={reportRemovalLoading}
-          >
-            Seize UBI
-          </Button>
-        )}
-      {status.key === submissionStatusEnum.Vouching.key &&
-        [...queuedVouches.keys()].length === registeredVouchers.length &&
-        `Queued vouches: ${[...queuedVouches.keys()].length}`}
-      {(ownValidVouches?.signatures?.length >= requiredNumberOfVouches ||
-        availableOnchainVouches?.length >= requiredNumberOfVouches) &&
-        status.key === submissionStatusEnum.Vouching.key &&
-        firstRoundFullyFunded && (
-          <Flex sx={{ alignItems: "center" }}>
-            <Text sx={{ marginRight: 2 }}>Wait or</Text>
-            <Button
-              variant="secondary"
-              onClick={advanceToPending}
-              loading={changeStateToPendingSendLoading}
-            >
-              Advance to Pending
-            </Button>
-          </Flex>
-        )}
-      {challengeTimeRemaining < 0 &&
-        (status.key === submissionStatusEnum.PendingRegistration.key ? (
-          <Button
-            variant="secondary"
-            disabled={fetchingElegible}
-            onClick={registerAndAdvanceOthers}
-            loading={batchSendLoading || fetchingElegible}
-          >
-            Finalize registration and start accruing{" "}
-            <Text as="span" role="img" sx={{ marginLeft: 1 }}>
-              💧
-            </Text>
-          </Button>
-        ) : (
-          status.key === submissionStatusEnum.Registered.key &&
-          lastMintedSecond?.eq(web3.utils.toBN(0)) && (
+    <>
+      <Card
+        variant="muted"
+        mainSx={{
+          justifyContent: ["center", "center", "center", "space-between"],
+          padding: 1,
+          flexDirection: ["column", "column", "column", "row"],
+        }}
+      >
+        <Flex sx={{ marginBottom: [2, 2, 2, 0] }}>
+          <UBI size={32} />
+          <AccruedUBI
+            lastMintedSecond={lastMintedSecond}
+            web3={web3}
+            accruedPerSecond={accruedPerSecond}
+            sx={{ marginLeft: 2 }}
+          />
+        </Flex>
+        {lastMintedSecond &&
+          lastMintedSecond.gt(web3.utils.toBN(0)) &&
+          typeof registered === "boolean" &&
+          !registered && (
             <Button
               variant="secondary"
               disabled={lastMintedSecondStatus === "pending"}
-              onClick={() => startAccruing(submissionID).then(reCall)}
-              loading={startAccruingLoading}
+              onClick={() => reportRemoval(submissionID).then(reCall)}
+              loading={reportRemovalLoading}
             >
-              Start Accruing{" "}
+              Seize UBI
+            </Button>
+          )}
+        {status.key === submissionStatusEnum.Vouching.key &&
+          [...queuedVouches.keys()].length === registeredVouchers.length &&
+          `Vouches in use in other submissions: ${
+            [...queuedVouches.keys()].length
+          }`}
+        {(ownValidVouches?.signatures?.length >= requiredNumberOfVouches ||
+          availableOnchainVouches?.length >= requiredNumberOfVouches) &&
+          status.key === submissionStatusEnum.Vouching.key &&
+          firstRoundFullyFunded && (
+            <Flex sx={{ alignItems: "center" }}>
+              <Text sx={{ marginRight: 2 }}>Wait or</Text>
+              <Button
+                variant="secondary"
+                onClick={advanceToPending}
+                loading={changeStateToPendingSendLoading}
+              >
+                Advance to Pending
+              </Button>
+            </Flex>
+          )}
+        {challengeTimeRemaining < 0 &&
+          (status.key === submissionStatusEnum.PendingRegistration.key ? (
+            <Button
+              variant="secondary"
+              disabled={fetchingElegible}
+              onClick={registerAndAdvanceOthers}
+              loading={fetchingElegible}
+            >
+              Finalize registration and start accruing{" "}
               <Text as="span" role="img" sx={{ marginLeft: 1 }}>
                 💧
               </Text>
             </Button>
-          )
-        ))}
-    </Card>
+          ) : (
+            status.key === submissionStatusEnum.Registered.key &&
+            lastMintedSecond?.eq(web3.utils.toBN(0)) && (
+              <Button
+                variant="secondary"
+                disabled={lastMintedSecondStatus === "pending"}
+                onClick={() => startAccruing(submissionID).then(reCall)}
+                loading={startAccruingLoading}
+              >
+                Start Accruing{" "}
+                <Text as="span" role="img" sx={{ marginLeft: 1 }}>
+                  💧
+                </Text>
+              </Button>
+            )
+          ))}
+      </Card>
+      {status.key === submissionStatusEnum.Vouching.key &&
+        [...queuedVouches.keys()].length === registeredVouchers.length && (
+          <Alert type="muted" title="Pending Vouch Release" sx={{ mt: 3 }}>
+            <Text>
+              All vouches given to this submission are being used by other
+              submissions. Either wait for them to resolve or ask that someone
+              alse with a free vouch to also vouch for you.
+            </Text>
+          </Alert>
+        )}
+    </>
   );
 }
