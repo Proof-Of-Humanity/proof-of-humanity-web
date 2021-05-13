@@ -76,7 +76,7 @@ async function getVouchCallsElegibleUsers(
       ...voucherDatas
     ] = await Promise.all([
       pohInstance.methods.getSubmissionInfo(user.submissionId).call(),
-      ...user.vouchers.map((voucher) =>
+      ...user?.vouchers.map((voucher) =>
         pohInstance.methods.getSubmissionInfo(voucher).call()
       ),
     ]);
@@ -124,7 +124,7 @@ async function getVouchCallsElegibleUsers(
     else
       toVouchCalls.push(
         pohInstance.methods
-          .changeStateToPending(user.submissionId, user.vouchers, [], [])
+          .changeStateToPending(user.submissionId, user?.vouchers, [], [])
           .encodeABI()
       );
   }
@@ -297,8 +297,10 @@ export default function UBICard({
       ).json();
 
       const validVouches = { signatures: [], expirationTimestamps: [] };
+
+      if (!user || !user.vouches) return;
       if (user?.vouches?.length === 0) return;
-      const vouches = user.vouches[0];
+      const vouches = user?.vouches[0];
       for (let i = 0; i < vouches.vouchers.length; i++) {
         if (validVouches.signatures.length >= requiredNumberOfVouches) break;
 
@@ -411,6 +413,7 @@ export default function UBICard({
             </Button>
           )}
         {status.key === submissionStatusEnum.Vouching.key &&
+          [...queuedVouches.keys()].length > 0 &&
           [...queuedVouches.keys()].length === registeredVouchers.length &&
           `Vouches in use in other submissions: ${
             [...queuedVouches.keys()].length
@@ -461,12 +464,13 @@ export default function UBICard({
           ))}
       </Card>
       {status.key === submissionStatusEnum.Vouching.key &&
+        [...queuedVouches.keys()].length > 0 &&
         [...queuedVouches.keys()].length === registeredVouchers.length && (
           <Alert type="muted" title="Pending Vouch Release" sx={{ mt: 3 }}>
             <Text>
               All vouches given to this submission are being used by other
               submissions. Either wait for them to resolve or ask that someone
-              alse with a free vouch to also vouch for you.
+              else with a free vouch to also vouch for you.
             </Text>
           </Alert>
         )}
