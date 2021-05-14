@@ -257,6 +257,12 @@ const SubmitProfileForm = memo(
                 .
               </Text>
             </Alert>
+            <Alert type="muted" title="Advice" sx={{ mb: 3 }}>
+              <Text>
+                Suggestion: Submissions are final and cannot be edited. Be sure
+                to follow all submission rules to not lose your deposit.
+              </Text>
+            </Alert>
             <Field
               name="name"
               label="Display Name"

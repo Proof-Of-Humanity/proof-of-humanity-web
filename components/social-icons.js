@@ -17,7 +17,7 @@ export default function SocialIcons({
         <Link
           sx={{ marginX: "6px", ...sx }}
           newTab
-          href="https://twitter.com/Kleros_io"
+          href="https://twitter.com/proofofhumanity"
         >
           <Twitter sx={{ fill: color }} />
         </Link>
@@ -26,7 +26,7 @@ export default function SocialIcons({
         <Link
           sx={{ marginX: "6px", ...sx }}
           newTab
-          href="https://github.com/kleros"
+          href="https://github.com/Proof-Of-Humanity"
         >
           <Github sx={{ fill: color }} />
         </Link>
