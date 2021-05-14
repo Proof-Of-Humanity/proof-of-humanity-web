@@ -20,7 +20,6 @@ import { useField } from "formik";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useRef } from "react";
 
-import useIsGraphSynced from "_pages/index/use-is-graph-synced";
 import { useEvidenceFile } from "data";
 
 const VIDEO_OPTIONS = {
@@ -79,11 +78,10 @@ const SubmitProfileForm = memo(
     const { web3 } = useWeb3();
 
     const { upload, uploadWithProgress } = useArchon();
-    const { receipt, send } = useContract(
+    const { send } = useContract(
       "proofOfHumanity",
       reapply ? "reapplySubmission" : "addSubmission"
     );
-    const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
 
     const metaEvidence = useEvidenceFile()(registrationMetaEvidence.URI);
 
@@ -255,6 +253,12 @@ const SubmitProfileForm = memo(
                   tornado.cash
                 </Link>
                 .
+              </Text>
+            </Alert>
+            <Alert type="muted" title="Advice" sx={{ mb: 3 }}>
+              <Text>
+                Suggestion: Submissions are final and cannot be edited. Be sure
+                to follow all submission rules to not lose your deposit.
               </Text>
             </Alert>
             <Field
@@ -430,8 +434,6 @@ const SubmitProfileForm = memo(
             </Card>
             <Button
               type="submit"
-              loading={isSubmitting || !isGraphSynced}
-              disabled={isSubmitting || !isGraphSynced}
               sx={{
                 width: "120px",
               }}
