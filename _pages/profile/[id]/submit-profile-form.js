@@ -434,6 +434,8 @@ const SubmitProfileForm = memo(
             </Card>
             <Button
               type="submit"
+              disabled={isSubmitting}
+              loading={isSubmitting}
               sx={{
                 width: "120px",
               }}
