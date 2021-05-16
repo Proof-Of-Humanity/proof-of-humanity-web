@@ -44,3 +44,7 @@
 ### Pull requests
 
 After making your changes, you can open a pull request and ask for review.
+
+### Troubleshooting
+
+- Error compiling `keccak256`: Check Node version; it appears the latest version supported is Node 10.
