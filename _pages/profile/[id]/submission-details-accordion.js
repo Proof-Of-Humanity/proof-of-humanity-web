@@ -85,7 +85,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
   } = useFragment(submissionDetailsAccordionFragments.contract, contract);
 
   const challengesWithPendingAppeals = challenges.filter(
-    ({ rounds }) => !rounds[0].hasPaid[0] || !rounds[0].hasPaid[0]
+    ({ rounds }) => !rounds[0].hasPaid[0] || !rounds[0].hasPaid[1]
   );
 
   return (

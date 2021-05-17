@@ -170,10 +170,10 @@ const SubmitProfileForm = memo(
                   function (value) {
                     return !value
                       ? true
-                      : new Promise((resolve, reject) => {
+                      : new Promise((resolve) => {
                           const video = document.createElement("video");
-                          video.onloadedmetadata = () => {
-                            const { videoWidth, videoHeight, duration } = video;
+                          video.addEventListener("loadedmetadata", () => {
+                            const { videoWidth, videoHeight } = video;
                             const {
                               minWidth,
                               minHeight,
@@ -186,15 +186,15 @@ const SubmitProfileForm = memo(
                                     message: `Video should be at least ${minWidth}px wide and at least ${minHeight}px tall`,
                                   })
                             );
-                          };
+                          });
 
-                          video.onerror = () => {
+                          video.addEventListener("error", () => {
                             resolve(
                               this.createError({
                                 message: "Video file doesn't seem to be valid",
                               })
                             );
-                          };
+                          });
 
                           video.src = value.preview;
                         });
