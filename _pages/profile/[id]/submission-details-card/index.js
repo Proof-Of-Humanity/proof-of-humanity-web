@@ -323,7 +323,7 @@ export default function SubmissionDetailsCard({
               <Link
                 key={i}
                 newTab
-                href={`https://court.kleros.io/cases/${disputeID}`}
+                href={`https://resolve.kleros.io/cases/${disputeID}`}
                 sx={{ marginLeft: 1 }}
               >
                 # {disputeID}
