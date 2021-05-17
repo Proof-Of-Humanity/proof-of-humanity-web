@@ -31,6 +31,10 @@ const VIDEO_OPTIONS = {
     value: 7 * 1024 * 1024,
     label: "7 MB",
   },
+  dimensions: {
+    minWidth: 360,
+    minHeight: 360,
+  },
 };
 
 const PHOTO_OPTIONS = {
@@ -157,6 +161,44 @@ const SubmitProfileForm = memo(
                             .split(";");
                           return mimeType === allowedMimeType;
                         })
+                )
+                .test(
+                  "validity",
+                  `Video validation error`,
+                  // Not using arrow function syntax so that the caller
+                  // can inject `this` to make `this.createError` available
+                  function (value) {
+                    return !value
+                      ? true
+                      : new Promise((resolve, reject) => {
+                          const video = document.createElement("video");
+                          video.onloadedmetadata = () => {
+                            const { videoWidth, videoHeight, duration } = video;
+                            const {
+                              minWidth,
+                              minHeight,
+                            } = VIDEO_OPTIONS.dimensions;
+
+                            resolve(
+                              videoWidth >= minWidth && videoHeight >= minHeight
+                                ? true
+                                : this.createError({
+                                    message: `Video should be at least ${minWidth}px wide and at least ${minHeight}px tall`,
+                                  })
+                            );
+                          };
+
+                          video.onerror = () => {
+                            resolve(
+                              this.createError({
+                                message: "Video file doesn't seem to be valid",
+                              })
+                            );
+                          };
+
+                          video.src = value.preview;
+                        });
+                  }
                 ),
               contribution: eth()
                 .test({
