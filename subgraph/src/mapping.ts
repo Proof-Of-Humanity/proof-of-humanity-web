@@ -893,6 +893,9 @@ export function executeRequest(call: ExecuteRequestCall): void {
     call.inputs._submissionID
   );
 
+  // Patch. If the status of the submission is not 0 (None), the call must have reverted.
+  if (getStatus(submissionInfo.value0) != "None") return;
+
   let submission = Submission.load(call.inputs._submissionID.toHexString());
   submission.status = "None";
   submission.registered = submissionInfo.value3;
