@@ -162,7 +162,7 @@ export default function UBICard({
           first: 100
           where: {
             status: Vouching
-            vouchesReceivedLength_gt: $vouchesReceivedLength
+            vouchesReceivedLength_gte: $vouchesReceivedLength
           }
           orderBy: submissionTime
           orderDirection: asc
@@ -233,7 +233,7 @@ export default function UBICard({
       await fetch(
         `${
           process.env.NEXT_PUBLIC_VOUCH_DB_URL
-        }/vouch/search?minVouches=${Number(requiredNumberOfVouches)}`
+        }/vouch/search?minVouchers=${Number(requiredNumberOfVouches)}`
       )
     ).json();
 
@@ -248,6 +248,7 @@ export default function UBICard({
       onChainVouches,
       2
     );
+
     setFetchingElegible(false);
     const executeRequestCall = pohInstance.methods
       .executeRequest(submissionID)
