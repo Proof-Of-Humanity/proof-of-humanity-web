@@ -57,6 +57,7 @@ const theme = {
 };
 
 const network = process.env.NEXT_PUBLIC_NETWORK || "mainnet";
+const networkChainId = process.env.NEXT_PUBLIC_NETWORK_CHAIN_ID || "0x1";
 
 const contracts = [
   {
@@ -298,6 +299,7 @@ export default function App({ Component, pageProps }) {
   ]);
 
   const networkFromQuery = query?.network ?? network;
+  const [chainId, setChainId] = useState("0x1");
 
   const [routeChangeConnection, setRouteChangeConnection] = useState();
   const connectToRouteChange = useCallback((connection) => {
@@ -328,6 +330,10 @@ export default function App({ Component, pageProps }) {
     [router, networkFromQuery]
   );
 
+  const onNetworkChainIdChange = useCallback((givenProvider) => {
+    if (givenProvider.chainId) setChainId(givenProvider.chainId);
+  }, []);
+
   const transitions = useTransition(
     [{ key: router.route, Component, pageProps }],
     (item) => item.key,
@@ -352,9 +358,10 @@ export default function App({ Component, pageProps }) {
           infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT}
           contracts={contracts}
           onNetworkChange={onNetworkChange}
+          onNetworkChainIdChange={onNetworkChainIdChange}
         >
           <ArchonProvider>
-            {network === networkFromQuery ? (
+            {network === networkFromQuery && chainId === networkChainId ? (
               <Layout header={header} footer={footer}>
                 {transitions.map(({ key, props, item }) => (
                   <AnimatedBox
