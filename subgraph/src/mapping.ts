@@ -1018,11 +1018,11 @@ export function rule(call: RuleCall): void {
       )
       .toHexString()
   );
-  challenge.ruling = proofOfHumanity.getChallengeInfo(
+  challenge.ruling = BigInt.fromI32(proofOfHumanity.getChallengeInfo(
     disputeData.value1,
     requestIndex,
     disputeData.value0
-  ).value2;
+  ).value3);
   challenge.save();
 }
 
