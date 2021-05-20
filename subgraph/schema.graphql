@@ -328,6 +328,10 @@ type Challenge @entity {
   """
   disputeID: BigInt
   """
+  The address of the requesterd.
+  """
+  requester: Bytes
+  """
   The address of the challenger.
   """
   challenger: Bytes
@@ -405,6 +409,18 @@ type Contribution @entity {
   The contributions for each side.
   """
   values: [BigInt!]!
+  """
+  The request receiving the contribution.
+  """
+  requestIndex: BigInt!
+  """
+  The round receiving the contribution.
+  """
+  roundIndex: BigInt!
+  """
+  Whether the request is resolved
+  """
+  requestResolved: Boolean!
 }
 
 type _Schema_
