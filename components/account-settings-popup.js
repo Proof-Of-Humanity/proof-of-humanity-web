@@ -1,4 +1,5 @@
 import { Settings } from "@kleros/icons";
+import { useCallback, useMemo } from "react";
 import { Box, Flex, IconButton } from "theme-ui";
 
 import Button from "./button";
@@ -7,11 +8,17 @@ import Identicon from "./identicon";
 import Image from "./image";
 import NetworkTag from "./network-tag";
 import { NextETHLink } from "./next-router";
+import { zeroAddress } from "./parsing";
 import Popup from "./popup";
+import { useQuery } from "./relay-provider";
 import Tabs, { Tab, TabList, TabPanel } from "./tabs";
 import Text from "./text";
 import UserSettings from "./user-settings";
-import { useWeb3 } from "./web3-provider";
+import { useContract, useWeb3 } from "./web3-provider";
+
+import { appQuery } from "_pages/index/app-query";
+import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
+import { address as pohAddress } from "subgraph/config";
 
 export default function AccountSettingsPopup({
   name,
@@ -22,7 +29,55 @@ export default function AccountSettingsPopup({
   normalizeSettings,
 }) {
   const [accounts] = useWeb3("eth", "getAccounts");
-  const { connect } = useWeb3();
+  const { connect, web3 } = useWeb3();
+  const { props: withdrawableContributionsQuery } = useQuery(appQuery, {
+    contributor: accounts?.[0] || zeroAddress,
+    id: accounts?.[0] || zeroAddress,
+  });
+
+  const { contributions: withdrawableContributions } =
+    withdrawableContributionsQuery ?? {};
+  const { send: batchSend } = useContract("transactionBatcher", "batchSend");
+  const pohInstance = useMemo(() => {
+    if (!ProofOfHumanityAbi || !pohAddress) return;
+    return new web3.eth.Contract(ProofOfHumanityAbi, pohAddress);
+  }, [web3.eth.Contract]);
+
+  const withdrawFeesAndRewards = useCallback(() => {
+    if (!batchSend || withdrawableContributions?.length === 0) return;
+
+    const withdrawCalls = withdrawableContributions.map(
+      (withdrawableContribution) => {
+        const { requestIndex, roundIndex, round } = withdrawableContribution;
+        const { challenge } = round;
+        const { request, challengeID } = challenge;
+        const { requester } = request;
+
+        return pohInstance.methods
+          .withdrawFeesAndRewards(
+            accounts[0],
+            requester,
+            requestIndex,
+            challengeID,
+            roundIndex
+          )
+          .encodeABI();
+      }
+    );
+
+    batchSend(
+      [...new Array(withdrawCalls.length).fill(pohAddress)],
+      [...new Array(withdrawCalls.length).fill(web3.utils.toBN(0))],
+      withdrawCalls
+    );
+  }, [
+    accounts,
+    batchSend,
+    pohInstance.methods,
+    web3.utils,
+    withdrawableContributions,
+  ]);
+
   return (
     <Popup
       contentStyle={{ width: 490 }}
@@ -104,6 +159,18 @@ export default function AccountSettingsPopup({
               {accounts &&
                 `${accounts.length === 0 ? "Connect" : "Change"} Account`}
             </Button>
+            {withdrawableContributions?.length > 0 && (
+              <Button
+                sx={{
+                  display: "block",
+                  marginTop: 2,
+                  marginX: "auto",
+                }}
+                onClick={withdrawFeesAndRewards}
+              >
+                Withdraw Fees and Rewards
+              </Button>
+            )}
           </TabPanel>
           <TabPanel>
             <UserSettings

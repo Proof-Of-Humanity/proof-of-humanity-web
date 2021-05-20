@@ -1,7 +1,7 @@
 import { graphql } from "relay-hooks";
 
 export const appQuery = graphql`
-  query appQueryQuery($id: ID!) {
+  query appQuery($id: ID!, $contributor: Bytes!) {
     submission(id: $id) {
       status
       registered
@@ -13,6 +13,25 @@ export const appQuery = graphql`
       ) {
         evidence(orderBy: creationTime, first: 1) {
           URI
+        }
+      }
+    }
+    contributions(
+      first: 10
+      where: {
+        requestResolved: true
+        values_not: [0, 0]
+        contributor: $contributor
+      }
+    ) {
+      requestIndex
+      roundIndex
+      round {
+        challenge {
+          id
+          request {
+            requester
+          }
         }
       }
     }

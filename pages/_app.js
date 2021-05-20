@@ -80,7 +80,10 @@ function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { props } = useQuery(
     appQuery,
-    { id: accounts?.[0]?.toLowerCase() },
+    {
+      id: accounts?.[0]?.toLowerCase(),
+      contributor: accounts?.[0]?.toLowerCase(),
+    },
     { skip: !accounts?.[0] }
   );
 
@@ -127,7 +130,10 @@ function AccountSettingsPopup() {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { props } = useQuery(
     appQuery,
-    { id: accounts?.[0]?.toLowerCase() },
+    {
+      id: accounts?.[0]?.toLowerCase(),
+      contributor: accounts?.[0]?.toLowerCase(),
+    },
     { skip: !accounts?.[0] }
   );
   const evidenceURI = props?.submission?.requests[0].evidence[0].URI;
