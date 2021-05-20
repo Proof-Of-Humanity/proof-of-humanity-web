@@ -76,7 +76,8 @@ function updateContribution(
   roundIndex: BigInt,
   roundID: ByteArray,
   contributor: Address,
-  time: BigInt
+  time: BigInt,
+  requestResolved: boolean
 ): void {
   let proofOfHumanity = ProofOfHumanity.bind(proofOfHumanityAddress);
   let roundInfo = proofOfHumanity.getRoundInfo(
@@ -109,10 +110,13 @@ function updateContribution(
   if (contribution == null) {
     contribution = new Contribution(contributionID);
     contribution.creationTime = time;
+    contribution.requestIndex = requestIndex;
+    contribution.roundIndex = roundIndex;
     contribution.round = round.id;
     contribution.contributor = contributor;
   }
   contribution.values = [contributions[1], contributions[2]];
+  contribution.requestResolved = requestResolved;
   contribution.save();
 }
 
@@ -180,6 +184,7 @@ function requestStatusChange(
   let challenge = new Challenge(challengeID.toHexString());
   challenge.creationTime = time;
   challenge.request = request.id;
+  challenge.requester = request.requester;
   challenge.challengeID = BigInt.fromI32(0);
   challenge.roundsLength = BigInt.fromI32(1);
   challenge.save();
@@ -203,7 +208,8 @@ function requestStatusChange(
     BigInt.fromI32(0),
     roundID,
     msgSender,
-    time
+    time,
+    request.resolved
   );
 }
 
@@ -408,6 +414,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     challenge.challengeID = BigInt.fromI32(0);
     challenge.creationTime = call.block.timestamp;
     challenge.request = request.id;
+    challenge.requester = request.requester;
     challenge.roundsLength = BigInt.fromI32(1);
     challenge.save();
 
@@ -586,6 +593,7 @@ export function fundSubmission(call: FundSubmissionCall): void {
       ByteArray.fromUTF8(requestIndex.toString())
     )
   );
+  let request = Request.load(requestID.toHexString());
   let challengeID = crypto.keccak256(
     concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
   );
@@ -600,7 +608,8 @@ export function fundSubmission(call: FundSubmissionCall): void {
     BigInt.fromI32(0),
     roundID,
     call.from,
-    call.block.timestamp
+    call.block.timestamp,
+    request.resolved
   );
 }
 
@@ -673,6 +682,7 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   let roundID = crypto.keccak256(
     concatByteArrays(challengeID, ByteArray.fromUTF8("0"))
   );
+
   updateContribution(
     call.to,
     call.from,
@@ -681,7 +691,8 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
     BigInt.fromI32(0),
     roundID,
     call.from,
-    call.block.timestamp
+    call.block.timestamp,
+    request.resolved
   );
 }
 
@@ -784,6 +795,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     challenge = new Challenge(challengeID.toHexString());
     challenge.creationTime = call.block.timestamp;
     challenge.request = request.id;
+    challenge.requester = request.requester;
 
     let requestInfo = proofOfHumanity.getRequestInfo(
       call.inputs._submissionID,
@@ -827,7 +839,8 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     BigInt.fromI32(0),
     crypto.keccak256(concatByteArrays(challengeID, ByteArray.fromUTF8("0"))),
     call.from,
-    call.block.timestamp
+    call.block.timestamp,
+    request.resolved
   );
 }
 
@@ -840,6 +853,8 @@ export function fundAppeal(call: FundAppealCall): void {
       ByteArray.fromUTF8(requestIndex.toString())
     )
   );
+  let request = Request.load(requestID.toHexString());
+
   let challengeID = crypto.keccak256(
     concatByteArrays(
       requestID,
@@ -860,7 +875,8 @@ export function fundAppeal(call: FundAppealCall): void {
     roundIndex,
     roundID,
     call.from,
-    call.block.timestamp
+    call.block.timestamp,
+    request.resolved
   );
 
   let round = Round.load(roundID.toHexString());
@@ -930,7 +946,8 @@ export function executeRequest(call: ExecuteRequestCall): void {
     BigInt.fromI32(0),
     crypto.keccak256(concatByteArrays(challengeID, ByteArray.fromUTF8("0"))),
     request.requester as Address,
-    call.block.timestamp
+    call.block.timestamp,
+    request.resolved
   );
 }
 
@@ -949,6 +966,7 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
       ByteArray.fromUTF8(call.inputs._requestID.toString())
     )
   );
+  let request = Request.load(requestID.toHexString());
   let challengeID = crypto.keccak256(
     concatByteArrays(
       requestID,
@@ -968,7 +986,8 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
       )
     ),
     call.inputs._beneficiary,
-    call.block.timestamp
+    call.block.timestamp,
+    request.resolved
   );
 }
 
@@ -1018,11 +1037,13 @@ export function rule(call: RuleCall): void {
       )
       .toHexString()
   );
-  challenge.ruling = BigInt.fromI32(proofOfHumanity.getChallengeInfo(
-    disputeData.value1,
-    requestIndex,
-    disputeData.value0
-  ).value3);
+  challenge.ruling = BigInt.fromI32(
+    proofOfHumanity.getChallengeInfo(
+      disputeData.value1,
+      requestIndex,
+      disputeData.value0
+    ).value3
+  );
   challenge.save();
 }
 
