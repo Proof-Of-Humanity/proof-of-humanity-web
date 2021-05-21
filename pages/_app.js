@@ -80,7 +80,10 @@ function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { props } = useQuery(
     appQuery,
-    { id: accounts?.[0]?.toLowerCase() },
+    {
+      id: accounts?.[0]?.toLowerCase(),
+      contributor: accounts?.[0]?.toLowerCase(),
+    },
     { skip: !accounts?.[0] }
   );
 
@@ -127,7 +130,10 @@ function AccountSettingsPopup() {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { props } = useQuery(
     appQuery,
-    { id: accounts?.[0]?.toLowerCase() },
+    {
+      id: accounts?.[0]?.toLowerCase(),
+      contributor: accounts?.[0]?.toLowerCase(),
+    },
     { skip: !accounts?.[0] }
   );
   const evidenceURI = props?.submission?.requests[0].evidence[0].URI;
@@ -293,9 +299,10 @@ const AnimatedBox = animated(Box);
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const query = useMemo(() => wrapConnection.parseAsPath(router.asPath).query, [
-    router.asPath,
-  ]);
+  const query = useMemo(
+    () => wrapConnection.parseAsPath(router.asPath).query,
+    [router.asPath]
+  );
 
   const networkFromQuery = query?.network ?? network;
 

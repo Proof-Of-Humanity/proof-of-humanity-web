@@ -21,8 +21,7 @@ const items = [
   {
     key: "tutorial",
     text: "Tutorial",
-    url:
-      "https://kleros.gitbook.io/docs/products/proof-of-humanity/proof-of-humanity-tutorial",
+    url: "https://kleros.gitbook.io/docs/products/proof-of-humanity/proof-of-humanity-tutorial",
     Icon: Book,
   },
   {

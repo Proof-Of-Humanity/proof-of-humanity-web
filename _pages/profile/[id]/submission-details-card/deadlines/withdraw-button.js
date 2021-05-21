@@ -4,10 +4,11 @@ import { useCallback } from "react";
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
 
 export default function WithdrawButton({ sx, ...rest }) {
-  const { receipt, send: sendWithdraw, loading: withdrawLoading } = useContract(
-    "proofOfHumanity",
-    "withdrawSubmission"
-  );
+  const {
+    receipt,
+    send: sendWithdraw,
+    loading: withdrawLoading,
+  } = useContract("proofOfHumanity", "withdrawSubmission");
 
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
 

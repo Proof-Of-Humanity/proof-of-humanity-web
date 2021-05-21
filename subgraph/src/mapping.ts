@@ -292,12 +292,12 @@ export function vouchAddedByChangeStateToPending(event: VouchAddedEvent): void {
       event.params._submissionID.toHexString()
     );
     if (vouchedSubmission != null) {
-      vouchedSubmission.vouchesReceived = vouchedSubmission.vouchesReceived.concat(
-        [event.params._voucher.toHexString()]
-      );
-      vouchedSubmission.vouchesReceivedLength = vouchedSubmission.vouchesReceivedLength.plus(
-        BigInt.fromI32(1)
-      );
+      vouchedSubmission.vouchesReceived =
+        vouchedSubmission.vouchesReceived.concat([
+          event.params._voucher.toHexString(),
+        ]);
+      vouchedSubmission.vouchesReceivedLength =
+        vouchedSubmission.vouchesReceivedLength.plus(BigInt.fromI32(1));
       vouchedSubmission.save();
     }
   }
@@ -625,12 +625,10 @@ export function addVouch(call: AddVouchCall): void {
       call.inputs._submissionID.toHexString()
     );
     if (vouchedSubmission != null) {
-      vouchedSubmission.vouchesReceived = vouchedSubmission.vouchesReceived.concat(
-        [call.from.toHexString()]
-      );
-      vouchedSubmission.vouchesReceivedLength = vouchedSubmission.vouchesReceivedLength.plus(
-        BigInt.fromI32(1)
-      );
+      vouchedSubmission.vouchesReceived =
+        vouchedSubmission.vouchesReceived.concat([call.from.toHexString()]);
+      vouchedSubmission.vouchesReceivedLength =
+        vouchedSubmission.vouchesReceivedLength.plus(BigInt.fromI32(1));
       vouchedSubmission.save();
     }
   }

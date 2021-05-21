@@ -174,10 +174,8 @@ const SubmitProfileForm = memo(
                           const video = document.createElement("video");
                           video.addEventListener("loadedmetadata", () => {
                             const { videoWidth, videoHeight } = video;
-                            const {
-                              minWidth,
-                              minHeight,
-                            } = VIDEO_OPTIONS.dimensions;
+                            const { minWidth, minHeight } =
+                              VIDEO_OPTIONS.dimensions;
 
                             resolve(
                               videoWidth >= minWidth && videoHeight >= minHeight

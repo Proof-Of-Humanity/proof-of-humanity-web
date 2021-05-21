@@ -78,11 +78,8 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
       parties: [requester, challenge.challenger],
     }))
     .filter(({ disputeID }) => disputeID !== null);
-  const {
-    sharedStakeMultiplier,
-    winnerStakeMultiplier,
-    loserStakeMultiplier,
-  } = useFragment(submissionDetailsAccordionFragments.contract, contract);
+  const { sharedStakeMultiplier, winnerStakeMultiplier, loserStakeMultiplier } =
+    useFragment(submissionDetailsAccordionFragments.contract, contract);
 
   const challengesWithPendingAppeals = challenges.filter(
     ({ rounds }) => !rounds[0].hasPaid[0] || !rounds[0].hasPaid[1]

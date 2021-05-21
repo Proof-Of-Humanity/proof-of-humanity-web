@@ -456,9 +456,10 @@ export const klerosTheme = merge(theme, {
   },
 });
 export default function ThemeProvider({ theme: _theme, children }) {
-  const mergedTheme = useMemo(() => (_theme ? merge(theme, _theme) : theme), [
-    _theme,
-  ]);
+  const mergedTheme = useMemo(
+    () => (_theme ? merge(theme, _theme) : theme),
+    [_theme]
+  );
   return (
     <_ThemeProvider theme={mergedTheme}>
       <SkeletonTheme
