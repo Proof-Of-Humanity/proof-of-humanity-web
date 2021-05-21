@@ -103,14 +103,11 @@ export default function SubmitProfileCard({
   const [photoUploadProgress, handlePhotoUploadProgress] = useUploadProgress();
   const [videoUploadProgress, handleVideoUploadProgress] = useUploadProgress();
 
-  const {
-    submissionName,
-    registrationMetaEvidence,
-    totalCost,
-  } = useRegistrationParameters({
-    contract,
-    submission,
-  });
+  const { submissionName, registrationMetaEvidence, totalCost } =
+    useRegistrationParameters({
+      contract,
+      submission,
+    });
 
   return (
     <Card

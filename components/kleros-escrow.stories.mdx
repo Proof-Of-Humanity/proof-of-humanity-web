@@ -56,10 +56,10 @@ Uploads files to Kleros' IPFS node.
 
 #### Params `(fileName, bufferOrJSON)`
 
-| Name           | Type                       | Description                          | Default |
-| -------------- | -------------------------- | ------------------------------------ | ------- |
-| fileName\*     | `string`                   | The file name of the file to upload. |         |
-| bufferOrJSON\* | `string | Buffer | object` | The file to upload.                  |         |
+| Name           | Type     | Description                          | Default |
+| -------------- | -------- | ------------------------------------ | ------- | ------------------- | --- |
+| fileName\*     | `string` | The file name of the file to upload. |         |
+| bufferOrJSON\* | `string  | Buffer                               | object` | The file to upload. |     |
 
 #### Returns `(Promise<string>)`
 
@@ -99,12 +99,12 @@ Creates an escrow transaction.
 
 #### Params `(amount, recipient, timeout, metaEvidence)`
 
-| Name           | Type                   | Description                                                                                                                                                                                                                                                      | Default |
-| -------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
-| amount\*       | `number | string | BN` | The amount escrowed.                                                                                                                                                                                                                                             |         |
-| recipient\*    | `string`               | The address of the recipient.                                                                                                                                                                                                                                    |         |
-| timeout\*      | `number | string | BN` | The time in seconds until the transaction becomes executable.                                                                                                                                                                                                    |         |
-| metaEvidence\* | `object`               | The [meta evidence object](https://github.com/ethereum/EIPs/issues/1497) for any potential disputes arising. You can add an additional `file` property with a buffer, string, or object, and it will be uploaded to IPFS and `fileURI` will be set appropiately. |         |
+| Name           | Type     | Description                                                                                                                                                                                                                                                      | Default |
+| -------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------- | --- |
+| amount\*       | `number  | string                                                                                                                                                                                                                                                           | BN`     | The amount escrowed.                                          |     |
+| recipient\*    | `string` | The address of the recipient.                                                                                                                                                                                                                                    |         |
+| timeout\*      | `number  | string                                                                                                                                                                                                                                                           | BN`     | The time in seconds until the transaction becomes executable. |     |
+| metaEvidence\* | `object` | The [meta evidence object](https://github.com/ethereum/EIPs/issues/1497) for any potential disputes arising. You can add an additional `file` property with a buffer, string, or object, and it will be uploaded to IPFS and `fileURI` will be set appropiately. |         |
 
 #### Returns `(Promise<object>)`
 
@@ -116,10 +116,10 @@ Pays an amount of an escrowed transaction the current account is a sender in, to
 
 #### Params `(transactionID, amount)`
 
-| Name            | Type                   | Description                | Default |
-| --------------- | ---------------------- | -------------------------- | ------- |
-| transactionID\* | `string`               | The ID of the transaction. |         |
-| amount\*        | `number | string | BN` | The amount to pay.         |         |
+| Name            | Type     | Description                | Default |
+| --------------- | -------- | -------------------------- | ------- | ------------------ | --- |
+| transactionID\* | `string` | The ID of the transaction. |         |
+| amount\*        | `number  | string                     | BN`     | The amount to pay. |     |
 
 #### Returns `(Promise<object>)`
 
@@ -131,10 +131,10 @@ Pays an amount of an escrowed transaction the current account is a recipient in,
 
 #### Params `(transactionID, amount)`
 
-| Name            | Type                   | Description                | Default |
-| --------------- | ---------------------- | -------------------------- | ------- |
-| transactionID\* | `string`               | The ID of the transaction. |         |
-| amount\*        | `number | string | BN` | The amount to pay.         |         |
+| Name            | Type     | Description                | Default |
+| --------------- | -------- | -------------------------- | ------- | ------------------ | --- |
+| transactionID\* | `string` | The ID of the transaction. |         |
+| amount\*        | `number  | string                     | BN`     | The amount to pay. |     |
 
 #### Returns `(Promise<object>)`
 
@@ -174,10 +174,10 @@ Pays arbitration fees for a transaction the current account is involved in.
 
 #### Params `(transactionID, amount)`
 
-| Name            | Type                   | Description                | Default |
-| --------------- | ---------------------- | -------------------------- | ------- |
-| transactionID\* | `string`               | The ID of the transaction. |         |
-| amount\*        | `number | string | BN` | The amount to pay.         |         |
+| Name            | Type     | Description                | Default |
+| --------------- | -------- | -------------------------- | ------- | ------------------ | --- |
+| transactionID\* | `string` | The ID of the transaction. |         |
+| amount\*        | `number  | string                     | BN`     | The amount to pay. |     |
 
 #### Returns `(Promise<object>)`
 
