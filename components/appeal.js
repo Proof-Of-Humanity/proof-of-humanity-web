@@ -166,10 +166,10 @@ function AppealTabPanel({
   const [appealPeriod] = useContract(
     "klerosLiquid",
     "appealPeriod",
-    useMemo(
-      () => ({ address: arbitrator, args: [disputeID] }),
-      [arbitrator, disputeID]
-    )
+    useMemo(() => ({ address: arbitrator, args: [disputeID] }), [
+      arbitrator,
+      disputeID,
+    ])
   );
   if (appealPeriod) {
     undecided.deadline = appealPeriod.end;
@@ -182,10 +182,10 @@ function AppealTabPanel({
   let [currentRuling] = useContract(
     "klerosLiquid",
     "currentRuling",
-    useMemo(
-      () => ({ address: arbitrator, args: [disputeID] }),
-      [arbitrator, disputeID]
-    )
+    useMemo(() => ({ address: arbitrator, args: [disputeID] }), [
+      arbitrator,
+      disputeID,
+    ])
   );
   currentRuling = currentRuling?.toNumber();
   const shareTitle = `Crowdfunding Appeal Fees for ${party1} vs ${party2}.`;

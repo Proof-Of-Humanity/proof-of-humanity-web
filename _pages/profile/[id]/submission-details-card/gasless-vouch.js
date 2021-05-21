@@ -34,10 +34,10 @@ export default function GasslessVouchButton({ submissionID }) {
   const [vouched, , status, reCall] = useContract(
     "proofOfHumanity",
     "vouches",
-    useMemo(
-      () => ({ args: [accounts?.[0], submissionID] }),
-      [accounts, submissionID]
-    )
+    useMemo(() => ({ args: [accounts?.[0], submissionID] }), [
+      accounts,
+      submissionID,
+    ])
   );
   const { receipt: removeVouchReceipt, removeVouchSend } = useContract(
     "proofOfHumanity",

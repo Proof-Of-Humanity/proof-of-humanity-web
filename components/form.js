@@ -26,8 +26,9 @@ function ETH(...args) {
     this.transform((value) => {
       if (!value) return this.default();
       if (this.isType(value) || typeof value !== "string") return value;
-      const [units, decimals] = (
-        /[Ee]/.test(value) ? prettyNum(value) : value
+      const [units, decimals] = (/[Ee]/.test(value)
+        ? prettyNum(value)
+        : value
       ).split(".");
       value = `${units[0] === "-" ? 0 : units}${
         !decimals ? "" : `.${decimals.slice(0, 18)}`
@@ -84,8 +85,9 @@ function FocusOnFirstError({ children }) {
   useEffect(() => {
     if (!formik.isValid && formik.submitCount > 0) {
       const firstErrorKey = getFirstErrorKey(formik.errors);
-      const firstErrorElement =
-        global.window.document.getElementsByName(firstErrorKey)?.[0];
+      const firstErrorElement = global.window.document.getElementsByName(
+        firstErrorKey
+      )?.[0];
       firstErrorElement?.focus();
       // The element might be visually hidden, so we scroll to its parent.
       firstErrorElement?.parentElement.scrollIntoView();

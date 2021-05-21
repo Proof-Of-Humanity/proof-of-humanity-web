@@ -7,69 +7,71 @@ import Select from "./select";
 import Tabs, { Tab, TabList, TabPanel } from "./tabs";
 import { useWeb3 } from "./web3-provider";
 
-const { getRulingDescriptions: useRulingDescriptions, getVotes: useVotes } =
-  createUseDataloaders({
-    async getRulingDescriptions(
-      {
-        archon: {
-          arbitrable: { getDispute, getMetaEvidence },
-        },
+const {
+  getRulingDescriptions: useRulingDescriptions,
+  getVotes: useVotes,
+} = createUseDataloaders({
+  async getRulingDescriptions(
+    {
+      archon: {
+        arbitrable: { getDispute, getMetaEvidence },
       },
+    },
+    arbitrableContractAddress,
+    arbitratorContractAddress,
+    disputeID
+  ) {
+    const { metaEvidenceID } = await getDispute(
       arbitrableContractAddress,
       arbitratorContractAddress,
       disputeID
-    ) {
-      const { metaEvidenceID } = await getDispute(
-        arbitrableContractAddress,
-        arbitratorContractAddress,
-        disputeID
-      );
-      const metaEvidence = await getMetaEvidence(
-        arbitrableContractAddress,
-        disputeID === String(560) ? String(2) : metaEvidenceID,
-        {
-          scriptParameters: {
-            arbitrableContractAddress,
-            arbitratorContractAddress,
-            disputeID,
-          },
-          strictHashes: true,
-        }
-      );
-      return metaEvidence.metaEvidenceJSON.rulingOptions.descriptions;
-    },
-    async getVotes({ web3 }, arbitrator, disputeID, appeal) {
-      const klerosLiquid = web3.contracts.klerosLiquid.clone();
-      klerosLiquid.options.address = arbitrator;
-      const justifications = await fetch(
-        "https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/justifications",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            payload: { network: web3.ETHNet.name, disputeID, appeal },
-          }),
-        }
-      ).then((res) => res.json());
-      return Promise.all(
-        justifications.payload.justifications.Items.map(
-          async ({
-            voteID: { N: voteID },
-            justification: { S: justification },
-          }) => ({
-            ruling: Number(
-              (
-                await klerosLiquid.methods
-                  .getVote(disputeID, appeal, voteID)
-                  .call()
-              ).choice
-            ),
-            justification,
-          })
-        )
-      );
-    },
-  });
+    );
+    const metaEvidence = await getMetaEvidence(
+      arbitrableContractAddress,
+      disputeID === String(560) ? String(2) : metaEvidenceID,
+      {
+        scriptParameters: {
+          arbitrableContractAddress,
+          arbitratorContractAddress,
+          disputeID,
+        },
+        strictHashes: true,
+      }
+    );
+    return metaEvidence.metaEvidenceJSON.rulingOptions.descriptions;
+  },
+  async getVotes({ web3 }, arbitrator, disputeID, appeal) {
+    const klerosLiquid = web3.contracts.klerosLiquid.clone();
+    klerosLiquid.options.address = arbitrator;
+    const justifications = await fetch(
+      "https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/justifications",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          payload: { network: web3.ETHNet.name, disputeID, appeal },
+        }),
+      }
+    ).then((res) => res.json());
+    return Promise.all(
+      justifications.payload.justifications.Items.map(
+        async ({
+          voteID: { N: voteID },
+          justification: { S: justification },
+        }) => ({
+          ruling: Number(
+            (
+              await klerosLiquid.methods
+                .getVote(disputeID, appeal, voteID)
+                .call()
+            ).choice
+          ),
+          justification,
+        })
+      )
+    );
+  },
+});
 function VotingHistoryTabPanel({
   arbitrable,
   arbitrator,

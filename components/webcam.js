@@ -127,8 +127,9 @@ export default function Webcam({
                     "dataavailable",
                     ({ data }) => {
                       if (data.size > 0)
-                        recordedChunksRef.current =
-                          recordedChunksRef.current.concat(data);
+                        recordedChunksRef.current = recordedChunksRef.current.concat(
+                          data
+                        );
                     }
                   );
                   mediaRecorderRef.current.addEventListener(

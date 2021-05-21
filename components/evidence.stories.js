@@ -120,7 +120,8 @@ NoScroll.args = {
     {
       creationTime: 1599596964,
       id: "0x07bf8db105cb13b5437fdc28e614cc805a9d69d172edd99f42464960764eae0b",
-      URI: "/ipfs/QmR5nGY21KnsPGx87FhG4czb3ueajWeSFEzpbQkZ9svtYD/registration.json",
+      URI:
+        "/ipfs/QmR5nGY21KnsPGx87FhG4czb3ueajWeSFEzpbQkZ9svtYD/registration.json",
       sender: "0x4b93a94ca58594faf5f64948a26f3e195eb63b6e",
     },
   ],
@@ -153,7 +154,8 @@ Scroll.args = {
     {
       creationTime: 1599596964,
       id: "0x07bf8db105cb13b5437fdc28e614cc805a9d69d172edd99f42464960764eae0b",
-      URI: "/ipfs/QmR5nGY21KnsPGx87FhG4czb3ueajWeSFEzpbQkZ9svtYD/registration.json",
+      URI:
+        "/ipfs/QmR5nGY21KnsPGx87FhG4czb3ueajWeSFEzpbQkZ9svtYD/registration.json",
       sender: "0x4b93a94ca58594faf5f64948a26f3e195eb63b6e",
     },
   ],

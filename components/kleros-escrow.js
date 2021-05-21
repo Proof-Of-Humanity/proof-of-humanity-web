@@ -33,35 +33,33 @@ export default class KlerosEscrow {
   async setCourtAndCurrency(court = "blockchain-non-technical", currency) {
     if (!ethereumAddressRegExp.test(court)) {
       const ETHNetID = await this.web3.eth.net.getId();
-      court = (
-        currency
-          ? {
-              // Tokens
-              42: {
-                general: "0xfe4fd3f2d4470fd032ee3e961a981b08e254a0d7",
-                "blockchain-non-technical":
-                  "0xdc73a27c2a81de8646937eac26fa34a870322874",
-              },
-              1: {
-                general: "0xBCf0d1AD453728F75e9cFD4358ED187598A45e6c",
-                "blockchain-non-technical":
-                  "0xC25a0b9681ABF6F090AEd71a8c08fB564b41dab6",
-              },
-            }
-          : {
-              // ETH
-              42: {
-                general: "0x23c8118ae9fb45a0cb7fcfe3af65d081233d82a5",
-                "blockchain-non-technical":
-                  "0x01171b3fb9627dd127a6ceb356b4470c492e7a8d",
-              },
-              1: {
-                general: "0x0d67440946949fe293b45c52efd8a9b3d51e2522",
-                "blockchain-non-technical":
-                  "0xE2Dd8CCe2c33a04215074ADb4B5820B765d8Ed9D",
-              },
-            }
-      )[ETHNetID][court];
+      court = (currency
+        ? {
+            // Tokens
+            42: {
+              general: "0xfe4fd3f2d4470fd032ee3e961a981b08e254a0d7",
+              "blockchain-non-technical":
+                "0xdc73a27c2a81de8646937eac26fa34a870322874",
+            },
+            1: {
+              general: "0xBCf0d1AD453728F75e9cFD4358ED187598A45e6c",
+              "blockchain-non-technical":
+                "0xC25a0b9681ABF6F090AEd71a8c08fB564b41dab6",
+            },
+          }
+        : {
+            // ETH
+            42: {
+              general: "0x23c8118ae9fb45a0cb7fcfe3af65d081233d82a5",
+              "blockchain-non-technical":
+                "0x01171b3fb9627dd127a6ceb356b4470c492e7a8d",
+            },
+            1: {
+              general: "0x0d67440946949fe293b45c52efd8a9b3d51e2522",
+              "blockchain-non-technical":
+                "0xE2Dd8CCe2c33a04215074ADb4B5820B765d8Ed9D",
+            },
+          })[ETHNetID][court];
     }
 
     const account = await this.getAccount();

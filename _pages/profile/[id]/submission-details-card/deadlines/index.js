@@ -48,8 +48,11 @@ export default function Deadlines({ submission, contract, status }) {
     id,
     submissionTime,
   } = useFragment(deadlinesFragments.submission, submission);
-  const { submissionDuration, renewalTime, challengePeriodDuration } =
-    (contract = useFragment(deadlinesFragments.contract, contract));
+  const {
+    submissionDuration,
+    renewalTime,
+    challengePeriodDuration,
+  } = (contract = useFragment(deadlinesFragments.contract, contract));
   const renewalTimestamp =
     (Number(submissionTime) + (submissionDuration - renewalTime)) * 1000;
   const [accounts] = useWeb3("eth", "getAccounts");

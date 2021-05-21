@@ -57,10 +57,10 @@ export default function UserSettings({
   return (
     <Form
       enableReinitialize
-      initialValues={useMemo(
-        () => parseSettings(userSettings),
-        [parseSettings, userSettings]
-      )}
+      initialValues={useMemo(() => parseSettings(userSettings), [
+        parseSettings,
+        userSettings,
+      ])}
       createValidationSchema={useCallback(
         ({ boolean, string }) => ({
           ...Object.keys(settings).reduce((acc, setting) => {

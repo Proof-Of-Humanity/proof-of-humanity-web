@@ -299,10 +299,9 @@ const AnimatedBox = animated(Box);
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const query = useMemo(
-    () => wrapConnection.parseAsPath(router.asPath).query,
-    [router.asPath]
-  );
+  const query = useMemo(() => wrapConnection.parseAsPath(router.asPath).query, [
+    router.asPath,
+  ]);
 
   const networkFromQuery = query?.network ?? network;
 
