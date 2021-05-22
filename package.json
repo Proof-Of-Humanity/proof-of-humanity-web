@@ -155,5 +155,8 @@
     "ci:commitlint": "git log -1 --pretty=format:\"%s\" | commitlint",
     "ci": "npm-run-all --parallel ci:**",
     "components:publish": "npm publish --access public --tag beta"
+  },
+  "volta": {
+    "node": "14.17.0"
   }
 }
