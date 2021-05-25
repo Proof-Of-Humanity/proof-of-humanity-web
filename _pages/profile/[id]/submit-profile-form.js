@@ -198,33 +198,17 @@ const SubmitProfileForm = memo(
                         });
                   }
                 ),
-              contribution: eth()
-                .test({
-                  test(value) {
-                    if (totalCost && value.gt(totalCost))
-                      return this.createError({
-                        message: `You can't contribute more than the base deposit of ${_web3.utils.fromWei(
-                          totalCost
-                        )} ETH.`,
-                      });
-                    return true;
-                  },
-                })
-                .test({
-                  async test(value) {
-                    if (!account) return true;
-                    const balance = _web3.utils.toBN(
-                      await _web3.eth.getBalance(account)
-                    );
-                    if (value.gt(balance))
-                      return this.createError({
-                        message: `You can't contribute more than your balance of ${_web3.utils.fromWei(
-                          balance
-                        )} ETH.`,
-                      });
-                    return true;
-                  },
-                }),
+              contribution: eth().test({
+                test(value) {
+                  if (totalCost && value.gt(totalCost))
+                    return this.createError({
+                      message: `You can't contribute more than the base deposit of ${_web3.utils.fromWei(
+                        totalCost
+                      )} ETH.`,
+                    });
+                  return true;
+                },
+              }),
             };
             if (totalCost)
               schema.contribution = schema.contribution.default(
@@ -232,7 +216,7 @@ const SubmitProfileForm = memo(
               );
             return schema;
           },
-          [totalCost, submissionName, account]
+          [totalCost, submissionName]
         )}
         onReset={handleFormReset}
         onSubmit={async ({
