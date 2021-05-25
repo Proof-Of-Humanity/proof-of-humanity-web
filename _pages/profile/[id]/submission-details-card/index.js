@@ -345,7 +345,7 @@ export default function SubmissionDetailsCard({
           <Alert
             type="muted"
             title="Something wrong with this submission?"
-            sx={{ mb: 3 }}
+            sx={{ mb: 3, wordWrap: "break-word" }}
           >
             <Text>
               There is still time to save this submitter&apos;s deposit! Try
