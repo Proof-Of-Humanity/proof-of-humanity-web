@@ -63,14 +63,9 @@ export default function Web3Provider({
   infuraURL,
   contracts,
   onNetworkChange,
-  onNetworkChainIdChange,
   children,
 }) {
   const [web3, setWeb3] = useState(() => createWeb3(infuraURL));
-
-  useEffect(() => {
-    if (onNetworkChainIdChange) onNetworkChainIdChange(web3.givenProvider);
-  }, [web3.givenProvider, onNetworkChainIdChange]);
 
   useEffect(() => {
     if (infuraURL !== web3.infuraURL) setWeb3(createWeb3(infuraURL));
