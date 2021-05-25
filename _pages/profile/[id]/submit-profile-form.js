@@ -307,6 +307,14 @@ const SubmitProfileForm = memo(
               placeholder="(In basic Latin)"
             />
             <Field as={Textarea} name="bio" label="Short Bio" />
+            <Alert type="muted" title="Pro Tip" sx={{ mb: 3 }}>
+              <Text>
+                People can try to notify you of problems in your submission and
+                save your deposit via your{" "}
+                <Link href="https://ethmail.cc/">ethmail.cc</Link>. Make sure to
+                check it while it is not in the challenge period.
+              </Text>
+            </Alert>
             <Field
               as={FileUpload}
               name="photo"
