@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Card,
   EthereumAccount,
@@ -340,6 +341,21 @@ export default function SubmissionDetailsCard({
         </Box>
       </Flex>
       <Box sx={{ flex: 1, padding: 4 }}>
+        {status === submissionStatusEnum.Vouching && (
+          <Alert
+            type="muted"
+            title="Something wrong with this submission?"
+            sx={{ mb: 3 }}
+          >
+            <Text>
+              There is still time to save this submitter&apos;s deposit! Try
+              contacting them via{" "}
+              <Link href="https://ethmail.cc/">ethmail.cc</Link>. This is as
+              simple as sending an email to [eth-address]@ethmail.cc. Example:{" "}
+              {id}@ethmail.cc
+            </Text>
+          </Alert>
+        )}
         <Flex
           sx={{
             alignItems: "center",
