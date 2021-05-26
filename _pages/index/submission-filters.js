@@ -33,11 +33,11 @@ export default function SubmissionFilters({
         aria-label="Search (case sensitive)"
         placeholder="Search (case sensitive)"
         icon={<Search />}
-        value={router.query.search?.replaceAll(" & ", " ") || ""}
+        value={router.query.search || ""}
         onChange={(event) => {
           const query = { ...router.query };
           if (!event.target.value) delete query.search;
-          else query.search = event.target.value.replaceAll(" ", " & ");
+          else query.search = event.target.value;
           router.push({
             query,
           });
