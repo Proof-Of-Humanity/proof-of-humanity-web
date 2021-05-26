@@ -68,6 +68,7 @@ export default function SubmissionFilters({
           }
           delete query.skip;
           router.push({
+            pathname: "/",
             query,
           });
         }}
