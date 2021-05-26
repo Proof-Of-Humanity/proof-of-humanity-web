@@ -38,7 +38,7 @@ export default function SubmissionFilters({
           const query = { ...router.query };
           if (!event.target.value) delete query.search;
           else query.search = event.target.value.replaceAll(" ", " & ");
-          router.push({
+          router.replace({
             query,
           });
         }}
@@ -67,7 +67,7 @@ export default function SubmissionFilters({
             } else delete query.submissionDuration;
           }
           delete query.skip;
-          router.push({
+          router.replace({
             query,
           });
         }}
