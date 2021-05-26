@@ -39,6 +39,7 @@ export default function SubmissionFilters({
           if (!event.target.value) delete query.search;
           else query.search = event.target.value.replaceAll(" ", " & ");
           router.push({
+            pathname: "/",
             query,
           });
         }}
