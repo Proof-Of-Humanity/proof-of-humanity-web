@@ -21,6 +21,7 @@ import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useRef } from "react";
 
 import { useEvidenceFile } from "data";
+import getVideoEmptyBorderSize from "lib/get-video-empty-border-size";
 
 const VIDEO_OPTIONS = {
   types: {
@@ -172,17 +173,31 @@ const SubmitProfileForm = memo(
                       ? true
                       : new Promise((resolve) => {
                           const video = document.createElement("video");
-                          video.addEventListener("loadedmetadata", () => {
+
+                          video.addEventListener("loadeddata", () => {
                             const { videoWidth, videoHeight } = video;
                             const { minWidth, minHeight } =
                               VIDEO_OPTIONS.dimensions;
 
+                            const isVideoTooSmall =
+                              videoWidth < minWidth || videoHeight < minHeight;
+
+                            const emptyBorderSize =
+                              getVideoEmptyBorderSize(video);
+                            const isVideoPictureTooSmall =
+                              videoWidth - emptyBorderSize.width < minWidth ||
+                              videoHeight - emptyBorderSize.height < minHeight;
+
                             resolve(
-                              videoWidth >= minWidth && videoHeight >= minHeight
-                                ? true
-                                : this.createError({
+                              isVideoTooSmall
+                                ? this.createError({
                                     message: `Video should be at least ${minWidth}px wide and at least ${minHeight}px tall`,
                                   })
+                                : isVideoPictureTooSmall
+                                ? this.createError({
+                                    message: `The video has empty bars along the sides that make it so the viewable area is too small (it should be at least ${minWidth}px wide and ${minHeight}px tall).`,
+                                  })
+                                : true
                             );
                           });
 
@@ -194,6 +209,7 @@ const SubmitProfileForm = memo(
                             );
                           });
 
+                          video.preload = "auto";
                           video.src = value.preview;
                         });
                   }
