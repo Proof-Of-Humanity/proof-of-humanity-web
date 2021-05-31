@@ -328,7 +328,7 @@ const SubmitProfileForm = memo(
                 People can try to notify you of problems in your submission and
                 save your deposit via your{" "}
                 <Link href="https://ethmail.cc/">ethmail.cc</Link>. Make sure to
-                check it while it is not in the challenge period.
+                check it while submission is being processed.
               </Text>
             </Alert>
             <Field
