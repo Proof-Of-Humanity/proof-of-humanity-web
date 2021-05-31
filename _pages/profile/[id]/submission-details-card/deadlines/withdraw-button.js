@@ -1,16 +1,11 @@
 import { Button, useContract } from "@kleros/components";
 import { useCallback } from "react";
 
-import useIsGraphSynced from "_pages/index/use-is-graph-synced";
-
 export default function WithdrawButton({ sx, ...rest }) {
-  const {
-    receipt,
-    send: sendWithdraw,
-    loading: withdrawLoading,
-  } = useContract("proofOfHumanity", "withdrawSubmission");
-
-  const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
+  const { send: sendWithdraw } = useContract(
+    "proofOfHumanity",
+    "withdrawSubmission"
+  );
 
   const handleClick = useCallback(() => sendWithdraw(), [sendWithdraw]);
 
@@ -18,8 +13,6 @@ export default function WithdrawButton({ sx, ...rest }) {
     <Button
       {...rest}
       onClick={handleClick}
-      loading={withdrawLoading}
-      disabled={withdrawLoading || (!!receipt && !isGraphSynced)}
       sx={{
         backgroundImage({ colors }) {
           const { danger, text } = colors;
