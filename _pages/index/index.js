@@ -74,8 +74,7 @@ export default function Index() {
             setPage(_page);
 
             const query = { ...router.query };
-            if (_page === 1) delete query.skip;
-            else query.skip = (_page - 1) * pageSize;
+            query.skip = (_page - 1) * pageSize;
             router.push({
               query,
             });
