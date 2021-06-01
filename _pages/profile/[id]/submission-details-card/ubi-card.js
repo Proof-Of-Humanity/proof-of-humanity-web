@@ -305,9 +305,12 @@ export default function UBICard({
       for (let i = 0; i < vouches.vouchers.length; i++) {
         if (validVouches.signatures.length >= requiredNumberOfVouches) break;
 
-        const { hasVouched } = await pohInstance.methods
-          .getSubmissionInfo(vouches.vouchers[i])
-          .call();
+        const { hasVouched, registered: voucherRegistered } =
+          await pohInstance.methods
+            .getSubmissionInfo(vouches.vouchers[i])
+            .call();
+
+        if (!voucherRegistered) continue;
 
         if (!hasVouched) {
           validVouches.signatures.push(vouches.signatures[i]);
@@ -340,9 +343,10 @@ export default function UBICard({
       for (const vouchReceived of vouchesReceived) {
         if (onChainVouches.length >= requiredNumberOfVouches) break;
 
-        const { hasVouched } = await pohInstance.methods
-          .getSubmissionInfo(vouchReceived.id)
-          .call();
+        const { hasVouched, registered: voucherRegistered } =
+          await pohInstance.methods.getSubmissionInfo(vouchReceived.id).call();
+
+        if (!voucherRegistered) continue;
 
         if (!hasVouched) onChainVouches.push(vouchReceived.id);
         else setQueuedVouches((previous) => previous.add(vouchReceived.id));
