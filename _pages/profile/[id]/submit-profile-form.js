@@ -33,8 +33,8 @@ const VIDEO_OPTIONS = {
     label: "7 MB",
   },
   dimensions: {
-    minWidth: 360,
-    minHeight: 360,
+    minWidth: 352,
+    minHeight: 352,
   },
 };
 
@@ -392,11 +392,28 @@ const SubmitProfileForm = memo(
                   Submitters should speak in their normal voice.
                 </ListItem>
                 <ListItem>
-                  The video quality should be at least 360p, at most 2 minutes
-                  long, and in the webm or MP4 format. Lighting conditions and
-                  recording device quality should be sufficient to discern
-                  facial features and characters composing the Ethereum address
-                  displayed.
+                  Video submissions must follow all of the following
+                  requirements:
+                  <ul>
+                    <li>at most 2 minutes long,</li>
+                    <li>
+                      in the video/webm, video/MP4, video/avi or video/mov
+                      format,
+                    </li>
+                    <li>
+                      vertical (portrait), horizontal (landscape) or square,
+                    </li>
+                  </ul>
+                  and follow these minimum size requirements:
+                  <ul>
+                    <li>Minimum height: equal to or higher than 352 pixels</li>
+                    <li>Minimum width: equal to or higher than 352 pixels</li>
+                  </ul>
+                </ListItem>
+                <ListItem>
+                  Lighting conditions and recording device quality should be
+                  sufficient to discern facial features and characters composing
+                  the Ethereum address displayed.
                 </ListItem>
                 <ListItem>
                   The quality of the audio should be high enough such that the
