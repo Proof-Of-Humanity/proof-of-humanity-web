@@ -297,8 +297,8 @@ const SubmitProfileForm = memo(
             </Alert>
             <Alert type="muted" title="Advice" sx={{ mb: 3 }}>
               <Text>
-                Suggestion: Submissions are final and cannot be edited. Be sure
-                to follow all submission rules to not lose your deposit.
+                Submissions are final and cannot be edited. Be sure to follow
+                all submission rules to not lose your deposit.
               </Text>
             </Alert>
             <Field
@@ -344,6 +344,7 @@ const SubmitProfileForm = memo(
               variant="muted"
               sx={{ marginBottom: 2 }}
               header="Photo Instructions:"
+              mainSx={{ padding: 0 }}
             >
               <List>
                 <ListItem>
@@ -378,6 +379,11 @@ const SubmitProfileForm = memo(
               variant="muted"
               sx={{ marginBottom: 2 }}
               header="Video Instructions:"
+              mainSx={{
+                padding: 0,
+                display: "flex",
+                justifyContent: "flex-start",
+              }}
             >
               <List>
                 <ListItem>
@@ -394,21 +400,25 @@ const SubmitProfileForm = memo(
                 <ListItem>
                   Video submissions must follow all of the following
                   requirements:
-                  <ul>
-                    <li>at most 2 minutes long,</li>
-                    <li>
+                  <List>
+                    <ListItem>at most 2 minutes long,</ListItem>
+                    <ListItem>
                       in the video/webm, video/MP4, video/avi or video/mov
                       format,
-                    </li>
-                    <li>
+                    </ListItem>
+                    <ListItem>
                       vertical (portrait), horizontal (landscape) or square,
-                    </li>
-                  </ul>
+                    </ListItem>
+                  </List>
                   and follow these minimum size requirements:
-                  <ul>
-                    <li>Minimum height: equal to or higher than 352 pixels</li>
-                    <li>Minimum width: equal to or higher than 352 pixels</li>
-                  </ul>
+                  <List>
+                    <ListItem>
+                      Minimum height: equal to or higher than 352 pixels
+                    </ListItem>
+                    <ListItem>
+                      Minimum width: equal to or higher than 352 pixels
+                    </ListItem>
+                  </List>
                 </ListItem>
                 <ListItem>
                   Lighting conditions and recording device quality should be
