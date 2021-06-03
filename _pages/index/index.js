@@ -7,17 +7,46 @@ import SubmissionCard from "./submission-card";
 import SubmissionFilters from "./submission-filters";
 
 const pageSize = 12;
+
+function getSubmissionCounter(defaultSubmissionCounter, statusFilter, props) {
+  switch (statusFilter) {
+    case "vouching":
+      return props?.counter?.vouchingPhase || 0;
+    case "pending-registration":
+      return props?.counter?.pendingRegistration || 0;
+    case "pending-removal":
+      return props?.counter?.pendingRemoval || 0;
+    case "challenged-registration":
+      return props?.counter?.challengedRegistration || 0;
+    case "challenged-removal":
+      return props?.counter?.challengedRemoval || 0;
+    case "registered":
+      return props?.counter?.registered || 0;
+    case "expired":
+      return props?.counter?.expired || 0;
+    case "removed":
+      return props?.counter?.removed || 0;
+    default:
+      return defaultSubmissionCounter;
+  }
+}
+
 export default function Index() {
   const router = useRouter();
   const { props } = useQuery();
 
-  const [submissionCounter] = useContract(
-    "proofOfHumanity",
-    "submissionCounter"
-  );
   const [submissionDuration] = useContract(
     "proofOfHumanity",
     "submissionDuration"
+  );
+  const [defaultSubmissionCounter] = useContract(
+    "proofOfHumanity",
+    "submissionCounter"
+  );
+  const submissionCounter = getSubmissionCounter(
+    defaultSubmissionCounter,
+    router.query?.status,
+    props
   );
 
   const startsWithNormalized = props?.startsWith || [];
@@ -40,6 +69,7 @@ export default function Index() {
   const [numberOfPages, setNumberOfPages] = useState(
     router.query.skip ? router.query.skip / pageSize + 1 : 1
   );
+
   const [page, setPage] = useState(numberOfPages);
   const isLastPage = numberOfPages === page;
   const hasMore = props?.submissions?.length === pageSize + 1;
@@ -72,11 +102,9 @@ export default function Index() {
           onChange={(_page) => {
             if (numberOfPages < _page) setNumberOfPages(_page);
             setPage(_page);
-
             const query = { ...router.query };
-            if (_page === 1) delete query.skip;
-            else query.skip = (_page - 1) * pageSize;
-            router.push({
+            query.skip = (_page - 1) * pageSize;
+            router.replace({
               query,
             });
           }}
@@ -118,6 +146,16 @@ export const indexQuery = graphql`
     byAddress: submissions(where: { id: $address }) {
       id
       ...submissionCardSubmission
+    }
+    counter(id: 0) {
+      vouchingPhase
+      pendingRemoval
+      pendingRegistration
+      challengedRemoval
+      challengedRegistration
+      registered
+      expired
+      removed
     }
   }
 `;
