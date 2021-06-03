@@ -423,6 +423,24 @@ type Contribution @entity {
   requestResolved: Boolean!
 }
 
+type Counter @entity {
+  """
+  The singleton entity's ID, "0".
+  """
+  id: ID!
+  """
+  Counters for each of the different possible filters
+  """
+  vouchingPhase: BigInt!
+  pendingRegistration: BigInt!
+  pendingRemoval: BigInt!
+  challengedRegistration: BigInt!
+  challengedRemoval: BigInt!
+  registered: BigInt!
+  expired: BigInt!
+  removed: BigInt!
+}
+
 type _Schema_
   @fulltext(
     name: "submissionSearch"
