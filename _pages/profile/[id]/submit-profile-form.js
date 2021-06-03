@@ -33,8 +33,8 @@ const VIDEO_OPTIONS = {
     label: "7 MB",
   },
   dimensions: {
-    minWidth: 360,
-    minHeight: 360,
+    minWidth: 352,
+    minHeight: 352,
   },
 };
 
@@ -297,8 +297,8 @@ const SubmitProfileForm = memo(
             </Alert>
             <Alert type="muted" title="Advice" sx={{ mb: 3 }}>
               <Text>
-                Suggestion: Submissions are final and cannot be edited. Be sure
-                to follow all submission rules to not lose your deposit.
+                Submissions are final and cannot be edited. Be sure to follow
+                all submission rules to not lose your deposit.
               </Text>
             </Alert>
             <Field
@@ -328,7 +328,7 @@ const SubmitProfileForm = memo(
                 People can try to notify you of problems in your submission and
                 save your deposit via your{" "}
                 <Link href="https://ethmail.cc/">ethmail.cc</Link>. Make sure to
-                check it while it is not in the challenge period.
+                check it while submission is being processed.
               </Text>
             </Alert>
             <Field
@@ -344,6 +344,7 @@ const SubmitProfileForm = memo(
               variant="muted"
               sx={{ marginBottom: 2 }}
               header="Photo Instructions:"
+              mainSx={{ padding: 0 }}
             >
               <List>
                 <ListItem>
@@ -378,6 +379,11 @@ const SubmitProfileForm = memo(
               variant="muted"
               sx={{ marginBottom: 2 }}
               header="Video Instructions:"
+              mainSx={{
+                padding: 0,
+                display: "flex",
+                justifyContent: "flex-start",
+              }}
             >
               <List>
                 <ListItem>
@@ -392,11 +398,32 @@ const SubmitProfileForm = memo(
                   Submitters should speak in their normal voice.
                 </ListItem>
                 <ListItem>
-                  The video quality should be at least 360p, at most 2 minutes
-                  long, and in the webm or MP4 format. Lighting conditions and
-                  recording device quality should be sufficient to discern
-                  facial features and characters composing the Ethereum address
-                  displayed.
+                  Video submissions must follow all of the following
+                  requirements:
+                  <List>
+                    <ListItem>at most 2 minutes long,</ListItem>
+                    <ListItem>
+                      in the video/webm, video/MP4, video/avi or video/mov
+                      format,
+                    </ListItem>
+                    <ListItem>
+                      vertical (portrait), horizontal (landscape) or square,
+                    </ListItem>
+                  </List>
+                  and follow these minimum size requirements:
+                  <List>
+                    <ListItem>
+                      Minimum height: equal to or higher than 352 pixels
+                    </ListItem>
+                    <ListItem>
+                      Minimum width: equal to or higher than 352 pixels
+                    </ListItem>
+                  </List>
+                </ListItem>
+                <ListItem>
+                  Lighting conditions and recording device quality should be
+                  sufficient to discern facial features and characters composing
+                  the Ethereum address displayed.
                 </ListItem>
                 <ListItem>
                   The quality of the audio should be high enough such that the

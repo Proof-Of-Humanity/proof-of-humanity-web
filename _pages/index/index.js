@@ -104,7 +104,7 @@ export default function Index() {
             setPage(_page);
             const query = { ...router.query };
             query.skip = (_page - 1) * pageSize;
-            router.replace({
+            router.push({
               query,
             });
           }}

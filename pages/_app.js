@@ -305,6 +305,7 @@ export default function App({ Component, pageProps }) {
   );
 
   const networkFromQuery = query?.network ?? network;
+  const [networkFromProvider, setNetworkFromProvider] = useState();
 
   const [routeChangeConnection, setRouteChangeConnection] = useState();
   const connectToRouteChange = useCallback((connection) => {
@@ -320,7 +321,8 @@ export default function App({ Component, pageProps }) {
   }, [routeChangeConnection, router.events]);
 
   const onNetworkChange = useCallback(
-    ({ name: _network }) => {
+    (ETHNet) => {
+      const { name: _network } = ETHNet;
       if (networkFromQuery !== _network) {
         const searchParameters = new URLSearchParams(location.search);
         if (!_network) searchParameters.delete("network");
@@ -331,6 +333,7 @@ export default function App({ Component, pageProps }) {
           query: searchParameters.toString(),
         });
       }
+      setNetworkFromProvider(ETHNet);
     },
     [router, networkFromQuery]
   );
@@ -348,6 +351,25 @@ export default function App({ Component, pageProps }) {
       },
     }
   );
+
+  if (
+    (networkFromProvider &&
+      networkFromProvider.name !== process.env.NEXT_PUBLIC_NETWORK) ||
+    network !== process.env.NEXT_PUBLIC_NETWORK
+  )
+    return (
+      <Flex
+        sx={{
+          alignItems: "center",
+          height: "100vh",
+          justifyContent: "center",
+          width: "100vw",
+        }}
+      >
+        Unsupported network. Please switch to {capitalize(network)} and refresh.
+      </Flex>
+    );
+
   return (
     <ThemeProvider theme={theme}>
       <RelayProvider
@@ -361,36 +383,22 @@ export default function App({ Component, pageProps }) {
           onNetworkChange={onNetworkChange}
         >
           <ArchonProvider>
-            {network === process.env.NEXT_PUBLIC_NETWORK &&
-            networkFromQuery === process.env.NEXT_PUBLIC_NETWORK ? (
-              <Layout header={header} footer={footer}>
-                {transitions.map(({ key, props, item }) => (
-                  <AnimatedBox
-                    key={key}
-                    style={{
-                      ...props,
-                      transform: props.transform.interpolate((t) =>
-                        t === "translate3d(0%,0,0)" ? undefined : t
-                      ),
-                    }}
-                    sx={{ padding: 3 }}
-                  >
-                    <item.Component {...item.pageProps} />
-                  </AnimatedBox>
-                ))}
-              </Layout>
-            ) : (
-              <Flex
-                sx={{
-                  alignItems: "center",
-                  height: "100vh",
-                  justifyContent: "center",
-                  width: "100vw",
-                }}
-              >
-                Unsupported network. Please switch to {capitalize(network)}.
-              </Flex>
-            )}
+            <Layout header={header} footer={footer}>
+              {transitions.map(({ key, props, item }) => (
+                <AnimatedBox
+                  key={key}
+                  style={{
+                    ...props,
+                    transform: props.transform.interpolate((t) =>
+                      t === "translate3d(0%,0,0)" ? undefined : t
+                    ),
+                  }}
+                  sx={{ padding: 3 }}
+                >
+                  <item.Component {...item.pageProps} />
+                </AnimatedBox>
+              ))}
+            </Layout>
           </ArchonProvider>
         </Web3Provider>
       </RelayProvider>

@@ -93,8 +93,13 @@ export default function Web3Provider({
     return () => (cancelled = true);
   }, [web3.modal, web3.infuraURL]);
 
+  // Instantiate contracts.
   useEffect(() => {
     let cancelled = false;
+    const networkIdToName = {
+      1: "mainnet",
+      42: "kovan",
+    };
     (async () => {
       const ETHNetID = await web3.eth.net.getId();
       if (!cancelled && ETHNetID !== web3.ETHNet?.ID) {
@@ -105,6 +110,8 @@ export default function Web3Provider({
         setWeb3({ ...web3 });
         if (onNetworkChange) onNetworkChange(web3.ETHNet);
       }
+
+      if (networkIdToName[ETHNetID] !== process.env.NEXT_PUBLIC_NETWORK) return;
 
       if (contracts !== web3._contracts) {
         const [account] = await web3.eth.getAccounts();
