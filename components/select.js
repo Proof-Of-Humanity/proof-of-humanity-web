@@ -54,7 +54,6 @@ export default function Select({ items, onChange, value, label, ...rest }) {
     getToggleButtonProps,
     highlightedIndex,
     isOpen,
-    selectedItem,
   } = useSelect({
     items,
     onSelectedItemChange({ selectedItem: _selectedItem }) {
@@ -107,8 +106,8 @@ export default function Select({ items, onChange, value, label, ...rest }) {
           },
         })}
       >
-        <Icon item={selectedItem} />
-        {String(selectedItem)}
+        <Icon item={value} />
+        {String(value)}
       </Button>
       <List
         {...getMenuProps({
@@ -133,7 +132,7 @@ export default function Select({ items, onChange, value, label, ...rest }) {
                   sx: {
                     backgroundColor:
                       highlightedIndex === index && alpha("highlight", 0.06),
-                    ...(selectedItem === item && {
+                    ...(value === item && {
                       borderLeftColor: "highlight",
                       borderLeftStyle: "solid",
                       borderLeftWidth: 3,
