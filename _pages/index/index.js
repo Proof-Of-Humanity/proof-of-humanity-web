@@ -1,6 +1,5 @@
 import { Grid, Pagination, useContract, useQuery } from "@kleros/components";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import { graphql } from "relay-hooks";
 
 import SubmissionCard from "./submission-card";
@@ -66,16 +65,8 @@ export default function Index() {
         .concat(byAddressNormalized)
     : props?.submissions?.slice(0, pageSize);
 
-  const [numberOfPages, setNumberOfPages] = useState(
-    router.query.skip ? router.query.skip / pageSize + 1 : 1
-  );
-
-  const [page, setPage] = useState(numberOfPages);
-  const isLastPage = numberOfPages === page;
+  const page = router.query.skip ? router.query.skip / pageSize + 1 : 1;
   const hasMore = props?.submissions?.length === pageSize + 1;
-  useEffect(() => {
-    if (!isLastPage && !hasMore) setNumberOfPages(page);
-  }, [isLastPage, hasMore, page]);
   return (
     <>
       <SubmissionFilters
@@ -95,13 +86,9 @@ export default function Index() {
         <Pagination
           sx={{ marginTop: 2, width: "100%" }}
           initialPage={page}
-          numberOfPages={
-            isLastPage && hasMore ? numberOfPages + 1 : numberOfPages
-          }
-          maxButtons={Math.min(numberOfPages, 5)}
+          numberOfPages={hasMore ? page + 1 : page}
+          maxButtons={Math.min(page, 5)}
           onChange={(_page) => {
-            if (numberOfPages < _page) setNumberOfPages(_page);
-            setPage(_page);
             const query = { ...router.query };
             query.skip = (_page - 1) * pageSize;
             router.push({
