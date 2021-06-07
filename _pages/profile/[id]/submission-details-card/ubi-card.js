@@ -9,7 +9,14 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { UBI } from "@kleros/icons";
-import { useCallback, useEffect, useMemo, useReducer, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 import { graphql, useQuery } from "relay-hooks";
 
 import { submissionStatusEnum } from "data";
@@ -17,25 +24,42 @@ import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
 import UBIAbi from "subgraph/abis/ubi";
 import { UBIAddress, address as pohAddress } from "subgraph/config";
 
-function AccruedUBI({ lastMintedSecond, web3, accruedPerSecond, ...rest }) {
-  const [, rerender] = useReducer(() => ({}), {});
-  useEffect(() => {
-    const timeout = setInterval(() => rerender(), 1000);
-    return () => clearInterval(timeout);
-  }, []);
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
 
-  let accruedUBI;
-  if (lastMintedSecond)
-    if (lastMintedSecond.eq(web3.utils.toBN(0))) accruedUBI = lastMintedSecond;
-    else if (accruedPerSecond)
-      accruedUBI = web3.utils
-        .toBN(Math.floor(Date.now() / 1000))
-        .sub(lastMintedSecond)
-        .mul(accruedPerSecond);
+  // Remember the latest callback.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      const id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
+
+function AccruedUBI({ web3, accruedPerSecond, currentBalanceOf, ...rest }) {
+  const [, rerender] = useReducer(() => ({}), {});
+  const [updatedBalance, setUpdatedBalance] = useState(currentBalanceOf);
+  useInterval(() => {
+    if (currentBalanceOf && accruedPerSecond)
+      setUpdatedBalance((previous) => {
+        if (previous) return previous.add(accruedPerSecond);
+        return currentBalanceOf.add(accruedPerSecond);
+      });
+
+    rerender();
+  }, 1000);
 
   return (
     <Text {...rest}>
-      {accruedUBI && `${web3.utils.fromWei(accruedUBI)} UBI`}
+      {updatedBalance && `${web3.utils.fromWei(updatedBalance)} UBI`}
     </Text>
   );
 }
@@ -177,9 +201,15 @@ export default function UBICard({
     { id: submissionID, vouchesReceivedLength: requiredNumberOfVouches }
   );
 
-  const [lastMintedSecond, , lastMintedSecondStatus, reCall] = useContract(
+  const [lastMintedSecond, , lastMintedSecondStatus, reCallAccruedSince] =
+    useContract(
+      "UBI",
+      "accruedSince",
+      useMemo(() => ({ args: [submissionID] }), [submissionID])
+    );
+  const [currentBalanceOf] = useContract(
     "UBI",
-    "accruedSince",
+    "balanceOf",
     useMemo(() => ({ args: [submissionID] }), [submissionID])
   );
   const [registered] = useContract(
@@ -270,11 +300,11 @@ export default function UBICard({
       ],
       [executeRequestCall, startAccruingCall, ...toVouchCalls],
       { gasLimit: 310000 }
-    ).then(reCall);
+    ).then(reCallAccruedSince);
   }, [
     batchSend,
     pohInstance,
-    reCall,
+    reCallAccruedSince,
     requiredNumberOfVouches,
     submissionID,
     submissions,
@@ -368,19 +398,19 @@ export default function UBICard({
         [],
         ownValidVouches.signatures,
         ownValidVouches.expirationTimestamps
-      ).then(reCall);
+      ).then(reCallAccruedSince);
     else if (availableOnchainVouches.length >= requiredNumberOfVouches)
       changeStateToPendingSend(
         submissionID,
         availableOnchainVouches,
         [],
         []
-      ).then(reCall);
+      ).then(reCallAccruedSince);
   }, [
     availableOnchainVouches,
     changeStateToPendingSend,
     ownValidVouches,
-    reCall,
+    reCallAccruedSince,
     requiredNumberOfVouches,
     submissionID,
   ]);
@@ -398,9 +428,9 @@ export default function UBICard({
         <Flex sx={{ marginBottom: [2, 2, 2, 0] }}>
           <UBI size={32} />
           <AccruedUBI
-            lastMintedSecond={lastMintedSecond}
             web3={web3}
             accruedPerSecond={accruedPerSecond}
+            currentBalanceOf={currentBalanceOf}
             sx={{ marginLeft: 2 }}
           />
         </Flex>
@@ -411,7 +441,9 @@ export default function UBICard({
             <Button
               variant="secondary"
               disabled={lastMintedSecondStatus === "pending"}
-              onClick={() => reportRemoval(submissionID).then(reCall)}
+              onClick={() =>
+                reportRemoval(submissionID).then(reCallAccruedSince)
+              }
               loading={reportRemovalLoading}
             >
               Seize UBI
@@ -457,7 +489,9 @@ export default function UBICard({
               <Button
                 variant="secondary"
                 disabled={lastMintedSecondStatus === "pending"}
-                onClick={() => startAccruing(submissionID).then(reCall)}
+                onClick={() =>
+                  startAccruing(submissionID).then(reCallAccruedSince)
+                }
                 loading={startAccruingLoading}
               >
                 Start Accruing{" "}
