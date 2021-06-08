@@ -44,7 +44,13 @@ function useInterval(callback, delay) {
   }, [delay]);
 }
 
-function AccruedUBI({ web3, accruedPerSecond, currentBalanceOf, ...rest }) {
+function AccruedUBI({
+  web3,
+  accruedPerSecond,
+  currentBalanceOf,
+  registered,
+  ...rest
+}) {
   const [, rerender] = useReducer(() => ({}), {});
   const [updatedBalance, setUpdatedBalance] = useState(currentBalanceOf);
   useInterval(() => {
@@ -57,9 +63,16 @@ function AccruedUBI({ web3, accruedPerSecond, currentBalanceOf, ...rest }) {
     rerender();
   }, 1000);
 
+  if (
+    !registered &&
+    currentBalanceOf &&
+    currentBalanceOf.lte(web3.utils.toBN(0))
+  )
+    return <Text {...rest}>0 UBI</Text>;
+
   return (
     <Text {...rest}>
-      {updatedBalance && `${web3.utils.fromWei(updatedBalance)} UBI`}
+      {updatedBalance && web3.utils.fromWei(updatedBalance)} UBI
     </Text>
   );
 }
@@ -428,6 +441,7 @@ export default function UBICard({
         <Flex sx={{ marginBottom: [2, 2, 2, 0] }}>
           <UBI size={32} />
           <AccruedUBI
+            registered={registered}
             web3={web3}
             accruedPerSecond={accruedPerSecond}
             currentBalanceOf={currentBalanceOf}
