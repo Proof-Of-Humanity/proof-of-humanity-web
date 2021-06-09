@@ -242,6 +242,7 @@ function processVouchesHelper(
 
     let voucher = Submission.load(vouches[i]);
     voucher.usedVouch = null;
+    voucher.vouchReleaseReady = false;
 
     if (request.ultimateChallenger != null) {
       if (
@@ -378,6 +379,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     submission.vouchesReceivedLength = BigInt.fromI32(0);
     submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(1);
+    submission.vouchReleaseReady = false;
     submission.save();
     increaseCurrentStatusCounter(submission);
 
@@ -555,6 +557,7 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(0);
     submission.vouchesReceivedLength = BigInt.fromI32(0);
+    submission.vouchReleaseReady = false;
   } else {
     decreasePreviousStatusCounter(submission);
   }
@@ -697,6 +700,14 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   request.resolved = true;
   request.resolutionTime = call.block.timestamp;
   request.save();
+
+  let vouches = request.vouches;
+  for (let i = 0; i < vouches.length; i++) {
+    let voucherAddr = vouches[i];
+    let voucher = Submission.load(voucherAddr);
+    voucher.vouchReleaseReady = true;
+    voucher.save();
+  }
 
   let challengeID = crypto.keccak256(
     concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
@@ -958,6 +969,14 @@ export function executeRequest(call: ExecuteRequestCall): void {
   request.resolutionTime = call.block.timestamp;
   request.save();
 
+  let vouches = request.vouches;
+  for (let i = 0; i < vouches.length; i++) {
+    let voucherAddr = vouches[i];
+    let voucher = Submission.load(voucherAddr);
+    voucher.vouchReleaseReady = true;
+    voucher.save();
+  }
+
   let challengeID = crypto.keccak256(
     concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
   );
@@ -1055,6 +1074,17 @@ export function rule(call: RuleCall): void {
   request.nbParallelDisputes = BigInt.fromI32(requestInfo.value4);
   request.ultimateChallenger = requestInfo.value8;
   request.requesterLost = requestInfo.value2;
+
+  if (request.resolved) {
+    let vouches = request.vouches;
+    for (let i = 0; i < vouches.length; i++) {
+      let voucherAddr = vouches[i];
+      let voucher = Submission.load(voucherAddr);
+      voucher.vouchReleaseReady = true;
+      voucher.save();
+    }
+  }
+
   request.save();
 
   let challenge = Challenge.load(
