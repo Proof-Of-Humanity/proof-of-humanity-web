@@ -54,7 +54,7 @@ function AccruedUBI({
   const [, rerender] = useReducer(() => ({}), {});
   const [updatedBalance, setUpdatedBalance] = useState(currentBalanceOf);
   useInterval(() => {
-    if (currentBalanceOf && accruedPerSecond)
+    if (currentBalanceOf && accruedPerSecond && registered)
       setUpdatedBalance((previous) => {
         if (previous) return previous.add(accruedPerSecond);
         return currentBalanceOf.add(accruedPerSecond);
@@ -72,7 +72,11 @@ function AccruedUBI({
 
   return (
     <Text {...rest}>
-      {updatedBalance && web3.utils.fromWei(updatedBalance)} UBI
+      {updatedBalance
+        ? web3.utils.fromWei(updatedBalance).slice(0, 6)
+        : currentBalanceOf &&
+          web3.utils.fromWei(currentBalanceOf).slice(0, 6)}{" "}
+      UBI
     </Text>
   );
 }
