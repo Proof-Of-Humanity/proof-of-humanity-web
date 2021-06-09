@@ -182,6 +182,10 @@ type Submission @entity {
   The submission's number of requests.
   """
   requestsLength: BigInt!
+  """
+  True if: vouch was not processed and vouchee is resolved.
+  """
+  vouchReleaseReady: Boolean!
 }
 
 type Request @entity {
