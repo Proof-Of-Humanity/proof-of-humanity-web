@@ -3,6 +3,7 @@
   "address": "0xc5e9ddebb09cd64dfacab4011a0d5cedaf7c9bdb",
   "block": 12011577,
   "klerosLiquidAddress": "0x988b3A538b618C7A603e1c11Ab82Cd16dbE28069",
+  "klerosLiquidBlock": 7303699,
   "UBIAddress": "0xDd1Ad9A21Ce722C151A836373baBe42c868cE9a4",
   "transactionBatcherAddress": "0x82458d1c812d7c930bb3229c9e159cbabd9aa8cb"
 }
