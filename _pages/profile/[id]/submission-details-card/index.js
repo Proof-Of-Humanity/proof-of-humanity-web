@@ -50,6 +50,9 @@ const submissionDetailsCardFragments = {
       submissionTime
       name
       disputed
+      vouchees {
+        id
+      }
       requests(
         orderBy: creationTime
         orderDirection: desc
@@ -111,6 +114,7 @@ export default function SubmissionDetailsCard({
     latestRequest: [latestRequest],
     id,
     name,
+    vouchees,
     ...rest
   } = (submission = useFragment(
     submissionDetailsCardFragments.submission,
@@ -386,20 +390,43 @@ export default function SubmissionDetailsCard({
             </Text>
           </Alert>
         )}
-        <Text
-          sx={{
-            marginTop: 2,
-            marginBottom: 1,
-            opacity: 0.45,
-          }}
-        >
-          Vouched by:
-        </Text>
-        <Flex sx={{ flexWrap: "wrap" }}>
-          {registeredVouchers.map((voucherId) => (
-            <Voucher key={voucherId} submissionId={voucherId} />
-          ))}
-        </Flex>
+        {registeredVouchers.length > 0 && (
+          <>
+            <Text
+              sx={{
+                marginTop: 2,
+                marginBottom: 1,
+                opacity: 0.45,
+              }}
+            >
+              Vouched by:
+            </Text>
+            <Flex sx={{ flexWrap: "wrap" }}>
+              {registeredVouchers.map((voucherId) => (
+                <Voucher key={voucherId} submissionId={voucherId} />
+              ))}
+            </Flex>
+          </>
+        )}
+        {vouchees.length > 0 && (
+          <>
+            <Text
+              sx={{
+                marginTop: 2,
+                marginBottom: 1,
+                opacity: 0.45,
+              }}
+            >
+              Vouched for:
+            </Text>
+            <Flex sx={{ flexWrap: "wrap" }}>
+              {vouchees.map(({ id: address }) => (
+                <Voucher key={address} submissionId={address} />
+              ))}
+            </Flex>
+          </>
+        )}
+
         <Flex sx={{ justifyContent: "flex-end" }}>
           <RedditShareButton url={location.href} title={shareTitle}>
             <RedditIcon size={32} />
