@@ -86,3 +86,29 @@ dataSources:
         - function: submitEvidence(address,string)
           handler: submitEvidence
       file: ./src/mapping.ts
+  - kind: ethereum/contract
+    name: KlerosLiquid
+    network: "{{network}}"
+    source:
+      address: "{{klerosLiquidAddress}}"
+      abi: KlerosLiquid
+      startBlock: {{klerosLiquidBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Registry
+        - Request
+        - Evidence
+        - Round
+        - Token
+      abis:
+        - name: ProofOfHumanity
+          file: ./abis/proof-of-humanity.json
+        - name: KlerosLiquid
+          file: ./abis/kleros-liquid.json
+      eventHandlers:
+        - event: AppealPossible(indexed uint256,indexed address)
+          handler: handleAppealPossible
+      file: ./src/mapping.ts
