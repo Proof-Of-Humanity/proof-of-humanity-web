@@ -1,5 +1,9 @@
 import { Address, BigInt, ByteArray, crypto } from "@graphprotocol/graph-ts";
 import {
+  AppealPossible,
+  KlerosLiquid,
+} from "../generated/KlerosLiquid/KlerosLiquid";
+import {
   AddSubmissionCall,
   AddSubmissionManuallyCall,
   AddVouchCall,
@@ -188,6 +192,7 @@ function requestStatusChange(
   challenge.requester = request.requester;
   challenge.challengeID = BigInt.fromI32(0);
   challenge.roundsLength = BigInt.fromI32(1);
+  challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
   challenge.save();
 
   let roundID = crypto.keccak256(
@@ -431,6 +436,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     challenge.request = request.id;
     challenge.requester = request.requester;
     challenge.roundsLength = BigInt.fromI32(1);
+    challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
     challenge.save();
 
     let round = new Round(
@@ -833,6 +839,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     challenge.creationTime = call.block.timestamp;
     challenge.request = request.id;
     challenge.requester = request.requester;
+    challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
 
     let requestInfo = proofOfHumanity.getRequestInfo(
       call.inputs._submissionID,
@@ -1104,6 +1111,7 @@ export function rule(call: RuleCall): void {
       disputeData.value0
     ).value3
   );
+  challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
   challenge.save();
 }
 
@@ -1137,6 +1145,42 @@ export function submitEvidence(call: SubmitEvidenceCall): void {
   evidence.URI = call.inputs._evidence;
   evidence.sender = call.from;
   evidence.save();
+}
+
+export function handleAppealPossible(event: AppealPossible): void {
+  let pohData = Contract.load(event.params._arbitrable.toHexString());
+  if (pohData == null) return; // Event not related to PoH.
+
+  let poh = ProofOfHumanity.bind(event.params._arbitrable);
+  let disputeData = poh.arbitratorDisputeIDToDisputeData(
+    event.address,
+    event.params._disputeID
+  );
+
+  let submission = Submission.load(disputeData.value1.toHexString());
+  let requestID = crypto.keccak256(
+    concatByteArrays(
+      disputeData.value1,
+      ByteArray.fromUTF8(submission.requestsLength.toString())
+    )
+  );
+  let challenge = Challenge.load(
+    crypto
+      .keccak256(
+        concatByteArrays(
+          requestID,
+          ByteArray.fromUTF8("Challenge-" + disputeData.value0.toString())
+        )
+      )
+      .toHexString()
+  );
+  let arbitrator = KlerosLiquid.bind(event.address);
+  let appealPeriodResult = arbitrator.appealPeriod(event.params._disputeID);
+  challenge.appealPeriod = [
+    appealPeriodResult.value0,
+    appealPeriodResult.value1,
+  ];
+  challenge.save();
 }
 
 function decreasePreviousStatusCounter(submission: Submission | null): void {

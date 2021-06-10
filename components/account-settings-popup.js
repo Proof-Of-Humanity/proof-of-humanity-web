@@ -157,7 +157,7 @@ export default function AccountSettingsPopup({
               onClick={connect}
             >
               {accounts &&
-                `${accounts.length === 0 ? "Connect" : "Change"} Account`}
+                `${accounts.length === 0 ? "Connect" : "Change"} Wallet`}
             </Button>
             {withdrawableContributions?.length > 0 && (
               <Button

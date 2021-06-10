@@ -10,7 +10,6 @@ import {
 import { Warning } from "@kleros/icons";
 import { useCallback, useMemo, useState } from "react";
 
-import useIsGraphSynced from "_pages/index/use-is-graph-synced";
 import { address as pohAddress } from "subgraph/config";
 
 const vouchText = `
@@ -31,7 +30,7 @@ export default function GasslessVouchButton({ submissionID }) {
     "isRegistered",
     useMemo(() => ({ args: [accounts?.[0]] }), [accounts])
   );
-  const [vouched, , status, reCall] = useContract(
+  const [vouched] = useContract(
     "proofOfHumanity",
     "vouches",
     useMemo(
@@ -39,11 +38,6 @@ export default function GasslessVouchButton({ submissionID }) {
       [accounts, submissionID]
     )
   );
-  const { receipt: removeVouchReceipt, removeVouchSend } = useContract(
-    "proofOfHumanity",
-    "removeVouch"
-  );
-  const isGraphSynced = useIsGraphSynced(removeVouchReceipt?.blockNumber);
   const signVouch = useCallback(async () => {
     if (!web3Context) return;
 
@@ -122,11 +116,6 @@ export default function GasslessVouchButton({ submissionID }) {
             backgroundImage:
               "linear-gradient(90deg,var(--theme-ui-colors-primary,#007cff) 0%,var(--theme-ui-colors-secondary,#00b7ff) 100%)",
           }}
-          disabled={
-            status === "pending" ||
-            accounts?.[0]?.toLowerCase() === submissionID.toLowerCase()
-          }
-          loading={!isGraphSynced}
         >
           {vouched ? "Remove" : "Gasless"} Vouch
         </Button>
@@ -137,29 +126,17 @@ export default function GasslessVouchButton({ submissionID }) {
         <Box sx={{ padding: 2 }}>
           <Warning />
           <Text sx={{ marginBottom: 2 }}>{addVouchLabel}</Text>
-          {vouched ? (
+          {addVouchLabel !== "Vouch saved successfully." && (
             <Button
-              onClick={() =>
-                removeVouchSend(submissionID)
-                  .then(reCall)
-                  .then(() => close())
-              }
+              onClick={() => {
+                signVouch().then(() => {
+                  setAddVouchLabel("Vouch saved successfully.");
+                  setTimeout(close, 3000);
+                });
+              }}
             >
-              Remove Vouch
+              Gasless Vouch
             </Button>
-          ) : (
-            addVouchLabel !== "Vouch saved successfully." && (
-              <Button
-                onClick={() => {
-                  signVouch().then(() => {
-                    setAddVouchLabel("Vouch saved successfully.");
-                    setTimeout(close, 3000);
-                  });
-                }}
-              >
-                Gasless Vouch
-              </Button>
-            )
           )}
         </Box>
       )}

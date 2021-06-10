@@ -183,7 +183,7 @@ type Submission @entity {
   """
   requestsLength: BigInt!
   """
-  True if: vouch was not processed and vouchee is resolved.
+  True if vouch was not processed and vouchee is resolved.
   """
   vouchReleaseReady: Boolean!
 }
@@ -359,6 +359,10 @@ type Challenge @entity {
   In-contract challenge ID
   """
   challengeID: BigInt!
+  """
+  Start and end appeal period [start, end].
+  """
+  appealPeriod: [BigInt!]!
 }
 
 type Round @entity {
