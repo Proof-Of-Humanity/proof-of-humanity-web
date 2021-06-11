@@ -1118,6 +1118,7 @@ export function submitEvidence(call: SubmitEvidenceCall): void {
 
 export function handleAppealPossible(event: AppealPossible): void {
   let pohData = Contract.load("0");
+  if (pohData == null) return; // PoH not deployed yet.
   if (pohData.address.toHexString() != event.params._arbitrable.toHexString())
     return; // Event not related to PoH.
 
