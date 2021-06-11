@@ -334,6 +334,7 @@ export function metaEvidence(event: MetaEvidenceEvent): void {
 export function arbitratorComplete(event: ArbitratorComplete): void {
   let proofOfHumanity = ProofOfHumanity.bind(event.address);
   let contract = new Contract("0");
+  contract.address = event.address;
   contract.arbitrator = event.params._arbitrator;
   let arbitratorDataList = proofOfHumanity.arbitratorDataList(
     BigInt.fromI32(0)
@@ -1116,8 +1117,9 @@ export function submitEvidence(call: SubmitEvidenceCall): void {
 }
 
 export function handleAppealPossible(event: AppealPossible): void {
-  let pohData = Contract.load(event.params._arbitrable.toHexString());
-  if (pohData == null) return; // Event not related to PoH.
+  let pohData = Contract.load("0");
+  if (pohData.address.toHexString() != event.params._arbitrable.toHexString())
+    return; // Event not related to PoH.
 
   let poh = ProofOfHumanity.bind(event.params._arbitrable);
   let disputeData = poh.arbitratorDisputeIDToDisputeData(

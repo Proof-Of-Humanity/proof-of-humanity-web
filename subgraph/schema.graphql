@@ -68,6 +68,10 @@ type Contract @entity {
   """
   id: ID!
   """
+  Proof of Humanity contract address
+  """
+  address: Bytes!
+  """
   The arbitrator contract's address.
   """
   arbitrator: Bytes!
