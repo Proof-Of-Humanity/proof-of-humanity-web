@@ -134,7 +134,7 @@ export const indexQuery = graphql`
       id
       ...submissionCardSubmission
     }
-    counter(id: 0) {
+    counter(id: 1) {
       vouchingPhase
       pendingRemoval
       pendingRegistration
