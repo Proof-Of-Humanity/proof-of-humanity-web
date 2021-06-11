@@ -433,7 +433,7 @@ type Contribution @entity {
 
 type Counter @entity {
   """
-  The singleton entity's ID, "0".
+  The singleton entity's ID, "1".
   """
   id: ID!
   """
@@ -447,6 +447,18 @@ type Counter @entity {
   registered: BigInt!
   expired: BigInt!
   removed: BigInt!
+}
+
+type SubmissionsRegistry @entity {
+  id: ID!
+  """
+  List of all current submissions
+  """
+  currentSubmissions: [Submission!]!
+  """
+  List of all expired submissions
+  """
+  expiredSubmissions: [Submission!]!
 }
 
 type _Schema_
