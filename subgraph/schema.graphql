@@ -68,6 +68,10 @@ type Contract @entity {
   """
   id: ID!
   """
+  Proof of Humanity contract address
+  """
+  address: Bytes!
+  """
   The arbitrator contract's address.
   """
   arbitrator: Bytes!
@@ -186,6 +190,10 @@ type Submission @entity {
   True if vouch was not processed and vouchee is resolved.
   """
   vouchReleaseReady: Boolean!
+  """
+  True if this submission was part of the seeding event.
+  """
+  seeded: Boolean!
 }
 
 type Request @entity {
