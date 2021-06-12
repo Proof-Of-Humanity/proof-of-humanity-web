@@ -13,8 +13,12 @@
 
 # Subgraph
 /subgraph/subgraph.yaml
+
 /subgraph/generated/
+!subgraph/generated/.gitkeep
+
 /subgraph/build/
+!subgraph/build/.gitkeep
 
 # Assets
 /assets/seed-submissions/
