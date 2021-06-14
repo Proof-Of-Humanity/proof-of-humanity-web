@@ -1,4 +1,4 @@
-import { Book, Bug, Ether, Help, Telegram } from "@kleros/icons";
+import { Book, Bug, Chat, Ether, Help, Telegram } from "@kleros/icons";
 import { Box, IconButton } from "theme-ui";
 
 import Link from "./link";
@@ -7,10 +7,22 @@ import Popup from "./popup";
 
 const items = [
   {
-    key: "get-help",
-    text: "Get Help",
+    key: "get-help-en",
+    text: "Get Help (English)",
     url: "https://t.me/proofhumanity",
     Icon: Telegram,
+  },
+  {
+    key: "get-help-es",
+    text: "Get Help (Spanish)",
+    url: "https://t.me/proofhumanity",
+    Icon: Telegram,
+  },
+  {
+    key: "forums",
+    text: "Forums",
+    url: "https://gov.proofofhumanity.id/",
+    Icon: Chat,
   },
   {
     key: "report-bug",
@@ -92,6 +104,7 @@ export default function HelpPopup({ ...rest }) {
                   sx={{
                     fill: "primary",
                   }}
+                  color="var(--theme-ui-colors-primary,#ff9900)"
                 />
                 {text}
               </Link>
