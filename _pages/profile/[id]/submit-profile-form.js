@@ -393,9 +393,9 @@ const SubmitProfileForm = memo(
                   orientation to be read on the video.
                 </ListItem>
                 <ListItem>
-                  The submitter must say « I certify that I am a real human and
-                  that I am not already registered in this registry ».
-                  Submitters should speak in their normal voice.
+                  The submitter must say (in English) « I certify that I am a
+                  real human and that I am not already registered in this
+                  registry » Submitters should speak in their normal voice.
                 </ListItem>
                 <ListItem>
                   Video submissions must follow all of the following

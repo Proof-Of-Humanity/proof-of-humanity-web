@@ -3,6 +3,7 @@ import {
   Box,
   Flex,
   HelpPopup,
+  Image,
   Layout,
   Link,
   List,
@@ -255,6 +256,9 @@ const header = {
           },
         }}
       />
+      <Link href="https://snapshot.org/#/poh.eth/">
+        <Image src="/images/governance.png" width={25} sx={{ margin: 1 }} />
+      </Link>
       <AccountSettingsPopup />
       <HelpPopup />
     </Flex>
