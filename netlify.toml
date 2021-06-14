@@ -1,5 +1,5 @@
 [build]
-  command = "npm run build"
+  command = "npm run build:mainnet"
 
 [context.deploy-preview.environment]
   NEXT_PUBLIC_INFURA_ENDPOINT = "https://mainnet.infura.io/v3/271258014f524ad78089bafc31409e45"

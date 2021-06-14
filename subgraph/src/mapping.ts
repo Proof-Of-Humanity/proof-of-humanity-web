@@ -342,6 +342,7 @@ export function metaEvidence(event: MetaEvidenceEvent): void {
 export function arbitratorComplete(event: ArbitratorComplete): void {
   let proofOfHumanity = ProofOfHumanity.bind(event.address);
   let contract = new Contract("0");
+  contract.address = event.address;
   contract.arbitrator = event.params._arbitrator;
   let arbitratorDataList = proofOfHumanity.arbitratorDataList(
     BigInt.fromI32(0)
@@ -397,6 +398,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(1);
     submission.vouchReleaseReady = false;
+    submission.seeded = true;
     submission.save();
     increaseCurrentStatusCounter(submission);
 
@@ -597,6 +599,7 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.requestsLength = BigInt.fromI32(0);
     submission.vouchesReceivedLength = BigInt.fromI32(0);
     submission.vouchReleaseReady = false;
+    submission.seeded = false;
   } else {
     decreasePreviousStatusCounter(submission, call);
   }
@@ -1211,20 +1214,28 @@ export function submitEvidence(call: SubmitEvidenceCall): void {
 }
 
 export function handleAppealPossible(event: AppealPossible): void {
-  let pohData = Contract.load(event.params._arbitrable.toHexString());
-  if (pohData == null) return; // Event not related to PoH.
+  let pohData = Contract.load("0");
+  if (pohData == null) return; // PoH not deployed yet.
+  if (pohData.address.toHexString() != event.params._arbitrable.toHexString())
+    return; // Event not related to PoH.
 
   let poh = ProofOfHumanity.bind(event.params._arbitrable);
   let disputeData = poh.arbitratorDisputeIDToDisputeData(
     event.address,
     event.params._disputeID
   );
+  let challengeID = disputeData.value0;
+  let submissionID = disputeData.value1;
 
-  let submission = Submission.load(disputeData.value1.toHexString());
+  let submission = Submission.load(submissionID.toHexString());
+  if (submission.seeded) return; // Ignore seeded submissions;
+
   let requestID = crypto.keccak256(
     concatByteArrays(
-      disputeData.value1,
-      ByteArray.fromUTF8(submission.requestsLength.toString())
+      submissionID,
+      ByteArray.fromUTF8(
+        submission.requestsLength.minus(BigInt.fromI32(1)).toString()
+      )
     )
   );
   let challenge = Challenge.load(
@@ -1232,11 +1243,12 @@ export function handleAppealPossible(event: AppealPossible): void {
       .keccak256(
         concatByteArrays(
           requestID,
-          ByteArray.fromUTF8("Challenge-" + disputeData.value0.toString())
+          ByteArray.fromUTF8("Challenge-" + challengeID.toString())
         )
       )
       .toHexString()
   );
+
   let arbitrator = KlerosLiquid.bind(event.address);
   let appealPeriodResult = arbitrator.appealPeriod(event.params._disputeID);
   challenge.appealPeriod = [

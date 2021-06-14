@@ -100,11 +100,9 @@ dataSources:
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
-        - Registry
-        - Request
-        - Evidence
-        - Round
-        - Token
+        - Contract
+        - Submission
+        - Challenge
       abis:
         - name: ProofOfHumanity
           file: ./abis/proof-of-humanity.json

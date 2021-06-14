@@ -35,6 +35,7 @@ const submissionDetailsAccordionFragments = {
         }
         challenges(orderBy: creationTime) {
           id
+          appealPeriod
           reason
           disputeID
           challenger
@@ -81,9 +82,13 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
   const { sharedStakeMultiplier, winnerStakeMultiplier, loserStakeMultiplier } =
     useFragment(submissionDetailsAccordionFragments.contract, contract);
 
-  const challengesWithPendingAppeals = challenges.filter(
-    ({ rounds }) => !rounds[0].hasPaid[0] || !rounds[0].hasPaid[1]
-  );
+  const challengesWithPendingAppeals = challenges
+    .filter(
+      (c) =>
+        // eslint-disable-next-line regex/invalid
+        c.appealPeriod[0] !== "0" && c.appealPeriod[1] !== "0"
+    )
+    .filter(({ rounds }) => !rounds[0].hasPaid[0] || !rounds[0].hasPaid[1]);
 
   return (
     <Accordion>
