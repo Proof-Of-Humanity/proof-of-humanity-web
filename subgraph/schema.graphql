@@ -402,6 +402,10 @@ type Round @entity {
   The contributions for the round.
   """
   contributions: [Contribution!]! @derivedFrom(field: "round")
+  """
+  The number of contributions made to this round.
+  """
+  contributionsLength: BigInt!
 }
 
 type Contribution @entity {
