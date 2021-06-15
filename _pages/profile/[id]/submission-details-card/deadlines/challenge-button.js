@@ -226,7 +226,11 @@ export default function ChallengeButton({ request, status, submissionID }) {
           />
           <Button
             sx={{ display: "block", margin: "auto" }}
-            disabled={(duplicateTypeSelected && !duplicate) || !arbitrationCost}
+            disabled={
+              (duplicateTypeSelected && !duplicate) ||
+              !arbitrationCost ||
+              !reason
+            }
             onClick={async () => {
               let evidenceUploadResult;
               if (reason && reason.length > 0)
