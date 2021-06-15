@@ -465,6 +465,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
     round.hasPaid = [false, false];
     round.feeRewards = BigInt.fromI32(0);
+    round.contributionsLength = BigInt.fromI32(0);
     round.save();
   }
   updateSubmissionsRegistry(call);
@@ -925,6 +926,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
   round.hasPaid = [false, false];
   round.feeRewards = BigInt.fromI32(0);
+  round.contributionsLength = BigInt.fromI32(0);
   round.save();
 
   updateContribution(
@@ -995,6 +997,7 @@ export function fundAppeal(call: FundAppealCall): void {
     round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
     round.hasPaid = [false, false];
     round.feeRewards = BigInt.fromI32(0);
+    round.contributionsLength = BigInt.fromI32(0);
     round.save();
   }
 
