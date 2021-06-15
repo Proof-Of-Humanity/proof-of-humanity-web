@@ -22,6 +22,8 @@ dataSources:
         - Challenge
         - Round
         - Contribution
+        - Counter
+        - SubmissionsRegistry
       abis:
         - name: ProofOfHumanity
           file: ./abis/proof-of-humanity.json
