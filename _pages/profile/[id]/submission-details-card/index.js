@@ -30,7 +30,12 @@ import UBICard from "./ubi-card";
 import VouchButton from "./vouch-button";
 import Voucher from "./voucher";
 
-import { partyEnum, submissionStatusEnum, useEvidenceFile } from "data";
+import {
+  challengeReasonEnum,
+  partyEnum,
+  submissionStatusEnum,
+  useEvidenceFile,
+} from "data";
 
 const submissionDetailsCardFragments = {
   contract: graphql`
@@ -74,6 +79,7 @@ const submissionDetailsCardFragments = {
         challenges {
           disputeID
           roundsLength
+          reason
           rounds(orderBy: creationTime, first: 1) {
             contributions {
               values
@@ -324,14 +330,17 @@ export default function SubmissionDetailsCard({
         {challenges?.length > 0 && challenge.disputeID !== null && (
           <Flex>
             {challenges?.length > 1 ? "Disputes" : "Dispute"}
-            {challenges.map(({ disputeID }, i) => (
+            {challenges.map(({ disputeID, reason }, i) => (
               <Link
                 key={i}
                 newTab
                 href={`https://resolve.kleros.io/cases/${disputeID}`}
                 sx={{ marginLeft: 1 }}
               >
-                # {disputeID}
+                #{disputeID}{" "}
+                {challengeReasonEnum.parse(reason).startCase !== "None"
+                  ? challengeReasonEnum.parse(reason).startCase
+                  : ""}
               </Link>
             ))}
           </Flex>
