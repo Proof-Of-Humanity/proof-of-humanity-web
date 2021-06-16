@@ -1,5 +1,5 @@
 import { createEnum } from "@kleros/components";
-import { Check, Expired, Pending, X } from "@kleros/icons";
+import { Check, Expired, Pending } from "@kleros/icons";
 
 export const submissionStatusEnum = createEnum(
   [
@@ -66,13 +66,6 @@ export const submissionStatusEnum = createEnum(
               Math.floor(Date.now() / 1000) - (submissionDuration || 0),
           },
         }),
-      },
-    ],
-    [
-      "Removed",
-      {
-        Icon: X,
-        query: { where: { status: "None", registered: false } },
       },
     ],
   ],
