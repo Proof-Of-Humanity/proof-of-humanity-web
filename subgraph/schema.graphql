@@ -360,6 +360,10 @@ type Challenge @entity {
   """
   rounds: [Round!]! @derivedFrom(field: "challenge")
   """
+  The IDs of the rounds of this challenge.
+  """
+  roundIDs: [String!]!
+  """
   The challenge's number of rounds.
   """
   roundsLength: BigInt!
@@ -402,6 +406,10 @@ type Round @entity {
   The contributions for the round.
   """
   contributions: [Contribution!]! @derivedFrom(field: "round")
+  """
+  The IDs of the contributions of this round.
+  """
+  contributionIDs: [String!]!
   """
   The number of contributions made to this round.
   """
