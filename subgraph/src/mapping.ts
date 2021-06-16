@@ -808,6 +808,16 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   );
 
   updateSubmissionsRegistry(call);
+
+  let round = Round.load(roundID.toHexString());
+  let contributionsIDs = round.contributionIDs;
+  let contributionsLength = round.contributionsLength.toI32() as number;
+  for (let j = 0; j < contributionsLength; j++) {
+    let contributionID = contributionsIDs[j];
+    let contribution = Contribution.load(contributionID);
+    contribution.requestResolved = true;
+    contribution.save();
+  }
 }
 
 export function changeStateToPending(call: ChangeStateToPendingCall): void {
@@ -1229,17 +1239,20 @@ export function rule(call: RuleCall): void {
 
   updateSubmissionsRegistry(call);
 
-  let roundsIDs = challenge.roundIDs;
-  for (let i = 0; i < challenge.roundsLength.toI32(); i++) {
-    let round = Round.load(roundsIDs[i]);
+  if (requestInfo.value1) {
+    // i.e. if (request.resolved)
+    let roundsIDs = challenge.roundIDs;
+    for (let i = 0; i < challenge.roundsLength.toI32(); i++) {
+      let round = Round.load(roundsIDs[i]);
 
-    let contributionsIDs = round.contributionIDs;
-    let contributionsLength = round.contributionsLength.toI32() as number;
-    for (let j = 0; j < contributionsLength; j++) {
-      let contributionID = contributionsIDs[j];
-      let contribution = Contribution.load(contributionID);
-      contribution.requestResolved = true;
-      contribution.save();
+      let contributionsIDs = round.contributionIDs;
+      let contributionsLength = round.contributionsLength.toI32() as number;
+      for (let j = 0; j < contributionsLength; j++) {
+        let contributionID = contributionsIDs[j];
+        let contribution = Contribution.load(contributionID);
+        contribution.requestResolved = true;
+        contribution.save();
+      }
     }
   }
 }
