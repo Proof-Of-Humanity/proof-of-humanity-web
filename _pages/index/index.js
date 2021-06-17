@@ -7,7 +7,14 @@ import SubmissionFilters from "./submission-filters";
 
 const pageSize = 12;
 
-function getSubmissionCounter(defaultSubmissionCounter, statusFilter, props) {
+function getSubmissionCounter(
+  defaultSubmissionCounter,
+  statusFilter,
+  searchFilter,
+  nSubmissions,
+  props
+) {
+  if (searchFilter) return nSubmissions;
   switch (statusFilter) {
     case "vouching":
       return props?.counter?.vouchingPhase || 0;
@@ -34,20 +41,6 @@ export default function Index() {
   const router = useRouter();
   const { props } = useQuery();
 
-  const [submissionDuration] = useContract(
-    "proofOfHumanity",
-    "submissionDuration"
-  );
-  const [defaultSubmissionCounter] = useContract(
-    "proofOfHumanity",
-    "submissionCounter"
-  );
-  const submissionCounter = getSubmissionCounter(
-    defaultSubmissionCounter,
-    router.query?.status,
-    props
-  );
-
   const startsWithNormalized = props?.startsWith || [];
   const endsWithNormalized = props?.endsWith || [];
   const byAddressNormalized = props?.byAddress || [];
@@ -64,6 +57,22 @@ export default function Index() {
         )
         .concat(byAddressNormalized)
     : props?.submissions?.slice(0, pageSize);
+
+  const [submissionDuration] = useContract(
+    "proofOfHumanity",
+    "submissionDuration"
+  );
+  const [defaultSubmissionCounter] = useContract(
+    "proofOfHumanity",
+    "submissionCounter"
+  );
+  const submissionCounter = getSubmissionCounter(
+    defaultSubmissionCounter,
+    router.query?.status,
+    router.query?.search,
+    submissions?.length,
+    props
+  );
 
   const page = router.query.skip ? router.query.skip / pageSize + 1 : 1;
   const hasMore = props?.submissions?.length === pageSize + 1;
