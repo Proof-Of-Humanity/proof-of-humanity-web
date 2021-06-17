@@ -31,6 +31,7 @@ function AppealTabPanelCard({
   reward,
   contract,
   args,
+  partyLabel,
 }) {
   const { web3 } = useWeb3();
   const totalContribution = web3.utils.toBN(paidFees);
@@ -41,7 +42,9 @@ function AppealTabPanelCard({
         <>
           <Identicon address={address} />
           <Box sx={{ marginLeft: 2 }}>
-            <NextETHLink address={address}>{address}</NextETHLink>
+            <NextETHLink address={address}>
+              {`${address.slice(0, 5)}...${address.slice(-3)}`} - {partyLabel}
+            </NextETHLink>
             <Text>{label}</Text>
           </Box>
         </>
@@ -204,6 +207,7 @@ function AppealTabPanel({
           hasPaid={hasPaid[0]}
           contract={contract}
           args={[...args, challengeID, 1]}
+          partyLabel="Submitter"
         />
         <AppealTabPanelCard
           address={party2}
@@ -212,6 +216,7 @@ function AppealTabPanel({
           hasPaid={hasPaid[1]}
           contract={contract}
           args={[...args, challengeID, 2]}
+          partyLabel="Challenger"
         />
       </Grid>
       <Flex sx={{ justifyContent: "center" }}>
