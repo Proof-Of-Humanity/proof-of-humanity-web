@@ -34,6 +34,13 @@ export default function AccountSettingsPopup({
     contributor: accounts?.[0] || zeroAddress,
     id: accounts?.[0] || zeroAddress,
   });
+  const changeWallet = useCallback(() => {
+    // Delete walletconnect connection, if any.
+    // Otherwise users can get stuck with a buggy connection.
+    localStorage.removeItem("WEB3_CONNECT_CACHED_PROVIDER");
+    localStorage.removeItem("walletconnect");
+    connect();
+  }, [connect]);
 
   const { contributions: withdrawableContributions } =
     withdrawableContributionsQuery ?? {};
@@ -154,7 +161,7 @@ export default function AccountSettingsPopup({
                 marginTop: -2,
                 marginX: "auto",
               }}
-              onClick={connect}
+              onClick={changeWallet}
             >
               {accounts &&
                 `${accounts.length === 0 ? "Connect" : "Change"} Wallet`}
