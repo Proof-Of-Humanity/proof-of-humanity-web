@@ -30,7 +30,9 @@ export const appQuery = graphql`
         challenge {
           id
           request {
-            requester
+            submission {
+              id
+            }
           }
         }
       }

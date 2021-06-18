@@ -1,5 +1,6 @@
 import { Settings } from "@kleros/icons";
 import { useCallback, useMemo } from "react";
+import { useQuery } from "relay-hooks";
 import { Box, Flex, IconButton } from "theme-ui";
 
 import Button from "./button";
@@ -10,7 +11,6 @@ import NetworkTag from "./network-tag";
 import { NextETHLink } from "./next-router";
 import { zeroAddress } from "./parsing";
 import Popup from "./popup";
-import { useQuery } from "./relay-provider";
 import Tabs, { Tab, TabList, TabPanel } from "./tabs";
 import Text from "./text";
 import UserSettings from "./user-settings";
@@ -30,7 +30,7 @@ export default function AccountSettingsPopup({
 }) {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { connect, web3 } = useWeb3();
-  const { props: withdrawableContributionsQuery } = useQuery(appQuery, {
+  const { props } = useQuery(appQuery, {
     contributor: accounts?.[0] || zeroAddress,
     id: accounts?.[0] || zeroAddress,
   });
@@ -42,8 +42,7 @@ export default function AccountSettingsPopup({
     connect();
   }, [connect]);
 
-  const { contributions: withdrawableContributions } =
-    withdrawableContributionsQuery ?? {};
+  const { contributions: withdrawableContributions } = props ?? {};
   const { send: batchSend } = useContract("transactionBatcher", "batchSend");
   const pohInstance = useMemo(() => {
     if (!ProofOfHumanityAbi || !pohAddress) return;
@@ -52,18 +51,17 @@ export default function AccountSettingsPopup({
 
   const withdrawFeesAndRewards = useCallback(() => {
     if (!batchSend || withdrawableContributions?.length === 0) return;
-
     const withdrawCalls = withdrawableContributions.map(
       (withdrawableContribution) => {
         const { requestIndex, roundIndex, round } = withdrawableContribution;
         const { challenge } = round;
-        const { request, challengeID } = challenge;
-        const { requester } = request;
-
+        const { request, id: challengeID } = challenge;
+        const { submission } = request;
+        const { id } = submission;
         return pohInstance.methods
           .withdrawFeesAndRewards(
             accounts[0],
-            requester,
+            id,
             requestIndex,
             challengeID,
             roundIndex
@@ -71,7 +69,6 @@ export default function AccountSettingsPopup({
           .encodeABI();
       }
     );
-
     batchSend(
       [...new Array(withdrawCalls.length).fill(pohAddress)],
       [...new Array(withdrawCalls.length).fill(web3.utils.toBN(0))],
