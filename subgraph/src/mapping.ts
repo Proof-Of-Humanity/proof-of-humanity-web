@@ -1356,7 +1356,10 @@ function managePreviousStatus(
       counter.challengedRemoval = counter.challengedRemoval.minus(one);
     else counter.pendingRemoval = counter.pendingRemoval.minus(one);
   } else if (submission.status == "None") {
-    if (submission.registered) removeFromSubmissionsRegistry(submission, call);
+    if (submission.registered)
+      // Note that we remove because although the submission is registered,
+      // it expired.
+      removeFromSubmissionsRegistry(submission, call);
     else {
       counter.removed = counter.removed.minus(one);
       submission.removed = false;
@@ -1428,17 +1431,28 @@ function submissionIsExpired(
 function updateSubmissionsRegistry(call: ethereum.Call): void {
   let submissionsRegistry = SubmissionsRegistry.load("2");
   let currentSubmissions = submissionsRegistry.currentSubmissions;
-  let newCurrentSubmissions = new Array<string>();
-  for (let i = 0; i < currentSubmissions.length; i++) {
-    let submissionID = currentSubmissions[i];
-    if (submissionIsExpired(Submission.load(submissionID), call)) {
-      submissionsRegistry.expiredSubmissions =
-        submissionsRegistry.expiredSubmissions.concat([submissionID]);
-    } else {
-      newCurrentSubmissions = newCurrentSubmissions.concat([submissionID]);
+  let expiredSubmissions = submissionsRegistry.expiredSubmissions;
+
+  let youngestExpiredSubmissionIndex = findYoungestExpired(
+    currentSubmissions,
+    call.block.timestamp
+  );
+  if (youngestExpiredSubmissionIndex != -1) {
+    let newCurrentSubmissions: string[] = [];
+    if (currentSubmissions.length > 1) {
+      newCurrentSubmissions = currentSubmissions.slice(
+        (youngestExpiredSubmissionIndex as i32) + 1
+      );
     }
+
+    let newExpiredSubmissions = expiredSubmissions.concat(
+      currentSubmissions.slice(0, youngestExpiredSubmissionIndex as i32)
+    );
+
+    submissionsRegistry.currentSubmissions = newCurrentSubmissions;
+    submissionsRegistry.expiredSubmissions = newExpiredSubmissions;
   }
-  submissionsRegistry.currentSubmissions = newCurrentSubmissions;
+
   submissionsRegistry.save();
 
   let counter = Counter.load("1");
@@ -1449,4 +1463,46 @@ function updateSubmissionsRegistry(call: ethereum.Call): void {
     submissionsRegistry.expiredSubmissions.length
   );
   counter.save();
+}
+
+/**
+ * Performs a binary search for the youngest expired submission.
+ * @return The index of the youngest expired submission.
+ */
+function findYoungestExpired(
+  submissions: Array<string>,
+  timestamp: BigInt
+): number {
+  if (submissions.length == 0) return -1;
+  let low = 1;
+  let high = submissions.length;
+  let contract = Contract.load("0");
+  let currentExpiryTime = timestamp.minus(contract.submissionDuration);
+
+  while (1 + low < high) {
+    let middle = Math.floor(low + (high - low) / 2) as i32;
+    let submissionMiddle = Submission.load(submissions[middle - 1]);
+
+    let middleExpired = submissionMiddle.submissionTime.lt(currentExpiryTime);
+    if (middleExpired) {
+      low = middle;
+    } else {
+      high = middle;
+    }
+  }
+
+  let submissionHigh = Submission.load(submissions[high - 1]);
+
+  if (submissionHigh.submissionTime.lt(currentExpiryTime)) {
+    return high - 1;
+  }
+  if (high > 1) {
+    let submissionLeft = Submission.load(submissions[high - 2]);
+    if (submissionLeft.submissionTime.lt(currentExpiryTime)) return high - 2;
+  }
+  if (submissionHigh.submissionTime.ge(currentExpiryTime)) {
+    return -1;
+  }
+
+  return high - 1;
 }
