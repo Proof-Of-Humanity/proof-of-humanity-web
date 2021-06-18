@@ -45,6 +45,10 @@ export default function Index() {
   const endsWithNormalized = props?.endsWith || [];
   const byAddressNormalized = props?.byAddress || [];
 
+  console.log("startsWithNormalized", startsWithNormalized);
+  console.log("endsWithNormalized", endsWithNormalized);
+  console.log("byAddressNormalized", byAddressNormalized);
+
   const submissions = router.query.search
     ? startsWithNormalized
         .concat(
