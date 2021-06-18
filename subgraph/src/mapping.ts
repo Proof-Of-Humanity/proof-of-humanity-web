@@ -1450,8 +1450,6 @@ function updateSubmissionsRegistry(call: ethereum.Call): void {
     );
 
     submissionsRegistry.currentSubmissions = newCurrentSubmissions;
-    submissionsRegistry.expiredSubmissions =
-      submissionsRegistry.expiredSubmissions.concat(newExpiredSubmissions);
   }
 
   submissionsRegistry.save();
