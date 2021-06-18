@@ -194,6 +194,10 @@ type Submission @entity {
   True if this submission was part of the seeding event.
   """
   seeded: Boolean!
+  """
+  True if this submission has been removed.
+  """
+  removed: Boolean!
 }
 
 type Request @entity {
@@ -457,15 +461,36 @@ type Counter @entity {
   """
   id: ID!
   """
-  Counters for each of the different possible filters
+  Number of submissions in the Vouching Phase
   """
   vouchingPhase: BigInt!
+  """
+  Number of submissions Pending Registration
+  """
   pendingRegistration: BigInt!
+  """
+  Number of submissions Pending Removal
+  """
   pendingRemoval: BigInt!
+  """
+  Number of submissions with Challenged Registration
+  """
   challengedRegistration: BigInt!
+  """
+  Number of submissions with Challenged Removal
+  """
   challengedRemoval: BigInt!
+  """
+  Number of submissions Registered
+  """
   registered: BigInt!
+  """
+  Number of submissions Expired
+  """
   expired: BigInt!
+  """
+  Number of submissions Removed
+  """
   removed: BigInt!
 }
 

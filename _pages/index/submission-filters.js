@@ -2,7 +2,7 @@ import { Card, Input, Select, Text } from "@kleros/components";
 import { Search } from "@kleros/icons";
 import { useRouter } from "next/router";
 
-import { submissionStatusEnum } from "data";
+import { dropdownOptionsEnum } from "data";
 
 export default function SubmissionFilters({
   numberOfSubmissions,
@@ -51,7 +51,7 @@ export default function SubmissionFilters({
           button: { textAlign: "left" },
           marginTop: [2, 0, 0, 0],
         }}
-        items={submissionStatusEnum.array}
+        items={dropdownOptionsEnum.array}
         onChange={(submissionStatus) => {
           const query = { ...router.query };
           if (!submissionStatus.kebabCase) {
@@ -60,8 +60,8 @@ export default function SubmissionFilters({
           } else {
             query.status = submissionStatus.kebabCase;
             if (
-              submissionStatus === submissionStatusEnum.Registered ||
-              submissionStatus === submissionStatusEnum.Expired
+              submissionStatus === dropdownOptionsEnum.Registered ||
+              submissionStatus === dropdownOptionsEnum.Expired
             ) {
               if (submissionDuration)
                 query.submissionDuration = submissionDuration.toNumber();
@@ -73,7 +73,7 @@ export default function SubmissionFilters({
             query,
           });
         }}
-        value={submissionStatusEnum.array.find(
+        value={dropdownOptionsEnum.array.find(
           ({ kebabCase }) => kebabCase === router.query.status
         )}
         label="Filter by status:"

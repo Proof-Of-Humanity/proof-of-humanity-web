@@ -420,8 +420,9 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     submission.requestsLength = BigInt.fromI32(1);
     submission.vouchReleaseReady = false;
     submission.seeded = true;
+    submission.removed = false;
     submission.save();
-    increaseCurrentStatusCounter(submission);
+    manageCurrentStatus(submission);
 
     let requestID = crypto.keccak256(
       concatByteArrays(submissionIDs[i], ByteArray.fromUTF8("0"))
@@ -499,10 +500,10 @@ export function removeSubmissionManually(
   call: RemoveSubmissionManuallyCall
 ): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
-  decreasePreviousStatusCounter(submission, call);
+  managePreviousStatus(submission, call);
   submission.registered = false;
   submission.save();
-  increaseCurrentStatusCounter(submission);
+  manageCurrentStatus(submission);
 
   updateSubmissionsRegistry(call);
 }
@@ -627,12 +628,13 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.vouchesReceivedLength = BigInt.fromI32(0);
     submission.vouchReleaseReady = false;
     submission.seeded = false;
+    submission.removed = false;
   } else {
-    decreasePreviousStatusCounter(submission, call);
+    managePreviousStatus(submission, call);
   }
   submission.status = "Vouching";
   submission.save();
-  increaseCurrentStatusCounter(submission);
+  manageCurrentStatus(submission);
 
   requestStatusChange(
     call.from,
@@ -648,10 +650,10 @@ export function addSubmission(call: AddSubmissionCall): void {
 
 export function reapplySubmission(call: ReapplySubmissionCall): void {
   let submission = Submission.load(call.from.toHexString());
-  decreasePreviousStatusCounter(submission, call);
+  managePreviousStatus(submission, call);
   submission.status = "Vouching";
   submission.save();
-  increaseCurrentStatusCounter(submission);
+  manageCurrentStatus(submission);
 
   requestStatusChange(
     call.from,
@@ -667,10 +669,10 @@ export function reapplySubmission(call: ReapplySubmissionCall): void {
 
 export function removeSubmission(call: RemoveSubmissionCall): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
-  decreasePreviousStatusCounter(submission, call);
+  managePreviousStatus(submission, call);
   submission.status = "PendingRemoval";
   submission.save();
-  increaseCurrentStatusCounter(submission);
+  manageCurrentStatus(submission);
 
   requestStatusChange(
     call.inputs._submissionID,
@@ -767,10 +769,10 @@ export function removeVouch(call: RemoveVouchCall): void {
 
 export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   let submission = Submission.load(call.from.toHexString());
-  decreasePreviousStatusCounter(submission, call);
+  managePreviousStatus(submission, call);
   submission.status = "None";
   submission.save();
-  increaseCurrentStatusCounter(submission);
+  manageCurrentStatus(submission);
 
   let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestID = crypto.keccak256(
@@ -823,10 +825,10 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
 export function changeStateToPending(call: ChangeStateToPendingCall): void {
   let contract = Contract.load("0");
   let submission = Submission.load(call.inputs._submissionID.toHexString());
-  decreasePreviousStatusCounter(submission, call);
+  managePreviousStatus(submission, call);
   submission.status = "PendingRegistration";
   submission.save();
-  increaseCurrentStatusCounter(submission);
+  manageCurrentStatus(submission);
 
   let request = Request.load(
     crypto
@@ -867,10 +869,10 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   let callInputsReason = getReason(call.inputs._reason);
   let proofOfHumanity = ProofOfHumanity.bind(call.to);
   let submission = Submission.load(call.inputs._submissionID.toHexString());
-  decreasePreviousStatusCounter(submission, call);
+  managePreviousStatus(submission, call);
   submission.disputed = true;
   submission.save();
-  increaseCurrentStatusCounter(submission);
+  manageCurrentStatus(submission);
 
   let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestID = crypto.keccak256(
@@ -1062,12 +1064,12 @@ export function executeRequest(call: ExecuteRequestCall): void {
   if (getStatus(submissionInfo.value0) != "None") return;
 
   let submission = Submission.load(call.inputs._submissionID.toHexString());
-  decreasePreviousStatusCounter(submission, call);
+  managePreviousStatus(submission, call);
   submission.status = "None";
   submission.registered = submissionInfo.value3;
   submission.submissionTime = submissionInfo.value1;
   submission.save();
-  increaseCurrentStatusCounter(submission);
+  manageCurrentStatus(submission);
 
   let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestID = crypto.keccak256(
@@ -1177,7 +1179,7 @@ export function rule(call: RuleCall): void {
   let submissionInfo = proofOfHumanity.getSubmissionInfo(disputeData.value1);
 
   let submission = Submission.load(disputeData.value1.toHexString());
-  decreasePreviousStatusCounter(submission, call);
+  managePreviousStatus(submission, call);
   submission.status = getStatus(submissionInfo.value0);
   submission.registered = submissionInfo.value3;
   submission.submissionTime = submissionInfo.value1;
@@ -1189,7 +1191,7 @@ export function rule(call: RuleCall): void {
   );
   submission.disputed = false;
   submission.save();
-  increaseCurrentStatusCounter(submission);
+  manageCurrentStatus(submission);
   let requestID = crypto.keccak256(
     concatByteArrays(
       disputeData.value1,
@@ -1336,7 +1338,7 @@ export function handleAppealPossible(event: AppealPossible): void {
   challenge.save();
 }
 
-function decreasePreviousStatusCounter(
+function managePreviousStatus(
   submission: Submission | null,
   call: ethereum.Call
 ): void {
@@ -1355,12 +1357,16 @@ function decreasePreviousStatusCounter(
     else counter.pendingRemoval = counter.pendingRemoval.minus(one);
   } else if (submission.status == "None") {
     if (submission.registered) removeFromSubmissionsRegistry(submission, call);
-    else counter.removed = counter.removed.minus(one);
+    else {
+      counter.removed = counter.removed.minus(one);
+      submission.removed = false;
+      submission.save();
+    }
   } else return;
   counter.save();
 }
 
-function increaseCurrentStatusCounter(submission: Submission | null): void {
+function manageCurrentStatus(submission: Submission | null): void {
   let counter = Counter.load("1");
   let one = BigInt.fromI32(1);
   if (submission.status == "Vouching")
@@ -1375,7 +1381,11 @@ function increaseCurrentStatusCounter(submission: Submission | null): void {
     else counter.pendingRemoval = counter.pendingRemoval.plus(one);
   } else if (submission.status == "None") {
     if (submission.registered) addToCurrentSubmissions(submission);
-    else counter.removed = counter.removed.plus(one);
+    else {
+      counter.removed = counter.removed.plus(one);
+      submission.removed = true;
+      submission.save();
+    }
   } else return;
   counter.save();
 }

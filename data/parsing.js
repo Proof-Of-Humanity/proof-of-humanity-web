@@ -1,81 +1,104 @@
 import { createEnum } from "@kleros/components";
 import { Check, Expired, Pending, X } from "@kleros/icons";
 
-export const submissionStatusEnum = createEnum(
+const dropdownOptions = [
+  ["None", { kebabCase: undefined, startCase: "All" }],
   [
-    ["None", { kebabCase: undefined, startCase: "All" }],
-    [
-      "Vouching",
-      {
-        startCase: "Vouching Phase",
-        Icon: Pending,
-        query: { where: { status: "Vouching" } },
-      },
-    ],
-    [
-      "PendingRegistration",
-      {
-        Icon: Pending,
-        query: { where: { status: "PendingRegistration", disputed: false } },
-      },
-    ],
-    [
-      "PendingRemoval",
-      {
-        Icon: Pending,
-        query: { where: { status: "PendingRemoval", disputed: false } },
-      },
-    ],
-    [
-      "ChallengedRegistration",
-      {
-        Icon: Pending,
-        query: { where: { status: "PendingRegistration", disputed: true } },
-      },
-    ],
-    [
-      "ChallengedRemoval",
-      {
-        Icon: Pending,
-        query: { where: { status: "PendingRemoval", disputed: true } },
-      },
-    ],
-    [
-      "Registered",
-      {
-        Icon: Check,
-        query: ({ submissionDuration }) => ({
-          where: {
-            status: "None",
-            registered: true,
-            submissionTime_gte:
-              Math.floor(Date.now() / 1000) - (submissionDuration || 0),
-          },
-        }),
-      },
-    ],
-    [
-      "Expired",
-      {
-        Icon: Expired,
-        query: ({ submissionDuration }) => ({
-          where: {
-            status: "None",
-            registered: true,
-            submissionTime_lt:
-              Math.floor(Date.now() / 1000) - (submissionDuration || 0),
-          },
-        }),
-      },
-    ],
-    [
-      "Removed",
-      {
-        Icon: X,
-        query: { where: { status: "None", registered: false } },
-      },
-    ],
+    "Vouching",
+    {
+      startCase: "Vouching Phase",
+      Icon: Pending,
+      query: { where: { status: "Vouching" } },
+    },
   ],
+  [
+    "PendingRegistration",
+    {
+      Icon: Pending,
+      query: { where: { status: "PendingRegistration", disputed: false } },
+    },
+  ],
+  [
+    "PendingRemoval",
+    {
+      Icon: Pending,
+      query: { where: { status: "PendingRemoval", disputed: false } },
+    },
+  ],
+  [
+    "ChallengedRegistration",
+    {
+      Icon: Pending,
+      query: { where: { status: "PendingRegistration", disputed: true } },
+    },
+  ],
+  [
+    "ChallengedRemoval",
+    {
+      Icon: Pending,
+      query: { where: { status: "PendingRemoval", disputed: true } },
+    },
+  ],
+  [
+    "Registered",
+    {
+      Icon: Check,
+      query: ({ submissionDuration }) => ({
+        where: {
+          status: "None",
+          registered: true,
+          submissionTime_gte:
+            Math.floor(Date.now() / 1000) - (submissionDuration || 0),
+        },
+      }),
+    },
+  ],
+  [
+    "Expired",
+    {
+      Icon: Expired,
+      query: ({ submissionDuration }) => ({
+        where: {
+          status: "None",
+          registered: true,
+          submissionTime_lt:
+            Math.floor(Date.now() / 1000) - (submissionDuration || 0),
+        },
+      }),
+    },
+  ],
+];
+
+export const dropdownOptionsEnum = createEnum(
+  dropdownOptions,
+  ({ status, registered, submissionTime, submissionDuration, disputed }) => {
+    if (status === dropdownOptionsEnum.None.key) {
+      if (!registered) return dropdownOptionsEnum.Removed;
+      return submissionTime >=
+        Math.floor(Date.now() / 1000) - submissionDuration
+        ? dropdownOptionsEnum.Registered
+        : dropdownOptionsEnum.Expired;
+    }
+    if (disputed)
+      return status === dropdownOptionsEnum.PendingRegistration.key
+        ? dropdownOptionsEnum.ChallengedRegistration
+        : dropdownOptionsEnum.ChallengedRemoval;
+    return dropdownOptionsEnum[status];
+  }
+);
+
+const allStatus = dropdownOptions.concat([
+  [
+    "Removed",
+    {
+      Icon: X,
+      query: { where: { status: "None", registered: false } },
+    },
+  ],
+]);
+
+export const submissionStatusEnum = createEnum(
+  allStatus,
   ({ status, registered, submissionTime, submissionDuration, disputed }) => {
     if (status === submissionStatusEnum.None.key) {
       if (!registered) return submissionStatusEnum.Removed;

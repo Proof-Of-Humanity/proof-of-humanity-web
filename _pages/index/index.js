@@ -33,7 +33,7 @@ function getSubmissionCounter(
     case "removed":
       return props?.counter?.removed || 0;
     default:
-      return defaultSubmissionCounter;
+      return defaultSubmissionCounter - (props?.counter?.removed || 0);
   }
 }
 
@@ -114,7 +114,7 @@ export const indexQuery = graphql`
   query indexQuery(
     $skip: Int = 0
     $first: Int = 13
-    $where: Submission_filter
+    $where: Submission_filter = { removed: false }
     $search: String = ""
     $address: ID
   ) {
