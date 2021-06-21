@@ -55,11 +55,11 @@ const sanitize = (input) =>
     .toLowerCase()
     .replace(/([^\d.a-z]+)/gi, "-"); // Only allow numbers and aplhanumeric.
 
-async function pageScroll() {
+function pageScroll() {
   window.scroll({
-   top: Number.MAX_SAFE_INTEGER,
-   left: 0,
-   behavior: 'smooth'
+    top: Number.MAX_SAFE_INTEGER,
+    left: 0,
+    behavior: "smooth",
   });
 }
 
@@ -271,7 +271,7 @@ const SubmitProfileForm = memo(
             "registration.json",
             JSON.stringify({ fileURI, name: "Registration" }),
             {
-              onProgress: onSubmissionUploadProgress
+              onProgress: onSubmissionUploadProgress,
             }
           );
           try {

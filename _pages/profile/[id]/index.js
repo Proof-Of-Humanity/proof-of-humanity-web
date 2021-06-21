@@ -26,7 +26,7 @@ export default function ProfileWithID() {
         pathname: "/profile/[id]",
         query: { id: account },
       });
-    await new Promise(r => setTimeout(r, 3000));
+    await new Promise((r) => setTimeout(r, 3000));
     location.reload();
   }, [reapply, router, account]);
 
