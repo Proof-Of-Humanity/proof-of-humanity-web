@@ -102,7 +102,8 @@ export default function SubmitProfileCard({
 }) {
   const [photoUploadProgress, handlePhotoUploadProgress] = useUploadProgress();
   const [videoUploadProgress, handleVideoUploadProgress] = useUploadProgress();
-  const [submissionUploadProgress, handleSubmissionUploadProgress] = useUploadProgress();
+  const [submissionUploadProgress, handleSubmissionUploadProgress] =
+    useUploadProgress();
   const [waitingForTransaction, setWaitingForTransaction] = useState(false);
 
   const { submissionName, registrationMetaEvidence, totalCost } =
@@ -156,28 +157,22 @@ export default function SubmitProfileCard({
               successLabel={<Text sx={{ fontSize: 0 }}>Video uploaded!</Text>}
               sx={{ width: "100%" }}
             />
-            {videoUploadProgress?.loaded && photoUploadProgress?.loaded ?
+            {videoUploadProgress?.loaded && photoUploadProgress?.loaded ? (
               <UploadProgress
                 total={submissionUploadProgress?.total}
                 loaded={submissionUploadProgress?.loaded}
                 label={
-                  <Text sx={{ fontSize: 0 }}>
-                    Uploading full submission...
-                  </Text>
+                  <Text sx={{ fontSize: 0 }}>Uploading full submission...</Text>
                 }
                 successLabel={
-                  <Text sx={{ fontSize: 0 }}>
-                    Submission uploaded!
-                  </Text>
+                  <Text sx={{ fontSize: 0 }}>Submission uploaded!</Text>
                 }
                 sx={{ width: "100%" }}
               />
-              : null
-            }
-            {waitingForTransaction ?
+            ) : null}
+            {waitingForTransaction ? (
               <Text> Waiting for your submission to be mined... </Text>
-              : null
-            }
+            ) : null}
           </Card>
         ) : null}
       </Box>
