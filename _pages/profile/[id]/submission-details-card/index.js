@@ -26,9 +26,9 @@ import { graphql, useFragment } from "relay-hooks";
 
 import Deadlines from "./deadlines";
 import GaslessVouchButton from "./gasless-vouch";
+import SmallAvatar from "./small-avatar";
 import UBICard from "./ubi-card";
 import VouchButton from "./vouch-button";
-import Voucher from "./voucher";
 
 import {
   challengeReasonEnum,
@@ -80,6 +80,9 @@ const submissionDetailsCardFragments = {
           disputeID
           roundsLength
           reason
+          duplicateSubmission {
+            id
+          }
           rounds(orderBy: creationTime, first: 1) {
             contributions {
               values
@@ -328,20 +331,40 @@ export default function SubmissionDetailsCard({
           )}
         </Flex>
         {challenges?.length > 0 && challenge.disputeID !== null && (
-          <Flex>
-            {challenges?.length > 1 ? "Disputes" : "Dispute"}
-            {challenges.map(({ disputeID, reason }, i) => (
-              <Link
+          <Flex
+            sx={{
+              alignItems: "center",
+              flexDirection: "column",
+              paddingX: 3,
+              paddingY: 1,
+            }}
+          >
+            {challenges?.length > 1 ? "Disputes:" : "Dispute:"}
+            {challenges.map(({ disputeID, reason, duplicateSubmission }, i) => (
+              <Flex
                 key={i}
-                newTab
-                href={`https://resolve.kleros.io/cases/${disputeID}`}
-                sx={{ marginLeft: 1 }}
+                sx={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
               >
-                #{disputeID}{" "}
-                {challengeReasonEnum.parse(reason).startCase !== "None"
-                  ? challengeReasonEnum.parse(reason).startCase
-                  : ""}
-              </Link>
+                <Link
+                  newTab
+                  href={`https://resolve.kleros.io/cases/${disputeID}`}
+                  sx={{ marginLeft: 1 }}
+                >
+                  #{disputeID}{" "}
+                  {challengeReasonEnum.parse(reason).startCase !== "None"
+                    ? challengeReasonEnum.parse(reason).startCase
+                    : null}
+                  {challengeReasonEnum.parse(reason).startCase === "Duplicate"
+                    ? " of-"
+                    : null}
+                </Link>
+                {challengeReasonEnum.parse(reason).startCase === "Duplicate" ? (
+                  <SmallAvatar submissionId={duplicateSubmission.id} />
+                ) : null}
+              </Flex>
             ))}
           </Flex>
         )}
@@ -412,7 +435,7 @@ export default function SubmissionDetailsCard({
             </Text>
             <Flex sx={{ flexWrap: "wrap" }}>
               {registeredVouchers.map((voucherId) => (
-                <Voucher key={voucherId} submissionId={voucherId} />
+                <SmallAvatar key={voucherId} submissionId={voucherId} />
               ))}
             </Flex>
           </>
@@ -430,7 +453,7 @@ export default function SubmissionDetailsCard({
             </Text>
             <Flex sx={{ flexWrap: "wrap" }}>
               {vouchees.map(({ id: address }) => (
-                <Voucher key={address} submissionId={address} />
+                <SmallAvatar key={address} submissionId={address} />
               ))}
             </Flex>
           </>
