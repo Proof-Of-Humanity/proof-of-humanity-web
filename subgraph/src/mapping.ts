@@ -251,8 +251,7 @@ function requestStatusChange(
 function processVouchesHelper(
   submissionID: Address,
   requestID: BigInt,
-  iterations: BigInt,
-  proofOfHumanity: ProofOfHumanity
+  iterations: BigInt
 ): void {
   let request = Request.load(
     crypto
@@ -271,17 +270,15 @@ function processVouchesHelper(
   request.penaltyIndex = endIndex;
   request.save();
 
+  let vouches = request.vouches;
+  let submission = Submission.load(submissionID.toHexString());
+  submission.vouchReleaseReady = false;
+  submission.save();
   for (let i = 0; i < endIndex.toI32(); i++) {
-    let vouches = request.vouches;
     let requestUsedReasons = request.usedReasons;
 
     let voucher = Submission.load(vouches[i]);
     voucher.usedVouch = null;
-
-    let voucherInfo = proofOfHumanity.getSubmissionInfo(
-      ByteArray.fromHexString(vouches[i]) as Address
-    );
-    voucher.vouchReleaseReady = voucherInfo.value4; // i.e. hasVouched
 
     if (request.ultimateChallenger != null) {
       if (
@@ -791,22 +788,11 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   );
   let request = Request.load(requestID.toHexString());
   request.resolved = true;
+  submission.vouchReleaseReady = true;
   submission.latestRequestResolutionTime = call.block.timestamp;
   submission.save();
   request.resolutionTime = call.block.timestamp;
   request.save();
-
-  let vouches = request.vouches;
-  let proofOfHumanity = ProofOfHumanity.bind(call.to);
-  for (let i = 0; i < vouches.length; i++) {
-    let voucherAddr = vouches[i];
-    let voucher = Submission.load(voucherAddr);
-    let voucherInfo = proofOfHumanity.getSubmissionInfo(
-      ByteArray.fromHexString(voucherAddr) as Address
-    );
-    voucher.vouchReleaseReady = voucherInfo.value4; // i.e hasVouched
-    voucher.save();
-  }
 
   let challengeID = crypto.keccak256(
     concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
@@ -1100,6 +1086,8 @@ export function executeRequest(call: ExecuteRequestCall): void {
   request.resolved = true;
   request.resolutionTime = call.block.timestamp;
   request.save();
+  submission.vouchReleaseReady = true;
+  submission.save();
 
   let challengeID = crypto.keccak256(
     concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
@@ -1107,20 +1095,8 @@ export function executeRequest(call: ExecuteRequestCall): void {
   processVouchesHelper(
     call.inputs._submissionID,
     requestIndex,
-    BigInt.fromI32(10), // AUTO_PROCESSED_VOUCH
-    proofOfHumanity
+    BigInt.fromI32(10) // AUTO_PROCESSED_VOUCH
   );
-
-  let vouches = request.vouches;
-  for (let i = 0; i < vouches.length; i++) {
-    let voucherAddr = vouches[i];
-    let voucher = Submission.load(voucherAddr);
-    let voucherInfo = proofOfHumanity.getSubmissionInfo(
-      ByteArray.fromHexString(voucherAddr) as Address
-    );
-    voucher.vouchReleaseReady = voucherInfo.value4; // i.e. hasVouched
-    voucher.save();
-  }
 
   updateContribution(
     call.to,
@@ -1156,8 +1132,7 @@ export function processVouches(call: ProcessVouchesCall): void {
   processVouchesHelper(
     call.inputs._submissionID,
     call.inputs._requestID,
-    call.inputs._iterations,
-    proofOfHumanity
+    call.inputs._iterations
   );
 
   updateSubmissionsRegistry(call);
@@ -1288,20 +1263,6 @@ export function rule(call: RuleCall): void {
   request.ultimateChallenger = requestInfo.value8;
   request.requesterLost = requestInfo.value2;
 
-  if (requestInfo.value1) {
-    // i.e. if (request.resolved)
-    let vouches = request.vouches;
-    for (let i = 0; i < vouches.length; i++) {
-      let voucherAddr = vouches[i];
-      let voucher = Submission.load(voucherAddr);
-      let voucherInfo = proofOfHumanity.getSubmissionInfo(
-        ByteArray.fromHexString(voucherAddr) as Address
-      );
-      voucher.vouchReleaseReady = voucherInfo.value4; // i.e hasVouched
-      voucher.save();
-    }
-  }
-
   request.save();
 
   let challenge = Challenge.load(
@@ -1329,6 +1290,7 @@ export function rule(call: RuleCall): void {
   if (requestInfo.value1) {
     // i.e. if (request.resolved)
     submission.latestRequestResolutionTime = call.block.timestamp;
+    submission.vouchReleaseReady = true;
     submission.save();
     let roundsIDs = challenge.roundIDs;
     for (let i = 0; i < challenge.roundsLength.toI32(); i++) {
