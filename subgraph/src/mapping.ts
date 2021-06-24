@@ -251,7 +251,8 @@ function requestStatusChange(
 function processVouchesHelper(
   submissionID: Address,
   requestID: BigInt,
-  iterations: BigInt
+  iterations: BigInt,
+  proofOfHumanity: ProofOfHumanity
 ): void {
   let request = Request.load(
     crypto
@@ -276,7 +277,11 @@ function processVouchesHelper(
 
     let voucher = Submission.load(vouches[i]);
     voucher.usedVouch = null;
-    voucher.vouchReleaseReady = false;
+
+    let voucherInfo = proofOfHumanity.getSubmissionInfo(
+      ByteArray.fromHexString(vouches[i]) as Address
+    );
+    voucher.vouchReleaseReady = voucherInfo.value4; // i.e. hasVouched
 
     if (request.ultimateChallenger != null) {
       if (
@@ -790,10 +795,14 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   request.save();
 
   let vouches = request.vouches;
+  let proofOfHumanity = ProofOfHumanity.bind(call.to);
   for (let i = 0; i < vouches.length; i++) {
     let voucherAddr = vouches[i];
     let voucher = Submission.load(voucherAddr);
-    voucher.vouchReleaseReady = true;
+    let voucherInfo = proofOfHumanity.getSubmissionInfo(
+      ByteArray.fromHexString(voucherAddr) as Address
+    );
+    voucher.vouchReleaseReady = voucherInfo.value4; // i.e hasVouched
     voucher.save();
   }
 
@@ -1090,22 +1099,27 @@ export function executeRequest(call: ExecuteRequestCall): void {
   request.resolutionTime = call.block.timestamp;
   request.save();
 
-  let vouches = request.vouches;
-  for (let i = 0; i < vouches.length; i++) {
-    let voucherAddr = vouches[i];
-    let voucher = Submission.load(voucherAddr);
-    voucher.vouchReleaseReady = true;
-    voucher.save();
-  }
-
   let challengeID = crypto.keccak256(
     concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
   );
   processVouchesHelper(
     call.inputs._submissionID,
     requestIndex,
-    BigInt.fromI32(10) // AUTO_PROCESSED_VOUCH
+    BigInt.fromI32(10), // AUTO_PROCESSED_VOUCH
+    proofOfHumanity
   );
+
+  let vouches = request.vouches;
+  for (let i = 0; i < vouches.length; i++) {
+    let voucherAddr = vouches[i];
+    let voucher = Submission.load(voucherAddr);
+    let voucherInfo = proofOfHumanity.getSubmissionInfo(
+      ByteArray.fromHexString(voucherAddr) as Address
+    );
+    voucher.vouchReleaseReady = voucherInfo.value4; // i.e. hasVouched
+    voucher.save();
+  }
+
   updateContribution(
     call.to,
     call.inputs._submissionID,
@@ -1136,10 +1150,12 @@ export function executeRequest(call: ExecuteRequestCall): void {
 }
 
 export function processVouches(call: ProcessVouchesCall): void {
+  let proofOfHumanity = ProofOfHumanity.bind(call.to);
   processVouchesHelper(
     call.inputs._submissionID,
     call.inputs._requestID,
-    call.inputs._iterations
+    call.inputs._iterations,
+    proofOfHumanity
   );
 
   updateSubmissionsRegistry(call);
@@ -1275,7 +1291,10 @@ export function rule(call: RuleCall): void {
     for (let i = 0; i < vouches.length; i++) {
       let voucherAddr = vouches[i];
       let voucher = Submission.load(voucherAddr);
-      voucher.vouchReleaseReady = true;
+      let voucherInfo = proofOfHumanity.getSubmissionInfo(
+        ByteArray.fromHexString(voucherAddr) as Address
+      );
+      voucher.vouchReleaseReady = voucherInfo.value4; // i.e hasVouched
       voucher.save();
     }
   }
