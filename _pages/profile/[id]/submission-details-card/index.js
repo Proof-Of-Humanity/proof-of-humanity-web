@@ -335,17 +335,17 @@ export default function SubmissionDetailsCard({
             sx={{
               alignItems: "center",
               flexDirection: "column",
-              paddingX: 3,
-              paddingY: 1,
+              marginTop: 3,
             }}
           >
-            {challenges?.length > 1 ? "Disputes:" : "Dispute:"}
+            <Text sx={{ fontWeight: "bold" }}>
+              {`Dispute${challenges?.length > 1 ? "s" : ""}:`}
+            </Text>
             {challenges.map(({ disputeID, reason, duplicateSubmission }, i) => (
               <Flex
                 key={i}
                 sx={{
                   flexDirection: "row",
-                  justifyContent: "space-between",
                 }}
               >
                 <Link
