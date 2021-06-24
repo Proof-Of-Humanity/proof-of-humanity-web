@@ -55,6 +55,14 @@ const sanitize = (input) =>
     .toLowerCase()
     .replace(/([^\d.a-z]+)/gi, "-"); // Only allow numbers and aplhanumeric.
 
+function pageScroll() {
+  window.scroll({
+    top: Number.MAX_SAFE_INTEGER,
+    left: 0,
+    behavior: "smooth",
+  });
+}
+
 function UpdateTotalCost({ totalCost }) {
   const { web3 } = useWeb3();
   const totalCostRef = useRef(totalCost);
@@ -79,6 +87,8 @@ const SubmitProfileForm = memo(
     onSendError,
     onPhotoUploadProgress,
     onVideoUploadProgress,
+    onSubmissionUploadProgress,
+    setWaitingForTransaction,
   }) => {
     const { web3 } = useWeb3();
 
@@ -252,24 +262,30 @@ const SubmitProfileForm = memo(
               onProgress: onVideoUploadProgress,
             }),
           ]);
+          pageScroll();
           const { pathname: fileURI } = await upload(
             "file.json",
             JSON.stringify({ name, firstName, lastName, bio, photo, video })
           );
-          const { pathname: evidence } = await upload(
+          const { pathname: evidence } = await uploadWithProgress(
             "registration.json",
-            JSON.stringify({ fileURI, name: "Registration" })
+            JSON.stringify({ fileURI, name: "Registration" }),
+            {
+              onProgress: onSubmissionUploadProgress,
+            }
           );
-
           try {
+            setWaitingForTransaction(true);
+            pageScroll();
             const result = await send(evidence, name, {
               value: String(contribution) === "" ? 0 : contribution,
             });
 
-            onSend?.(result);
+            onSend?.();
 
             return result;
           } catch (err) {
+            setWaitingForTransaction(false);
             onSendError?.(err);
           }
         }}

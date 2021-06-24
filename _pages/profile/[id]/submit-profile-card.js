@@ -42,10 +42,10 @@ function useUploadProgress() {
   return [uploadProgress, setUploadProgress];
 }
 
-function UploadProgress({ total, loaded, label, sx }) {
+function UploadProgress({ total, loaded, label, successLabel, sx }) {
   return (
     <Box sx={{ ...sx }}>
-      {label}
+      {loaded >= total ? successLabel : label}
       <Progress
         max={total ?? 1}
         value={loaded ?? 0}
@@ -102,6 +102,9 @@ export default function SubmitProfileCard({
 }) {
   const [photoUploadProgress, handlePhotoUploadProgress] = useUploadProgress();
   const [videoUploadProgress, handleVideoUploadProgress] = useUploadProgress();
+  const [submissionUploadProgress, handleSubmissionUploadProgress] =
+    useUploadProgress();
+  const [waitingForTransaction, setWaitingForTransaction] = useState(false);
 
   const { submissionName, registrationMetaEvidence, totalCost } =
     useRegistrationParameters({
@@ -128,6 +131,8 @@ export default function SubmitProfileCard({
           onSendError={afterSendError}
           onPhotoUploadProgress={handlePhotoUploadProgress}
           onVideoUploadProgress={handleVideoUploadProgress}
+          onSubmissionUploadProgress={handleSubmissionUploadProgress}
+          setWaitingForTransaction={setWaitingForTransaction}
         />
         {videoUploadProgress || photoUploadProgress ? (
           <Card
@@ -142,14 +147,32 @@ export default function SubmitProfileCard({
               total={photoUploadProgress?.total}
               loaded={photoUploadProgress?.loaded}
               label={<Text sx={{ fontSize: 0 }}>Uploading photo...</Text>}
+              successLabel={<Text sx={{ fontSize: 0 }}>Photo uploaded!</Text>}
               sx={{ width: "100%" }}
             />
             <UploadProgress
               total={videoUploadProgress?.total}
               loaded={videoUploadProgress?.loaded}
               label={<Text sx={{ fontSize: 0 }}>Uploading video...</Text>}
+              successLabel={<Text sx={{ fontSize: 0 }}>Video uploaded!</Text>}
               sx={{ width: "100%" }}
             />
+            {videoUploadProgress?.loaded && photoUploadProgress?.loaded ? (
+              <UploadProgress
+                total={submissionUploadProgress?.total}
+                loaded={submissionUploadProgress?.loaded}
+                label={
+                  <Text sx={{ fontSize: 0 }}>Uploading full submission...</Text>
+                }
+                successLabel={
+                  <Text sx={{ fontSize: 0 }}>Submission uploaded!</Text>
+                }
+                sx={{ width: "100%" }}
+              />
+            ) : null}
+            {waitingForTransaction ? (
+              <Text> Waiting for your submission to be mined... </Text>
+            ) : null}
           </Card>
         ) : null}
       </Box>

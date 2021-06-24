@@ -20,12 +20,14 @@ export default function ProfileWithID() {
   const reapply = query.reapply === "true";
   const registered = props?.submission?.registered ?? false;
 
-  const handleAfterSend = useCallback(() => {
+  const handleAfterSend = useCallback(async () => {
     if (reapply)
       router.push({
         pathname: "/profile/[id]",
         query: { id: account },
       });
+    await new Promise((r) => setTimeout(r, 3000));
+    location.reload();
   }, [reapply, router, account]);
 
   const isReapply = account === query.id && reapply;
