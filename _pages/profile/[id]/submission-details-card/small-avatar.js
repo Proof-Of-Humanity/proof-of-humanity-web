@@ -3,10 +3,10 @@ import { graphql, useQuery } from "relay-hooks";
 
 import { useEvidenceFile } from "data";
 
-export default function Voucher({ submissionId }) {
+export default function SmallAvatar({ submissionId }) {
   const { props } = useQuery(
     graphql`
-      query voucherQuery($id: ID!) {
+      query smallAvatarQuery($id: ID!) {
         submission(id: $id) {
           id
           name
