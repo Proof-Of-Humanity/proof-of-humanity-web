@@ -1128,7 +1128,6 @@ export function executeRequest(call: ExecuteRequestCall): void {
 }
 
 export function processVouches(call: ProcessVouchesCall): void {
-  let proofOfHumanity = ProofOfHumanity.bind(call.to);
   processVouchesHelper(
     call.inputs._submissionID,
     call.inputs._requestID,
@@ -1290,7 +1289,6 @@ export function rule(call: RuleCall): void {
   if (requestInfo.value1) {
     // i.e. if (request.resolved)
     submission.latestRequestResolutionTime = call.block.timestamp;
-    submission.vouchReleaseReady = true;
     submission.save();
     let roundsIDs = challenge.roundIDs;
     for (let i = 0; i < challenge.roundsLength.toI32(); i++) {
@@ -1305,6 +1303,12 @@ export function rule(call: RuleCall): void {
         contribution.save();
       }
     }
+
+    processVouchesHelper(
+      disputeData.value1,
+      requestIndex,
+      BigInt.fromI32(10) // AUTO_PROCESSED_VOUCH
+    );
   }
 }
 
@@ -1436,8 +1440,9 @@ function manageCurrentStatus(submission: Submission | null): void {
     else {
       counter.removed = counter.removed.plus(one);
       submission.removed = true;
-      submission.save();
     }
+    submission.vouchReleaseReady = true;
+    submission.save();
   } else return;
   counter.save();
 }
