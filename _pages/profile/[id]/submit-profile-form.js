@@ -25,8 +25,8 @@ import getVideoEmptyBorderSize from "lib/get-video-empty-border-size";
 
 const VIDEO_OPTIONS = {
   types: {
-    value: ["video/mp4", "video/webm"],
-    label: "*.mp4, *.webm",
+    value: ["video/mp4", "video/webm", "video/quicktime", "video/x-msvideo"],
+    label: "*.mp4, *.webm, *.avi, *.mov",
   },
   size: {
     value: 7 * 1024 * 1024,
@@ -351,7 +351,7 @@ const SubmitProfileForm = memo(
               as={FileUpload}
               name="photo"
               label="Face Photo"
-              accept="image/*"
+              accept={PHOTO_OPTIONS.types.value}
               acceptLabel={PHOTO_OPTIONS.types.label}
               maxSizeLabel={PHOTO_OPTIONS.size.label}
               photo
@@ -386,7 +386,7 @@ const SubmitProfileForm = memo(
               as={FileUpload}
               name="video"
               label="Video (See Instructions)"
-              accept="video/*"
+              accept={VIDEO_OPTIONS.types.value}
               acceptLabel={VIDEO_OPTIONS.types.label}
               maxSizeLabel={VIDEO_OPTIONS.size.label}
               video
