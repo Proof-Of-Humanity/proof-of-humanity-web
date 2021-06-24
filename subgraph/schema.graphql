@@ -198,6 +198,10 @@ type Submission @entity {
   True if this submission has been removed.
   """
   removed: Boolean!
+  """
+  The resolution time of the most recent request.
+  """
+  latestRequestResolutionTime: BigInt!
 }
 
 type Request @entity {
