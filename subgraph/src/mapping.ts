@@ -638,6 +638,8 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.seeded = false;
     submission.removed = false;
   } else {
+    submission.removed = false;
+    submission.disputed = false;
     managePreviousStatus(submission, call);
   }
   submission.status = "Vouching";
@@ -1261,13 +1263,14 @@ export function rule(call: RuleCall): void {
   submission.status = getStatus(submissionInfo.value0);
   submission.registered = submissionInfo.value3;
   submission.submissionTime = submissionInfo.value1;
+  submission.removed = !!submissionInfo.value3;
 
   let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestInfo = proofOfHumanity.getRequestInfo(
     disputeData.value1,
     requestIndex
   );
-  submission.disputed = false;
+  submission.disputed = requestInfo.value0;
   submission.save();
   manageCurrentStatus(submission);
   let requestID = crypto.keccak256(
