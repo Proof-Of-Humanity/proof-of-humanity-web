@@ -252,6 +252,7 @@ function processVouchesHelper(
   submissionID: Address,
   requestID: BigInt,
   iterations: BigInt,
+  call: ethereum.Call,
   proofOfHumanity: ProofOfHumanity
 ): void {
   let request = Request.load(
@@ -276,6 +277,7 @@ function processVouchesHelper(
     let requestUsedReasons = request.usedReasons;
 
     let voucher = Submission.load(vouches[i]);
+    managePreviousStatus(voucher, call);
     voucher.usedVouch = null;
 
     let voucherInfo = proofOfHumanity.getSubmissionInfo(
@@ -313,6 +315,7 @@ function processVouchesHelper(
     }
 
     voucher.save();
+    manageCurrentStatus(voucher);
   }
 }
 
@@ -1108,6 +1111,7 @@ export function executeRequest(call: ExecuteRequestCall): void {
     call.inputs._submissionID,
     requestIndex,
     BigInt.fromI32(10), // AUTO_PROCESSED_VOUCH
+    call,
     proofOfHumanity
   );
 
@@ -1157,6 +1161,7 @@ export function processVouches(call: ProcessVouchesCall): void {
     call.inputs._submissionID,
     call.inputs._requestID,
     call.inputs._iterations,
+    call,
     proofOfHumanity
   );
 
