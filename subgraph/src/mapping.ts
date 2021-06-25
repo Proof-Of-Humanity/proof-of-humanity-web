@@ -167,6 +167,7 @@ function requestStatusChange(
     )
   );
   submission.requestsLength = submission.requestsLength.plus(BigInt.fromI32(1));
+  submission.vouchReleaseReady = false;
   submission.save();
 
   let request = new Request(requestID.toHexString());
@@ -788,7 +789,6 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   );
   let request = Request.load(requestID.toHexString());
   request.resolved = true;
-  submission.vouchReleaseReady = true;
   submission.latestRequestResolutionTime = call.block.timestamp;
   submission.save();
   request.resolutionTime = call.block.timestamp;
@@ -1086,8 +1086,6 @@ export function executeRequest(call: ExecuteRequestCall): void {
   request.resolved = true;
   request.resolutionTime = call.block.timestamp;
   request.save();
-  submission.vouchReleaseReady = true;
-  submission.save();
 
   let challengeID = crypto.keccak256(
     concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
@@ -1289,6 +1287,7 @@ export function rule(call: RuleCall): void {
   if (requestInfo.value1) {
     // i.e. if (request.resolved)
     submission.latestRequestResolutionTime = call.block.timestamp;
+    submission.vouchReleaseReady = true;
     submission.save();
     let roundsIDs = challenge.roundIDs;
     for (let i = 0; i < challenge.roundsLength.toI32(); i++) {
@@ -1303,12 +1302,6 @@ export function rule(call: RuleCall): void {
         contribution.save();
       }
     }
-
-    processVouchesHelper(
-      disputeData.value1,
-      requestIndex,
-      BigInt.fromI32(10) // AUTO_PROCESSED_VOUCH
-    );
   }
 }
 
@@ -1441,7 +1434,6 @@ function manageCurrentStatus(submission: Submission | null): void {
       counter.removed = counter.removed.plus(one);
       submission.removed = true;
     }
-    submission.vouchReleaseReady = true;
     submission.save();
   } else return;
   counter.save();
