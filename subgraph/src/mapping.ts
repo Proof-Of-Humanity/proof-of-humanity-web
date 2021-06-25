@@ -1563,12 +1563,12 @@ function findFirstYoungerThan(
   timestamp: BigInt
 ): i32 {
   if (submissions.length == 0) return -1;
-  let low = 0;
-  let high = submissions.length - 1;
+  let low = 1;
+  let high = submissions.length;
 
   while (1 + low < high) {
     let middle = Math.floor(low + (high - low) / 2) as i32;
-    let submissionMiddle = Submission.load(submissions[middle]);
+    let submissionMiddle = Submission.load(submissions[middle - 1]);
 
     let middleExpired = submissionMiddle.submissionTime.lt(timestamp);
     if (middleExpired) {
@@ -1578,18 +1578,18 @@ function findFirstYoungerThan(
     }
   }
 
-  let submissionHigh = Submission.load(submissions[high]);
+  let submissionHigh = Submission.load(submissions[high - 1]);
 
   if (submissionHigh.submissionTime.lt(timestamp)) {
-    return high;
+    return high - 1;
   }
   if (high > 1) {
-    let submissionLeft = Submission.load(submissions[high - 1]);
-    if (submissionLeft.submissionTime.lt(timestamp)) return high - 1;
+    let submissionLeft = Submission.load(submissions[high - 2]);
+    if (submissionLeft.submissionTime.lt(timestamp)) return high - 2;
   }
   if (submissionHigh.submissionTime.ge(timestamp)) {
     return -1;
   }
 
-  return high;
+  return high - 1;
 }
