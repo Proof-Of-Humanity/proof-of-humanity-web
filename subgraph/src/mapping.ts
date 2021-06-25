@@ -531,6 +531,7 @@ export function changeDurations(call: ChangeDurationsCall): void {
   contract.challengePeriodDuration = call.inputs._challengePeriodDuration;
   contract.save();
 
+  manageSubmissionsRegistryDurationsChange(call);
   updateSubmissionsRegistry(call);
 }
 
@@ -1441,8 +1442,20 @@ function manageCurrentStatus(submission: Submission | null): void {
 
 function addToCurrentSubmissions(submission: Submission | null): void {
   let submissionsRegistry = SubmissionsRegistry.load("2");
-  submissionsRegistry.currentSubmissions =
-    submissionsRegistry.currentSubmissions.concat([submission.id]);
+  let adjacentIndex = findFirstYoungerThan(
+    submissionsRegistry.currentSubmissions,
+    submission.submissionTime as BigInt
+  );
+  if (adjacentIndex != -1) {
+    submissionsRegistry.currentSubmissions =
+      submissionsRegistry.currentSubmissions
+        .slice(0, adjacentIndex)
+        .concat([submission.id])
+        .concat(submissionsRegistry.currentSubmissions.slice(adjacentIndex));
+  } else {
+    submissionsRegistry.currentSubmissions =
+      submissionsRegistry.currentSubmissions.concat([submission.id]);
+  }
   submissionsRegistry.save();
 }
 
@@ -1469,36 +1482,38 @@ function submissionIsExpired(
   call: ethereum.Call
 ): boolean {
   let contract = Contract.load("0");
-  return call.block.timestamp.gt(
+  return call.block.timestamp.ge(
     submission.submissionTime.plus(contract.submissionDuration)
   );
 }
 
+function manageSubmissionsRegistryDurationsChange(call: ethereum.Call): void {
+  let submissionsRegistry = SubmissionsRegistry.load("2");
+  let originAndTarget = moveFromOriginToTargetIf(
+    "notExpired",
+    submissionsRegistry.expiredSubmissions,
+    submissionsRegistry.currentSubmissions,
+    call
+  );
+  submissionsRegistry.expiredSubmissions = originAndTarget[0];
+  submissionsRegistry.currentSubmissions = originAndTarget[1];
+  submissionsRegistry.save();
+}
+
 function updateSubmissionsRegistry(call: ethereum.Call): void {
   let submissionsRegistry = SubmissionsRegistry.load("2");
+
   let currentSubmissions = submissionsRegistry.currentSubmissions;
   let expiredSubmissions = submissionsRegistry.expiredSubmissions;
-
-  let youngestExpiredSubmissionIndex = findYoungestExpired(
+  let currentAndExpired = moveFromOriginToTargetIf(
+    "expired",
     currentSubmissions,
-    call.block.timestamp
+    expiredSubmissions,
+    call
   );
-  if (youngestExpiredSubmissionIndex != -1) {
-    let newCurrentSubmissions: string[] = [];
-    if (currentSubmissions.length > 1) {
-      newCurrentSubmissions = currentSubmissions.slice(
-        (youngestExpiredSubmissionIndex as i32) + 1
-      );
-    }
 
-    let newExpiredSubmissions = expiredSubmissions.concat(
-      currentSubmissions.slice(0, youngestExpiredSubmissionIndex as i32)
-    );
-
-    submissionsRegistry.expiredSubmissions = newExpiredSubmissions;
-    submissionsRegistry.currentSubmissions = newCurrentSubmissions;
-  }
-
+  submissionsRegistry.currentSubmissions = currentAndExpired[0];
+  submissionsRegistry.expiredSubmissions = currentAndExpired[1];
   submissionsRegistry.save();
 
   let counter = Counter.load("1");
@@ -1511,25 +1526,51 @@ function updateSubmissionsRegistry(call: ethereum.Call): void {
   counter.save();
 }
 
+function moveFromOriginToTargetIf(
+  mode: string,
+  origin: Array<string>,
+  target: Array<string>,
+  call: ethereum.Call
+): Array<Array<string>> {
+  let contract = Contract.load("0");
+  let youngestExpiredSubmissionIndex = findFirstYoungerThan(
+    origin,
+    call.block.timestamp.minus(contract.submissionDuration)
+  );
+
+  if (youngestExpiredSubmissionIndex != -1) {
+    let newOrigin =
+      mode == "expired"
+        ? origin.slice(youngestExpiredSubmissionIndex + 1)
+        : origin.slice(0, youngestExpiredSubmissionIndex + 1);
+
+    let newTarget =
+      mode == "expired"
+        ? target.concat(origin.slice(0, youngestExpiredSubmissionIndex + 1))
+        : origin.slice(youngestExpiredSubmissionIndex + 1).concat(target);
+
+    return [newOrigin, newTarget];
+  }
+  return [origin, target];
+}
+
 /**
  * Performs a binary search for the youngest expired submission.
  * @return The index of the youngest expired submission.
  */
-function findYoungestExpired(
+function findFirstYoungerThan(
   submissions: Array<string>,
   timestamp: BigInt
-): number {
+): i32 {
   if (submissions.length == 0) return -1;
-  let low = 1;
-  let high = submissions.length;
-  let contract = Contract.load("0");
-  let currentExpiryTime = timestamp.minus(contract.submissionDuration);
+  let low = 0;
+  let high = submissions.length - 1;
 
   while (1 + low < high) {
     let middle = Math.floor(low + (high - low) / 2) as i32;
-    let submissionMiddle = Submission.load(submissions[middle - 1]);
+    let submissionMiddle = Submission.load(submissions[middle]);
 
-    let middleExpired = submissionMiddle.submissionTime.lt(currentExpiryTime);
+    let middleExpired = submissionMiddle.submissionTime.lt(timestamp);
     if (middleExpired) {
       low = middle;
     } else {
@@ -1537,18 +1578,18 @@ function findYoungestExpired(
     }
   }
 
-  let submissionHigh = Submission.load(submissions[high - 1]);
+  let submissionHigh = Submission.load(submissions[high]);
 
-  if (submissionHigh.submissionTime.lt(currentExpiryTime)) {
-    return high - 1;
+  if (submissionHigh.submissionTime.lt(timestamp)) {
+    return high;
   }
   if (high > 1) {
-    let submissionLeft = Submission.load(submissions[high - 2]);
-    if (submissionLeft.submissionTime.lt(currentExpiryTime)) return high - 2;
+    let submissionLeft = Submission.load(submissions[high - 1]);
+    if (submissionLeft.submissionTime.lt(timestamp)) return high - 1;
   }
-  if (submissionHigh.submissionTime.ge(currentExpiryTime)) {
+  if (submissionHigh.submissionTime.ge(timestamp)) {
     return -1;
   }
 
-  return high - 1;
+  return high;
 }
