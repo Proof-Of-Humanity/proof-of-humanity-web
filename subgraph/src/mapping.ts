@@ -873,13 +873,7 @@ const problematicTx =
 export function challengeRequest(call: ChallengeRequestCall): void {
   const isSecondChallenge =
     call.transaction.hash.toHexString() == problematicTx;
-  if (isSecondChallenge) {
-    log.warning("Running problematic call, txHash", []);
-  }
   let callInputsReason = getReason(call.inputs._reason);
-  if (isSecondChallenge) {
-    log.warning("Got reason", []);
-  }
   let proofOfHumanity = ProofOfHumanity.bind(call.to);
   let submission = Submission.load(call.inputs._submissionID.toHexString());
   managePreviousStatus(submission, call);
@@ -902,14 +896,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     BigInt.fromI32(1)
   );
 
-  if (isSecondChallenge) {
-    log.warning("Set reason", []);
-  }
-
   if (call.inputs._evidence != zeroAddress) {
-    if (isSecondChallenge) {
-      log.warning("Evidence != zeroAddress", []);
-    }
     let evidenceIndex = request.evidenceLength;
     request.evidenceLength = evidenceIndex.plus(BigInt.fromI32(1));
     let evidence = new Evidence(
@@ -926,13 +913,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     evidence.request = request.id;
     evidence.URI = call.inputs._evidence;
     evidence.sender = call.from;
-    if (isSecondChallenge) {
-      log.warning("Saving evidence", []);
-    }
     evidence.save();
-    if (isSecondChallenge) {
-      log.warning("Saved.", []);
-    }
   }
 
   let challengeIndex = request.challengesLength.minus(BigInt.fromI32(1));
@@ -956,9 +937,6 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     challenge.requester = request.requester;
     challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
     challenge.roundIDs = [];
-    if (isSecondChallenge) {
-      log.warning("Instantiating new challenge", []);
-    }
 
     let requestInfo = proofOfHumanity.getRequestInfo(
       call.inputs._submissionID,
@@ -966,13 +944,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     );
     challenge.challengeID = BigInt.fromI32(requestInfo.value6);
   }
-  if (isSecondChallenge) {
-    log.warning("Saving request", []);
-  }
   request.save();
-  if (isSecondChallenge) {
-    log.warning("Saved request", []);
-  }
 
   let challengeInfo = proofOfHumanity.getChallengeInfo(
     call.inputs._submissionID,
@@ -983,19 +955,10 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   challenge.disputeID = challengeInfo.value2;
   challenge.challenger = call.from;
   if (callInputsReason == "Duplicate") {
-    if (isSecondChallenge) {
-      log.warning("challenge reason is duplicate, setting duplicate", []);
-    }
     challenge.duplicateSubmission = call.inputs._duplicateID.toHexString();
   }
   challenge.roundsLength = BigInt.fromI32(2);
-  if (isSecondChallenge) {
-    log.warning("Saving challenge", []);
-  }
   challenge.save();
-  if (isSecondChallenge) {
-    log.warning("Saved challenge", []);
-  }
 
   let round = new Round(
     crypto
@@ -1009,25 +972,13 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   round.feeRewards = BigInt.fromI32(0);
   round.contributionsLength = BigInt.fromI32(0);
   round.contributionIDs = [];
-  if (isSecondChallenge) {
-    log.warning("Created new round, saving", []);
-  }
   round.save();
-  if (isSecondChallenge) {
-    log.warning("Saved new round. Setting updated round IDs", []);
-  }
 
   let updatedRoundIDs = new Array<string>();
   updatedRoundIDs = updatedRoundIDs.concat(challenge.roundIDs);
   updatedRoundIDs.push(round.id);
   challenge.roundIDs = updatedRoundIDs;
-  if (isSecondChallenge) {
-    log.warning("Round ids set, saving challenge", []);
-  }
   challenge.save();
-  if (isSecondChallenge) {
-    log.warning("Saved challenge, updating contribution.", []);
-  }
 
   if (!isSecondChallenge)
     updateContribution(
@@ -1041,15 +992,11 @@ export function challengeRequest(call: ChallengeRequestCall): void {
       call.block.timestamp
     );
   else
-    log.warning(
-      "Skipped update contribution, updating submission registry",
-      []
-    );
+    log.warning("Skipped update buggy contribution {}", [
+      call.transaction.hash.toHexString(),
+    ]);
 
   updateSubmissionsRegistry(call);
-  if (isSecondChallenge) {
-    log.warning("Finished call", []);
-  }
 }
 
 export function fundAppeal(call: FundAppealCall): void {
