@@ -167,6 +167,7 @@ function requestStatusChange(
     )
   );
   submission.requestsLength = submission.requestsLength.plus(BigInt.fromI32(1));
+  submission.vouchReleaseReady = false;
   submission.save();
 
   let request = new Request(requestID.toHexString());
@@ -252,8 +253,7 @@ function processVouchesHelper(
   submissionID: Address,
   requestID: BigInt,
   iterations: BigInt,
-  call: ethereum.Call,
-  proofOfHumanity: ProofOfHumanity
+  call: ethereum.Call
 ): void {
   let request = Request.load(
     crypto
@@ -272,18 +272,16 @@ function processVouchesHelper(
   request.penaltyIndex = endIndex;
   request.save();
 
+  let vouches = request.vouches;
+  let submission = Submission.load(submissionID.toHexString());
+  submission.vouchReleaseReady = false;
+  submission.save();
   for (let i = 0; i < endIndex.toI32(); i++) {
-    let vouches = request.vouches;
     let requestUsedReasons = request.usedReasons;
 
     let voucher = Submission.load(vouches[i]);
     managePreviousStatus(voucher, call);
     voucher.usedVouch = null;
-
-    let voucherInfo = proofOfHumanity.getSubmissionInfo(
-      ByteArray.fromHexString(vouches[i]) as Address
-    );
-    voucher.vouchReleaseReady = voucherInfo.value4; // i.e. hasVouched
 
     if (request.ultimateChallenger != null) {
       if (
@@ -799,18 +797,6 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   request.resolutionTime = call.block.timestamp;
   request.save();
 
-  let vouches = request.vouches;
-  let proofOfHumanity = ProofOfHumanity.bind(call.to);
-  for (let i = 0; i < vouches.length; i++) {
-    let voucherAddr = vouches[i];
-    let voucher = Submission.load(voucherAddr);
-    let voucherInfo = proofOfHumanity.getSubmissionInfo(
-      ByteArray.fromHexString(voucherAddr) as Address
-    );
-    voucher.vouchReleaseReady = voucherInfo.value4; // i.e hasVouched
-    voucher.save();
-  }
-
   let challengeID = crypto.keccak256(
     concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
   );
@@ -1111,20 +1097,8 @@ export function executeRequest(call: ExecuteRequestCall): void {
     call.inputs._submissionID,
     requestIndex,
     BigInt.fromI32(10), // AUTO_PROCESSED_VOUCH
-    call,
-    proofOfHumanity
+    call
   );
-
-  let vouches = request.vouches;
-  for (let i = 0; i < vouches.length; i++) {
-    let voucherAddr = vouches[i];
-    let voucher = Submission.load(voucherAddr);
-    let voucherInfo = proofOfHumanity.getSubmissionInfo(
-      ByteArray.fromHexString(voucherAddr) as Address
-    );
-    voucher.vouchReleaseReady = voucherInfo.value4; // i.e. hasVouched
-    voucher.save();
-  }
 
   updateContribution(
     call.to,
@@ -1156,13 +1130,11 @@ export function executeRequest(call: ExecuteRequestCall): void {
 }
 
 export function processVouches(call: ProcessVouchesCall): void {
-  let proofOfHumanity = ProofOfHumanity.bind(call.to);
   processVouchesHelper(
     call.inputs._submissionID,
     call.inputs._requestID,
     call.inputs._iterations,
-    call,
-    proofOfHumanity
+    call
   );
 
   updateSubmissionsRegistry(call);
@@ -1293,20 +1265,6 @@ export function rule(call: RuleCall): void {
   request.ultimateChallenger = requestInfo.value8;
   request.requesterLost = requestInfo.value2;
 
-  if (requestInfo.value1) {
-    // i.e. if (request.resolved)
-    let vouches = request.vouches;
-    for (let i = 0; i < vouches.length; i++) {
-      let voucherAddr = vouches[i];
-      let voucher = Submission.load(voucherAddr);
-      let voucherInfo = proofOfHumanity.getSubmissionInfo(
-        ByteArray.fromHexString(voucherAddr) as Address
-      );
-      voucher.vouchReleaseReady = voucherInfo.value4; // i.e hasVouched
-      voucher.save();
-    }
-  }
-
   request.save();
 
   let challenge = Challenge.load(
@@ -1334,6 +1292,7 @@ export function rule(call: RuleCall): void {
   if (requestInfo.value1) {
     // i.e. if (request.resolved)
     submission.latestRequestResolutionTime = call.block.timestamp;
+    submission.vouchReleaseReady = true;
     submission.save();
     let roundsIDs = challenge.roundIDs;
     for (let i = 0; i < challenge.roundsLength.toI32(); i++) {
@@ -1479,8 +1438,8 @@ function manageCurrentStatus(submission: Submission | null): void {
     else {
       counter.removed = counter.removed.plus(one);
       submission.removed = true;
-      submission.save();
     }
+    submission.save();
   } else return;
   counter.save();
 }
