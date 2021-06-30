@@ -887,7 +887,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     call.transaction.hash.toHexString()
   );
   if (isSecondChallenge) {
-    log.debug("second challengeRequest", []);
+    log.warning("second challengeRequest", []);
   }
   let callInputsReason = getReason(call.inputs._reason);
   let proofOfHumanity = ProofOfHumanity.bind(call.to);
@@ -933,7 +933,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   }
 
   if (isSecondChallenge) {
-    log.debug("fetching challenge", []);
+    log.warning("fetching challenge", []);
   }
   let challengeIndex = request.challengesLength.minus(BigInt.fromI32(1));
   let challengeID = crypto.keccak256(
@@ -945,7 +945,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   let challenge = Challenge.load(challengeID.toHexString());
   if (challenge.disputeID) {
     if (isSecondChallenge) {
-      log.debug("no challenge found, instantiating", []);
+      log.warning("no challenge found, instantiating", []);
     }
     challengeIndex = request.challengesLength;
     request.challengesLength = request.challengesLength.plus(BigInt.fromI32(1));
@@ -967,7 +967,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     challenge.challengeID = BigInt.fromI32(requestInfo.value6);
   }
   if (isSecondChallenge) {
-    log.debug("saving request", []);
+    log.warning("saving request", []);
   }
   request.save();
 
@@ -984,12 +984,12 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   }
   challenge.roundsLength = BigInt.fromI32(2);
   if (isSecondChallenge) {
-    log.debug("saving challenge", []);
+    log.warning("saving challenge", []);
   }
   challenge.save();
 
   if (isSecondChallenge) {
-    log.debug("instantiating new round", []);
+    log.warning("instantiating new round", []);
   }
   let roundID = crypto.keccak256(
     concatByteArrays(challengeID, ByteArray.fromUTF8("1"))
@@ -1003,7 +1003,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   round.contributionsLength = BigInt.fromI32(0);
   round.contributionIDs = [];
   if (isSecondChallenge) {
-    log.debug("saving new round", []);
+    log.warning("saving new round", []);
   }
   round.save();
 
@@ -1012,23 +1012,23 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   updatedRoundIDs.push(round.id);
   challenge.roundIDs = updatedRoundIDs;
   if (isSecondChallenge) {
-    log.debug("saving challenge", []);
+    log.warning("saving challenge", []);
   }
   challenge.save();
 
   if (isSecondChallenge) {
-    log.debug("calling update contrib", []);
+    log.warning("calling update contrib", []);
   }
 
   // updateContribution()
   let roundIndex = BigInt.fromI32(0);
   if (isSecondChallenge) {
-    log.debug("Fetching round info for bad tx", []);
-    log.debug("Tx {}", [call.transaction.hash.toHexString()]);
-    log.debug("submissionID {}", [call.inputs._submissionID.toString()]);
-    log.debug("requestIndex {}", [requestIndex.toString()]);
-    log.debug("challengeIndex {}", [challengeIndex.toString()]);
-    log.debug("roundIndex {}", [roundIndex.toString()]);
+    log.warning("Fetching round info for bad tx", []);
+    log.warning("Tx {}", [call.transaction.hash.toHexString()]);
+    log.warning("submissionID {}", [call.inputs._submissionID.toString()]);
+    log.warning("requestIndex {}", [requestIndex.toString()]);
+    log.warning("challengeIndex {}", [challengeIndex.toString()]);
+    log.warning("roundIndex {}", [roundIndex.toString()]);
   }
 
   let roundInfo = proofOfHumanity.getRoundInfo(
@@ -1038,9 +1038,6 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     roundIndex
   );
 
-  if (isSecondChallenge) {
-    log.debug("Got roundInfo, bailing ", []);
-  }
   let contributions = proofOfHumanity.getContributions(
     call.inputs._submissionID,
     requestIndex,
@@ -1049,12 +1046,9 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     call.from
   );
   if (isSecondChallenge) {
-    log.debug("Got contributions", []);
+    log.warning("Got contributions", []);
   }
 
-  if (isSecondChallenge) {
-    log.debug("Loaded round", []);
-  }
   round.paidFees = roundInfo.value1;
   round.hasPaid = [
     roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 1,
@@ -1066,13 +1060,13 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     .keccak256(concatByteArrays(roundID, call.from))
     .toHexString();
   if (isSecondChallenge) {
-    log.debug("Attempting loading contribution", []);
+    log.warning("Attempting loading contribution", []);
   }
   let contribution = Contribution.load(contributionID);
   let newContribution = false;
   if (contribution == null) {
     if (isSecondChallenge) {
-      log.debug("No contribution found, instantiating", []);
+      log.warning("No contribution found, instantiating", []);
     }
     contribution = new Contribution(contributionID);
     contribution.creationTime = call.block.timestamp;
@@ -1084,15 +1078,19 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     newContribution = true;
   }
 
+  if (isSecondChallenge) {
+    log.warning("Bailing", []);
+    return;
+  }
   contribution.values = [contributions[1], contributions[2]];
   if (isSecondChallenge) {
-    log.debug("Saving contribution", []);
+    log.warning("Saving contribution", []);
   }
   contribution.save();
 
   if (newContribution) {
     if (isSecondChallenge) {
-      log.debug("New contribution, updating ids", []);
+      log.warning("New contribution, updating ids", []);
     }
     let updatedContributionIDs = new Array<string>();
     updatedContributionIDs = updatedContributionIDs.concat(
@@ -1106,15 +1104,15 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   }
   contribution.values = [contributions[1], contributions[2]];
   if (isSecondChallenge) {
-    log.debug("Saving contribution", []);
+    log.warning("Saving contribution", []);
   }
   contribution.save();
   if (isSecondChallenge) {
-    log.debug("Saving round", []);
+    log.warning("Saving round", []);
   }
   round.save();
   if (isSecondChallenge) {
-    log.debug("Done", []);
+    log.warning("Done", []);
   }
 
   // end updateContribution()
@@ -1291,7 +1289,7 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
   );
   let round = Round.load(roundID.toHexString());
   if (round == null) {
-    log.debug("Could not find round on tx {}", [
+    log.warning("Could not find round on tx {}", [
       call.transaction.hash.toHexString(),
     ]);
     return;
