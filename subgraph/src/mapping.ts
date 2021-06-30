@@ -1078,15 +1078,14 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     newContribution = true;
   }
 
-  if (isSecondChallenge) {
-    log.warning("Bailing", []);
-    return;
-  }
   contribution.values = [contributions[1], contributions[2]];
   if (isSecondChallenge) {
     log.warning("Saving contribution", []);
   }
   contribution.save();
+  if (isSecondChallenge) {
+    log.warning("Saved contribution", []);
+  }
 
   if (newContribution) {
     if (isSecondChallenge) {
@@ -1107,6 +1106,13 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     log.warning("Saving contribution", []);
   }
   contribution.save();
+  if (isSecondChallenge) {
+    log.warning("Saved contribution", []);
+  }
+  if (isSecondChallenge) {
+    log.warning("Bailing", []);
+    return;
+  }
   if (isSecondChallenge) {
     log.warning("Saving round", []);
   }
