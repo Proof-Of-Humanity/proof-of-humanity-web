@@ -95,8 +95,7 @@ function updateContribution(
   roundIndex: BigInt,
   roundID: ByteArray,
   contributor: Address,
-  time: BigInt,
-  txHash: Bytes
+  time: BigInt
 ): void {
   let proofOfHumanity = ProofOfHumanity.bind(proofOfHumanityAddress);
   let roundInfo = proofOfHumanity.getRoundInfo(
@@ -253,8 +252,7 @@ function requestStatusChange(
     BigInt.fromI32(0),
     roundID,
     msgSender,
-    time,
-    txHash
+    time
   );
 }
 
@@ -731,8 +729,7 @@ export function fundSubmission(call: FundSubmissionCall): void {
     BigInt.fromI32(0),
     roundID,
     call.from,
-    call.block.timestamp,
-    call.transaction.hash
+    call.block.timestamp
   );
 
   updateSubmissionsRegistry(call);
@@ -822,8 +819,7 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
     BigInt.fromI32(0),
     roundID,
     call.from,
-    call.block.timestamp,
-    call.transaction.hash
+    call.block.timestamp
   );
 
   updateSubmissionsRegistry(call);
@@ -1156,8 +1152,7 @@ export function fundAppeal(call: FundAppealCall): void {
     roundIndex,
     roundID,
     call.from,
-    call.block.timestamp,
-    call.transaction.hash
+    call.block.timestamp
   );
 
   let round = Round.load(roundID.toHexString());
@@ -1241,8 +1236,7 @@ export function executeRequest(call: ExecuteRequestCall): void {
     BigInt.fromI32(0),
     crypto.keccak256(concatByteArrays(challengeID, ByteArray.fromUTF8("0"))),
     request.requester as Address,
-    call.block.timestamp,
-    call.transaction.hash
+    call.block.timestamp
   );
 
   updateSubmissionsRegistry(call);
