@@ -161,8 +161,7 @@ function requestStatusChange(
   msgSender: Address,
   evidenceURI: string,
   proofOfHumanityAddress: Address,
-  time: BigInt,
-  txHash: Bytes
+  time: BigInt
 ): void {
   let contract = Contract.load("0");
   let submission = Submission.load(submissionID.toHexString());
@@ -658,8 +657,7 @@ export function addSubmission(call: AddSubmissionCall): void {
     call.from,
     call.inputs._evidence,
     call.to,
-    call.block.timestamp,
-    call.transaction.hash
+    call.block.timestamp
   );
 
   updateSubmissionsRegistry(call);
@@ -678,8 +676,7 @@ export function reapplySubmission(call: ReapplySubmissionCall): void {
     call.from,
     call.inputs._evidence,
     call.to,
-    call.block.timestamp,
-    call.transaction.hash
+    call.block.timestamp
   );
 
   updateSubmissionsRegistry(call);
@@ -698,8 +695,7 @@ export function removeSubmission(call: RemoveSubmissionCall): void {
     call.from,
     call.inputs._evidence,
     call.to,
-    call.block.timestamp,
-    call.transaction.hash
+    call.block.timestamp
   );
 
   updateSubmissionsRegistry(call);
