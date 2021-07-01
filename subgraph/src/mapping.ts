@@ -847,9 +847,9 @@ export function changeStateToPending(call: ChangeStateToPendingCall): void {
   );
   request.lastStatusChange = call.block.timestamp;
 
-  let vouches = call.inputs._vouches;
-  for (let i = 0; i < vouches.length; i++) {
-    let voucher = Submission.load(vouches[i].toHexString());
+  let vouchers = submission.vouchesReceived;
+  for (let i = 0; i < vouchers.length; i++) {
+    let voucher = Submission.load(vouchers[i]);
     if (
       !voucher.usedVouch &&
       voucher.registered &&
