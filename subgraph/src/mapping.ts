@@ -1102,10 +1102,6 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     log.warning("Saved contribution", []);
   }
   if (isSecondChallenge) {
-    log.warning("Bailing", []);
-    return;
-  }
-  if (isSecondChallenge) {
     log.warning("Saving round", []);
   }
   round.save();
