@@ -973,14 +973,12 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   round.feeRewards = BigInt.fromI32(0);
   round.contributionsLength = BigInt.fromI32(0);
   round.contributionIDs = [];
-
   round.save();
 
   let updatedRoundIDs = new Array<string>();
   updatedRoundIDs = updatedRoundIDs.concat(challenge.roundIDs);
   updatedRoundIDs.push(round.id);
   challenge.roundIDs = updatedRoundIDs;
-
   challenge.save();
 
   // updateContribution()
@@ -999,7 +997,6 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     roundIndex,
     call.from
   );
-
 
   round.paidFees = roundInfo.value1;
   round.hasPaid = [
