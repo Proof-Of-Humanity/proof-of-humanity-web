@@ -57,11 +57,6 @@ import {
 } from "../generated/schema";
 
 let zeroAddress = "0x0000000000000000000000000000000000000000";
-let problematicTxs = new Array<string>();
-problematicTxs = problematicTxs.concat([
-  "0xd72c8a93a4116152a5d11310298f791e139377e2a4347e68146d91a8dc03c4a9",
-  "0xe0bf17b7370b60a91674d41d61ddd300b377780f6f242e9d9e04c27c02326aad",
-]);
 
 function getStatus(status: number): string {
   if (status == 0) return "None";
