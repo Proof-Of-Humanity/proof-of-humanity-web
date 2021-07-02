@@ -2,6 +2,7 @@ import {
   Address,
   BigInt,
   ByteArray,
+  Bytes,
   crypto,
   ethereum,
   log,
@@ -56,6 +57,11 @@ import {
 } from "../generated/schema";
 
 let zeroAddress = "0x0000000000000000000000000000000000000000";
+let problematicTxs = new Array<string>();
+problematicTxs = problematicTxs.concat([
+  "0xd72c8a93a4116152a5d11310298f791e139377e2a4347e68146d91a8dc03c4a9",
+  "0xe0bf17b7370b60a91674d41d61ddd300b377780f6f242e9d9e04c27c02326aad",
+]);
 
 function getStatus(status: number): string {
   if (status == 0) return "None";
@@ -868,15 +874,7 @@ export function changeStateToPending(call: ChangeStateToPendingCall): void {
   updateSubmissionsRegistry(call);
 }
 
-let problematicTxs = new Array<string>();
-problematicTxs = problematicTxs.concat([
-  "0xd72c8a93a4116152a5d11310298f791e139377e2a4347e68146d91a8dc03c4a9",
-  "0xe0bf17b7370b60a91674d41d61ddd300b377780f6f242e9d9e04c27c02326aad",
-]);
 export function challengeRequest(call: ChallengeRequestCall): void {
-  let isSecondChallenge = problematicTxs.includes(
-    call.transaction.hash.toHexString()
-  );
   let callInputsReason = getReason(call.inputs._reason);
   let proofOfHumanity = ProofOfHumanity.bind(call.to);
   let submission = Submission.load(call.inputs._submissionID.toHexString());
@@ -964,11 +962,10 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   challenge.roundsLength = BigInt.fromI32(2);
   challenge.save();
 
-  let round = new Round(
-    crypto
-      .keccak256(concatByteArrays(challengeID, ByteArray.fromUTF8("1")))
-      .toHexString()
+  let roundID = crypto.keccak256(
+    concatByteArrays(challengeID, ByteArray.fromUTF8("1"))
   );
+  let round = new Round(roundID.toHexString());
   round.creationTime = call.block.timestamp;
   round.challenge = challenge.id;
   round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
@@ -984,21 +981,66 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   challenge.roundIDs = updatedRoundIDs;
   challenge.save();
 
-  if (!isSecondChallenge)
-    updateContribution(
-      call.to,
-      call.inputs._submissionID,
-      requestIndex,
-      challengeIndex,
-      BigInt.fromI32(0),
-      crypto.keccak256(concatByteArrays(challengeID, ByteArray.fromUTF8("0"))),
-      call.from,
-      call.block.timestamp
+  // updateContribution()
+  let roundIndex = BigInt.fromI32(0);
+  let roundInfo = proofOfHumanity.getRoundInfo(
+    call.inputs._submissionID,
+    requestIndex,
+    challengeIndex,
+    roundIndex
+  );
+
+  let contributions = proofOfHumanity.getContributions(
+    call.inputs._submissionID,
+    requestIndex,
+    challengeIndex,
+    roundIndex,
+    call.from
+  );
+
+  round.paidFees = roundInfo.value1;
+  round.hasPaid = [
+    roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 1,
+    roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 2,
+  ];
+  round.feeRewards = roundInfo.value3;
+
+  let contributionID = crypto
+    .keccak256(concatByteArrays(roundID, call.from))
+    .toHexString();
+
+  let contribution = Contribution.load(contributionID);
+  let newContribution = false;
+  if (contribution == null) {
+    contribution = new Contribution(contributionID);
+    contribution.creationTime = call.block.timestamp;
+    contribution.requestIndex = requestIndex;
+    contribution.roundIndex = roundIndex;
+    contribution.round = round.id;
+    contribution.contributor = call.from;
+    contribution.requestResolved = false;
+    newContribution = true;
+  }
+
+  contribution.values = [contributions[1], contributions[2]];
+  contribution.save();
+
+  if (newContribution) {
+    let updatedContributionIDs = new Array<string>();
+    updatedContributionIDs = updatedContributionIDs.concat(
+      round.contributionIDs
     );
-  else
-    log.warning("Skipped update buggy contribution {}", [
-      call.transaction.hash.toHexString(),
-    ]);
+    updatedContributionIDs.push(contributionID);
+    round.contributionIDs = updatedContributionIDs;
+    round.contributionsLength = round.contributionsLength.plus(
+      BigInt.fromI32(1)
+    );
+  }
+  contribution.values = [contributions[1], contributions[2]];
+  contribution.save();
+  round.save();
+
+  // end updateContribution()
 
   updateSubmissionsRegistry(call);
 }
