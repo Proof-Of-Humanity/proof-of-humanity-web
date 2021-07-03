@@ -1424,6 +1424,7 @@ export function handleAppealPossible(event: AppealPossible): void {
       )
       .toHexString()
   );
+  if (challenge == null) return;
 
   let arbitrator = KlerosLiquid.bind(event.address);
   let appealPeriodResult = arbitrator.appealPeriod(event.params._disputeID);
