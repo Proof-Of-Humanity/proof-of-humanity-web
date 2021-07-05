@@ -1204,7 +1204,6 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
       ByteArray.fromUTF8("Challenge-" + call.inputs._challengeID.toString())
     )
   );
-
   let roundID = crypto.keccak256(
     concatByteArrays(
       challengeID,
@@ -1244,33 +1243,15 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
   let contributionID = crypto
     .keccak256(concatByteArrays(roundID, call.inputs._beneficiary))
     .toHexString();
+
   let contribution = Contribution.load(contributionID);
-  let newContribution = false;
   if (contribution == null) {
-    contribution = new Contribution(contributionID);
-    contribution.creationTime = call.block.timestamp;
-    contribution.requestIndex = call.inputs._requestID;
-    contribution.roundIndex = call.inputs._round;
-    contribution.round = round.id;
-    contribution.contributor = call.inputs._beneficiary;
-    contribution.requestResolved = false;
-    newContribution = true;
+    log.warning("Withdrew null contribution {}", [
+      call.transaction.hash.toHexString(),
+    ]);
+    return; // Withdrawing a non existing contribution
   }
 
-  contribution.values = [contributions[1], contributions[2]];
-  contribution.save();
-
-  if (newContribution) {
-    let updatedContributionIDs = new Array<string>();
-    updatedContributionIDs = updatedContributionIDs.concat(
-      round.contributionIDs
-    );
-    updatedContributionIDs.push(contributionID);
-    round.contributionIDs = updatedContributionIDs;
-    round.contributionsLength = round.contributionsLength.plus(
-      BigInt.fromI32(1)
-    );
-  }
   contribution.values = [contributions[1], contributions[2]];
   contribution.save();
   round.save();
