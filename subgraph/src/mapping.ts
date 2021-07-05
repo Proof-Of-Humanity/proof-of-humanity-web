@@ -1425,7 +1425,9 @@ export function handleAppealPossible(event: AppealPossible): void {
       .toHexString()
   );
   if (challenge == null) {
-    log.warning("Challenge not found, tx hash {}",[event.transaction.hash.toHexString()])
+    log.warning("Challenge not found, tx hash {}", [
+      event.transaction.hash.toHexString(),
+    ]);
     return;
   }
 
