@@ -253,7 +253,8 @@ function requestStatusChange(
 function processVouchesHelper(
   submissionID: Address,
   requestID: BigInt,
-  iterations: BigInt
+  iterations: BigInt,
+  call: ethereum.Call
 ): void {
   let request = Request.load(
     crypto
@@ -280,6 +281,7 @@ function processVouchesHelper(
     let requestUsedReasons = request.usedReasons;
 
     let voucher = Submission.load(vouches[i]);
+    managePreviousStatus(voucher, call);
     voucher.usedVouch = null;
 
     if (request.ultimateChallenger != null) {
@@ -312,6 +314,7 @@ function processVouchesHelper(
     }
 
     voucher.save();
+    manageCurrentStatus(voucher);
   }
 }
 
@@ -1143,7 +1146,8 @@ export function executeRequest(call: ExecuteRequestCall): void {
   processVouchesHelper(
     call.inputs._submissionID,
     requestIndex,
-    BigInt.fromI32(10) // AUTO_PROCESSED_VOUCH
+    BigInt.fromI32(10), // AUTO_PROCESSED_VOUCH
+    call
   );
 
   updateContribution(
@@ -1179,7 +1183,8 @@ export function processVouches(call: ProcessVouchesCall): void {
   processVouchesHelper(
     call.inputs._submissionID,
     call.inputs._requestID,
-    call.inputs._iterations
+    call.inputs._iterations,
+    call
   );
 
   updateSubmissionsRegistry(call);
