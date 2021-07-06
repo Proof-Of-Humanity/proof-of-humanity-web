@@ -1328,6 +1328,12 @@ export function rule(call: RuleCall): void {
       )
       .toHexString()
   );
+  if (challenge == null) {
+    log.warning("Challenge not found, tx hash {}", [
+      call.transaction.hash.toHexString(),
+    ]);
+    return;
+  }
   challenge.ruling = BigInt.fromI32(
     proofOfHumanity.getChallengeInfo(
       disputeData.value1,
