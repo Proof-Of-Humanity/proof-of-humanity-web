@@ -414,11 +414,10 @@ export default function SubmissionDetailsCard({
             sx={{ mt: 3, wordWrap: "break-word" }}
           >
             <Text>
-              There is still time to save this submitter&apos;s deposit! Try
-              contacting them via{" "}
-              <Link href="https://ethmail.cc/">ethmail.cc</Link>. This is as
-              simple as sending an email to [eth-address]@ethmail.cc. Example:{" "}
-              {id}@ethmail.cc
+              There is still time to save this submitter&apos;s deposit! Send
+              them an email to {" "}
+              <Link href={`mailto:${id}@ethmail.cc`}>{id}@ethmail.cc</Link>.
+              It may save the submitter's deposit!
             </Text>
           </Alert>
         )}
