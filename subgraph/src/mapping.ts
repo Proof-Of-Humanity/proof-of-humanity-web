@@ -217,9 +217,9 @@ function requestStatusChange(
   challenge.request = request.id;
   challenge.requester = request.requester;
   challenge.challengeID = BigInt.fromI32(0);
-  challenge.roundsLength = BigInt.fromI32(1);
   challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
   challenge.roundIDs = [];
+  challenge.roundsLength = BigInt.fromI32(1);
   challenge.save();
 
   let roundID = crypto.keccak256(
@@ -480,9 +480,9 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     challenge.creationTime = call.block.timestamp;
     challenge.request = request.id;
     challenge.requester = request.requester;
-    challenge.roundsLength = BigInt.fromI32(1);
     challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
     challenge.roundIDs = [];
+    challenge.roundsLength = BigInt.fromI32(1);
     challenge.save();
 
     let round = new Round(
@@ -927,7 +927,6 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   let challenge = Challenge.load(challengeID.toHexString());
   if (challenge.disputeID) {
     challengeIndex = request.challengesLength;
-    request.challengesLength = request.challengesLength.plus(BigInt.fromI32(1));
     challengeID = concatByteArrays(
       requestID,
       ByteArray.fromUTF8("Challenge-" + challengeIndex.toString())
@@ -938,6 +937,8 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     challenge.requester = request.requester;
     challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
     challenge.roundIDs = [];
+    challenge.roundsLength = BigInt.fromI32(0);
+    request.challengesLength = request.challengesLength.plus(BigInt.fromI32(1));
 
     let requestInfo = proofOfHumanity.getRequestInfo(
       call.inputs._submissionID,
@@ -958,30 +959,23 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   if (callInputsReason == "Duplicate") {
     challenge.duplicateSubmission = call.inputs._duplicateID.toHexString();
   }
-  challenge.roundsLength = BigInt.fromI32(2);
   challenge.save();
 
+  let roundIndex = BigInt.fromI32(0);
   let roundID = crypto.keccak256(
-    concatByteArrays(challengeID, ByteArray.fromUTF8("1"))
+    concatByteArrays(challengeID, ByteArray.fromUTF8(roundIndex.toString()))
   );
   let round = new Round(roundID.toHexString());
   round.creationTime = call.block.timestamp;
   round.challenge = challenge.id;
-  round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
-  round.hasPaid = [false, false];
-  round.feeRewards = BigInt.fromI32(0);
   round.contributionsLength = BigInt.fromI32(0);
   round.contributionIDs = [];
-  round.save();
 
-  let updatedRoundIDs = new Array<string>();
-  updatedRoundIDs = updatedRoundIDs.concat(challenge.roundIDs);
-  updatedRoundIDs.push(round.id);
-  challenge.roundIDs = updatedRoundIDs;
+  challenge.roundIDs = [round.id];
+  challenge.roundsLength = BigInt.fromI32(1);
   challenge.save();
 
   // updateContribution()
-  let roundIndex = BigInt.fromI32(0);
   let roundInfo = proofOfHumanity.getRoundInfo(
     call.inputs._submissionID,
     requestIndex,
@@ -1080,7 +1074,6 @@ export function fundAppeal(call: FundAppealCall): void {
   let round = Round.load(roundID.toHexString());
   if (!round.hasPaid.includes(false)) {
     roundIndex = challenge.roundsLength;
-    challenge.roundsLength = roundIndex.plus(BigInt.fromI32(1));
     challenge.save();
     round = new Round(
       crypto
@@ -1092,6 +1085,7 @@ export function fundAppeal(call: FundAppealCall): void {
         )
         .toHexString()
     );
+    challenge.roundsLength = roundIndex.plus(BigInt.fromI32(1));
     round.creationTime = call.block.timestamp;
     round.challenge = challenge.id;
     round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
@@ -1212,8 +1206,10 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
   );
   let round = Round.load(roundID.toHexString());
   if (round == null) {
-    log.warning("Could not find round on tx {}", [
+    log.warning("Could not find round on tx {} cha {} req {}", [
       call.transaction.hash.toHexString(),
+      challengeID.toHexString(),
+      requestID.toHexString(),
     ]);
     return;
   }
@@ -1246,9 +1242,16 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
 
   let contribution = Contribution.load(contributionID);
   if (contribution == null) {
-    log.warning("Withdrew null contribution {}", [
-      call.transaction.hash.toHexString(),
-    ]);
+    log.warning(
+      "Withdrew null contribution tx {} ben {} cha {} con {} rid {}",
+      [
+        call.transaction.hash.toHexString(),
+        call.inputs._beneficiary.toHexString(),
+        challengeID.toHexString(),
+        contributionID,
+        roundID.toHexString(),
+      ]
+    );
     return; // Withdrawing a non existing contribution
   }
 
