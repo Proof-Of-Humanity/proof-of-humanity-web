@@ -938,7 +938,6 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
     challenge.roundIDs = [];
     challenge.roundsLength = BigInt.fromI32(0);
-    request.challengesLength = request.challengesLength.plus(BigInt.fromI32(1));
 
     let requestInfo = proofOfHumanity.getRequestInfo(
       call.inputs._submissionID,
@@ -1035,6 +1034,8 @@ export function challengeRequest(call: ChallengeRequestCall): void {
 
   // end updateContribution()
 
+  request.challengesLength = request.challengesLength.plus(BigInt.fromI32(1));
+  request.save();
   updateSubmissionsRegistry(call);
 }
 
