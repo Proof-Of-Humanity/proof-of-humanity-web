@@ -119,7 +119,6 @@ function updateContribution(
     .keccak256(concatByteArrays(roundID, contributor))
     .toHexString();
   let contribution = Contribution.load(contributionID);
-  let newContribution = false;
   if (contribution == null) {
     contribution = new Contribution(contributionID);
     contribution.creationTime = time;
@@ -128,13 +127,7 @@ function updateContribution(
     contribution.round = round.id;
     contribution.contributor = contributor;
     contribution.requestResolved = false;
-    newContribution = true;
-  }
 
-  contribution.values = [contributions[1], contributions[2]];
-  contribution.save();
-
-  if (newContribution) {
     let updatedContributionIDs = new Array<string>();
     updatedContributionIDs = updatedContributionIDs.concat(
       round.contributionIDs
@@ -145,6 +138,7 @@ function updateContribution(
       BigInt.fromI32(1)
     );
   }
+
   contribution.values = [contributions[1], contributions[2]];
   contribution.save();
   round.save();
@@ -634,17 +628,15 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.name = call.inputs._name;
     submission.vouchees = [];
     submission.vouchesReceived = [];
-    submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(0);
     submission.vouchesReceivedLength = BigInt.fromI32(0);
     submission.vouchReleaseReady = false;
     submission.seeded = false;
-    submission.removed = false;
   } else {
-    submission.removed = false;
-    submission.disputed = false;
     managePreviousStatus(submission, call);
   }
+  submission.removed = false;
+  submission.disputed = false;
   submission.status = "Vouching";
   submission.latestRequestResolutionTime = BigInt.fromI32(0);
   submission.save();
@@ -702,30 +694,31 @@ export function removeSubmission(call: RemoveSubmissionCall): void {
 
 export function fundSubmission(call: FundSubmissionCall): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
-  let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
-  let requestID = crypto.keccak256(
-    concatByteArrays(
+  if (submission.status == "Vouching"){
+    let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
+    let requestID = crypto.keccak256(
+      concatByteArrays(
+        call.inputs._submissionID,
+        ByteArray.fromUTF8(requestIndex.toString())
+      )
+    );
+    let challengeID = crypto.keccak256(
+      concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
+    );
+    let roundID = crypto.keccak256(
+      concatByteArrays(challengeID, ByteArray.fromUTF8("0"))
+    );
+    updateContribution(
+      call.to,
       call.inputs._submissionID,
-      ByteArray.fromUTF8(requestIndex.toString())
-    )
-  );
-  let request = Request.load(requestID.toHexString());
-  let challengeID = crypto.keccak256(
-    concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
-  );
-  let roundID = crypto.keccak256(
-    concatByteArrays(challengeID, ByteArray.fromUTF8("0"))
-  );
-  updateContribution(
-    call.to,
-    call.inputs._submissionID,
-    requestIndex,
-    BigInt.fromI32(0),
-    BigInt.fromI32(0),
-    roundID,
-    call.from,
-    call.block.timestamp
-  );
+      requestIndex,
+      BigInt.fromI32(0),
+      BigInt.fromI32(0),
+      roundID,
+      call.from,
+      call.block.timestamp
+    );
+  }
 
   updateSubmissionsRegistry(call);
 }
@@ -783,50 +776,54 @@ export function removeVouch(call: RemoveVouchCall): void {
 
 export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   let submission = Submission.load(call.from.toHexString());
-  managePreviousStatus(submission, call);
-  submission.status = "None";
-  submission.save();
-  manageCurrentStatus(submission);
 
-  let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
-  let requestID = crypto.keccak256(
-    concatByteArrays(call.from, ByteArray.fromUTF8(requestIndex.toString()))
-  );
-  let request = Request.load(requestID.toHexString());
-  request.resolved = true;
-  submission.latestRequestResolutionTime = call.block.timestamp;
-  submission.save();
-  request.resolutionTime = call.block.timestamp;
-  request.save();
+  if (submission.status == "Vouching"){
+    managePreviousStatus(submission, call);
+    submission.status = "None";
+    submission.save();
+    manageCurrentStatus(submission);
 
-  let challengeID = crypto.keccak256(
-    concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
-  );
-  let roundID = crypto.keccak256(
-    concatByteArrays(challengeID, ByteArray.fromUTF8("0"))
-  );
+    let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
+    let requestID = crypto.keccak256(
+      concatByteArrays(call.from, ByteArray.fromUTF8(requestIndex.toString()))
+    );
+    let request = Request.load(requestID.toHexString());
+    request.resolved = true;
+    request.resolutionTime = call.block.timestamp;
+    request.save();
 
-  updateContribution(
-    call.to,
-    call.from,
-    requestIndex,
-    BigInt.fromI32(0),
-    BigInt.fromI32(0),
-    roundID,
-    call.from,
-    call.block.timestamp
-  );
+    submission.latestRequestResolutionTime = call.block.timestamp;
+    submission.save();
 
-  updateSubmissionsRegistry(call);
+    let challengeID = crypto.keccak256(
+      concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
+    );
+    let roundID = crypto.keccak256(
+      concatByteArrays(challengeID, ByteArray.fromUTF8("0"))
+    );
 
-  let round = Round.load(roundID.toHexString());
-  let contributionsIDs = round.contributionIDs;
-  let contributionsLength = round.contributionsLength.toI32() as number;
-  for (let j = 0; j < contributionsLength; j++) {
-    let contributionID = contributionsIDs[j];
-    let contribution = Contribution.load(contributionID);
-    contribution.requestResolved = true;
-    contribution.save();
+    updateContribution(
+      call.to,
+      call.from,
+      requestIndex,
+      BigInt.fromI32(0),
+      BigInt.fromI32(0),
+      roundID,
+      call.from,
+      call.block.timestamp
+    );
+
+    updateSubmissionsRegistry(call);
+
+    let round = Round.load(roundID.toHexString());
+    let contributionsIDs = round.contributionIDs;
+    let contributionsLength = round.contributionsLength.toI32() as number;
+    for (let j = 0; j < contributionsLength; j++) {
+      let contributionID = contributionsIDs[j];
+      let contribution = Contribution.load(contributionID);
+      contribution.requestResolved = true;
+      contribution.save();
+    }
   }
 }
 
@@ -899,7 +896,6 @@ export function challengeRequest(call: ChallengeRequestCall): void {
 
   if (call.inputs._evidence != zeroAddress) {
     let evidenceIndex = request.evidenceLength;
-    request.evidenceLength = evidenceIndex.plus(BigInt.fromI32(1));
     let evidence = new Evidence(
       crypto
         .keccak256(
@@ -910,6 +906,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
         )
         .toHexString()
     );
+    request.evidenceLength = evidenceIndex.plus(BigInt.fromI32(1));
     evidence.creationTime = call.block.timestamp;
     evidence.request = request.id;
     evidence.URI = call.inputs._evidence;
@@ -924,27 +921,32 @@ export function challengeRequest(call: ChallengeRequestCall): void {
       ByteArray.fromUTF8("Challenge-" + challengeIndex.toString())
     )
   );
-  let challenge = Challenge.load(challengeID.toHexString());
-  if (challenge.disputeID) {
-    challengeIndex = request.challengesLength;
-    challengeID = concatByteArrays(
-      requestID,
-      ByteArray.fromUTF8("Challenge-" + challengeIndex.toString())
-    );
-    challenge = new Challenge(challengeID.toHexString());
-    challenge.creationTime = call.block.timestamp;
-    challenge.request = request.id;
-    challenge.requester = request.requester;
-    challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
-    challenge.roundIDs = [];
-    challenge.roundsLength = BigInt.fromI32(0);
-
-    let requestInfo = proofOfHumanity.getRequestInfo(
-      call.inputs._submissionID,
-      requestIndex
-    );
-    challenge.challengeID = BigInt.fromI32(requestInfo.value6);
+  // let challenge = Challenge.load(challengeID.toHexString());
+  // if (challenge.disputeID) {
+  //   challengeIndex = request.challengesLength;
+  //   challengeID = concatByteArrays(
+  //     requestID,
+  //     ByteArray.fromUTF8("Challenge-" + challengeIndex.toString())
+  //   );
+  let challenge = new Challenge(challengeID.toHexString());
+  challenge.creationTime = call.block.timestamp;
+  challenge.request = request.id;
+  challenge.requester = request.requester;
+  challenge.reason = callInputsReason;
+  if (callInputsReason == "Duplicate") {
+    challenge.duplicateSubmission = call.inputs._duplicateID.toHexString();
   }
+  challenge.challenger = call.from;
+  challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
+  challenge.roundIDs = [];
+  challenge.roundsLength = BigInt.fromI32(0);
+
+  let requestInfo = proofOfHumanity.getRequestInfo(
+    call.inputs._submissionID,
+    requestIndex
+  );
+  challenge.challengeID = BigInt.fromI32(requestInfo.value6);
+  // }
   request.save();
 
   let challengeInfo = proofOfHumanity.getChallengeInfo(
@@ -952,12 +954,8 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     requestIndex,
     challengeIndex
   );
-  challenge.reason = callInputsReason;
   challenge.disputeID = challengeInfo.value2;
-  challenge.challenger = call.from;
-  if (callInputsReason == "Duplicate") {
-    challenge.duplicateSubmission = call.inputs._duplicateID.toHexString();
-  }
+
   challenge.save();
 
   let roundIndex = BigInt.fromI32(0);
@@ -974,69 +972,82 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   challenge.roundsLength = BigInt.fromI32(1);
   challenge.save();
 
-  // updateContribution()
-  let roundInfo = proofOfHumanity.getRoundInfo(
-    call.inputs._submissionID,
-    requestIndex,
-    challengeIndex,
-    roundIndex
-  );
-
-  let contributions = proofOfHumanity.getContributions(
+  updateContribution(
+    call.to,
     call.inputs._submissionID,
     requestIndex,
     challengeIndex,
     roundIndex,
-    call.from
+    roundID,
+    call.from,
+    call.block.timestamp
   );
-
-  round.paidFees = roundInfo.value1;
-  round.hasPaid = [
-    roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 1,
-    roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 2,
-  ];
-  round.feeRewards = roundInfo.value3;
-
-  let contributionID = crypto
-    .keccak256(concatByteArrays(roundID, call.from))
-    .toHexString();
-
-  let contribution = Contribution.load(contributionID);
-  let newContribution = false;
-  if (contribution == null) {
-    contribution = new Contribution(contributionID);
-    contribution.creationTime = call.block.timestamp;
-    contribution.requestIndex = requestIndex;
-    contribution.roundIndex = roundIndex;
-    contribution.round = round.id;
-    contribution.contributor = call.from;
-    contribution.requestResolved = false;
-    newContribution = true;
-  }
-
-  contribution.values = [contributions[1], contributions[2]];
-  contribution.save();
-
-  if (newContribution) {
-    let updatedContributionIDs = new Array<string>();
-    updatedContributionIDs = updatedContributionIDs.concat(
-      round.contributionIDs
-    );
-    updatedContributionIDs.push(contributionID);
-    round.contributionIDs = updatedContributionIDs;
-    round.contributionsLength = round.contributionsLength.plus(
-      BigInt.fromI32(1)
-    );
-  }
-  contribution.values = [contributions[1], contributions[2]];
-  contribution.save();
-  round.save();
-
-  // end updateContribution()
 
   request.challengesLength = request.challengesLength.plus(BigInt.fromI32(1));
   request.save();
+
   updateSubmissionsRegistry(call);
+
+  // updateContribution()
+  // let roundInfo = proofOfHumanity.getRoundInfo(
+  //   call.inputs._submissionID,
+  //   requestIndex,
+  //   challengeIndex,
+  //   roundIndex
+  // );
+
+  // let contributions = proofOfHumanity.getContributions(
+  //   call.inputs._submissionID,
+  //   requestIndex,
+  //   challengeIndex,
+  //   roundIndex,
+  //   call.from
+  // );
+
+  // round.paidFees = roundInfo.value1;
+  // round.hasPaid = [
+  //   roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 1,
+  //   roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 2,
+  // ];
+  // round.feeRewards = roundInfo.value3;
+
+  // let contributionID = crypto
+  //   .keccak256(concatByteArrays(roundID, call.from))
+  //   .toHexString();
+
+  // let contribution = Contribution.load(contributionID);
+  // let newContribution = false;
+  // if (contribution == null) {
+  //   contribution = new Contribution(contributionID);
+  //   contribution.creationTime = call.block.timestamp;
+  //   contribution.requestIndex = requestIndex;
+  //   contribution.roundIndex = roundIndex;
+  //   contribution.round = round.id;
+  //   contribution.contributor = call.from;
+  //   contribution.requestResolved = false;
+  //   newContribution = true;
+  // }
+
+  // contribution.values = [contributions[1], contributions[2]];
+  // contribution.save();
+
+  // if (newContribution) {
+  //   let updatedContributionIDs = new Array<string>();
+  //   updatedContributionIDs = updatedContributionIDs.concat(
+  //     round.contributionIDs
+  //   );
+  //   updatedContributionIDs.push(contributionID);
+  //   round.contributionIDs = updatedContributionIDs;
+  //   round.contributionsLength = round.contributionsLength.plus(
+  //     BigInt.fromI32(1)
+  //   );
+  // }
+  // contribution.values = [contributions[1], contributions[2]];
+  // contribution.save();
+  // round.save();
+
+  // end updateContribution()
+
 }
 
 export function fundAppeal(call: FundAppealCall): void {
@@ -1075,7 +1086,6 @@ export function fundAppeal(call: FundAppealCall): void {
   let round = Round.load(roundID.toHexString());
   if (!round.hasPaid.includes(false)) {
     roundIndex = challenge.roundsLength;
-    challenge.save();
     round = new Round(
       crypto
         .keccak256(
@@ -1086,7 +1096,6 @@ export function fundAppeal(call: FundAppealCall): void {
         )
         .toHexString()
     );
-    challenge.roundsLength = roundIndex.plus(BigInt.fromI32(1));
     round.creationTime = call.block.timestamp;
     round.challenge = challenge.id;
     round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
@@ -1100,6 +1109,7 @@ export function fundAppeal(call: FundAppealCall): void {
     updatedRoundIDs = updatedRoundIDs.concat(challenge.roundIDs);
     updatedRoundIDs.push(round.id);
     challenge.roundIDs = updatedRoundIDs;
+    challenge.roundsLength = roundIndex.plus(BigInt.fromI32(1));
     challenge.save();
   }
 
