@@ -108,6 +108,22 @@ function updateContribution(
   );
 
   let round = Round.load(roundID.toHexString());
+  if (round == null) {
+    let requestID = crypto.keccak256(
+      concatByteArrays(
+        submissionID,
+        ByteArray.fromUTF8(requestIndex.toString())
+      )
+    );
+    let challengeID = crypto.keccak256(
+      concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
+    );
+    round = new Round(roundID.toHexString());
+    round.creationTime = time;
+    round.challenge = challengeID.toHexString();
+    round.contributionsLength = BigInt.fromI32(0);
+    round.contributionIDs = [];
+  }
   round.paidFees = roundInfo.value1;
   round.hasPaid = [
     roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 1,
@@ -1067,7 +1083,7 @@ export function fundAppeal(call: FundAppealCall): void {
     )
   );
   let challenge = Challenge.load(challengeID.toHexString());
-  let roundIndex = challenge.roundsLength.minus(BigInt.fromI32(1));
+  let roundIndex = challenge.roundsLength;
   let roundID = crypto.keccak256(
     concatByteArrays(challengeID, ByteArray.fromUTF8(roundIndex.toString()))
   );
@@ -1085,7 +1101,7 @@ export function fundAppeal(call: FundAppealCall): void {
 
   let round = Round.load(roundID.toHexString());
   if (!round.hasPaid.includes(false)) {
-    roundIndex = challenge.roundsLength;
+    roundIndex = challenge.roundsLength.plus(BigInt.fromI32(1));
     round = new Round(
       crypto
         .keccak256(
@@ -1171,7 +1187,7 @@ export function executeRequest(call: ExecuteRequestCall): void {
 
   let challenge = Challenge.load(challengeID.toHexString());
   let roundsIDs = challenge.roundIDs;
-  for (let i = 0; i < challenge.roundsLength.toI32(); i++) {
+  for (let i = 0; i < challenge.roundIDs.length; i++) {
     let round = Round.load(roundsIDs[i]);
 
     let contributionsIDs = round.contributionIDs;
@@ -1347,7 +1363,7 @@ export function rule(call: RuleCall): void {
     submission.vouchReleaseReady = true;
     submission.save();
     let roundsIDs = challenge.roundIDs;
-    for (let i = 0; i < challenge.roundsLength.toI32(); i++) {
+    for (let i = 0; i < challenge.roundIDs.length; i++) {
       let round = Round.load(roundsIDs[i]);
 
       let contributionsIDs = round.contributionIDs;
