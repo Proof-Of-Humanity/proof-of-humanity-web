@@ -56,6 +56,7 @@ export default function FileUpload({
   };
 
   const { getRootProps, getInputProps, open } = useDropzone({
+    noClick: true,
     async onDrop(acceptedFiles) {
       const readFiles = await Promise.all(
         acceptedFiles.map(async (file) => {
@@ -71,9 +72,6 @@ export default function FileUpload({
     multiple,
     accept,
     maxSize,
-    disableClick: true,
-    noClick: true,
-    noKeyboard: true,
     ...rest,
   });
 
@@ -206,8 +204,8 @@ export default function FileUpload({
           open={popupOpen}
           setPopupOpen={setPopupOpen}
           photo={photo}
-          onChange={(file) => onChange(multiple ? [...files, file] : file)}
           video={video}
+          onChange={(file) => onChange(multiple ? [...files, file] : file)}
           mirrored={false}
         />
       ) : null}

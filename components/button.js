@@ -47,13 +47,22 @@ const Button = forwardRef(
         data-loading={loading}
         {...rest}
       >
-        <Text ref={innerRef} id={id && `${id}-text`}>
+        <Text
+          ref={innerRef}
+          id={id && `${id}-text`}
+          onClick={(event) => {
+            if (rest.preventDefault) event.preventDefault();
+          }}
+        >
           <Box
             as="span"
             sx={{
               display: "inline-flex",
               alignItems: "center",
               textAlign: "center",
+            }}
+            onClick={(event) => {
+              if (rest.preventDefault) event.preventDefault();
             }}
           >
             {children}
@@ -80,7 +89,10 @@ const Button = forwardRef(
             top: 0,
             width: "100%",
           }}
-          onClick={() => innerRef.current.click()}
+          onClick={(event) => {
+            if (rest.preventDefault) event.preventDefault();
+            innerRef.current.click();
+          }}
         />
       </_Button>
     );

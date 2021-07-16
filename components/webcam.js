@@ -75,6 +75,7 @@ export default function Webcam({
           onClick={(event) => event.preventDefault()}
         >
           <Button
+            preventDefault
             onClick={(event) => {
               event.preventDefault();
               _setMirrored(!_mirrored);
@@ -85,6 +86,7 @@ export default function Webcam({
           </Button>
           {photo && (
             <Button
+              preventDefault
               onClick={(event) => {
                 event.preventDefault();
                 ref.current.getCanvas().toBlob(async (blob) => {
@@ -106,6 +108,7 @@ export default function Webcam({
           {video &&
             (recording ? (
               <Button
+                preventDefault
                 onClick={(event) => {
                   event.preventDefault();
                   mediaRecorderRef.current.stop();
@@ -191,7 +194,9 @@ export default function Webcam({
               </Button>
             ))}
           <Button
+            preventDefault
             onClick={(event) => {
+              event.persist();
               event.preventDefault();
               setPopupOpen(false);
             }}
