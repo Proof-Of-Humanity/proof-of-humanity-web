@@ -1217,6 +1217,8 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
       ByteArray.fromUTF8(call.inputs._requestID.toString())
     )
   );
+  let request = Request.load(requestID.toHexString());
+
   let challengeID = crypto.keccak256(
     concatByteArrays(
       requestID,
@@ -1231,10 +1233,11 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
   );
   let round = Round.load(roundID.toHexString());
   if (round == null) {
-    log.warning("Could not find round on tx {} cha {} req {}", [
+    log.warning("Could not find round on tx {} cha {} req {} ben {}", [
       call.transaction.hash.toHexString(),
       challengeID.toHexString(),
       requestID.toHexString(),
+      call.inputs._beneficiary.toHexString(),
     ]);
     return;
   }
@@ -1260,13 +1263,17 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
     roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 2,
   ];
   round.feeRewards = roundInfo.value3;
+  round.save();
 
   let contributionID = crypto
     .keccak256(concatByteArrays(roundID, call.inputs._beneficiary))
     .toHexString();
 
   let contribution = Contribution.load(contributionID);
+
   if (contribution == null) {
+    if (request.ultimateChallenger != null && call.inputs._beneficiary == (request.ultimateChallenger as Bytes))
+      return;
     log.warning(
       "Withdrew null contribution tx {} ben {} cha {} con {} rid {}",
       [
@@ -1282,7 +1289,6 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
 
   contribution.values = [contributions[1], contributions[2]];
   contribution.save();
-  round.save();
 
   updateSubmissionsRegistry(call);
 }
