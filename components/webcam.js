@@ -167,7 +167,7 @@ export default function Webcam({
                         recordedChunksRef.current,
                         "video",
                         {
-                          type: recordedChunksRef.current[0].type,
+                          type: "video/webm",
                         }
                       );
                       const buffer = await _file.arrayBuffer();
