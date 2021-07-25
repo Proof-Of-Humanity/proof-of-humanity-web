@@ -956,11 +956,11 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
   challenge.roundIDs = [];
 
-  let requestInfo = proofOfHumanity.getRequestInfo(
-    call.inputs._submissionID,
-    requestIndex
-  );
-  challenge.challengeID = BigInt.fromI32(requestInfo.value6);
+  // let requestInfo = proofOfHumanity.getRequestInfo(
+  //   call.inputs._submissionID,
+  //   requestIndex
+  // );
+  challenge.challengeID = challengeIndex;
   // }
   request.save();
 
