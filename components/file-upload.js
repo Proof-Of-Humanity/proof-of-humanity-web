@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Box, Flex } from "theme-ui";
 
+import Button from "./button";
 import Image from "./image";
 import Input from "./input";
 import Text from "./text";
@@ -32,12 +33,14 @@ export default function FileUpload({
   maxSizeLabel,
   multiple = false,
   onBlur,
-  placeholder = `Drag your file${multiple ? "s" : ""} or click here to upload.`,
+  placeholder = `Drag your file${multiple ? "s" : ""}, `,
   photo = false,
   video = false,
   ...rest
 }) {
   const [files, setFiles] = useState(value);
+  const [popupOpen, setPopupOpen] = useState(false);
+
   const onChange = (_files, ...args) => {
     if (_files)
       for (const file of Array.isArray(_files) ? _files : [_files])
@@ -52,7 +55,8 @@ export default function FileUpload({
       : setFiles(_files, ...args);
   };
 
-  const { getRootProps, getInputProps } = useDropzone({
+  const { getRootProps, getInputProps, open } = useDropzone({
+    noClick: true,
     async onDrop(acceptedFiles) {
       const readFiles = await Promise.all(
         acceptedFiles.map(async (file) => {
@@ -94,9 +98,11 @@ export default function FileUpload({
       }
     }
   }, [value, _onChange, name]);
+
   useEffect(() => {
     if (value !== undefined && value !== files) setFiles(value);
   }, [value, files]);
+
   useEffect(
     () => () => {
       if (files)
@@ -116,6 +122,10 @@ export default function FileUpload({
     >
       <Box
         {...getRootProps({
+          onClick: (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+          },
           variant: "forms.fileUpload",
           onBlur() {
             if (onBlur) onBlur({ target: { name } });
@@ -123,7 +133,7 @@ export default function FileUpload({
           ...rest,
         })}
       >
-        <Input name={name} {...getInputProps()} />
+        <Input {...getInputProps({ name })} />
         {maxSizeLabel && acceptLabel ? (
           <Text sx={{ fontStyle: "italic" }}>
             (Max Size: {maxSizeLabel} | {acceptLabel})
@@ -133,7 +143,23 @@ export default function FileUpload({
         ) : acceptLabel ? (
           <Text sx={{ fontStyle: "italic" }}>{acceptLabel}</Text>
         ) : null}
-        <Text>{placeholder}</Text>
+        <Text>
+          {placeholder}
+          <Button variant="secondary" onClick={open}>
+            click here to browse files
+          </Button>
+          {" or "}
+          <Button
+            variant="secondary"
+            onClick={(event) => {
+              event.stopPropagation();
+              event.preventDefault();
+              setPopupOpen(true);
+            }}
+          >
+            click here to use your webcam
+          </Button>
+        </Text>
       </Box>
       <Flex sx={{ marginTop: 1 }}>
         {files &&
@@ -175,9 +201,11 @@ export default function FileUpload({
       </Flex>
       {photo || video ? (
         <Webcam
+          open={popupOpen}
+          setPopupOpen={setPopupOpen}
           photo={photo}
-          onChange={(file) => onChange(multiple ? [...files, file] : file)}
           video={video}
+          onChange={(file) => onChange(multiple ? [...files, file] : file)}
           mirrored={false}
         />
       ) : null}

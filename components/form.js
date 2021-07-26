@@ -154,7 +154,7 @@ export function Field({ label, as = Input, sx, name, info, ...rest }) {
   const [{ onChange }, { touched, error, initialValue }, { setValue }] = field;
   const showError = touched && error;
   return (
-    <Label>
+    <Label onClick={(event) => event.preventDefault()}>
       {typeof label === "function" ? label({ field }) : label}
       <Box
         sx={{
@@ -201,7 +201,10 @@ export function Field({ label, as = Input, sx, name, info, ...rest }) {
               top: "50%",
               transform: "translateY(-50%)",
             }}
-            onClick={() => setValue(initialValue)}
+            onClick={(event) => {
+              event.preventDefault();
+              setValue(initialValue);
+            }}
           />
         )}
       </Box>
