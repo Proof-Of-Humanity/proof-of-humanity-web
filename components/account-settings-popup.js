@@ -55,7 +55,7 @@ export default function AccountSettingsPopup({
       (withdrawableContribution) => {
         const { requestIndex, roundIndex, round } = withdrawableContribution;
         const { challenge } = round;
-        const { request, id: challengeID } = challenge;
+        const { request, challengeID } = challenge;
         const { submission } = request;
         const { id } = submission;
         return pohInstance.methods
