@@ -29,6 +29,7 @@ export const appQuery = graphql`
       round {
         challenge {
           id
+          challengeID
           request {
             submission {
               id
