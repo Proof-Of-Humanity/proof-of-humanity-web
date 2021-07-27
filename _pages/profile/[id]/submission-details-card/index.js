@@ -415,9 +415,9 @@ export default function SubmissionDetailsCard({
           >
             <Text>
               There is still time to save this submitter&apos;s deposit! Send
-              them an email to {" "}
-              <Link href={`mailto:${id}@ethmail.cc`}>{id}@ethmail.cc</Link>.
-              It may save the submitter's deposit!
+              them an email to{" "}
+              <Link href={`mailto:${id}@ethmail.cc`}>{id}@ethmail.cc</Link>. It
+              may save the submitter&apos;s deposit!
             </Text>
           </Alert>
         )}

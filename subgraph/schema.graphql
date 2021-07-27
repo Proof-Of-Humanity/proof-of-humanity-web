@@ -290,9 +290,9 @@ type Request @entity {
   """
   challenges: [Challenge!]! @derivedFrom(field: "request")
   """
-  The request's number of challenges.
+  The ID of the last challenge, which is equal to the total number of challenges for the request
   """
-  challengesLength: BigInt!
+  lastChallengeID: BigInt!
   """
   The request type
   """
@@ -336,7 +336,7 @@ type Challenge @entity {
   """
   request: Request!
   """
-  The challenge's ID, keccak256(requestID, "Challenge-" + requestChallengesLength).
+  The challenge's ID, keccak256(requestID, "Challenge-" + challengeIndex).
   """
   id: ID!
   """
@@ -372,9 +372,9 @@ type Challenge @entity {
   """
   roundIDs: [String!]!
   """
-  The challenge's number of rounds.
+  The ID of the last round.
   """
-  roundsLength: BigInt!
+  lastRoundID: BigInt!
   """
   In-contract challenge ID
   """
@@ -395,7 +395,7 @@ type Round @entity {
   """
   challenge: Challenge!
   """
-  The round's ID, keccak256(challengeID, challengeRoundsLength).
+  The round's ID, keccak256(challengeID, roundIndex).
   """
   id: ID!
   """
