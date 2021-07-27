@@ -33,7 +33,7 @@ export default function FileUpload({
   maxSizeLabel,
   multiple = false,
   onBlur,
-  placeholder = `Drag your file${multiple ? "s" : ""}, `,
+  placeholder = `Drag your file${multiple ? "s" : ""}`,
   photo = false,
   video = false,
   ...rest
@@ -145,6 +145,7 @@ export default function FileUpload({
         ) : null}
         <Text>
           {placeholder}
+          {photo || video ? ", " : " or "}
           <Button variant="secondary" onClick={open}>
             click here to browse files
           </Button>
