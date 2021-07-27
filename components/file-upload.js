@@ -148,17 +148,31 @@ export default function FileUpload({
           <Button variant="secondary" onClick={open}>
             click here to browse files
           </Button>
-          {" or "}
-          <Button
-            variant="secondary"
-            onClick={(event) => {
-              event.stopPropagation();
-              event.preventDefault();
-              setPopupOpen(true);
-            }}
-          >
-            click here to use your webcam
-          </Button>
+          {photo || video ? (
+            <>
+              {" or "}
+              <Button
+                variant="secondary"
+                onClick={(event) => {
+                  event.stopPropagation();
+                  event.preventDefault();
+                  setPopupOpen(true);
+                }}
+              >
+                click here to use your webcam
+              </Button>
+              <Webcam
+                open={popupOpen}
+                setPopupOpen={setPopupOpen}
+                photo={photo}
+                video={video}
+                onChange={(file) =>
+                  onChange(multiple ? [...files, file] : file)
+                }
+                mirrored={false}
+              />
+            </>
+          ) : null}
         </Text>
       </Box>
       <Flex sx={{ marginTop: 1 }}>
@@ -199,16 +213,6 @@ export default function FileUpload({
               </Box>
             ))}
       </Flex>
-      {photo || video ? (
-        <Webcam
-          open={popupOpen}
-          setPopupOpen={setPopupOpen}
-          photo={photo}
-          video={video}
-          onChange={(file) => onChange(multiple ? [...files, file] : file)}
-          mirrored={false}
-        />
-      ) : null}
     </Box>
   );
 }
