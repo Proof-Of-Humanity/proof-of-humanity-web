@@ -710,7 +710,7 @@ export function removeSubmission(call: RemoveSubmissionCall): void {
 
 export function fundSubmission(call: FundSubmissionCall): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
-  if (submission.status == "Vouching"){
+  if (submission.status == "Vouching") {
     let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
     let requestID = crypto.keccak256(
       concatByteArrays(
@@ -793,7 +793,7 @@ export function removeVouch(call: RemoveVouchCall): void {
 export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   let submission = Submission.load(call.from.toHexString());
 
-  if (submission.status == "Vouching"){
+  if (submission.status == "Vouching") {
     managePreviousStatus(submission, call);
     submission.status = "None";
     submission.save();
@@ -957,7 +957,6 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     challengeIndex
   );
   challenge.disputeID = challengeInfo.value2;
-
 
   let roundIndex = BigInt.fromI32(0);
   let roundID = crypto.keccak256(
@@ -1198,7 +1197,10 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
   let contribution = Contribution.load(contributionID);
 
   if (contribution == null) {
-    if (request.ultimateChallenger != null && call.inputs._beneficiary == (request.ultimateChallenger as Bytes))
+    if (
+      request.ultimateChallenger != null &&
+      call.inputs._beneficiary == (request.ultimateChallenger as Bytes)
+    )
       return;
     log.warning(
       "Withdrew null contribution tx {} ben {} cha {} con {} rid {}",
