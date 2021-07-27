@@ -937,13 +937,6 @@ export function challengeRequest(call: ChallengeRequestCall): void {
       ByteArray.fromUTF8("Challenge-" + challengeIndex.toString())
     )
   );
-  // let challenge = Challenge.load(challengeID.toHexString());
-  // if (challenge.disputeID) {
-  //   challengeIndex = request.lastChallengeID;
-  //   challengeID = concatByteArrays(
-  //     requestID,
-  //     ByteArray.fromUTF8("Challenge-" + challengeIndex.toString())
-  //   );
   let challenge = new Challenge(challengeID.toHexString());
   challenge.creationTime = call.block.timestamp;
   challenge.request = request.id;
@@ -955,13 +948,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   challenge.challenger = call.from;
   challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
   challenge.roundIDs = [];
-
-  // let requestInfo = proofOfHumanity.getRequestInfo(
-  //   call.inputs._submissionID,
-  //   requestIndex
-  // );
   challenge.challengeID = challengeIndex;
-  // }
   request.save();
 
   let challengeInfo = proofOfHumanity.getChallengeInfo(
@@ -1001,67 +988,6 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   request.save();
 
   updateSubmissionsRegistry(call);
-
-  // updateContribution()
-  // let roundInfo = proofOfHumanity.getRoundInfo(
-  //   call.inputs._submissionID,
-  //   requestIndex,
-  //   challengeIndex,
-  //   roundIndex
-  // );
-
-  // let contributions = proofOfHumanity.getContributions(
-  //   call.inputs._submissionID,
-  //   requestIndex,
-  //   challengeIndex,
-  //   roundIndex,
-  //   call.from
-  // );
-
-  // round.paidFees = roundInfo.value1;
-  // round.hasPaid = [
-  //   roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 1,
-  //   roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 2,
-  // ];
-  // round.feeRewards = roundInfo.value3;
-
-  // let contributionID = crypto
-  //   .keccak256(concatByteArrays(roundID, call.from))
-  //   .toHexString();
-
-  // let contribution = Contribution.load(contributionID);
-  // let newContribution = false;
-  // if (contribution == null) {
-  //   contribution = new Contribution(contributionID);
-  //   contribution.creationTime = call.block.timestamp;
-  //   contribution.requestIndex = requestIndex;
-  //   contribution.roundIndex = roundIndex;
-  //   contribution.round = round.id;
-  //   contribution.contributor = call.from;
-  //   contribution.requestResolved = false;
-  //   newContribution = true;
-  // }
-
-  // contribution.values = [contributions[1], contributions[2]];
-  // contribution.save();
-
-  // if (newContribution) {
-  //   let updatedContributionIDs = new Array<string>();
-  //   updatedContributionIDs = updatedContributionIDs.concat(
-  //     round.contributionIDs
-  //   );
-  //   updatedContributionIDs.push(contributionID);
-  //   round.contributionIDs = updatedContributionIDs;
-  //   round.contributionsLength = round.contributionsLength.plus(
-  //     BigInt.fromI32(1)
-  //   );
-  // }
-  // contribution.values = [contributions[1], contributions[2]];
-  // contribution.save();
-  // round.save();
-
-  // end updateContribution()
-
 }
 
 export function fundAppeal(call: FundAppealCall): void {
