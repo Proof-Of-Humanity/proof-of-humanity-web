@@ -374,6 +374,8 @@ module.exports = {
         tagName: "graphql",
       },
     ],
+
+    "prettier/prettier": ["error", { endOfLine: "lf" }],
   },
 
   settings: {
