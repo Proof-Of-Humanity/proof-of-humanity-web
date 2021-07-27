@@ -44,7 +44,7 @@ const submissionDetailsAccordionFragments = {
             paidFees
             hasPaid
           }
-          roundsLength
+          lastRoundID
         }
       }
     }
