@@ -122,7 +122,7 @@ Default.args = {
         "0x77AAbcA64973590C56D121510753b3324823d75E",
       ],
       rounds: [{ paidFees: [0, 1e18, 0], hasPaid: [false, false] }],
-      roundsLength: 3,
+      lastRoundID: 3,
     },
   ],
   sharedStakeMultiplier: 2,

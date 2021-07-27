@@ -73,7 +73,7 @@ const { getRulingDescriptions: useRulingDescriptions, getVotes: useVotes } =
 function VotingHistoryTabPanel({
   arbitrable,
   arbitrator,
-  challenge: { disputeID, roundsLength },
+  challenge: { disputeID, lastRoundID },
 }) {
   const [round, setRound] = useState({
     index: 0,
@@ -101,13 +101,13 @@ function VotingHistoryTabPanel({
         <Select
           items={useMemo(
             () =>
-              [...new Array(roundsLength)].map((_, index) => ({
+              [...new Array(lastRoundID)].map((_, index) => ({
                 index,
                 toString() {
                   return `Round: ${index}`;
                 },
               })),
-            [roundsLength]
+            [lastRoundID]
           )}
           onChange={(value) => setRound(value)}
           value={round}

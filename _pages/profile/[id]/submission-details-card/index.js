@@ -78,7 +78,7 @@ const submissionDetailsCardFragments = {
       ) {
         challenges {
           disputeID
-          roundsLength
+          lastRoundID
           reason
           duplicateSubmission {
             id
@@ -147,7 +147,7 @@ export default function SubmissionDetailsCard({
   // Note that there is a challenge object with first round data even if there
   // is no challenge.
   const challenge = (challenges && challenges[0]) || {};
-  const { rounds, roundsLength } = challenge || {};
+  const { rounds, lastRoundID } = challenge || {};
   const round = (rounds && rounds[0]) || {};
   const { hasPaid } = round || {};
 
@@ -226,7 +226,7 @@ export default function SubmissionDetailsCard({
       ? "Register and vouch for this profile on Proof Of Humanity."
       : "Check out this profile on Proof Of Humanity.";
 
-  const firstRoundFullyFunded = Number(roundsLength) === 1 && hasPaid[0];
+  const firstRoundFullyFunded = Number(lastRoundID) === 1 && hasPaid[0];
 
   return (
     <Card
@@ -274,9 +274,8 @@ export default function SubmissionDetailsCard({
         <Box sx={{ marginY: 2, width: "100%" }}>
           {status === submissionStatusEnum.Vouching && (
             <>
-              {((totalCost?.gt(totalContribution) &&
-                Number(roundsLength) > 1) ||
-                (Number(roundsLength) === 1 && !hasPaid[0])) && (
+              {((totalCost?.gt(totalContribution) && Number(lastRoundID) > 1) ||
+                (Number(lastRoundID) === 1 && !hasPaid[0])) && (
                 <FundButton
                   totalCost={totalCost}
                   totalContribution={totalContribution}
