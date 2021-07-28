@@ -226,7 +226,7 @@ export default function SubmissionDetailsCard({
       ? "Register and vouch for this profile on Proof Of Humanity."
       : "Check out this profile on Proof Of Humanity.";
 
-  const firstRoundFullyFunded = Number(lastRoundID) === 1 && hasPaid[0];
+  const firstRoundFullyFunded = Number(lastRoundID) === 0 && hasPaid[0];
 
   return (
     <Card
@@ -274,8 +274,8 @@ export default function SubmissionDetailsCard({
         <Box sx={{ marginY: 2, width: "100%" }}>
           {status === submissionStatusEnum.Vouching && (
             <>
-              {((totalCost?.gt(totalContribution) && Number(lastRoundID) > 1) ||
-                (Number(lastRoundID) === 1 && !hasPaid[0])) && (
+              {((totalCost?.gt(totalContribution) && Number(lastRoundID) > 0) ||
+                (Number(lastRoundID) === 0 && !hasPaid[0])) && (
                 <FundButton
                   totalCost={totalCost}
                   totalContribution={totalContribution}
