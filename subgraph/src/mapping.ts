@@ -108,22 +108,6 @@ function updateContribution(
   );
 
   let round = Round.load(roundID.toHexString());
-  if (round == null) {
-    let requestID = crypto.keccak256(
-      concatByteArrays(
-        submissionID,
-        ByteArray.fromUTF8(requestIndex.toString())
-      )
-    );
-    let challengeID = crypto.keccak256(
-      concatByteArrays(requestID, ByteArray.fromUTF8("Challenge-0"))
-    );
-    round = new Round(roundID.toHexString());
-    round.creationTime = time;
-    round.challenge = challengeID.toHexString();
-    round.contributionsLength = BigInt.fromI32(0);
-    round.contributionIDs = [];
-  }
   round.paidFees = roundInfo.value1;
   round.hasPaid = [
     roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 1,
@@ -937,18 +921,12 @@ export function challengeRequest(call: ChallengeRequestCall): void {
       ByteArray.fromUTF8("Challenge-" + challengeIndex.toString())
     )
   );
-  let challenge = new Challenge(challengeID.toHexString());
-  challenge.creationTime = call.block.timestamp;
-  challenge.request = request.id;
-  challenge.requester = request.requester;
+  let challenge = Challenge.load(challengeID.toHexString());
   challenge.reason = callInputsReason;
   if (callInputsReason == "Duplicate") {
     challenge.duplicateSubmission = call.inputs._duplicateID.toHexString();
   }
   challenge.challenger = call.from;
-  challenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
-  challenge.roundIDs = [];
-  challenge.challengeID = challengeIndex;
   request.save();
 
   let challengeInfo = proofOfHumanity.getChallengeInfo(
@@ -962,14 +940,8 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   let roundID = crypto.keccak256(
     concatByteArrays(challengeID, ByteArray.fromUTF8(roundIndex.toString()))
   );
-  let round = new Round(roundID.toHexString());
-  round.creationTime = call.block.timestamp;
-  round.challenge = challenge.id;
-  round.contributionsLength = BigInt.fromI32(0);
-  round.contributionIDs = [];
 
-  challenge.roundIDs = [round.id];
-  challenge.lastRoundID = BigInt.fromI32(1);
+  challenge.roundIDs = [roundID.toHexString()];
   challenge.save();
 
   updateContribution(
@@ -982,6 +954,65 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     call.from,
     call.block.timestamp
   );
+
+  roundIndex = BigInt.fromI32(1);
+  let round = new Round(
+    crypto
+      .keccak256(
+        concatByteArrays(challengeID, ByteArray.fromUTF8(roundIndex.toString()))
+      )
+      .toHexString()
+  );
+  round.creationTime = call.block.timestamp;
+  round.challenge = challenge.id;
+  round.paidFees = [BigInt.fromI32(0), BigInt.fromI32(0), BigInt.fromI32(0)];
+  round.hasPaid = [false, false];
+  round.feeRewards = BigInt.fromI32(0);
+  round.contributionsLength = BigInt.fromI32(0);
+  round.contributionIDs = [];
+  round.save();
+
+  let updatedRoundIDs = new Array<string>();
+  updatedRoundIDs = updatedRoundIDs.concat(challenge.roundIDs);
+  updatedRoundIDs.push(round.id);
+  challenge.roundIDs = updatedRoundIDs;
+  challenge.lastRoundID = roundIndex;
+  challenge.save();
+
+  let nextChallengeIndex = request.lastChallengeID.plus(BigInt.fromI32(1));
+  let nextChallengeID = crypto.keccak256(
+    concatByteArrays(
+      requestID,
+      ByteArray.fromUTF8("Challenge-" + nextChallengeIndex.toString())
+    )
+  );
+  let nextChallenge = new Challenge(nextChallengeID.toHexString());
+  nextChallenge.creationTime = call.block.timestamp;
+  nextChallenge.request = request.id;
+  nextChallenge.requester = request.requester;
+  nextChallenge.challengeID = nextChallengeIndex;
+  nextChallenge.appealPeriod = [BigInt.fromI32(0), BigInt.fromI32(0)];
+
+  let nextRoundID = crypto.keccak256(
+    concatByteArrays(nextChallengeID, ByteArray.fromUTF8("0"))
+  );
+  let nextRound = new Round(nextRoundID.toHexString());
+  nextRound.creationTime = call.block.timestamp;
+  nextRound.challenge = nextChallenge.id;
+  nextRound.paidFees = [
+    BigInt.fromI32(0),
+    BigInt.fromI32(0),
+    BigInt.fromI32(0),
+  ];
+  nextRound.hasPaid = [false, false];
+  nextRound.feeRewards = BigInt.fromI32(0);
+  nextRound.contributionsLength = BigInt.fromI32(0);
+  nextRound.contributionIDs = [];
+  nextRound.save();
+
+  nextChallenge.roundIDs = [nextRound.id];
+  nextChallenge.lastRoundID = BigInt.fromI32(0);
+  nextChallenge.save();
 
   request.lastChallengeID = request.lastChallengeID.plus(BigInt.fromI32(1));
   request.save();
