@@ -143,6 +143,9 @@ export default function SubmissionDetailsCard({
 
   const status = submissionStatusEnum.parse({ ...rest, submissionDuration });
   const { challenges } = latestRequest || {};
+  const activeChallenges = challenges.filter(
+    ({ disputeID }) => disputeID !== null
+  );
 
   // Note that there is a challenge object with first round data even if there
   // is no challenge.
@@ -338,33 +341,36 @@ export default function SubmissionDetailsCard({
             }}
           >
             <Text sx={{ fontWeight: "bold" }}>
-              {`Dispute${challenges?.length > 1 ? "s" : ""}:`}
+              {`Dispute${activeChallenges?.length > 1 ? "s" : ""}:`}
             </Text>
-            {challenges.map(({ disputeID, reason, duplicateSubmission }, i) => (
-              <Flex
-                key={i}
-                sx={{
-                  flexDirection: "row",
-                }}
-              >
-                <Link
-                  newTab
-                  href={`https://resolve.kleros.io/cases/${disputeID}`}
-                  sx={{ marginLeft: 1 }}
+            {activeChallenges.map(
+              ({ disputeID, reason, duplicateSubmission }, i) => (
+                <Flex
+                  key={i}
+                  sx={{
+                    flexDirection: "row",
+                  }}
                 >
-                  #{disputeID}{" "}
-                  {challengeReasonEnum.parse(reason).startCase !== "None"
-                    ? challengeReasonEnum.parse(reason).startCase
-                    : null}
-                  {challengeReasonEnum.parse(reason).startCase === "Duplicate"
-                    ? " of-"
-                    : null}
-                </Link>
-                {challengeReasonEnum.parse(reason).startCase === "Duplicate" ? (
-                  <SmallAvatar submissionId={duplicateSubmission.id} />
-                ) : null}
-              </Flex>
-            ))}
+                  <Link
+                    newTab
+                    href={`https://resolve.kleros.io/cases/${disputeID}`}
+                    sx={{ marginLeft: 1 }}
+                  >
+                    #{disputeID}{" "}
+                    {challengeReasonEnum.parse(reason).startCase !== "None"
+                      ? challengeReasonEnum.parse(reason).startCase
+                      : null}
+                    {challengeReasonEnum.parse(reason).startCase === "Duplicate"
+                      ? " of-"
+                      : null}
+                  </Link>
+                  {challengeReasonEnum.parse(reason).startCase ===
+                  "Duplicate" ? (
+                    <SmallAvatar submissionId={duplicateSubmission.id} />
+                  ) : null}
+                </Flex>
+              )
+            )}
           </Flex>
         )}
         <Box sx={{ marginTop: "auto" }}>

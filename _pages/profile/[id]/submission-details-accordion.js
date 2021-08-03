@@ -73,12 +73,12 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
     disputed,
   } = useFragment(submissionDetailsAccordionFragments.submission, submission);
   const challenges = _challenges
+    .filter(({ disputeID }) => disputeID !== null)
     .map((challenge) => ({
       ...challenge,
       reason: challengeReasonEnum.parse(challenge.reason),
       parties: [requester, challenge.challenger],
-    }))
-    .filter(({ disputeID }) => disputeID !== null);
+    }));
   const { sharedStakeMultiplier, winnerStakeMultiplier, loserStakeMultiplier } =
     useFragment(submissionDetailsAccordionFragments.contract, contract);
 

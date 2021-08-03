@@ -139,6 +139,7 @@ function VotingHistoryTabPanel({
   );
 }
 export default function VotingHistory({ challenges, arbitrable, arbitrator }) {
+  challenges = challenges.filter(({ disputeID }) => disputeID !== null);
   return (
     <Tabs>
       <TabList>
