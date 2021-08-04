@@ -21,12 +21,28 @@ import Text from "./text";
 import TimeAgo from "./time-ago";
 import { useContract, useWeb3 } from "./web3-provider";
 
+function isWinnerAndOpposingPartyDidntPay(
+  web3,
+  isWinner,
+  oppositeHasPaid,
+  loserDeadline
+) {
+  const currentTime = web3.utils.toBN(Math.floor(Date.now() / 1000));
+  if (isWinner && !oppositeHasPaid && loserDeadline?.lt(currentTime))
+    return true;
+
+  return false;
+}
+
 function AppealTabPanelCard({
   address,
   label,
   cost,
   paidFees,
   hasPaid,
+  oppositeHasPaid,
+  loserDeadline,
+  isWinner,
   deadline,
   reward,
   contract,
@@ -78,14 +94,20 @@ function AppealTabPanelCard({
         max={cost?.toString()}
       />
       <Text sx={{ marginBottom: 3 }}>
-        {hasPaid
-          ? "Fully funded."
-          : deadline &&
-            (deadline.eq(web3.utils.toBN(0)) ? (
-              "Previous round is still in progress."
-            ) : (
-              <TimeAgo datetime={deadline * 1000} />
-            ))}
+        {hasPaid ? (
+          "Fully funded."
+        ) : isWinnerAndOpposingPartyDidntPay(
+            web3,
+            isWinner,
+            oppositeHasPaid,
+            loserDeadline
+          ) ? (
+          "This side already won, opposing party did not fund the appeal."
+        ) : deadline && deadline.eq(web3.utils.toBN(0)) ? (
+          "Previous round is still in progress."
+        ) : (
+          <TimeAgo datetime={deadline * 1000} />
+        )}
       </Text>
       <Alert title="For Contributors">
         {reward &&
@@ -93,6 +115,12 @@ function AppealTabPanelCard({
         reward.`}
       </Alert>
       {!hasPaid &&
+        !isWinnerAndOpposingPartyDidntPay(
+          web3,
+          isWinner,
+          oppositeHasPaid,
+          loserDeadline
+        ) &&
         cost &&
         deadline &&
         !deadline.eq(web3.utils.toBN(0)) &&
@@ -205,6 +233,9 @@ function AppealTabPanel({
           {...[undecided, winner, loser][currentRuling]}
           paidFees={paidFees[1]}
           hasPaid={hasPaid[0]}
+          oppositeHasPaid={hasPaid[1]}
+          loserDeadline={loser.deadline}
+          isWinner={currentRuling === 1}
           contract={contract}
           args={[...args, challengeID, 1]}
           partyLabel="Submitter"
@@ -214,6 +245,9 @@ function AppealTabPanel({
           {...[undecided, loser, winner][currentRuling]}
           paidFees={paidFees[2]}
           hasPaid={hasPaid[1]}
+          oppositeHasPaid={hasPaid[0]}
+          loserDeadline={loser.deadline}
+          isWinner={currentRuling === 2}
           contract={contract}
           args={[...args, challengeID, 2]}
           partyLabel="Challenger"
