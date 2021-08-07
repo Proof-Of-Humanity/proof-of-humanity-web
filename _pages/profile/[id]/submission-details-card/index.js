@@ -76,7 +76,7 @@ const submissionDetailsCardFragments = {
         orderDirection: desc
         first: 1
       ) {
-        challenges {
+        challenges(orderBy: creationTime) {
           disputeID
           lastRoundID
           reason
