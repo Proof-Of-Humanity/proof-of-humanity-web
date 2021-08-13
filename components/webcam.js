@@ -213,20 +213,22 @@ export default function Webcam({
             Close
           </Button>
         </Flex>
-        <Alert type="muted" title="Important" sx={{
-          maxWidth: popupWidth,
-          maxHeight: `calc(${popupMaxHeight} - ${popupWidth})`,
-          mt: 2
-        }}>
-          <Text>
-            {video && `After recording, check in the preview that the address
-            is clearly readable, it's not mirrored and that the video complies
-            with the rest of the policy.`}
-            {photo && `Make sure that you are facing the camera, all your
-            facial features are clearly visible, and that the photo complies
-            with the rest of the policy.`}
-          </Text>
-        </Alert>
+        { (photo || video) &&
+          <Alert type="muted" title="Important" sx={{
+            maxWidth: popupWidth,
+            maxHeight: `calc(${popupMaxHeight} - ${popupWidth})`,
+            mt: 2
+          }}>
+            <Text>
+              {video && `After recording, check in the preview that the address
+              is clearly readable, it's not mirrored and that the video complies
+              with the rest of the policy.`}
+              {photo && `Make sure to directly face the camera, that all your
+              facial features are clearly visible, and that the photo complies
+              with the rest of the policy.`}
+            </Text>
+          </Alert>
+        }
         {loading && (
           <Box
             as={ReactLoadingSkeleton}
