@@ -1,12 +1,13 @@
 import { Camera, Stop, Video as VideoIcon } from "@kleros/icons";
-import { Alert, Text } from "@kleros/components";
 import { useEffect, useRef, useState } from "react";
 import ReactLoadingSkeleton from "react-loading-skeleton";
 import ReactWebcam from "react-webcam";
 import { Box, Flex } from "theme-ui";
 
+import Alert from "./alert";
 import Button from "./button";
 import Popup from "./popup";
+import Text from "./text";
 
 export default function Webcam({
   sx,
@@ -30,6 +31,7 @@ export default function Webcam({
 
   const popupWidth = "65vh";
   const popupMaxHeight = "85vh";
+  const popupMinHeight = "65vh";
 
   useEffect(
     () => () => {
@@ -55,6 +57,7 @@ export default function Webcam({
           },
           display: "flex",
           flexDirection: "column",
+          minHeight: popupMinHeight,
           maxHeight: popupMaxHeight,
           minWidth: popupWidth,
           ...sx,
@@ -78,7 +81,7 @@ export default function Webcam({
             justifyContent: "space-evenly",
             left: 0,
             width: "100%",
-            mt: 1
+            mt: 1,
           }}
           onClick={(event) => event.preventDefault()}
         >
@@ -213,22 +216,28 @@ export default function Webcam({
             Close
           </Button>
         </Flex>
-        { (photo || video) &&
-          <Alert type="muted" title="Important" sx={{
-            maxWidth: popupWidth,
-            maxHeight: `calc(${popupMaxHeight} - ${popupWidth})`,
-            mt: 2
-          }}>
+        {(photo || video) && (
+          <Alert
+            type="muted"
+            title="Important"
+            sx={{
+              maxWidth: popupWidth,
+              maxHeight: `calc(${popupMaxHeight} - ${popupWidth})`,
+              mt: 2,
+            }}
+          >
             <Text>
-              {video && `After recording, check in the preview that the address
+              {video &&
+                `After recording, check in the preview that the address
               is clearly readable, it's not mirrored and that the video complies
               with the rest of the policy.`}
-              {photo && `Make sure to directly face the camera, that all your
+              {photo &&
+                `Make sure to directly face the camera, that all your
               facial features are clearly visible, and that the photo complies
               with the rest of the policy.`}
             </Text>
           </Alert>
-        }
+        )}
         {loading && (
           <Box
             as={ReactLoadingSkeleton}
