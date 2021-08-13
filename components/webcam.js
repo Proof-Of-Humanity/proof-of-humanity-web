@@ -1,4 +1,5 @@
 import { Camera, Stop, Video as VideoIcon } from "@kleros/icons";
+import { Alert, Text } from "@kleros/components";
 import { useEffect, useRef, useState } from "react";
 import ReactLoadingSkeleton from "react-loading-skeleton";
 import ReactWebcam from "react-webcam";
@@ -9,7 +10,7 @@ import Popup from "./popup";
 
 export default function Webcam({
   sx,
-  videoConstraints = { height: 360, width: 360 },
+  videoConstraints = { height: 480, width: 480 },
   mirrored = true,
   photo = true,
   onChange,
@@ -26,6 +27,9 @@ export default function Webcam({
   const ref = useRef();
   const mediaRecorderRef = useRef();
   const recordedChunksRef = useRef([]);
+
+  const popupWidth = "65vh";
+  const popupMaxHeight = "85vh";
 
   useEffect(
     () => () => {
@@ -45,10 +49,14 @@ export default function Webcam({
       <Box
         sx={{
           video: {
-            height: "80vh",
-            marginBottom: -1,
-            width: "80vh",
+            height: popupWidth,
+            marginBottom: -4,
+            width: popupWidth,
           },
+          display: "flex",
+          flexDirection: "column",
+          maxHeight: popupMaxHeight,
+          minWidth: popupWidth,
           ...sx,
         }}
         onClick={(event) => {
@@ -69,8 +77,8 @@ export default function Webcam({
             bottom: 2,
             justifyContent: "space-evenly",
             left: 0,
-            position: "absolute",
             width: "100%",
+            mt: 1
           }}
           onClick={(event) => event.preventDefault()}
         >
@@ -90,7 +98,7 @@ export default function Webcam({
               onClick={(event) => {
                 event.preventDefault();
                 ref.current.getCanvas().toBlob(async (blob) => {
-                  const _file = new File([blob], "capture", {
+                  const _file = new File([blob], "capture.png", {
                     type: blob.type,
                   });
                   const buffer = await _file.arrayBuffer();
@@ -165,7 +173,7 @@ export default function Webcam({
                     async () => {
                       const _file = new File(
                         recordedChunksRef.current,
-                        "video",
+                        "video.webm",
                         {
                           type: "video/webm",
                         }
@@ -205,6 +213,20 @@ export default function Webcam({
             Close
           </Button>
         </Flex>
+        <Alert type="muted" title="Important" sx={{
+          maxWidth: popupWidth,
+          maxHeight: `calc(${popupMaxHeight} - ${popupWidth})`,
+          mt: 2
+        }}>
+          <Text>
+            {video && `After recording, check in the preview that the address
+            is clearly readable, it's not mirrored and that the video complies
+            with the rest of the policy.`}
+            {photo && `Make sure that you are facing the camera, all your
+            facial features are clearly visible, and that the photo complies
+            with the rest of the policy.`}
+          </Text>
+        </Alert>
         {loading && (
           <Box
             as={ReactLoadingSkeleton}
