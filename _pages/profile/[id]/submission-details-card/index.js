@@ -411,8 +411,7 @@ export default function SubmissionDetailsCard({
           registeredVouchers={registeredVouchers}
           firstRoundFullyFunded={firstRoundFullyFunded}
         />
-        {(status === submissionStatusEnum.Vouching ||
-          status === submissionStatusEnum.PendingRegistration) && (
+        {status === submissionStatusEnum.Vouching && (
           <Alert
             type="muted"
             title="Something wrong with this submission?"
