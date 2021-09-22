@@ -157,7 +157,7 @@
     "build-storybook": "build-storybook --config-dir components/.storybook --static-dir components/.storybook/public --no-dll",
     "ci:depcheck": "npm run depcheck",
     "ci:prettier": "prettier --ignore-path .prettierignore --check .",
-    "ci:lint": "npm run build:graph:kovan && npm run build:kovan && npm run lint",
+    "ci:lint": "npm run build:graph:test:kovan && npm run build:test:kovan && npm run lint",
     "ci:commitlint": "git log -1 --pretty=format:\"%s\" | commitlint",
     "ci": "npm-run-all --parallel ci:**",
     "components:publish": "npm publish --access public --tag beta"
