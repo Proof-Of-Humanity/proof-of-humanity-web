@@ -31,8 +31,8 @@
 3. Build the subgraph and the relay schemas locally:
 
    ```bash
-   npm run local:build:graph
-   npm run local:dev:relay
+   npm run local:build:graph:test
+   npm run local:dev:relay:test
    ```
 
 4. Start the development server:
