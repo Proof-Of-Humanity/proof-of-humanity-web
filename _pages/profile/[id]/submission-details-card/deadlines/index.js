@@ -118,7 +118,7 @@ export default function Deadlines({ submission, contract, status }) {
                   contract={contract}
                   submissionID={id}
                 />
-              ) : (
+              ) : Date.now() > renewalTimestamp ? (
                 <NextLink
                   href="/profile/[id]?reapply=true"
                   as={`/profile/${accounts?.[0]}`}
@@ -132,7 +132,7 @@ export default function Deadlines({ submission, contract, status }) {
                     Reapply
                   </Button>
                 </NextLink>
-              )
+              ) : null
             }
           />
           <Deadline
