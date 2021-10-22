@@ -32,15 +32,18 @@ function Deadline({
   label,
   datetime,
   whenDatetime = (now, _datetime) => now < _datetime,
+  displayEvenIfDeadlinePassed = true,
   button,
 }) {
-  return (
-    <Text>
-      <Text sx={{ fontWeight: "bold" }}>{label}: </Text>
-      <TimeAgo datetime={datetime} />
-      {whenDatetime(Date.now(), datetime) && button}
-    </Text>
-  );
+  if (displayEvenIfDeadlinePassed || Date.now() < datetime)
+    return (
+      <Text>
+        <Text sx={{ fontWeight: "bold" }}>{label}: </Text>
+        <TimeAgo datetime={datetime} />
+        {whenDatetime(Date.now(), datetime) && button}
+      </Text>
+    );
+  return null;
 }
 export default function Deadlines({ submission, contract, status }) {
   const {
@@ -52,6 +55,8 @@ export default function Deadlines({ submission, contract, status }) {
     (contract = useFragment(deadlinesFragments.contract, contract));
   const renewalTimestamp =
     (Number(submissionTime) + (submissionDuration - renewalTime)) * 1000;
+  const expirationTimestamp =
+    (Number(submissionTime) + Number(submissionDuration)) * 1000;
   const [accounts] = useWeb3("eth", "getAccounts");
 
   const isSelf =
@@ -104,8 +109,36 @@ export default function Deadlines({ submission, contract, status }) {
             }
           />
           <Deadline
+            label="Expires"
+            datetime={expirationTimestamp}
+            button={
+              Date.now() > expirationTimestamp ? (
+                <RemoveButton
+                  request={request}
+                  contract={contract}
+                  submissionID={id}
+                />
+              ) : Date.now() > renewalTimestamp ? (
+                <NextLink
+                  href="/profile/[id]?reapply=true"
+                  as={`/profile/${accounts?.[0]}`}
+                >
+                  <Button
+                    sx={{
+                      width: "100%",
+                      marginY: 1,
+                    }}
+                  >
+                    Reapply
+                  </Button>
+                </NextLink>
+              ) : null
+            }
+          />
+          <Deadline
             label="Renewal available"
             datetime={renewalTimestamp}
+            displayEvenIfDeadlinePassed={false}
             whenDatetime={(now, datetime) =>
               now >= datetime ||
               status === submissionStatusEnum.Expired ||
