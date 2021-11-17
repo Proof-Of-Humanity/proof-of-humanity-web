@@ -127,16 +127,14 @@ async function getVouchCallsElegibleUsers(
       })),
     ]);
 
-    const validVouches = voucherDatas.flatMap((voucherData, i) => {
-      if (
-        !voucherData.submissionInfo.hasVouched &&
-        voucherData.submissionInfo.registered &&
-        (user.signatures || voucherData.isVouchActive) &&
-        (!user.signatures || user.expirationTimestamps[i] > Date.now() / 1000)
-      )
-        return [i];
-      return [];
-    });
+    const validVouches = voucherDatas.flatMap((voucherData, i) =>
+      !voucherData.submissionInfo.hasVouched &&
+      voucherData.submissionInfo.registered &&
+      (user.signatures || voucherData.isVouchActive) &&
+      (!user.signatures || user.expirationTimestamps[i] > Date.now() / 1000)
+        ? [i]
+        : []
+    );
 
     if (
       validVouches.length < requiredNumberOfVouches ||
@@ -376,6 +374,7 @@ export default function UBICard({
             .call();
 
         if (!voucherRegistered) continue;
+        if (vouches.expirationTimestamps[i] < Date.now() / 1000) continue;
 
         if (!hasVouched) {
           validVouches.signatures.push(vouches.signatures[i]);
