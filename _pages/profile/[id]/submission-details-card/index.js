@@ -70,6 +70,10 @@ const submissionDetailsCardFragments = {
         evidence(orderBy: creationTime, first: 1) {
           URI
         }
+        vouches {
+          id
+          submissionTime
+        }
       }
       latestRequest: requests(
         orderBy: creationTime
@@ -195,14 +199,6 @@ export default function SubmissionDetailsCard({
     [contributions, web3.utils]
   );
 
-  const registeredGraphVouchers = useFragment(
-    submissionDetailsCardFragments.vouchers,
-    vouchers
-  ).filter(
-    ({ submissionTime }) =>
-      Date.now() / 1000 - submissionTime < submissionDuration
-  );
-
   const [offChainVouches, setOffChainVouches] = useState([]);
   useEffect(() => {
     if (!id) return;
@@ -213,16 +209,39 @@ export default function SubmissionDetailsCard({
         )
       ).json();
       if (res && res.vouches && res.vouches.length > 0)
-        setOffChainVouches(res.vouches[0].vouchers);
+        setOffChainVouches(
+          res.vouches.filter(({ resolved }) => resolved === false).vouchers ||
+            []
+        );
     })();
   }, [id]);
 
-  const registeredVouchers = useMemo(() => {
-    const vouchersSet = new Set();
-    offChainVouches.forEach((v) => vouchersSet.add(v));
-    registeredGraphVouchers.forEach((v) => vouchersSet.add(v.id));
-    return [...vouchersSet];
-  }, [offChainVouches, registeredGraphVouchers]);
+  const registeredGraphVouchers = useFragment(
+    submissionDetailsCardFragments.vouchers,
+    vouchers
+  ).filter(
+    ({ submissionTime }) =>
+      Date.now() / 1000 - submissionTime < submissionDuration
+  );
+
+  const currentGraphVouchers = request.vouches.filter(
+    ({ submissionTime }) =>
+      Date.now() / 1000 - submissionTime < submissionDuration
+  );
+
+  const [registeredVouchers, currentVouchers] = useMemo(() => {
+    const completeSet = new Set();
+    const onlyCurrentSet = new Set();
+
+    offChainVouches.forEach((v) => {
+      completeSet.add(v);
+      onlyCurrentSet.add(v);
+    });
+    registeredGraphVouchers.forEach((v) => completeSet.add(v.id));
+    currentGraphVouchers.forEach((v) => onlyCurrentSet.add(v.id));
+
+    return [[...completeSet], [...onlyCurrentSet]];
+  }, [offChainVouches, registeredGraphVouchers, currentGraphVouchers]);
 
   const shareTitle =
     status === submissionStatusEnum.Vouching
@@ -304,7 +323,7 @@ export default function SubmissionDetailsCard({
           >
             <Text>Vouchers</Text>
             <Text sx={{ fontWeight: "bold", paddingX: 1 }}>
-              {String(registeredVouchers.length)}/{requiredNumberOfVouches}
+              {String(currentVouchers.length)}/{requiredNumberOfVouches}
             </Text>
           </Box>
           {status !== submissionStatusEnum.Registered && (
