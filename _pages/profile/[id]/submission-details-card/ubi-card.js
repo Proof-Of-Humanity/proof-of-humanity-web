@@ -365,15 +365,26 @@ export default function UBICard({
       if (!user || !user.vouches) return;
       if (user?.vouches?.length === 0) return;
       const vouches = user?.vouches[0];
+      const { submissionDuration } = await pohInstance.methods
+        .submissionDuration()
+        .call();
+
       for (let i = 0; i < vouches.vouchers.length; i++) {
         if (validVouches.signatures.length >= requiredNumberOfVouches) break;
 
-        const { hasVouched, registered: voucherRegistered } =
-          await pohInstance.methods
-            .getSubmissionInfo(vouches.vouchers[i])
-            .call();
+        const {
+          hasVouched,
+          registered: voucherRegistered,
+          submissionTime,
+        } = await pohInstance.methods
+          .getSubmissionInfo(vouches.vouchers[i])
+          .call();
 
-        if (!voucherRegistered) continue;
+        if (
+          !voucherRegistered ||
+          Date.now() / 1000 - submissionTime > submissionDuration
+        )
+          continue;
         if (vouches.expirationTimestamps[i] < Date.now() / 1000) continue;
 
         if (!hasVouched) {
@@ -404,13 +415,26 @@ export default function UBICard({
     if (!vouchesReceived || !pohInstance) return;
     (async () => {
       const onChainVouches = [];
+      const { submissionDuration } = await pohInstance.methods
+        .submissionDuration()
+        .call();
+
       for (const vouchReceived of vouchesReceived) {
         if (onChainVouches.length >= requiredNumberOfVouches) break;
 
-        const { hasVouched, registered: voucherRegistered } =
-          await pohInstance.methods.getSubmissionInfo(vouchReceived.id).call();
+        const {
+          hasVouched,
+          registered: voucherRegistered,
+          submissionTime,
+        } = await pohInstance.methods
+          .getSubmissionInfo(vouchReceived.id)
+          .call();
 
-        if (!voucherRegistered) continue;
+        if (
+          !voucherRegistered ||
+          Date.now() / 1000 - submissionTime > submissionDuration
+        )
+          continue;
 
         const { isVouchActive } = await pohInstance.methods
           .vouches(vouchReceived.id, submissionID)
