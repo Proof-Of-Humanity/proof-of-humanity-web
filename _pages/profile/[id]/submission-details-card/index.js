@@ -209,7 +209,7 @@ export default function SubmissionDetailsCard({
         )
       ).json();
       if (res && res.vouches && res.vouches.length > 0)
-        setOffChainVouches(res.vouches);
+        setOffChainVouches(res.vouches[0].vouchers);
     })();
   }, [id]);
 
