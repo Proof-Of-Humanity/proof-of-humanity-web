@@ -162,10 +162,10 @@ function requestStatusChange(
     )
   );
   submission.requestsLength = submission.requestsLength.plus(BigInt.fromI32(1));
-  submission.vouchReleaseReady = false;
   submission.save();
 
   let request = new Request(requestID.toHexString());
+  request.requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   request.creationTime = time;
   request.submission = submission.id;
   request.disputed = false;
@@ -190,6 +190,7 @@ function requestStatusChange(
   request.registration = submission.status == "Vouching";
   request.evidenceLength = BigInt.fromI32(1);
   request.lastChallengeID = BigInt.fromI32(0);
+  request.vouchReleaseReady = false;
   request.save();
 
   let evidence = new Evidence(
@@ -265,12 +266,10 @@ function processVouchesHelper(
     : iterations;
   let endIndex = actualIterations.plus(request.penaltyIndex);
   request.penaltyIndex = endIndex;
+  request.vouchReleaseReady = false;
   request.save();
 
   let vouches = request.vouches;
-  let submission = Submission.load(submissionID.toHexString());
-  submission.vouchReleaseReady = false;
-  submission.save();
   for (let i = 0; i < endIndex.toI32(); i++) {
     let requestUsedReasons = request.usedReasons;
 
@@ -420,7 +419,6 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     submission.vouchesReceivedLength = BigInt.fromI32(0);
     submission.disputed = false;
     submission.requestsLength = BigInt.fromI32(1);
-    submission.vouchReleaseReady = false;
     submission.seeded = true;
     submission.removed = false;
     submission.latestRequestResolutionTime = call.block.timestamp;
@@ -431,6 +429,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
       concatByteArrays(submissionIDs[i], ByteArray.fromUTF8("0"))
     );
     let request = new Request(requestID.toHexString());
+    request.requestIndex = BigInt.fromI32(0);
     request.creationTime = call.block.timestamp;
     request.submission = submission.id;
     request.disputed = false;
@@ -451,6 +450,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     request.lastChallengeID = BigInt.fromI32(0);
     request.type = "Registration";
     request.resolutionTime = call.block.timestamp;
+    request.vouchReleaseReady = false;
     request.save();
 
     let evidence = new Evidence(
@@ -630,7 +630,6 @@ export function addSubmission(call: AddSubmissionCall): void {
     submission.vouchesReceived = [];
     submission.requestsLength = BigInt.fromI32(0);
     submission.vouchesReceivedLength = BigInt.fromI32(0);
-    submission.vouchReleaseReady = false;
     submission.seeded = false;
   } else {
     managePreviousStatus(submission, call);
@@ -1290,8 +1289,6 @@ export function rule(call: RuleCall): void {
   request.ultimateChallenger = requestInfo.value8;
   request.requesterLost = requestInfo.value2;
 
-  request.save();
-
   let challenge = Challenge.load(
     crypto
       .keccak256(
@@ -1323,7 +1320,6 @@ export function rule(call: RuleCall): void {
   if (requestInfo.value1) {
     // i.e. if (request.resolved)
     submission.latestRequestResolutionTime = call.block.timestamp;
-    submission.vouchReleaseReady = true;
     submission.save();
     let roundsIDs = challenge.roundIDs;
     for (let i = 0; i < challenge.roundIDs.length; i++) {
@@ -1338,7 +1334,12 @@ export function rule(call: RuleCall): void {
         contribution.save();
       }
     }
+
+    if (request.registration) {
+      request.vouchReleaseReady = true;
+    }
   }
+  request.save();
 }
 
 export function submitEvidence(call: SubmitEvidenceCall): void {

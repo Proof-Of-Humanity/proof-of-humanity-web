@@ -187,10 +187,6 @@ type Submission @entity {
   """
   requestsLength: BigInt!
   """
-  True if vouch was not processed and vouchee is resolved.
-  """
-  vouchReleaseReady: Boolean!
-  """
   True if this submission was part of the seeding event.
   """
   seeded: Boolean!
@@ -217,6 +213,10 @@ type Request @entity {
   The request's ID, keccak256(submissionID, submissionRequestsLength).
   """
   id: ID!
+  """
+  The request index.
+  """
+  requestIndex: BigInt!
   """
   True if a dispute was raised. Note that the request can enter disputed state multiple times, once per reason.
   """
@@ -301,6 +301,10 @@ type Request @entity {
   The time the request was resolved.
   """
   resolutionTime: BigInt!
+  """
+  True if vouch was not processed and vouchee is resolved.
+  """
+  vouchReleaseReady: Boolean!
 }
 
 type Evidence @entity {
