@@ -111,23 +111,33 @@ async function getVouchCallsElegibleUsers(
   for (const user of users) {
     if (toVouchCalls.length >= count) break;
 
-    let [
+    const [
       // eslint-disable-next-line prefer-const
       userSubmission,
       ...voucherDatas
     ] = await Promise.all([
       pohInstance.methods.getSubmissionInfo(user.submissionId).call(),
-      ...user?.vouchers.map((voucher) =>
-        pohInstance.methods.getSubmissionInfo(voucher).call()
-      ),
+      ...user?.vouchers.map(async (voucher) => ({
+        submissionInfo: await pohInstance.methods
+          .getSubmissionInfo(voucher)
+          .call(),
+        isVouchActive: await pohInstance.methods
+          .vouches(voucher, user.submissionId)
+          .call(),
+      })),
     ]);
 
-    voucherDatas = voucherDatas.filter(
-      (voucherData) => !voucherData.hasVouched && voucherData.registered
+    const validVouches = voucherDatas.flatMap((voucherData, i) =>
+      !voucherData.submissionInfo.hasVouched &&
+      voucherData.submissionInfo.registered &&
+      (user.signatures || voucherData.isVouchActive) &&
+      (!user.signatures || user.expirationTimestamps[i] > Date.now() / 1000)
+        ? [i]
+        : []
     );
 
     if (
-      voucherDatas.length < requiredNumberOfVouches ||
+      validVouches.length < requiredNumberOfVouches ||
       Number(userSubmission.status) !== 1
     )
       continue;
@@ -151,23 +161,29 @@ async function getVouchCallsElegibleUsers(
 
     if (latestRequest.disputed || Number(round.sideFunded) !== 1) continue;
 
-    if (user.signatures)
+    if (user.signatures) {
+      const validSignatures = validVouches.map((i) => user.signatures[i]);
+      const validExpirationTimestamps = validVouches.map(
+        (i) => user.expirationTimestamps[i]
+      );
       toVouchCalls.push(
         pohInstance.methods
           .changeStateToPending(
             user.submissionId,
             [],
-            user.signatures,
-            user.expirationTimestamps
+            validSignatures,
+            validExpirationTimestamps
           )
           .encodeABI()
       );
-    else
+    } else {
+      const validVouchers = validVouches.map((i) => user?.vouchers[i]);
       toVouchCalls.push(
         pohInstance.methods
-          .changeStateToPending(user.submissionId, user?.vouchers, [], [])
+          .changeStateToPending(user.submissionId, validVouchers, [], [])
           .encodeABI()
       );
+    }
   }
 
   return toVouchCalls;
@@ -349,15 +365,27 @@ export default function UBICard({
       if (!user || !user.vouches) return;
       if (user?.vouches?.length === 0) return;
       const vouches = user?.vouches[0];
+      const { submissionDuration } = await pohInstance.methods
+        .submissionDuration()
+        .call();
+
       for (let i = 0; i < vouches.vouchers.length; i++) {
         if (validVouches.signatures.length >= requiredNumberOfVouches) break;
 
-        const { hasVouched, registered: voucherRegistered } =
-          await pohInstance.methods
-            .getSubmissionInfo(vouches.vouchers[i])
-            .call();
+        const {
+          hasVouched,
+          registered: voucherRegistered,
+          submissionTime,
+        } = await pohInstance.methods
+          .getSubmissionInfo(vouches.vouchers[i])
+          .call();
 
-        if (!voucherRegistered) continue;
+        if (
+          !voucherRegistered ||
+          Date.now() / 1000 - submissionTime > submissionDuration
+        )
+          continue;
+        if (vouches.expirationTimestamps[i] < Date.now() / 1000) continue;
 
         if (!hasVouched) {
           validVouches.signatures.push(vouches.signatures[i]);
@@ -387,20 +415,38 @@ export default function UBICard({
     if (!vouchesReceived || !pohInstance) return;
     (async () => {
       const onChainVouches = [];
+      const { submissionDuration } = await pohInstance.methods
+        .submissionDuration()
+        .call();
+
       for (const vouchReceived of vouchesReceived) {
         if (onChainVouches.length >= requiredNumberOfVouches) break;
 
-        const { hasVouched, registered: voucherRegistered } =
-          await pohInstance.methods.getSubmissionInfo(vouchReceived.id).call();
+        const {
+          hasVouched,
+          registered: voucherRegistered,
+          submissionTime,
+        } = await pohInstance.methods
+          .getSubmissionInfo(vouchReceived.id)
+          .call();
 
-        if (!voucherRegistered) continue;
+        if (
+          !voucherRegistered ||
+          Date.now() / 1000 - submissionTime > submissionDuration
+        )
+          continue;
+
+        const { isVouchActive } = await pohInstance.methods
+          .vouches(vouchReceived.id, submissionID)
+          .call();
+        if (!isVouchActive) continue;
 
         if (!hasVouched) onChainVouches.push(vouchReceived.id);
         else setQueuedVouches((previous) => previous.add(vouchReceived.id));
       }
       setAvailableOnchainVouches(onChainVouches);
     })();
-  }, [pohInstance, requiredNumberOfVouches, vouchesReceived]);
+  }, [pohInstance, requiredNumberOfVouches, vouchesReceived, submissionID]);
 
   const advanceToPending = useCallback(() => {
     if (
