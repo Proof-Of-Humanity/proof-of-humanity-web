@@ -41,12 +41,17 @@ export default function ProfileWithID() {
 
   if (props && account && (isReapply || isRegistration || isResubmit))
     return (
-      <SubmitProfileCard
-        contract={props.contract}
-        submission={props.submission}
-        reapply={reapply && registered}
-        afterSend={handleAfterSend}
-      />
+      <>
+        <Head>
+          <title>Submit Profile | Proof of Humanity</title>
+        </Head>
+        <SubmitProfileCard
+          contract={props.contract}
+          submission={props.submission}
+          reapply={reapply && registered}
+          afterSend={handleAfterSend}
+        />
+      </>
     );
 
   const status =
