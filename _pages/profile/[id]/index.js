@@ -1,4 +1,5 @@
 import { Card, Image, Text, useQuery, useWeb3 } from "@kleros/components";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { graphql } from "relay-hooks";
@@ -59,6 +60,9 @@ export default function ProfileWithID() {
       props.contract.submissionDuration;
   return (
     <>
+      <Head>
+        <title>{`Profile ${query.id} | Proof of Humanity`}</title>
+      </Head>
       <Card
         sx={{ marginBottom: 2 }}
         mainSx={{
