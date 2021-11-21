@@ -63,10 +63,14 @@ export default function ProfileWithID() {
     props?.submission &&
     Date.now() / 1000 - props.submission.submissionTime >
       props.contract.submissionDuration;
+
+  const name = props?.submission?.name ?? "";
   return (
     <>
       <Head>
-        <title>{`Profile ${query.id} | Proof of Humanity`}</title>
+        <title>{`Profile: ${
+          name ? `${name} (${query.id})` : query.id
+        } | Proof of Humanity`}</title>
       </Head>
       <Card
         sx={{ marginBottom: 2 }}
