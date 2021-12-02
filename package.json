@@ -140,7 +140,7 @@
     "dev:relay:test:mainnet": "get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-mainnet > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-mainnet --json > subgraph/build/full-schema.json && relay-compiler --watch",
     "dev:relay:test:kovan": "get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-kovan --json > subgraph/build/full-schema.json && relay-compiler --watch",
     "build": "npm run build:graph:mainnet && npm run build:mainnet",
-    "build:mainnet": "npm run dev:relay:test:mainnet -- --watch=false && next build",
+    "build:mainnet": "npm run dev:relay:mainnet -- --watch=false && next build",
     "build:test:kovan": "npm run dev:relay:test:kovan -- --watch=false && next build",
     "build:test:mainnet": "npm run dev:relay:test:mainnet -- --watch=false && next build",
     "build:analyze": "cross-env ANALYZE=true npm run build:test:kovan",
