@@ -134,6 +134,10 @@ export default function SubmissionDetailsCard({
     submission
   ));
 
+  const [accounts] = useWeb3("eth", "getAccounts");
+  const isSelf =
+    accounts?.[0] && accounts[0].toLowerCase() === id.toLowerCase();
+
   const { lastStatusChange } = request;
   const {
     submissionBaseDeposit,
@@ -217,13 +221,15 @@ export default function SubmissionDetailsCard({
     submissionDetailsCardFragments.vouchers,
     vouchers
   ).filter(
-    ({ submissionTime }) =>
-      Date.now() / 1000 - submissionTime < submissionDuration
+    (voucher) =>
+      Date.now() / 1000 - voucher.submissionTime < submissionDuration &&
+      voucher.id !== id.toLowerCase()
   );
 
   const currentGraphVouchers = request.vouches.filter(
-    ({ submissionTime }) =>
-      Date.now() / 1000 - submissionTime < submissionDuration
+    (voucher) =>
+      Date.now() / 1000 - voucher.submissionTime < submissionDuration &&
+      voucher.id !== id.toLowerCase()
   );
 
   const [registeredVouchers, currentVouchers] = useMemo(() => {
@@ -231,14 +237,16 @@ export default function SubmissionDetailsCard({
     const onlyCurrentSet = new Set();
 
     offChainVouches.forEach((v) => {
-      completeSet.add(v);
-      onlyCurrentSet.add(v);
+      if (v !== id.toLowerCase()) {
+        completeSet.add(v);
+        onlyCurrentSet.add(v);
+      }
     });
     registeredGraphVouchers.forEach((v) => completeSet.add(v.id));
     currentGraphVouchers.forEach((v) => onlyCurrentSet.add(v.id));
 
     return [[...completeSet], [...onlyCurrentSet]];
-  }, [offChainVouches, registeredGraphVouchers, currentGraphVouchers]);
+  }, [offChainVouches, registeredGraphVouchers, currentGraphVouchers, id]);
 
   const shareTitle =
     status === submissionStatusEnum.Vouching
@@ -305,8 +313,8 @@ export default function SubmissionDetailsCard({
                   Fund Submission
                 </FundButton>
               )}
-              <GaslessVouchButton submissionID={id} />
-              <VouchButton submissionID={id} />
+              {!isSelf && <GaslessVouchButton submissionID={id} />}
+              {!isSelf && <VouchButton submissionID={id} />}
             </>
           )}
         </Box>
