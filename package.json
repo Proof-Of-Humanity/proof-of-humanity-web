@@ -70,7 +70,7 @@
     "lodash.chunk": "4.2.0",
     "lodash.kebabcase": "^4.1.1",
     "lodash.startcase": "^4.4.0",
-    "next": "^11.1.0",
+    "next": "^11.1.1",
     "path-to-regexp": "^6.1.0",
     "pretty-num": "^0.4.0",
     "react": "^16.13.1",
