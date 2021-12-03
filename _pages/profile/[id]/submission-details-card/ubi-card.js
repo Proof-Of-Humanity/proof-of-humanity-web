@@ -124,12 +124,14 @@ async function getVouchCallsElegibleUsers(
         isVouchActive: await pohInstance.methods
           .vouches(voucher, user.submissionId)
           .call(),
+        isSelfVouch: voucher === user.submissionId,
       })),
     ]);
 
     const validVouches = voucherDatas.flatMap((voucherData, i) =>
       !voucherData.submissionInfo.hasVouched &&
       voucherData.submissionInfo.registered &&
+      !voucherData.isSelfVouch &&
       (user.signatures || voucherData.isVouchActive) &&
       (!user.signatures || user.expirationTimestamps[i] > Date.now() / 1000)
         ? [i]
@@ -372,6 +374,9 @@ export default function UBICard({
       for (let i = 0; i < vouches.vouchers.length; i++) {
         if (validVouches.signatures.length >= requiredNumberOfVouches) break;
 
+        // Ignore self-vouches
+        if (vouches.vouchers[i] === submissionID) continue;
+
         const {
           hasVouched,
           registered: voucherRegistered,
@@ -421,6 +426,9 @@ export default function UBICard({
 
       for (const vouchReceived of vouchesReceived) {
         if (onChainVouches.length >= requiredNumberOfVouches) break;
+
+        // Ignore self-vouches
+        if (vouchReceived.id === submissionID) continue;
 
         const {
           hasVouched,
