@@ -275,7 +275,7 @@ export default function SubmissionDetailsCard({
         }}
       >
         <Image
-          sx={{ objectFit: "contain" }}
+          sx={{ objectFit: "cover" }}
           variant="avatar"
           src={evidence?.file?.photo}
         />
