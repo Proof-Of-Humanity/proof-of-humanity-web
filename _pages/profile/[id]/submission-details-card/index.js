@@ -22,7 +22,7 @@ import {
   TwitterIcon,
   TwitterShareButton,
 } from "react-share";
-import { graphql, useFragment } from "relay-hooks";
+import { graphql, useFragment, useQuery } from "relay-hooks";
 
 import Deadlines from "./deadlines";
 import GaslessVouchButton from "./gasless-vouch";
@@ -30,6 +30,7 @@ import SmallAvatar from "./small-avatar";
 import UBICard from "./ubi-card";
 import VouchButton from "./vouch-button";
 
+import { appQuery } from "_pages/index/app-query";
 import {
   challengeReasonEnum,
   partyEnum,
@@ -57,6 +58,8 @@ const submissionDetailsCardFragments = {
       disputed
       vouchees {
         id
+        status
+        disputed
       }
       requests(
         orderBy: creationTime
@@ -133,8 +136,36 @@ export default function SubmissionDetailsCard({
     submissionDetailsCardFragments.submission,
     submission
   ));
-
   const [accounts] = useWeb3("eth", "getAccounts");
+  const { props } = useQuery(
+    appQuery,
+    {
+      id: accounts?.[0]?.toLowerCase(),
+      contributor: accounts?.[0]?.toLowerCase(),
+    },
+    { skip: !accounts?.[0] }
+  );
+
+  const disputedVouches = props?.submission?.vouchees.filter(
+    (vouchee) => vouchee?.disputed === true
+  );
+
+  let vouchingTimeout = false;
+  if (disputedVouches?.length > 0) {
+    const latestChallengedVouchee = disputedVouches?.sort((a, b) =>
+      a.requests[0].challenges[0].creationTime <
+      b.requests[0].challenges[0].creationTime
+        ? 1
+        : -1
+    );
+
+    const challengeTimestamp =
+      latestChallengedVouchee[0].requests[0].challenges[0].creationTime * 1000;
+    const timestamp = challengeTimestamp + 5200000000 > Date.now();
+    const removed = latestChallengedVouchee[0].status === "None";
+    vouchingTimeout = timestamp && removed;
+  }
+
   const isSelf =
     accounts?.[0] && accounts[0].toLowerCase() === id.toLowerCase();
 
@@ -313,8 +344,18 @@ export default function SubmissionDetailsCard({
                   Fund Submission
                 </FundButton>
               )}
-              {!isSelf && <GaslessVouchButton submissionID={id} />}
-              {!isSelf && <VouchButton submissionID={id} />}
+
+              {vouchingTimeout ? (
+                <Text>
+                  You can&apos;t vouch because a Human you vouched for in the
+                  last 60 days was challenged.{" "}
+                </Text>
+              ) : (
+                <>
+                  {!isSelf && <GaslessVouchButton submissionID={id} />}
+                  {!isSelf && <VouchButton submissionID={id} />}
+                </>
+              )}
             </>
           )}
         </Box>
