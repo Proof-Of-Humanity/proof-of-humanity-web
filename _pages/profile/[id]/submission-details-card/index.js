@@ -161,7 +161,8 @@ export default function SubmissionDetailsCard({
 
     const challengeTimestamp =
       latestChallengedVouchee[0].requests[0].challenges[0].creationTime * 1000;
-    const timestamp = challengeTimestamp + 5200000000 > Date.now();
+    const timestamp =
+      challengeTimestamp + 60 * 24 * 60 * 60 * 1000 > Date.now();
     const removed = latestChallengedVouchee[0].status === "None";
     vouchingTimeout = timestamp && removed;
   }
