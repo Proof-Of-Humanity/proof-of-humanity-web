@@ -177,6 +177,7 @@ export default function SubmissionDetailsCard({
       .join(" ") || name;
   const displayName =
     compoundName === name ? name : `${compoundName} (${name})`;
+    const contactInfo = evidence?.file?.contact;
 
   const [arbitrationCost] = useContract(
     "klerosLiquid",
@@ -279,6 +280,7 @@ export default function SubmissionDetailsCard({
           variant="avatar"
           src={evidence?.file?.photo}
         />
+        
         <Text
           sx={{
             fontSize: 2,
@@ -295,6 +297,10 @@ export default function SubmissionDetailsCard({
                 ? evidence.file.name
                 : "We are doing some maintenance work and will be online again soon.")}
         </Text>
+        {contactInfo !== undefined && (
+        <Text as="span" sx={{ fontWeight: "bold" }}>
+          {"Contact info: \n"+contactInfo}
+        </Text>)}
         <Text sx={{ wordBreak: "break-word" }} count={2}>
           {evidence?.file ? evidence.file.bio || " " : null}
         </Text>
@@ -426,6 +432,7 @@ export default function SubmissionDetailsCard({
             fontWeight: "bold",
           }}
         />
+        
         <Video url={evidence?.file?.video} />
         <UBICard
           submissionID={id}
