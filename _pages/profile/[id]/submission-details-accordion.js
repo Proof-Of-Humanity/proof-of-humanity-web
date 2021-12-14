@@ -101,6 +101,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
             args={[id]}
             evidences={evidences}
             useEvidenceFile={useEvidenceFile}
+            submission={submission}
           />
         }
       />

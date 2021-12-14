@@ -1,6 +1,7 @@
 import { DownArrow, File, UpArrow } from "@kleros/icons";
 import { Box, Flex } from "theme-ui";
 
+import Alert from "./alert";
 import Card from "./card";
 import Identicon from "./identicon";
 import Link from "./link";
@@ -74,6 +75,7 @@ export default function Evidence({
   args,
   evidences,
   useEvidenceFile,
+  submission,
 }) {
   return (
     <ScrollTo>
@@ -100,6 +102,15 @@ export default function Evidence({
               />
             </Text>
           </Flex>
+          {submission?.disputed && (
+            <Alert type="muted" title="Advice" sx={{ mb: 3 }}>
+              <Text>
+                Only send evidence if you believe that the submission is correct
+                as it is. Sending new files as evidence won&apos;t help if the
+                submitted ones are incorrect.
+              </Text>
+            </Alert>
+          )}
           <ScrollArea
             sx={{
               marginBottom: 2,
