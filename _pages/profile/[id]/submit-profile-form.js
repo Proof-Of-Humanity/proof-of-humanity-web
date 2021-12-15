@@ -130,8 +130,7 @@ const SubmitProfileForm = memo(
                   /^[\s\w]*$/,
                   "Only letters from a to z and spaces are allowed."
                 ),
-                contact: string()
-                .max(30,"Must be 30 characters or less."),
+              contact: string().max(30, "Must be 30 characters or less."),
               bio: string().max(70, "Must be 70 characters or less."),
               photo: file()
                 .required("Required")
@@ -268,7 +267,15 @@ const SubmitProfileForm = memo(
           pageScroll();
           const { pathname: fileURI } = await upload(
             "file.json",
-            JSON.stringify({ name, firstName, lastName, contact, bio, photo, video })
+            JSON.stringify({
+              name,
+              firstName,
+              lastName,
+              contact,
+              bio,
+              photo,
+              video,
+            })
           );
           const { pathname: evidence } = await uploadWithProgress(
             "registration.json",
