@@ -16,9 +16,10 @@ const vouchText = `
 Make sure the person exists and that you have physically encountered
 them. Note that in the case of a dispute, if a submission is
 rejected for reason “Duplicate” or “Does not exist”, everyone who
-had vouched for it will get removed from the registry. Note that
-your vouch will only be counted when and as long as you are
+had vouched for it will get removed from the registry. If a submission is rejected for reason "Incorrect Submission" you are not going to be able to vouch again in the next 60 days.
+ Note that your vouch will only be counted when and as long as you are
 registered, and another submission is not using your vouch.
+
 `;
 
 export default function GasslessVouchButton({ submissionID }) {
