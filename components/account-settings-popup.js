@@ -127,11 +127,11 @@ export default function AccountSettingsPopup({
                     {photo ? (
                       <Image
                         sx={{
-                          objectFit: "contain",
                           width: 32,
                           height: 32,
                         }}
                         variant="avatar"
+                        css={{ objectPosition: '0 0' }}
                         src={photo}
                       />
                     ) : (

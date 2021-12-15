@@ -277,6 +277,7 @@ export default function SubmissionDetailsCard({
         <Image
           variant="avatar"
           src={evidence?.file?.photo}
+          css={{ objectPosition: '0 0' }}
         />
         <Text
           sx={{

@@ -347,8 +347,6 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       height: 124,
       objectFit: "cover",
       width: 124,
-      objectPosition: '0 0',
-      
     },
     smallAvatar: {
       borderColor: "success",
@@ -358,14 +356,12 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       height: 32,
       objectFit: "cover",
       width: 32,
-      objectPosition: '0 0',
     },
     thumbnail: {
       borderRadius: 100,
       objectFit: "cover",
       height: 200,
       width: 200,
-      objectPosition: '0 0',
     },
   },
   links: {
