@@ -78,7 +78,7 @@ export default function SmallAvatar({ submissionId }) {
       <Link
         sx={{
           height: 32,
-          marginRight: 1,
+          marginRight: 1
         }}
         newTab
       >
