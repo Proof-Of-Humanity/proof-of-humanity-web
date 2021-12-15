@@ -73,7 +73,7 @@ export default function SubmissionCard({ submission, contract }) {
         }
         mainSx={{ flexDirection: "column" }}
       >
-        <Image variant="avatar" src={evidence?.file?.photo} />
+        <Image variant="avatar" src={evidence?.file?.photo} sx={{ objectFit: "cover" }} />
         <Text
           sx={{
             fontSize: 1,
