@@ -40,7 +40,11 @@ export default function SmallAvatar({ submissionId }) {
         evidence.file.name.replaceAll(/[^\s\w]/g, "")
           ? evidence.file.name
           : "We are doing some maintenance work and will be online again soon.");
-  return submission?.status === "None" && submission?.disputed ? (
+  const variant =
+    submission?.status === "None" && submission?.disputed
+      ? "challengedSmallAvatar"
+      : "smallAvatar";
+  return (
     <NextLink href="/profile/[id]" as={`/profile/${submissionId}`}>
       <Link
         sx={{
@@ -56,40 +60,7 @@ export default function SmallAvatar({ submissionId }) {
                 span: { display: "flex" },
               }}
             >
-              <Image
-                variant="challengedSmallAvatar"
-                src={evidence?.file?.photo}
-              />
-            </Box>
-          }
-          on={["focus", "hover"]}
-          sx={{
-            color: "text",
-            fontSize: 1,
-            textAlign: "center",
-          }}
-        >
-          {name}
-        </Popup>
-      </Link>
-    </NextLink>
-  ) : (
-    <NextLink href="/profile/[id]" as={`/profile/${submissionId}`}>
-      <Link
-        sx={{
-          height: 32,
-          marginRight: 1
-        }}
-        newTab
-      >
-        <Popup
-          trigger={
-            <Box
-              sx={{
-                span: { display: "flex" },
-              }}
-            >
-              <Image variant="smallAvatar" src={evidence?.file?.photo} />
+              <Image variant={variant} src={evidence?.file?.photo} />
             </Box>
           }
           on={["focus", "hover"]}
