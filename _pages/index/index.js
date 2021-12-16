@@ -1,4 +1,5 @@
 import { Grid, Pagination, useContract, useQuery } from "@kleros/components";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { graphql } from "relay-hooks";
 
@@ -78,6 +79,9 @@ export default function Index() {
   const hasMore = props?.submissions?.length === pageSize + 1;
   return (
     <>
+      <Head>
+        <title>Proof of Humanity</title>
+      </Head>
       <SubmissionFilters
         numberOfSubmissions={submissionCounter}
         submissionDuration={submissionDuration}
