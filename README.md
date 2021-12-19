@@ -6,5 +6,8 @@ This is the Proof of Humanity web app you will find at [https://app.proofofhuman
 
 Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-## Priority
-You can see which issues are a priority and help prioritize those using [tokenlog](https://tokenlog.xyz/proof-of-humanity/proof-of-humanity-web).
+### Issue Prioritization
+
+You can see a backlog of prioritized issues in our [Tokenlog](https://tokenlog.xyz/proof-of-humanity/proof-of-humanity-web).
+
+If you hold `$UBI` tokens, you can use your tokens for voting on which issues to implement next.
