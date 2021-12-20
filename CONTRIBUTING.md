@@ -41,6 +41,12 @@
    npm run dev
    ```
 
+   ℹ️ If you are running version 17 of Node and are getting an `ERR_OSSL_EVP_UNSUPPORTED` error, use this [workaround](https://github.com/webpack/webpack/issues/14532#issuecomment-947012063):
+   
+       ```bash
+       export NODE_OPTIONS=--openssl-legacy-provider
+       ```
+
 ### Pull requests
 
 After making your changes, you can open a pull request and ask for review.
