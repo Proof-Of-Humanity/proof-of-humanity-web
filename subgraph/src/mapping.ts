@@ -657,6 +657,7 @@ export function reapplySubmission(call: ReapplySubmissionCall): void {
   let submission = Submission.load(call.from.toHexString());
   managePreviousStatus(submission, call);
   submission.status = "Vouching";
+  submission.disputed = false;
   submission.save();
   manageCurrentStatus(submission);
 
