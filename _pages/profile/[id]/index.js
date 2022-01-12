@@ -1,4 +1,11 @@
-import { Card, Image, Text, useQuery, useWeb3 } from "@kleros/components";
+import {
+  Alert,
+  Card,
+  Image,
+  Text,
+  useQuery,
+  useWeb3,
+} from "@kleros/components";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
 import { graphql } from "relay-hooks";
@@ -103,6 +110,15 @@ export default function ProfileWithID() {
           )}
         </Text>
       </Card>
+      {status === submissionStatusEnum.Vouching && (
+        <Alert type="muted" title="Advice" sx={{ mb: 2, fontSize: 14 }}>
+          <Text>
+            Gasless vouches have no cost. Beware of scammers that intend to
+            charge for those type of vouches. Although, keep in mind that
+            hardware wallet users have to pay gas to vouch on-chain.
+          </Text>
+        </Alert>
+      )}
       {props?.submission && (
         <>
           <SubmissionDetailsCard
