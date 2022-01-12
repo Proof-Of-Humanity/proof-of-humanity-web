@@ -9,6 +9,8 @@ export default function SmallAvatar({ submissionId }) {
       query smallAvatarQuery($id: ID!) {
         submission(id: $id) {
           id
+          status
+          disputed
           name
           requests(
             orderBy: creationTime
@@ -38,6 +40,10 @@ export default function SmallAvatar({ submissionId }) {
         evidence.file.name.replaceAll(/[^\s\w]/g, "")
           ? evidence.file.name
           : "We are doing some maintenance work and will be online again soon.");
+  const variant =
+    submission?.status === "None" && submission?.disputed
+      ? "challengedSmallAvatar"
+      : "smallAvatar";
   return (
     <NextLink href="/profile/[id]" as={`/profile/${submissionId}`}>
       <Link
@@ -54,7 +60,7 @@ export default function SmallAvatar({ submissionId }) {
                 span: { display: "flex" },
               }}
             >
-              <Image variant="smallAvatar" src={evidence?.file?.photo} />
+              <Image variant={variant} src={evidence?.file?.photo} />
             </Box>
           }
           on={["focus", "hover"]}

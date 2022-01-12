@@ -326,7 +326,6 @@ module.exports = {
           "th",
           "thead",
           "time",
-          "title",
           "tr",
           "track",
           "tt",
