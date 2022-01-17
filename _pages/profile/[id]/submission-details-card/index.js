@@ -13,6 +13,7 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { User } from "@kleros/icons";
+import lodashOrderBy from "lodash.orderby";
 import { useEffect, useMemo, useState } from "react";
 import {
   RedditIcon,
@@ -57,6 +58,9 @@ const submissionDetailsCardFragments = {
       disputed
       vouchees {
         id
+        requests {
+          lastStatusChange
+        }
       }
       requests(
         orderBy: creationTime
@@ -133,6 +137,12 @@ export default function SubmissionDetailsCard({
     submissionDetailsCardFragments.submission,
     submission
   ));
+
+  const orderedVouchees = lodashOrderBy(
+    vouchees,
+    (a) => a.requests[0].lastStatusChange,
+    "desc"
+  );
 
   const [accounts] = useWeb3("eth", "getAccounts");
   const isSelf =
@@ -479,7 +489,7 @@ export default function SubmissionDetailsCard({
               Vouched for:
             </Text>
             <Flex sx={{ flexWrap: "wrap" }}>
-              {vouchees.map(({ id: address }) => (
+              {orderedVouchees.map(({ id: address }) => (
                 <SmallAvatar key={address} submissionId={address} />
               ))}
             </Flex>
