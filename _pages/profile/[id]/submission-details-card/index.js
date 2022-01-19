@@ -140,7 +140,7 @@ export default function SubmissionDetailsCard({
 
   const orderedVouchees = lodashOrderBy(
     vouchees,
-    (a) => a.requests[0].lastStatusChange,
+    (a) => a.requests[a.requests.length - 1].lastStatusChange,
     "desc"
   );
 
