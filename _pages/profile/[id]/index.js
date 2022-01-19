@@ -127,8 +127,7 @@ export default function ProfileWithID() {
         <Alert type="muted" title="Advice" sx={{ mb: 2, fontSize: 14 }}>
           <Text>
             Gasless vouches have no cost. Beware of scammers that intend to
-            charge for those type of vouches. Although, keep in mind that
-            hardware wallet users have to pay gas to vouch on-chain.
+            charge for those type of vouches.
           </Text>
         </Alert>
       )}
