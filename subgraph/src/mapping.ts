@@ -676,6 +676,7 @@ export function reapplySubmission(call: ReapplySubmissionCall): void {
 export function removeSubmission(call: RemoveSubmissionCall): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
   managePreviousStatus(submission, call);
+  submission.disputed = false;
   submission.status = "PendingRemoval";
   submission.save();
   manageCurrentStatus(submission);
