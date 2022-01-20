@@ -1,4 +1,11 @@
-import { Card, Image, Text, useQuery, useWeb3 } from "@kleros/components";
+import {
+  Alert,
+  Card,
+  Image,
+  Text,
+  useQuery,
+  useWeb3,
+} from "@kleros/components";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
@@ -116,6 +123,14 @@ export default function ProfileWithID() {
           )}
         </Text>
       </Card>
+      {status === submissionStatusEnum.Vouching && (
+        <Alert type="muted" title="Advice" sx={{ mb: 2, fontSize: 14 }}>
+          <Text>
+            Gasless vouches have no cost. Beware of scammers that intend to
+            charge for those type of vouches.
+          </Text>
+        </Alert>
+      )}
       {props?.submission && (
         <>
           <SubmissionDetailsCard
