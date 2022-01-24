@@ -657,7 +657,6 @@ export function reapplySubmission(call: ReapplySubmissionCall): void {
   let submission = Submission.load(call.from.toHexString());
   managePreviousStatus(submission, call);
   submission.status = "Vouching";
-  submission.disputed = false;
   submission.save();
   manageCurrentStatus(submission);
 
@@ -1272,9 +1271,6 @@ export function rule(call: RuleCall): void {
     disputeData.value1,
     requestIndex
   );
-  submission.disputed = requestInfo.value0;
-  submission.save();
-  manageCurrentStatus(submission);
   let requestID = crypto.keccak256(
     concatByteArrays(
       disputeData.value1,
@@ -1289,6 +1285,10 @@ export function rule(call: RuleCall): void {
   request.nbParallelDisputes = BigInt.fromI32(requestInfo.value4);
   request.ultimateChallenger = requestInfo.value8;
   request.requesterLost = requestInfo.value2;
+
+  if (request.nbParallelDisputes.gt(BigInt.fromI32(0)))
+    submission.disputed = requestInfo.value0;
+  else submission.disputed = false;
 
   let challenge = Challenge.load(
     crypto
@@ -1321,7 +1321,6 @@ export function rule(call: RuleCall): void {
   if (requestInfo.value1) {
     // i.e. if (request.resolved)
     submission.latestRequestResolutionTime = call.block.timestamp;
-    submission.save();
     let roundsIDs = challenge.roundIDs;
     for (let i = 0; i < challenge.roundIDs.length; i++) {
       let round = Round.load(roundsIDs[i]);
@@ -1340,7 +1339,9 @@ export function rule(call: RuleCall): void {
       request.vouchReleaseReady = true;
     }
   }
+  submission.save();
   request.save();
+  manageCurrentStatus(submission);
 }
 
 export function submitEvidence(call: SubmitEvidenceCall): void {
