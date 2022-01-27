@@ -374,15 +374,13 @@ export default function App({ Component, pageProps }) {
       </Flex>
     );
 
-  // const apiKey = process.env.NEXT_PUBLIC_THEGRAPH_APIKEY;
-  // const subgraphID = process.env.NEXT_PUBLIC_SUBGRAPHID;
+  const apiKey = process.env.NEXT_PUBLIC_THEGRAPH_APIKEY;
+  const subgraphID = process.env.NEXT_PUBLIC_SUBGRAPHID;
 
-  // const endpoint =
-  //   process.env.NEXT_PUBLIC_TESTING === "true"
-  //     ? `https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-${networkFromQuery}`
-  //     : `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${subgraphID}`;
-
-  const endpoint = `https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-${networkFromQuery}`;
+  const endpoint =
+    process.env.NEXT_PUBLIC_TESTING === "true"
+      ? `https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-${networkFromQuery}`
+      : `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${subgraphID}`;
 
   return (
     <ThemeProvider theme={theme}>
