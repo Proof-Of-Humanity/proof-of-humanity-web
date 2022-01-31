@@ -357,6 +357,15 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       objectFit: "contain",
       width: 32,
     },
+    challengedSmallAvatar: {
+      borderColor: "danger",
+      borderRadius: 64,
+      borderStyle: "solid",
+      borderWidth: 1,
+      height: 32,
+      objectFit: "contain",
+      width: 32,
+    },
     thumbnail: {
       borderRadius: 3,
       width: 200,
