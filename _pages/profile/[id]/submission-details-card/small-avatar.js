@@ -10,7 +10,6 @@ export default function SmallAvatar({ submissionId }) {
         submission(id: $id) {
           id
           status
-          disputed
           name
           requests(
             orderBy: creationTime
@@ -18,6 +17,7 @@ export default function SmallAvatar({ submissionId }) {
             first: 1
             where: { registration: true }
           ) {
+            disputed
             evidence(orderBy: creationTime, first: 1) {
               URI
             }
@@ -41,7 +41,7 @@ export default function SmallAvatar({ submissionId }) {
           ? evidence.file.name
           : "We are doing some maintenance work and will be online again soon.");
   const variant =
-    submission?.status === "None" && submission?.disputed
+    submission?.status === "None" && request?.disputed
       ? "challengedSmallAvatar"
       : "smallAvatar";
   return (
