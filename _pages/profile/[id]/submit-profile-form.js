@@ -125,7 +125,7 @@ const SubmitProfileForm = memo(
                   "Only letters from a to z and spaces are allowed."
                 ),
               lastName: string()
-                .max(20, "Must be 20 characters or less.")
+                .max(25, "Must be 25 characters or less.")
                 .matches(
                   /^[\s\w]*$/,
                   "Only letters from a to z and spaces are allowed."
