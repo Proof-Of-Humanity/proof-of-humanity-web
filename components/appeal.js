@@ -111,8 +111,9 @@ function AppealTabPanelCard({
       </Text>
       <Alert title="For Contributors">
         {reward &&
-          `If this side wins, you get back your contribution and a ${reward}%
-        reward.`}
+          `If both sides fund their deposits, and this side wins in the last
+          appeal round, you get back your contribution and a ${reward}%
+          reward.`}
       </Alert>
       {!hasPaid &&
         !isWinnerAndOpposingPartyDidntPay(
@@ -225,7 +226,8 @@ function AppealTabPanel({
       <Text sx={{ marginBottom: 2 }}>
         Help fund a side’s appeal fees to win part of the other side’s deposit
         when your side ultimately wins. If only one side manages to fund their
-        fees, it automatically wins.
+        fees, it automatically wins. (Rewards only apply to rounds where both
+        sides are fully funded.)
       </Text>
       <Grid sx={{ marginBottom: 3 }} gap={2} columns={[1, 1, 1, 2]}>
         <AppealTabPanelCard
