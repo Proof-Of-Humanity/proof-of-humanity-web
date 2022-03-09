@@ -101,7 +101,7 @@ export default function Webcam({
               onClick={(event) => {
                 event.preventDefault();
                 ref.current.getCanvas().toBlob(async (blob) => {
-                  const _file = new File([blob], "capture.png", {
+                  const _file = new File([blob], "capture.jpg", {
                     type: blob.type,
                   });
                   const buffer = await _file.arrayBuffer();
@@ -161,7 +161,7 @@ export default function Webcam({
                     .getAudioTracks()
                     .forEach((track) => stream.addTrack(track));
                   mediaRecorderRef.current = new MediaRecorder(stream, {
-                    mimeType: "video/webm",
+                    mimeType: "video/webm;codecs=h264,avc1",
                   });
                   mediaRecorderRef.current.addEventListener(
                     "dataavailable",

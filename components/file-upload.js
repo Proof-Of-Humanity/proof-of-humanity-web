@@ -9,6 +9,7 @@ import Input from "./input";
 import Text from "./text";
 import Video from "./video";
 import Webcam from "./webcam";
+import fetch from 'node-fetch';
 
 const bufferToString = (buffer) => {
   let string = "";
@@ -43,13 +44,23 @@ export default function FileUpload({
 
   const onChange = (_files, ...args) => {
     if (_files)
-      for (const file of Array.isArray(_files) ? _files : [_files])
+      for (const file of Array.isArray(_files) ? _files : [_files]){
         file.toJSON = () => ({
           isSerializedFile: true,
           type: file.type,
           name: file.name,
           content: bufferToString(file.content),
         });
+        
+        fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/photo', {
+          method: 'POST',
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({buffer:Buffer.from(file.content)}),
+          
+        }).then(function(URI){
+          console.log(URI)
+        })
+      }
     return _onChange
       ? _onChange({ target: { name, value: _files } })
       : setFiles(_files, ...args);

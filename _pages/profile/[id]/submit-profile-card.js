@@ -9,7 +9,7 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
-import SubmitProfileForm from "./submit-profile-form";
+import NewSubmitProfileForm from "./new-submit-profile-form";
 
 const submitProfileCardFragment = graphql`
   fragment submitProfileCard on Contract {
@@ -122,17 +122,8 @@ export default function SubmitProfileCard({
       }}
     >
       <Box>
-        <SubmitProfileForm
-          reapply={reapply}
-          submissionName={submissionName}
-          registrationMetaEvidence={registrationMetaEvidence}
-          totalCost={totalCost}
-          onSend={afterSend}
-          onSendError={afterSendError}
-          onPhotoUploadProgress={handlePhotoUploadProgress}
-          onVideoUploadProgress={handleVideoUploadProgress}
-          onSubmissionUploadProgress={handleSubmissionUploadProgress}
-          setWaitingForTransaction={setWaitingForTransaction}
+        <NewSubmitProfileForm
+          
         />
         {videoUploadProgress || photoUploadProgress ? (
           <Card
