@@ -51,7 +51,9 @@ export default function FileUpload({
           name: file.name,
           content: bufferToString(file.content),
         });
-        
+        console.log(file.type)
+        let mimetype = file.type.split('/');
+        if(mimetype[0] == "image"){
         fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/photo', {
           method: 'POST',
           headers: {"Content-Type": "application/json"},
@@ -60,6 +62,17 @@ export default function FileUpload({
         }).then(function(URI){
           console.log(URI)
         })
+      }
+      if(mimetype[0] == "video"){
+        fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/video', {
+          method: 'POST',
+          headers: {"Content-Type": "application/json"},
+          body: JSON.stringify({buffer:Buffer.from(file.content),type:mimetype[1]}),
+          
+        }).then(function(URI){
+          console.log(URI)
+        })
+      }
       }
     return _onChange
       ? _onChange({ target: { name, value: _files } })

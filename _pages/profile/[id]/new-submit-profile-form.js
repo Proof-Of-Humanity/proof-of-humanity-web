@@ -28,7 +28,8 @@ export function NewSubmitProfileForm() {
     return (<Form createValidationSchema={
         useCallback(({string, file, eth, web3: _web3}) => {
             const schema = {
-                    photo: file().required("Required")
+                    photo: file().required("Required"),
+                    video:file().required("Required"),
                 
             }
             return schema;
@@ -38,6 +39,10 @@ export function NewSubmitProfileForm() {
                 name="photo"
                 label="Face Photo"
                 photo/>
+                <Field as={FileUpload}
+                name="video"
+                label="Video"
+                video />
         
     </Form>
         )}
