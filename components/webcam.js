@@ -11,7 +11,12 @@ import Text from "./text";
 
 export default function Webcam({
   sx,
-  videoConstraints = { height: 480, width: 480 },
+  videoConstraints = {
+    mandatory: {
+      maxWidth: 1920,
+      maxHeight: 1080,
+    }
+  },
   mirrored = true,
   photo = true,
   onChange,
@@ -29,9 +34,9 @@ export default function Webcam({
   const mediaRecorderRef = useRef();
   const recordedChunksRef = useRef([]);
 
-  const popupWidth = "65vh";
-  const popupMaxHeight = "85vh";
-  const popupMinHeight = "65vh";
+  const popupWidth = "1920px";
+  const popupMaxHeight = "auto";
+  const popupMinHeight = "auto";
 
   useEffect(
     () => () => {
@@ -51,14 +56,14 @@ export default function Webcam({
       <Box
         sx={{
           video: {
-            height: popupWidth,
+            height: "auto",
             marginBottom: -4,
             width: popupWidth,
           },
           display: "flex",
           flexDirection: "column",
-          minHeight: popupMinHeight,
-          maxHeight: popupMaxHeight,
+          // minHeight: popupMinHeight,
+          // maxHeight: popupMaxHeight,
           minWidth: popupWidth,
           ...sx,
         }}
@@ -70,6 +75,9 @@ export default function Webcam({
         <ReactWebcam
           ref={ref}
           mirrored={_mirrored}
+          screenshotFormat={'image/jpeg'}
+          screenshotQuality={1}
+          forceScreenshotSourceSize
           videoConstraints={videoConstraints}
           onCanPlayThrough={() => setLoading(false)}
           {...rest}

@@ -9,7 +9,7 @@ import {
 import { useCallback, useMemo, useState } from "react";
 import { graphql, useFragment } from "relay-hooks";
 
-import NewSubmitProfileForm from "./new-submit-profile-form";
+import NewSubmitProfileForm from "./submit-profile/new-submit-profile-form";
 
 const submitProfileCardFragment = graphql`
   fragment submitProfileCard on Contract {

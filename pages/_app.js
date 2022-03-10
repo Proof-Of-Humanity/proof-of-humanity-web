@@ -40,6 +40,8 @@ import {
   transactionBatcherAddress,
 } from "subgraph/config";
 
+import 'antd/dist/antd.css';
+
 const queries = {
   "/": indexQuery,
   "/profile/:id": IdQuery,

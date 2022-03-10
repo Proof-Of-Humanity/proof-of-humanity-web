@@ -14,6 +14,7 @@ import { graphql } from "relay-hooks";
 import SubmissionDetailsAccordion from "./submission-details-accordion";
 import SubmissionDetailsCard from "./submission-details-card";
 import SubmitProfileCard from "./submit-profile-card";
+import NewSubmitProfileCard from './submit-profile/new-submit-profile-card';
 
 import { submissionStatusEnum } from "data";
 
@@ -52,7 +53,13 @@ export default function ProfileWithID() {
         <Head>
           <title>Submit Profile | Proof of Humanity</title>
         </Head>
-        <SubmitProfileCard
+        {/* <SubmitProfileCard
+          contract={props.contract}
+          submission={props.submission}
+          reapply={reapply && registered}
+          afterSend={handleAfterSend}
+        /> */}
+        <NewSubmitProfileCard
           contract={props.contract}
           submission={props.submission}
           reapply={reapply && registered}
