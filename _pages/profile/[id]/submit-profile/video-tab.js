@@ -1,5 +1,6 @@
 import React from "react";
 import ReactWebcam from "react-webcam";
+import { Steps, Row, Col } from 'antd';
 
 const VIDEO_OPTIONS = {
   types: {
@@ -35,7 +36,7 @@ export default class VideoTab extends React.Component {
   videoConstraints = {
     width: { min: 640, ideal: 1920 }, //     width: { min: 640, ideal: 1280, max: 1920 },
     height: { min: 480, ideal: 1080 } //     height: { min: 480, ideal: 720, max: 1080 }
-  }; // 
+  }
 
   enableCamera = () => {
     this.setState({ cameraEnabled: true });
@@ -43,7 +44,7 @@ export default class VideoTab extends React.Component {
 
   retakeVideo = () => {
     this.setState({
-      video: null,
+      recording: false,
       cameraEnabled: true,
       recordedVideo: []
     })
@@ -53,7 +54,7 @@ export default class VideoTab extends React.Component {
     console.log('User media detected', mediaStream);
   }
 
-  onUserMediaError(e) {
+  onUserMediaError(error) {
     console.error('User media error', error);
   }
 
@@ -78,7 +79,9 @@ export default class VideoTab extends React.Component {
   }
 
   handleStopCaptureClick = () => {
-    this.mediaRecorderRef.current.stop();
+    if (this.state.recording) {
+      this.mediaRecorderRef.current.stop();
+    }
   };
 
   handleStop = () => {
@@ -96,7 +99,8 @@ export default class VideoTab extends React.Component {
 
   render() {
     return (
-      <div>
+      <Row>
+        <Col>
         {this.state.cameraEnabled ? (
           <div>
             <ReactWebcam
@@ -121,7 +125,10 @@ export default class VideoTab extends React.Component {
           </div>
         ) : (
           !this.state.recording && this.state.recordedVideo.length > 0 ? (
-            <video controls src={this.state.recordedVideoUrl}></video>
+            <div>
+              <video controls style={{ width: "100%" }} src={this.state.recordedVideoUrl}></video>
+              <button onClick={this.retakeVideo}>Retake video</button>
+            </div>
           ) : (
             <div>
               <button onClick={this.enableCamera}>Enable camera</button>
@@ -135,7 +142,8 @@ export default class VideoTab extends React.Component {
             <button onClick={this.retakeVideo}>Retake image</button>
           </div>
         ) : null } */}
-      </div>
+        </Col>
+      </Row>
     );
   }
 }
