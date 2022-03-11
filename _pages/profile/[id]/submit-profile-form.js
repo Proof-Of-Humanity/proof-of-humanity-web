@@ -576,6 +576,7 @@ const SubmitProfileForm = memo(
             </Card>
             <Button
               type="submit"
+              onClick={(event) => event.preventDefault()}
               disabled={isSubmitting}
               loading={isSubmitting}
               sx={{
