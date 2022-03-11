@@ -14,25 +14,25 @@ const steps = [
     {
         title: 'General information',
         // content: (props) => <GeneralSubmitTab props={props} />,
-        content: <InitialTab />,
+        content: (props) => <InitialTab {...props}/>,
         description: 'Set your name and info',
         icon: <FileTextFilled />
     }, 
     {
         title: 'Photo',
-        content: <ImageTab />,
+        content: (props) => <ImageTab {...props} />,
         description: 'Upload your image',
         icon: <CameraFilled />
     }, 
     {
         title: 'Video',
-        content: <VideoTab />,
+        content: (props) => <VideoTab {...props}/>,
         description: 'Upload your video',
         icon: <VideoCameraFilled />
     },
     {
         title: 'Finalize',
-        content: <FinalizeTab />,
+        content: (props) => <FinalizeTab {...props}/>,
         description: 'Finalize your registration',
         icon: <CheckCircleFilled />
     }
@@ -47,6 +47,11 @@ export default class NewSubmitProfileForm extends React.Component {
         };
     }
 
+    stateHandler = (newState, component) => {
+        if (newState) this.setState(newState);
+        console.log('StateHandler called from=', component);
+    }
+
     next() {
         const current = this.state.current + 1;
         this.setState({ current });
@@ -58,7 +63,10 @@ export default class NewSubmitProfileForm extends React.Component {
     }
 
     render() {
-        const { current } = this.state;
+        let { current } = this.state;
+        let props = {
+            stateHandler: this.stateHandler
+        };
 
         return (
             <div>
@@ -75,11 +83,10 @@ export default class NewSubmitProfileForm extends React.Component {
                 {
                     steps.map((item, index) => 
                         <div key={`form-item-${index}`} style={{ 'display': index == current ? 'block' : 'none' }}>
-                            {steps[index].content}
+                            {steps[index].content(props)}
                         </div>
                     )
                 }
-              
             </div>
             <div className="steps-action">
               {current > 0 && (

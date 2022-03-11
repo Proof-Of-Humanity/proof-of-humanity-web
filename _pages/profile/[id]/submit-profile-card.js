@@ -122,9 +122,7 @@ export default function SubmitProfileCard({
       }}
     >
       <Box>
-        <NewSubmitProfileForm
-          
-        />
+        <NewSubmitProfileForm />
         {videoUploadProgress || photoUploadProgress ? (
           <Card
             variant="muted"
