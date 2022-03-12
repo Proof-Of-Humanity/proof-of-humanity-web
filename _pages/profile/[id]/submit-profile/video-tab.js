@@ -82,7 +82,8 @@ export default class VideoTab extends React.Component {
 
     file.arrayBuffer().then((_buffer) => {
       let buffer = Buffer.from(_buffer);
-      let body = { buffer: buffer, type: 'webm' };
+      let type = this.state.file.type.split('/')[1];
+      let body = { buffer: buffer, type };
       let requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -133,7 +134,7 @@ export default class VideoTab extends React.Component {
     this.setState({ recording: true });
 
     this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
-      mimeType: 'video/webm;codecs=h264,avc1'
+      mimeType: 'video/webm'
     });
 
     this.mediaRecorderRef.current.ondataavailable = this.handleDataAvailable;
