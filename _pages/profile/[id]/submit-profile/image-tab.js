@@ -2,7 +2,8 @@ import React from 'react';
 import ReactWebcam from 'react-webcam';
 import fetch from 'node-fetch';
 
-import { Steps, Row, Col, List, Avatar, Space } from 'antd';
+import { Steps, Row, Col, Button, Upload, Space, List, Avatar } from 'antd';
+import { FileAddFilled } from '@ant-design/icons';
 
 export default class ImageTab extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ export default class ImageTab extends React.Component {
   photoOptions = {
     types: {
       value: ['image/jpeg', 'image/png'],
-      label: '*.jpg, *.jpeg, *.png',
+      label: '.jpg, .jpeg, .png',
     },
     size: {
       value: 2 * 1024 * 1024,
@@ -56,10 +57,35 @@ export default class ImageTab extends React.Component {
 
     return outputArray;
   }
+  draggerProps = {
+    name: 'file',
+    multiple: false,
+    accept: this.photoOptions.types.label,
+    onChange: ({ file }) => {
+      console.log('onChange file=', file);
 
-  uploadPicture = (picture) => {
-    let buffer = this.urlB64ToUint8Array(picture.split(',')[1]);
-    let requestOptions = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ buffer: Buffer.from(buffer) }) };
+      let blob = new Blob([file.originFileObj], { type: file.type });
+      let imageURL = window.URL.createObjectURL(blob);
+      blob.arrayBuffer().then((arrayBuffer) => {
+        this.setState({
+          picture: arrayBuffer,
+          image: imageURL
+        });
+      });
+      
+      console.log('onChange imageURL=', imageURL);
+      
+    },
+    onDrop(e) {
+      console.log('Dropped files', e.dataTransfer.files);
+    },
+  }
+  uploadPicture = () => {
+
+    let picture = this.state.picture;
+    console.log(picture)
+    
+    let requestOptions = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ buffer: Buffer.from(picture) }) };
 
     console.log('photo requestOption=', requestOptions);
 
@@ -84,14 +110,20 @@ export default class ImageTab extends React.Component {
   takePicture = () => {
     console.log(this.camera);
     let picture = this.camera.getScreenshot();
+    let buffer = this.urlB64ToUint8Array(picture.split(',')[1]);
     console.log('Picture b64=', picture);
-    this.uploadPicture(picture); // we shouldn't upload every time a picture is taken, but at the end/when user selects it as final image
+    let blob = new Blob([buffer], { type: "buffer" });
+    console.log(blob)
+      let imageURL = window.URL.createObjectURL(blob);
+      console.log(imageURL)
+    //this.uploadPicture(picture); // we shouldn't upload every time a picture is taken, but at the end/when user selects it as final image
 
     // this.props.stateHandler({ picture }, 'ImageTab'); // proof props method can be called (save form status)
     // send picture as props and dont use image state?
 
     this.setState({
-      picture,
+      picture:buffer,
+      image:imageURL,
       cameraEnabled: false,
     });
   }
@@ -153,16 +185,35 @@ export default class ImageTab extends React.Component {
           </div>
         ) : (
           !this.state.picture ? (
+            <Row>
+              <Col xs={24} xl={12}>
             <div>
               <button onClick={this.enableCamera}>Enable camera</button>
             </div>
+            </Col>
+            <div>
+            <Col xs={24} xl={12}>
+              <Upload.Dragger {...this.draggerProps}>
+
+                <FileAddFilled />
+
+                <p className='ant-upload-text'>Click or drag file to this area to upload</p>
+                <p className='ant-upload-hint'>
+                  Photo's format can be: {this.photoOptions.types.label}
+                </p>
+              </Upload.Dragger>
+            </Col>
+            
+            </div>
+            </Row>
           ) : (null)
         )}
-        {this.state.fileURI !== '' ? (
+        {this.state.picture && this.state.image ? (
           <div>
             This is your picture:
-            <img style={{ width: '100%' }} src={this.state.fileURI}></img>
+            <img style={{ width: '100%' }} src={this.state.image}></img>
             <button onClick={this.retakePicture}>Retake image</button>
+            <Row><Button onClick={this.uploadPicture}>Upload!</Button></Row>
           </div>
         ) : null}
       </>
