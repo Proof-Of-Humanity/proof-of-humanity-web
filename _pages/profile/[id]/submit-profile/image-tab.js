@@ -131,7 +131,8 @@ export default class ImageTab extends React.Component {
   retakePicture = () => {
     this.setState({
       picture: null,
-      cameraEnabled: true,
+      image:'',
+      cameraEnabled: false,
     })
   }
 
