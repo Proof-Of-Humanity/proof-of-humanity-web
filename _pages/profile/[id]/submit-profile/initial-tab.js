@@ -1,14 +1,14 @@
 import {
-  Alert,
+  Alert, // need to deprecate this!
   EthereumAccount,
   Field,
-  Link,
-  Text,
+  Link, // need to deprecate this!
+  Text, // need to deprecate this!
   Textarea,
   useWeb3
 } from "@kleros/components";
 import React from "react";
-import { Form, Button, Input } from 'antd';
+import { Form, Button, Input, Row, Space } from 'antd';
 
 export default class InitialTab extends React.Component {
   constructor(props) {
@@ -21,11 +21,20 @@ export default class InitialTab extends React.Component {
     let submissionName = '';
 
     return (
-      <Form 
-        name="basicform"
-        onFinishFailed={() => alert('Failed to submit')}
-        onFinish={() => alert('Form Submitted')}
-        initialValues={{ remember: true }}>
+      <>
+        <Row>
+          <Space direction='vertical' size={1}>
+            <h2>Submit your profile</h2>
+            <p>Follow the steps to register to Proof of Humanity</p>
+            <p>How registration works? (link)</p>
+            {/* Add links or example how a profile gets registered? Register -> Vouch -> Pending (3.5 days) -> Start accruing UBI */}
+          </Space>
+        </Row>
+        <Form
+          name="basicform"
+          onFinishFailed={() => alert('Failed to submit')}
+          onFinish={() => alert('Form Submitted')}
+          initialValues={{ remember: true }}>
           <Alert title="Public Address" sx={{ mb: 3 }}>
             {/* <EthereumAccount
               address={account}
@@ -51,7 +60,7 @@ export default class InitialTab extends React.Component {
               all submission rules to not lose your deposit.
             </Text>
           </Alert>
-          <Form.Item label="Enter name" name="Name" rules={[ {required: true, message: 'Please enter your name' }]}>
+          <Form.Item label="Enter name" name="Name" rules={[{ required: true, message: 'Please enter your name' }]}>
             <Input />
           </Form.Item>
           <Form.Item label="Enter first name" name="First name">
@@ -63,9 +72,6 @@ export default class InitialTab extends React.Component {
           <Form.Item label="Enter short bio" name="Something about yourself">
             <Input.TextArea />
           </Form.Item>
-          <Form.Item>
-            <Button type="success" htmlType="submit">Submit Username</Button>
-          </Form.Item>
           <Alert title="Pro Tip" sx={{ mb: 3 }}>
             <Text>
               People can try to notify you of problems in your submission and
@@ -74,7 +80,8 @@ export default class InitialTab extends React.Component {
               check it while submission is being processed.
             </Text>
           </Alert>
-    </Form>
+        </Form>
+      </>
     );
   }
 }
