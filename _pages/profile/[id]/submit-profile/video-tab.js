@@ -1,7 +1,11 @@
 import React from "react";
 import ReactWebcam from "react-webcam";
-import { Steps, Row, Col } from 'antd';
-import blobToArrayBuffer from "blob-to-arraybuffer";
+import {  Steps, Row, Col, Button, Upload } from 'antd';
+import {FileAddFilled} from '@ant-design/icons';
+import { get } from "relay-runtime/lib/handlers/connection/ConnectionInterface";
+
+
+
 
 const VIDEO_OPTIONS = {
     types: {
@@ -12,7 +16,7 @@ const VIDEO_OPTIONS = {
             "video/x-msvideo",
             "video/x-matroska"
         ],
-        label: "*.mp4, *.webm, *.avi, *.mov, *.mkv"
+        label: ".mp4, .webm, .avi, .mov, .mkv"
     },
     size: {
         value: 15 * 1024 * 1024,
@@ -46,6 +50,36 @@ export default class VideoTab extends React.Component {
       width: { min: 640, ideal: 1920 }, //     width: { min: 640, ideal: 1280, max: 1920 },
       height: { min: 480, ideal: 1080 } //     height: { min: 480, ideal: 720, max: 1080 }
     }
+    
+    uploadToIPFS = async () => {
+      let file = this.state.file;
+      console.log(file)
+      let buffer = Buffer.from(await file.arrayBuffer());
+      console.log(buffer)
+        let URI = await fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/video', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(
+                {buffer: buffer, type: 'webm'}
+            )
+  
+        }).then(function (URI) {
+            console.log(URI)
+            return URI.URI
+        })
+        this.setState({fileURI:URI})
+    }
+     draggerProps = {
+      name: 'file',
+      multiple: false,
+      accept:VIDEO_OPTIONS.types.label,
+      onChange:(file)=>{this.setState({file:file.file.originFileObj})},
+      onDrop(e) {
+        console.log('Dropped files', e.dataTransfer.files);
+      },
+    };
   
 
   enableCamera = () => {
@@ -93,28 +127,9 @@ export default class VideoTab extends React.Component {
       this.mediaRecorderRef.current.stop();
     }
   };
-  blobToArray = async (blob) => {
-    blobToArrayBuffer(blob).then(buffer => {
-      return buffer;
-  });
-  }
-  uploadToIPFS = async (file) => {
-    console.log(file)
-      let URI = await fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/video', {
-          method: 'POST',
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify(
-              {buffer: file, type: 'webm'}
-          )
 
-      }).then(function (URI) {
-          console.log(URI)
-          return URI.URI
-      })
-      this.setState({fileURI:URI})
-  }
+
+  
   handleStop = async () => {
       console.log(this.state.recordedVideo);
 
@@ -123,13 +138,19 @@ export default class VideoTab extends React.Component {
       
       //let buffer = await this.blobToArray(blob);
       //this.uploadToIPFS(buffer);
-      this.setState({recordedVideoUrl: videoURL, recording: false, cameraEnabled: false});
+      this.setState({recordedVideoUrl: videoURL, file:blob, recording: false, cameraEnabled: false});
   }
 
   render = () => {
     return (
+      <React.Fragment>
       <Row>
-        <Col>
+        <Col> 
+        {!this.state.cameraEnabled && !this.state.file &&(
+          <Button type="primary" onClick={this.enableCamera}>Record now using my camera</Button>
+        )}
+        
+
         {this.state.cameraEnabled ? (
           <div>
             <ReactWebcam
@@ -159,9 +180,7 @@ export default class VideoTab extends React.Component {
               <button onClick={this.retakeVideo}>Retake video</button>
             </div>
           ) : (
-            <div>
-              <button onClick={this.enableCamera}>Enable camera</button>
-            </div>
+            null
           )
         )}
         {/* { this.state.picture ? (
@@ -172,7 +191,25 @@ export default class VideoTab extends React.Component {
           </div>
         ) : null } */}
         </Col>
+        {!this.state.cameraEnabled && !this.state.file &&(
+          <Col>
+        <Upload.Dragger {...this.draggerProps}>
+    
+        <FileAddFilled />
+    
+    <p className="ant-upload-text">Click or drag file to this area to upload</p>
+    <p className="ant-upload-hint">
+      Video's format can be: {VIDEO_OPTIONS.types.label}
+    </p>
+  </Upload.Dragger>
+        </Col>
+        )}
+        
       </Row>
+      <Row>
+        {this.state.file ? <Button onClick={this.uploadToIPFS}>Upload!</Button> : null}
+      </Row>
+      </React.Fragment>
     );
   }
 }
