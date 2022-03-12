@@ -75,7 +75,13 @@ export default class VideoTab extends React.Component {
       name: 'file',
       multiple: false,
       accept:VIDEO_OPTIONS.types.label,
-      onChange:(file)=>{this.setState({file:file.file.originFileObj})},
+      onChange:(file)=>{
+        console.log(file)
+        let blob = new Blob([file.file.originFileObj],{type: file.type});
+        let videoURL = window.URL.createObjectURL(blob);
+        console.log(videoURL)
+        this.setState({file:file.file.originFileObj,recordedVideoUrl:videoURL})
+      },
       onDrop(e) {
         console.log('Dropped files', e.dataTransfer.files);
       },
@@ -174,7 +180,7 @@ export default class VideoTab extends React.Component {
             
           </div>
         ) : (
-          !this.state.recording && this.state.recordedVideo.length > 0 ? (
+          !this.state.recording && this.state.recordedVideoUrl !== '' ? (
             <div>
               <video controls style={{ width: "100%" }} src={this.state.recordedVideoUrl}></video>
               <button onClick={this.retakeVideo}>Retake video</button>
