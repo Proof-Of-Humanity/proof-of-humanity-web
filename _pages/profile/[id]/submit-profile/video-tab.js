@@ -6,7 +6,6 @@ import { FileAddFilled } from '@ant-design/icons';
 export default class VideoTab extends React.Component {
   constructor(props) {
     super(props);
-    this.camera = React.createRef();
     this.mediaRecorderRef = React.createRef();
 
     console.log('ImageTab props=', props);
@@ -83,20 +82,30 @@ export default class VideoTab extends React.Component {
 
     file.arrayBuffer().then((_buffer) => {
       let buffer = Buffer.from(_buffer);
-      console.log('uploadVideoBuffer=', buffer);
-
       let body = { buffer: buffer, type: 'webm' };
-
-      fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/video', {
+      let requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
-      })
+      };
+
+      console.log('uploadVideo requestOptions=', requestOptions);
+
+      fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/video', requestOptions)
         .then(({ URI }) => {
           this.setState({
             fileURI: URI
           });
         })
+        .catch(error => {
+          // Handle errors
+          console.log('Video upload error=', error);
+          this.setState({
+            recordedVideo: [],
+            recordedVideoUrl: '',
+            // cameraEnabled: true?
+          });
+        });
     });
   }
 
@@ -123,7 +132,7 @@ export default class VideoTab extends React.Component {
   handleStartCaptureClick = () => {
     this.setState({ recording: true });
 
-    this.mediaRecorderRef.current = new MediaRecorder(this.camera.current.stream, {
+    this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
       mimeType: 'video/webm;codecs=h264,avc1'
     });
 
@@ -190,7 +199,7 @@ export default class VideoTab extends React.Component {
               <Col xs={24}>
                 <ReactWebcam
                   style={{ width: '100%' }}
-                  ref={this.camera}
+                  ref={camera => { this.camera = camera }}
                   audio={true}
                   mirrored={false}
                   videoConstraints={this.videoConstraints}

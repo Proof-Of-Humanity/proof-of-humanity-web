@@ -7,7 +7,6 @@ import { Steps, Row, Col, List, Avatar, Space } from 'antd';
 export default class ImageTab extends React.Component {
   constructor(props) {
     super(props);
-    this.camera = React.createRef();
     console.log('ImageTab props=', props);
 
     this.state = {
@@ -40,6 +39,7 @@ export default class ImageTab extends React.Component {
   ]
 
   enableCamera = () => {
+    console.log(this.camera);
     this.setState({ cameraEnabled: true });
   }
 
@@ -58,27 +58,32 @@ export default class ImageTab extends React.Component {
   }
 
   uploadPicture = (picture) => {
-    let buffer = this.urlB64ToUint8Array(picture.split(',')[1])
-    console.log(buffer)
+    let buffer = this.urlB64ToUint8Array(picture.split(',')[1]);
+    let requestOptions = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ buffer: Buffer.from(buffer) }) };
 
-    fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/photo', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        buffer: Buffer.from(buffer)
-      })
-    })
+    console.log('photo requestOption=', requestOptions);
+
+    fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/photo', requestOptions)
       .then(response => response.json())
       .then(({ URI }) => {
         console.log('Image URI=', URI);
         this.setState({
           fileURI: URI,
         });
+      })
+      .catch(error => {
+        // Handle errors
+        console.log('Image upload error=', error);
+        this.setState({
+          picture: false,
+          // cameraEnabled: true?
+        });
       });
   }
 
   takePicture = () => {
-    let picture = this.camera.current.getScreenshot();
+    console.log(this.camera);
+    let picture = this.camera.getScreenshot();
     console.log('Picture b64=', picture);
     this.uploadPicture(picture); // we shouldn't upload every time a picture is taken, but at the end/when user selects it as final image
 
@@ -98,8 +103,10 @@ export default class ImageTab extends React.Component {
     })
   }
 
-  onUserMedia(mediaStream) {
+  onUserMedia= (mediaStream) => {
     console.log('User media detected', mediaStream);
+    // this.camera.video.webkitRequestFullscreen();
+    // this.screen.webkitRequestFullscreen();
   }
 
   onUserMediaError(error) {
@@ -127,10 +134,11 @@ export default class ImageTab extends React.Component {
             )} />
         </Row>
         {this.state.cameraEnabled ? (
-          <div>
+          <div className='video-inner-container' ref={screen => { this.screen = screen }}>
+            <div className='video-overlay'>Text inside video!</div>
             <ReactWebcam
               style={{ width: '100%' }}
-              ref={this.camera}
+              ref={camera => { this.camera = camera }}
               mirrored={false}
               screenshotFormat={'image/jpeg'}
               screenshotQuality={1}
@@ -140,7 +148,7 @@ export default class ImageTab extends React.Component {
               onClick={(event) => event.preventDefault()}
               onUserMedia={this.onUserMedia}
               onUserMediaError={this.onUserMediaError}
-            />
+            ><div>TEST</div></ReactWebcam>
             <button onClick={this.takePicture}>Take image!</button>
           </div>
         ) : (

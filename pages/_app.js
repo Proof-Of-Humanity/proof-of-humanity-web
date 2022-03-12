@@ -41,6 +41,7 @@ import {
 } from "subgraph/config";
 
 import 'antd/dist/antd.css';
+import './main.css';
 
 const queries = {
   "/": indexQuery,
