@@ -2,8 +2,10 @@ import React from 'react';
 import ReactWebcam from 'react-webcam';
 import fetch from 'node-fetch';
 
-import { Steps, Row, Col, Button, Upload, Space, List, Avatar } from 'antd';
+import { Steps, Row, Col, Button, Upload, Space, List, Avatar, Slider } from 'antd';
 import { FileAddFilled } from '@ant-design/icons';
+import Cropper from 'react-easy-crop';
+import imageCrop from './imageCrop';
 
 export default class ImageTab extends React.Component {
   constructor(props) {
@@ -13,7 +15,11 @@ export default class ImageTab extends React.Component {
     this.state = {
       cameraEnabled: false,
       image: null,
-      fileURI: ''
+      fileURI: '', 
+      croppedImage:null,
+      zoom:1,
+      rotation:0, 
+      crop:{x:0,y:0}
     }
   }
 
@@ -66,6 +72,7 @@ export default class ImageTab extends React.Component {
 
       let blob = new Blob([file.originFileObj], { type: file.type });
       let imageURL = window.URL.createObjectURL(blob);
+      console.log(blob)
       blob.arrayBuffer().then((arrayBuffer) => {
         this.setState({
           picture: arrayBuffer,
@@ -145,35 +152,89 @@ export default class ImageTab extends React.Component {
   onUserMediaError(error) {
     console.error('User media error', error);
   }
+  onCropChange = (crop) =>{
+    this.setState({crop})
+  }
+  onRotationChange = (rotation)=>{
+    this.setState({rotation})
+  }
+  onCropComplete = (croppedArea, croppedAreaPixels) => {
+    
+    this.setState({ croppedAreaPixels })
+  }
+  onZoomChange = (zoom) => {
+    this.setState({zoom})
+  }
+  showCroppedImage = async () => {
+    try {
+        const canvas = document.createElement("canvas");
+        const scaleX = this.state.image.naturalWidth / this.state.image.width;
+        const scaleY = this.state.image.naturalHeight / this.state.image.height;
+        canvas.width = this.crop.width;
+        canvas.height = this.state.crop.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(
+            image,
+            this.crop.x * scaleX,
+            this.crop.y * scaleY,
+            this.crop.width * scaleX,
+            this.crop.height * scaleY,
+            0,
+            0,
+            this.crop.width,
+            this.crop.height
+        );
+
+        const base64Image = canvas.toDataURL("image/jpeg", 1);
+        setResult(base64Image);
+        console.log(result);
+    } catch (e) {
+        console.log("crop the image");
+    }
+};
 
   render() {
     return (
       <>
         <Row>
-          <Space direction='vertical' size={1}>
+          <Space direction="vertical" size={1}>
             <h2>Upload your image</h2>
-            <p>In this step you will need to select a file or take an image with your camera of your face</p>
+            <p>
+              In this step you will need to select a file or take an image with
+              your camera of your face
+            </p>
           </Space>
         </Row>
         <Row>
-          <List style={{ width: '100%' }} itemLayout='horizontal' dataSource={this.imageRulesList}
-            renderItem={item => (
+          <List
+            style={{ width: "100%" }}
+            itemLayout="horizontal"
+            dataSource={this.imageRulesList}
+            renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
                   title={item.title}
                   description={item.description}
                 />
               </List.Item>
-            )} />
+            )}
+          />
         </Row>
         {this.state.cameraEnabled ? (
-          <div className='video-inner-container' ref={screen => { this.screen = screen }}>
-            <div className='video-overlay'>Text inside video!</div>
+          <div
+            className="video-inner-container"
+            ref={(screen) => {
+              this.screen = screen;
+            }}
+          >
+            <div className="video-overlay">Text inside video!</div>
             <ReactWebcam
-              style={{ width: '100%' }}
-              ref={camera => { this.camera = camera }}
+              style={{ width: "100%" }}
+              ref={(camera) => {
+                this.camera = camera;
+              }}
               mirrored={false}
-              screenshotFormat={'image/jpeg'}
+              screenshotFormat={"image/jpeg"}
               screenshotQuality={1}
               forceScreenshotSourceSize
               videoConstraints={this.cameraConstraints}
@@ -181,40 +242,97 @@ export default class ImageTab extends React.Component {
               onClick={(event) => event.preventDefault()}
               onUserMedia={this.onUserMedia}
               onUserMediaError={this.onUserMediaError}
-            ><div>TEST</div></ReactWebcam>
+            >
+              <div>TEST</div>
+            </ReactWebcam>
             <button onClick={this.takePicture}>Take image!</button>
           </div>
-        ) : (
-          !this.state.picture ? (
-            <Row>
-              <Col xs={24} xl={12}>
-            <div>
-              <button onClick={this.enableCamera}>Enable camera</button>
-            </div>
-            </Col>
-            <div>
+        ) : !this.state.picture ? (
+          <Row>
             <Col xs={24} xl={12}>
-              <Upload.Dragger {...this.draggerProps}>
-
-                <FileAddFilled />
-
-                <p className='ant-upload-text'>Click or drag file to this area to upload</p>
-                <p className='ant-upload-hint'>
-                  Photo's format can be: {this.photoOptions.types.label}
-                </p>
-              </Upload.Dragger>
+              <div>
+                <button onClick={this.enableCamera}>Enable camera</button>
+              </div>
             </Col>
-            
+            <div>
+              <Col xs={24} xl={12}>
+                <Upload.Dragger {...this.draggerProps}>
+                  <FileAddFilled />
+
+                  <p className="ant-upload-text">
+                    Click or drag file to this area to upload
+                  </p>
+                  <p className="ant-upload-hint">
+                    Photo's format can be: {this.photoOptions.types.label}
+                  </p>
+                </Upload.Dragger>
+              </Col>
             </div>
-            </Row>
-          ) : (null)
+          </Row>
+        ) : null}
+        {this.state.image && this.state.picture && !this.state.croppedImage && (
+          <React.Fragment>
+          <div>
+          <Cropper
+          image={this.state.image}
+          crop={this.state.crop}
+          rotation={this.state.rotation}
+          zoom={this.state.zoom}
+          aspect={1}
+          cropShape={"round"}
+          onCropChange={this.onCropChange}
+          onRotationChange={this.onRotationChange}
+          onCropComplete={this.onCropComplete}
+          onZoomChange={this.onZoomChange}
+        />
+      </div>
+      <div>
+        <div>
+          
+            Zoom
+          
+          <Slider
+            value={this.state.zoom}
+            min={1}
+            max={3}
+            step={0.1}
+            aria-labelledby="Zoom"
+            onChange={(e, zoom) => this.onZoomChange(zoom)}
+          />
+        </div>
+        <div>
+          
+            Rotation
+          
+          <Slider
+            value={this.state.rotation}
+            min={0}
+            max={360}
+            step={1}
+            aria-labelledby="Rotation"
+            
+            onChange={(e, rotation) => this.onRotationChange(rotation)}
+          />
+        </div>
+        <Button
+          onClick={this.showCroppedImage}
+          variant="contained"
+          color="primary"
+          
+        >
+          Show Result
+        </Button>
+      </div>
+      </React.Fragment>
         )}
-        {this.state.picture && this.state.image ? (
+        {this.state.croppedImage && this.state.picture && this.state.image ? (
           <div>
             This is your picture:
-            <img style={{ width: '100%' }} src={this.state.image}></img>
+            <img style={{ width: "100%" }} src={this.state.image}></img>
             <button onClick={this.retakePicture}>Retake image</button>
-            <Row><Button onClick={this.uploadPicture}>Upload!</Button></Row>
+            <Row>
+              <Button onClick={this.uploadPicture}>Upload!</Button>
+            </Row>
           </div>
         ) : null}
       </>
