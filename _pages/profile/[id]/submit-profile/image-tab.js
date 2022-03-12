@@ -9,6 +9,7 @@ import {
   Form,
 } from "@kleros/components";
 
+import { Steps, Row, Col } from 'antd';
 
 const PHOTO_OPTIONS = {
   types: {
@@ -111,37 +112,41 @@ export default class ImageTab extends React.Component {
 
   render() {
     return (
-      <div>
-        {this.state.cameraEnabled ? (
-          <div>
-            <ReactWebcam
-              style={{ width: "100%" }}
-              ref={this.camera}
-              mirrored={false}
-              screenshotFormat={'image/jpeg'}
-              screenshotQuality={1}
-              forceScreenshotSourceSize
-              videoConstraints={this.videoConstraints}
-              onCanPlayThrough={() => false}
-              onClick={(event) => event.preventDefault()}
-              onUserMedia={this.onUserMedia} 
-              onUserMediaError={this.onUserMediaError}
-            />
-            <button onClick={this.takePicture}>Take image!</button>
-          </div>
-        ) : (
-          <div>
-            <button onClick={this.enableCamera}>Enable camera</button>
-          </div>
-        )}
-        { this.state.fileURI !== '' ? (
+      <Row>
+        <Col>
+          {this.state.cameraEnabled ? (
+            <div>
+              <ReactWebcam
+                style={{ width: "100%" }}
+                ref={this.camera}
+                mirrored={false}
+                screenshotFormat={'image/jpeg'}
+                screenshotQuality={1}
+                forceScreenshotSourceSize
+                videoConstraints={this.videoConstraints}
+                onCanPlayThrough={() => false}
+                onClick={(event) => event.preventDefault()}
+                onUserMedia={this.onUserMedia} 
+                onUserMediaError={this.onUserMediaError}
+              />
+              <button onClick={this.takePicture}>Take image!</button>
+            </div>
+          ) : (
+            !this.state.picture ? (
+              <div>
+                <button onClick={this.enableCamera}>Enable camera</button>
+              </div>
+            ) : (null)
+          )}
+          { this.state.fileURI !== '' ? (
           <div>
             This is your picture:
             <img src={this.state.fileURI}></img>
             <button onClick={this.retakePicture}>Retake image</button>
           </div>
         ) : null }
-      </div>
+          </Col>
+      </Row>
     );
   }
 }
