@@ -14,7 +14,7 @@ import {
 } from "@kleros/components";
 import { User } from "@kleros/icons";
 import lodashOrderBy from "lodash.orderby";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import {
   RedditIcon,
   RedditShareButton,
@@ -264,6 +264,8 @@ export default function SubmissionDetailsCard({
       : "Check out this profile on Proof Of Humanity.";
 
   const firstRoundFullyFunded = Number(lastRoundID) === 0 && hasPaid[0];
+  let [shouldCheckVideo, checkedVideo ] = useState(true);
+
 
   return (
     <Card
@@ -323,8 +325,12 @@ export default function SubmissionDetailsCard({
                   Fund Submission
                 </FundButton>
               )}
-              {!isSelf && <GaslessVouchButton submissionID={id} />}
-              {!isSelf && <VouchButton submissionID={id} />}
+              {!shouldCheckVideo && !isSelf ? 
+              <React.Fragment>
+              <GaslessVouchButton submissionID={id} />
+              <VouchButton  submissionID={id} />
+              </React.Fragment> : <Text>Please check the video to be able to vouch for this submission.</Text>
+          }
             </>
           )}
         </Box>
@@ -436,7 +442,7 @@ export default function SubmissionDetailsCard({
             fontWeight: "bold",
           }}
         />
-        <Video url={evidence?.file?.video} />
+        <Video url={evidence?.file?.video} onEnded={() => {checkedVideo(false)}} />
         <UBICard
           submissionID={id}
           lastStatusChange={lastStatusChange}
