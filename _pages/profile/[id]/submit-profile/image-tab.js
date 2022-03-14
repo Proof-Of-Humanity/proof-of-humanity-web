@@ -129,6 +129,7 @@ export default class ImageTab extends React.Component {
             const croppedImage = await getCroppedImg(this.state.image, this.state.croppedAreaPixels, this.state.rotation)
             console.log('donee', {croppedImage})
             let buffer = this.urlB64ToUint8Array(croppedImage.split(',')[1]);
+            console.log(buffer)
             this.setCroppedImage(croppedImage)
             this.setState({picture:buffer})
         } catch (e) {
@@ -199,6 +200,7 @@ export default class ImageTab extends React.Component {
         fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/photo', requestOptions).then(response => response.json()).then(({URI}) => {
             console.log('Image URI=', URI);
             this.setState({fileURI: URI});
+            this.props.stateHandler({imageURI: URI});
         }).catch(error => { // Handle errors
             console.log('Image upload error=', error);
             this.setState({
