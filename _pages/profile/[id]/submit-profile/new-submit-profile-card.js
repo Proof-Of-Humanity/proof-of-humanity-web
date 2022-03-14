@@ -20,7 +20,7 @@ export default class NewSubmitProfileCard extends React.Component {
   render() {
     return (
       <Row justify='center'>
-        <NewSubmitProfileForm />
+        <NewSubmitProfileForm i18n={this.props.i18n}/>
       </Row>
     );
   }

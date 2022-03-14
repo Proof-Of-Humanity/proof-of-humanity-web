@@ -131,7 +131,8 @@ export default class NewSubmitProfileForm extends React.Component {
     let steps = this.submissionSteps;
     let props = {
       stateHandler: this.stateHandler,
-      state: this.state
+      state: this.state,
+      i18n: this.props.i18n
     };
 
     return (

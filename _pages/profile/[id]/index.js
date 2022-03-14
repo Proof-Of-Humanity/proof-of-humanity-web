@@ -18,7 +18,7 @@ import NewSubmitProfileCard from './submit-profile/new-submit-profile-card';
 
 import { submissionStatusEnum } from "data";
 
-export default function ProfileWithID() {
+export default function ProfileWithID({ i18n }) {
   const { props } = useQuery();
   const [accounts] = useWeb3("eth", "getAccounts");
   const account = accounts?.[0];
@@ -60,6 +60,7 @@ export default function ProfileWithID() {
           afterSend={handleAfterSend}
         /> */}
         <NewSubmitProfileCard
+          i18n={i18n}
           contract={props.contract}
           submission={props.submission}
           reapply={reapply && registered}

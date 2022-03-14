@@ -1,4 +1,5 @@
 import { Box, Flex } from "theme-ui";
+import React from 'react';
 
 function LayoutColumn({ justifyContent, children }) {
   return (
@@ -16,7 +17,7 @@ function LayoutColumn({ justifyContent, children }) {
     </Flex>
   );
 }
-function LayoutRow({ as, sx, left, middle, right }) {
+function LayoutRow({ as, sx, left, middle, right, i18n }) {
   return (
     <Flex
       as={as}
@@ -41,6 +42,7 @@ export default function Layout({
   mainSx,
   children,
   footer: { sx: footerSx, ...footer },
+  i18n
 }) {
   return (
     <Flex sx={{ flexDirection: "column", minHeight: "100vh" }}>
@@ -57,7 +59,7 @@ export default function Layout({
         />
       )}
       <Box as="main" variant="layout.main" sx={{ flex: 1, ...mainSx }}>
-        {children}
+        {React.cloneElement(children[0], { i18n })}
       </Box>
       {footer && (
         <LayoutRow

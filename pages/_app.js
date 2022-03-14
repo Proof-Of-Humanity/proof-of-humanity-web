@@ -40,6 +40,12 @@ import {
   transactionBatcherAddress,
 } from "subgraph/config";
 
+import i18n from './i18n';
+
+import { Dropdown, Menu, message } from 'antd';
+import { I18nextProvider } from 'react-i18next';
+
+// CSS imports
 import 'antd/dist/antd.css';
 import './main.css';
 
@@ -80,6 +86,7 @@ const contracts = [
     address: { [network]: transactionBatcherAddress },
   },
 ];
+
 function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { props } = useQuery(
@@ -102,12 +109,14 @@ function MyProfileLink() {
     </NextLink>
   ) : null;
 }
+
 const settings = {
   proofOfHumanityNotifications: {
     label: "Enable",
     info: "Subscribe to updates about submissions you are involved in.",
   },
 };
+
 const parseSettings = (rawSettings) => ({
   ...Object.keys(settings).reduce((acc, setting) => {
     acc[setting] =
@@ -116,6 +125,7 @@ const parseSettings = (rawSettings) => ({
   }, {}),
   email: rawSettings?.payload?.settings?.Item?.email?.S || "",
 });
+
 const normalizeSettings = ({ email, ...rest }) => ({
   email: { S: email },
   ...Object.keys(rest).reduce((acc, setting) => {
@@ -160,6 +170,23 @@ function AccountSettingsPopup() {
     />
   );
 }
+
+const changeLanguage = ({ key }) => {
+  message.info(`Click on item ${key}`);
+};
+
+const menu = (
+  <Menu onClick={changeLanguage}>
+    <Menu.Item key="en" onClick={() => {
+      i18n.changeLanguage('en');
+      console.log('change language');
+    }}>English</Menu.Item>
+    <Menu.Item key="es" onClick={() => {
+      i18n.changeLanguage('es');
+      console.log('change language');
+    }}>Spanish</Menu.Item>
+  </Menu>
+);
 
 const header = {
   sx: {
@@ -238,6 +265,11 @@ const header = {
         },
       }}
     >
+      <Dropdown overlay={menu}>
+        <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+          Select language
+        </div>
+      </Dropdown>,
       <WalletConnection
         buttonProps={{
           sx: {
@@ -386,37 +418,42 @@ export default function App({ Component, pageProps }) {
       : `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${subgraphID}`;
 
   return (
-    <ThemeProvider theme={theme}>
-      <RelayProvider
-        endpoint={endpoint}
-        queries={queries}
-        connectToRouteChange={connectToRouteChange}
-      >
-        <Web3Provider
-          infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT}
-          contracts={contracts}
-          onNetworkChange={onNetworkChange}
+    <I18nextProvider>
+      <ThemeProvider theme={theme}>
+        <RelayProvider
+          endpoint={endpoint}
+          queries={queries}
+          connectToRouteChange={connectToRouteChange}
         >
-          <ArchonProvider>
-            <Layout header={header} footer={footer}>
-              {transitions.map(({ key, props, item }) => (
-                <AnimatedBox
-                  key={key}
-                  style={{
-                    ...props,
-                    transform: props.transform.interpolate((t) =>
-                      t === "translate3d(0%,0,0)" ? undefined : t
-                    ),
-                  }}
-                  sx={{ padding: 3 }}
-                >
-                  <item.Component {...item.pageProps} />
-                </AnimatedBox>
-              ))}
-            </Layout>
-          </ArchonProvider>
-        </Web3Provider>
-      </RelayProvider>
-    </ThemeProvider>
+          <Web3Provider
+            infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT}
+            contracts={contracts}
+            onNetworkChange={onNetworkChange}
+          >
+            <ArchonProvider>
+              <Layout i18n={i18n} header={header} footer={footer}>
+                {transitions.map(({ key, props, item }) => {
+                  // console.log('AnimatedBox', item);
+                  return (
+                    <AnimatedBox
+                      key={key}
+                      style={{
+                        ...props,
+                        transform: props.transform.interpolate((t) =>
+                          t === "translate3d(0%,0,0)" ? undefined : t
+                        ),
+                      }}
+                      sx={{ padding: 3 }}
+                    >
+                      <item.Component {...item.pageProps} i18n={i18n} />
+                    </AnimatedBox>
+                  );
+                })}
+              </Layout>
+            </ArchonProvider>
+          </Web3Provider>
+        </RelayProvider>
+      </ThemeProvider>
+    </I18nextProvider>
   );
 }
