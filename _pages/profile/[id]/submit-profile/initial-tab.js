@@ -33,7 +33,7 @@ export default class InitialTab extends React.Component {
         <Form
           name="basicform"
           onFinishFailed={() => alert('Failed to submit')}
-          onFinish={() => alert('Form Submitted')}
+          onFinish={(values) =>this.props.stateHandler({info:values})}
           initialValues={{ remember: true }}>
           <Alert title="Public Address" sx={{ mb: 3 }}>
             {/* <EthereumAccount

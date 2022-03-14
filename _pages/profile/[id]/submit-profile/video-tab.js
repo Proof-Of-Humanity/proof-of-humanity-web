@@ -93,11 +93,17 @@ export default class VideoTab extends React.Component {
       console.log('uploadVideo requestOptions=', requestOptions);
 
       fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/video', requestOptions)
-        .then(({ URI }) => {
-          this.setState({
-            fileURI: URI
-          });
-        })
+      .then((response) =>{
+        return response.json();
+      })
+      .then(({URI}) =>{
+
+        console.log("videoURI: "+URI)
+        this.setState({
+          fileURI: URI
+        });
+        this.props.stateHandler({videoURI:URI})
+      })
         .catch(error => {
           // Handle errors
           console.log('Video upload error=', error);
