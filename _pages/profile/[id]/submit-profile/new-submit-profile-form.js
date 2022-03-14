@@ -6,32 +6,34 @@ import InitialTab from './initial-tab';
 import ImageTab from './image-tab';
 import VideoTab from './video-tab';
 import FinalizeTab from './finalize-tab';
-import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
-import Web3 from "web3";
 
+
+//const { connect, web3 } = useWeb3;
 
 const Step = Steps.Step;
-const web3 = new Web3(process.env.NEXT_PUBLIC_INFURA_ENDPOINT);
-const pohContractAddress = "0xc5e9ddebb09cd64dfacab4011a0d5cedaf7c9bdb"
-const contract = new web3.eth.Contract(ProofOfHumanityAbi, pohContractAddress);
-console.log(contract)
+ 
 
+
+//const contract = new web3.eth.Contract(ProofOfHumanityAbi, "0x73BCCE92806BCe146102C44c4D9c3b9b9D745794");
+//const accounts = web3.eth.getAccounts();
+  
 
 export default class NewSubmitProfileForm extends React.Component {
   constructor(props) {
     super(props);
     console.log('newSubmitProfileForm props=', props);
     this.state = {
-      current: 0
+      current: 0,
+      imageURI:'https://ipfs.kleros.io/ipfs/QmdFpNayZqG8zqiJ5fVeqRUBKBENxDBQy4n24ifsuj2uu2/TSID3Sy4i8Ie8VEsj3YSQ0RILu48vzS1lpUUof70xgud9J.jpg', 
+      videoURI:'https://ipfs.kleros.io/ipfs/QmZNSY8WURgkG94GDwcD3Fe4hjQeuskAhd3YjDmXpk4whW/t2WHjgKulagC9WRXaBwrKqQSz1pab5g4U8huZAlSCYk5md.mp4',
     };
   }
-
   submissionSteps = [
     {
       title: 'General information',
       subtitle: 'General information',
       // content: (props) => <GeneralSubmitTab props={props} />,
-      content: (props) => <InitialTab {...props} />,
+      content: (props) => <InitialTab {...props} account={this.props.account} />,
       description: 'Set your name and info',
       icon: <FileTextFilled />
     },
@@ -52,17 +54,19 @@ export default class NewSubmitProfileForm extends React.Component {
     {
       title: 'Finalize',
       subtitle: 'Finalize',
-      content: (props) => <FinalizeTab {...props} />,
+      content: (props) => <FinalizeTab {...props} deposit={this.props.deposit}/>,
       description: 'Finalize your registration',
       icon: <CheckCircleFilled />
     }
   ]
+
 
   // setFormInfo() // Username, first name, last name, bio
   // setImageUrl()
   // setVideoUrl()
 
   // change stateHandler to specific functions for tabs to know instead of global one.
+  
   stateHandler = (newState, component) => {
     if (newState) this.setState(newState);
     console.log('StateHandler called from=', component);
@@ -100,10 +104,8 @@ export default class NewSubmitProfileForm extends React.Component {
     let imageURI = this.state.imageURI.split('/');
     let videoURI = this.state.videoURI.split('/');
     let file = {
-      name:this.props.state.info.name,
-      firstName:this.props.state.info.firstName,
-      lastName:this.props.state.info.lastName,
-      bio:this.props.state.info.bio,
+      name:this.state.name,
+      bio:this.state.bio,
       photo:`/${imageURI[3]}/${imageURI[4]}/${imageURI[5]}`,
       video:`/${videoURI[3]}/${videoURI[4]}/${videoURI[5]}`
     }
@@ -115,13 +117,28 @@ export default class NewSubmitProfileForm extends React.Component {
     }
     let registrationURI = await this.uploadToIPFS('registration.json',JSON.stringify(registration));
     console.log(fileURI,registrationURI)
-    this.setState(registrationURI);
+    this.setState({registrationURI});
   }
-
-  prepareTransaction= async ()=>{
+  calculateDeposit = async () =>{
+    console.log(this.props.contract)
+    this.props.web3.contracts.klerosLiquid.methods.arbitrationCost(this.props.contract.arbitratorExtraData).call()
+    .then((arbitrationCost) =>{
+      let deposit = this.props.web3.utils.toBN(arbitrationCost+this.props.contract.submissionBaseDeposit)
+      console.log(this.props.web3.utils.toWei(deposit, 'wei'))
+      return deposit;
+    })
+  }
+  prepareTransaction = () =>{
     this.returnFiles().then(()=>{
-      console.log(contract.methods)
-      console.log(this.state.registrationURI)
+      this.calculateDeposit().then(()=>{
+        console.log(deposit)
+      this.props.web3.contracts.proofOfHumanity.methods.addSubmission(this.state.registrationURI,this.state.name).send({
+        from:this.props.account,
+        value:deposit
+     })
+      })
+      
+      
 
     })
   }
@@ -166,7 +183,7 @@ export default class NewSubmitProfileForm extends React.Component {
             <Button type='primary' shape='round' onClick={this.next}>Next</Button>
           )}
           {current === steps.length - 1 && (
-            <Button type='primary' shape='round' onClick={() => this.prepareTransaction}>Done</Button>
+            <Button type='primary' shape='round' onClick={this.prepareTransaction}>Done</Button>
           )}
         </div>
       </Col>

@@ -20,6 +20,7 @@ import { submissionStatusEnum } from "data";
 
 export default function ProfileWithID() {
   const { props } = useQuery();
+  const { web3 } = useWeb3();
   const [accounts] = useWeb3("eth", "getAccounts");
   const account = accounts?.[0];
 
@@ -64,6 +65,8 @@ export default function ProfileWithID() {
           submission={props.submission}
           reapply={reapply && registered}
           afterSend={handleAfterSend}
+          account={account}
+          web3={web3}
         />
       </>
     );
@@ -159,6 +162,8 @@ export const IdQuery = graphql`
   query IdQuery($id: ID!, $_id: [String!]) {
     contract(id: 0) {
       submissionDuration
+      submissionBaseDeposit
+      arbitratorExtraData
       ...submitProfileCard
       ...submissionDetailsCardContract
       ...submissionDetailsAccordionContract

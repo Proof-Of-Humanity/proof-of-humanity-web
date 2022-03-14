@@ -20,7 +20,7 @@ export default class NewSubmitProfileCard extends React.Component {
   render() {
     return (
       <Row justify='center'>
-        <NewSubmitProfileForm />
+        <NewSubmitProfileForm web3={this.props.web3} account={this.props.account} contract={this.props.contract} />
       </Row>
     );
   }

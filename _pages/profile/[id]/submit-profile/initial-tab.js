@@ -17,7 +17,7 @@ export default class InitialTab extends React.Component {
   }
 
   render() {
-    let account = 'asd';
+    
     let submissionName = '';
 
     return (
@@ -34,13 +34,14 @@ export default class InitialTab extends React.Component {
           name="basicform"
           onFinishFailed={() => alert('Failed to submit')}
           onFinish={(values) =>this.props.stateHandler({info:values})}
+          onValuesChange={(values) =>this.props.stateHandler({...values})}
           initialValues={{ remember: true }}>
           <Alert title="Public Address" sx={{ mb: 3 }}>
-            {/* <EthereumAccount
-              address={account}
+            {<EthereumAccount
+              address={this.props.account}
               diameter={24}
               sx={{ maxWidth: 388, color: "text", fontWeight: "bold" }}
-            /> */}
+            />}
             <Text>
               To improve your privacy, we recommend using an address which is
               already public or a new one-seeded through{" "}
@@ -60,16 +61,10 @@ export default class InitialTab extends React.Component {
               all submission rules to not lose your deposit.
             </Text>
           </Alert>
-          <Form.Item label="Enter name" name="Name" rules={[{ required: true, message: 'Please enter your name' }]}>
+          <Form.Item label="Enter name" name="name" rules={[{ required: true, message: 'Please enter your name' }]}>
             <Input />
           </Form.Item>
-          <Form.Item label="Enter first name" name="First name">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Enter last name" name="Last name">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Enter short bio" name="Something about yourself">
+          <Form.Item label="Enter short bio" name="bio">
             <Input.TextArea />
           </Form.Item>
           <Alert title="Pro Tip" sx={{ mb: 3 }}>
