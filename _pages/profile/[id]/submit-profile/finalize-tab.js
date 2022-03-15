@@ -59,7 +59,7 @@ export default class FinalizeTab extends React.Component {
 
               </div>
             
-               <Radio onChange={(e) => this.props.handleState({crowdfund:e})}>I wan't to use Crowdfund (0 deposit)</Radio> 
+               <Radio onChange={(e) => {console.log(e);this.props.stateHandler({crowdfund:e.target.checked})}}>I wan't to use Crowdfund (0 deposit)</Radio> 
 
             {/* Next steps... */} </Space>
         </Row>
