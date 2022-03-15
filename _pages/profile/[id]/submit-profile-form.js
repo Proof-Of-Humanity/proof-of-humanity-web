@@ -57,7 +57,7 @@ const sanitize = (input) =>
 
 function pageScroll() {
   window.scroll({
-    top: Number.MAX_SAFE_INTEGER,
+    top: document.body.scrollHeight,
     left: 0,
     behavior: "smooth",
   });
@@ -576,6 +576,7 @@ const SubmitProfileForm = memo(
             </Card>
             <Button
               type="submit"
+              onClick={(event) => event.preventDefault()}
               disabled={isSubmitting}
               loading={isSubmitting}
               sx={{
