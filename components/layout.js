@@ -17,7 +17,7 @@ function LayoutColumn({ justifyContent, children }) {
     </Flex>
   );
 }
-function LayoutRow({ as, sx, left, middle, right, i18n }) {
+function LayoutRow({ as, sx, left, middle, right }) {
   return (
     <Flex
       as={as}
@@ -42,7 +42,6 @@ export default function Layout({
   mainSx,
   children,
   footer: { sx: footerSx, ...footer },
-  i18n
 }) {
   return (
     <Flex sx={{ flexDirection: "column", minHeight: "100vh" }}>
@@ -59,7 +58,7 @@ export default function Layout({
         />
       )}
       <Box as="main" variant="layout.main" sx={{ flex: 1, ...mainSx }}>
-        {React.cloneElement(children[0], { i18n })}
+        {children}
       </Box>
       {footer && (
         <LayoutRow

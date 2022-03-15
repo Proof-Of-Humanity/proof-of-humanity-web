@@ -19,6 +19,7 @@ import NewSubmitProfileCard from './submit-profile/new-submit-profile-card';
 import { submissionStatusEnum } from "data";
 
 export default function ProfileWithID({ i18n }) {
+  const { t } = i18n;
   const { props } = useQuery();
   const [accounts] = useWeb3("eth", "getAccounts");
   const account = accounts?.[0];
@@ -51,7 +52,7 @@ export default function ProfileWithID({ i18n }) {
     return (
       <>
         <Head>
-          <title>Submit Profile | Proof of Humanity</title>
+          <title>{t('submit_profile')} | Proof of Humanity</title>
         </Head>
         {/* <SubmitProfileCard
           contract={props.contract}
@@ -83,7 +84,7 @@ export default function ProfileWithID({ i18n }) {
   return (
     <>
       <Head>
-        <title>{`Profile: ${
+        <title>{`${t('profile_title')}: ${
           name ? `${name} (${query.id})` : query.id
         } | Proof of Humanity`}</title>
       </Head>
@@ -107,7 +108,7 @@ export default function ProfileWithID({ i18n }) {
             sx={{ height: 30, marginRight: 2 }}
             src="/images/proof-of-humanity-logo-black.png"
           />
-          Profile Status
+          {t('profile_status')}
         </Text>
         <Text
           sx={{
@@ -118,8 +119,8 @@ export default function ProfileWithID({ i18n }) {
         >
           {status && (
             <>
-              {status.startCase}
-              {isExpired && " (Expired)"}
+              {t(status.startCase)}
+              {isExpired && ` (${t('profile_status_expired')})`}
               <status.Icon
                 sx={{
                   path: { fill: "text" },
@@ -132,11 +133,8 @@ export default function ProfileWithID({ i18n }) {
         </Text>
       </Card>
       {status === submissionStatusEnum.Vouching && (
-        <Alert type="muted" title="Advice" sx={{ mb: 2, fontSize: 14 }}>
-          <Text>
-            Gasless vouches have no cost. Beware of scammers that intend to
-            charge for those type of vouches.
-          </Text>
+        <Alert type="muted" title={t('profile_advice')} sx={{ mb: 2, fontSize: 14 }}>
+          <Text>${t('gasless_vouch_cost')}</Text>
         </Alert>
       )}
       {props?.submission && (

@@ -1,5 +1,17 @@
 {
   "Submit your profile": "Subir tu perfil",
   "Follow the steps to register to Proof of Humanity": "Segui los pasos para registrar tu perfil en Proof of Humanity",
-  "How registration works? (link)": "Como funciona el registro? (link)"
+  "How registration works? (link)": "Como funciona el registro? (link)",
+
+  "header_profiles": "Perfiles",
+  "header_pools": "Piletas xd",
+  "header_submit_profile": "Subir Perfil",
+  "header_my_profile": "Mi Perfil",
+
+  "submit_profile": "Subir perfil",
+  "profile_title": "Perfil",
+  "profile_status": "Estado del perfil",
+  "profile_status_expired": "Expirado",
+  "profile_advice": "Sugerencia",
+  "gasless_vouch_cost": "Asegurar un perfil no tiene costo. Tenga cuidado con los estafadores que pretenden cobrar por ese tipo de acciones."
 }
