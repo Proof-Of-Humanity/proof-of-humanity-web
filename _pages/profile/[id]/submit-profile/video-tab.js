@@ -15,7 +15,8 @@ export default class VideoTab extends React.Component {
       recording: false,
       recordedVideo: [],
       recordedVideoUrl: '',
-      videoURI: ''
+      videoURI: '', 
+      file:''
     }
   }
 
@@ -124,8 +125,10 @@ export default class VideoTab extends React.Component {
   retakeVideo = () => {
     this.setState({
       recording: false,
-      cameraEnabled: true,
-      recordedVideo: []
+      cameraEnabled: false,
+      recordedVideo: [],
+      recordedVideoUrl:'', 
+      file:''
     })
   }
 
@@ -251,7 +254,7 @@ export default class VideoTab extends React.Component {
         </Row>
         <Row>
         <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
-        <Button type='primary' disabled={this.state.file == null} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.uploadVideo}>Next</Button>
+        <Button type='primary' disabled={this.state.file == ''} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.uploadVideo}>Next</Button>
          
         </Row>
       </>

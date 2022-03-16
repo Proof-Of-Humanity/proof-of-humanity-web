@@ -24,9 +24,9 @@ export default class NewSubmitProfileForm extends React.Component {
     console.log('newSubmitProfileForm props=', props);
     this.state = {
       current: 0,
-      imageURI: 'https://ipfs.kleros.io/ipfs/QmdFpNayZqG8zqiJ5fVeqRUBKBENxDBQy4n24ifsuj2uu2/TSID3Sy4i8Ie8VEsj3YSQ0RILu48vzS1lpUUof70xgud9J.jpg',
-      videoURI: 'https://ipfs.kleros.io/ipfs/QmZNSY8WURgkG94GDwcD3Fe4hjQeuskAhd3YjDmXpk4whW/t2WHjgKulagC9WRXaBwrKqQSz1pab5g4U8huZAlSCYk5md.mp4',
-      name:'testing'
+      imageURI: '',
+      videoURI: '',
+      name:"",
     };
   }
   submissionSteps = [
@@ -55,7 +55,7 @@ export default class NewSubmitProfileForm extends React.Component {
     {
       title: 'Finalize',
       subtitle: 'Finalize',
-      content: (props) => <FinalizeTab {...props} deposit={this.props.deposit} />,
+      content: (props) => <FinalizeTab {...props} deposit={this.props.deposit} prepareTransaction={this.prepareTransaction} />,
       description: 'Finalize your registration',
       icon: <CheckCircleFilled />
     }
@@ -81,6 +81,10 @@ export default class NewSubmitProfileForm extends React.Component {
   prev = () => {
     const current = this.state.current - 1;
     this.setState({ current });
+  }
+  reset = () => {
+this.setState({current: 0, imageURI: '', videoURI: '', name:"", loading:false})
+
   }
   uploadToIPFS = async (fileName, buffer) => {
     return fetch("https://ipfs.kleros.io/add", {
@@ -136,28 +140,47 @@ export default class NewSubmitProfileForm extends React.Component {
     });
   }
   prepareTransaction = () => {
+    try{
     this.returnFiles().then(() => {
+      if(this.state.crowdfund == false){
       this.calculateDeposit().then((deposit) => {
         console.log(deposit);
-
         this.props.web3.contracts.proofOfHumanity.methods.addSubmission(this.state.registrationURI, this.state.name).send({
           from: this.props.account,
-          value: deposit // TODO: Change deposit
+          value: deposit
         })
+        .on('transactionHash',(tx)=>{
+              console.log(tx)
+        })
+        .on('error',(tx)=>{
+          console.log(tx)
+        })
+        
       })
-
+    } else {
+      this.props.web3.contracts.proofOfHumanity.methods.addSubmission(this.state.registrationURI, this.state.name).send({
+        from: this.props.account,
+        value: 0
+      })
+    }
 
 
     })
+  }catch{(error)=>{
+    console.log(error)
+      }
+    }
   }
-
   render() {
     let { current } = this.state;
     let steps = this.submissionSteps;
     let props = {
       stateHandler: this.stateHandler,
       state: this.state,
-      i18n: this.props.i18n
+      i18n: this.props.i18n,
+      next:this.next,
+      prev:this.prev,
+      reset:this.reset
     };
 
     return (
@@ -184,7 +207,12 @@ export default class NewSubmitProfileForm extends React.Component {
             )
           }
         </div>
-        <div className='steps-action'>
+        
+      </Col>
+    );
+  }
+  /*
+  <div className='steps-action'>
           {current > 0 && (
             <Button type='primary' shape='round' style={{ marginRight: '8px' }} onClick={this.prev}>Previous</Button>
           )}
@@ -194,10 +222,7 @@ export default class NewSubmitProfileForm extends React.Component {
           {current === steps.length - 1 && (
             <Button type='primary' shape='round' onClick={this.prepareTransaction}>Done</Button>
           )}
-        </div>
-      </Col>
-    );
-  }
+        </div>*/
   /*
   return (
       <Form createValidationSchema={

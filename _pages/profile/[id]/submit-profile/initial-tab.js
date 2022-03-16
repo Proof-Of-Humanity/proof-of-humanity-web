@@ -15,12 +15,9 @@ export default class InitialTab extends React.Component {
   
   
   handleAdvance = () => {
-    if(this.props.state.name){
-      
-    let current = this.props.state.current + 1;
-    this.props.stateHandler({current})
+    this.props.next();
   }
-  }
+  
   render() {
     
     let submissionName = '';
@@ -41,7 +38,6 @@ export default class InitialTab extends React.Component {
         </Row>
         <Form
           name="basicform"
-          onFinish={this.handleAdvance}
           onValuesChange={(values) =>this.props.stateHandler({...values})}
           initialValues={{ remember: true }}>
           <Alert type="info"
@@ -81,11 +77,11 @@ export default class InitialTab extends React.Component {
           <Form.Item label="Enter short bio" name="bio">
             <Input.TextArea />
           </Form.Item>
-          { this.props.state.name !== "" && (
+         
           <Form.Item>
-          <Button type='primary' htmlType="submit" shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.handleAdvance}>Next</Button>
+          <Button disabled = {this.props.state.name == ""} type='primary' htmlType="submit" shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.handleAdvance}>Next</Button>
           </Form.Item>
-          )}
+         
         </Form>
       </>
     );
