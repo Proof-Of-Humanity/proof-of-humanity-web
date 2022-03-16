@@ -6,6 +6,7 @@ import InitialTab from './initial-tab';
 import ImageTab from './image-tab';
 import VideoTab from './video-tab';
 import FinalizeTab from './finalize-tab';
+import PostSubmitTab from './post-submit-tab';
 
 
 //const { connect, web3 } = useWeb3;
@@ -27,6 +28,7 @@ export default class NewSubmitProfileForm extends React.Component {
       imageURI: '',
       videoURI: '',
       name:"",
+      error:null
     };
   }
   submissionSteps = [
@@ -57,6 +59,13 @@ export default class NewSubmitProfileForm extends React.Component {
       subtitle: 'Finalize',
       content: (props) => <FinalizeTab {...props} deposit={this.props.deposit} prepareTransaction={this.prepareTransaction} />,
       description: 'Finalize your registration',
+      icon: <CheckCircleFilled />
+    },
+    {
+      title: 'Final steps',
+      subtitle: 'Final steps',
+      content: (props) => <PostSubmitTab {...props}  />,
+      description: 'Final steps for your registration',
       icon: <CheckCircleFilled />
     }
   ]
@@ -142,27 +151,24 @@ this.setState({current: 0, imageURI: '', videoURI: '', name:"", loading:false})
   prepareTransaction = () => {
     try{
     this.returnFiles().then(() => {
-      if(this.state.crowdfund == false){
       this.calculateDeposit().then((deposit) => {
         console.log(deposit);
         this.props.web3.contracts.proofOfHumanity.methods.addSubmission(this.state.registrationURI, this.state.name).send({
           from: this.props.account,
-          value: deposit
+          value: this.state.crowdfund ? 0 : deposit
         })
         .on('transactionHash',(tx)=>{
               console.log(tx)
+              this.next();
         })
-        .on('error',(tx)=>{
-          console.log(tx)
+        .on('error',(error)=>{
+          if(error.code == 4001){
+            this.setState({error:error})
+          }
         })
         
       })
-    } else {
-      this.props.web3.contracts.proofOfHumanity.methods.addSubmission(this.state.registrationURI, this.state.name).send({
-        from: this.props.account,
-        value: 0
-      })
-    }
+    
 
 
     })
