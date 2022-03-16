@@ -28,6 +28,7 @@ export default class ImageTab extends React.Component {
       cameraEnabled: false,
       image: null,
       fileURI: '',
+      loading:false,
       crop: {
         x: 0,
         y: 0
@@ -178,7 +179,7 @@ export default class ImageTab extends React.Component {
     }
   }
   uploadPicture = () => {
-
+    this.setState({loading:true})
     let picture = this.state.picture;
     console.log(picture)
 
@@ -446,7 +447,7 @@ export default class ImageTab extends React.Component {
         }>
           <Space direction="vertical">
           This is your picture:
-          <Image style={
+          <Image preview={false} style={
               {width: "100%"}
             }
             src={
@@ -467,7 +468,7 @@ export default class ImageTab extends React.Component {
     } 
     <Row>
         <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
-        <Button type='primary' disabled={this.state.croppedImage == null} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.uploadPicture}>Next</Button>
+        <Button type='primary' disabled={this.state.croppedImage == null} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.uploadPicture} loading={this.state.loading}>Next</Button>
          
         </Row>
         </>
