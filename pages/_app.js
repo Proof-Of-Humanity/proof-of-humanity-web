@@ -439,7 +439,7 @@ export default function App({ Component, pageProps }) {
             onNetworkChange={onNetworkChange}
           >
             <ArchonProvider>
-              <Layout i18n={i18n} header={header} footer={footer}>
+              <Layout header={header} footer={footer}>
                 {transitions.map(({ key, props, item }) => {
                   // console.log('AnimatedBox', item);
                   return (
@@ -453,7 +453,7 @@ export default function App({ Component, pageProps }) {
                       }}
                       sx={{ padding: 3 }}
                     >
-                      <item.Component {...item.pageProps} i18n={i18n} />
+                      <item.Component {...item.pageProps} />
                     </AnimatedBox>
                   );
                 })}

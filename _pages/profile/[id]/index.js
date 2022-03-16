@@ -19,9 +19,11 @@ import Custom404 from "pages/404";
 
 import { submissionStatusEnum } from "data";
 import { concat } from "lodash";
+import { useTranslation } from 'react-i18next'; 
 
-export default function ProfileWithID({ i18n }) {
-  const { t } = i18n;
+export default function ProfileWithID() {
+  const { t, i18n } = useTranslation();
+  
   const { props } = useQuery();
   const { web3 } = useWeb3();
   const [accounts] = useWeb3("eth", "getAccounts");

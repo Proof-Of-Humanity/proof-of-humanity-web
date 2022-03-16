@@ -30,5 +30,44 @@
   "profile_status_ChallengedRemoval": "Registro desafiado para remocion",
   "profile_status_Expired": "Expirado",
 
+  "profile_status_challenge_reason_IncorrectSubmission": "Registro incorrecto",
+  "profile_status_challenge_reason_Deceased": "Fallecido",
+  "profile_status_challenge_reason_Duplicate": "Duplicado",
+  "profile_status_challenge_reason_DoesNotExist": "No Existe",
+  "profile_status_duplicate_of": "de",
+
+  "profile_share_vouching_title": "Registrate y valida a este perfil en Proof Of Humanity.",
+  "profile_share_check_out_title": "Mira este perfil en Proof Of Humanity.",
+
+  "profile_card_fund_submission": "Costear Registro",
+  "profile_card_video_check": "Por favor verificar el video antes de validar este registro.",
+  "profile_card_dispute_text": "Disputa",
+  "profile_card_dispute_suffix": "s",
+  "profile_card_something_wrong": "Hay algun problema con este registro?",
+  "profile_card_save_deposit_text_1": "Todavia hay tiempo para salvar el deposito del registrado! Enviale un email a",
+  "profile_card_save_deposit_text_2": "Podrias estar salvando el deposito del registrado!",
+
+  "profile_card_vouched_by": "Validado por",
+  "profile_card_vouched_for": "Validó a",
+  "profile_card_vouchers": "Validadores",
+  "profile_card_deposit": "Depósito",
+
+  "profile_card_deadline_last_change": "Ultimo Cambio",
+  "profile_card_deadline_challenge_deadline": "Challenge Deadline",
+  "profile_card_deadline_accepted": "Aceptado",
+  "profile_card_deadline_expires": "Expira",
+  "profile_card_deadline_renewal_available": "Renovacion disponible",
+  "profile_card_deadline_reapply": "Reaplicar",
+
+  "profile_card_challenge_not_duplicate_of_itself": "Un registro no puede ser duplicado de si mismo.",
+  "profile_card_challenge_valid_duplicate": "Duplicado valido.",
+  "profile_card_challenge_should_be_registered_or_pending": "Un supuesto duplicado debe estar registered o con registro pendiente.",
+  "profile_card_challenge_duplicate_address": "Direccion Duplicada",
+  "profile_card_challenge_see_profile": "Ver Perfil",
+  "profile_card_challenge_request": "Desafiar",
+  "profile_card_challenge_primary_doc": "Documento Primario",
+  "profile_card_challenge_type": "Tipo De Desafio",
+  "profile_card_challenge_justification": "Justificacion",
+
   "":""
 }

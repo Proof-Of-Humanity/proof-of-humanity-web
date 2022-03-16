@@ -30,6 +30,44 @@
   "profile_status_ChallengedRemoval": "Challenged Removal",
   "profile_status_Expired": "Expired",
 
-  "": "Registered"
+  "profile_status_challenge_reason_IncorrectSubmission": "Incorrect Submission",
+  "profile_status_challenge_reason_Deceased": "Deceased",
+  "profile_status_challenge_reason_Duplicate": "Duplicate",
+  "profile_status_challenge_reason_DoesNotExist": "Does Not Exist",
+  "profile_status_duplicate_of": "of",
 
+  "profile_share_vouching_title": "Register and vouch for this profile on Proof Of Humanity.",
+  "profile_share_check_out_title": "Check out this profile on Proof Of Humanity.",
+
+  "profile_card_fund_submission": "Fund Submission",
+  "profile_card_video_check": "Please check the video to be able to vouch for this submission.",
+  "profile_card_dispute_text": "Dispute",
+  "profile_card_dispute_suffix": "s",
+  "profile_card_something_wrong": "Something wrong with this submission?",
+  "profile_card_save_deposit_text_1": "There is still time to save this submitter's deposit! Send them an email to",
+  "profile_card_save_deposit_text_2": "It may save the submitter's deposit!",
+
+  "profile_card_vouched_by": "Vouched by",
+  "profile_card_vouched_for": "Vouched for",
+  "profile_card_vouchers": "Vouchers",
+  "profile_card_deposit": "Deposit",
+
+  "profile_card_deadline_last_change": "Last Change",
+  "profile_card_deadline_challenge_deadline": "Challenge Deadline",
+  "profile_card_deadline_accepted": "Accepted",
+  "profile_card_deadline_expires": "Expires",
+  "profile_card_deadline_renewal_available": "Renewal available",
+  "profile_card_deadline_reapply": "Reapply",
+
+  "profile_card_challenge_not_duplicate_of_itself": "A submission can not be a duplicate of itself.",
+  "profile_card_challenge_valid_duplicate": "Valid duplicate.",
+  "profile_card_challenge_should_be_registered_or_pending": "A supposed duplicate should be either registered or pending registration.",
+  "profile_card_challenge_duplicate_address": "Duplicate Address",
+  "profile_card_challenge_see_profile": "See Profile",
+  "profile_card_challenge_request": "Challenge Request",
+  "profile_card_challenge_primary_doc": "Primary Document",
+  "profile_card_challenge_type": "Challenge Type",
+  "profile_card_challenge_justification": "Justification",
+
+  "": ""
 }
