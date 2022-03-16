@@ -27,3 +27,21 @@
   height: 90%;
   background-color: rgb(227, 253, 189);
 }
+a:hover{
+  color: black!important;
+}
+
+button:hover{
+  color:white!important;
+}
+.ant-slider-track{
+  background-color:#ffb978!important
+}
+.ant-slider-handle{
+  
+  border:solid 2px #000000!important;
+  background-color:black
+}
+.ant-slider-handle:hover{
+  background:'#ffb978'!important
+}

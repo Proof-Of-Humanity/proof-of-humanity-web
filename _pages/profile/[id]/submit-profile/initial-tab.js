@@ -79,7 +79,7 @@ export default class InitialTab extends React.Component {
           </Form.Item>
          
           <Form.Item>
-          <Button disabled = {this.props.state.name == ""} type='primary' htmlType="submit" shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.handleAdvance}>Next</Button>
+          <Button disabled = {this.props.state.name == ""} type='primary' htmlType="submit" shape='round' style={{fontWeight:'bold', display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.handleAdvance}>Next</Button>
           </Form.Item>
          
         </Form>

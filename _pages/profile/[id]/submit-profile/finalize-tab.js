@@ -7,7 +7,7 @@ import {
   Col,
   Button,
   Typography,
-  Radio,
+  Checkbox,
   Spin
 } from 'antd';
 import {block} from "subgraph/config";
@@ -18,10 +18,14 @@ export default class FinalizeTab extends React.Component {
     super(props);
     console.log('FinalizeTab props=', props);
     this.state = {
-      loading:false
+      loading:false,
+      playedVideo:false
     }
   }
-
+  handleVideo = (event) =>{
+    console.log(event);
+    this.setState({playedVideo:true})
+  }
   handleSubmit = () =>{
     this.setState({loading:true})
     this.props.prepareTransaction();
@@ -78,8 +82,9 @@ export default class FinalizeTab extends React.Component {
               <Paragraph>This is your picture:</Paragraph>
               <Image preview={false} style={
                   {
-                    width: "25%",
+                    width: "50%",
                     borderRadius: "50%"
+                    , border:'1px solid black'
                   }
                 }
                 src={
@@ -99,27 +104,32 @@ export default class FinalizeTab extends React.Component {
               <>
               <p>This is your video:</p>
               <video controls
+              onEnded={(event)=>this.handleVideo(event)}
                 style={
-                  {width: '25%'}
+                  {width: '50%'}
                 }
                 src={
                   this.props.state.videoURI
               }></video>
+              {!this.state.playedVideo &&(
+                <Paragraph>Please check your whole video to be able to send the submission.</Paragraph>
+              )}
+              
               </> : <><Paragraph>Your video is loading, please wait.</Paragraph><Spin/></>
               }
               
               
             </div>
-            <Radio onChange={
+            <Checkbox onChange={
                 (e) => {
                   console.log(e);
                   this.props.stateHandler({crowdfund: e.target.checked})
                 }
-              }>I want to use Crowdfund (0 deposit)</Radio>
+              }>I want to use Crowdfund (0 deposit)</Checkbox>
           
             {/* Next steps... */} </Space>
-            <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
-            <Button type='primary' disabled={this.props.state.videoURI == '' || this.props.state.imageURI == ''} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.handleSubmit} loading={this.state.loading && !this.props.state.error}>Done</Button>
+            <Button type='primary' shape='round' style={{fontWeight:'bold',display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
+            <Button type='primary' disabled={this.props.state.videoURI == '' || this.props.state.imageURI == '' || !this.state.playedVideo} shape='round' style={{fontWeight:'bold',display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.handleSubmit} loading={this.state.loading && !this.props.state.error }>Done</Button>
          
         </Row>
         {this.props.state.error !== null && this.props.state.error?.code == 4001 &&(

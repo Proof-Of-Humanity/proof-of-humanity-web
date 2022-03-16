@@ -58,6 +58,9 @@ export default function ProfileWithID() {
       <>
         <Head>
           <title>{t('submit_profile')} | Proof of Humanity</title>
+          <meta http-equiv='cache-control' content='no-cache' />
+          <meta http-equiv='expires' content='0' />
+          <meta http-equiv='pragma' content='no-cache' />
         </Head>
         {/* <SubmitProfileCard
           contract={props.contract}

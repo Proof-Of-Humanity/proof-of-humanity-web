@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactWebcam from 'react-webcam';
 import { Steps, Row, Col, Button, Upload, Space, List } from 'antd';
-import { FileAddFilled } from '@ant-design/icons';
+import { FileAddFilled, VideoCameraFilled } from '@ant-design/icons';
 
 export default class VideoTab extends React.Component {
   constructor(props) {
@@ -201,7 +201,7 @@ export default class VideoTab extends React.Component {
           <>
             {!this.state.cameraEnabled && !this.state.file && (
               <Col xs={24} xl={12}>
-                <Button type='primary' onClick={this.enableCamera}>Record now using my camera</Button>
+                <Button onClick={this.enableCamera} style={{width: '95%', height: '100%',fontSize:'14px', border:'1px solid black'}}><VideoCameraFilled /> <br />Record now using my camera</Button>
               </Col>
             )}
 
@@ -229,9 +229,9 @@ export default class VideoTab extends React.Component {
               </Col>
             ) : (
               !this.state.recording && this.state.recordedVideoUrl !== '' ? (
-                <Col xs={24}>
+                <Col xs={24} xl={12} style={{display:'block', margin:'0 auto'}}>
                   <video controls style={{ width: '100%' }} src={this.state.recordedVideoUrl}></video>
-                  <button onClick={this.retakeVideo}>Retake video</button>
+                  <Button onClick={this.retakeVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Choose a different video</Button>
                 </Col>
               ) : (
                 null
@@ -240,11 +240,11 @@ export default class VideoTab extends React.Component {
           </>
           {!this.state.cameraEnabled && !this.state.file && (
             <Col xs={24} xl={12}>
-              <Upload.Dragger {...this.draggerProps}>
+              <Upload.Dragger {...this.draggerProps} style={{width: '95%', height: '100%',background: 'white', border:'1px solid black'}}>
 
                 <FileAddFilled />
 
-                <p className='ant-upload-text'>Click or drag file to this area to upload</p>
+                <p className='ant-upload-text' style={{fontSize:'14px'}}>Click or drag file to this area to upload</p>
                 <p className='ant-upload-hint'>
                   Video's format can be: {this.videoOptions.types.label}
                 </p>
@@ -252,9 +252,9 @@ export default class VideoTab extends React.Component {
             </Col>
           )}
         </Row>
-        <Row>
-        <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
-        <Button type='primary' disabled={this.state.file == ''} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.uploadVideo}>Next</Button>
+        <Row style={{marginTop: '2%'}}>
+        <Button type='primary' shape='round' style={{fontWeight:'bold',display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
+        <Button type='primary' disabled={this.state.file == ''} shape='round' style={{fontWeight:'bold',display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.uploadVideo}>Next</Button>
          
         </Row>
       </>
