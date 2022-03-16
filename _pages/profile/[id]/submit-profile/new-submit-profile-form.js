@@ -26,6 +26,7 @@ export default class NewSubmitProfileForm extends React.Component {
       current: 0,
       imageURI: 'https://ipfs.kleros.io/ipfs/QmdFpNayZqG8zqiJ5fVeqRUBKBENxDBQy4n24ifsuj2uu2/TSID3Sy4i8Ie8VEsj3YSQ0RILu48vzS1lpUUof70xgud9J.jpg',
       videoURI: 'https://ipfs.kleros.io/ipfs/QmZNSY8WURgkG94GDwcD3Fe4hjQeuskAhd3YjDmXpk4whW/t2WHjgKulagC9WRXaBwrKqQSz1pab5g4U8huZAlSCYk5md.mp4',
+      name:'testing'
     };
   }
   submissionSteps = [

@@ -1,29 +1,37 @@
 import {
-  Alert, // need to deprecate this!
   EthereumAccount,
   Field,
-  Link, // need to deprecate this!
-  Text, // need to deprecate this!
   Textarea,
   useWeb3
 } from "@kleros/components";
 import React from "react";
-import { Form, Button, Input, Row, Space } from 'antd';
-
+import { Alert, Form, Button, Input, Row, Space, Typography } from 'antd';
+const { Link, Paragraph, Title } = Typography;
 export default class InitialTab extends React.Component {
   constructor(props) {
     super(props);
     console.log('InitialTab props=', props);
   }
-
+  
+  
+  handleAdvance = () => {
+    if(this.props.state.name){
+      
+    let current = this.props.state.current + 1;
+    this.props.stateHandler({current})
+  }
+  }
   render() {
     
     let submissionName = '';
     let { t } = this.props.i18n;
+    
 
     return (
+      
       <>
         <Row>
+
           <Space direction='vertical' size={1}>
             <h2>{t('Submit your profile')}</h2>
             <p>{t('Follow the steps to register to Proof of Humanity')}</p>
@@ -33,17 +41,14 @@ export default class InitialTab extends React.Component {
         </Row>
         <Form
           name="basicform"
-          onFinishFailed={() => alert('Failed to submit')}
-          onFinish={(values) =>this.props.stateHandler({info:values})}
+          onFinish={this.handleAdvance}
           onValuesChange={(values) =>this.props.stateHandler({...values})}
           initialValues={{ remember: true }}>
-          <Alert title="Public Address" sx={{ mb: 3 }}>
-            {<EthereumAccount
-              address={this.props.account}
-              diameter={24}
-              sx={{ maxWidth: 388, color: "text", fontWeight: "bold" }}
-            />}
-            <Text>
+          <Alert type="info"
+           message={
+           <>
+           <Title level={5}>Public address</Title><EthereumAccount address={this.props.account} diameter={24} sx={{ maxWidth: 388, color: "text", fontWeight: "bold" }} />
+            <Paragraph>
               To improve your privacy, we recommend using an address which is
               already public or a new one-seeded through{" "}
               <Link
@@ -54,13 +59,21 @@ export default class InitialTab extends React.Component {
                 tornado.cash
               </Link>
               .
-            </Text>
+            </Paragraph>
+            </>
+          } style={{ marginBottom: "15px" }} showIcon>
+            
           </Alert>
-          <Alert title="Advice" sx={{ mb: 3 }}>
-            <Text>
+          <Alert type={"info"} message={
+            <>
+            <Title level={5}>Advice</Title>
+            <Paragraph>
               Submissions are final and cannot be edited. Be sure to follow
               all submission rules to not lose your deposit.
-            </Text>
+            </Paragraph>
+            </>
+          } style={{ marginBottom: "15px" }} closable showIcon>
+            
           </Alert>
           <Form.Item label="Enter name" name="name" rules={[{ required: true, message: 'Please enter your name' }]}>
             <Input />
@@ -68,14 +81,11 @@ export default class InitialTab extends React.Component {
           <Form.Item label="Enter short bio" name="bio">
             <Input.TextArea />
           </Form.Item>
-          <Alert title="Pro Tip" sx={{ mb: 3 }}>
-            <Text>
-              People can try to notify you of problems in your submission and
-              save your deposit via your{" "}
-              <Link href="https://ethmail.cc/">ethmail.cc</Link>. Make sure to
-              check it while submission is being processed.
-            </Text>
-          </Alert>
+          { this.props.state.name !== "" && (
+          <Form.Item>
+          <Button type='primary' htmlType="submit" shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.handleAdvance}>Next</Button>
+          </Form.Item>
+          )}
         </Form>
       </>
     );
