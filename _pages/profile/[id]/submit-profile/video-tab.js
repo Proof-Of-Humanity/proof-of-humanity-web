@@ -79,8 +79,9 @@ export default class VideoTab extends React.Component {
   uploadVideo = () => {
     let file = this.state.file;
     console.log(file);
-
+    this.props.next();
     file.arrayBuffer().then((_buffer) => {
+      
       let buffer = Buffer.from(_buffer);
       let type = this.state.file.type.split('/')[1];
       let body = { buffer: buffer, type };
@@ -249,7 +250,9 @@ export default class VideoTab extends React.Component {
           )}
         </Row>
         <Row>
-          {this.state.file ? <Button onClick={this.uploadVideo}>Upload!</Button> : null}
+        <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
+        <Button type='primary' disabled={this.state.file == null} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.uploadVideo}>Next</Button>
+         
         </Row>
       </>
     );
