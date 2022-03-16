@@ -1,0 +1,19 @@
+{
+  "Submit your profile": "Submit your profile",
+  "Follow the steps to register to Proof of Humanity": "Follow the steps to register to Proof of Humanity",
+  "How registration works? (link)": "How registration works? (link)",
+
+  "header_profiles": "Profiles",
+  "header_pools": "Pools",
+  "header_submit_profile": "Submit Profile",
+  "header_my_profile": "My Profile",
+  
+  "submit_profile": "Submit profile",
+  "profile_title": "Profile",
+  "profile_status": "Profile Status",
+  "profile_status_expired": "Expired",
+  "profile_advice": "Advice",
+  "gasless_vouch_cost": "Gasless vouches have no cost. Beware of scammers that intend to charge for those type of vouches.",
+
+  "Registered": "Registered"
+}

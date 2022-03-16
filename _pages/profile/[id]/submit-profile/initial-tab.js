@@ -19,14 +19,15 @@ export default class InitialTab extends React.Component {
   render() {
     
     let submissionName = '';
+    let { t } = this.props.i18n;
 
     return (
       <>
         <Row>
           <Space direction='vertical' size={1}>
-            <h2>Submit your profile</h2>
-            <p>Follow the steps to register to Proof of Humanity</p>
-            <p>How registration works? (link)</p>
+            <h2>{t('Submit your profile')}</h2>
+            <p>{t('Follow the steps to register to Proof of Humanity')}</p>
+            <p>{t('How registration works? (link)')}</p>
             {/* Add links or example how a profile gets registered? Register -> Vouch -> Pending (3.5 days) -> Start accruing UBI */}
           </Space>
         </Row>

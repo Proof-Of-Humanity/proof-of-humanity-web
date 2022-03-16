@@ -1,4 +1,5 @@
 import { Box, Flex } from "theme-ui";
+import React from 'react';
 
 function LayoutColumn({ justifyContent, children }) {
   return (

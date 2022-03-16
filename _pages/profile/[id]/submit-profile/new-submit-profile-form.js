@@ -11,12 +11,12 @@ import FinalizeTab from './finalize-tab';
 //const { connect, web3 } = useWeb3;
 
 const Step = Steps.Step;
- 
+
 
 
 //const contract = new web3.eth.Contract(ProofOfHumanityAbi, "0x73BCCE92806BCe146102C44c4D9c3b9b9D745794");
 //const accounts = web3.eth.getAccounts();
-  
+
 
 export default class NewSubmitProfileForm extends React.Component {
   constructor(props) {
@@ -24,8 +24,8 @@ export default class NewSubmitProfileForm extends React.Component {
     console.log('newSubmitProfileForm props=', props);
     this.state = {
       current: 0,
-      imageURI:'https://ipfs.kleros.io/ipfs/QmdFpNayZqG8zqiJ5fVeqRUBKBENxDBQy4n24ifsuj2uu2/TSID3Sy4i8Ie8VEsj3YSQ0RILu48vzS1lpUUof70xgud9J.jpg', 
-      videoURI:'https://ipfs.kleros.io/ipfs/QmZNSY8WURgkG94GDwcD3Fe4hjQeuskAhd3YjDmXpk4whW/t2WHjgKulagC9WRXaBwrKqQSz1pab5g4U8huZAlSCYk5md.mp4',
+      imageURI: 'https://ipfs.kleros.io/ipfs/QmdFpNayZqG8zqiJ5fVeqRUBKBENxDBQy4n24ifsuj2uu2/TSID3Sy4i8Ie8VEsj3YSQ0RILu48vzS1lpUUof70xgud9J.jpg',
+      videoURI: 'https://ipfs.kleros.io/ipfs/QmZNSY8WURgkG94GDwcD3Fe4hjQeuskAhd3YjDmXpk4whW/t2WHjgKulagC9WRXaBwrKqQSz1pab5g4U8huZAlSCYk5md.mp4',
     };
   }
   submissionSteps = [
@@ -54,7 +54,7 @@ export default class NewSubmitProfileForm extends React.Component {
     {
       title: 'Finalize',
       subtitle: 'Finalize',
-      content: (props) => <FinalizeTab {...props} deposit={this.props.deposit}/>,
+      content: (props) => <FinalizeTab {...props} deposit={this.props.deposit} />,
       description: 'Finalize your registration',
       icon: <CheckCircleFilled />
     }
@@ -66,7 +66,7 @@ export default class NewSubmitProfileForm extends React.Component {
   // setVideoUrl()
 
   // change stateHandler to specific functions for tabs to know instead of global one.
-  
+
   stateHandler = (newState, component) => {
     if (newState) this.setState(newState);
     console.log('StateHandler called from=', component);
@@ -95,50 +95,57 @@ export default class NewSubmitProfileForm extends React.Component {
       .then((res) => res.json())
       .then(
         ({ data }) =>
-          
-            `/ipfs/${data[1].hash}${data[0].path}`
-          
+
+          `/ipfs/${data[1].hash}${data[0].path}`
+
       );
   }
   returnFiles = async () => {
     let imageURI = this.state.imageURI.split('/');
     let videoURI = this.state.videoURI.split('/');
     let file = {
-      name:this.state.name,
-      bio:this.state.bio,
-      photo:`/${imageURI[3]}/${imageURI[4]}/${imageURI[5]}`,
-      video:`/${videoURI[3]}/${videoURI[4]}/${videoURI[5]}`
+      name: this.state.name,
+      bio: this.state.bio,
+      photo: `/${imageURI[3]}/${imageURI[4]}/${imageURI[5]}`,
+      video: `/${videoURI[3]}/${videoURI[4]}/${videoURI[5]}`
     }
-    let fileURI = await this.uploadToIPFS('file.json',JSON.stringify(file));
+    let fileURI = await this.uploadToIPFS('file.json', JSON.stringify(file));
 
-    let registration={
+    let registration = {
       fileURI,
-      name:"Registration"
+      name: "Registration"
     }
-    let registrationURI = await this.uploadToIPFS('registration.json',JSON.stringify(registration));
-    console.log(fileURI,registrationURI)
-    this.setState({registrationURI});
+    let registrationURI = await this.uploadToIPFS('registration.json', JSON.stringify(registration));
+    console.log(fileURI, registrationURI)
+    this.setState({ registrationURI });
   }
-  calculateDeposit = async () =>{
-    console.log(this.props.contract)
-    this.props.web3.contracts.klerosLiquid.methods.arbitrationCost(this.props.contract.arbitratorExtraData).call()
-    .then((arbitrationCost) =>{
-      let deposit = this.props.web3.utils.toBN(arbitrationCost+this.props.contract.submissionBaseDeposit)
-      console.log(this.props.web3.utils.toWei(deposit, 'wei'))
-      return deposit;
-    })
+  calculateDeposit = () => {
+    return new Promise((resolve, reject) => {
+      this.props.web3.contracts.klerosLiquid.methods.arbitrationCost(this.props.contract.arbitratorExtraData).call()
+        .then((arbitrationCost) => {
+          console.log('arbitrationCost=', arbitrationCost, typeof arbitrationCost);
+          let { toBN, toWei } = this.props.web3.utils;
+          let _submissionBaseDeposit = toBN(this.props.contract.submissionBaseDeposit);
+          let _arbitrationCost = toBN(arbitrationCost);
+          let deposit = _submissionBaseDeposit.add(_arbitrationCost);
+
+          console.log(toWei(deposit, 'Wei'));
+          resolve(deposit);
+        })
+    });
   }
-  prepareTransaction = () =>{
-    this.returnFiles().then(()=>{
-      this.calculateDeposit().then(()=>{
-        console.log(deposit)
-      this.props.web3.contracts.proofOfHumanity.methods.addSubmission(this.state.registrationURI,this.state.name).send({
-        from:this.props.account,
-        value:deposit
-     })
+  prepareTransaction = () => {
+    this.returnFiles().then(() => {
+      this.calculateDeposit().then((deposit) => {
+        console.log(deposit);
+
+        this.props.web3.contracts.proofOfHumanity.methods.addSubmission(this.state.registrationURI, this.state.name).send({
+          from: this.props.account,
+          value: deposit // TODO: Change deposit
+        })
       })
-      
-      
+
+
 
     })
   }
@@ -148,7 +155,8 @@ export default class NewSubmitProfileForm extends React.Component {
     let steps = this.submissionSteps;
     let props = {
       stateHandler: this.stateHandler,
-      state: this.state
+      state: this.state,
+      i18n: this.props.i18n
     };
 
     return (
