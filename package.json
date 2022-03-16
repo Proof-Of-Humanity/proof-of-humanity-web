@@ -67,6 +67,7 @@
     "authereum": "0.0.4-beta.186",
     "blob-to-buffer": "^1.2.9",
     "buffer": "^5.6.0",
+    "clear-cache": "^1.1.0",
     "dataloader": "^2.0.0",
     "downshift": "^6.0.6",
     "formik": "^2.1.5",
