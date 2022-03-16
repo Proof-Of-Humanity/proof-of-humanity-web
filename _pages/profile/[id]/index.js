@@ -15,6 +15,7 @@ import SubmissionDetailsAccordion from "./submission-details-accordion";
 import SubmissionDetailsCard from "./submission-details-card";
 import SubmitProfileCard from "./submit-profile-card";
 import NewSubmitProfileCard from './submit-profile/new-submit-profile-card';
+import Custom404 from "pages/404";
 
 import { submissionStatusEnum } from "data";
 
@@ -140,7 +141,7 @@ export default function ProfileWithID({ i18n }) {
           <Text>${t('gasless_vouch_cost')}</Text>
         </Alert>
       )}
-      {props?.submission && (
+      {props?.submission ? 
         <>
           <SubmissionDetailsCard
             submission={props.submission}
@@ -152,7 +153,7 @@ export default function ProfileWithID({ i18n }) {
             contract={props.contract}
           />
         </>
-      )}
+      : <Custom404 />}
     </>
   );
 }
