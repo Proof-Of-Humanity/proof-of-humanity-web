@@ -75,7 +75,7 @@ export default function SubmissionCard({ submission, contract }) {
               }}
             />
             <Text>
-              {status.startCase}
+              {t(`profile_status_${status.key}`)}
               {isExpired && ` (${t('profile_status_Expired')})`}
             </Text>
           </>

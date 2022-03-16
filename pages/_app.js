@@ -40,10 +40,10 @@ import {
   transactionBatcherAddress,
 } from "subgraph/config";
 
-import i18n from '../i18n/i18n';
+import '../i18n/i18n';
+import { useTranslation } from 'react-i18next';
 
 import { Dropdown, Menu, message } from 'antd';
-import { I18nextProvider } from 'react-i18next';
 
 // CSS imports
 import 'antd/dist/antd.css';
@@ -89,7 +89,9 @@ const contracts = [
 
 function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");
-  const { t } = i18n;
+
+  const { t } = useTranslation();
+
   const { props } = useQuery(
     appQuery,
     {
@@ -176,6 +178,8 @@ function AccountSettingsPopup() {
 const AnimatedBox = animated(Box);
 
 export default function App({ Component, pageProps }) {
+  const { t, i18n } = useTranslation();
+
   const router = useRouter();
   const query = useMemo(
     () => wrapConnection.parseAsPath(router.asPath).query,
@@ -191,6 +195,7 @@ export default function App({ Component, pageProps }) {
     wrappedConnection(location.pathname + location.search);
     setRouteChangeConnection(() => wrappedConnection);
   }, []);
+  
   useEffect(() => {
     if (routeChangeConnection) {
       router.events.on("routeChangeStart", routeChangeConnection);
@@ -258,12 +263,12 @@ export default function App({ Component, pageProps }) {
 
   const changeLanguage = (language) => {
     i18n.changeLanguage(language);
-    router.reload();
+   //  router.reload();
   };
 
   // Remove hardcode to programatical list
   const menu = (
-    <Menu defaultSelectedKeys={[i18n.language]}>
+    <Menu selectedKeys ={[i18n.language]}>
       <Menu.Item key="en" onClick={() => changeLanguage('en')}><img src="/images/en.png" width="20" height="15" /> English</Menu.Item>
       <Menu.Divider />
       <Menu.Item key="es" onClick={() => changeLanguage('es')}><img src="/images/es.png" width="20" height="15" /> Spanish</Menu.Item>
@@ -317,7 +322,7 @@ export default function App({ Component, pageProps }) {
       >
         <ListItem sx={{ marginX: 2, paddingY: 2 }}>
           <NextLink href="/">
-            <Link variant="navigation">{i18n.t('header_profiles')}</Link>
+            <Link variant="navigation">{t('header_profiles')}</Link>
           </NextLink>
         </ListItem>
         <ListItem sx={{ marginX: 2, paddingY: 2 }}>
@@ -329,7 +334,7 @@ export default function App({ Component, pageProps }) {
             newTab
             href="https://pools.proofofhumanity.id/"
           >
-            {i18n.t('header_pools')}
+            {t('header_pools')}
           </Link>
         </ListItem>
       </List>
@@ -426,7 +431,7 @@ export default function App({ Component, pageProps }) {
   };
 
   return (
-    <I18nextProvider i18n={i18n}>
+    // <I18nextProvider i18n={i18n}>
       <ThemeProvider theme={theme}>
         <RelayProvider
           endpoint={endpoint}
@@ -462,6 +467,6 @@ export default function App({ Component, pageProps }) {
           </Web3Provider>
         </RelayProvider>
       </ThemeProvider>
-    </I18nextProvider>
+    // </I18nextProvider>
   );
 }
