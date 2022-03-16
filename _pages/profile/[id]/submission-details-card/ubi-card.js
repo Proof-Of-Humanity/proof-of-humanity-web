@@ -24,6 +24,8 @@ import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
 import UBIAbi from "subgraph/abis/ubi";
 import { UBIAddress, address as pohAddress } from "subgraph/config";
 
+import { useTranslation } from 'react-i18next';
+
 function useInterval(callback, delay) {
   const savedCallback = useRef();
 
@@ -199,16 +201,19 @@ export default function UBICard({
   registeredVouchers,
   firstRoundFullyFunded,
 }) {
+  const { t, i18n } = useTranslation();
   const { web3 } = useWeb3();
   const [, rerender] = useReducer(() => ({}), {});
   const [requiredNumberOfVouchesBN] = useContract(
     "proofOfHumanity",
     "requiredNumberOfVouches"
   );
+
   const requiredNumberOfVouches = useMemo(
     () => Number(requiredNumberOfVouchesBN),
     [requiredNumberOfVouchesBN]
   );
+  
   const { props: vouchesReceivedQuery } = useQuery(
     graphql`
       query ubiCardQuery($id: ID!, $vouchesReceivedLength: BigInt!) {
@@ -242,23 +247,28 @@ export default function UBICard({
       "accruedSince",
       useMemo(() => ({ args: [submissionID] }), [submissionID])
     );
+
   const [currentBalanceOf] = useContract(
     "UBI",
     "balanceOf",
     useMemo(() => ({ args: [submissionID] }), [submissionID])
   );
+
   const [registered] = useContract(
     "proofOfHumanity",
     "isRegistered",
     useMemo(() => ({ args: [submissionID] }), [submissionID])
   );
+
   const {
     send: changeStateToPendingSend,
     loading: changeStateToPendingSendLoading,
   } = useContract("proofOfHumanity", "changeStateToPending");
+
   const [accruedPerSecond] = useContract("UBI", "accruedPerSecond");
 
   const { send: batchSend } = useContract("transactionBatcher", "batchSend");
+
   const { send: reportRemoval, loading: reportRemovalLoading } = useContract(
     "UBI",
     "reportRemoval"
@@ -518,27 +528,28 @@ export default function UBICard({
               }
               loading={reportRemovalLoading}
             >
-              Seize UBI
+              {t('profile_card_seize_ubi')}
             </Button>
           )}
         {status.key === submissionStatusEnum.Vouching.key &&
           [...queuedVouches.keys()].length > 0 &&
           [...queuedVouches.keys()].length === registeredVouchers.length &&
-          `Vouches in use in other submissions: ${
+          `${t('profile_card_vouches_in_use')}: ${
             [...queuedVouches.keys()].length
           }`}
+
         {(ownValidVouches?.signatures?.length >= requiredNumberOfVouches ||
           availableOnchainVouches?.length >= requiredNumberOfVouches) &&
           status.key === submissionStatusEnum.Vouching.key &&
           firstRoundFullyFunded && (
             <Flex sx={{ alignItems: "center" }}>
-              <Text sx={{ marginRight: 2 }}>Wait or</Text>
+              <Text sx={{ marginRight: 2 }}>{t('profile_card_wait_or')}</Text>
               <Button
                 variant="secondary"
                 onClick={advanceToPending}
                 loading={changeStateToPendingSendLoading}
               >
-                Advance to Pending
+                {t('profile_card_advance_to_pending')}
               </Button>
             </Flex>
           )}
@@ -550,7 +561,7 @@ export default function UBICard({
               onClick={registerAndAdvanceOthers}
               loading={fetchingElegible}
             >
-              Finalize registration and start accruing{" "}
+              {t('profile_card_finalize_registration')}&nbsp;
               <Text as="span" role="img" sx={{ marginLeft: 1 }}>
                 💧
               </Text>
@@ -566,7 +577,7 @@ export default function UBICard({
                 }
                 loading={startAccruingLoading}
               >
-                Start Accruing{" "}
+                {t('profile_card_start_accruing')}&nbsp;
                 <Text as="span" role="img" sx={{ marginLeft: 1 }}>
                   💧
                 </Text>
@@ -577,12 +588,8 @@ export default function UBICard({
       {status.key === submissionStatusEnum.Vouching.key &&
         [...queuedVouches.keys()].length > 0 &&
         [...queuedVouches.keys()].length === registeredVouchers.length && (
-          <Alert type="muted" title="Pending Vouch Release" sx={{ mt: 3 }}>
-            <Text>
-              All vouches given to this submission are being used by other
-              submissions. Either wait for them to resolve or ask that someone
-              else with a free vouch to also vouch for you.
-            </Text>
+          <Alert type="muted" title={t('profile_card_pending_vouch_release')} sx={{ mt: 3 }}>
+            <Text>{t('profile_card_vouches_used')}</Text>
           </Alert>
         )}
     </>

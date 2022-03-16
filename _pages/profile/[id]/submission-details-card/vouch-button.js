@@ -10,14 +10,17 @@ import { Warning } from "@kleros/icons";
 import { useMemo } from "react";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
+import { useTranslation } from 'react-i18next';
 
 export default function VouchButton({ submissionID }) {
+  const { t, i18n } = useTranslation();
   const [accounts] = useWeb3("eth", "getAccounts");
   const [registered] = useContract(
     "proofOfHumanity",
     "isRegistered",
     useMemo(() => ({ args: [accounts?.[0]] }), [accounts])
   );
+
   const [vouched, , status, reCall] = useContract(
     "proofOfHumanity",
     "vouches",
@@ -26,28 +29,27 @@ export default function VouchButton({ submissionID }) {
       [accounts, submissionID]
     )
   );
+
   const {
     receipt: addVouchReceipt,
     send: addVouchSend,
     loading: addVouchLoading,
   } = useContract("proofOfHumanity", "addVouch");
+
   const isGraphSynced = useIsGraphSynced(addVouchReceipt?.blockNumber);
 
   return registered || vouched ? (
     <Popup
       trigger={
         <Button
-          sx={{
-            marginY: 2,
-            width: "100%",
-          }}
+          sx={{ marginY: 2, width: "100%" }}
           disabled={
             status === "pending" ||
             accounts?.[0]?.toLowerCase() === submissionID.toLowerCase()
           }
           loading={!isGraphSynced}
         >
-          {vouched && "Remove"} Vouch
+          {vouched && t('profile_card_remove')} {t('profile_card_vouch')}
         </Button>
       }
       modal
@@ -55,14 +57,7 @@ export default function VouchButton({ submissionID }) {
       {(close) => (
         <Box sx={{ padding: 2 }}>
           <Warning />
-          <Text sx={{ marginBottom: 2 }}>
-            Make sure the person exists and that you have physically encountered
-            them. Note that in the case of a dispute, if a submission is
-            rejected for reason “Duplicate” or “Does not exist”, everyone who
-            had vouched for it will get removed from the registry. Note that
-            your vouch will only be counted when and as long as you are
-            registered, and another submission is not using your vouch.
-          </Text>
+          <Text sx={{ marginBottom: 2 }}>{t('profile_card_vouch_text')}</Text>
           <Button
             onClick={() =>
               addVouchSend(submissionID)
@@ -71,7 +66,7 @@ export default function VouchButton({ submissionID }) {
             }
             loading={addVouchLoading}
           >
-            Vouch
+            {t('profile_card_vouch')}
           </Button>
         </Box>
       )}

@@ -69,5 +69,32 @@
   "profile_card_challenge_type": "Challenge Type",
   "profile_card_challenge_justification": "Justification",
 
+  "profile_card_cancel_submission": "Cancel Submission",
+
+  "profile_card_request_removal": "Request Removal",
+  "profile_card_request_removal_name_validation": "Must be 50 characters or less.",
+  "profile_card_request_removal_description_validation": "Must be 300 characters or less.",
+  "profile_card_request_removal_error_required": "Required",
+  "profile_card_request_removal_evidence_name": "Evidence Name",
+  "profile_card_request_removal_evidence_name_placeholder": "E.g. The submitter is not a real person.",
+  "profile_card_request_removal_evidence_description": "Evidence Description (Your Arguments)",
+
+  "profile_card_file": "File",
+  "profile_card_vouch": "Vouch",
+  "profile_card_remove": "Remove",
+  "profile_card_vouch_text": "Make sure the person exists and that you have physically encountered\n them. Note that in the case of a dispute, if a submission is\n rejected for reason “Duplicate” or “Does not exist”, everyone who\n had vouched for it will get removed from the registry. Note that\n your vouch will only be counted when and as long as you are\n registered, and another submission is not using your vouch.",
+  "profile_card_remove_vouch": "Remove Vouch",  
+  "profile_card_gasless_vouch": "Gasless Vouch",
+  "profile_card_vouch_saved": "Vouch saved successfully.",
+
+  "profile_card_seize_ubi": "Seize UBI",
+  "profile_card_wait_or": "Wait or",
+  "profile_card_advance_to_pending": "Advance to Pending",
+  "profile_card_finalize_registration": "Finalize registration and start accruing",
+  "profile_card_start_accruing": "Start Accruing",
+  "profile_card_pending_vouch_release": "Pending Vouch Release",
+  "profile_card_vouches_in_use": "Vouches in use in other submissions",
+  "profile_card_vouches_used": "All vouches given to this submission are being used by other submissions. Either wait for them to resolve or ask that someone else with a free vouch to also vouch for you.",
+
   "": ""
 }

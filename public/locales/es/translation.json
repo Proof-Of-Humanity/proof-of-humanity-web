@@ -4,7 +4,7 @@
   "How registration works? (link)": "Como funciona el registro? (link)",
 
   "header_profiles": "Perfiles",
-  "header_pools": "Piletas xd",
+  "header_pools": "Piletas",
   "header_submit_profile": "Subir Perfil",
   "header_my_profile": "Mi Perfil",
 
@@ -53,7 +53,7 @@
   "profile_card_deposit": "Depósito",
 
   "profile_card_deadline_last_change": "Ultimo Cambio",
-  "profile_card_deadline_challenge_deadline": "Challenge Deadline",
+  "profile_card_deadline_challenge_deadline": "Plazo de desafio",
   "profile_card_deadline_accepted": "Aceptado",
   "profile_card_deadline_expires": "Expira",
   "profile_card_deadline_renewal_available": "Renovacion disponible",
@@ -68,6 +68,33 @@
   "profile_card_challenge_primary_doc": "Documento Primario",
   "profile_card_challenge_type": "Tipo De Desafio",
   "profile_card_challenge_justification": "Justificacion",
+
+  "profile_card_cancel_submission": "Cancelar Registro",
+
+  "profile_card_request_removal": "Solicitar Remocion",
+  "profile_card_request_removal_name_validation": "Debe ser 50 caracteres o menos.",
+  "profile_card_request_removal_description_validation": "Debe ser 300 caracteres o menos.",
+  "profile_card_request_removal_error_required": "Requerido",
+  "profile_card_request_removal_evidence_name": "Nombre De Evidencia",
+  "profile_card_request_removal_evidence_name_placeholder": "Ej. El registrado no es una persona real.",
+  "profile_card_request_removal_evidence_description": "Descripcion de la Evidencia (Argumentos)",
+
+  "profile_card_file": "Archivo",
+  "profile_card_vouch": "Validar",
+  "profile_card_remove": "Remover",
+  "profile_card_vouch_text": "Asegúrate de que la persona exista y de que te hayas encontrado físicamente\n. Tenga en cuenta que, en el caso de una disputa, si un envío se\n rechaza por motivo \"Duplicado\" o \"No existente\", todos los que\n habían respondido por ello serán eliminados del registro. Tenga en cuenta que\n su validacion solo se contará cuando y mientras esté\n registrado, y otro envío no este utilizando su validacion.",
+  "profile_card_remove_vouch": "Remover validacion",  
+  "profile_card_gasless_vouch": "Validar sin Gas",
+  "profile_card_vouch_saved": "Validacion guardada correctamente.",
+
+  "profile_card_seize_ubi": "Apoderar UBI",
+  "profile_card_wait_or": "Esperar o",
+  "profile_card_advance_to_pending": "Avanzar a Pendiente",
+  "profile_card_finalize_registration": "Finalizar registro y empezar a acumular",
+  "profile_card_start_accruing": "Empezar a Acumular",
+  "profile_card_pending_vouch_release": "Liberacion de Validacion Pendiente",
+  "profile_card_vouches_in_use": "Validaciones en uso en otro registro",
+  "profile_card_vouches_used": "Todos las validaciones otorgadas a este registro están siendo utilizados por otros registros. Espere a que resuelvan o solicite que otra persona con una validacion libre pueda validarlo.",
 
   "":""
 }

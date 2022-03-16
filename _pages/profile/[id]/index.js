@@ -142,7 +142,7 @@ export default function ProfileWithID() {
       </Card>
       {status === submissionStatusEnum.Vouching && (
         <Alert type="muted" title={t('profile_advice')} sx={{ mb: 2, fontSize: 14 }}>
-          <Text>${t('gasless_vouch_cost')}</Text>
+          <Text>{t('gasless_vouch_cost')}</Text>
         </Alert>
       )}
       {props?.submission ? 
