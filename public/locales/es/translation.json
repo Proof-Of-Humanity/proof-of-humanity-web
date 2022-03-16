@@ -11,7 +11,24 @@
   "submit_profile": "Subir perfil",
   "profile_title": "Perfil",
   "profile_status": "Estado del perfil",
-  "profile_status_expired": "Expirado",
   "profile_advice": "Sugerencia",
-  "gasless_vouch_cost": "Asegurar un perfil no tiene costo. Tenga cuidado con los estafadores que pretenden cobrar por ese tipo de acciones."
+  "gasless_vouch_cost": "Asegurar un perfil no tiene costo. Tenga cuidado con los estafadores que pretenden cobrar por ese tipo de acciones.",
+
+  "profile_card_maintenance": "Estamos haciendo trabajo de mantinimiento y volveremos en poco tiempo.",
+
+  "profile_search_profile_text": "Perfil",
+  "profile_search_profile_suffix": "es",
+  "profile_search_search_text": "Buscar (distingue mayúsculas)",
+  "profile_search_filter_by_text": "Filtrar por estado",
+
+  "profile_search_all": "Todos",
+  "profile_status_Registered": "Registrado",
+  "profile_status_Vouching": "Validacion",
+  "profile_status_PendingRegistration": "Registro pendiente",
+  "profile_status_PendingRemoval": "Remocion pendiente",
+  "profile_status_ChallengedRegistration": "Registro desafiado",
+  "profile_status_ChallengedRemoval": "Registro desafiado para remocion",
+  "profile_status_Expired": "Expirado",
+
+  "":""
 }

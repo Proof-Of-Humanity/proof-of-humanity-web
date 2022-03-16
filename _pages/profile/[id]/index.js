@@ -18,6 +18,7 @@ import NewSubmitProfileCard from './submit-profile/new-submit-profile-card';
 import Custom404 from "pages/404";
 
 import { submissionStatusEnum } from "data";
+import { concat } from "lodash";
 
 export default function ProfileWithID({ i18n }) {
   const { t } = i18n;
@@ -78,6 +79,7 @@ export default function ProfileWithID({ i18n }) {
     props?.submission &&
     props?.contract &&
     submissionStatusEnum.parse({ ...props.submission, ...props.contract });
+
   const isExpired =
     status === submissionStatusEnum.Registered &&
     props?.submission &&
@@ -123,8 +125,8 @@ export default function ProfileWithID({ i18n }) {
         >
           {status && (
             <>
-              {t(status.startCase)}
-              {isExpired && ` (${t('profile_status_expired')})`}
+              {t(`profile_status_${status.key}`)}
+              {isExpired && ` (${t('profile_status_Expired')})`}
               <status.Icon
                 sx={{
                   path: { fill: "text" },

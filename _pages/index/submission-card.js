@@ -3,6 +3,8 @@ import { graphql, useFragment } from "relay-hooks";
 
 import { submissionStatusEnum, useEvidenceFile } from "data";
 
+import { useTranslation } from 'react-i18next'; 
+
 const submissionCardFragments = {
   contract: graphql`
     fragment submissionCardContract on Contract {
@@ -30,7 +32,10 @@ const submissionCardFragments = {
     }
   `,
 };
+
 export default function SubmissionCard({ submission, contract }) {
+  const { t, i18n } = useTranslation();
+
   const {
     submissionTime,
     requests: [request],
@@ -38,19 +43,23 @@ export default function SubmissionCard({ submission, contract }) {
     name,
     ...rest
   } = useFragment(submissionCardFragments.submission, submission);
+
   const { submissionDuration } = useFragment(
     submissionCardFragments.contract,
     contract
   );
+
   const status = submissionStatusEnum.parse({
     ...rest,
     submissionTime,
     submissionDuration,
   });
+
   const isExpired =
     status === submissionStatusEnum.Registered &&
     Date.now() / 1000 - submissionTime > submissionDuration;
   const evidence = useEvidenceFile()(request.evidence[0].URI);
+
   return (
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
       <Card
@@ -67,7 +76,7 @@ export default function SubmissionCard({ submission, contract }) {
             />
             <Text>
               {status.startCase}
-              {isExpired && " (Expired)"}
+              {isExpired && ` (${t('profile_status_Expired')})`}
             </Text>
           </>
         }
@@ -83,12 +92,12 @@ export default function SubmissionCard({ submission, contract }) {
           }}
         >
           {evidence instanceof Error
-            ? "We are doing some maintenance work and will be online again soon."
+            ? t('profile_card_maintenance')
             : evidence?.file?.name &&
               (name.replaceAll(/[^\s\w]/g, "") ===
               evidence.file.name.replaceAll(/[^\s\w]/g, "")
                 ? evidence.file.name
-                : "We are doing some maintenance work and will be online again soon.")}
+                : t('profile_card_maintenance'))}
         </Text>
         <Text
           variant="multiClipped"

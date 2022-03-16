@@ -11,9 +11,25 @@
   "submit_profile": "Submit profile",
   "profile_title": "Profile",
   "profile_status": "Profile Status",
-  "profile_status_expired": "Expired",
   "profile_advice": "Advice",
   "gasless_vouch_cost": "Gasless vouches have no cost. Beware of scammers that intend to charge for those type of vouches.",
 
-  "Registered": "Registered"
+  "profile_card_maintenance": "We are doing some maintenance work and will be online again soon.",
+
+  "profile_search_profile_text": "Profile",
+  "profile_search_profile_suffix": "s",
+  "profile_search_search_text": "Search (case sensitive)",
+  "profile_search_filter_by_text": "Filter by status",
+
+  "profile_search_all": "All",
+  "profile_status_Registered": "Registered",
+  "profile_status_Vouching": "Vouching",
+  "profile_status_PendingRegistration": "Pending Registration",
+  "profile_status_PendingRemoval": "Pending Removal",
+  "profile_status_ChallengedRegistration": "Challenged Registration",
+  "profile_status_ChallengedRemoval": "Challenged Removal",
+  "profile_status_Expired": "Expired",
+
+  "": "Registered"
+
 }
