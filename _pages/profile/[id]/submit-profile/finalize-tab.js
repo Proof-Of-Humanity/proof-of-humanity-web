@@ -119,9 +119,12 @@ export default class FinalizeTab extends React.Component {
           
             {/* Next steps... */} </Space>
             <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
-            <Button type='primary' disabled={this.props.state.videoURI == '' || this.props.state.imageURI == ''} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.handleSubmit} loading={this.state.loading}>Done</Button>
-          
+            <Button type='primary' disabled={this.props.state.videoURI == '' || this.props.state.imageURI == ''} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.handleSubmit} loading={this.state.loading && !this.props.state.error}>Done</Button>
+         
         </Row>
+        {this.props.state.error !== null && this.props.state.error?.code == 4001 &&(
+          <Alert type="error" message="Transaction rejected. " />
+         )} 
       </>
     );
   }
