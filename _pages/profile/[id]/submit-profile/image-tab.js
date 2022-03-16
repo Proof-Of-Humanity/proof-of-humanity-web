@@ -14,7 +14,7 @@ import {
   Image
 } from 'antd';
 
-import {FileAddFilled} from '@ant-design/icons';
+import {FileAddFilled,CameraFilled} from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from './cropImage'
 const { Title, Paragraph, Text, Link } = Typography;
@@ -84,8 +84,12 @@ export default class ImageTab extends React.Component {
     sliderLabel: {},
     slider: {
       padding: '22px 0px',
-      marginLeft: 32
-    }
+      marginLeft: 32,
+      border:'2px solid black',
+      '&:hover': {
+        background:'#ffb978'
+      }
+    },
   }
 
   imageRulesList = [
@@ -332,16 +336,17 @@ export default class ImageTab extends React.Component {
       ) : !this.state.picture ? (
         <Row>
           
-          <Col span={12}>
-            <div>
-              <button onClick={
+          <Col xs={24} xl={12}>
+                
+              
+              <Button onClick={
                 this.enableCamera
-              }>Enable camera</button>
-            </div>
+              }  style={{width: '95%', height: '100%',fontSize:'14px'}}><CameraFilled /> <br />Take my picture using my camera</Button>
+            
           </Col>
-          <div>
-            <Col span={12}>
-              <Upload.Dragger {...this.draggerProps}>
+          
+            <Col xs={24} xl={12}>
+              <Upload.Dragger {...this.draggerProps} style={{width: '95%', height: '100%', backgroundColor:'white'}}>
                 <FileAddFilled/>
 
                 <p className="ant-upload-text">
@@ -353,7 +358,7 @@ export default class ImageTab extends React.Component {
                 } </p>
               </Upload.Dragger>
             </Col>
-          </div>
+          
          
         </Row>
       ) : null
@@ -403,6 +408,7 @@ export default class ImageTab extends React.Component {
               <Slider value={
                   this.state.zoom
                 }
+                styles={this.styles.slider}
                 min={1}
                 max={3}
                 step={0.1}
@@ -420,6 +426,7 @@ export default class ImageTab extends React.Component {
               <Slider value={
                   this.state.rotation
                 }
+                style={{color:'black'}}
                 min={0}
                 max={360}
                 step={1}
@@ -432,8 +439,10 @@ export default class ImageTab extends React.Component {
             <Button onClick={
                 this.showCroppedImage
               }
+              styles={this.styles.button}
               variant="contained"
-              color="primary">
+              color="primary"
+              shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#000",color:'white', border:'none',fontWeight:'bold'}}>
               Show Result
             </Button>
           </div>
@@ -448,7 +457,7 @@ export default class ImageTab extends React.Component {
           <Space direction="vertical">
           This is your picture:
           <Image preview={false} style={
-              {width: "100%"}
+              {width: "300px",height:'auto',borderRadius:'50%', border:'1px solid black'}
             }
             src={
               this.state.croppedImage
@@ -456,19 +465,20 @@ export default class ImageTab extends React.Component {
             alt="Crop result"/>
           
           </Space>
-          <Space direction="horizontal">
+          
           <Button onClick={
             this.retakePicture
-          }>Start over</Button>
-          </Space>
+          }
+          shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#000", color:'white', border:'none', fontWeight:'bold', marginTop:'15%'}}>Start over</Button>
+          
           
 
         </div>
       ) : null
     } 
-    <Row>
-        <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
-        <Button type='primary' disabled={this.state.croppedImage == null} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.uploadPicture} loading={this.state.loading}>Next</Button>
+    <Row style={{marginTop:'2%'}}>
+        <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none',fontWeight:'bold'}} onClick={this.props.prev}>Previous</Button>
+        <Button type='primary' disabled={this.state.croppedImage == null} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978",fontWeight:'bold', border:'none'}} onClick={this.uploadPicture} loading={this.state.loading}>Next</Button>
          
         </Row>
         </>

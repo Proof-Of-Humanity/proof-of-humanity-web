@@ -7,6 +7,7 @@ import ImageTab from './image-tab';
 import VideoTab from './video-tab';
 import FinalizeTab from './finalize-tab';
 import PostSubmitTab from './post-submit-tab';
+import { clearCache } from 'clear-cache';
 
 
 //const { connect, web3 } = useWeb3;
@@ -159,7 +160,11 @@ this.setState({current: 0, imageURI: '', videoURI: '', name:"", loading:false})
         })
         .on('transactionHash',(tx)=>{
               console.log(tx)
-              this.next();
+              //this.next();
+        })
+        .on('receipt',(receipt)=>{
+          console.log(receipt);
+          window.location.reload();
         })
         .on('error',(error)=>{
           if(error.code == 4001){
