@@ -198,6 +198,7 @@ export default class ImageTab extends React.Component {
       console.log('Image URI=', URI);
       this.setState({fileURI: URI});
       this.props.stateHandler({imageURI: URI});
+      this.props.next()
     }).catch(error => { // Handle errors
       console.log('Image upload error=', error);
       this.setState({
@@ -458,15 +459,19 @@ export default class ImageTab extends React.Component {
           <Button onClick={
             this.retakePicture
           }>Start over</Button>
-
-          <Button onClick={
-            this.uploadPicture
-          }>Upload!</Button>
           </Space>
+          
 
         </div>
       ) : null
-    } </>
+    } 
+    <Row>
+        <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
+        <Button type='primary' disabled={this.state.croppedImage == null} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.uploadPicture}>Next</Button>
+         
+        </Row>
+        </>
     );
+    
   }
 }
