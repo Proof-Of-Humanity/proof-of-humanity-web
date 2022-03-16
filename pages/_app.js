@@ -40,7 +40,7 @@ import {
   transactionBatcherAddress,
 } from "subgraph/config";
 
-import i18n from './i18n';
+import i18n from '../i18n/i18n';
 
 import { Dropdown, Menu, message } from 'antd';
 import { I18nextProvider } from 'react-i18next';
