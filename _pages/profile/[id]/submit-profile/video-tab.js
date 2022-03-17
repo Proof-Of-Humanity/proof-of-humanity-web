@@ -3,12 +3,14 @@ import ReactWebcam from 'react-webcam';
 import { Steps, Row, Col, Button, Upload, Space, List } from 'antd';
 import { FileAddFilled, VideoCameraFilled } from '@ant-design/icons';
 
+import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+
 export default class VideoTab extends React.Component {
   constructor(props) {
     super(props);
     this.mediaRecorderRef = React.createRef();
 
-    console.log('ImageTab props=', props);
+    console.log('VideoTab props=', props);
 
     this.state = {
       cameraEnabled: false,
@@ -16,8 +18,14 @@ export default class VideoTab extends React.Component {
       recordedVideo: [],
       recordedVideoUrl: '',
       videoURI: '', 
-      file:''
-    }
+      file:'',
+      ffmpeg: createFFmpeg({ 
+        log: true,
+        corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
+      }),
+    };
+
+    this.state.ffmpeg.load();
   }
 
   videoOptions = {

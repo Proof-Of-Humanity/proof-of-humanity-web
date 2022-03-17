@@ -116,6 +116,7 @@ export default function ProfileWithID() {
           }}
         >
           <Image
+            crossOrigin="anonymous"
             sx={{ height: 30, marginRight: 2 }}
             src="/images/proof-of-humanity-logo-black.png"
           />

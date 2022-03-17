@@ -456,7 +456,7 @@ export default class ImageTab extends React.Component {
         }>
           <Space direction="vertical">
           This is your picture:
-          <Image preview={false} style={
+          <Image crossOrigin="anonymous" preview={false} style={
               {width: "300px",height:'auto',borderRadius:'50%', border:'1px solid black'}
             }
             src={

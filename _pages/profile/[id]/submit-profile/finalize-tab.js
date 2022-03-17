@@ -80,7 +80,7 @@ export default class FinalizeTab extends React.Component {
               {this.props.state.imageURI !== '' ?
               <>
               <Paragraph>This is your picture:</Paragraph>
-              <Image preview={false} style={
+              <Image crossOrigin="anonymous" preview={false} style={
                   {
                     width: "50%",
                     borderRadius: "50%"
