@@ -222,9 +222,9 @@ export default class VideoTab extends React.Component {
                 {this.state.recording ? (
                   <div>
                     <div>RECORDING IN PROGRESS</div>
-                    <button onClick={this.handleStopCaptureClick}>Stop recording!</button>
+                    <Button onClick={this.handleStopCaptureClick} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Stop recording</Button>
                   </div>
-                ) : <button onClick={this.handleStartCaptureClick}>Start capturing video!</button>}
+                ) : <Row><Col xl={12} xs={24}><Button onClick={this.handleStartCaptureClick} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Start recording</Button></Col><Col xl={12} xs={24}><Button onClick={this.retakeVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Choose a different video</Button></Col></Row>}
 
               </Col>
             ) : (
