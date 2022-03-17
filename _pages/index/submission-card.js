@@ -91,13 +91,7 @@ export default function SubmissionCard({ submission, contract }) {
             overflowWrap: "anywhere",
           }}
         >
-          {evidence instanceof Error
-            ? t('profile_card_maintenance')
-            : evidence?.file?.name &&
-              (name.replaceAll(/[^\s\w]/g, "") ===
-              evidence.file.name.replaceAll(/[^\s\w]/g, "")
-                ? evidence.file.name
-                : t('profile_card_maintenance'))}
+          {evidence?.file?.name}
         </Text>
         <Text
           variant="multiClipped"

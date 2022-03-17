@@ -282,7 +282,7 @@ export default function SubmissionDetailsCard({
             (name.replaceAll(/[^\s\w]/g, "") ===
               evidence.file.name.replaceAll(/[^\s\w]/g, "")
               ? evidence.file.name
-              : t('profile_card_maintenance'))}
+              : name)}
         </Text>
         <Text sx={{ wordBreak: "break-word" }} count={2}>
           {evidence?.file ? evidence.file.bio || " " : null}
@@ -378,7 +378,7 @@ export default function SubmissionDetailsCard({
         <Flex sx={{ alignItems: "center", gap: 8, marginBottom: "4px" }}>
           <User />
           <Text as="span" sx={{ fontWeight: "bold" }}>
-            {displayName}
+            {name}
           </Text>
         </Flex>
         <EthereumAccount diameter={16} address={id} sx={{ marginBottom: 2, fontWeight: "bold" }} />
