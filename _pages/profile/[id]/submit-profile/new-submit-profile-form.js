@@ -160,11 +160,11 @@ this.setState({current: 0, imageURI: '', videoURI: '', name:"", loading:false})
         })
         .on('transactionHash',(tx)=>{
               console.log(tx)
-              //this.next();
+              this.next();
         })
         .on('receipt',(receipt)=>{
           console.log(receipt);
-          window.location.reload();
+          this.setState({confirmed:true})
         })
         .on('error',(error)=>{
           if(error.code == 4001){
