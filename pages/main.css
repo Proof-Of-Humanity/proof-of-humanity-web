@@ -32,7 +32,7 @@ a:hover{
 }
 
 button:hover{
-  color:white!important;
+  color:rgba(201, 203, 206, 0.815)!important;
 }
 .ant-slider-track{
   background-color:#ffb978!important
