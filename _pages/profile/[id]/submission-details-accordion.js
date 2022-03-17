@@ -9,6 +9,7 @@ import {
 import { graphql, useFragment } from "relay-hooks";
 
 import { challengeReasonEnum, useEvidenceFile } from "data";
+import { useTranslation } from 'react-i18next';
 
 const submissionDetailsAccordionFragments = {
   contract: graphql`
@@ -59,6 +60,8 @@ function SubmissionDetailsAccordionItem({ heading, panelSx, panel }) {
   );
 }
 export default function SubmissionDetailsAccordion({ submission, contract }) {
+  const { t, i18n } = useTranslation();
+
   const {
     request: [
       {
@@ -72,6 +75,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
     id,
     disputed,
   } = useFragment(submissionDetailsAccordionFragments.submission, submission);
+
   const challenges = _challenges
     .filter(({ disputeID }) => disputeID !== null)
     .map((challenge) => ({
@@ -79,6 +83,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
       reason: challengeReasonEnum.parse(challenge.reason),
       parties: [requester, challenge.challenger],
     }));
+  
   const { sharedStakeMultiplier, winnerStakeMultiplier, loserStakeMultiplier } =
     useFragment(submissionDetailsAccordionFragments.contract, contract);
 
@@ -93,7 +98,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
   return (
     <Accordion>
       <SubmissionDetailsAccordionItem
-        heading="Evidence"
+        heading={t('profile_details_evidence')}
         panelSx={{ paddingX: 0 }}
         panel={
           <Evidence
@@ -107,7 +112,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
       />
       {disputed && challengesWithPendingAppeals.length > 0 && (
         <SubmissionDetailsAccordionItem
-          heading="Appeal"
+          heading={t('profile_details_appeal')}
           panel={
             <Appeal
               challenges={challenges}

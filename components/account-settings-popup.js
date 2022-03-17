@@ -19,6 +19,7 @@ import { useContract, useWeb3 } from "./web3-provider";
 import { appQuery } from "_pages/index/app-query";
 import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
 import { address as pohAddress } from "subgraph/config";
+import { useTranslation } from 'react-i18next';
 
 export default function AccountSettingsPopup({
   name,
@@ -28,6 +29,7 @@ export default function AccountSettingsPopup({
   parseSettings,
   normalizeSettings,
 }) {
+  const { t, i18n } = useTranslation();
   const [accounts] = useWeb3("eth", "getAccounts");
   const { connect, web3 } = useWeb3();
   const { props } = useQuery(appQuery, {
@@ -92,48 +94,22 @@ export default function AccountSettingsPopup({
       }
       position="bottom right"
     >
-      <Box
-        sx={{
-          color: "text",
-          paddingX: 1,
-          paddingY: 2,
-        }}
-      >
-        <Text
-          sx={{
-            fontWeight: "bold",
-            textAlign: "center",
-          }}
-        >
-          Settings
+      <Box sx={{ color: "text", paddingX: 1, paddingY: 2 }} >
+        <Text sx={{ fontWeight: "bold", textAlign: "center" }} >
+          {t('header_settings')}
         </Text>
         <Tabs>
           <TabList>
-            <Tab>Account</Tab>
-            <Tab>Notifications</Tab>
+            <Tab>{t('header_settings_account')}</Tab>
+            <Tab>{t('header_settings_notifications')}</Tab>
           </TabList>
           <TabPanel>
-            <Text
-              sx={{
-                fontSize: 10,
-                marginBottom: 3,
-              }}
-            >
+            <Text sx={{ fontSize: 10, marginBottom: 3 }} >
               {accounts &&
-                (accounts.length === 0 ? (
-                  "Connected to Infura"
-                ) : (
+                (accounts.length === 0 ? t('header_settings_connected_infura') : (
                   <Flex sx={{ alignItems: "center" }}>
                     {photo ? (
-                      <Image
-                        sx={{
-                          objectFit: "contain",
-                          width: 32,
-                          height: 32,
-                        }}
-                        variant="avatar"
-                        src={photo}
-                      />
+                      <Image sx={{ objectFit: "contain", width: 32, height: 32 }} variant="avatar" src={photo} />
                     ) : (
                       <Identicon address={accounts[0]} />
                     )}
@@ -152,27 +128,12 @@ export default function AccountSettingsPopup({
             </Text>
             <NetworkTag sx={{ mb: 1 }} />
             <Divider />
-            <Button
-              sx={{
-                display: "block",
-                marginTop: -2,
-                marginX: "auto",
-              }}
-              onClick={changeWallet}
-            >
-              {accounts &&
-                `${accounts.length === 0 ? "Connect" : "Change"} Wallet`}
+            <Button sx={{ display: "block", marginTop: -2, marginX: "auto" }} onClick={changeWallet} >
+              {accounts && accounts.length === 0 ? t('header_settings_connect_wallet') : t('header_settings_change_wallet')}
             </Button>
             {withdrawableContributions?.length > 0 && (
-              <Button
-                sx={{
-                  display: "block",
-                  marginTop: 2,
-                  marginX: "auto",
-                }}
-                onClick={withdrawFeesAndRewards}
-              >
-                Withdraw Fees and Rewards
+              <Button sx={{ display: "block", marginTop: 2, marginX: "auto" }} onClick={withdrawFeesAndRewards} >
+                {t('header_settings_withdraw_fees_rewards')}
               </Button>
             )}
           </TabPanel>

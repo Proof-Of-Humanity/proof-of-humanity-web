@@ -67,10 +67,10 @@ export default function RemoveButton({ request, contract, submissionID }) {
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
 
   const createValidationSchema = ({ string, file }) => ({
-    name: string().max(50, t('profile_card_request_removal_name_validation')).required(t('profile_card_request_removal_error_required')),
+    name: string().max(50, t('profile_evidence_name_validation')).required(t('profile_evidence_error_required')),
     description: string()
-      .max(300, t('profile_card_request_removal_description_validation'))
-      .required(t('profile_card_request_removal_error_required')),
+      .max(300, t('profile_evidence_description_validation'))
+      .required(t('profile_evidence_error_required')),
     file: file(),
   });
 
@@ -115,12 +115,12 @@ export default function RemoveButton({ request, contract, submissionID }) {
               <Field
                 name="name"
                 label={t('profile_card_request_removal_evidence_name')}
-                placeholder={t('profile_card_request_removal_evidence_name_placeholder')}
+                placeholder={t('profile_evidence_example_placeholder')}
               />
               <Field
                 as={Textarea}
                 name="description"
-                label={t('profile_card_request_removal_evidence_description')}
+                label={t('profile_evidence_example_description')}
               />
               <Field
                 as={FileUpload}

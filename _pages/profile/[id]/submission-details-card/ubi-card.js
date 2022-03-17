@@ -53,7 +53,6 @@ function AccruedUBI({
   registered,
   ...rest
 }) {
-  const [, rerender] = useReducer(() => ({}), {});
   const [updatedBalance, setUpdatedBalance] = useState(currentBalanceOf);
   useInterval(() => {
     if (currentBalanceOf && accruedPerSecond && registered)
@@ -61,8 +60,6 @@ function AccruedUBI({
         if (previous) return previous.add(accruedPerSecond);
         return currentBalanceOf.add(accruedPerSecond);
       });
-
-    rerender();
   }, 1000);
 
   if (

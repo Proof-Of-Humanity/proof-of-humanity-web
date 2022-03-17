@@ -44,7 +44,9 @@ const challengeButtonFragments = {
 };
 
 function ChallengeTypeCard({ type, setType, currentType, ...rest }) {
+  //const { t, i18n } = useTranslation();
   const { imageSrc, startCase, description, key} = type;
+
   return (
     <Card
       variant="muted"
@@ -56,7 +58,7 @@ function ChallengeTypeCard({ type, setType, currentType, ...rest }) {
     >
       <Image sx={{ marginBottom: 2 }} src={imageSrc} />
       <Text sx={{ marginBottom: 2 }}>{t(`profile_status_challenge_reason_${key}`)}</Text>
-      <Text sx={{ fontWeight: "body" }}>{description}</Text>
+      <Text sx={{ fontWeight: "body" }}>{t(`profile_status_challenge_reason_${key}_description`)}</Text>
     </Card>
   );
 }
@@ -116,6 +118,8 @@ function DuplicateInput({ submissionID, setDuplicate }) {
   );
 }
 export default function ChallengeButton({ request, status, submissionID }) {
+  const { t, i18n } = useTranslation();
+
   const {
     metaEvidence: _metaEvidence,
     currentReason: _currentReason,
@@ -154,11 +158,12 @@ export default function ChallengeButton({ request, status, submissionID }) {
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
   const [reason, setReason] = useState();
   const { upload } = useArchon();
+
   return (
     <Popup
       contentStyle={{ width: undefined }}
       trigger={
-        <Button sx={{ marginY: 1, width: "100%" }} disabled={disputed && currentReasonIsNotDuplicate} disabledTooltip="Already Challenged" loading={!isGraphSynced} >
+        <Button sx={{ marginY: 1, width: "100%" }} disabled={disputed && currentReasonIsNotDuplicate} disabledTooltip={t('profile_card_already_challenged')} loading={!isGraphSynced} >
           {t('profile_card_challenge_request')}
         </Button>
       }
@@ -179,7 +184,7 @@ export default function ChallengeButton({ request, status, submissionID }) {
           >
             <Text>
               {arbitrationCost &&
-                `${web3.utils.fromWei(arbitrationCost)} ETH ${t('profile_card_deposit')}`}
+                `${web3.utils.fromWei(arbitrationCost)} ETH`}
             </Text>
           </Card>
           {status === submissionStatusEnum.PendingRegistration && (

@@ -1,4 +1,6 @@
 {
+  "poh_unsupported_network": "Red no soportada. Por favor cambiar a {{network}} y refrescar.",
+
   "Submit your profile": "Subir tu perfil",
   "Follow the steps to register to Proof of Humanity": "Segui los pasos para registrar tu perfil en Proof of Humanity",
   "How registration works? (link)": "Como funciona el registro? (link)",
@@ -7,6 +9,31 @@
   "header_pools": "Piletas",
   "header_submit_profile": "Subir Perfil",
   "header_my_profile": "Mi Perfil",
+
+  "header_settings": "Configuracion",
+  "header_settings_account": "Cuenta",
+  "header_settings_notifications": "Notificaciones",
+  "header_settings_withdraw_fees_rewards": "Retirar tarifas y recompensas",
+  "header_settings_connect_wallet": "Cambiar direccion",
+  "header_settings_change_wallet": "Cambiar direccion",
+  "header_settings_connected_infura": "Conectado a Infura",
+
+  "header_notifications_enable": "Habilitar",
+  "header_notifications_subscribe": "Suscribite para obtener actualizaciones de los registros en los que estas involucrado.",
+  "header_notifications_save": "Guardar",
+  "header_notifications_valid_email": "El Email tiene que ser valid.",
+  "header_notifications_email_required": "Requerido",
+  "header_notifications_changes_saved": "Cambios guardados.",
+
+  "header_faq": "FAQ",
+  "header_faq_help": "Obtener ayuda (Ingles)",
+  "header_faq_help_es": "Obtener ayuda (Español)",
+  "header_faq_forums": "Foros",
+  "header_faq_bugreport": "Reportar un Problema",
+  "header_faq_tutorial": "Tutorial",
+  "header_faq_begginer_guide": "Guia Crypto para Principiantes",
+
+  "footer_learn_more": "Aprende mas",
 
   "submit_profile": "Subir perfil",
   "profile_title": "Perfil",
@@ -34,6 +61,10 @@
   "profile_status_challenge_reason_Deceased": "Fallecido",
   "profile_status_challenge_reason_Duplicate": "Duplicado",
   "profile_status_challenge_reason_DoesNotExist": "No Existe",
+  "profile_status_challenge_reason_IncorrectSubmission_description": "Parte del registro es incorrecto.",
+  "profile_status_challenge_reason_Deceased_description": "El registrado ha fallecido.",
+  "profile_status_challenge_reason_Duplicate_description": "El registrado ya existado.",
+  "profile_status_challenge_reason_DoesNotExist_description": "El registrado no existe.",  
   "profile_status_duplicate_of": "de",
 
   "profile_share_vouching_title": "Registrate y valida a este perfil en Proof Of Humanity.",
@@ -68,16 +99,12 @@
   "profile_card_challenge_primary_doc": "Documento Primario",
   "profile_card_challenge_type": "Tipo De Desafio",
   "profile_card_challenge_justification": "Justificacion",
+  "profile_card_already_challenged": "Actualmente Desafiado",
 
   "profile_card_cancel_submission": "Cancelar Registro",
 
   "profile_card_request_removal": "Solicitar Remocion",
-  "profile_card_request_removal_name_validation": "Debe ser 50 caracteres o menos.",
-  "profile_card_request_removal_description_validation": "Debe ser 300 caracteres o menos.",
-  "profile_card_request_removal_error_required": "Requerido",
-  "profile_card_request_removal_evidence_name": "Nombre De Evidencia",
-  "profile_card_request_removal_evidence_name_placeholder": "Ej. El registrado no es una persona real.",
-  "profile_card_request_removal_evidence_description": "Descripcion de la Evidencia (Argumentos)",
+  "profile_card_request_removal_evidence_name": "Titulo De Evidencia",
 
   "profile_card_file": "Archivo",
   "profile_card_vouch": "Validar",
@@ -95,6 +122,26 @@
   "profile_card_pending_vouch_release": "Liberacion de Validacion Pendiente",
   "profile_card_vouches_in_use": "Validaciones en uso en otro registro",
   "profile_card_vouches_used": "Todos las validaciones otorgadas a este registro están siendo utilizados por otros registros. Espere a que resuelvan o solicite que otra persona con una validacion libre pueda validarlo.",
+
+  "profile_details_evidence": "Evidencia",
+  "profile_details_appeal": "Apelar",
+  "profile_details_evidence_scroll_first": "Bajar a la 1er Evidencia",
+  "profile_details_evidence_scroll_bottom": "Subir a la Ultima Evidencia",
+
+  "profile_evidence_submit_evidence": "Subir evidencia",
+  "profile_evidence_name_validation": "Debe ser 50 caracteres o menos.",
+  "profile_evidence_description_validation": "Debe ser 300 caracteres o menos.",
+  "profile_evidence_error_required": "Requerido",
+  "profile_evidence_submitted_by": "subido por",
+  "profile_evidence_file_size": "El archivo debe ser de {{max_size}} o menos",
+  "profile_evidence_example_placeholder": "Ej. El registrado no es una persona real.",
+  "profile_evidence_example_description": "Descripcion de la Evidencia (Argumentos)",
+  "profile_evidence_no_description": "Sin descripcion.",
+  "profile_evidence_uploading_file": "Guardando el Archivo",
+  "profile_evidence_uploading_evidence": "Guardando la Evidencia",
+  "profile_evidence_submitting_tx": "Preparando la Transaccion",
+
+  "profile_evidence_advice": "Solo envia evidencia si crees que el registro es correcto\n como esta. Enviar archivos como evidencia no ayudara si los originales son incorrectos.",
 
   "":""
 }

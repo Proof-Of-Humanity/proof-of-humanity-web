@@ -1,4 +1,6 @@
 {
+  "poh_unsupported_network": "Unsupported network. Please switch to {{network}} and refresh.",
+
   "Submit your profile": "Submit your profile",
   "Follow the steps to register to Proof of Humanity": "Follow the steps to register to Proof of Humanity",
   "How registration works? (link)": "How registration works? (link)",
@@ -7,6 +9,31 @@
   "header_pools": "Pools",
   "header_submit_profile": "Submit Profile",
   "header_my_profile": "My Profile",
+
+  "header_settings": "Settings",
+  "header_settings_account": "Account",
+  "header_settings_notifications": "Notifications",
+  "header_settings_withdraw_fees_rewards": "Withdraw Fees and Rewards",
+  "header_settings_connect_wallet": "Connect Wallet",
+  "header_settings_change_wallet": "Change Wallet",
+  "header_settings_connected_infura": "Connected to Infura",
+
+  "header_notifications_enable": "Enable",
+  "header_notifications_subscribe": "Subscribe to updates about submissions you are involved in.",
+  "header_notifications_save": "Save",
+  "header_notifications_valid_email": "Must be a valid email.",
+  "header_notifications_email_required": "Required",
+  "header_notifications_changes_saved": "Changes saved.",
+
+  "header_faq": "FAQ",
+  "header_faq_help": "Get Help (English)",
+  "header_faq_help_es": "Get Help (Spanish)",
+  "header_faq_forums": "Forums",
+  "header_faq_bugreport": "Report a Bug",
+  "header_faq_tutorial": "Tutorial",
+  "header_faq_begginer_guide": "Crypto Beginner's Guide",
+
+  "footer_learn_more": "Learn More",
   
   "submit_profile": "Submit profile",
   "profile_title": "Profile",
@@ -34,6 +61,10 @@
   "profile_status_challenge_reason_Deceased": "Deceased",
   "profile_status_challenge_reason_Duplicate": "Duplicate",
   "profile_status_challenge_reason_DoesNotExist": "Does Not Exist",
+  "profile_status_challenge_reason_IncorrectSubmission_description": "Parts of the submission are incorrect.",
+  "profile_status_challenge_reason_Deceased_description": "The submitter has passed away.",
+  "profile_status_challenge_reason_Duplicate_description": "The submitter is already registered.",
+  "profile_status_challenge_reason_DoesNotExist_description": "The submitter does not exist.",  
   "profile_status_duplicate_of": "of",
 
   "profile_share_vouching_title": "Register and vouch for this profile on Proof Of Humanity.",
@@ -68,16 +99,12 @@
   "profile_card_challenge_primary_doc": "Primary Document",
   "profile_card_challenge_type": "Challenge Type",
   "profile_card_challenge_justification": "Justification",
+  "profile_card_already_challenged": "Already Challenged",
 
   "profile_card_cancel_submission": "Cancel Submission",
 
   "profile_card_request_removal": "Request Removal",
-  "profile_card_request_removal_name_validation": "Must be 50 characters or less.",
-  "profile_card_request_removal_description_validation": "Must be 300 characters or less.",
-  "profile_card_request_removal_error_required": "Required",
   "profile_card_request_removal_evidence_name": "Evidence Name",
-  "profile_card_request_removal_evidence_name_placeholder": "E.g. The submitter is not a real person.",
-  "profile_card_request_removal_evidence_description": "Evidence Description (Your Arguments)",
 
   "profile_card_file": "File",
   "profile_card_vouch": "Vouch",
@@ -95,6 +122,26 @@
   "profile_card_pending_vouch_release": "Pending Vouch Release",
   "profile_card_vouches_in_use": "Vouches in use in other submissions",
   "profile_card_vouches_used": "All vouches given to this submission are being used by other submissions. Either wait for them to resolve or ask that someone else with a free vouch to also vouch for you.",
+
+  "profile_details_evidence": "Evidence",
+  "profile_details_appeal": "Appeal",
+  "profile_details_evidence_scroll_first": "Scroll to 1st Evidence",
+  "profile_details_evidence_scroll_bottom": "Scroll to Last Evidence",
+
+  "profile_evidence_submit_evidence": "Submit Evidence",
+  "profile_evidence_name_validation": "Must be 50 characters or less.",
+  "profile_evidence_description_validation": "Must be 300 characters or less.",
+  "profile_evidence_error_required": "Required",
+  "profile_evidence_submitted_by": "submitted by",
+  "profile_evidence_file_size": "File should be {{max_size}} or less",
+  "profile_evidence_example_placeholder": "E.g. The submitter is not a real person.",
+  "profile_evidence_example_description": "Evidence Description (Your Arguments)",
+  "profile_evidence_no_description": "No description.",
+  "profile_evidence_uploading_file": "Saving the File",
+  "profile_evidence_uploading_evidence": "Saving the Evidence",
+  "profile_evidence_submitting_tx": "Preparing the Transaction",
+
+  "profile_evidence_advice": "Only send evidence if you believe that the submission is correct\n as it is. Sending new files as evidence won't help if the submitted ones are incorrect.",
 
   "": ""
 }

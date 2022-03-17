@@ -114,37 +114,12 @@ function MyProfileLink() {
   ) : null;
 }
 
-const settings = {
-  proofOfHumanityNotifications: {
-    label: "Enable",
-    info: "Subscribe to updates about submissions you are involved in.",
-  },
-};
-
-const parseSettings = (rawSettings) => ({
-  ...Object.keys(settings).reduce((acc, setting) => {
-    acc[setting] =
-      rawSettings?.payload?.settings?.Item?.[setting]?.BOOL || false;
-    return acc;
-  }, {}),
-  email: rawSettings?.payload?.settings?.Item?.email?.S || "",
-});
-
-const normalizeSettings = ({ email, ...rest }) => ({
-  email: { S: email },
-  ...Object.keys(rest).reduce((acc, setting) => {
-    acc[setting] = {
-      BOOL: rest[setting] || false,
-    };
-    return acc;
-  }, {}),
-});
-
 function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 function AccountSettingsPopup() {
+  const { t, i18n } = useTranslation();
   const [accounts] = useWeb3("eth", "getAccounts");
   const { props } = useQuery(
     appQuery,
@@ -162,6 +137,32 @@ function AccountSettingsPopup() {
     [evidence?.file.firstName, evidence?.file.lastName]
       .filter(Boolean)
       .join(" ") || evidence?.file.name;
+
+  const settings = {
+    proofOfHumanityNotifications: {
+      label: t('header_notifications_enable'),
+      info: t('header_notifications_subscribe'),
+    },
+  };
+
+  const parseSettings = (rawSettings) => ({
+    ...Object.keys(settings).reduce((acc, setting) => {
+      acc[setting] =
+        rawSettings?.payload?.settings?.Item?.[setting]?.BOOL || false;
+      return acc;
+    }, {}),
+    email: rawSettings?.payload?.settings?.Item?.email?.S || "",
+  });
+  
+  const normalizeSettings = ({ email, ...rest }) => ({
+    email: { S: email },
+    ...Object.keys(rest).reduce((acc, setting) => {
+      acc[setting] = {
+        BOOL: rest[setting] || false,
+      };
+      return acc;
+    }, {}),
+  });
 
   return (
     <_AccountSettingsPopup
@@ -241,15 +242,8 @@ export default function App({ Component, pageProps }) {
     network !== process.env.NEXT_PUBLIC_NETWORK
   )
     return (
-      <Flex
-        sx={{
-          alignItems: "center",
-          height: "100vh",
-          justifyContent: "center",
-          width: "100vw",
-        }}
-      >
-        Unsupported network. Please switch to {capitalize(network)} and refresh.
+      <Flex sx={{ alignItems: "center", height: "100vh", justifyContent: "center", width: "100vw" }}>
+        {t('poh_unsupported_network', { network: capitalize(network) })}
       </Flex>
     );
 
@@ -424,7 +418,7 @@ export default function App({ Component, pageProps }) {
         newTab
         href="https://www.proofofhumanity.id/"
       >
-        Learn More
+        {t('footer_learn_more')}
       </Link>
     ),
     right: <SocialIcons color="#ffffff" />,
