@@ -16,7 +16,8 @@ export default class VideoTab extends React.Component {
       recordedVideo: [],
       recordedVideoUrl: '',
       videoURI: '', 
-      file:''
+      file:'',
+      mirrored:false
     }
   }
 
@@ -44,7 +45,8 @@ export default class VideoTab extends React.Component {
   videoConstraints = {
     width: { min: 640, ideal: 1920 }, //     width: { min: 640, ideal: 1280, max: 1920 },
     height: { min: 480, ideal: 1080 }, //     height: { min: 480, ideal: 720, max: 1080 }
-    framerate: { min: 24, ideal: 60 }
+    framerate: { min: 24, ideal: 60 },
+    facingMode:'user'
   }
 
   videoRulesList = [
@@ -88,6 +90,7 @@ export default class VideoTab extends React.Component {
       let body = { buffer: buffer, type };
       let requestOptions = {
         method: 'POST',
+        mode:'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       };
@@ -133,7 +136,9 @@ export default class VideoTab extends React.Component {
   }
 
   onUserMedia = (mediaStream) => {
+    console.log(mediaStream.length)
     console.log('User media detected', mediaStream);
+    this.setState({userMedia:mediaStream});
   }
 
   onUserMediaError = (error) => {
@@ -176,6 +181,13 @@ export default class VideoTab extends React.Component {
     //this.uploadVideo(buffer);
     this.setState({ recordedVideoUrl: videoURL, file: blob, recording: false, cameraEnabled: false });
   }
+  mirrorVideo = () =>{
+    if(this.state.mirrored == true){
+      this.setState({mirrored:false})
+    } else{
+      this.setState({mirrored:true})
+    }
+  }
 
   render = () => {
     return (
@@ -212,7 +224,7 @@ export default class VideoTab extends React.Component {
                   style={{ width: '100%' }}
                   ref={camera => { this.camera = camera }}
                   audio={true}
-                  mirrored={false}
+                  mirrored={this.state.mirrored}
                   videoConstraints={this.videoConstraints}
                   onCanPlayThrough={() => false}
                   onClick={(event) => event.preventDefault()}
@@ -224,7 +236,31 @@ export default class VideoTab extends React.Component {
                     <div>RECORDING IN PROGRESS</div>
                     <Button onClick={this.handleStopCaptureClick} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Stop recording</Button>
                   </div>
-                ) : <Row><Col xl={12} xs={24}><Button onClick={this.handleStartCaptureClick} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Start recording</Button></Col><Col xl={12} xs={24}><Button onClick={this.retakeVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Choose a different video</Button></Col></Row>}
+                ) :
+                
+                  
+                  
+                <Row>
+                      <Col xl={8} xs={24}>
+                        <Button onClick={this.handleStartCaptureClick} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none',width:'100%',height:'100%'}}>Start recording</Button>
+                        </Col>
+                        <Col xl={8} xs={24}>
+                        <Button onClick={this.retakeVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none',width:'100%',height:'100%'}}>Choose a different video source</Button>
+                        </Col>
+                        <Col xl={8} xs={24}>
+                        <Button onClick={this.mirrorVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none',width:'100%',height:'100%'}}>Mirror video</Button></Col><Col xl={12} xs={24}>
+                      </Col>
+                      {this.state.userMedia.length>1 && (
+                        <>
+                        <Col xl={8} xs={24}>
+                        <Button onClick={this.mirrorVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none',width:'100%',height:'100%'}}>Switch camera</Button></Col><Col xl={12} xs={24}>
+                      </Col>
+                      </>
+                      )}
+                      
+                    </Row>
+                    
+                    }
 
               </Col>
             ) : (
