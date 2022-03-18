@@ -250,7 +250,7 @@ export default class VideoTab extends React.Component {
                         <Col xl={8} xs={24}>
                         <Button onClick={this.mirrorVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none',width:'100%',height:'100%'}}>Mirror video</Button></Col><Col xl={12} xs={24}>
                       </Col>
-                      {this.state.userMedia.length>1 && (
+                      {this.state.userMedia?.length > 1 && (
                         <>
                         <Col xl={8} xs={24}>
                         <Button onClick={this.mirrorVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none',width:'100%',height:'100%'}}>Switch camera</Button></Col><Col xl={12} xs={24}>
