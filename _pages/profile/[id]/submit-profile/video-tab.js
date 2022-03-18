@@ -137,7 +137,7 @@ export default class VideoTab extends React.Component {
 
   onUserMedia = (mediaStream) => {
     console.log(mediaStream.length)
-    console.log('User media detected', mediaStream);
+    console.log('User media detected', JSON.stringify(mediaStream));
     this.setState({userMedia:mediaStream});
   }
 
