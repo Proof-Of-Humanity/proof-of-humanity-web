@@ -238,7 +238,7 @@ export default class VideoTab extends React.Component {
             ) : (
               !this.state.recording && this.state.recordedVideoUrl !== '' ? (
                 <Col xs={24} xl={12} style={{display:'block', margin:'0 auto'}}>
-                  <video controls style={{ width: '100%' }} src={this.state.recordedVideoUrl}></video>
+                  <video crossOrigin="anonymous" controls style={{ width: '100%' }} src={this.state.recordedVideoUrl}></video>
                   <Button onClick={this.retakeVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Choose a different video</Button>
                 </Col>
               ) : (

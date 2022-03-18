@@ -382,7 +382,7 @@ export default function SubmissionDetailsCard({
           </Text>
         </Flex>
         <EthereumAccount diameter={16} address={id} sx={{ marginBottom: 2, fontWeight: "bold" }} />
-        <Video url={evidence?.file?.video} onEnded={() => { checkedVideo(false) }} />
+        <Video config={{ file: { attributes: { crossOrigin: 'true' }}}} url={evidence?.file?.video} onEnded={() => { checkedVideo(false) }} />
         <UBICard
           submissionID={id}
           lastStatusChange={lastStatusChange}

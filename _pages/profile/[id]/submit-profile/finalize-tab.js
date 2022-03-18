@@ -103,7 +103,7 @@ export default class FinalizeTab extends React.Component {
               {this.props.state.videoURI !== '' ?
               <>
               <p>This is your video:</p>
-              <video controls
+              <video crossOrigin="anonymous" controls
               onEnded={(event)=>this.handleVideo(event)}
                 style={
                   {width: '50%'}

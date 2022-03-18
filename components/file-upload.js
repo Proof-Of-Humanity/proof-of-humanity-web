@@ -214,7 +214,7 @@ export default function FileUpload({
                 }}
               >
                 {file.type.startsWith("video") ? (
-                  <Video variant="thumbnail" url={file.preview} />
+                  <Video config={{ file: { attributes: { crossOrigin: 'true' }}}} variant="thumbnail" url={file.preview} />
                 ) : file.type.startsWith("image") ? (
                   <Image crossOrigin="anonymous" variant="thumbnail" src={file.preview} />
                 ) : (

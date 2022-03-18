@@ -263,17 +263,17 @@ export default function App({ Component, pageProps }) {
   // Remove hardcode to programatical list
   const menu = (
     <Menu selectedKeys ={[i18n.language]}>
-      <Menu.Item key="en" onClick={() => changeLanguage('en')}><img crossorigin="anonymous" src="/images/en.png" width="20" height="15" /> English</Menu.Item>
+      <Menu.Item key="en" onClick={() => changeLanguage('en')}><img crossOrigin="anonymous" src="/images/en.png" width="20" height="15" /> English</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="es" onClick={() => changeLanguage('es')}><img crossorigin="anonymous" src="/images/es.png" width="20" height="15" /> Spanish</Menu.Item>
+      <Menu.Item key="es" onClick={() => changeLanguage('es')}><img crossOrigin="anonymous" src="/images/es.png" width="20" height="15" /> Spanish</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="pt" onClick={() => changeLanguage('es')}><img crossorigin="anonymous" src="/images/pt.png" width="20" height="15" /> Portuguese</Menu.Item>
+      <Menu.Item key="pt" onClick={() => changeLanguage('es')}><img crossOrigin="anonymous" src="/images/pt.png" width="20" height="15" /> Portuguese</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="fr" onClick={() => changeLanguage('es')}><img crossorigin="anonymous" src="/images/fr.png" width="20" height="15" /> French</Menu.Item>
+      <Menu.Item key="fr" onClick={() => changeLanguage('es')}><img crossOrigin="anonymous" src="/images/fr.png" width="20" height="15" /> French</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="it" onClick={() => changeLanguage('es')}><img crossorigin="anonymous" src="/images/it.png" width="20" height="15" /> Italian</Menu.Item>
+      <Menu.Item key="it" onClick={() => changeLanguage('es')}><img crossOrigin="anonymous" src="/images/it.png" width="20" height="15" /> Italian</Menu.Item>
       <Menu.Divider />
-      <Menu.Item key="cn" onClick={() => changeLanguage('es')}><img crossorigin="anonymous" src="/images/cn.png" width="20" height="15" /> Chinese</Menu.Item>
+      <Menu.Item key="cn" onClick={() => changeLanguage('es')}><img crossOrigin="anonymous" src="/images/cn.png" width="20" height="15" /> Chinese</Menu.Item>
     </Menu>
   );
 
@@ -356,7 +356,7 @@ export default function App({ Component, pageProps }) {
       >
         <Dropdown overlay={menu}>
           <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-            <img crossorigin="anonymous" src={`/images/${i18n.language}.png`} width="30" height="25" />
+            <img crossOrigin="anonymous" src={`/images/${i18n.language}.png`} width="30" height="25" />
           </div>
         </Dropdown>
         <WalletConnection
