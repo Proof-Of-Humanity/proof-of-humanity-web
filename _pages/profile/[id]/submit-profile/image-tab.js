@@ -14,7 +14,7 @@ import {
   Image
 } from 'antd';
 
-import {FileAddFilled,CameraFilled} from '@ant-design/icons';
+import {FileAddFilled,CameraFilled,CheckCircleFilled,CloseCircleFilled} from '@ant-design/icons';
 import Cropper from 'react-easy-crop';
 import getCroppedImg from './cropImage'
 const { Title, Paragraph, Text, Link } = Typography;
@@ -94,11 +94,31 @@ export default class ImageTab extends React.Component {
 
   imageRulesList = [
     {
-      title: 'Face the camera',
-      description: 'The submitter facial features must be visible with good enough lightning conditions.'
+      title: <Title level={4} style={{display: 'block', margin:'0 auto'}}>Image rules</Title>,
+      description: <>
+      <Space direction={'horizontal'} align="center">
+      <Space direction={'vertical'}><React.Fragment style={{display: 'block', margin:'0 auto'}}><Image src="/images/front-facing.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'30px',color:'green',margin:'0 auto',display:'block'}} /></React.Fragment></Space>
+      <Space direction={'vertical'}><Image src="/images/not-front-facing.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space> <br />
+      <Space direction={'vertical'}><Image src="/images/glasses.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'30px',color:'green',margin:'0 auto',display:'block'}} /></Space>
+      <Space direction={'vertical'}><Image src="/images/sunglasses.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space>
+      </Space>
+      <Paragraph style={{margin:'0 auto', display:'block', fontSize:'16px'}}>The submitter&apos;s facial features must be visible with good enough lightning conditions and facing the camera.</Paragraph>
+      </>
     }, {
-      title: 'Show your real self',
-      description: 'The submitters should not be covered under heavy make-up, large piercings or masks.'
+      title: '',
+      description: <>
+      <Space direction={'horizontal'} align="center">
+      <Space direction={'vertical'}><Image src="/images/hijab.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled  style={{fontSize:'30px',color:'green',margin:'0 auto',display:'block'}} /></Space>
+      <Space direction={'vertical'}><Image src="/images/niqab.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space>
+      <Space direction={'vertical'}><Image src="/images/b&w.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space>
+      <Space direction={'vertical'}><Image src="/images/mask.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space>
+      
+      
+      </Space>
+      <br />
+      <Space direction={'vertical'}><Paragraph>The submitter&apos;s face should be in color and not covered under heavy make-up, large piercings or masks.</Paragraph></Space>
+      
+      </>
     }, {
       title: '',
       description: ''
@@ -329,9 +349,7 @@ export default class ImageTab extends React.Component {
           }>
             <div>TEST</div>
           </ReactWebcam>
-          <button onClick={
-            this.takePicture
-          }>Take image!</button>
+          <Button onClick={this.takePicture} shape='round' style={{display:'block', margin:'10px auto', background:"#000", color:'white', border:'none',width:'10%',height:'100%'}}><CameraFilled style={{fontSize:'16px'}} /></Button>
         </div>
       ) : !this.state.picture ? (
         <Row>
