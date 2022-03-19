@@ -3,14 +3,14 @@ import ReactWebcam from 'react-webcam';
 import { Steps, Row, Col, Button, Upload, Space, List } from 'antd';
 import { FileAddFilled, VideoCameraFilled } from '@ant-design/icons';
 
-import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg';
+import { videoSanitizer } from 'lib/media-controller';
 
 export default class VideoTab extends React.Component {
   constructor(props) {
     super(props);
     this.mediaRecorderRef = React.createRef();
 
-    console.log('VideoTab props=', props);
+    // console.log('VideoTab props=', props);
 
     this.state = {
       cameraEnabled: false,
@@ -18,14 +18,8 @@ export default class VideoTab extends React.Component {
       recordedVideo: [],
       recordedVideoUrl: '',
       videoURI: '', 
-      file:'',
-      ffmpeg: createFFmpeg({ 
-        log: true,
-        corePath: 'https://unpkg.com/@ffmpeg/core@0.10.0/dist/ffmpeg-core.js'
-      }),
+      file:''
     };
-
-    this.state.ffmpeg.load();
   }
 
   videoOptions = {
@@ -88,32 +82,19 @@ export default class VideoTab extends React.Component {
   uploadVideo = () => {
     let file = this.state.file;
     console.log(file);
+    
     this.props.next();
+
     file.arrayBuffer().then((_buffer) => {
-      
       let buffer = Buffer.from(_buffer);
       let type = this.state.file.type.split('/')[1];
-      let body = { buffer: buffer, type };
-      let requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      };
-
-      console.log('uploadVideo requestOptions=', requestOptions);
-
-      fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/video', requestOptions)
-      .then((response) =>{
-        return response.json();
-      })
-      .then(({URI}) =>{
-
-        console.log("videoURI: "+URI)
-        this.setState({
-          fileURI: URI
-        });
-        this.props.stateHandler({videoURI:URI})
-      })
+      
+      videoSanitizer(buffer, type)
+        .then((URI) => {
+          console.log("videoURI: " + URI);
+          this.setState({ fileURI: URI });
+          this.props.stateHandler({ videoURI:URI });
+        })
         .catch(error => {
           // Handle errors
           console.log('Video upload error=', error);

@@ -16,7 +16,7 @@ const {Title, Link, Paragraph} = Typography;
 export default class FinalizeTab extends React.Component {
   constructor(props) {
     super(props);
-    console.log('FinalizeTab props=', props);
+    // console.log('FinalizeTab props=', props);
     this.state = {
       loading:false,
       playedVideo:false
