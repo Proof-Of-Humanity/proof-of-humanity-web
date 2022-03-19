@@ -1,13 +1,13 @@
 import React from 'react';
 import { Steps, Row, Col, Button } from 'antd';
-import { FileTextOutlined, FileTextFilled, CameraOutlined, CameraFilled, VideoCameraOutlined, VideoCameraFilled, CheckOutlined, CheckCircleFilled } from '@ant-design/icons';
+import { FileTextOutlined, FileTextFilled, CameraOutlined, CameraFilled, VideoCameraOutlined, VideoCameraFilled, CheckOutlined, CheckCircleFilled, HourglassFilled } from '@ant-design/icons';
 
 import InitialTab from './initial-tab';
 import ImageTab from './image-tab';
 import VideoTab from './video-tab';
 import FinalizeTab from './finalize-tab';
 import PostSubmitTab from './post-submit-tab';
-import { clearCache } from 'clear-cache';
+
 
 
 //const { connect, web3 } = useWeb3;
@@ -63,11 +63,11 @@ export default class NewSubmitProfileForm extends React.Component {
       icon: <CheckCircleFilled />
     },
     {
-      title: 'Final steps',
-      subtitle: 'Final steps',
+      title: 'Next steps',
+      subtitle: 'Next steps',
       content: (props) => <PostSubmitTab {...props}  />,
       description: 'Final steps for your registration',
-      icon: <CheckCircleFilled />
+      icon: <HourglassFilled />
     }
   ]
 
