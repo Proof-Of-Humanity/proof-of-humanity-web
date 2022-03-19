@@ -262,7 +262,7 @@ export default function App({ Component, pageProps }) {
 
   // Remove hardcode to programatical list
   const menu = (
-    <Menu selectedKeys ={[i18n.language]}>
+    <Menu selectedKeys ={[i18n.resolvedLanguage]}>
       <Menu.Item key="en" onClick={() => changeLanguage('en')}><img src="/images/en.png" width="20" height="15" /> English</Menu.Item>
       <Menu.Divider />
       <Menu.Item key="es" onClick={() => changeLanguage('es')}><img src="/images/es.png" width="20" height="15" /> Spanish</Menu.Item>
@@ -356,7 +356,7 @@ export default function App({ Component, pageProps }) {
       >
         <Dropdown overlay={menu}>
           <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-            <img src={`/images/${i18n.language}.png`} width="30" height="25" />
+            <img src={`/images/${i18n.resolvedLanguage}.png`} width="30" height="25" />
           </div>
         </Dropdown>
         <WalletConnection

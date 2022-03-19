@@ -15,9 +15,11 @@ export default class VideoTab extends React.Component {
       recording: false,
       recordedVideo: [],
       recordedVideoUrl: '',
-      videoURI: '', 
-      file:'',
-      mirrored:false
+      videoURI: '',
+      file: '',
+      mirrored: false,
+      videoDevices: 0,
+      facingMode: 'user',
     }
   }
 
@@ -46,7 +48,6 @@ export default class VideoTab extends React.Component {
     width: { min: 640, ideal: 1920 }, //     width: { min: 640, ideal: 1280, max: 1920 },
     height: { min: 480, ideal: 1080 }, //     height: { min: 480, ideal: 720, max: 1080 }
     framerate: { min: 24, ideal: 60 },
-    facingMode:'user'
   }
 
   videoRulesList = [
@@ -84,7 +85,6 @@ export default class VideoTab extends React.Component {
     console.log(file);
     this.props.next();
     file.arrayBuffer().then((_buffer) => {
-      
       let buffer = Buffer.from(_buffer);
       let type = this.state.file.type.split('/')[1];
       let body = { buffer: buffer, type };
@@ -97,17 +97,17 @@ export default class VideoTab extends React.Component {
       console.log('uploadVideo requestOptions=', requestOptions);
 
       fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/video', requestOptions)
-      .then((response) =>{
-        return response.json();
-      })
-      .then(({URI}) =>{
+        .then((response) => {
+          return response.json();
+        })
+        .then(({ URI }) => {
 
-        console.log("videoURI: "+URI)
-        this.setState({
-          fileURI: URI
-        });
-        this.props.stateHandler({videoURI:URI})
-      })
+          console.log("videoURI: " + URI)
+          this.setState({
+            fileURI: URI
+          });
+          this.props.stateHandler({ videoURI: URI })
+        })
         .catch(error => {
           // Handle errors
           console.log('Video upload error=', error);
@@ -116,9 +116,9 @@ export default class VideoTab extends React.Component {
             recording: false,
             recordedVideo: [],
             recordedVideoUrl: '',
-            videoURI: '', 
-            file:'',
-            mirrored:false
+            videoURI: '',
+            file: '',
+            mirrored: false
             // cameraEnabled: true?
           });
         });
@@ -134,15 +134,22 @@ export default class VideoTab extends React.Component {
       recording: false,
       cameraEnabled: false,
       recordedVideo: [],
-      recordedVideoUrl:'', 
-      file:''
+      recordedVideoUrl: '',
+      file: ''
     })
   }
 
   onUserMedia = (mediaStream) => {
-    console.log(mediaStream.length)
-    console.log('User media detected', JSON.stringify(mediaStream));
-    this.setState({userMedia:mediaStream});
+    console.log('User media detected', mediaStream);
+    this.setState({ userMedia: mediaStream });
+
+    // maybe move this to another place?
+    if (this.state.videoDevices === 0) {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
+        let videoDevices = devices.filter((d) => d.kind === "videoinput").length;
+        this.setState({ videoDevices });
+      });
+    }
   }
 
   onUserMediaError = (error) => {
@@ -185,16 +192,26 @@ export default class VideoTab extends React.Component {
     //this.uploadVideo(buffer);
     this.setState({ recordedVideoUrl: videoURL, file: blob, recording: false, cameraEnabled: false });
   }
-  mirrorVideo = () =>{
-    if(this.state.mirrored == true){
-      this.setState({mirrored:false})
-    } else{
-      this.setState({mirrored:true})
+
+  mirrorVideo = () => {
+    if (this.state.mirrored == true) {
+      this.setState({ mirrored: false })
+    } else {
+      this.setState({ mirrored: true })
+    }
+  }
+
+  switchCamera = () => {
+    if (this.state.facingMode == 'user') {
+      this.setState({ facingMode: 'environment' });
+    } else {
+      this.setState({ facingMode: 'user' });
     }
   }
 
   render = () => {
-    console.log(this.state)
+    console.log('videoTab render state', this.state);
+
     return (
       <>
         <Row>
@@ -218,10 +235,9 @@ export default class VideoTab extends React.Component {
           <>
             {!this.state.cameraEnabled && !this.state.file && (
               <Col xs={24} xl={12}>
-                <Button onClick={this.enableCamera} style={{width: '95%', height: '100%',fontSize:'14px', border:'1px solid black'}}><VideoCameraFilled /> <br />Record now using my camera</Button>
+                <Button onClick={this.enableCamera} style={{ width: '95%', height: '100%', fontSize: '14px', border: '1px solid black' }}><VideoCameraFilled /> <br />Record now using my camera</Button>
               </Col>
             )}
-
 
             {this.state.cameraEnabled ? (
               <Col xs={24}>
@@ -230,7 +246,7 @@ export default class VideoTab extends React.Component {
                   ref={camera => { this.camera = camera }}
                   audio={true}
                   mirrored={this.state.mirrored}
-                  videoConstraints={this.videoConstraints}
+                  videoConstraints={{ ...this.videoConstraints, facingMode: this.state.facingMode }}
                   onCanPlayThrough={() => false}
                   onClick={(event) => event.preventDefault()}
                   onUserMedia={this.onUserMedia}
@@ -239,40 +255,35 @@ export default class VideoTab extends React.Component {
                 {this.state.recording ? (
                   <div>
                     <div>RECORDING IN PROGRESS</div>
-                    <Button onClick={this.handleStopCaptureClick} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Stop recording</Button>
+                    <Button onClick={this.handleStopCaptureClick} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none' }}>Stop recording</Button>
                   </div>
                 ) :
-                
-                  
-                  
-                <Row>
-                      <Col xl={8} xs={24}>
-                        <Button onClick={this.handleStartCaptureClick} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none',width:'100%',height:'100%'}}>Start recording</Button>
+                  <Row>
+                    <Col xl={8} xs={24}>
+                      <Button onClick={this.handleStartCaptureClick} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none', width: '100%', height: '100%' }}>Start recording</Button>
+                    </Col>
+                    <Col xl={8} xs={24}>
+                      <Button onClick={this.retakeVideo} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none', width: '100%', height: '100%' }}>Choose a different video source</Button>
+                    </Col>
+                    <Col xl={8} xs={24}>
+                      <Button onClick={this.mirrorVideo} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none', width: '100%', height: '100%' }}>Mirror video</Button></Col><Col xl={12} xs={24}>
+                    </Col>
+                    {this.state.videoDevices > 1 && (
+                      <>
+                        <Col xl={8} xs={24}>
+                          <Button onClick={this.switchCamera} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none', width: '100%', height: '100%' }}>Switch camera</Button></Col><Col xl={12} xs={24}>
                         </Col>
-                        <Col xl={8} xs={24}>
-                        <Button onClick={this.retakeVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none',width:'100%',height:'100%'}}>Choose a different video source</Button>
-                        </Col>
-                        <Col xl={8} xs={24}>
-                        <Button onClick={this.mirrorVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none',width:'100%',height:'100%'}}>Mirror video</Button></Col><Col xl={12} xs={24}>
-                      </Col>
-                      {this.state.userMedia?.length > 1 && (
-                        <>
-                        <Col xl={8} xs={24}>
-                        <Button onClick={this.mirrorVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none',width:'100%',height:'100%'}}>Switch camera</Button></Col><Col xl={12} xs={24}>
-                      </Col>
                       </>
-                      )}
-                      
-                    </Row>
-                    
-                    }
+                    )}
+                  </Row>
+                }
 
               </Col>
             ) : (
               !this.state.recording && this.state.recordedVideoUrl !== '' ? (
-                <Col xs={24} xl={12} style={{display:'block', margin:'0 auto'}}>
+                <Col xs={24} xl={12} style={{ display: 'block', margin: '0 auto' }}>
                   <video controls style={{ width: '100%' }} src={this.state.recordedVideoUrl}></video>
-                  <Button onClick={this.retakeVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Choose a different video</Button>
+                  <Button onClick={this.retakeVideo} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none' }}>Choose a different video</Button>
                 </Col>
               ) : (
                 null
@@ -281,11 +292,11 @@ export default class VideoTab extends React.Component {
           </>
           {!this.state.cameraEnabled && !this.state.file && (
             <Col xs={24} xl={12}>
-              <Upload.Dragger {...this.draggerProps} style={{width: '95%', height: '100%',background: 'white', border:'1px solid black'}}>
+              <Upload.Dragger {...this.draggerProps} style={{ width: '95%', height: '100%', background: 'white', border: '1px solid black' }}>
 
                 <FileAddFilled />
 
-                <p className='ant-upload-text' style={{fontSize:'14px'}}>Click or drag file to this area to upload</p>
+                <p className='ant-upload-text' style={{ fontSize: '14px' }}>Click or drag file to this area to upload</p>
                 <p className='ant-upload-hint'>
                   Video's format can be: {this.videoOptions.types.label}
                 </p>
@@ -293,10 +304,9 @@ export default class VideoTab extends React.Component {
             </Col>
           )}
         </Row>
-        <Row style={{marginTop: '2%'}}>
-        <Button type='primary' shape='round' style={{fontWeight:'bold',display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.props.prev}>Previous</Button>
-        <Button type='primary' disabled={this.state.file == ''} shape='round' style={{fontWeight:'bold',display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none'}} onClick={this.uploadVideo}>Next</Button>
-         
+        <Row style={{ marginTop: '2%' }}>
+          <Button type='primary' shape='round' style={{ fontWeight: 'bold', display: 'block', margin: '0 auto', backgroundColor: "#ffb978", border: 'none' }} onClick={this.props.prev}>Previous</Button>
+          <Button type='primary' disabled={this.state.file == ''} shape='round' style={{ fontWeight: 'bold', display: 'block', margin: '0 auto', backgroundColor: "#ffb978", border: 'none' }} onClick={this.uploadVideo}>Next</Button>
         </Row>
       </>
     );
