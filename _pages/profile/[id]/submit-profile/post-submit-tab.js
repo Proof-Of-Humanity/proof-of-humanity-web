@@ -10,7 +10,7 @@ const { Link, Paragraph, Title } = Typography;
 export default class PostSubmitTab extends React.Component {
   constructor(props) {
     super(props);
-    console.log('Final steps props=', props);
+    // console.log('Final steps props=', props);
   }
   goToProfile = () => {
     window.location.reload();

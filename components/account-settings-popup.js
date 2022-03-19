@@ -109,7 +109,7 @@ export default function AccountSettingsPopup({
                 (accounts.length === 0 ? t('header_settings_connected_infura') : (
                   <Flex sx={{ alignItems: "center" }}>
                     {photo ? (
-                      <Image sx={{ objectFit: "contain", width: 32, height: 32 }} variant="avatar" src={photo} />
+                      <Image crossOrigin="anonymous" sx={{ objectFit: "contain", width: 32, height: 32 }} variant="avatar" src={photo} />
                     ) : (
                       <Identicon address={accounts[0]} />
                     )}

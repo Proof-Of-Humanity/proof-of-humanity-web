@@ -183,6 +183,7 @@ const SubmitProfileForm = memo(
                       ? true
                       : new Promise((resolve) => {
                           const video = document.createElement("video");
+                          video.crossOrigin = 'anonymous';
 
                           video.addEventListener("loadeddata", () => {
                             const { videoWidth, videoHeight } = video;

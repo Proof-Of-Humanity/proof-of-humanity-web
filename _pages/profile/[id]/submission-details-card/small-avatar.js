@@ -60,7 +60,7 @@ export default function SmallAvatar({ submissionId }) {
         <Popup
           trigger={
             <Box sx={{ span: { display: "flex" } }}>
-              <Image variant={variant} src={evidence?.file?.photo} />
+              <Image crossOrigin="anonymous" variant={variant} src={evidence?.file?.photo} />
             </Box>
           }
           on={["focus", "hover"]}

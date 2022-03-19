@@ -7,7 +7,6 @@ import ImageTab from './image-tab';
 import VideoTab from './video-tab';
 import FinalizeTab from './finalize-tab';
 import PostSubmitTab from './post-submit-tab';
-import { clearCache } from 'clear-cache';
 
 
 //const { connect, web3 } = useWeb3;

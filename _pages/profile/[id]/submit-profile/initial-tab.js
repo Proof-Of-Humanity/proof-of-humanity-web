@@ -10,7 +10,7 @@ const { Link, Paragraph, Title } = Typography;
 export default class InitialTab extends React.Component {
   constructor(props) {
     super(props);
-    console.log('InitialTab props=', props);
+    // console.log('InitialTab props=', props);
   }
   
   

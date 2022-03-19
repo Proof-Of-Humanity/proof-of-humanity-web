@@ -56,7 +56,7 @@ function ChallengeTypeCard({ type, setType, currentType, ...rest }) {
       active={type === currentType}
       {...rest}
     >
-      <Image sx={{ marginBottom: 2 }} src={imageSrc} />
+      <Image crossOrigin="anonymous" sx={{ marginBottom: 2 }} src={imageSrc} />
       <Text sx={{ marginBottom: 2 }}>{t(`profile_status_challenge_reason_${key}`)}</Text>
       <Text sx={{ fontWeight: "body" }}>{t(`profile_status_challenge_reason_${key}_description`)}</Text>
     </Card>
