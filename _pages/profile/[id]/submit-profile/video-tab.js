@@ -164,7 +164,6 @@ export default class VideoTab extends React.Component {
     });
 
     this.mediaRecorderRef.current.ondataavailable = this.handleDataAvailable;
-    this.mediaRecorderRef.current.onstop = this.handleStop;
 
     this.mediaRecorderRef.current.start();
   }
@@ -176,21 +175,12 @@ export default class VideoTab extends React.Component {
     });
   }
 
-  handleStopCaptureClick = () => {
-    try{
-    if (this.state.recording) {
-      console.log(this.mediaRecorderRef)
-      this.mediaRecorderRef.current.stop();
-    }
-  }catch(e){
-    console.log(e);
-  }
-  }
 
   handleStop = () => {
+    this.mediaRecorderRef.current.stop();
     console.log(this.state.recordedVideo);
 
-    let blob = new Blob(this.state.recordedVideo, { type: 'video/x-matroska;codecs=avc1' });
+    let blob = new Blob(this.state.recordedVideo, { type: 'video/webm;codecs=h264,avc1' });
     let videoURL = window.URL.createObjectURL(blob);
 
     //let buffer = await this.blobToArray(blob);
