@@ -221,7 +221,7 @@ export default class ImageTab extends React.Component {
 
     fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/photo', requestOptions).then(response => response.json()).then(({URI}) => {
       console.log('Image URI=', URI);
-      this.setState({fileURI: URI});
+      this.setState({fileURI: URI,loading:false});
       this.props.stateHandler({imageURI: URI});
       this.props.next()
     }).catch(error => { // Handle errors
