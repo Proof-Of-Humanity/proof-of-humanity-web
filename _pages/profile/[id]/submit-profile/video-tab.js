@@ -177,9 +177,14 @@ export default class VideoTab extends React.Component {
   }
 
   handleStopCaptureClick = () => {
+    try{
     if (this.state.recording) {
+
       this.mediaRecorderRef.current.stop();
     }
+  }catch(e){
+    console.log(e);
+  }
   }
 
   handleStop = () => {
