@@ -179,7 +179,7 @@ export default class VideoTab extends React.Component {
   handleStopCaptureClick = () => {
     try{
     if (this.state.recording) {
-
+      console.log(this.mediaRecorderRef)
       this.mediaRecorderRef.current.stop();
     }
   }catch(e){
@@ -260,7 +260,7 @@ export default class VideoTab extends React.Component {
                 {this.state.recording ? (
                   <div>
                     <div>RECORDING IN PROGRESS</div>
-                    <Button onClick={this.handleStopCaptureClick} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none' }}>Stop recording</Button>
+                    <Button onClick={this.handleStop} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none' }}>Stop recording</Button>
                   </div>
                 ) :
                   <Row>
