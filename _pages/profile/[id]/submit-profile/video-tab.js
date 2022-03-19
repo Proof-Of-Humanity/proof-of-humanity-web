@@ -90,7 +90,6 @@ export default class VideoTab extends React.Component {
       let body = { buffer: buffer, type };
       let requestOptions = {
         method: 'POST',
-        mode:'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       };
@@ -113,8 +112,13 @@ export default class VideoTab extends React.Component {
           // Handle errors
           console.log('Video upload error=', error);
           this.setState({
+            cameraEnabled: false,
+            recording: false,
             recordedVideo: [],
             recordedVideoUrl: '',
+            videoURI: '', 
+            file:'',
+            mirrored:false
             // cameraEnabled: true?
           });
         });
@@ -190,6 +194,7 @@ export default class VideoTab extends React.Component {
   }
 
   render = () => {
+    console.log(this.state)
     return (
       <>
         <Row>
