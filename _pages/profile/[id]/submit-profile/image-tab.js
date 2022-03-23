@@ -25,7 +25,7 @@ export default class ImageTab extends React.Component {
     console.log('ImageTab props=', props);
 
     this.state = {
-      cameraEnabled: false,
+      cameraEnabled: true,
       image: null,
       fileURI: '',
       loading:false,
@@ -36,7 +36,8 @@ export default class ImageTab extends React.Component {
       rotation: 0,
       zoom: 1,
       croppedAreaPixels: null,
-      croppedImage: null
+      croppedImage: null,
+      userMedia:null
     }
   }
 
@@ -97,26 +98,22 @@ export default class ImageTab extends React.Component {
       title: <Title level={4} style={{display: 'block', margin:'0 auto'}}>Image rules</Title>,
       description: <>
       <Space direction={'horizontal'} align="center">
-      <Space direction={'vertical'}><React.Fragment style={{display: 'block', margin:'0 auto'}}><Image src="/images/front-facing.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'30px',color:'green',margin:'0 auto',display:'block'}} /></React.Fragment></Space>
-      <Space direction={'vertical'}><Image src="/images/not-front-facing.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space> <br />
-      <Space direction={'vertical'}><Image src="/images/glasses.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'30px',color:'green',margin:'0 auto',display:'block'}} /></Space>
-      <Space direction={'vertical'}><Image src="/images/sunglasses.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space>
+        <Space direction={'vertical'}><Image src="/images/front-facing.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'20px',color:'green',margin:'0 auto',display:'block'}} /></Space>
+        <Space direction={'vertical'}><Image src="/images/not-front-facing.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'20px',color:'red',margin:'0 auto',display:'block'}} /></Space> <br />
+        <Space direction={'vertical'}><Image src="/images/glasses.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'20px',color:'green',margin:'0 auto',display:'block'}} /></Space>
+        <Space direction={'vertical'}><Image src="/images/sunglasses.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'20px',color:'red',margin:'0 auto',display:'block'}} /></Space>
       </Space>
-      <Paragraph style={{margin:'0 auto', display:'block', fontSize:'16px'}}>The submitter&apos;s facial features must be visible with good enough lightning conditions and facing the camera.</Paragraph>
       </>
     }, {
       title: '',
       description: <>
       <Space direction={'horizontal'} align="center">
-      <Space direction={'vertical'}><Image src="/images/hijab.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled  style={{fontSize:'30px',color:'green',margin:'0 auto',display:'block'}} /></Space>
-      <Space direction={'vertical'}><Image src="/images/niqab.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space>
-      <Space direction={'vertical'}><Image src="/images/b&w.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space>
-      <Space direction={'vertical'}><Image src="/images/mask.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space>
-      
+        <Space direction={'vertical'}><Image src="/images/hijab.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled  style={{fontSize:'20px',color:'green',margin:'0 auto',display:'block'}} /></Space>
+        <Space direction={'vertical'}><Image src="/images/niqab.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled style={{fontSize:'20px',color:'red',margin:'0 auto',display:'block'}} /></Space>
+        <Space direction={'vertical'}><Image src="/images/b&w.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled style={{fontSize:'20px',color:'red',margin:'0 auto',display:'block'}} /></Space>
+        <Space direction={'vertical'}><Image src="/images/mask.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'20px',color:'red',margin:'0 auto',display:'block'}} /></Space>
       
       </Space>
-      <br />
-      <Space direction={'vertical'}><Paragraph>The submitter&apos;s face should be in color and not covered under heavy make-up, large piercings or masks.</Paragraph></Space>
       
       </>
     }, {
@@ -124,6 +121,7 @@ export default class ImageTab extends React.Component {
       description: ''
     },
   ]
+
   setCrop = (crop) => {
     console.log(crop);
     this.setState({crop})
@@ -192,7 +190,7 @@ export default class ImageTab extends React.Component {
       let imageURL = window.URL.createObjectURL(blob);
       console.log(blob)
       blob.arrayBuffer().then((arrayBuffer) => {
-        this.setState({picture: arrayBuffer, image: imageURL});
+        this.setState({picture: arrayBuffer, image: imageURL, cameraEnabled: false});
       });
 
       console.log('onChange imageURL=', imageURL);
@@ -254,7 +252,7 @@ export default class ImageTab extends React.Component {
     this.setState({
       picture: null,
       image: '',
-      cameraEnabled: false,
+      cameraEnabled: true,
       croppedImage: null,
       croppedAreaPixels: null,
       zoom: 1,
@@ -280,39 +278,20 @@ export default class ImageTab extends React.Component {
   render() {
     return (
       <>
+        
+        
+      {
+      this.state.cameraEnabled ? (
+        <>
         <Row>
           <Space direction="vertical"
             size={1}>
-            <h2>Upload your image</h2>
-            <Paragraph>
-              In this step you will need to select a file or take an image with
-                                                                your camera of your face
+            <Title level={2}>Smile for the camera!</Title>
+            <Paragraph style={{color:'black'}}>
+              Take out any masks, sunglasses or anything that could block your face and look straight at the camera.
             </Paragraph>
           </Space>
         </Row>
-        <Row>
-          <List style={
-              {width: "100%"}
-            }
-            itemLayout="horizontal"
-            dataSource={
-              this.imageRulesList
-            }
-            renderItem={
-              (item) => (
-                <List.Item>
-                  <List.Item.Meta title={
-                      item.title
-                    }
-                    description={
-                      item.description
-                    }/>
-                </List.Item>
-              )
-            }/>
-        </Row>
-      {
-      this.state.cameraEnabled ? (
         <div className="video-inner-container"
           ref={
             (screen) => {
@@ -349,41 +328,38 @@ export default class ImageTab extends React.Component {
           }>
             <div>TEST</div>
           </ReactWebcam>
-          <Button onClick={this.takePicture} shape='round' style={{display:'block', margin:'10px auto', background:"#000", color:'white', border:'none',width:'10%',height:'100%'}}><CameraFilled style={{fontSize:'16px'}} /></Button>
+          
+        <div class="buttons-camera">
+        <Button onClick={this.takePicture} shape='round' style={{display:'block', margin:'20px auto', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><CameraFilled /><br />Take picture</Button>
+          </div>  
         </div>
-      ) : !this.state.picture ? (
-        <Row>
-          
-          <Col xs={24} xl={12}>
-                
-              
-              <Button onClick={
-                this.enableCamera
-              }  style={{width: '95%', height: '100%',fontSize:'14px'}}><CameraFilled /> <br />Take my picture using my camera</Button>
-            
-          </Col>
-          
-            <Col xs={24} xl={12}>
-              <Upload.Dragger {...this.draggerProps} style={{width: '95%', height: '100%', backgroundColor:'white'}}>
-                <FileAddFilled/>
+        <Space direction={'vertical'} size={1} style={{margin:'0 auto',display: 'block'}}>
+        <Upload.Dragger {...this.draggerProps} style={{width: '25%', height: '100%', backgroundColor:'#ffb978', fontWeight:'bold', display:'block',margin:'0 auto', border:'none', borderRadius: '10px',marginTop:'15px'}}>
+          <FileAddFilled/>
 
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Photo&apos;s format can be: {
-                  this.photoOptions.types.label
-                } </p>
-              </Upload.Dragger>
-            </Col>
+          <p className="ant-upload-text">
+            Upload image
+          </p>
           
-         
-        </Row>
+        </Upload.Dragger>
+        </Space>
+        
+
+      </>
       ) : null
     }
       {
       this.state.image && this.state.picture && !this.state.croppedImage && (
-        <React.Fragment>
+        <>
+        <Row>
+          <Space direction="vertical"
+            size={1}>
+            <Title level={2}>Crop your image!</Title>
+            <Paragraph style={{color:'black'}}>
+              Make sure your face is centered and not rotated.
+            </Paragraph>
+          </Space>
+        </Row>
           <div style={
             this.styles.cropContainer
           }>
@@ -464,7 +440,7 @@ export default class ImageTab extends React.Component {
               Show Result
             </Button>
           </div>
-        </React.Fragment>
+        </>
       )
     }
       {
@@ -473,32 +449,46 @@ export default class ImageTab extends React.Component {
           {textAlign: "center"}
         }>
           <Space direction="vertical">
-          This is your picture:
-          <Image preview={false} style={
-              {width: "300px",height:'auto',borderRadius:'50%', border:'1px solid black'}
-            }
-            src={
-              this.state.croppedImage
-            }
-            alt="Crop result"/>
+            <Title level={2}>Verify your photo!</Title>
+            <Paragraph>Make sure <Text strong>your facial features are visible</Text> and <Text strong>not covered under heavy make up, masks or other coverings.</Text> You also must be looking straight at the camera.</Paragraph>
           
-          </Space>
+          <Row wrap={false}>
+                  <Image preview={false} style={{width: "300px",height:'auto',borderRadius:'50%', border:'1px solid black'}}
+                    src={this.state.croppedImage}
+                    alt="Crop result"
+                  />
+                  
+                  <List style={{width: "100%"}}
+                        itemLayout="horizontal"
+                        dataSource={this.imageRulesList}
+                        renderItem={
+                          (item) => (
+                            <List.Item>
+                            <List.Item.Meta title={item.title}
+                                            description={item.description}
+                            />
+                            </List.Item>
+                                    )
+                    }/>
+                    </Row>
+      </Space>
           
-          <Button onClick={
-            this.retakePicture
-          }
-          shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#000", color:'white', border:'none', fontWeight:'bold', marginTop:'15%'}}>Start over</Button>
           
+          <Space direction="vertical">
+                    
+        <Button type='primary' disabled={this.state.croppedImage == null} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978",fontWeight:'bold', border:'none'}} onClick={this.uploadPicture} loading={this.state.loading}>It's looking great!</Button>
+        
+        
+        <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#95a5a6", border:'none',fontWeight:'bold'}} onClick={this.retakePicture}>No, let&apos;s take another picture</Button>
+        
+        </Space>
           
 
         </div>
       ) : null
     } 
-    <Row style={{marginTop:'2%'}}>
-        <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978", border:'none',fontWeight:'bold'}} onClick={this.props.prev}>Previous</Button>
-        <Button type='primary' disabled={this.state.croppedImage == null} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978",fontWeight:'bold', border:'none'}} onClick={this.uploadPicture} loading={this.state.loading}>Next</Button>
-         
-        </Row>
+
+    
         </>
     );
     
