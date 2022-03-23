@@ -31,7 +31,7 @@ a:hover{
   color: black!important;
 }
 
-button:hover{
+.ant-button:hover{
   color:rgba(201, 203, 206, 0.815)!important;
 }
 .ant-slider-track{
@@ -44,4 +44,15 @@ button:hover{
 }
 .ant-slider-handle:hover{
   background:'#ffb978'!important
+}
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #ffb978!important;
+  border-color: #ffb978!important;
+}
+.ant-input{
+  border: solid 3px #ffb978 !important;
+  border-radius:10px;
+  color: #ffb978;
+  display:block;
+  margin:0 auto;
 }
