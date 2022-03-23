@@ -18,6 +18,9 @@ import {
   AccountSettingsPopup as _AccountSettingsPopup,
   createWrapConnection,
   useWeb3,
+  AppHeader,
+  AppSider,
+  AppFooter
 } from "@kleros/components";
 import { ProofOfHumanityLogo, SecuredByKlerosWhite } from "@kleros/icons";
 import { useRouter } from "next/router";
@@ -43,11 +46,13 @@ import {
 import '../i18n/i18n';
 import { useTranslation } from 'react-i18next';
 
-import { Dropdown, Menu, message } from 'antd';
+import { Dropdown, Menu, message, Layout as AntdLayout } from 'antd';
 
 // CSS imports
 import 'antd/dist/antd.css';
 import './main.css';
+
+const { Content } = AntdLayout;
 
 const queries = {
   "/": indexQuery,
@@ -277,170 +282,162 @@ export default function App({ Component, pageProps }) {
     </Menu>
   );
 
-  const header = {
-    sx: {
-      flexWrap: "wrap",
-      paddingY: 0,
-      "> div:first-of-type": {
-        flexBasis: "auto",
-        paddingY: 2,
-      },
-      "> div:nth-of-type(2)": {
-        flexBasis: 400,
-      },
-      "> div:last-of-type": {
-        flexBasis: "auto",
-        paddingY: 2,
-      },
-    },
-    left: (
-      <NextLink href="/">
-        <Link variant="unstyled" sx={{ display: "flex" }}>
-          <ProofOfHumanityLogo size={32} />
-          <Box sx={{ marginLeft: 1 }}>
-            <Text>PROOF OF</Text>
-            <Text>HUMANITY</Text>
-          </Box>
-        </Link>
-      </NextLink>
-    ),
-    middle: (
-      <List
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-around",
-          listStyle: "none",
-          width: "100%",
-        }}
-      >
-        <ListItem sx={{ marginX: 2, paddingY: 2 }}>
-          <NextLink href="/">
-            <Link variant="navigation">{t('header_profiles')}</Link>
-          </NextLink>
-        </ListItem>
-        <ListItem sx={{ marginX: 2, paddingY: 2 }}>
-          <MyProfileLink />
-        </ListItem>
-        <ListItem sx={{ marginX: 2, paddingY: 2 }}>
-          <Link
-            variant="navigation"
-            newTab
-            href="https://pools.proofofhumanity.id/"
-          >
-            {t('header_pools')}
-          </Link>
-        </ListItem>
-      </List>
-    ),
-    right: (
-      <Flex
-        sx={{
-          alignItems: "center",
-          gap: ["16px", "8px", 0],
+  // const header = {
+  //   sx: {
+  //     flexWrap: "wrap",
+  //     paddingY: 0,
+  //     "> div:first-of-type": {
+  //       flexBasis: "auto",
+  //       paddingY: 2,
+  //     },
+  //     "> div:nth-of-type(2)": {
+  //       flexBasis: 400,
+  //     },
+  //     "> div:last-of-type": {
+  //       flexBasis: "auto",
+  //       paddingY: 2,
+  //     },
+  //   },
+  //   left: (
+  //     <NextLink href="/">
+  //       <Link variant="unstyled" sx={{ display: "flex" }}>
+  //         <ProofOfHumanityLogo size={32} />
+  //         <Box sx={{ marginLeft: 1 }}>
+  //           <Text>PROOF OF</Text>
+  //           <Text>HUMANITY</Text>
+  //         </Box>
+  //       </Link>
+  //     </NextLink>
+  //   ),
+  //   middle: (
+  //     <List
+  //       sx={{
+  //         display: "flex",
+  //         flexWrap: "wrap",
+  //         justifyContent: "space-around",
+  //         listStyle: "none",
+  //         width: "100%",
+  //       }}
+  //     >
+  //       <ListItem sx={{ marginX: 2, paddingY: 2 }}>
+  //         <NextLink href="/">
+  //           <Link variant="navigation">{t('header_profiles')}</Link>
+  //         </NextLink>
+  //       </ListItem>
+  //       <ListItem sx={{ marginX: 2, paddingY: 2 }}>
+  //         <MyProfileLink />
+  //       </ListItem>
+  //       <ListItem sx={{ marginX: 2, paddingY: 2 }}>
+  //         <Link
+  //           variant="navigation"
+  //           newTab
+  //           href="https://pools.proofofhumanity.id/"
+  //         >
+  //           {t('header_pools')}
+  //         </Link>
+  //       </ListItem>
+  //     </List>
+  //   ),
+  //   right: (
+  //     <Flex
+  //       sx={{
+  //         alignItems: "center",
+  //         gap: ["16px", "8px", 0],
 
-          "> button": {
-            cursor: "pointer",
-            padding: [0, "4px", "8px"],
+  //         "> button": {
+  //           cursor: "pointer",
+  //           padding: [0, "4px", "8px"],
 
-            ":hover, :focus": {
-              opacity: 0.8,
-              outline: "none",
-            },
+  //           ":hover, :focus": {
+  //             opacity: 0.8,
+  //             outline: "none",
+  //           },
 
-            "> svg": {
-              fill: "white",
-            },
-          },
-        }}
-      >
-        <Dropdown overlay={menu}>
-          <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-            <img src={`/images/${i18n.resolvedLanguage}.png`} width="45" height="auto" />
-          </div>
-        </Dropdown>
-        <WalletConnection
-          buttonProps={{
-            sx: {
-              backgroundColor: "white",
-              backgroundImage: "none !important",
-              color: "accent",
-              boxShadow: "none !important",
-              fontSize: [16, 12],
-              px: "16px !important",
-              py: "8px !important",
-              mx: [0, "4px", "8px"],
-            },
-          }}
-          tagProps={{
-            sx: {
-              opacity: 0.8,
-              fontSize: [20, 16, 12],
-              mx: [0, "4px", "8px"],
-            },
-          }}
-        />
-        <Link href="https://snapshot.org/#/poh.eth/">
-          <Image src="/images/governance.png" width={25} sx={{ margin: 1 }} />
-        </Link>
-        <AccountSettingsPopup />
-        <HelpPopup />
-      </Flex>
-    ),
-  };
+  //           "> svg": {
+  //             fill: "white",
+  //           },
+  //         },
+  //       }}
+  //     >
+  //       <Dropdown overlay={menu}>
+  //         <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+  //           <img src={`/images/${i18n.resolvedLanguage}.png`} width="45" height="auto" />
+  //         </div>
+  //       </Dropdown>
+  //       <WalletConnection
+  //         buttonProps={{
+  //           sx: {
+  //             backgroundColor: "white",
+  //             backgroundImage: "none !important",
+  //             color: "accent",
+  //             boxShadow: "none !important",
+  //             fontSize: [16, 12],
+  //             px: "16px !important",
+  //             py: "8px !important",
+  //             mx: [0, "4px", "8px"],
+  //           },
+  //         }}
+  //         tagProps={{
+  //           sx: {
+  //             opacity: 0.8,
+  //             fontSize: [20, 16, 12],
+  //             mx: [0, "4px", "8px"],
+  //           },
+  //         }}
+  //       />
+  //       <Link href="https://snapshot.org/#/poh.eth/">
+  //         <Image src="/images/governance.png" width={25} sx={{ margin: 1 }} />
+  //       </Link>
+  //       <AccountSettingsPopup />
+  //       <HelpPopup />
+  //     </Flex>
+  //   ),
+  // };
 
-  const footer = {
-    sx: {
-      flexWrap: "wrap",
-      paddingY: 0,
-      "> div:first-of-type": {
-        flexBasis: "auto",
-        paddingY: 2,
-      },
-      "> div:last-of-type": {
-        flexBasis: "auto",
-        paddingY: 2,
-      },
-    },
-    middle: (
-      <Link
-        sx={{ alignItems: "center", display: "flex" }}
-        newTab
-        href="https://kleros.io"
-      >
-        <SecuredByKlerosWhite sx={{ width: 200 }} />
-      </Link>
-    ),
-    left: (
-      <Link
-        variant="navigation"
-        sx={{ fontSize: 1 }}
-        newTab
-        href="https://www.proofofhumanity.id/"
-      >
-        {t('footer_learn_more')}
-      </Link>
-    ),
-    right: <SocialIcons color="#ffffff" />,
-  };
+  // const footer = {
+  //   sx: {
+  //     flexWrap: "wrap",
+  //     paddingY: 0,
+  //     "> div:first-of-type": {
+  //       flexBasis: "auto",
+  //       paddingY: 2,
+  //     },
+  //     "> div:last-of-type": {
+  //       flexBasis: "auto",
+  //       paddingY: 2,
+  //     },
+  //   },
+  //   middle: (
+  //     <Link
+  //       sx={{ alignItems: "center", display: "flex" }}
+  //       newTab
+  //       href="https://kleros.io"
+  //     >
+  //       <SecuredByKlerosWhite sx={{ width: 200 }} />
+  //     </Link>
+  //   ),
+  //   left: (
+  //     <Link
+  //       variant="navigation"
+  //       sx={{ fontSize: 1 }}
+  //       newTab
+  //       href="https://www.proofofhumanity.id/"
+  //     >
+  //       {t('footer_learn_more')}
+  //     </Link>
+  //   ),
+  //   right: <SocialIcons color="#ffffff" />,
+  // };
 
   return (
-    // <I18nextProvider i18n={i18n}>
-      <ThemeProvider theme={theme}>
-        <RelayProvider
-          endpoint={endpoint}
-          queries={queries}
-          connectToRouteChange={connectToRouteChange}
-        >
-          <Web3Provider
-            infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT}
-            contracts={contracts}
-            onNetworkChange={onNetworkChange}
-          >
-            <ArchonProvider>
-              <Layout header={header} footer={footer}>
+    <ThemeProvider theme={theme}>
+      <RelayProvider endpoint={endpoint} queries={queries} connectToRouteChange={connectToRouteChange}>
+        <Web3Provider infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT} contracts={contracts} onNetworkChange={onNetworkChange}>
+          <ArchonProvider>
+            <AntdLayout>
+              <AppHeader />
+              <Content>
                 {transitions.map(({ key, props, item }) => {
-                  // console.log('AnimatedBox', item);
                   return (
                     <AnimatedBox
                       key={key}
@@ -456,11 +453,12 @@ export default function App({ Component, pageProps }) {
                     </AnimatedBox>
                   );
                 })}
-              </Layout>
-            </ArchonProvider>
-          </Web3Provider>
-        </RelayProvider>
-      </ThemeProvider>
-    // </I18nextProvider>
+                </Content>
+                <AppFooter />
+            </AntdLayout>
+          </ArchonProvider>
+        </Web3Provider>
+      </RelayProvider>
+    </ThemeProvider>
   );
 }

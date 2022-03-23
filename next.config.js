@@ -1,8 +1,10 @@
 module.exports = require("@next/bundle-analyzer")({
   enabled: process.env.ANALYZE === "true",
-  
-})({ target: "serverless",
-      eslint: {
-        ignoreDuringBuilds: true,
-} });
+
+})({
+  target: "serverless",
+  eslint: {
+    ignoreDuringBuilds: true,
+  }
+});
 
