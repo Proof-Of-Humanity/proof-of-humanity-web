@@ -99,7 +99,7 @@ export default class ImageTab extends React.Component {
       title: <Title level={4} style={{display: 'block', margin:'0 auto'}}>Image rules</Title>,
       description: <>
       <Space direction={'horizontal'} align="center">
-      <Space direction={'vertical'}><React.Fragment style={{display: 'block', margin:'0 auto'}}><Image src="/images/front-facing.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'30px',color:'green',margin:'0 auto',display:'block'}} /></React.Fragment></Space>
+      <Space direction={'vertical'}><Image src="/images/front-facing.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'30px',color:'green',margin:'0 auto',display:'block'}} /></Space>
       <Space direction={'vertical'}><Image src="/images/not-front-facing.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space> <br />
       <Space direction={'vertical'}><Image src="/images/glasses.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'30px',color:'green',margin:'0 auto',display:'block'}} /></Space>
       <Space direction={'vertical'}><Image src="/images/sunglasses.jpg" preview={false} style={{width:'100px', height:'100px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'30px',color:'red',margin:'0 auto',display:'block'}} /></Space>
