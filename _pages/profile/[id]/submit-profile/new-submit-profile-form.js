@@ -41,19 +41,20 @@ export default class NewSubmitProfileForm extends React.Component {
       description: 'Set your name and info',
       icon: <FileTextFilled />
     },
-    {
-      title: 'Video',
-      subtitle: 'Video',
-      content: (props) => <VideoTab {...props} />,
-      description: 'Upload your video',
-      icon: <VideoCameraFilled />
-    },
+    
     {
       title: 'Photo',
       subtitle: 'Photo',
       content: (props) => <ImageTab {...props} />,
       description: 'Upload your image',
       icon: <CameraFilled />
+    },
+    {
+      title: 'Video',
+      subtitle: 'Video',
+      content: (props) => <VideoTab {...props} />,
+      description: 'Upload your video',
+      icon: <VideoCameraFilled />
     },
     {
       title: 'Finalize',
