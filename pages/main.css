@@ -1,5 +1,4 @@
 .video-inner-container {
-  border: 1px solid black;
   display: inline-block;
   position: relative;
 }
@@ -55,4 +54,16 @@ a:hover{
   color: #ffb978;
   display:block;
   margin:0 auto;
+}
+.buttons-camera{
+  position: absolute;
+  width: 100%;
+  left: 0px;
+  bottom: 0px;
+  text-align: center;
+  /* margin: 10px; */
+  /* padding: 5px 5px; */
+  font-size: 20px;
+  /* font-family: Helvetica; */
+  color: #FFF;
 }
