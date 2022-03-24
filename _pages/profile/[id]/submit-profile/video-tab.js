@@ -85,16 +85,18 @@ export default class VideoTab extends React.Component {
   }
 
   uploadVideo = () => {
-    let file = this.state.file;
+    let { file } = this.state;
     console.log(file);
     
     this.props.next();
 
     file.arrayBuffer().then((_buffer) => {
       let buffer = Buffer.from(_buffer);
-      let type = this.state.file.type.split('/')[1];
-      
-      videoSanitizer(buffer, type)
+      // let type = file.type.split('/')[1];
+      let { size } = file;
+      let { duration } = this.video;
+
+      videoSanitizer(buffer, size, duration)
         .then((URI) => {
           console.log("videoURI: " + URI);
           this.setState({ fileURI: URI });
@@ -291,7 +293,7 @@ export default class VideoTab extends React.Component {
             ) : (
               !this.state.recording && this.state.recordedVideoUrl !== '' ? (
                 <Col xs={24} xl={12} style={{display:'block', margin:'0 auto'}}>
-                  <video crossOrigin="anonymous" controls style={{ width: '100%' }} src={this.state.recordedVideoUrl}></video>
+                  <video ref={video => { this.video = video }} crossOrigin="anonymous" controls style={{ width: '100%' }} src={this.state.recordedVideoUrl}></video>
                   <Button onClick={this.retakeVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Choose a different video</Button>
                 </Col>
               ) : (
