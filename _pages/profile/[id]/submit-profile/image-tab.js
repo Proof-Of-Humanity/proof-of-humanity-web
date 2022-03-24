@@ -19,10 +19,12 @@ import Cropper from 'react-easy-crop';
 import getCroppedImg from './cropImage'
 const { Title, Paragraph, Text, Link } = Typography;
 
+import { photoSanitizer } from 'lib/media-controller';
+
 export default class ImageTab extends React.Component {
   constructor(props) {
     super(props);
-    console.log('ImageTab props=', props);
+    // console.log('ImageTab props=', props);
 
     this.state = {
       cameraEnabled: true,
@@ -201,34 +203,27 @@ export default class ImageTab extends React.Component {
     }
   }
   uploadPicture = () => {
-    this.setState({loading:true})
-    let picture = this.state.picture;
-    console.log(picture)
+    this.setState({ loading: true });
 
-    let requestOptions = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(
-        {buffer: Buffer.from(picture)}
-      )
-    };
+    let { picture } = this.state;
+    let buffer = Buffer.from(picture);
 
-    console.log('photo requestOption=', requestOptions);
-
-    fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/photo', requestOptions).then(response => response.json()).then(({URI}) => {
+    photoSanitizer(buffer).then((URI) => {
       console.log('Image URI=', URI);
       this.setState({fileURI: URI,loading:false});
       this.props.stateHandler({imageURI: URI});
-      this.props.next()
+
+      this.props.next();
+
     }).catch(error => { // Handle errors
       console.log('Image upload error=', error);
+
       this.setState({
         picture: false,
         // cameraEnabled: true?
       });
     });
+
   }
 
   takePicture = () => {

@@ -274,7 +274,7 @@ export default function SubmissionDetailsCard({
   return (
     <Card mainSx={{ alignItems: "stretch", flexDirection: ["column", null, null, "row"], padding: 0 }}>
       <Flex sx={{ alignItems: "center", backgroundColor: "muted", flexDirection: "column", maxWidth: [null, null, null, 300], paddingX: 3, paddingY: 4, textAlign: "center" }}>
-        <Image sx={{ objectFit: "contain" }} variant="avatar" src={evidence?.file?.photo} />
+        <Image crossOrigin="anonymous" sx={{ objectFit: "contain" }} variant="avatar" src={evidence?.file?.photo} />
         <Text sx={{ fontSize: 2, fontWeight: "bold", marginY: 2, overflowWrap: "anywhere" }} >
           {evidence instanceof Error
             ? t('profile_card_maintenance')
@@ -382,7 +382,7 @@ export default function SubmissionDetailsCard({
           </Text>
         </Flex>
         <EthereumAccount diameter={16} address={id} sx={{ marginBottom: 2, fontWeight: "bold" }} />
-        <Video url={evidence?.file?.video} onEnded={() => { checkedVideo(false) }} />
+        <Video config={{ file: { attributes: { crossOrigin: 'true' }}}} url={evidence?.file?.video} onEnded={() => { checkedVideo(false) }} />
         <UBICard
           submissionID={id}
           lastStatusChange={lastStatusChange}

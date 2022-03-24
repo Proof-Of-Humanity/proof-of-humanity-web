@@ -16,7 +16,7 @@ const {Title, Link, Paragraph} = Typography;
 export default class FinalizeTab extends React.Component {
   constructor(props) {
     super(props);
-    console.log('FinalizeTab props=', props);
+    // console.log('FinalizeTab props=', props);
     this.state = {
       loading:false,
       playedVideo:false
@@ -80,7 +80,7 @@ export default class FinalizeTab extends React.Component {
               {this.props.state.imageURI !== '' ?
               <>
               <Paragraph>This is your picture:</Paragraph>
-              <Image preview={false} style={
+              <Image crossOrigin="anonymous" preview={false} style={
                   {
                     width: "50%",
                     borderRadius: "50%"
@@ -103,7 +103,7 @@ export default class FinalizeTab extends React.Component {
               {this.props.state.videoURI !== '' ?
               <>
               <p>This is your video:</p>
-              <video controls
+              <video crossOrigin="anonymous" controls
               onEnded={(event)=>this.handleVideo(event)}
                 style={
                   {width: '50%'}

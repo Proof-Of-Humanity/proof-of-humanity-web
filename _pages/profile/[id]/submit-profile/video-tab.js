@@ -3,12 +3,15 @@ import ReactWebcam from 'react-webcam';
 import { Steps, Row, Col, Button, Upload, Space, List, Typography, Image } from 'antd';
 import { FileAddFilled, VideoCameraFilled } from '@ant-design/icons';
 const { Title, Paragraph, Text, Link } = Typography;
+
+import { videoSanitizer } from 'lib/media-controller';
+
 export default class VideoTab extends React.Component {
   constructor(props) {
     super(props);
     this.mediaRecorderRef = React.createRef();
 
-    console.log('ImageTab props=', props);
+    // console.log('VideoTab props=', props);
 
     this.state = {
       cameraEnabled: false,
@@ -84,30 +87,18 @@ export default class VideoTab extends React.Component {
   uploadVideo = () => {
     let file = this.state.file;
     console.log(file);
+    
     this.props.next();
+
     file.arrayBuffer().then((_buffer) => {
       let buffer = Buffer.from(_buffer);
       let type = this.state.file.type.split('/')[1];
-      let body = { buffer: buffer, type };
-      let requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      };
-
-      console.log('uploadVideo requestOptions=', requestOptions);
-
-      fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/video', requestOptions)
-        .then((response) => {
-          return response.json();
-        })
-        .then(({ URI }) => {
-
-          console.log("videoURI: " + URI)
-          this.setState({
-            fileURI: URI
-          });
-          this.props.stateHandler({ videoURI: URI })
+      
+      videoSanitizer(buffer, type)
+        .then((URI) => {
+          console.log("videoURI: " + URI);
+          this.setState({ fileURI: URI });
+          this.props.stateHandler({ videoURI:URI });
         })
         .catch(error => {
           // Handle errors
@@ -299,9 +290,9 @@ export default class VideoTab extends React.Component {
               </Col>
             ) : (
               !this.state.recording && this.state.recordedVideoUrl !== '' ? (
-                <Col xs={24} xl={12} style={{ display: 'block', margin: '0 auto' }}>
-                  <video controls style={{ width: '100%' }} src={this.state.recordedVideoUrl}></video>
-                  <Button onClick={this.retakeVideo} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none' }}>Choose a different video</Button>
+                <Col xs={24} xl={12} style={{display:'block', margin:'0 auto'}}>
+                  <video crossOrigin="anonymous" controls style={{ width: '100%' }} src={this.state.recordedVideoUrl}></video>
+                  <Button onClick={this.retakeVideo} shape='round' style={{display:'block', margin:'0 auto', background:"#000", color:'white', border:'none'}}>Choose a different video</Button>
                 </Col>
               ) : (
                 null

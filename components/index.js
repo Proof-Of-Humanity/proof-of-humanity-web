@@ -58,6 +58,7 @@ export {
   useContract,
   useWeb3Context,
 } from "./web3-provider";
+export { default as GoogleFont } from './google-font';
 
 export { NextLink, NextETHLink, createWrapConnection } from "./next-router";
 export { zeroAddress, ethereumAddressRegExp, createEnum } from "./parsing";

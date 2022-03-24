@@ -9,7 +9,6 @@ import FinalizeTab from './finalize-tab';
 import PostSubmitTab from './post-submit-tab';
 
 
-
 //const { connect, web3 } = useWeb3;
 
 const Step = Steps.Step;
