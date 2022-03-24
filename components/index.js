@@ -62,6 +62,5 @@ export {
 export { NextLink, NextETHLink, createWrapConnection } from "./next-router";
 export { zeroAddress, ethereumAddressRegExp, createEnum } from "./parsing";
 
-export { default as AppSider } from './sider';
 export { default as AppHeader } from './header';
 export { default as AppFooter } from './footer';

@@ -2,27 +2,17 @@ import {
   ArchonProvider,
   Box,
   Flex,
-  HelpPopup,
-  Image,
-  Layout,
   Link,
-  List,
-  ListItem,
   NextLink,
   RelayProvider,
-  SocialIcons,
-  Text,
   ThemeProvider,
-  WalletConnection,
   Web3Provider,
   AccountSettingsPopup as _AccountSettingsPopup,
   createWrapConnection,
   useWeb3,
   AppHeader,
-  AppSider,
   AppFooter
 } from "@kleros/components";
-import { ProofOfHumanityLogo, SecuredByKlerosWhite } from "@kleros/icons";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { animated, useTransition } from "react-spring";
@@ -31,7 +21,7 @@ import { useQuery } from "relay-hooks";
 import { indexQuery } from "_pages/index";
 import { appQuery } from "_pages/index/app-query";
 import { IdQuery } from "_pages/profile/[id]";
-import { queryEnums, useEvidenceFile } from "data";
+import { queryEnums } from "data";
 import KlerosLiquid from "subgraph/abis/kleros-liquid";
 import ProofOfHumanity from "subgraph/abis/proof-of-humanity";
 import TransactionBatcher from "subgraph/abis/transaction-batcher";
@@ -46,13 +36,13 @@ import {
 import '../i18n/i18n';
 import { useTranslation } from 'react-i18next';
 
-import { Dropdown, Menu, message, Layout as AntdLayout } from 'antd';
+import { Layout } from 'antd';
 
 // CSS imports
 import 'antd/dist/antd.css';
 import './main.css';
 
-const { Content } = AntdLayout;
+const { Content } = Layout;
 
 const queries = {
   "/": indexQuery,
@@ -123,64 +113,6 @@ function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function AccountSettingsPopup() {
-  const { t, i18n } = useTranslation();
-  const [accounts] = useWeb3("eth", "getAccounts");
-  const { props } = useQuery(
-    appQuery,
-    {
-      id: accounts?.[0]?.toLowerCase(),
-      contributor: accounts?.[0]?.toLowerCase(),
-    },
-    { skip: !accounts?.[0] }
-  );
-  const evidenceURI = props?.submission?.requests[0].evidence[0].URI;
-  const getEvidenceFile = useEvidenceFile();
-
-  const evidence = evidenceURI ? getEvidenceFile(evidenceURI) : null;
-  const displayName =
-    [evidence?.file.firstName, evidence?.file.lastName]
-      .filter(Boolean)
-      .join(" ") || evidence?.file.name;
-
-  const settings = {
-    proofOfHumanityNotifications: {
-      label: t('header_notifications_enable'),
-      info: t('header_notifications_subscribe'),
-    },
-  };
-
-  const parseSettings = (rawSettings) => ({
-    ...Object.keys(settings).reduce((acc, setting) => {
-      acc[setting] =
-        rawSettings?.payload?.settings?.Item?.[setting]?.BOOL || false;
-      return acc;
-    }, {}),
-    email: rawSettings?.payload?.settings?.Item?.email?.S || "",
-  });
-  
-  const normalizeSettings = ({ email, ...rest }) => ({
-    email: { S: email },
-    ...Object.keys(rest).reduce((acc, setting) => {
-      acc[setting] = {
-        BOOL: rest[setting] || false,
-      };
-      return acc;
-    }, {}),
-  });
-
-  return (
-    <_AccountSettingsPopup
-      name={displayName}
-      photo={evidenceURI && getEvidenceFile(evidenceURI)?.file?.photo}
-      userSettingsURL="https://hgyxlve79a.execute-api.us-east-2.amazonaws.com/production/user-settings"
-      settings={settings}
-      parseSettings={parseSettings}
-      normalizeSettings={normalizeSettings}
-    />
-  );
-}
-
 const AnimatedBox = animated(Box);
 
 export default function App({ Component, pageProps }) {
@@ -201,7 +133,7 @@ export default function App({ Component, pageProps }) {
     wrappedConnection(location.pathname + location.search);
     setRouteChangeConnection(() => wrappedConnection);
   }, []);
-  
+
   useEffect(() => {
     if (routeChangeConnection) {
       router.events.on("routeChangeStart", routeChangeConnection);
@@ -260,181 +192,12 @@ export default function App({ Component, pageProps }) {
       ? `https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-${networkFromQuery}`
       : `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${subgraphID}`;
 
-  const changeLanguage = (language) => {
-    i18n.changeLanguage(language);
-   //  router.reload();
-  };
-
-  // Remove hardcode to programatical list
-  const menu = (
-    <Menu selectedKeys ={[i18n.resolvedLanguage]}>
-      <Menu.Item key="en" onClick={() => changeLanguage('en')}><img src="/images/en.png" width="30" height="auto" /> English</Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="es" onClick={() => changeLanguage('es')}><img src="/images/es.png" width="30" height="auto" /> Spanish</Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="pt" onClick={() => changeLanguage('es')}><img src="/images/pt.png" width="30" height="auto" /> Portuguese</Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="fr" onClick={() => changeLanguage('es')}><img src="/images/fr.png" width="30" height="auto" /> French</Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="it" onClick={() => changeLanguage('es')}><img src="/images/it.png" width="30" height="auto" /> Italian</Menu.Item>
-      <Menu.Divider />
-      <Menu.Item key="cn" onClick={() => changeLanguage('es')}><img src="/images/cn.png" width="30" height="auto" /> Chinese</Menu.Item>
-    </Menu>
-  );
-
-  // const header = {
-  //   sx: {
-  //     flexWrap: "wrap",
-  //     paddingY: 0,
-  //     "> div:first-of-type": {
-  //       flexBasis: "auto",
-  //       paddingY: 2,
-  //     },
-  //     "> div:nth-of-type(2)": {
-  //       flexBasis: 400,
-  //     },
-  //     "> div:last-of-type": {
-  //       flexBasis: "auto",
-  //       paddingY: 2,
-  //     },
-  //   },
-  //   left: (
-  //     <NextLink href="/">
-  //       <Link variant="unstyled" sx={{ display: "flex" }}>
-  //         <ProofOfHumanityLogo size={32} />
-  //         <Box sx={{ marginLeft: 1 }}>
-  //           <Text>PROOF OF</Text>
-  //           <Text>HUMANITY</Text>
-  //         </Box>
-  //       </Link>
-  //     </NextLink>
-  //   ),
-  //   middle: (
-  //     <List
-  //       sx={{
-  //         display: "flex",
-  //         flexWrap: "wrap",
-  //         justifyContent: "space-around",
-  //         listStyle: "none",
-  //         width: "100%",
-  //       }}
-  //     >
-  //       <ListItem sx={{ marginX: 2, paddingY: 2 }}>
-  //         <NextLink href="/">
-  //           <Link variant="navigation">{t('header_profiles')}</Link>
-  //         </NextLink>
-  //       </ListItem>
-  //       <ListItem sx={{ marginX: 2, paddingY: 2 }}>
-  //         <MyProfileLink />
-  //       </ListItem>
-  //       <ListItem sx={{ marginX: 2, paddingY: 2 }}>
-  //         <Link
-  //           variant="navigation"
-  //           newTab
-  //           href="https://pools.proofofhumanity.id/"
-  //         >
-  //           {t('header_pools')}
-  //         </Link>
-  //       </ListItem>
-  //     </List>
-  //   ),
-  //   right: (
-  //     <Flex
-  //       sx={{
-  //         alignItems: "center",
-  //         gap: ["16px", "8px", 0],
-
-  //         "> button": {
-  //           cursor: "pointer",
-  //           padding: [0, "4px", "8px"],
-
-  //           ":hover, :focus": {
-  //             opacity: 0.8,
-  //             outline: "none",
-  //           },
-
-  //           "> svg": {
-  //             fill: "white",
-  //           },
-  //         },
-  //       }}
-  //     >
-  //       <Dropdown overlay={menu}>
-  //         <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
-  //           <img src={`/images/${i18n.resolvedLanguage}.png`} width="45" height="auto" />
-  //         </div>
-  //       </Dropdown>
-  //       <WalletConnection
-  //         buttonProps={{
-  //           sx: {
-  //             backgroundColor: "white",
-  //             backgroundImage: "none !important",
-  //             color: "accent",
-  //             boxShadow: "none !important",
-  //             fontSize: [16, 12],
-  //             px: "16px !important",
-  //             py: "8px !important",
-  //             mx: [0, "4px", "8px"],
-  //           },
-  //         }}
-  //         tagProps={{
-  //           sx: {
-  //             opacity: 0.8,
-  //             fontSize: [20, 16, 12],
-  //             mx: [0, "4px", "8px"],
-  //           },
-  //         }}
-  //       />
-  //       <Link href="https://snapshot.org/#/poh.eth/">
-  //         <Image src="/images/governance.png" width={25} sx={{ margin: 1 }} />
-  //       </Link>
-  //       <AccountSettingsPopup />
-  //       <HelpPopup />
-  //     </Flex>
-  //   ),
-  // };
-
-  // const footer = {
-  //   sx: {
-  //     flexWrap: "wrap",
-  //     paddingY: 0,
-  //     "> div:first-of-type": {
-  //       flexBasis: "auto",
-  //       paddingY: 2,
-  //     },
-  //     "> div:last-of-type": {
-  //       flexBasis: "auto",
-  //       paddingY: 2,
-  //     },
-  //   },
-  //   middle: (
-  //     <Link
-  //       sx={{ alignItems: "center", display: "flex" }}
-  //       newTab
-  //       href="https://kleros.io"
-  //     >
-  //       <SecuredByKlerosWhite sx={{ width: 200 }} />
-  //     </Link>
-  //   ),
-  //   left: (
-  //     <Link
-  //       variant="navigation"
-  //       sx={{ fontSize: 1 }}
-  //       newTab
-  //       href="https://www.proofofhumanity.id/"
-  //     >
-  //       {t('footer_learn_more')}
-  //     </Link>
-  //   ),
-  //   right: <SocialIcons color="#ffffff" />,
-  // };
-
   return (
     <ThemeProvider theme={theme}>
       <RelayProvider endpoint={endpoint} queries={queries} connectToRouteChange={connectToRouteChange}>
         <Web3Provider infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT} contracts={contracts} onNetworkChange={onNetworkChange}>
           <ArchonProvider>
-            <AntdLayout>
+            <Layout>
               <AppHeader />
               <Content>
                 {transitions.map(({ key, props, item }) => {
@@ -453,9 +216,9 @@ export default function App({ Component, pageProps }) {
                     </AnimatedBox>
                   );
                 })}
-                </Content>
-                <AppFooter />
-            </AntdLayout>
+              </Content>
+              <AppFooter />
+            </Layout>
           </ArchonProvider>
         </Web3Provider>
       </RelayProvider>

@@ -1,7 +1,7 @@
 import { Dropdown, Menu, message, Layout, Space, Row, Col, Drawer, Icon, Button } from 'antd';
 import { useTranslation } from 'react-i18next';
-import { ProofOfHumanityLogo, SecuredByKlerosWhite } from "@kleros/icons";
-import { HelpPopup, Link, NextLink, AccountSettingsPopup as _AccountSettingsPopup, useWeb3, WalletConnection, Image } from "@kleros/components";
+import { ProofOfHumanityLogo } from "@kleros/icons";
+import { Text, Box, HelpPopup, Link, NextLink, AccountSettingsPopup as _AccountSettingsPopup, useWeb3, WalletConnection, Image } from "@kleros/components";
 import { useQuery } from "relay-hooks";
 import { appQuery } from "../_pages/index/app-query";
 import { NotificationFilled, MessageFilled, MenuOutlined } from '@ant-design/icons';
@@ -144,14 +144,13 @@ function AccountSettingsPopup() {
 
 function MobileNavbar({ toggleMobileMenuOpen }) {
   return (
-    <Menu onSelect={() => true} theme="dark" mode="horizontal"  style={{lineHeight: '64px'}}>
+    <Menu className="poh-header-menu" mode="horizontal" style={{ lineHeight: '64px' }}>
       <Item key="2">
-        <MenuOutlined onClick = { () => toggleMobileMenuOpen() }/>
+        <MenuOutlined onClick={() => toggleMobileMenuOpen()} />
       </Item>
       <Item key="1">
         <LanguageDropdown />
       </Item>
-
     </Menu>
   )
 }
@@ -161,29 +160,35 @@ function DesktopNavbar() {
 
   return (
     <Row>
-      <Col span={2}>
-        <ProofOfHumanityLogo style={{ verticalAlign: 'middle' }} size={32} />
+      <Col span={6}>
+        {/* <NextLink href="/"> */}
+          {/* <Link variant="unstyled" sx={{ display: "flex" }}> */}
+            <ProofOfHumanityLogo style={{ verticalAlign: 'middle' }} size={32} />
+            {/* <Box sx={{ marginLeft: 1 }}>
+              <Text>PROOF OF</Text>
+              <Text>HUMANITY</Text>
+            </Box>
+          </Link>
+        </NextLink> */}
       </Col>
       <Col span={12}>
-        <Row justify="center">
-          <Menu theme="dark" mode="horizontal" style={{ width: '100%' }}>
-            <Item key="1">
-              <NextLink href="/" as="/">
-                <Link variant="navigation">{t('header_profiles')}</Link>
-              </NextLink>
-            </Item>
-            <Item key="2">
-              <MyProfileLink />
-            </Item>
-            <Item key="3">
-              <Link variant="navigation" newTab href="https://pools.proofofhumanity.id/">
-                {t('header_pools')}
-              </Link>
-            </Item>
-          </Menu>
-        </Row>
+        <Menu className="poh-header-menu" mode="horizontal" style={{ width: '100%', justifyContent: 'center' }}>
+          <Item key="1" className="poh-header-item">
+            <NextLink href="/" as="/">
+              <Link variant="navigation">{t('header_profiles')}</Link>
+            </NextLink>
+          </Item>
+          <Item key="2" className="poh-header-item">
+            <MyProfileLink />
+          </Item>
+          <Item key="3" className="poh-header-item">
+            <Link variant="navigation" newTab href="https://pools.proofofhumanity.id/">
+              {t('header_pools')}
+            </Link>
+          </Item>
+        </Menu>
       </Col>
-      <Col flex="auto" span={10}>
+      <Col flex="auto" span={6}>
         <Row justify="end" align="middle">
           <LanguageDropdown />
           <WalletConnection
@@ -207,7 +212,7 @@ export default function AppHeader() {
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  function toggleMobileMenuOpen () {
+  function toggleMobileMenuOpen() {
     if (!mobileMenuOpen) {
       setMobileMenuOpen(true);
     } else {
@@ -220,7 +225,7 @@ export default function AppHeader() {
   return (
     <>
       <Drawer title='Navigate' placement='left' closable={false} onClose={() => setMobileMenuOpen(false)} visible={mobileMenuOpen}>
-        <Menu theme="dark" onClick={ () => toggleMobileMenuOpen() }>
+        <Menu theme="light" onClick={() => toggleMobileMenuOpen()}>
           <Item key="1">
             <NextLink href="/" as="/">
               <Link variant="navigation">{t('header_profiles')}</Link>
@@ -236,52 +241,9 @@ export default function AppHeader() {
           </Item>
         </Menu>
       </Drawer>
-      <Header style={{ zIndex: 1, width: '100%', padding: isDesktop ? '0 10%' : '0'}}>
-        {/* <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }}> */}
-          { isDesktop ? <DesktopNavbar /> : <MobileNavbar toggleMobileMenuOpen={toggleMobileMenuOpen} />}
-        {/* </Menu> */}
+      <Header className="poh-header">
+        {isDesktop ? <DesktopNavbar /> : <MobileNavbar toggleMobileMenuOpen={toggleMobileMenuOpen} />}
       </Header>
     </>
   );
-  /*
-  return (
-    <Header>
-      <Row justify="space-around" align="middle">
-        <Col span={4}>
-          <ProofOfHumanityLogo style={{ verticalAlign: 'middle' }} size={32} />
-        </Col>
-        <Col span={14}>
-          <Menu theme="dark" mode="horizontal">
-            <Menu.Item key="1">
-              <NextLink href="/" as="/">
-                <Link variant="navigation">{t('header_profiles')}</Link>
-              </NextLink>
-            </Menu.Item>
-            <Menu.Item key="2">
-              <MyProfileLink />
-            </Menu.Item>
-            <Menu.Item key="3">
-              <Link variant="navigation" newTab href="https://pools.proofofhumanity.id/">
-                {t('header_pools')}
-              </Link>
-            </Menu.Item>
-          </Menu>
-        </Col>
-        <Col span={6}>
-          <Row>
-            <LanguageDropdown />
-            <WalletConnection 
-              buttonProps={{ sx: { backgroundColor: "white", backgroundImage: "none !important", color: "accent", boxShadow: "none !important", fontSize: [16, 12], px: "16px !important", py: "8px !important", mx: [0, "4px", "8px"], }, }}
-              tagProps={{ sx: { opacity: 0.8, fontSize: [20, 16, 12], mx: [0, "4px", "8px"], }, }} />
-            <Link href="https://snapshot.org/#/poh.eth/">
-              <Image src="/images/governance.png" width={25} sx={{ margin: 1 }} />
-            </Link>
-            <AccountSettingsPopup />
-            <HelpPopup />
-          </Row>
-        </Col>
-      </Row>
-    </Header>
-  );
-  */
 }
