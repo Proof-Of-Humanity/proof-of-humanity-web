@@ -4,6 +4,7 @@ import { ProofOfHumanityLogo, SecuredByKlerosWhite } from "@kleros/icons";
 import { HelpPopup, Link, NextLink, AccountSettingsPopup as _AccountSettingsPopup, useWeb3, WalletConnection, Image } from "@kleros/components";
 import { useQuery } from "relay-hooks";
 import { appQuery } from "../_pages/index/app-query";
+import { NotificationFilled, MessageFilled, MenuOutlined } from '@ant-design/icons';
 
 import React, { useState } from 'react';
 import { useEvidenceFile } from "data";
@@ -13,8 +14,7 @@ import {
 } from '@react-hook/window-size';
 
 const { Header } = Layout;
-const SubMenu = Menu.SubMenu;
-const MenuItemGroup = Menu.ItemGroup;
+const { Item } = Menu;
 
 function MyProfileLink() {
   const [accounts] = useWeb3("eth", "getAccounts");
@@ -144,15 +144,15 @@ function AccountSettingsPopup() {
 
 function MobileNavbar({ toggleMobileMenuOpen }) {
   return (
-    <Menu.Item style={{float:'right', display:'flex', justifyContent:"space-around", alignItems:'center', width:"180px"}}>
-      <a><Icon type="notification"  style={{ fontSize: 20, color: 'white'}} /></a>
-      <a><Icon type="message" style={{ fontSize: 20, color: 'white'}} /></a>
-      
-      {true ? 
-          <Button onClick = { () => toggleMobileMenuOpen() } icon="bars" ghost /> : 
-          <Avatar src = {'broken.png'} />
-      }
-    </Menu.Item>
+    <Menu onSelect={() => true} theme="dark" mode="horizontal"  style={{lineHeight: '64px'}}>
+      <Item key="2">
+        <MenuOutlined onClick = { () => toggleMobileMenuOpen() }/>
+      </Item>
+      <Item key="1">
+        <LanguageDropdown />
+      </Item>
+
+    </Menu>
   )
 }
 
@@ -160,29 +160,31 @@ function DesktopNavbar() {
   const { t, i18n } = useTranslation();
 
   return (
-    <Row justify="space-around" align="middle">
-      <Col span={4}>
+    <Row>
+      <Col span={2}>
         <ProofOfHumanityLogo style={{ verticalAlign: 'middle' }} size={32} />
       </Col>
-      <Col span={14}>
-        <Menu theme="dark" mode="horizontal">
-          <Menu.Item key="1">
-            <NextLink href="/" as="/">
-              <Link variant="navigation">{t('header_profiles')}</Link>
-            </NextLink>
-          </Menu.Item>
-          <Menu.Item key="2">
-            <MyProfileLink />
-          </Menu.Item>
-          <Menu.Item key="3">
-            <Link variant="navigation" newTab href="https://pools.proofofhumanity.id/">
-              {t('header_pools')}
-            </Link>
-          </Menu.Item>
-        </Menu>
+      <Col span={12}>
+        <Row justify="center">
+          <Menu theme="dark" mode="horizontal" style={{ width: '100%' }}>
+            <Item key="1">
+              <NextLink href="/" as="/">
+                <Link variant="navigation">{t('header_profiles')}</Link>
+              </NextLink>
+            </Item>
+            <Item key="2">
+              <MyProfileLink />
+            </Item>
+            <Item key="3">
+              <Link variant="navigation" newTab href="https://pools.proofofhumanity.id/">
+                {t('header_pools')}
+              </Link>
+            </Item>
+          </Menu>
+        </Row>
       </Col>
-      <Col span={6}>
-        <Row>
+      <Col flex="auto" span={10}>
+        <Row justify="end" align="middle">
           <LanguageDropdown />
           <WalletConnection
             buttonProps={{ sx: { backgroundColor: "white", backgroundImage: "none !important", color: "accent", boxShadow: "none !important", fontSize: [16, 12], px: "16px !important", py: "8px !important", mx: [0, "4px", "8px"], }, }}
@@ -207,23 +209,39 @@ export default function AppHeader() {
 
   function toggleMobileMenuOpen () {
     if (!mobileMenuOpen) {
-      mobileMenuOpen = true;
+      setMobileMenuOpen(true);
     } else {
-      mobileMenuOpen = false;
+      setMobileMenuOpen(false);
     }
-}
+  }
+
+  let isDesktop = width >= 768;
 
   return (
-    <div>
-      <Drawer title='StudentCon' placement='left' closable={false} onClose={() => setMobileMenuOpen(false)} visible={mobileMenuOpen}>
-        drawer 
-      </Drawer>
-      <Header style={{ position: 'fixed', zIndex: 1, width: '100%', padding: true ? '0' : '0 10%' }}>
-        <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }} >
-          { width >= 768 ? <DesktopNavbar /> : <MobileNavbar toggleMobileMenuOpen={toggleMobileMenuOpen} />}
+    <>
+      <Drawer title='Navigate' placement='left' closable={false} onClose={() => setMobileMenuOpen(false)} visible={mobileMenuOpen}>
+        <Menu theme="dark" onClick={ () => toggleMobileMenuOpen() }>
+          <Item key="1">
+            <NextLink href="/" as="/">
+              <Link variant="navigation">{t('header_profiles')}</Link>
+            </NextLink>
+          </Item>
+          <Item key="2">
+            <MyProfileLink />
+          </Item>
+          <Item key="3">
+            <Link variant="navigation" newTab href="https://pools.proofofhumanity.id/">
+              {t('header_pools')}
+            </Link>
+          </Item>
         </Menu>
+      </Drawer>
+      <Header style={{ zIndex: 1, width: '100%', padding: isDesktop ? '0 10%' : '0'}}>
+        {/* <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }}> */}
+          { isDesktop ? <DesktopNavbar /> : <MobileNavbar toggleMobileMenuOpen={toggleMobileMenuOpen} />}
+        {/* </Menu> */}
       </Header>
-    </div>
+    </>
   );
   /*
   return (
