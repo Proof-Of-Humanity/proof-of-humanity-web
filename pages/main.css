@@ -55,6 +55,22 @@ a:hover{
   display:block;
   margin:0 auto;
 }
+.center{
+  display:block;
+  margin:0 auto;
+}
+.video-mode-buttons{
+  background-color:#fff;
+  font-weight: bold;
+  margin: 10px;
+  border-color:#fff;
+  height:max-content;
+}
+.video-mode-buttons:hover{
+  color:currentColor !important;
+  border-color:#fff;
+  background-color:#fff !important;
+}
 .buttons-camera{
   position: absolute;
   width: 100%;

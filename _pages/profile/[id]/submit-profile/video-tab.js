@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactWebcam from 'react-webcam';
-import { Steps, Row, Col, Button, Upload, Space, List } from 'antd';
+import { Steps, Row, Col, Button, Upload, Space, List, Typography, Image } from 'antd';
 import { FileAddFilled, VideoCameraFilled } from '@ant-design/icons';
-
+const { Title, Paragraph, Text, Link } = Typography;
 export default class VideoTab extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +20,7 @@ export default class VideoTab extends React.Component {
       mirrored: false,
       videoDevices: 0,
       facingMode: 'user',
+      recordingMode:''
     }
   }
 
@@ -135,7 +136,8 @@ export default class VideoTab extends React.Component {
       cameraEnabled: false,
       recordedVideo: [],
       recordedVideoUrl: '',
-      file: ''
+      file: '',
+      recordingMode:''
     })
   }
 
@@ -209,13 +211,24 @@ export default class VideoTab extends React.Component {
 
     return (
       <>
+      {this.state.recordingMode == '' && (
         <Row>
-          <Space direction='vertical' size={1}>
-            <h2>Upload your video</h2>
-            <p>In this step you will need to select a file or record a video with your camera</p>
+        
+          <Title level={2}>Are you ready to speak?</Title>
+          <Paragraph>You must be in a quiet room, with a working microphone and be able to read from your screen. If you are unable to comply, then an alternative process is available.</Paragraph>
+          <Space direction='vertical' size={1} className='center'>
+            <Space direction='horizontal'>
+              <Button onPress={()=>this.setState({recordingMode:'speaking',cameraEnabled:true})} className="video-mode-buttons"><Image preview={false} src='/images/speaker.png' width='200px' height='auto' /><Title level={4} style={{marginTop: '10px', color:'#95a5a6'}}>I am able to identify my account using my voice and sight</Title></Button>
+            </Space>
+            <Space direction='horizontal'>
+              <Button onPress={()=>this.setState({recordingMode:'visual',cameraEnabled:true})} className="video-mode-buttons"><Image preview={false} src='/images/sign.png' width='200px' height='auto' /><Title level={4} style={{marginTop: '10px', color:'#95a5a6'}}>I would prefer to use a visual method</Title></Button>
+            </Space>
           </Space>
-        </Row>
-        <Row>
+      </Row>
+      )}
+      
+        
+        {/*<Row>
           <List style={{ width: '100%' }} itemLayout='horizontal' dataSource={this.videoRulesList}
             renderItem={item => (
               <List.Item>
@@ -225,10 +238,11 @@ export default class VideoTab extends React.Component {
                 />
               </List.Item>
             )} />
-        </Row>
+            </Row>*/}
+        
         <Row>
           <>
-            {!this.state.cameraEnabled && !this.state.file && (
+            {!this.state.cameraEnabled && !this.state.file && this.state.recordingMode !== '' && (
               <Col xs={24} xl={12}>
                 <Button onClick={this.enableCamera} style={{ width: '95%', height: '100%', fontSize: '14px', border: '1px solid black' }}><VideoCameraFilled /> <br />Record now using my camera</Button>
               </Col>
@@ -270,6 +284,15 @@ export default class VideoTab extends React.Component {
                         </Col>
                       </>
                     )}
+                    <Upload.Dragger {...this.draggerProps} style={{ width: '95%', height: '100%', background: 'white', border: '1px solid black' }}>
+
+                        <FileAddFilled />
+
+                        <p className='ant-upload-text' style={{ fontSize: '14px' }}>Click or drag file to this area to upload</p>
+                        <p className='ant-upload-hint'>
+                          Video's format can be: {this.videoOptions.types.label}
+                        </p>
+                      </Upload.Dragger>
                   </Row>
                 }
 
@@ -285,19 +308,7 @@ export default class VideoTab extends React.Component {
               )
             )}
           </>
-          {!this.state.cameraEnabled && !this.state.file && (
-            <Col xs={24} xl={12}>
-              <Upload.Dragger {...this.draggerProps} style={{ width: '95%', height: '100%', background: 'white', border: '1px solid black' }}>
-
-                <FileAddFilled />
-
-                <p className='ant-upload-text' style={{ fontSize: '14px' }}>Click or drag file to this area to upload</p>
-                <p className='ant-upload-hint'>
-                  Video's format can be: {this.videoOptions.types.label}
-                </p>
-              </Upload.Dragger>
-            </Col>
-          )}
+          
         </Row>
         <Row style={{ marginTop: '2%' }}>
           <Button type='primary' shape='round' style={{ fontWeight: 'bold', display: 'block', margin: '0 auto', backgroundColor: "#ffb978", border: 'none' }} onClick={this.props.prev}>Previous</Button>
