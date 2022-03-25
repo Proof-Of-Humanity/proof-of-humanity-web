@@ -1,6 +1,7 @@
 .video-inner-container {
   display: inline-block;
   position: relative;
+  width: 100%;
 }
 
 .video-overlay {
@@ -82,4 +83,8 @@ a:hover{
   font-size: 20px;
   /* font-family: Helvetica; */
   color: #FFF;
+}
+
+.steps-content > div > .ant-row > .ant-space {
+  width: 100%;
 }
