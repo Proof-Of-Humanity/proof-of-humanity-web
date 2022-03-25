@@ -78,6 +78,12 @@ a:hover{
 
 .poh-header-menu {
   background-color: transparent;
+  border: none !important;
+  height: 100% !important;
+}
+
+.poh-header-item {
+  color: initial !important;
 }
 
 .poh-header-item::after {

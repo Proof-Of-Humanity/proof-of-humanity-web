@@ -13,12 +13,12 @@ import { useWindowWidth } from '@react-hook/window-size';
 const { Header } = Layout;
 const { Item } = Menu;
 
-function MyProfileLink() {
+function MyProfileLink(props) {
   const [accounts] = useWeb3("eth", "getAccounts");
 
   const { t } = useTranslation();
 
-  const { props } = useQuery(
+  const { props: profile } = useQuery(
     appQuery,
     {
       id: accounts?.[0]?.toLowerCase(),
@@ -28,12 +28,12 @@ function MyProfileLink() {
   );
 
   const showSubmitProfile =
-    !props?.submission ||
-    (!props?.submission?.registered && props?.submission?.status === "None");
+    !profile?.submission ||
+    (!profile?.submission?.registered && profile?.submission?.status === "None");
 
   return (
     <NextLink href="/profile/[id]" as={`/profile/${accounts?.[0]}`}>
-      <Link className="poh-header-text" variant="navigation">
+      <Link {...props} variant="navigation">
         {showSubmitProfile ? t('header_submit_profile') : t('header_my_profile')}
       </Link>
     </NextLink>
@@ -142,10 +142,10 @@ function AccountSettingsPopup() {
 function MobileNavbar({ toggleMobileMenuOpen }) {
   return (
     <Menu className="poh-header-menu" mode="horizontal" style={{ lineHeight: '64px' }}>
-      <Item key="2">
+      <Item className="poh-header-item" key="2">
         <MenuOutlined onClick={() => toggleMobileMenuOpen()} />
       </Item>
-      <Item key="1">
+      <Item className="poh-header-item" key="1">
         <LanguageDropdown />
       </Item>
     </Menu>
@@ -176,7 +176,7 @@ function DesktopNavbar() {
             </NextLink>
           </Item>
           <Item key="2" className="poh-header-item">
-            <MyProfileLink />
+            <MyProfileLink className="poh-header-text" />
           </Item>
           <Item key="3" className="poh-header-item">
             <Link className="poh-header-text" variant="navigation" newTab href="https://pools.proofofhumanity.id/">
@@ -221,8 +221,8 @@ export default function AppHeader() {
 
   return (
     <>
-      <Drawer title='Navigate' placement='left' closable={false} onClose={() => setMobileMenuOpen(false)} visible={mobileMenuOpen}>
-        <Menu theme="light" onClick={() => toggleMobileMenuOpen()}>
+      <Drawer width={220} title='Navigate' placement='left' closable={false} onClose={() => setMobileMenuOpen(false)} visible={mobileMenuOpen}>
+        <Menu theme="light" style={{ border: 'none' }} onClick={() => toggleMobileMenuOpen()}>
           <Item key="1">
             <NextLink href="/" as="/">
               <Link variant="navigation">{t('header_profiles')}</Link>
