@@ -1,14 +1,9 @@
-import { Card, Image, NextLink, Text } from "@kleros/components";
+import { Card, Image, NextLink, Text, useContract } from "@kleros/components";
 import { graphql, useFragment } from "relay-hooks";
 
 import { submissionStatusEnum, useEvidenceFile } from "data";
 
 const submissionCardFragments = {
-  contract: graphql`
-    fragment submissionCardContract on Contract {
-      submissionDuration
-    }
-  `,
   submission: graphql`
     fragment submissionCardSubmission on Submission {
       id
@@ -30,7 +25,8 @@ const submissionCardFragments = {
     }
   `,
 };
-export default function SubmissionCard({ submission, contract }) {
+
+export default function SubmissionCard({ submission }) {
   const {
     submissionTime,
     requests: [request],
@@ -38,15 +34,16 @@ export default function SubmissionCard({ submission, contract }) {
     name,
     ...rest
   } = useFragment(submissionCardFragments.submission, submission);
-  const { submissionDuration } = useFragment(
-    submissionCardFragments.contract,
-    contract
+  const [submissionDuration] = useContract(
+    "proofOfHumanity",
+    "submissionDuration"
   );
   const status = submissionStatusEnum.parse({
     ...rest,
     submissionTime,
     submissionDuration,
   });
+
   const isExpired =
     status === submissionStatusEnum.Registered &&
     Date.now() / 1000 - submissionTime > submissionDuration;
