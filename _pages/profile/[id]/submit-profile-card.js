@@ -14,7 +14,6 @@ import SubmitProfileForm from "./submit-profile-form";
 const submitProfileCardFragment = graphql`
   fragment submitProfileCard on Contract {
     arbitrator
-    arbitratorExtraData
     submissionBaseDeposit
     registrationMetaEvidence {
       URI
@@ -58,23 +57,32 @@ function UploadProgress({ total, loaded, label, successLabel, sx }) {
 function useRegistrationParameters({ contract, submission }) {
   const submissionName = submission?.name || "";
 
-  const {
-    arbitrator,
-    arbitratorExtraData,
-    submissionBaseDeposit,
-    registrationMetaEvidence,
-  } = useFragment(submitProfileCardFragment, contract);
+  const { arbitrator, submissionBaseDeposit, registrationMetaEvidence } =
+    useFragment(submitProfileCardFragment, contract);
 
   const { web3 } = useWeb3();
+
+  const [arbitratorDataListCount] = useContract(
+    "proofOfHumanity",
+    "getArbitratorDataListCount"
+  );
+  const [arbitratorData] = useContract(
+    arbitratorDataListCount && "proofOfHumanity",
+    "arbitratorDataList",
+    useMemo(
+      () => ({ args: [arbitratorDataListCount - 1] }),
+      [arbitratorDataListCount]
+    )
+  );
   const [arbitrationCost] = useContract(
-    "klerosLiquid",
+    arbitratorData && "klerosLiquid",
     "arbitrationCost",
     useMemo(
       () => ({
         address: arbitrator,
-        args: [arbitratorExtraData],
+        args: [arbitratorData?.arbitratorExtraData],
       }),
-      [arbitrator, arbitratorExtraData]
+      [arbitrator, arbitratorData]
     )
   );
 

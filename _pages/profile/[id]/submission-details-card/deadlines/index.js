@@ -1,4 +1,11 @@
-import { Button, NextLink, Text, TimeAgo, useWeb3 } from "@kleros/components";
+import {
+  Button,
+  NextLink,
+  Text,
+  TimeAgo,
+  useContract,
+  useWeb3,
+} from "@kleros/components";
 import { graphql, useFragment } from "relay-hooks";
 
 import ChallengeButton from "./challenge-button";
@@ -10,7 +17,6 @@ import { submissionStatusEnum } from "data";
 const deadlinesFragments = {
   contract: graphql`
     fragment deadlinesContract on Contract {
-      submissionDuration
       renewalTime
       challengePeriodDuration
       ...removeButtonContract
@@ -51,8 +57,14 @@ export default function Deadlines({ submission, contract, status }) {
     id,
     submissionTime,
   } = useFragment(deadlinesFragments.submission, submission);
-  const { submissionDuration, renewalTime, challengePeriodDuration } =
-    (contract = useFragment(deadlinesFragments.contract, contract));
+  const { renewalTime, challengePeriodDuration } = (contract = useFragment(
+    deadlinesFragments.contract,
+    contract
+  ));
+  const [submissionDuration] = useContract(
+    "proofOfHumanity",
+    "submissionDuration"
+  );
   const renewalTimestamp =
     (Number(submissionTime) + (submissionDuration - renewalTime)) * 1000;
   const expirationTimestamp =
