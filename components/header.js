@@ -1,17 +1,14 @@
-import { Dropdown, Menu, message, Layout, Space, Row, Col, Drawer, Icon, Button } from 'antd';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ProofOfHumanityLogo } from "@kleros/icons";
-import { Text, Box, HelpPopup, Link, NextLink, AccountSettingsPopup as _AccountSettingsPopup, useWeb3, WalletConnection, Image } from "@kleros/components";
 import { useQuery } from "relay-hooks";
 import { appQuery } from "../_pages/index/app-query";
-import { NotificationFilled, MessageFilled, MenuOutlined } from '@ant-design/icons';
 
-import React, { useState } from 'react';
 import { useEvidenceFile } from "data";
-
-import {
-  useWindowWidth,
-} from '@react-hook/window-size';
+import { Dropdown, Menu, Layout, Row, Col, Drawer } from 'antd';
+import { MenuOutlined } from '@ant-design/icons';
+import { ProofOfHumanityLogo } from "@kleros/icons";
+import { HelpPopup, Link, NextLink, AccountSettingsPopup as _AccountSettingsPopup, useWeb3, WalletConnection, Image } from "@kleros/components";
+import { useWindowWidth } from '@react-hook/window-size';
 
 const { Header } = Layout;
 const { Item } = Menu;
@@ -36,7 +33,7 @@ function MyProfileLink() {
 
   return (
     <NextLink href="/profile/[id]" as={`/profile/${accounts?.[0]}`}>
-      <Link variant="navigation">
+      <Link className="poh-header-text" variant="navigation">
         {showSubmitProfile ? t('header_submit_profile') : t('header_my_profile')}
       </Link>
     </NextLink>
@@ -44,7 +41,7 @@ function MyProfileLink() {
 }
 
 function LanguageDropdown() {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
 
   const changeLanguage = (language) => {
     i18n.changeLanguage(language);
@@ -77,15 +74,25 @@ function LanguageDropdown() {
 
   return (
     <Dropdown overlay={languageMenu}>
-      <div className="ant-dropdown-link" onClick={e => e.preventDefault()}>
+      <div className="ant-dropdown-link" onClick={event => event.preventDefault()}>
         <img src={`/images/${i18n.resolvedLanguage}.png`} width="45" height="auto" />
       </div>
     </Dropdown>
   )
 }
 
+const normalizeSettings = ({ email, ...rest }) => ({
+  email: { S: email },
+  ...Object.keys(rest).reduce((acc, setting) => {
+    acc[setting] = {
+      BOOL: rest[setting] || false,
+    };
+    return acc;
+  }, {}),
+});
+
 function AccountSettingsPopup() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [accounts] = useWeb3("eth", "getAccounts");
   const { props } = useQuery(
     appQuery,
@@ -120,16 +127,6 @@ function AccountSettingsPopup() {
     email: rawSettings?.payload?.settings?.Item?.email?.S || "",
   });
 
-  const normalizeSettings = ({ email, ...rest }) => ({
-    email: { S: email },
-    ...Object.keys(rest).reduce((acc, setting) => {
-      acc[setting] = {
-        BOOL: rest[setting] || false,
-      };
-      return acc;
-    }, {}),
-  });
-
   return (
     <_AccountSettingsPopup
       name={displayName}
@@ -156,7 +153,7 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
 }
 
 function DesktopNavbar() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <Row>
@@ -175,14 +172,14 @@ function DesktopNavbar() {
         <Menu className="poh-header-menu" mode="horizontal" style={{ width: '100%', justifyContent: 'center' }}>
           <Item key="1" className="poh-header-item">
             <NextLink href="/" as="/">
-              <Link variant="navigation">{t('header_profiles')}</Link>
+              <Link className="poh-header-text" variant="navigation">{t('header_profiles')}</Link>
             </NextLink>
           </Item>
           <Item key="2" className="poh-header-item">
             <MyProfileLink />
           </Item>
           <Item key="3" className="poh-header-item">
-            <Link variant="navigation" newTab href="https://pools.proofofhumanity.id/">
+            <Link className="poh-header-text" variant="navigation" newTab href="https://pools.proofofhumanity.id/">
               {t('header_pools')}
             </Link>
           </Item>
@@ -206,7 +203,7 @@ function DesktopNavbar() {
 }
 
 export default function AppHeader() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const width = useWindowWidth();
 

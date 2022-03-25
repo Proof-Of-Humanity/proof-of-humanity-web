@@ -29,7 +29,7 @@ export default function AccountSettingsPopup({
   parseSettings,
   normalizeSettings,
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [accounts] = useWeb3("eth", "getAccounts");
   const { connect, web3 } = useWeb3();
   const { props } = useQuery(appQuery, {
@@ -85,15 +85,7 @@ export default function AccountSettingsPopup({
   ]);
 
   return (
-    <Popup
-      contentStyle={{ width: 490 }}
-      trigger={
-        <IconButton>
-          <Settings size="auto" />
-        </IconButton>
-      }
-      position="bottom right"
-    >
+    <Popup contentStyle={{ width: 490, lineHeight: 'initial' }} trigger={ <IconButton><Settings size="auto" /></IconButton> } position="bottom right">
       <Box sx={{ color: "text", paddingX: 1, paddingY: 2 }} >
         <Text sx={{ fontWeight: "bold", textAlign: "center" }} >
           {t('header_settings')}
@@ -104,7 +96,7 @@ export default function AccountSettingsPopup({
             <Tab>{t('header_settings_notifications')}</Tab>
           </TabList>
           <TabPanel>
-            <Text sx={{ fontSize: 10, marginBottom: 3 }} >
+            <Text sx={{ fontSize: 14, marginBottom: 3 }} >
               {accounts &&
                 (accounts.length === 0 ? t('header_settings_connected_infura') : (
                   <Flex sx={{ alignItems: "center" }}>
@@ -128,7 +120,7 @@ export default function AccountSettingsPopup({
             </Text>
             <NetworkTag sx={{ mb: 1 }} />
             <Divider />
-            <Button sx={{ display: "block", marginTop: -2, marginX: "auto" }} onClick={changeWallet} >
+            <Button sx={{ display: "block", marginTop: -2, marginX: "auto", class: 'asdasd', lineHeight: 'initial', lineHeights: { 'button': 'initial'}}} onClick={changeWallet} >
               {accounts && accounts.length === 0 ? t('header_settings_connect_wallet') : t('header_settings_change_wallet')}
             </Button>
             {withdrawableContributions?.length > 0 && (

@@ -1,3 +1,5 @@
+@import '~antd/dist/antd.css';
+
 .video-inner-container {
   display: inline-block;
   position: relative;
@@ -78,16 +80,35 @@ a:hover{
   background-color: transparent;
 }
 
-.poh-header-item {
-  border-bottom: 2px solid transparent !important;
-  color: inherit !important;
-}
-
-.poh-header-item:hover {
-  border-bottom: 2px solid transparent !important;
-  color: inherit !important;
+.poh-header-item::after {
+  border-bottom: none !important;
 }
 
 .poh-footer {
   background-image: linear-gradient(90.13deg,var(--theme-ui-colors-accent,#ffb978) 49.89%,var(--theme-ui-colors-accentComplement,#fdc9d3) 93.37%);
+  height: 76px;
+}
+
+.poh-header-text, .poh-footer-text {
+  font-size: 18px;
+  box-sizing: border-box;
+  margin: 0px;
+  min-width: 0px;
+  color: var(--theme-ui-colors-background,#fffffa) !important;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.poh-header-text:hover, .poh-footer-text:hover {
+  color: var(--theme-ui-colors-background,#fffffa) !important;
+}
+
+/* Main content use all screen */
+.poh-content {
+  min-height: calc(100vh - 64px - 76px);
+}
+
+/* Header buttons */
+.poh-header > div > div > div > button {
+  line-height: initial !important;
 }
