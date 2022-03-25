@@ -324,7 +324,7 @@ export default class ImageTab extends React.Component {
             <div>TEST</div>
           </ReactWebcam>
           
-        <div class="buttons-camera">
+        <div className="buttons-camera">
         <Button onClick={this.takePicture} shape='round' style={{display:'block', margin:'20px auto', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><CameraFilled /><br />Take picture</Button>
           </div>  
         </div>

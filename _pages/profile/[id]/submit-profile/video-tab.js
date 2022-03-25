@@ -211,10 +211,10 @@ export default class VideoTab extends React.Component {
           <Paragraph>You must be in a quiet room, with a working microphone and be able to read from your screen. If you are unable to comply, then an alternative process is available.</Paragraph>
           <Space direction='vertical' size={1} className='center'>
             <Space direction='horizontal'>
-              <Button onPress={()=>this.setState({recordingMode:'speaking',cameraEnabled:true})} className="video-mode-buttons"><Image preview={false} src='/images/speaker.png' width='200px' height='auto' /><Title level={4} style={{marginTop: '10px', color:'#95a5a6'}}>I am able to identify my account using my voice and sight</Title></Button>
+              <Button onClick={()=>this.setState({recordingMode:'speaking',cameraEnabled:true})} className="video-mode-buttons"><Image preview={false} src='/images/speaker.png' width='200px' height='auto' /><Title level={4} style={{marginTop: '10px', color:'#95a5a6'}}>I am able to identify my account using my voice and sight</Title></Button>
             </Space>
             <Space direction='horizontal'>
-              <Button onPress={()=>this.setState({recordingMode:'visual',cameraEnabled:true})} className="video-mode-buttons"><Image preview={false} src='/images/sign.png' width='200px' height='auto' /><Title level={4} style={{marginTop: '10px', color:'#95a5a6'}}>I would prefer to use a visual method</Title></Button>
+              <Button onClick={()=>this.setState({recordingMode:'visual',cameraEnabled:true})} className="video-mode-buttons"><Image preview={false} src='/images/sign.png' width='200px' height='auto' /><Title level={4} style={{marginTop: '10px', color:'#95a5a6'}}>I would prefer to use a visual method</Title></Button>
             </Space>
           </Space>
       </Row>
