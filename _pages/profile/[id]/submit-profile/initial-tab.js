@@ -33,7 +33,7 @@ export default class InitialTab extends React.Component {
 
               <p>{t('Your connected wallet:')}</p>
               <p style={{ wordWrap: 'break-word', color: "#ffb978", fontWeight: 'bold', border: "3px solid #ffb978", borderRadius: "15px", textAlign: "center", margin: '0 auto', padding: "5px" }}>{this.props.account}</p>
-              <Checkbox style={{ fontWeight: 'bold' }} onChange={() => this.setState({ checked: true })}>I understand this wallet will be irreversebly linked to my real world person and I will not use that wallet for any private or sensitive information.</Checkbox>
+              <Checkbox style={{ fontWeight: 'bold' }} onChange={(event) => {this.setState({ checked: event.target.checked })}}>I understand this wallet will be irreversebly linked to my real world person and I will not use that wallet for any private or sensitive information.</Checkbox>
               <Link href={'https://tornado.cash'} target='_blank' rel='noopener' style={{ fontWeight: 'bold' }}>Learn how to increase your privacy with Tornado Cash</Link>
               <Button disabled={!this.state.checked} type='primary' htmlType="submit" shape='round' style={{ fontWeight: 'bold', display: 'block', margin: '0 auto', backgroundColor: "#ffb978", border: 'none' }} onClick={() => this.setState({ currentStep: 'name' })}>Next step: short bio</Button>
             </Space>
