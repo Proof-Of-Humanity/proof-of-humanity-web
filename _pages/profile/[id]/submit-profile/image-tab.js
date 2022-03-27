@@ -504,7 +504,9 @@ export default class ImageTab extends React.Component {
         </div>
       ) : null
     } 
-
+<Space direction='vertical'>
+<Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#95a5a6", border:'none',fontWeight:'bold'}} onClick={this.props.prev}>Go back!</Button>
+</Space>
     
         </>
     );
