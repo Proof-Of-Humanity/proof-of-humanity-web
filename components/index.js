@@ -62,3 +62,6 @@ export { default as GoogleFont } from './google-font';
 
 export { NextLink, NextETHLink, createWrapConnection } from "./next-router";
 export { zeroAddress, ethereumAddressRegExp, createEnum } from "./parsing";
+
+export { default as AppHeader } from './header';
+export { default as AppFooter } from './footer';

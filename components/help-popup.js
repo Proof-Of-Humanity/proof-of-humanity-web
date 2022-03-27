@@ -8,7 +8,7 @@ import Popup from "./popup";
 import { useTranslation } from 'react-i18next';
 
 export default function HelpPopup({ ...rest }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const items = [
     {
       key: "get-help-en",
@@ -56,10 +56,10 @@ export default function HelpPopup({ ...rest }) {
 
   return (
     <Popup
-      contentStyle={{ width: 248 }}
+      contentStyle={{ width: 248, lineHeight: 'initial' }}
       trigger={
         <IconButton aria-label="Help Menu">
-          <Help size="auto" />
+          <Help size="auto" fill="white" />
         </IconButton>
       }
       position="bottom right"

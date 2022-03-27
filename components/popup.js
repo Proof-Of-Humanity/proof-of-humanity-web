@@ -25,7 +25,7 @@ export default function Popup({
         boxShadow: "none",
         ...contentStyle,
       }}
-      overlayStyle={{ overflow: "scroll", ...overlayStyle }}
+      overlayStyle={{ overflow: "hidden", ...overlayStyle }}
       onOpen={() => {
         setAnimatedStyle({ opacity: 1, scale: 1 });
         if (onOpen) onOpen();
