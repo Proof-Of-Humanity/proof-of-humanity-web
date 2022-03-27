@@ -159,7 +159,7 @@ export default class VideoTab extends React.Component {
     });
 
     this.mediaRecorderRef.current.ondataavailable = this.handleDataAvailable;
-
+    this.mediaRecorderRef.current.onstop = this.handleStop;
     this.mediaRecorderRef.current.start();
   }
 
@@ -169,10 +169,14 @@ export default class VideoTab extends React.Component {
       recordedVideo: this.state.recordedVideo.concat(data)
     });
   }
-
+  handleStopCaptureClick = () => {
+    if (this.state.recording) {
+      this.mediaRecorderRef.current.stop();
+    }
+  }
 
   handleStop = () => {
-    this.mediaRecorderRef.current.stop();
+    
     console.log(this.state.recordedVideo);
 
     let blob = new Blob(this.state.recordedVideo, { type: 'video/webm;codecs=h264,avc1' });
@@ -235,14 +239,19 @@ export default class VideoTab extends React.Component {
         
         <Row>
           <>
-            {!this.state.cameraEnabled && !this.state.file && this.state.recordingMode !== '' && (
-              <Col xs={24} xl={12}>
-                <Button onClick={this.enableCamera} style={{ width: '95%', height: '100%', fontSize: '14px', border: '1px solid black' }}><VideoCameraFilled /> <br />Record now using my camera</Button>
-              </Col>
-            )}
+            
 
-            {this.state.cameraEnabled ? (
+            {this.state.cameraEnabled && this.state.recordingMode !== '' ? (
               <Col xs={24}>
+                <Title level={2}>Get ready to say your bit!</Title>
+                <Title level={5}>Speak the words as they appear on the screen</Title>
+                <div className="video-inner-container"
+          ref={
+            (screen) => {
+              this.screen = screen;
+            }
+        }>
+          <div className="video-overlay">Text inside video!</div>
                 <ReactWebcam
                   style={{ width: '100%' }}
                   ref={camera => { this.camera = camera }}
@@ -254,40 +263,45 @@ export default class VideoTab extends React.Component {
                   onUserMedia={this.onUserMedia}
                   onUserMediaError={this.onUserMediaError}
                 />
-                {this.state.recording ? (
-                  <div>
-                    <div>RECORDING IN PROGRESS</div>
-                    <Button onClick={this.handleStop} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none' }}>Stop recording</Button>
-                  </div>
-                ) :
-                  <Row>
-                    <Col xl={8} xs={24}>
-                      <Button onClick={this.handleStartCaptureClick} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none', width: '100%', height: '100%' }}>Start recording</Button>
-                    </Col>
-                    <Col xl={8} xs={24}>
-                      <Button onClick={this.retakeVideo} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none', width: '100%', height: '100%' }}>Choose a different video source</Button>
-                    </Col>
-                    <Col xl={8} xs={24}>
-                      <Button onClick={this.mirrorVideo} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none', width: '100%', height: '100%' }}>Mirror video</Button></Col><Col xl={12} xs={24}>
-                    </Col>
-                    {this.state.videoDevices > 1 && (
+                <div className="buttons-camera">
+                  {!this.state.recording ?
+                  <>
+                  <Space size={1} direction='horizontal'>
+                  <Button onClick={this.mirrorVideo} shape='round' style={{display:'block', margin:'20px',verticalAlign:'middle', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc" style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ThreeSixtyIcon"><path d="M12 7C6.48 7 2 9.24 2 12c0 2.24 2.94 4.13 7 4.77V20l4-4-4-4v2.73c-3.15-.56-5-1.9-5-2.73 0-1.06 3.04-3 8-3s8 1.94 8 3c0 .73-1.46 1.89-4 2.53v2.05c3.53-.77 6-2.53 6-4.58 0-2.76-4.48-5-10-5z"></path></svg></Button>
+                  <Button onClick={this.handleStartCaptureClick} shape='round' style={{display:'block', margin:'20px', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc" style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="VideoCameraBackIcon"><path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98zM5 16l2.38-3.17L9 15l2.62-3.5L15 16H5z"></path></svg></Button>
+                  {this.state.videoDevices > 1 && (
                       <>
-                        <Col xl={8} xs={24}>
-                          <Button onClick={this.switchCamera} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none', width: '100%', height: '100%' }}>Switch camera</Button></Col><Col xl={12} xs={24}>
-                        </Col>
+                        
+                          <Button onClick={this.switchCamera} shape='round' style={{display:'block', margin:'20px', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc" style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CameraswitchIcon"><path d="M16 7h-1l-1-1h-4L9 7H8c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-4 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path><path d="m8.57.51 4.48 4.48V2.04c4.72.47 8.48 4.23 8.95 8.95h2C23.34 3.02 15.49-1.59 8.57.51zm2.38 21.45c-4.72-.47-8.48-4.23-8.95-8.95H0c.66 7.97 8.51 12.58 15.43 10.48l-4.48-4.48v2.95z"></path></svg></Button>
+                        
                       </>
                     )}
-                    <Upload.Dragger {...this.draggerProps} style={{ width: '95%', height: '100%', background: 'white', border: '1px solid black' }}>
-
-                        <FileAddFilled />
-
-                        <p className='ant-upload-text' style={{ fontSize: '14px' }}>Click or drag file to this area to upload</p>
-                        <p className='ant-upload-hint'>
-                          Video's format can be: {this.videoOptions.types.label}
-                        </p>
-                      </Upload.Dragger>
-                  </Row>
+                    </Space>
+                  </> : 
+                  <div>
+                    <div>RECORDING IN PROGRESS</div>
+                    <Button onClick={this.handleStopCaptureClick} shape='round' style={{ display: 'block', margin: '0 auto', background: "#000", color: 'white', border: 'none' }}>Stop recording</Button>
+                  </div>
                 }
+        
+          </div> 
+        </div>
+      
+                
+                <>
+               
+                  <Space direction={'vertical'} size={1} style={{margin:'0 auto',display: 'block'}}>
+        <Upload.Dragger {...this.draggerProps} style={{width: '25%', height: '100%', backgroundColor:'#ffb978', fontWeight:'bold', display:'block',margin:'0 auto', border:'none', borderRadius: '10px',marginTop:'15px'}}>
+          <FileAddFilled/>
+
+          <p className="ant-upload-text">
+            Upload video
+          </p>
+          
+        </Upload.Dragger>
+        </Space>
+        </>
+                
 
               </Col>
             ) : (
