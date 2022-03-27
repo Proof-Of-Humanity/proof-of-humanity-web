@@ -39,7 +39,9 @@ export default class ImageTab extends React.Component {
       zoom: 1,
       croppedAreaPixels: null,
       croppedImage: null,
-      userMedia:null
+      userMedia:null,
+      facingMode:'user',
+      videoDevices:0
     }
   }
 
@@ -261,12 +263,25 @@ export default class ImageTab extends React.Component {
 
   onUserMedia = (mediaStream) => {
     console.log('User media detected', mediaStream);
+    if (this.state.videoDevices === 0) {
+      navigator.mediaDevices.enumerateDevices().then((devices) => {
+        let videoDevices = devices.filter((d) => d.kind === "videoinput").length;
+        this.setState({ videoDevices });
+      });
+    }
     // this.camera.video.webkitRequestFullscreen();
     // this.screen.webkitRequestFullscreen();
   }
 
   onUserMediaError(error) {
     console.error('User media error', error);
+  }
+  switchCamera = () => {
+    if (this.state.facingMode == 'user') {
+      this.setState({ facingMode: 'environment' });
+    } else {
+      this.setState({ facingMode: 'user' });
+    }
   }
 
 
@@ -306,9 +321,7 @@ export default class ImageTab extends React.Component {
             screenshotFormat={"image/jpeg"}
             screenshotQuality={1}
             forceScreenshotSourceSize
-            videoConstraints={
-              this.cameraConstraints
-            }
+            videoConstraints={{ ...this.cameraConstraints, facingMode: this.state.facingMode }}
             onCanPlayThrough={
               () => false
             }
@@ -325,7 +338,16 @@ export default class ImageTab extends React.Component {
           </ReactWebcam>
           
         <div className="buttons-camera">
-        <Button onClick={this.takePicture} shape='round' style={{display:'block', margin:'20px auto', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><CameraFilled /><br />Take picture</Button>
+        <Space size={1} direction='horizontal'>
+        <Button onClick={this.takePicture} shape='round' style={{display:'block', margin:'20px auto', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><CameraFilled /></Button>
+        {this.state.videoDevices > 1 && (
+                      <>
+                        
+                          <Button onClick={this.switchCamera} shape='round' style={{display:'block', margin:'20px', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CameraswitchIcon"><path d="M16 7h-1l-1-1h-4L9 7H8c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-4 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path><path d="m8.57.51 4.48 4.48V2.04c4.72.47 8.48 4.23 8.95 8.95h2C23.34 3.02 15.49-1.59 8.57.51zm2.38 21.45c-4.72-.47-8.48-4.23-8.95-8.95H0c.66 7.97 8.51 12.58 15.43 10.48l-4.48-4.48v2.95z"></path></svg></Button>
+                        
+                      </>
+                    )}  
+                    </Space>
           </div>  
         </div>
         <Space direction={'vertical'} size={1} style={{margin:'0 auto',display: 'block'}}>
