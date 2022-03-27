@@ -23,7 +23,8 @@ export default class VideoTab extends React.Component {
       mirrored: false,
       videoDevices: 0,
       facingMode: 'user',
-      recordingMode:''
+      recordingMode:'',
+      fullscreen:false
     }
   }
 
@@ -119,8 +120,13 @@ export default class VideoTab extends React.Component {
     });
   }
 
-  enableCamera = () => {
-    this.setState({ cameraEnabled: true });
+  toggleFullscreen = () => {
+    this.screen.webkitRequestFullscreen();
+    this.setState({fullscreen:true})
+  }
+  closeFullscreen = () => {
+    document.webkitExitFullscreen();
+    this.setState({fullscreen:false})
   }
 
   retakeVideo = () => {
@@ -130,7 +136,7 @@ export default class VideoTab extends React.Component {
       recordedVideo: [],
       recordedVideoUrl: '',
       file: '',
-      recordingMode:''
+      recordingMode:'',
     })
   }
 
@@ -176,6 +182,9 @@ export default class VideoTab extends React.Component {
   }
 
   handleStop = () => {
+    if(this.state.fullscreen){
+      this.closeFullscreen();
+    }
     
     console.log(this.state.recordedVideo);
 
@@ -267,12 +276,18 @@ export default class VideoTab extends React.Component {
                   {!this.state.recording ?
                   <>
                   <Space size={1} direction='horizontal'>
-                  <Button onClick={this.mirrorVideo} shape='round' style={{display:'block', margin:'20px',verticalAlign:'middle', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc" style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ThreeSixtyIcon"><path d="M12 7C6.48 7 2 9.24 2 12c0 2.24 2.94 4.13 7 4.77V20l4-4-4-4v2.73c-3.15-.56-5-1.9-5-2.73 0-1.06 3.04-3 8-3s8 1.94 8 3c0 .73-1.46 1.89-4 2.53v2.05c3.53-.77 6-2.53 6-4.58 0-2.76-4.48-5-10-5z"></path></svg></Button>
-                  <Button onClick={this.handleStartCaptureClick} shape='round' style={{display:'block', margin:'20px', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc" style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="VideoCameraBackIcon"><path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98zM5 16l2.38-3.17L9 15l2.62-3.5L15 16H5z"></path></svg></Button>
+                  <Button onClick={this.mirrorVideo} shape='round' style={{display:'block', margin:'20px',verticalAlign:'middle', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ThreeSixtyIcon"><path d="M12 7C6.48 7 2 9.24 2 12c0 2.24 2.94 4.13 7 4.77V20l4-4-4-4v2.73c-3.15-.56-5-1.9-5-2.73 0-1.06 3.04-3 8-3s8 1.94 8 3c0 .73-1.46 1.89-4 2.53v2.05c3.53-.77 6-2.53 6-4.58 0-2.76-4.48-5-10-5z"></path></svg></Button>
+                  <Button onClick={this.handleStartCaptureClick} shape='round' style={{display:'block', margin:'20px', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="VideoCameraBackIcon"><path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98zM5 16l2.38-3.17L9 15l2.62-3.5L15 16H5z"></path></svg></Button>
+                  {this.state.fullscreen ? 
+                  <Button onClick={this.closeFullscreen} shape='round' style={{display:'block', margin:'20px', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="FullscreenExitIcon"><path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z"></path></svg></Button>
+                  : 
+                  <Button onClick={this.toggleFullscreen} shape='round' style={{display:'block', margin:'20px', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="FullscreenIcon"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"></path></svg></Button>
+                  }
+                  
                   {this.state.videoDevices > 1 && (
                       <>
                         
-                          <Button onClick={this.switchCamera} shape='round' style={{display:'block', margin:'20px', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc" style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CameraswitchIcon"><path d="M16 7h-1l-1-1h-4L9 7H8c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-4 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path><path d="m8.57.51 4.48 4.48V2.04c4.72.47 8.48 4.23 8.95 8.95h2C23.34 3.02 15.49-1.59 8.57.51zm2.38 21.45c-4.72-.47-8.48-4.23-8.95-8.95H0c.66 7.97 8.51 12.58 15.43 10.48l-4.48-4.48v2.95z"></path></svg></Button>
+                          <Button onClick={this.switchCamera} shape='round' style={{display:'block', margin:'20px', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CameraswitchIcon"><path d="M16 7h-1l-1-1h-4L9 7H8c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-4 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path><path d="m8.57.51 4.48 4.48V2.04c4.72.47 8.48 4.23 8.95 8.95h2C23.34 3.02 15.49-1.59 8.57.51zm2.38 21.45c-4.72-.47-8.48-4.23-8.95-8.95H0c.66 7.97 8.51 12.58 15.43 10.48l-4.48-4.48v2.95z"></path></svg></Button>
                         
                       </>
                     )}

@@ -97,7 +97,7 @@ export default class ImageTab extends React.Component {
 
   imageRulesList = [
     {
-      title: <Title level={4} style={{display: 'block', margin:'0 auto'}}>Image rules</Title>,
+      title: "Image rules",
       description: <>
       <Space direction={'horizontal'} align="center">
         <Space direction={'vertical'}><Image src="/images/front-facing.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'20px',color:'green',margin:'0 auto',display:'block'}} /></Space>
