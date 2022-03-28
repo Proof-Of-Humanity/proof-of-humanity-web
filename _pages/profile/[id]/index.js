@@ -92,6 +92,11 @@ export default function ProfileWithID() {
       props.contract.submissionDuration;
 
   const name = props?.submission?.name ?? "";
+
+  if (props?.submission === null) {
+    return <Custom404 />;
+  }
+
   return (
     <>
       <Head>
@@ -149,7 +154,7 @@ export default function ProfileWithID() {
           <Text>{t('gasless_vouch_cost')}</Text>
         </Alert>
       )}
-      {props?.submission ? 
+      {props?.submission ? (
         <>
           <SubmissionDetailsCard
             submission={props.submission}
@@ -161,7 +166,7 @@ export default function ProfileWithID() {
             contract={props.contract}
           />
         </>
-      : <Custom404 />}
+      ) : null}
     </>
   );
 }
