@@ -29,3 +29,8 @@ export { default as Video } from "./video";
 export { default as Warning } from "./warning";
 export { default as X } from "./x";
 export { default as Chat } from "./chat";
+export { default as CameraSwitch } from "./camera-switch";
+export { default as MirrorCamera } from "./mirror-camera";
+export { default as Fullscreen } from "./fullscreen";
+export { default as ExitFullscreen } from "./fullscreen-exit";
+export { default as RecordCamera } from "./record-camera";

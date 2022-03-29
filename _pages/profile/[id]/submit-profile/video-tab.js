@@ -1,6 +1,14 @@
 import { FileAddFilled } from "@ant-design/icons";
+import {
+  CameraSwitch,
+  ExitFullscreen,
+  Fullscreen,
+  MirrorCamera,
+  RecordCamera,
+} from "@kleros/icons";
 import { Button, Col, Image, Row, Space, Typography, Upload } from "antd";
 import React from "react";
+import Video from "react-player";
 import ReactWebcam from "react-webcam";
 
 const { Title, Paragraph } = Typography;
@@ -108,9 +116,9 @@ export default class VideoTab extends React.Component {
       const buffer = Buffer.from(_buffer);
       // let type = file.type.split('/')[1];
       const { size } = file;
-      const { duration } = this.video;
+      // const { duration } = this.video;
 
-      videoSanitizer(buffer, size, duration)
+      videoSanitizer(buffer, size)
         .then((URI) => {
           // console.log(`videoURI: ${URI}`);
           this.setState({ fileURI: URI });
@@ -168,7 +176,7 @@ export default class VideoTab extends React.Component {
       });
   };
 
-  onUserMediaError = (error) => {
+  onUserMediaError = () => {
     // console.error("User media error", error);
   };
 
@@ -340,30 +348,14 @@ export default class VideoTab extends React.Component {
                       shape="round"
                       className="button-orange-camera"
                     >
-                      <svg
-                        style={{ width: "25px" }}
-                        focusable="false"
-                        aria-hidden="true"
-                        viewBox="0 0 24 24"
-                        data-testid="ThreeSixtyIcon"
-                      >
-                        <path d="M12 7C6.48 7 2 9.24 2 12c0 2.24 2.94 4.13 7 4.77V20l4-4-4-4v2.73c-3.15-.56-5-1.9-5-2.73 0-1.06 3.04-3 8-3s8 1.94 8 3c0 .73-1.46 1.89-4 2.53v2.05c3.53-.77 6-2.53 6-4.58 0-2.76-4.48-5-10-5z" />
-                      </svg>
+                      <MirrorCamera />
                     </Button>
                     <Button
                       onClick={this.handleStartCaptureClick}
                       shape="round"
                       className="button-orange-camera"
                     >
-                      <svg
-                        style={{ width: "25px" }}
-                        focusable="false"
-                        aria-hidden="true"
-                        viewBox="0 0 24 24"
-                        data-testid="VideoCameraBackIcon"
-                      >
-                        <path d="M18 10.48V6c0-1.1-.9-2-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-4.48l4 3.98v-11l-4 3.98zM5 16l2.38-3.17L9 15l2.62-3.5L15 16H5z" />
-                      </svg>
+                      <RecordCamera style={{ width: "25px" }} />
                     </Button>
                     {this.state.fullscreen ? (
                       <Button
@@ -371,15 +363,7 @@ export default class VideoTab extends React.Component {
                         shape="round"
                         className="button-orange-camera"
                       >
-                        <svg
-                          style={{ width: "25px" }}
-                          focusable="false"
-                          aria-hidden="true"
-                          viewBox="0 0 24 24"
-                          data-testid="FullscreenExitIcon"
-                        >
-                          <path d="M5 16h3v3h2v-5H5v2zm3-8H5v2h5V5H8v3zm6 11h2v-3h3v-2h-5v5zm2-11V5h-2v5h5V8h-3z" />
-                        </svg>
+                        <ExitFullscreen style={{ width: "25px" }} />
                       </Button>
                     ) : (
                       <Button
@@ -387,15 +371,7 @@ export default class VideoTab extends React.Component {
                         shape="round"
                         className="button-orange-camera"
                       >
-                        <svg
-                          style={{ width: "25px" }}
-                          focusable="false"
-                          aria-hidden="true"
-                          viewBox="0 0 24 24"
-                          data-testid="FullscreenIcon"
-                        >
-                          <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z" />
-                        </svg>
+                        <Fullscreen style={{ width: "25px" }} />
                       </Button>
                     )}
 
@@ -405,16 +381,7 @@ export default class VideoTab extends React.Component {
                         shape="round"
                         className="button-orange-camera"
                       >
-                        <svg
-                          style={{ width: "25px" }}
-                          focusable="false"
-                          aria-hidden="true"
-                          viewBox="0 0 24 24"
-                          data-testid="CameraswitchIcon"
-                        >
-                          <path d="M16 7h-1l-1-1h-4L9 7H8c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-4 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
-                          <path d="m8.57.51 4.48 4.48V2.04c4.72.47 8.48 4.23 8.95 8.95h2C23.34 3.02 15.49-1.59 8.57.51zm2.38 21.45c-4.72-.47-8.48-4.23-8.95-8.95H0c.66 7.97 8.51 12.58 15.43 10.48l-4.48-4.48v2.95z" />
-                        </svg>
+                        <CameraSwitch style={{ width: "25px" }} />
                       </Button>
                     )}
                   </Space>
@@ -433,28 +400,27 @@ export default class VideoTab extends React.Component {
               </div>
             </div>
 
-            <>
-              <Upload.Dragger
-                {...this.draggerProps}
-                className="dragger"
-              >
-                <FileAddFilled />
+            <Upload.Dragger {...this.draggerProps} className="dragger">
+              <FileAddFilled />
 
-                <p className="ant-upload-text">Upload video</p>
-              </Upload.Dragger>
-            </>
+              <Paragraph className="ant-upload-text">Upload video</Paragraph>
+            </Upload.Dragger>
           </Col>
         ) : !this.state.recording && this.state.recordedVideoUrl !== "" ? (
           <Col xs={24} xl={12} style={{ display: "block", margin: "0 auto" }}>
-            <video
-              ref={(video) => {
-                this.video = video;
+            <Video
+              config={{
+                file: {
+                  attributes: {
+                    crossOrigin: "true",
+                  },
+                },
               }}
-              crossOrigin="anonymous"
               controls
-              style={{ width: "100%" }}
-              src={this.state.recordedVideoUrl}
+              style={{ width: "50%" }}
+              url={this.state.recordedVideoUrl}
             />
+
             <Button
               onClick={this.retakeVideo}
               shape="round"

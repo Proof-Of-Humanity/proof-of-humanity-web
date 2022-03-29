@@ -1,15 +1,11 @@
 import {
   CameraFilled,
-  CameraOutlined,
   CheckCircleFilled,
-  CheckOutlined,
   FileTextFilled,
-  FileTextOutlined,
   HourglassFilled,
   VideoCameraFilled,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Button, Col, Row, Steps } from "antd";
+import { Col, Steps } from "antd";
 import React from "react";
 
 import FinalizeTab from "./finalize-tab";
@@ -28,7 +24,7 @@ const Step = Steps.Step;
 export default class NewSubmitProfileForm extends React.Component {
   constructor(props) {
     super(props);
-    console.log("newSubmitProfileForm props=", props);
+    // console.log("newSubmitProfileForm props=", props);
     this.state = {
       current: 0,
       imageURI: "",
@@ -91,9 +87,9 @@ export default class NewSubmitProfileForm extends React.Component {
 
   // change stateHandler to specific functions for tabs to know instead of global one.
 
-  stateHandler = (newState, component) => {
-    if (newState) this.setState(newState);
-    console.log("StateHandler called from=", component);
+  stateHandler = (state) => {
+    if (state) this.setState(state);
+    // console.log("StateHandler called from=", component);
   };
 
   next = () => {
@@ -114,7 +110,7 @@ export default class NewSubmitProfileForm extends React.Component {
       loading: false,
     });
   };
-  uploadToIPFS = async (fileName, buffer) =>
+  uploadToIPFS = (fileName, buffer) =>
     fetch("https://ipfs.kleros.io/add", {
       method: "POST",
       headers: {
@@ -146,28 +142,24 @@ export default class NewSubmitProfileForm extends React.Component {
       "registration.json",
       JSON.stringify(registration)
     );
-    console.log(fileURI, registrationURI);
+    // console.log(fileURI, registrationURI);
     this.setState({ registrationURI });
   };
   calculateDeposit = () =>
-    new Promise((resolve, reject) => {
+    new Promise((resolve) => {
       this.props.web3.contracts.klerosLiquid.methods
         .arbitrationCost(this.props.contract.arbitratorExtraData)
         .call()
         .then((arbitrationCost) => {
-          console.log(
-            "arbitrationCost=",
-            arbitrationCost,
-            typeof arbitrationCost
-          );
-          const { toBN, toWei } = this.props.web3.utils;
+          // console.log("arbitrationCost=",arbitrationCost,typeof arbitrationCost);
+          const { toBN } = this.props.web3.utils;
           const _submissionBaseDeposit = toBN(
             this.props.contract.submissionBaseDeposit
           );
           const _arbitrationCost = toBN(arbitrationCost);
           const deposit = _submissionBaseDeposit.add(_arbitrationCost);
 
-          console.log(toWei(deposit, "Wei"));
+          // console.log(toWei(deposit, "Wei"));
           resolve(deposit);
         });
     });
@@ -175,30 +167,28 @@ export default class NewSubmitProfileForm extends React.Component {
     try {
       this.returnFiles().then(() => {
         this.calculateDeposit().then((deposit) => {
-          console.log(deposit);
+          // console.log(deposit);
           this.props.web3.contracts.proofOfHumanity.methods
             .addSubmission(this.state.registrationURI, this.state.name)
             .send({
               from: this.props.account,
               value: this.state.crowdfund ? 0 : deposit,
             })
-            .on("transactionHash", (tx) => {
-              console.log(tx);
+            .on("transactionHash", () => {
+              // console.log(tx);
               this.next();
             })
-            .on("receipt", (receipt) => {
-              console.log(receipt);
+            .on("receipt", () => {
+              // console.log(receipt);
               this.setState({ confirmed: true });
             })
             .on("error", (error) => {
-              if (error.code == 4001) this.setState({ error });
+              if (error.code === 4001) this.setState({ error });
             });
         });
       });
-    } catch {
-      (error) => {
-        console.log(error);
-      };
+    } catch (err) {
+      this.setState(err);
     }
   };
   render() {
@@ -230,7 +220,7 @@ export default class NewSubmitProfileForm extends React.Component {
           {steps.map((step, index) => (
             <div
               key={`form-item-${index}`}
-              style={{ display: index == current ? "block" : "none" }}
+              style={{ display: index === current ? "block" : "none" }}
             >
               {step.content(props)}
             </div>

@@ -45,7 +45,7 @@ module.exports = {
   rules: {
     // Core
     "arrow-body-style": "error", // Don't use unnecessary curly braces for arrow functions.
-    "new-cap": "error", // Require constructor names to begin with a capital letter.
+    "new-cap": 0, // Require constructor names to begin with a capital letter.
     "new-parens": "error",
     "no-array-constructor": "error",
     "no-console": "error",
@@ -60,7 +60,8 @@ module.exports = {
     "no-shadow": "error",
     "no-unneeded-ternary": ["error", { defaultAssignment: false }],
     "no-unused-expressions": "error",
-    "no-use-before-define": "error",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
     "no-useless-computed-key": "error",
     "no-useless-concat": "error",
     "no-useless-constructor": "error",
@@ -88,7 +89,6 @@ module.exports = {
         patterns: [
           "**/components",
           "!@kleros/components",
-          "**/icons",
           "!@kleros/icons",
           "..", // No relative parent imports.
           "theme-ui", // This should be internal to the design system.
@@ -249,7 +249,6 @@ module.exports = {
           "dfn",
           "dialog",
           "dir",
-          "div",
           "dl",
           "dt",
           "em",
@@ -383,6 +382,7 @@ module.exports = {
         ["@kleros/components", "./components"],
         ["@kleros/icons", "./icons"],
         ["_pages", "./_pages"],
+        ["pages", "./pages"],
         ["assets", "./assets"],
         ["data", "./data"],
         ["lib", "./lib"],
@@ -402,7 +402,6 @@ module.exports = {
           {
             patterns: [
               "@kleros/components",
-              "**/icons",
               "!@kleros/icons",
               "..", // No relative parent imports.
             ],
@@ -419,7 +418,6 @@ module.exports = {
             patterns: [
               "**/components",
               "!@kleros/components",
-              "@kleros/icons",
               "..", // No relative parent imports.
               "theme-ui", // This should be internal to the design system.
               "next/link", // Use the custom version that maintains query parameters instead.
@@ -470,6 +468,7 @@ module.exports = {
 
         "plugin:@typescript-eslint/recommended",
         // MDX Plugin
+        "plugin:import/typescript",
       ],
       plugins: ["@typescript-eslint"],
     },

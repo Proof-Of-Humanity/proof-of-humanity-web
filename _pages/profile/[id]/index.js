@@ -9,21 +9,19 @@ import {
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { graphql } from "relay-hooks";
 
 import SubmissionDetailsAccordion from "./submission-details-accordion";
 import SubmissionDetailsCard from "./submission-details-card";
-import SubmitProfileCard from "./submit-profile-card";
-import NewSubmitProfileCard from './submit-profile/new-submit-profile-card';
-import Custom404 from "pages/404";
+import { NewSubmitProfileCard } from "./submit-profile";
 
 import { submissionStatusEnum } from "data";
-import { concat } from "lodash";
-import { useTranslation } from 'react-i18next'; 
+import { Custom404 } from "pages";
 
 export default function ProfileWithID() {
   const { t, i18n } = useTranslation();
-  
+
   const { props } = useQuery();
   const { web3 } = useWeb3();
   const [accounts] = useWeb3("eth", "getAccounts");
@@ -57,17 +55,12 @@ export default function ProfileWithID() {
     return (
       <>
         <Head>
-          <title>{t('submit_profile')} | Proof of Humanity</title>
-          <meta http-equiv='cache-control' content='no-cache' />
-          <meta http-equiv='expires' content='0' />
-          <meta http-equiv='pragma' content='no-cache' />
+          <title>{t("submit_profile")} | Proof of Humanity</title>
+          <meta httpEquiv="cache-control" content="no-cache" />
+          <meta httpEquiv="expires" content={0} />
+          <meta httpEquiv="pragma" content="no-cache" />
         </Head>
-        {/* <SubmitProfileCard
-          contract={props.contract}
-          submission={props.submission}
-          reapply={reapply && registered}
-          afterSend={handleAfterSend}
-        /> */}
+
         <NewSubmitProfileCard
           i18n={i18n}
           contract={props.contract}
@@ -95,7 +88,7 @@ export default function ProfileWithID() {
   return (
     <>
       <Head>
-        <title>{`${t('profile_title')}: ${
+        <title>{`${t("profile_title")}: ${
           name ? `${name} (${query.id})` : query.id
         } | Proof of Humanity`}</title>
       </Head>
@@ -120,7 +113,7 @@ export default function ProfileWithID() {
             sx={{ height: 30, marginRight: 2 }}
             src="/images/proof-of-humanity-logo-black.png"
           />
-          {t('profile_status')}
+          {t("profile_status")}
         </Text>
         <Text
           sx={{
@@ -132,7 +125,7 @@ export default function ProfileWithID() {
           {status && (
             <>
               {t(`profile_status_${status.key}`)}
-              {isExpired && ` (${t('profile_status_Expired')})`}
+              {isExpired && ` (${t("profile_status_Expired")})`}
               <status.Icon
                 sx={{
                   path: { fill: "text" },
@@ -145,11 +138,15 @@ export default function ProfileWithID() {
         </Text>
       </Card>
       {status === submissionStatusEnum.Vouching && (
-        <Alert type="muted" title={t('profile_advice')} sx={{ mb: 2, fontSize: 14 }}>
-          <Text>{t('gasless_vouch_cost')}</Text>
+        <Alert
+          type="muted"
+          title={t("profile_advice")}
+          sx={{ mb: 2, fontSize: 14 }}
+        >
+          <Text>{t("gasless_vouch_cost")}</Text>
         </Alert>
       )}
-      {props?.submission ? 
+      {props?.submission ? (
         <>
           <SubmissionDetailsCard
             submission={props.submission}
@@ -161,7 +158,9 @@ export default function ProfileWithID() {
             contract={props.contract}
           />
         </>
-      : <Custom404 />}
+      ) : (
+        <Custom404 />
+      )}
     </>
   );
 }

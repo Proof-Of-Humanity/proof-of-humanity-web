@@ -187,3 +187,12 @@ a:hover {
   border: none!important;
   border-radius: 10px!important;
 }
+.slider{
+      padding: 22px 0px;
+      margin-left: 32;
+      border: 2px solid black;
+        
+}
+.slider:hover{
+  background: #ffb978
+}

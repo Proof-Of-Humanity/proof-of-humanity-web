@@ -4,6 +4,7 @@ import {
   CloseCircleFilled,
   FileAddFilled,
 } from "@ant-design/icons";
+import { CameraSwitch } from "@kleros/icons";
 import {
   Button,
   Image,
@@ -18,7 +19,7 @@ import React from "react";
 import Cropper from "react-easy-crop";
 import ReactWebcam from "react-webcam";
 
-import getCroppedImg from "./cropImage";
+import getCroppedImg from "./crop-image";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -85,15 +86,6 @@ export default class ImageTab extends React.Component {
       display: "flex",
       flexDirection: "column",
       alignItems: "stretch",
-    },
-    sliderLabel: {},
-    slider: {
-      padding: "22px 0px",
-      marginLeft: 32,
-      border: "2px solid black",
-      "&:hover": {
-        background: "#ffb978",
-      },
     },
   };
 
@@ -321,8 +313,8 @@ export default class ImageTab extends React.Component {
       // console.log(buffer)
       this.setCroppedImage(croppedImage);
       this.setState({ picture: buffer });
-    } catch (err) {
-      console.error(err);
+    } catch {
+      // console.error(err);
     }
   };
 
@@ -369,7 +361,7 @@ export default class ImageTab extends React.Component {
 
       // console.log('onChange imageURL=', imageURL);
     },
-    onDrop: ({ event }) => {
+    onDrop: () => {
       // console.log('Dropped files', event.dataTransfer.files);
     },
   };
@@ -387,7 +379,7 @@ export default class ImageTab extends React.Component {
 
         this.props.next();
       })
-      .catch((err) => {
+      .catch(() => {
         // Handle errors
         // console.log('Image upload error=', error);
 
@@ -431,7 +423,7 @@ export default class ImageTab extends React.Component {
     });
   };
 
-  onUserMedia = (mediaStream) => {
+  onUserMedia = () => {
     // console.log('User media detected', mediaStream);
     if (this.state.videoDevices === 0)
       navigator.mediaDevices.enumerateDevices().then((devices) => {
@@ -445,9 +437,9 @@ export default class ImageTab extends React.Component {
     // this.screen.webkitRequestFullscreen();
   };
 
-  onUserMediaError(error) {
-    console.error("User media error", error);
-  }
+  onUserMediaError = () => {
+    // console.error("User media error", error);
+  };
   switchCamera = () => {
     if (this.state.facingMode === "user")
       this.setState({ facingMode: "environment" });
@@ -521,16 +513,7 @@ export default class ImageTab extends React.Component {
                         height: "100%",
                       }}
                     >
-                      <svg
-                        style={{ width: "25px" }}
-                        focusable="false"
-                        aria-hidden="true"
-                        viewBox="0 0 24 24"
-                        data-testid="CameraswitchIcon"
-                      >
-                        <path d="M16 7h-1l-1-1h-4L9 7H8c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-4 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
-                        <path d="m8.57.51 4.48 4.48V2.04c4.72.47 8.48 4.23 8.95 8.95h2C23.34 3.02 15.49-1.59 8.57.51zm2.38 21.45c-4.72-.47-8.48-4.23-8.95-8.95H0c.66 7.97 8.51 12.58 15.43 10.48l-4.48-4.48v2.95z" />
-                      </svg>
+                      <CameraSwitch />
                     </Button>
                   )}
                 </Space>
@@ -557,7 +540,7 @@ export default class ImageTab extends React.Component {
               >
                 <FileAddFilled />
 
-                <p className="ant-upload-text">Upload image</p>
+                <Paragraph className="ant-upload-text">Upload image</Paragraph>
               </Upload.Dragger>
             </Space>
           </>
@@ -591,7 +574,7 @@ export default class ImageTab extends React.Component {
                 Zoom
                 <Slider
                   value={this.state.zoom}
-                  styles={this.styles.slider}
+                  className="slider"
                   min={1}
                   max={3}
                   step={0.1}
@@ -675,7 +658,7 @@ export default class ImageTab extends React.Component {
                 onClick={this.uploadPicture}
                 loading={this.state.loading}
               >
-                It's looking great!
+                It&apos;s looking great!
               </Button>
 
               <Button

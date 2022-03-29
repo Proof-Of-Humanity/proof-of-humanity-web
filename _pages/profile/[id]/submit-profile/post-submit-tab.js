@@ -1,23 +1,8 @@
-import { EthereumAccount, Field, Textarea, useWeb3 } from "@kleros/components";
-import {
-  Alert,
-  Button,
-  Col,
-  Form,
-  Input,
-  List,
-  Row,
-  Space,
-  Typography,
-} from "antd";
+import { Button, List, Row, Space, Typography } from "antd";
 import React from "react";
 
 const { Link, Paragraph, Title } = Typography;
 export default class PostSubmitTab extends React.Component {
-  constructor(props) {
-    super(props);
-    // console.log('Final steps props=', props);
-  }
   goToProfile = () => {
     window.location.reload();
   };
@@ -31,8 +16,8 @@ export default class PostSubmitTab extends React.Component {
           </Title>
           <Title level={4}>What&apos;s next?</Title>
           <Paragraph>
-            Your profile will be on 'Vouching Phase'. This means that someone
-            who is already registered must vouch for you.
+            Your profile will be on &apos;Vouching Phase&apos;. This means that
+            someone who is already registered must vouch for you.
           </Paragraph>
           <Title level={4}>How can I get vouched?</Title>
           <List>
