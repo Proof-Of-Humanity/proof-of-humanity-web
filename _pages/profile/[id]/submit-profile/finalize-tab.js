@@ -107,7 +107,14 @@ export default class FinalizeTab extends React.Component {
                 <>
                   <Paragraph>This is your video:</Paragraph>
                   <Video
-                    crossOrigin="anonymous"
+                    config={
+                      { file: {
+                      attributes: {
+                        crossOrigin: 'true'
+                                  }
+                              }
+                      }
+                          }
                     controls
                     onEnded={(event) => this.handleVideo(event)}
                     style={{ width: "50%" }}

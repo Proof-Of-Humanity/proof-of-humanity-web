@@ -9,8 +9,8 @@
 .video-overlay {
   position: absolute;
   width: 100%;
-  left: 0px;
-  top: 0px;
+  left: 0;
+  top: 0;
   text-align: center;
   /* margin: 10px; */
   /* padding: 5px 5px; */
@@ -29,58 +29,58 @@
   height: 90%;
   background-color: rgb(227, 253, 189);
 }
-a:hover{
-  color: black!important;
+a:hover {
+  color: black !important;
 }
 
-.ant-button:hover{
-  color:rgba(201, 203, 206, 0.815)!important;
+.ant-button:hover {
+  color: rgba(201, 203, 206, 0.815) !important;
 }
-.ant-slider-track{
-  background-color:#ffb978!important
+.ant-slider-track {
+  background-color: #ffb978 !important
 }
-.ant-slider-handle{
-  
-  border:solid 2px #000000!important;
-  background-color:black
+.ant-slider-handle {
+
+  border: solid 2px #000000 !important;
+  background-color: black
 }
-.ant-slider-handle:hover{
-  background:'#ffb978'!important
+.ant-slider-handle:hover {
+  background: '#ffb978' !important
 }
 .ant-checkbox-checked .ant-checkbox-inner {
-  background-color: #ffb978!important;
-  border-color: #ffb978!important;
+  background-color: #ffb978 !important;
+  border-color: #ffb978 !important;
 }
-.ant-input{
+.ant-input {
   border: solid 3px #ffb978 !important;
-  border-radius:10px;
+  border-radius: 10px;
   color: #ffb978;
-  display:block;
-  margin:0 auto;
+  display: block;
+  margin: 0 auto;
 }
-.center{
-  display:block;
-  margin:0 auto;
+.center {
+  display: block;
+  margin: 0 auto;
 }
-.video-mode-buttons{
-  background-color:#fff;
+.video-mode-buttons {
+  background-color: #f0f2f5;
   font-weight: bold;
   margin: 10px;
-  border-color:#fff;
-  height:max-content;
+  border-color: #f0f2f5;
+  height: max-content;
 }
-.video-mode-buttons:hover{
-  color:currentColor !important;
-  border-color:#fff;
-  background-color:#fff !important;
+.video-mode-buttons:hover {
+  color: currentColor !important;
+  border-color: #fff;
+  background-color: #fff !important;
 }
-.buttons-camera{
+.buttons-camera-container {
   position: absolute;
   width: 100%;
-  left: 0px;
-  bottom: 0px;
+  left: 0;
+  bottom: 0;
   text-align: center;
-   margin: 10px; 
+  margin: 10px;
   /* padding: 5px 5px; */
   font-size: 20px;
   /* font-family: Helvetica; */
@@ -116,18 +116,20 @@ a:hover{
   height: 76px;
 }
 
-.poh-header-text, .poh-footer-text {
+.poh-header-text,
+.poh-footer-text {
   font-size: 18px;
   box-sizing: border-box;
-  margin: 0px;
-  min-width: 0px;
-  color: var(--theme-ui-colors-background,#fffffa) !important;
+  margin: 0;
+  min-width: 0;
+  color: var(--theme-ui-colors-background, #fffffa) !important;
   font-weight: 600;
   text-decoration: none;
 }
 
-.poh-header-text:hover, .poh-footer-text:hover {
-  color: var(--theme-ui-colors-background,#fffffa) !important;
+.poh-header-text:hover,
+.poh-footer-text:hover {
+  color: var(--theme-ui-colors-background, #fffffa) !important;
 }
 
 /* Main content use all screen */
@@ -138,4 +140,50 @@ a:hover{
 /* Header buttons */
 .poh-header > div > div > div > button {
   line-height: initial !important;
+}
+.button-orange {
+  font-weight: bold;
+  display: block;
+  margin: 0 auto;
+  background-color: #ffb978 !important;
+  border: none;
+  color: white
+}
+.button-grey {
+  font-weight: bold;
+  display: block;
+  margin: 0 auto;
+  background-color: #95a5a6 !important;
+  border: none;
+  color: white
+}
+.button-orange:hover {
+  color: currentColor !important;
+}
+.button-orange-camera {
+  font-weight: bold;
+  display: block;
+  margin: 0 auto;
+  background-color: #ffb978 !important;
+  border: none;
+  color: white
+}
+.button-orange-camera:hover {
+  color: currentColor !important;
+}
+.button-grey:hover {
+  color: currentColor !important;
+}
+.button-orange:hover:disabled {
+  color: rgba(0, 0, 0, 0.25)
+}
+.dragger {
+  width: 25%!important;
+  height: max-content!important;
+  background-color: #ffb978!important;
+  font-weight: bold;
+  display: block;
+  margin: 15px auto;
+  border: none!important;
+  border-radius: 10px!important;
 }

@@ -436,17 +436,7 @@ export default class VideoTab extends React.Component {
             <>
               <Upload.Dragger
                 {...this.draggerProps}
-                style={{
-                  width: "25%",
-                  height: "100%",
-                  backgroundColor: "#ffb978",
-                  fontWeight: "bold",
-                  display: "block",
-                  margin: "0 auto",
-                  border: "none",
-                  borderRadius: "10px",
-                  marginTop: "15px",
-                }}
+                className="dragger"
               >
                 <FileAddFilled />
 
