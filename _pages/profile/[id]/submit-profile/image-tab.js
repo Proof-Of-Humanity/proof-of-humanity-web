@@ -1,515 +1,705 @@
-import React from 'react';
-import ReactWebcam from 'react-webcam';
-import fetch from 'node-fetch';
-
 import {
-  Row,
-  Col,
+  CameraFilled,
+  CheckCircleFilled,
+  CloseCircleFilled,
+  FileAddFilled,
+} from "@ant-design/icons";
+import {
   Button,
-  Upload,
-  Space,
+  Image,
   List,
+  Row,
   Slider,
+  Space,
   Typography,
-  Image
-} from 'antd';
+  Upload,
+} from "antd";
+import React from "react";
+import Cropper from "react-easy-crop";
+import ReactWebcam from "react-webcam";
 
-import {FileAddFilled,CameraFilled,CheckCircleFilled,CloseCircleFilled} from '@ant-design/icons';
-import Cropper from 'react-easy-crop';
-import getCroppedImg from './cropImage'
-const { Title, Paragraph, Text, Link } = Typography;
+import getCroppedImg from "./cropImage";
 
-import { photoSanitizer } from 'lib/media-controller';
+const { Title, Paragraph, Text } = Typography;
+
+import { photoSanitizer } from "lib/media-controller";
 
 export default class ImageTab extends React.Component {
   constructor(props) {
     super(props);
-    // console.log('ImageTab props=', props);
+    // //console.log('ImageTab props=', props);
 
     this.state = {
       cameraEnabled: true,
       image: null,
-      fileURI: '',
-      loading:false,
+      fileURI: "",
+      loading: false,
       crop: {
         x: 0,
-        y: 0
+        y: 0,
       },
       rotation: 0,
       zoom: 1,
       croppedAreaPixels: null,
       croppedImage: null,
-      userMedia:null,
-      facingMode:'user',
-      videoDevices:0
-    }
+      userMedia: null,
+      facingMode: "user",
+      videoDevices: 0,
+    };
   }
 
   photoOptions = {
     types: {
-      value: [
-        'image/jpeg', 'image/png'
-      ],
-      label: '.jpg, .jpeg, .png'
+      value: ["image/jpeg", "image/png"],
+      label: ".jpg, .jpeg, .png",
     },
     size: {
       value: 2 * 1024 * 1024,
-      label: '2 MB'
-    }
-  }
+      label: "2 MB",
+    },
+  };
 
   cameraConstraints = {
     width: {
       min: 640,
-      ideal: 1920
+      ideal: 1920,
     }, //     width: { min: 640, ideal: 1280, max: 1920 },
     height: {
       min: 480,
-      ideal: 1080
-    } //     height: { min: 480, ideal: 720, max: 1080 }
-  }
+      ideal: 1080,
+    }, //     height: { min: 480, ideal: 720, max: 1080 }
+  };
   styles = {
     cropContainer: {
-      position: 'relative',
-      width: '100%',
+      position: "relative",
+      width: "100%",
       height: 400,
-      background: '#000'
+      background: "#000",
     },
     cropButton: {
       flexShrink: 0,
-      marginLeft: 16
+      marginLeft: 16,
     },
     controls: {
       padding: 16,
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'stretch'
-
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "stretch",
     },
     sliderLabel: {},
     slider: {
-      padding: '22px 0px',
+      padding: "22px 0px",
       marginLeft: 32,
-      border:'2px solid black',
-      '&:hover': {
-        background:'#ffb978'
-      }
+      border: "2px solid black",
+      "&:hover": {
+        background: "#ffb978",
+      },
     },
-  }
+  };
 
   imageRulesList = [
     {
       title: "Image rules",
-      description: <>
-      <Space direction={'horizontal'} align="center">
-        <Space direction={'vertical'}><Image src="/images/front-facing.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'20px',color:'green',margin:'0 auto',display:'block'}} /></Space>
-        <Space direction={'vertical'}><Image src="/images/not-front-facing.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'20px',color:'red',margin:'0 auto',display:'block'}} /></Space> <br />
-        <Space direction={'vertical'}><Image src="/images/glasses.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled style={{fontSize:'20px',color:'green',margin:'0 auto',display:'block'}} /></Space>
-        <Space direction={'vertical'}><Image src="/images/sunglasses.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'20px',color:'red',margin:'0 auto',display:'block'}} /></Space>
-      </Space>
-      </>
-    }, {
-      title: '',
-      description: <>
-      <Space direction={'horizontal'} align="center">
-        <Space direction={'vertical'}><Image src="/images/hijab.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CheckCircleFilled  style={{fontSize:'20px',color:'green',margin:'0 auto',display:'block'}} /></Space>
-        <Space direction={'vertical'}><Image src="/images/niqab.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled style={{fontSize:'20px',color:'red',margin:'0 auto',display:'block'}} /></Space>
-        <Space direction={'vertical'}><Image src="/images/b&w.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled style={{fontSize:'20px',color:'red',margin:'0 auto',display:'block'}} /></Space>
-        <Space direction={'vertical'}><Image src="/images/mask.jpg" preview={false} style={{width:'75px', height:'75px',borderRadius:'50%',margin:'0 auto', display:'block'}} /><CloseCircleFilled  style={{fontSize:'20px',color:'red',margin:'0 auto',display:'block'}} /></Space>
-      
-      </Space>
-      
-      </>
-    }, {
-      title: '',
-      description: ''
+      description: (
+        <Space direction="horizontal" align="center">
+          <Space direction="vertical">
+            <Image
+              src="/images/front-facing.jpg"
+              preview={false}
+              style={{
+                width: "75px",
+                height: "75px",
+                borderRadius: "50%",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+            <CheckCircleFilled
+              style={{
+                fontSize: "20px",
+                color: "green",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+          </Space>
+          <Space direction="vertical">
+            <Image
+              src="/images/not-front-facing.jpg"
+              preview={false}
+              style={{
+                width: "75px",
+                height: "75px",
+                borderRadius: "50%",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+            <CloseCircleFilled
+              style={{
+                fontSize: "20px",
+                color: "red",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+          </Space>
+
+          <Space direction="vertical">
+            <Image
+              src="/images/glasses.jpg"
+              preview={false}
+              style={{
+                width: "75px",
+                height: "75px",
+                borderRadius: "50%",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+            <CheckCircleFilled
+              style={{
+                fontSize: "20px",
+                color: "green",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+          </Space>
+          <Space direction="vertical">
+            <Image
+              src="/images/sunglasses.jpg"
+              preview={false}
+              style={{
+                width: "75px",
+                height: "75px",
+                borderRadius: "50%",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+            <CloseCircleFilled
+              style={{
+                fontSize: "20px",
+                color: "red",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+          </Space>
+        </Space>
+      ),
     },
-  ]
+    {
+      title: "",
+      description: (
+        <Space direction="horizontal" align="center">
+          <Space direction="vertical">
+            <Image
+              src="/images/hijab.jpg"
+              preview={false}
+              style={{
+                width: "75px",
+                height: "75px",
+                borderRadius: "50%",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+            <CheckCircleFilled
+              style={{
+                fontSize: "20px",
+                color: "green",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+          </Space>
+          <Space direction="vertical">
+            <Image
+              src="/images/niqab.jpg"
+              preview={false}
+              style={{
+                width: "75px",
+                height: "75px",
+                borderRadius: "50%",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+            <CloseCircleFilled
+              style={{
+                fontSize: "20px",
+                color: "red",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+          </Space>
+          <Space direction="vertical">
+            <Image
+              src="/images/b&w.jpg"
+              preview={false}
+              style={{
+                width: "75px",
+                height: "75px",
+                borderRadius: "50%",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+            <CloseCircleFilled
+              style={{
+                fontSize: "20px",
+                color: "red",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+          </Space>
+          <Space direction="vertical">
+            <Image
+              src="/images/mask.jpg"
+              preview={false}
+              style={{
+                width: "75px",
+                height: "75px",
+                borderRadius: "50%",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+            <CloseCircleFilled
+              style={{
+                fontSize: "20px",
+                color: "red",
+                margin: "0 auto",
+                display: "block",
+              }}
+            />
+          </Space>
+        </Space>
+      ),
+    },
+    {
+      title: "",
+      description: "",
+    },
+  ];
 
   setCrop = (crop) => {
-    console.log(crop);
-    this.setState({crop})
+    // console.log(crop);
+    this.setState({ crop });
   };
   setRotation = (rotation) => {
-    console.log(rotation)
-    this.setState({rotation})
+    // console.log(rotation)
+    this.setState({ rotation });
   };
   setZoom = (zoom) => {
-    console.log(zoom)
-    this.setState({zoom})
+    // console.log(zoom)
+    this.setState({ zoom });
   };
   setCroppedAreaPixels = (croppedAreaPixels) => {
-    console.log(croppedAreaPixels)
-    this.setState({croppedAreaPixels})
+    // console.log(croppedAreaPixels)
+    this.setState({ croppedAreaPixels });
   };
-  setCroppedImage = (croppedImage) => this.setState({croppedImage});
+  setCroppedImage = (croppedImage) => this.setState({ croppedImage });
 
   onCropComplete = (croppedArea, croppedAreaPixels) => {
-    this.setCroppedAreaPixels(croppedAreaPixels)
-  }
+    this.setCroppedAreaPixels(croppedAreaPixels);
+  };
 
   showCroppedImage = async () => {
     try {
-      const croppedImage = await getCroppedImg(this.state.image, this.state.croppedAreaPixels, this.state.rotation)
-      console.log('donee', {croppedImage})
-      let buffer = this.urlB64ToUint8Array(croppedImage.split(',')[1]);
-      console.log(buffer)
-      this.setCroppedImage(croppedImage)
-      this.setState({picture: buffer})
-    } catch (e) {
-      console.error(e)
+      const croppedImage = await getCroppedImg(
+        this.state.image,
+        this.state.croppedAreaPixels,
+        this.state.rotation
+      );
+      // console.log('donee', {croppedImage})
+      const buffer = this.urlB64ToUint8Array(croppedImage.split(",")[1]);
+      // console.log(buffer)
+      this.setCroppedImage(croppedImage);
+      this.setState({ picture: buffer });
+    } catch (err) {
+      console.error(err);
     }
-  }
+  };
 
   onClose = () => {
-    this.setCroppedImage(null)
-  }
+    this.setCroppedImage(null);
+  };
 
   enableCamera = () => {
-    console.log(this.camera);
-    this.setState({cameraEnabled: true});
-  }
+    // console.log(this.camera);
+    this.setState({ cameraEnabled: true });
+  };
 
   urlB64ToUint8Array = (base64String) => {
-    const padding = '='.repeat((4 - base64String.length % 4) % 4);
-    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding)
+      .replaceAll("-", "+")
+      .replaceAll("_", "/");
 
     const rawData = window.atob(base64);
     const outputArray = new Uint8Array(rawData.length);
 
-    for (let i = 0; i < rawData.length; ++ i) {
+    for (let i = 0; i < rawData.length; ++i)
       outputArray[i] = rawData.charCodeAt(i);
-    }
 
     return outputArray;
-  }
+  };
   draggerProps = {
-    name: 'file',
+    name: "file",
     multiple: false,
     accept: this.photoOptions.types.label,
-    onChange: ({file}) => {
-      console.log('onChange file=', file);
+    onChange: ({ file }) => {
+      // console.log('onChange file=', file);
 
-      let blob = new Blob([file.originFileObj], {type: file.type});
-      let imageURL = window.URL.createObjectURL(blob);
-      console.log(blob)
+      const blob = new Blob([file.originFileObj], { type: file.type });
+      const imageURL = window.URL.createObjectURL(blob);
+      // console.log(blob)
       blob.arrayBuffer().then((arrayBuffer) => {
-        this.setState({picture: arrayBuffer, image: imageURL, cameraEnabled: false});
+        this.setState({
+          picture: arrayBuffer,
+          image: imageURL,
+          cameraEnabled: false,
+        });
       });
 
-      console.log('onChange imageURL=', imageURL);
-
+      // console.log('onChange imageURL=', imageURL);
     },
-    onDrop(event) {
-      console.log('Dropped files', event.dataTransfer.files);
-    }
-  }
+    onDrop: ({ event }) => {
+      // console.log('Dropped files', event.dataTransfer.files);
+    },
+  };
   uploadPicture = () => {
     this.setState({ loading: true });
 
-    let { picture } = this.state;
-    let buffer = Buffer.from(picture);
+    const { picture } = this.state;
+    const buffer = Buffer.from(picture);
 
-    photoSanitizer(buffer).then((URI) => {
-      console.log('Image URI=', URI);
-      this.setState({fileURI: URI,loading:false});
-      this.props.stateHandler({imageURI: URI});
+    photoSanitizer(buffer)
+      .then((URI) => {
+        // console.log('Image URI=', URI);
+        this.setState({ fileURI: URI, loading: false });
+        this.props.stateHandler({ imageURI: URI });
 
-      this.props.next();
+        this.props.next();
+      })
+      .catch((err) => {
+        // Handle errors
+        // console.log('Image upload error=', error);
 
-    }).catch(error => { // Handle errors
-      console.log('Image upload error=', error);
-
-      this.setState({
-        picture: false,
-        // cameraEnabled: true?
+        this.setState({
+          picture: false,
+          // cameraEnabled: true?
+        });
       });
-    });
-
-  }
+  };
 
   takePicture = () => {
-    console.log(this.camera);
-    let picture = this.camera.getScreenshot();
-    let buffer = this.urlB64ToUint8Array(picture.split(',')[1]);
-    console.log('Picture b64=', picture);
-    let blob = new Blob([buffer], {type: "buffer"});
-    console.log(blob)
-    let imageURL = window.URL.createObjectURL(blob);
-    console.log(imageURL)
+    // console.log(this.camera);
+    const picture = this.camera.getScreenshot();
+    const buffer = this.urlB64ToUint8Array(picture.split(",")[1]);
+    // console.log('Picture b64=', picture);
+    const blob = new Blob([buffer], { type: "buffer" });
+    // console.log(blob)
+    const imageURL = window.URL.createObjectURL(blob);
+    // console.log(imageURL)
     // this.uploadPicture(picture); // we shouldn't upload every time a picture is taken, but at the end/when user selects it as final image
 
     // this.props.stateHandler({ picture }, 'ImageTab'); // proof props method can be called (save form status)
     // send picture as props and dont use image state?
 
-    this.setState({picture: buffer, image: imageURL, cameraEnabled: false});
-  }
+    this.setState({ picture: buffer, image: imageURL, cameraEnabled: false });
+  };
 
   retakePicture = () => {
     this.setState({
       picture: null,
-      image: '',
+      image: "",
       cameraEnabled: true,
       croppedImage: null,
       croppedAreaPixels: null,
       zoom: 1,
       crop: {
         x: 0,
-        y: 0
+        y: 0,
       },
-      rotation: 0
-    })
-  }
+      rotation: 0,
+    });
+  };
 
   onUserMedia = (mediaStream) => {
-    console.log('User media detected', mediaStream);
-    if (this.state.videoDevices === 0) {
+    // console.log('User media detected', mediaStream);
+    if (this.state.videoDevices === 0)
       navigator.mediaDevices.enumerateDevices().then((devices) => {
-        let videoDevices = devices.filter((d) => d.kind === "videoinput").length;
+        const videoDevices = devices.filter(
+          (d) => d.kind === "videoinput"
+        ).length;
         this.setState({ videoDevices });
       });
-    }
+
     // this.camera.video.webkitRequestFullscreen();
     // this.screen.webkitRequestFullscreen();
-  }
+  };
 
   onUserMediaError(error) {
-    console.error('User media error', error);
+    console.error("User media error", error);
   }
   switchCamera = () => {
-    if (this.state.facingMode == 'user') {
-      this.setState({ facingMode: 'environment' });
-    } else {
-      this.setState({ facingMode: 'user' });
-    }
-  }
-
+    if (this.state.facingMode === "user")
+      this.setState({ facingMode: "environment" });
+    else this.setState({ facingMode: "user" });
+  };
 
   render() {
     return (
       <>
-        
-        
-      {
-      this.state.cameraEnabled ? (
-        <>
-        <Row>
-          <Space direction="vertical"
-            size={1}>
-            <Title level={2}>Smile for the camera!</Title>
-            <Paragraph style={{color:'black'}}>
-              Take out any masks, sunglasses or anything that could block your face and look straight at the camera.
-            </Paragraph>
-          </Space>
-        </Row>
-        <div className="video-inner-container"
-          ref={
-            (screen) => {
-              this.screen = screen;
-            }
-        }>
-          <div className="video-overlay">Text inside video!</div>
-          <ReactWebcam style={
-              {width: "100%"}
-            }
-            ref={
-              (camera) => {
-                this.camera = camera;
-              }
-            }
-            mirrored={false}
-            screenshotFormat={"image/jpeg"}
-            screenshotQuality={1}
-            forceScreenshotSourceSize
-            videoConstraints={{ ...this.cameraConstraints, facingMode: this.state.facingMode }}
-            onCanPlayThrough={
-              () => false
-            }
-            onClick={
-              (event) => event.preventDefault()
-            }
-            onUserMedia={
-              this.onUserMedia
-            }
-            onUserMediaError={
-              this.onUserMediaError
-          }>
-            <div>TEST</div>
-          </ReactWebcam>
-          
-        <div className="buttons-camera">
-        <Space size={1} direction='horizontal'>
-        <Button onClick={this.takePicture} shape='round' style={{display:'block', margin:'20px auto', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><CameraFilled /></Button>
-        {this.state.videoDevices > 1 && (
-                      <>
-                        
-                          <Button onClick={this.switchCamera} shape='round' style={{display:'block', margin:'20px', background:"#ffb978", color:'black', fontWeight:'bold', border:'none',width:'max-content',height:'100%'}}><svg style={{width:'25px'}} focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="CameraswitchIcon"><path d="M16 7h-1l-1-1h-4L9 7H8c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-4 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"></path><path d="m8.57.51 4.48 4.48V2.04c4.72.47 8.48 4.23 8.95 8.95h2C23.34 3.02 15.49-1.59 8.57.51zm2.38 21.45c-4.72-.47-8.48-4.23-8.95-8.95H0c.66 7.97 8.51 12.58 15.43 10.48l-4.48-4.48v2.95z"></path></svg></Button>
-                        
-                      </>
-                    )}  
-                    </Space>
-          </div>  
-        </div>
-        <Space direction={'vertical'} size={1} style={{margin:'0 auto',display: 'block'}}>
-        <Upload.Dragger {...this.draggerProps} style={{width: '25%', height: '100%', backgroundColor:'#ffb978', fontWeight:'bold', display:'block',margin:'0 auto', border:'none', borderRadius: '10px',marginTop:'15px'}}>
-          <FileAddFilled/>
+        {this.state.cameraEnabled ? (
+          <>
+            <Row>
+              <Space direction="vertical" size={1}>
+                <Title level={2}>Smile for the camera!</Title>
+                <Paragraph style={{ color: "black" }}>
+                  Take out any masks, sunglasses or anything that could block
+                  your face and look straight at the camera.
+                </Paragraph>
+              </Space>
+            </Row>
+            <div
+              className="video-inner-container"
+              ref={(screen) => {
+                this.screen = screen;
+              }}
+            >
+              <div className="video-overlay">Text inside video!</div>
+              <ReactWebcam
+                style={{ width: "100%" }}
+                ref={(camera) => {
+                  this.camera = camera;
+                }}
+                mirrored={false}
+                screenshotFormat="image/jpeg"
+                screenshotQuality={1}
+                forceScreenshotSourceSize
+                videoConstraints={{
+                  ...this.cameraConstraints,
+                  facingMode: this.state.facingMode,
+                }}
+                onCanPlayThrough={() => false}
+                onClick={(event) => event.preventDefault()}
+                onUserMedia={this.onUserMedia}
+                onUserMediaError={this.onUserMediaError}
+              >
+                <div>TEST</div>
+              </ReactWebcam>
 
-          <p className="ant-upload-text">
-            Upload image
-          </p>
-          
-        </Upload.Dragger>
+              <div className="buttons-camera-container">
+                <Space size={1} direction="horizontal">
+                  <Button
+                    onClick={this.takePicture}
+                    shape="round"
+                    className="button-orange"
+                    style={{
+                      margin: "20px auto",
+                      width: "max-content",
+                      height: "100%",
+                    }}
+                  >
+                    <CameraFilled />
+                  </Button>
+                  {this.state.videoDevices > 1 && (
+                    <Button
+                      onClick={this.switchCamera}
+                      shape="round"
+                      className="button-orange"
+                      style={{
+                        margin: "20px auto",
+                        width: "max-content",
+                        height: "100%",
+                      }}
+                    >
+                      <svg
+                        style={{ width: "25px" }}
+                        focusable="false"
+                        aria-hidden="true"
+                        viewBox="0 0 24 24"
+                        data-testid="CameraswitchIcon"
+                      >
+                        <path d="M16 7h-1l-1-1h-4L9 7H8c-1.1 0-2 .9-2 2v6c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-4 7c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+                        <path d="m8.57.51 4.48 4.48V2.04c4.72.47 8.48 4.23 8.95 8.95h2C23.34 3.02 15.49-1.59 8.57.51zm2.38 21.45c-4.72-.47-8.48-4.23-8.95-8.95H0c.66 7.97 8.51 12.58 15.43 10.48l-4.48-4.48v2.95z" />
+                      </svg>
+                    </Button>
+                  )}
+                </Space>
+              </div>
+            </div>
+            <Space
+              direction="vertical"
+              size={1}
+              style={{ margin: "0 auto", display: "block" }}
+            >
+              <Upload.Dragger
+                {...this.draggerProps}
+                style={{
+                  width: "25%",
+                  height: "100%",
+                  backgroundColor: "#ffb978",
+                  fontWeight: "bold",
+                  display: "block",
+                  margin: "0 auto",
+                  border: "none",
+                  borderRadius: "10px",
+                  marginTop: "15px",
+                }}
+              >
+                <FileAddFilled />
+
+                <p className="ant-upload-text">Upload image</p>
+              </Upload.Dragger>
+            </Space>
+          </>
+        ) : null}
+        {this.state.image && this.state.picture && !this.state.croppedImage && (
+          <>
+            <Row>
+              <Space direction="vertical" size={1}>
+                <Title level={2}>Crop your image!</Title>
+                <Paragraph style={{ color: "black" }}>
+                  Make sure your face is centered and not rotated.
+                </Paragraph>
+              </Space>
+            </Row>
+            <div style={this.styles.cropContainer}>
+              <Cropper
+                image={this.state.image}
+                crop={this.state.crop}
+                rotation={this.state.rotation}
+                zoom={this.state.zoom}
+                aspect={1}
+                cropShape="round"
+                onCropChange={this.setCrop}
+                onRotationChange={this.setRotation}
+                onCropComplete={this.onCropComplete}
+                onZoomChange={this.setZoom}
+              />
+            </div>
+            <div style={this.styles.controls}>
+              <div style={this.styles.sliderContainer}>
+                Zoom
+                <Slider
+                  value={this.state.zoom}
+                  styles={this.styles.slider}
+                  min={1}
+                  max={3}
+                  step={0.1}
+                  aria-labelledby="Zoom"
+                  onChange={(zoom) => this.setZoom(zoom)}
+                />
+              </div>
+              <div style={this.styles.sliderContainer}>
+                Rotation
+                <Slider
+                  value={this.state.rotation}
+                  style={{ color: "black" }}
+                  min={0}
+                  max={360}
+                  step={1}
+                  aria-labelledby="Rotation"
+                  onChange={(rotation) => this.setRotation(rotation)}
+                />
+              </div>
+              <Button
+                onClick={this.showCroppedImage}
+                styles={this.styles.button}
+                variant="contained"
+                color="primary"
+                shape="round"
+                className="button-orange"
+              >
+                Show Result
+              </Button>
+            </div>
+          </>
+        )}
+        {this.state.croppedImage ? (
+          <div style={{ textAlign: "center" }}>
+            <Space direction="vertical">
+              <Title level={2}>Verify your photo!</Title>
+              <Paragraph>
+                Make sure <Text strong>your facial features are visible</Text>{" "}
+                and{" "}
+                <Text strong>
+                  not covered under heavy make up, masks or other coverings.
+                </Text>{" "}
+                You also must be looking straight at the camera.
+              </Paragraph>
+
+              <Row wrap={false}>
+                <Image
+                  preview={false}
+                  style={{
+                    width: "300px",
+                    height: "auto",
+                    borderRadius: "50%",
+                    border: "1px solid black",
+                  }}
+                  src={this.state.croppedImage}
+                  alt="Crop result"
+                />
+
+                <List
+                  style={{ width: "100%" }}
+                  itemLayout="horizontal"
+                  dataSource={this.imageRulesList}
+                  renderItem={(item) => (
+                    <List.Item>
+                      <List.Item.Meta
+                        title={item.title}
+                        description={item.description}
+                      />
+                    </List.Item>
+                  )}
+                />
+              </Row>
+            </Space>
+
+            <Space direction="vertical">
+              <Button
+                type="primary"
+                disabled={this.state.croppedImage === null}
+                shape="round"
+                className="button-orange"
+                onClick={this.uploadPicture}
+                loading={this.state.loading}
+              >
+                It's looking great!
+              </Button>
+
+              <Button
+                type="primary"
+                shape="round"
+                className="button-grey"
+                onClick={this.retakePicture}
+              >
+                No, let&apos;s take another picture
+              </Button>
+            </Space>
+          </div>
+        ) : null}
+        <Space direction="vertical">
+          <Button
+            type="primary"
+            shape="round"
+            className="button-grey"
+            onClick={this.props.prev}
+          >
+            Go back!
+          </Button>
         </Space>
-        
-
       </>
-      ) : null
-    }
-      {
-      this.state.image && this.state.picture && !this.state.croppedImage && (
-        <>
-        <Row>
-          <Space direction="vertical"
-            size={1}>
-            <Title level={2}>Crop your image!</Title>
-            <Paragraph style={{color:'black'}}>
-              Make sure your face is centered and not rotated.
-            </Paragraph>
-          </Space>
-        </Row>
-          <div style={
-            this.styles.cropContainer
-          }>
-            <Cropper image={
-                this.state.image
-              }
-              crop={
-                this.state.crop
-              }
-              rotation={
-                this.state.rotation
-              }
-              zoom={
-                this.state.zoom
-              }
-              aspect={1}
-              cropShape={"round"}
-              onCropChange={
-                this.setCrop
-              }
-              onRotationChange={
-                this.setRotation
-              }
-              onCropComplete={
-                this.onCropComplete
-              }
-              onZoomChange={
-                this.setZoom
-              }/>
-          </div>
-          <div style={
-            this.styles.controls
-          }>
-            <div style={
-              this.styles.sliderContainer
-            }>
-
-              Zoom
-
-              <Slider value={
-                  this.state.zoom
-                }
-                styles={this.styles.slider}
-                min={1}
-                max={3}
-                step={0.1}
-                aria-labelledby="Zoom"
-                onChange={
-                  (zoom) => this.setZoom(zoom)
-                }/>
-            </div>
-            <div style={
-              this.styles.sliderContainer
-            }>
-
-              Rotation
-
-              <Slider value={
-                  this.state.rotation
-                }
-                style={{color:'black'}}
-                min={0}
-                max={360}
-                step={1}
-                aria-labelledby="Rotation"
-
-                onChange={
-                  (rotation) => this.setRotation(rotation)
-                }/>
-            </div>
-            <Button onClick={
-                this.showCroppedImage
-              }
-              styles={this.styles.button}
-              variant="contained"
-              color="primary"
-              shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#000",color:'white', border:'none',fontWeight:'bold'}}>
-              Show Result
-            </Button>
-          </div>
-        </>
-      )
-    }
-      {
-      this.state.croppedImage ? (
-        <div style={
-          {textAlign: "center"}
-        }>
-          <Space direction="vertical">
-            <Title level={2}>Verify your photo!</Title>
-            <Paragraph>Make sure <Text strong>your facial features are visible</Text> and <Text strong>not covered under heavy make up, masks or other coverings.</Text> You also must be looking straight at the camera.</Paragraph>
-          
-          <Row wrap={false}>
-                  <Image preview={false} style={{width: "300px",height:'auto',borderRadius:'50%', border:'1px solid black'}}
-                    src={this.state.croppedImage}
-                    alt="Crop result"
-                  />
-                  
-                  <List style={{width: "100%"}}
-                        itemLayout="horizontal"
-                        dataSource={this.imageRulesList}
-                        renderItem={
-                          (item) => (
-                            <List.Item>
-                            <List.Item.Meta title={item.title}
-                                            description={item.description}
-                            />
-                            </List.Item>
-                                    )
-                    }/>
-                    </Row>
-      </Space>
-          
-          
-          <Space direction="vertical">
-                    
-        <Button type='primary' disabled={this.state.croppedImage == null} shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#ffb978",fontWeight:'bold', border:'none'}} onClick={this.uploadPicture} loading={this.state.loading}>It's looking great!</Button>
-        
-        
-        <Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#95a5a6", border:'none',fontWeight:'bold'}} onClick={this.retakePicture}>No, let&apos;s take another picture</Button>
-        
-        </Space>
-          
-
-        </div>
-      ) : null
-    } 
-<Space direction='vertical'>
-<Button type='primary' shape='round' style={{display:'block', margin:'0 auto', backgroundColor:"#95a5a6", border:'none',fontWeight:'bold'}} onClick={this.props.prev}>Go back!</Button>
-</Space>
-    
-        </>
     );
-    
   }
 }

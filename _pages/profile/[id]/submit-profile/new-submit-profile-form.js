@@ -1,76 +1,89 @@
-import React from 'react';
-import { Steps, Row, Col, Button } from 'antd';
-import { FileTextOutlined, FileTextFilled, CameraOutlined, CameraFilled, VideoCameraOutlined, VideoCameraFilled, CheckOutlined, CheckCircleFilled, HourglassFilled } from '@ant-design/icons';
+import {
+  CameraFilled,
+  CameraOutlined,
+  CheckCircleFilled,
+  CheckOutlined,
+  FileTextFilled,
+  FileTextOutlined,
+  HourglassFilled,
+  VideoCameraFilled,
+  VideoCameraOutlined,
+} from "@ant-design/icons";
+import { Button, Col, Row, Steps } from "antd";
+import React from "react";
 
-import InitialTab from './initial-tab';
-import ImageTab from './image-tab';
-import VideoTab from './video-tab';
-import FinalizeTab from './finalize-tab';
-import PostSubmitTab from './post-submit-tab';
+import FinalizeTab from "./finalize-tab";
+import ImageTab from "./image-tab";
+import InitialTab from "./initial-tab";
+import PostSubmitTab from "./post-submit-tab";
+import VideoTab from "./video-tab";
 
-
-//const { connect, web3 } = useWeb3;
+// const { connect, web3 } = useWeb3;
 
 const Step = Steps.Step;
 
-
-
-//const contract = new web3.eth.Contract(ProofOfHumanityAbi, "0x73BCCE92806BCe146102C44c4D9c3b9b9D745794");
-//const accounts = web3.eth.getAccounts();
-
+// const contract = new web3.eth.Contract(ProofOfHumanityAbi, "0x73BCCE92806BCe146102C44c4D9c3b9b9D745794");
+// const accounts = web3.eth.getAccounts();
 
 export default class NewSubmitProfileForm extends React.Component {
   constructor(props) {
     super(props);
-    console.log('newSubmitProfileForm props=', props);
+    console.log("newSubmitProfileForm props=", props);
     this.state = {
       current: 0,
-      imageURI: '',
-      videoURI: '',
-      name:"",
-      error:null
+      imageURI: "",
+      videoURI: "",
+      name: "",
+      error: null,
     };
   }
   submissionSteps = [
     {
-      title: 'General information',
-      subtitle: 'General information',
+      title: "General information",
+      subtitle: "General information",
       // content: (props) => <GeneralSubmitTab props={props} />,
-      content: (props) => <InitialTab {...props} account={this.props.account} />,
-      description: 'Set your name and info',
-      icon: <FileTextFilled />
+      content: (props) => (
+        <InitialTab {...props} account={this.props.account} />
+      ),
+      description: "Set your name and info",
+      icon: <FileTextFilled />,
     },
-    
-    {
-      title: 'Photo',
-      subtitle: 'Photo',
-      content: (props) => <ImageTab {...props} />,
-      description: 'Upload your image',
-      icon: <CameraFilled />
-    },
-    {
-      title: 'Video',
-      subtitle: 'Video',
-      content: (props) => <VideoTab {...props} />,
-      description: 'Upload your video',
-      icon: <VideoCameraFilled />
-    },
-    {
-      title: 'Finalize',
-      subtitle: 'Finalize',
-      content: (props) => <FinalizeTab {...props} deposit={this.props.deposit} prepareTransaction={this.prepareTransaction} />,
-      description: 'Finalize your registration',
-      icon: <CheckCircleFilled />
-    },
-    {
-      title: 'Next steps',
-      subtitle: 'Next steps',
-      content: (props) => <PostSubmitTab {...props}  />,
-      description: 'Final steps for your registration',
-      icon: <HourglassFilled />
-    }
-  ]
 
+    {
+      title: "Photo",
+      subtitle: "Photo",
+      content: (props) => <ImageTab {...props} />,
+      description: "Upload your image",
+      icon: <CameraFilled />,
+    },
+    {
+      title: "Video",
+      subtitle: "Video",
+      content: (props) => <VideoTab {...props} />,
+      description: "Upload your video",
+      icon: <VideoCameraFilled />,
+    },
+    {
+      title: "Finalize",
+      subtitle: "Finalize",
+      content: (props) => (
+        <FinalizeTab
+          {...props}
+          deposit={this.props.deposit}
+          prepareTransaction={this.prepareTransaction}
+        />
+      ),
+      description: "Finalize your registration",
+      icon: <CheckCircleFilled />,
+    },
+    {
+      title: "Next steps",
+      subtitle: "Next steps",
+      content: (props) => <PostSubmitTab {...props} />,
+      description: "Final steps for your registration",
+      icon: <HourglassFilled />,
+    },
+  ];
 
   // setFormInfo() // Username, first name, last name, bio
   // setImageUrl()
@@ -80,24 +93,29 @@ export default class NewSubmitProfileForm extends React.Component {
 
   stateHandler = (newState, component) => {
     if (newState) this.setState(newState);
-    console.log('StateHandler called from=', component);
-  }
+    console.log("StateHandler called from=", component);
+  };
 
   next = () => {
     const current = this.state.current + 1;
     this.setState({ current });
-  }
+  };
 
   prev = () => {
     const current = this.state.current - 1;
     this.setState({ current });
-  }
+  };
   reset = () => {
-this.setState({current: 0, imageURI: '', videoURI: '', name:"", loading:false})
-
-  }
-  uploadToIPFS = async (fileName, buffer) => {
-    return fetch("https://ipfs.kleros.io/add", {
+    this.setState({
+      current: 0,
+      imageURI: "",
+      videoURI: "",
+      name: "",
+      loading: false,
+    });
+  };
+  uploadToIPFS = async (fileName, buffer) =>
+    fetch("https://ipfs.kleros.io/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -108,98 +126,97 @@ this.setState({current: 0, imageURI: '', videoURI: '', name:"", loading:false})
       }),
     })
       .then((res) => res.json())
-      .then(
-        ({ data }) =>
-
-          `/ipfs/${data[1].hash}${data[0].path}`
-
-      );
-  }
+      .then(({ data }) => `/ipfs/${data[1].hash}${data[0].path}`);
   returnFiles = async () => {
-    let imageURI = this.state.imageURI.split('/');
-    let videoURI = this.state.videoURI.split('/');
-    let file = {
+    const imageURI = this.state.imageURI.split("/");
+    const videoURI = this.state.videoURI.split("/");
+    const file = {
       name: this.state.name,
       bio: this.state.bio,
       photo: `/${imageURI[3]}/${imageURI[4]}/${imageURI[5]}`,
-      video: `/${videoURI[3]}/${videoURI[4]}/${videoURI[5]}`
-    }
-    let fileURI = await this.uploadToIPFS('file.json', JSON.stringify(file));
+      video: `/${videoURI[3]}/${videoURI[4]}/${videoURI[5]}`,
+    };
+    const fileURI = await this.uploadToIPFS("file.json", JSON.stringify(file));
 
-    let registration = {
+    const registration = {
       fileURI,
-      name: "Registration"
-    }
-    let registrationURI = await this.uploadToIPFS('registration.json', JSON.stringify(registration));
-    console.log(fileURI, registrationURI)
+      name: "Registration",
+    };
+    const registrationURI = await this.uploadToIPFS(
+      "registration.json",
+      JSON.stringify(registration)
+    );
+    console.log(fileURI, registrationURI);
     this.setState({ registrationURI });
-  }
-  calculateDeposit = () => {
-    return new Promise((resolve, reject) => {
-      this.props.web3.contracts.klerosLiquid.methods.arbitrationCost(this.props.contract.arbitratorExtraData).call()
+  };
+  calculateDeposit = () =>
+    new Promise((resolve, reject) => {
+      this.props.web3.contracts.klerosLiquid.methods
+        .arbitrationCost(this.props.contract.arbitratorExtraData)
+        .call()
         .then((arbitrationCost) => {
-          console.log('arbitrationCost=', arbitrationCost, typeof arbitrationCost);
-          let { toBN, toWei } = this.props.web3.utils;
-          let _submissionBaseDeposit = toBN(this.props.contract.submissionBaseDeposit);
-          let _arbitrationCost = toBN(arbitrationCost);
-          let deposit = _submissionBaseDeposit.add(_arbitrationCost);
+          console.log(
+            "arbitrationCost=",
+            arbitrationCost,
+            typeof arbitrationCost
+          );
+          const { toBN, toWei } = this.props.web3.utils;
+          const _submissionBaseDeposit = toBN(
+            this.props.contract.submissionBaseDeposit
+          );
+          const _arbitrationCost = toBN(arbitrationCost);
+          const deposit = _submissionBaseDeposit.add(_arbitrationCost);
 
-          console.log(toWei(deposit, 'Wei'));
+          console.log(toWei(deposit, "Wei"));
           resolve(deposit);
-        })
+        });
     });
-  }
   prepareTransaction = () => {
-    try{
-    this.returnFiles().then(() => {
-      this.calculateDeposit().then((deposit) => {
-        console.log(deposit);
-        this.props.web3.contracts.proofOfHumanity.methods.addSubmission(this.state.registrationURI, this.state.name).send({
-          from: this.props.account,
-          value: this.state.crowdfund ? 0 : deposit
-        })
-        .on('transactionHash',(tx)=>{
-              console.log(tx)
+    try {
+      this.returnFiles().then(() => {
+        this.calculateDeposit().then((deposit) => {
+          console.log(deposit);
+          this.props.web3.contracts.proofOfHumanity.methods
+            .addSubmission(this.state.registrationURI, this.state.name)
+            .send({
+              from: this.props.account,
+              value: this.state.crowdfund ? 0 : deposit,
+            })
+            .on("transactionHash", (tx) => {
+              console.log(tx);
               this.next();
-        })
-        .on('receipt',(receipt)=>{
-          console.log(receipt);
-          this.setState({confirmed:true})
-        })
-        .on('error',(error)=>{
-          if(error.code == 4001){
-            this.setState({error:error})
-          }
-        })
-        
-      })
-    
-
-
-    })
-  }catch{(error)=>{
-    console.log(error)
-      }
+            })
+            .on("receipt", (receipt) => {
+              console.log(receipt);
+              this.setState({ confirmed: true });
+            })
+            .on("error", (error) => {
+              if (error.code == 4001) this.setState({ error });
+            });
+        });
+      });
+    } catch {
+      (error) => {
+        console.log(error);
+      };
     }
-  }
+  };
   render() {
-    let { current } = this.state;
-    let steps = this.submissionSteps;
-    let props = {
+    const { current } = this.state;
+    const steps = this.submissionSteps;
+    const props = {
       stateHandler: this.stateHandler,
       state: this.state,
       i18n: this.props.i18n,
-      next:this.next,
-      prev:this.prev,
-      reset:this.reset
+      next: this.next,
+      prev: this.prev,
+      reset: this.reset,
     };
 
     return (
-      <Col
-        xs={{ span: 24 }}
-        xl={{ span: 12 }}>
-        <Steps size='small' current={current} responsive={true}>
-          {steps.map(step => (
+      <Col xs={{ span: 24 }} xl={{ span: 12 }}>
+        <Steps size="small" current={current} responsive>
+          {steps.map((step) => (
             <Step
               key={step.title}
               title={step.title}
@@ -208,17 +225,17 @@ this.setState({current: 0, imageURI: '', videoURI: '', name:"", loading:false})
             />
           ))}
         </Steps>
-        <br />
-        <div className='steps-content'>
-          {
-            steps.map((step, index) =>
-              <div key={`form-item-${index}`} style={{ 'display': index == current ? 'block' : 'none' }}>
-                {step.content(props)}
-              </div>
-            )
-          }
+
+        <div className="steps-content">
+          {steps.map((step, index) => (
+            <div
+              key={`form-item-${index}`}
+              style={{ display: index == current ? "block" : "none" }}
+            >
+              {step.content(props)}
+            </div>
+          ))}
         </div>
-        
       </Col>
     );
   }
