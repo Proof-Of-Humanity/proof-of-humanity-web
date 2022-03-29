@@ -1,10 +1,9 @@
 import {
-  CameraFilled,
   CheckCircleFilled,
   CloseCircleFilled,
   FileAddFilled,
 } from "@ant-design/icons";
-import { CameraSwitch } from "@kleros/icons";
+import { Camera, CameraSwitch } from "@kleros/icons";
 import {
   Button,
   Image,
@@ -495,12 +494,14 @@ export default class ImageTab extends React.Component {
                     shape="round"
                     className="button-orange"
                     style={{
-                      margin: "20px auto",
+                      margin: "20px",
                       width: "max-content",
                       height: "100%",
+                      verticalAlign: "middle",
+                      display: "flex",
                     }}
                   >
-                    <CameraFilled />
+                    <Camera fill="white" width="25px" height="25px" />
                   </Button>
                   {this.state.videoDevices > 1 && (
                     <Button
@@ -508,12 +509,14 @@ export default class ImageTab extends React.Component {
                       shape="round"
                       className="button-orange"
                       style={{
-                        margin: "20px auto",
+                        margin: "20px",
                         width: "max-content",
                         height: "100%",
+                        verticalAlign: "middle",
+                        display: "flex",
                       }}
                     >
-                      <CameraSwitch />
+                      <CameraSwitch fill="white" width="25px" height="25px" />
                     </Button>
                   )}
                 </Space>

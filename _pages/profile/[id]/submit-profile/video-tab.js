@@ -5,6 +5,7 @@ import {
   Fullscreen,
   MirrorCamera,
   RecordCamera,
+  Stop,
 } from "@kleros/icons";
 import { Button, Col, Image, Row, Space, Typography, Upload } from "antd";
 import React from "react";
@@ -342,49 +343,61 @@ export default class VideoTab extends React.Component {
               />
               <div className="buttons-camera-container">
                 {!this.state.recording ? (
-                  <Space size={1} direction="horizontal">
-                    <Button
-                      onClick={this.mirrorVideo}
-                      shape="round"
-                      className="button-orange-camera"
-                    >
-                      <MirrorCamera />
-                    </Button>
+                  <>
                     <Button
                       onClick={this.handleStartCaptureClick}
                       shape="round"
                       className="button-orange-camera"
+                      style={{ marginBottom: "10px" }}
                     >
-                      <RecordCamera style={{ width: "25px" }} />
+                      <RecordCamera width="25px" height="40px" fill="white" />
                     </Button>
-                    {this.state.fullscreen ? (
+                    <Space size={1} direction="horizontal">
                       <Button
-                        onClick={this.closeFullscreen}
+                        onClick={this.mirrorVideo}
                         shape="round"
                         className="button-orange-camera"
                       >
-                        <ExitFullscreen style={{ width: "25px" }} />
+                        <MirrorCamera width="25px" height="25px" fill="white" />
                       </Button>
-                    ) : (
-                      <Button
-                        onClick={this.toggleFullscreen}
-                        shape="round"
-                        className="button-orange-camera"
-                      >
-                        <Fullscreen style={{ width: "25px" }} />
-                      </Button>
-                    )}
 
-                    {this.state.videoDevices > 1 && (
-                      <Button
-                        onClick={this.switchCamera}
-                        shape="round"
-                        className="button-orange-camera"
-                      >
-                        <CameraSwitch style={{ width: "25px" }} />
-                      </Button>
-                    )}
-                  </Space>
+                      {this.state.fullscreen ? (
+                        <Button
+                          onClick={this.closeFullscreen}
+                          shape="round"
+                          className="button-orange-camera"
+                        >
+                          <ExitFullscreen
+                            width="25px"
+                            height="25px"
+                            fill="white"
+                          />
+                        </Button>
+                      ) : (
+                        <Button
+                          onClick={this.toggleFullscreen}
+                          shape="round"
+                          className="button-orange-camera"
+                        >
+                          <Fullscreen width="25px" height="25px" fill="white" />
+                        </Button>
+                      )}
+
+                      {this.state.videoDevices > 1 && (
+                        <Button
+                          onClick={this.switchCamera}
+                          shape="round"
+                          className="button-orange-camera"
+                        >
+                          <CameraSwitch
+                            width="25px"
+                            height="25px"
+                            fill="white"
+                          />
+                        </Button>
+                      )}
+                    </Space>
+                  </>
                 ) : (
                   <div>
                     <div>RECORDING IN PROGRESS</div>
@@ -393,7 +406,7 @@ export default class VideoTab extends React.Component {
                       shape="round"
                       className="button-camera"
                     >
-                      Stop recording
+                      <Stop width="25px" height="25px" fill="white" />
                     </Button>
                   </div>
                 )}

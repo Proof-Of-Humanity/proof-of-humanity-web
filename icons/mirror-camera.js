@@ -1,6 +1,6 @@
 import { SVG } from "@kleros/components";
 
-export default function MirrorCamera(props) {
+function MirrorCamera(props) {
   return (
     <SVG
       {...props}
@@ -13,3 +13,4 @@ export default function MirrorCamera(props) {
     </SVG>
   );
 }
+export default MirrorCamera;

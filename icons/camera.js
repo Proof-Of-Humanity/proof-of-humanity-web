@@ -1,9 +1,19 @@
 import { SVG } from "@kleros/components";
 
-export default function Camera(props) {
+function Camera(props) {
   return (
-    <SVG viewBox="0 0 512 512" {...props}>
-      <path d="M512 144v288c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V144c0-26.5 21.5-48 48-48h88l12.3-32.9c7-18.7 24.9-31.1 44.9-31.1h125.5c20 0 37.9 12.4 44.9 31.1L376 96h88c26.5 0 48 21.5 48 48zM376 288c0-66.2-53.8-120-120-120s-120 53.8-120 120 53.8 120 120 120 120-53.8 120-120zm-32 0c0 48.5-39.5 88-88 88s-88-39.5-88-88 39.5-88 88-88 88 39.5 88 88z" />
+    <SVG
+      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc"
+      focusable="false"
+      aria-hidden="true"
+      height={props.height}
+      width={props.width}
+      fill={props.fill}
+      data-testid="PhotoCameraIcon"
+    >
+      <circle cx={12} cy={12} r={3.2} />
+      <path d="M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z" />
     </SVG>
   );
 }
+export default Camera;

@@ -1,8 +1,9 @@
 import { SVG } from "@kleros/components";
 
-export default function Fullscreen() {
+function Fullscreen(props) {
   return (
     <SVG
+      {...props}
       focusable="false"
       aria-hidden="true"
       viewBox="0 0 24 24"
@@ -12,3 +13,4 @@ export default function Fullscreen() {
     </SVG>
   );
 }
+export default Fullscreen;
