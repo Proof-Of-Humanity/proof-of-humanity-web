@@ -98,8 +98,10 @@ export default class VideoTab extends React.Component {
 
       // console.log("onChange videoURL=", videoURL);
       this.setState({
-        file: file.originFileObj,
-        recordedVideoUrl: videoURL,
+      file: blob,
+      recording: false,
+      cameraEnabled: false,
+      recordedVideoUrl: videoURL,
       });
     },
     onDrop() {
@@ -404,7 +406,7 @@ export default class VideoTab extends React.Component {
                     <Button
                       onClick={this.handleStopCaptureClick}
                       shape="round"
-                      className="button-camera"
+                      className="button-orange-camera"
                     >
                       <Stop width="25px" height="25px" fill="white" />
                     </Button>

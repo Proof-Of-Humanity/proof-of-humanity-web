@@ -3,7 +3,7 @@ import { SVG } from "@kleros/components";
 function Camera(props) {
   return (
     <SVG
-      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc"
+      className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc"
       focusable="false"
       aria-hidden="true"
       height={props.height}
