@@ -31,8 +31,11 @@ function MyProfileLink(props) {
     !profile?.submission ||
     (!profile?.submission?.registered && profile?.submission?.status === "None");
 
+  const href = accounts?.[0] ? "/profile/[id]" : "/profile/new"
+  const link = accounts?.[0] ? `/profile/${accounts?.[0]}` : `/profile/new`;
+
   return (
-    <NextLink href="/profile/[id]" as={`/profile/${accounts?.[0]}`}>
+    <NextLink href={href} as={link}>
       <Link {...props} variant="navigation">
         {showSubmitProfile ? t('header_submit_profile') : t('header_my_profile')}
       </Link>
