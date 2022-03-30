@@ -48,7 +48,7 @@ module.exports = {
     "new-cap": 0, // Require constructor names to begin with a capital letter.
     "new-parens": "error",
     "no-array-constructor": "error",
-    "no-console": "error",
+    "no-console": ["error", { allow: ["error"] }],
     "no-duplicate-imports": ["error", { includeExports: true }],
     "no-else-return": ["error", { allowElseIf: false }],
     "no-extra-bind": "error",
@@ -354,7 +354,6 @@ module.exports = {
       "error",
       [
         'import.*(/|\\.)";', // Don't use trailing slashes or cyclic index imports.
-        '"\\d+"', // Don't use numerical strings.
         "[^\\d]0p[x]", // Don't use pixels unit for zero values.
         "(?=.*[A-F])#[0-9a-fA-F]{1,6}", // Don't use upper case letters in hex colors.
         "@js[x]", // Don't use a custom JSX pragma.

@@ -13,6 +13,7 @@ import {
   Space,
   Typography,
   Upload,
+  message,
 } from "antd";
 import React from "react";
 import Cropper from "react-easy-crop";
@@ -369,14 +370,25 @@ export default class ImageTab extends React.Component {
 
     const { picture } = this.state;
     const buffer = Buffer.from(picture);
+    // console.log("image sanitizer")
 
     photoSanitizer(buffer)
-      .then((URI) => {
-        // console.log('Image URI=', URI);
-        this.setState({ fileURI: URI, loading: false });
-        this.props.stateHandler({ imageURI: URI });
+      .then((response) => {
+        if (response === "grayscale") {
+          message.error(
+            "Image can't be black and white, please choose or take another one.",
+            10
+          );
+          this.setState({ loading: false, picture: false });
+          this.retakePicture();
+        } else {
+          // console.log('Image URI=', response);
 
-        this.props.next();
+          this.setState({ fileURI: response, loading: false });
+          this.props.stateHandler({ imageURI: response });
+
+          this.props.next();
+        }
       })
       .catch(() => {
         // Handle errors
