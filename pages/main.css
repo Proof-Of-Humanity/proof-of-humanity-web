@@ -191,3 +191,12 @@ a:hover {
       margin-left: 32;
         
 }
+
+.ant-steps-item-icon{
+    background-color: #ffb978;
+    border-color: #ffb978;
+    font-weight: bold;
+}
+.ant-steps-icon {
+  color:white;
+}

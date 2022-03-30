@@ -1,17 +1,9 @@
-import {
-  CameraFilled,
-  CheckCircleFilled,
-  FileTextFilled,
-  HourglassFilled,
-  VideoCameraFilled,
-} from "@ant-design/icons";
 import { Col, Steps, message } from "antd";
 import React from "react";
 
 import FinalizeTab from "./finalize-tab";
 import ImageTab from "./image-tab";
 import InitialTab from "./initial-tab";
-import PostSubmitTab from "./post-submit-tab";
 import VideoTab from "./video-tab";
 
 // const { connect, web3 } = useWeb3;
@@ -31,6 +23,7 @@ export default class NewSubmitProfileForm extends React.Component {
       videoURI: "",
       name: "",
       error: null,
+      txHash: ""
     };
   }
   submissionSteps = [
@@ -42,25 +35,25 @@ export default class NewSubmitProfileForm extends React.Component {
         <InitialTab {...props} account={this.props.account} />
       ),
       description: "Set your name and info",
-      icon: <FileTextFilled />,
+      // icon: 1,
     },
 
     {
-      title: "Photo",
+      title: "Take selfie",
       subtitle: "Photo",
       content: (props) => <ImageTab {...props} />,
       description: "Upload your image",
-      icon: <CameraFilled />,
+      // icon: 2,
     },
     {
-      title: "Video",
+      title: "Record video",
       subtitle: "Video",
       content: (props) => <VideoTab {...props} />,
       description: "Upload your video",
-      icon: <VideoCameraFilled />,
+      // icon: 3,
     },
     {
-      title: "Finalize",
+      title: "Review",
       subtitle: "Finalize",
       content: (props) => (
         <FinalizeTab
@@ -70,15 +63,8 @@ export default class NewSubmitProfileForm extends React.Component {
         />
       ),
       description: "Finalize your registration",
-      icon: <CheckCircleFilled />,
-    },
-    {
-      title: "Next steps",
-      subtitle: "Next steps",
-      content: (props) => <PostSubmitTab {...props} />,
-      description: "Final steps for your registration",
-      icon: <HourglassFilled />,
-    },
+      // icon: 4,
+    }
   ];
 
   // setFormInfo() // Username, first name, last name, bio
@@ -175,6 +161,7 @@ export default class NewSubmitProfileForm extends React.Component {
               value: this.state.crowdfund ? 0 : deposit,
             })
             .on("transactionHash", (tx) => {
+              this.setState({txHash:tx})
               // console.log(tx);
               const config = {
                 content:
@@ -185,7 +172,6 @@ export default class NewSubmitProfileForm extends React.Component {
                 },
               };
               message.info(config);
-              this.next();
             })
             .on("receipt", () => {
               // console.log(receipt);
