@@ -5,7 +5,7 @@ import {
   HourglassFilled,
   VideoCameraFilled,
 } from "@ant-design/icons";
-import { Col, Steps } from "antd";
+import { Col, Steps, message } from "antd";
 import React from "react";
 
 import FinalizeTab from "./finalize-tab";
@@ -174,8 +174,17 @@ export default class NewSubmitProfileForm extends React.Component {
               from: this.props.account,
               value: this.state.crowdfund ? 0 : deposit,
             })
-            .on("transactionHash", () => {
+            .on("transactionHash", (tx) => {
               // console.log(tx);
+              const config = {
+                content:
+                  "Transaction succesfully sent! Click this message to view it.",
+                duration: 10,
+                onClick: () => {
+                  window.open(`https://etherscan.io/tx/${tx}`, "_blank");
+                },
+              };
+              message.info(config);
               this.next();
             })
             .on("receipt", () => {
@@ -183,7 +192,10 @@ export default class NewSubmitProfileForm extends React.Component {
               this.setState({ confirmed: true });
             })
             .on("error", (error) => {
-              if (error.code === 4001) this.setState({ error });
+              if (error.code === 4001) {
+                message.error("Transaction rejected", 5);
+                this.setState({ error });
+              }
             });
         });
       });
