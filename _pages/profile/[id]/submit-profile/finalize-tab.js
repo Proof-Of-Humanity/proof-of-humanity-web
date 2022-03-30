@@ -1,3 +1,5 @@
+import { CheckCircleFilled } from "@ant-design/icons";
+import { Crowdfund } from "@kleros/icons";
 import {
   Alert,
   Button,
@@ -31,9 +33,13 @@ export default class FinalizeTab extends React.Component {
     this.setState({ loading: true });
     this.props.prepareTransaction();
   };
+  goToProfile = () => {
+    window.location.reload();
+  };
   render() {
     // img, video and submitter name source by props
-    return (
+
+    return this.props.state.txHash === "" ? (
       <Row>
         <Space
           direction="vertical"
@@ -90,7 +96,7 @@ export default class FinalizeTab extends React.Component {
               </>
             ) : (
               <>
-                <Paragraph>Your video is loading, please wait.</Paragraph>
+                <Paragraph>Your picture is loading, please wait.</Paragraph>
                 <Spin />
               </>
             )}
@@ -157,6 +163,106 @@ export default class FinalizeTab extends React.Component {
         >
           Done
         </Button>
+      </Row>
+    ) : (
+      <Row style={{ display: "block", margin: "0 auto" }}>
+        <Space direction="vertical">
+          <Title level={2}>Your profile is being uploaded!</Title>
+          <Title level={4}>
+            But it&apos;s not over yet! Here are the next steps before you can
+            start receiving UBI.
+          </Title>
+          <Space
+            direction="horizontal"
+            size={1}
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <CheckCircleFilled
+              style={{ fontSize: "50px", color: "green", marginRight: "20px" }}
+            />
+            <Title level={4} style={{ display: "block", margin: "0 auto" }}>
+              You need at least one existing member to vouch for you.
+            </Title>
+          </Space>
+
+          <Link
+            href="https://t.me/PoHCrowdvoucher"
+            target="_blank"
+            className="button-orange"
+            style={{
+              width: "35%",
+              borderRadius: "25px",
+              color: "white",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            Join the crowdvoucher group on Telegram
+          </Link>
+
+          {this.props.state.crowdfund && (
+            <>
+              <Space
+                direction="horizontal"
+                size={1}
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                }}
+              >
+                <Crowdfund
+                  fill="green"
+                  height="50px"
+                  width="50px"
+                  style={{ marginRight: "20px" }}
+                />
+                <Title level={4} style={{ display: "block", margin: "0 auto" }}>
+                  You need to find people who are willing to pay for your
+                  deposit.
+                </Title>
+              </Space>
+
+              <Link
+                href="https://t.me/PoHcrowdfunding"
+                target="_blank"
+                className="button-orange"
+                style={{
+                  width: "35%",
+                  borderRadius: "25px",
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                Join the crowdfunding group on Telegram
+              </Link>
+            </>
+          )}
+
+          {this.props.state.confirmed && (
+            <Button
+              type="primary"
+              shape="round"
+              style={{
+                fontWeight: "bold",
+                display: "block",
+                margin: "50px auto",
+                backgroundColor: "#ffb978",
+                border: "none",
+                width: "50%",
+                height: "60px",
+              }}
+              onClick={this.goToProfile}
+            >
+              Go to my profile now!
+            </Button>
+          )}
+        </Space>
       </Row>
     );
   }
