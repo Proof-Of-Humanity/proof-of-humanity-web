@@ -23,7 +23,8 @@ export default class NewSubmitProfileForm extends React.Component {
       videoURI: "",
       name: "",
       error: null,
-      txHash: ""
+      txHash: "",
+      progress: 0,
     };
   }
   submissionSteps = [
@@ -64,7 +65,7 @@ export default class NewSubmitProfileForm extends React.Component {
       ),
       description: "Finalize your registration",
       // icon: 4,
-    }
+    },
   ];
 
   // setFormInfo() // Username, first name, last name, bio
@@ -161,7 +162,7 @@ export default class NewSubmitProfileForm extends React.Component {
               value: this.state.crowdfund ? 0 : deposit,
             })
             .on("transactionHash", (tx) => {
-              this.setState({txHash:tx})
+              this.setState({ txHash: tx });
               // console.log(tx);
               const config = {
                 content:

@@ -5,6 +5,7 @@ import {
   Button,
   Checkbox,
   Image,
+  Progress,
   Row,
   Space,
   Spin,
@@ -129,6 +130,12 @@ export default class FinalizeTab extends React.Component {
               <>
                 <Paragraph>Your video is loading, please wait.</Paragraph>
                 <Spin />
+                <Progress
+                  percent={
+                    Math.round(this.props.state.progress * 100 * 10) / 10
+                  }
+                  status="active"
+                />
               </>
             )}
           </Space>

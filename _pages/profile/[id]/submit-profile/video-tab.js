@@ -98,18 +98,22 @@ export default class VideoTab extends React.Component {
 
       // console.log("onChange videoURL=", videoURL);
       this.setState({
-      file: blob,
-      recording: false,
-      cameraEnabled: false,
-      recordedVideoUrl: videoURL,
+        file: blob,
+        recording: false,
+        cameraEnabled: false,
+        recordedVideoUrl: videoURL,
       });
     },
     onDrop() {
       // console.log("Dropped files", event.dataTransfer.files);
     },
   };
-
+  saveProgress = (progress) => {
+    this.props.stateHandler({ progress });
+  };
   uploadVideo = () => {
+    if (this.props.state.videoURI !== "")
+      this.props.stateHandler({ videoURI: "" });
     const { file } = this.state;
     // console.log(file);
 
@@ -121,7 +125,7 @@ export default class VideoTab extends React.Component {
       const { size } = file;
       // const { duration } = this.video;
 
-      videoSanitizer(buffer, size)
+      videoSanitizer(buffer, size, this.saveProgress)
         .then((URI) => {
           // console.log(`videoURI: ${URI}`);
           this.setState({ fileURI: URI });
