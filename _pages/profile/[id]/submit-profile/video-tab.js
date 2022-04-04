@@ -91,7 +91,7 @@ export default class VideoTab extends React.Component {
     multiple: false,
     accept: this.videoOptions.types.label,
     beforeUpload: (file) => {
-      if(this.videoOptions.types.label.includes(file.name.split('.')[1])){
+      if(this.videoOptions.types.value.indexOf(file.type) !== -1){
         return true
       } else{
         message.error("The selected file is not supported.")

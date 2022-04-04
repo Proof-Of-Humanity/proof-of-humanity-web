@@ -356,7 +356,7 @@ export default class ImageTab extends React.Component {
     multiple: false,
     accept: this.photoOptions.types.label,
     beforeUpload: (file) => {
-      if(this.photoOptions.types.label.includes(file.name.split('.')[1])){
+      if(this.photoOptions.types.value.indexOf(file.type) !== -1){
         return true
       } else{
         message.error("The selected file is not supported.")
