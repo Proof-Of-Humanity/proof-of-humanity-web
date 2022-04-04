@@ -1,7 +1,7 @@
 import { Typography } from "antd";
 
 const { Title, Paragraph } = Typography;
-export function Custom404() {
+ export default function Custom404() {
   return (
     <>
       <Title level={1}>404 - Page Not Found</Title>
