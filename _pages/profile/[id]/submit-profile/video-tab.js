@@ -7,7 +7,7 @@ import {
   RecordCamera,
   Stop,
 } from "@kleros/icons";
-import { Button, Col, Image, Row, Space, Typography, Upload } from "antd";
+import { Button, Col, Image, message, Row, Space, Typography, Upload } from "antd";
 import React from "react";
 import Video from "react-player";
 import ReactWebcam from "react-webcam";
@@ -90,6 +90,15 @@ export default class VideoTab extends React.Component {
     name: "file",
     multiple: false,
     accept: this.videoOptions.types.label,
+    beforeUpload: (file) => {
+      if(this.videoOptions.types.label.includes(file.name.split('.')[1])){
+        return true
+      } else{
+        message.error("The selected file is not supported.")
+        return Upload.LIST_IGNORE
+      }
+      
+    },
     onChange: ({ file }) => {
       // console.log("onChange file=", file);
 
