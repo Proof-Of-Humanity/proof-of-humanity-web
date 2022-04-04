@@ -355,9 +355,19 @@ export default class ImageTab extends React.Component {
     name: "file",
     multiple: false,
     accept: this.photoOptions.types.label,
+    beforeUpload: (file) => {
+      // console.log(file.type)
+      if(file.type === "image/png" || file.type === "image/jpeg"){
+        return file;
+      }else{
+        message.error("The selected file type is not supported")
+        return Upload.LIST_IGNORE;
+        
+      }
+    },
     onChange: ({ file }) => {
       // console.log('onChange file=', file);
-
+      
       const blob = new Blob([file.originFileObj], { type: file.type });
       const imageURL = window.URL.createObjectURL(blob);
 
@@ -369,6 +379,7 @@ export default class ImageTab extends React.Component {
           cameraEnabled: false,
         });
       });
+     
 
       // console.log('onChange imageURL=', imageURL);
     },
