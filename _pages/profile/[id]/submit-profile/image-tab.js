@@ -46,6 +46,7 @@ export default class ImageTab extends React.Component {
       userMedia: null,
       facingMode: "user",
       videoDevices: 0,
+      maxZoom: 3,
     };
   }
 
@@ -55,8 +56,8 @@ export default class ImageTab extends React.Component {
       label: ".jpg, .jpeg, .png",
     },
     size: {
-      value: 2 * 1024 * 1024,
-      label: "2 MB",
+      value: 3 * 1024 * 1024,
+      label: "3 MB",
     },
   };
 
@@ -293,12 +294,21 @@ export default class ImageTab extends React.Component {
   };
   setCroppedAreaPixels = (croppedAreaPixels) => {
     // console.log(croppedAreaPixels)
-    this.setState({ croppedAreaPixels });
+    // let maxZoom = croppedAreaPixels.width / 256;
+    if (croppedAreaPixels.width > 256 && croppedAreaPixels.height > 256)
+      this.setState({ croppedAreaPixels });
+    else message.error("The cropped area must be greater than 256 pixels.");
   };
   setCroppedImage = (croppedImage) => this.setState({ croppedImage });
 
   onCropComplete = (croppedArea, croppedAreaPixels) => {
+    // console.log("cropped area: " + JSON.stringify(croppedArea))
     this.setCroppedAreaPixels(croppedAreaPixels);
+  };
+  onMediaLoaded = (media) => {
+    const maxZoom = Math.floor(media.naturalHeight / 256);
+    this.setState({ maxZoom });
+    // console.log(media)
   };
 
   showCroppedImage = async () => {
@@ -350,6 +360,7 @@ export default class ImageTab extends React.Component {
 
       const blob = new Blob([file.originFileObj], { type: file.type });
       const imageURL = window.URL.createObjectURL(blob);
+
       // console.log(blob)
       blob.arrayBuffer().then((arrayBuffer) => {
         this.setState({
@@ -582,6 +593,7 @@ export default class ImageTab extends React.Component {
                 onRotationChange={this.setRotation}
                 onCropComplete={this.onCropComplete}
                 onZoomChange={this.setZoom}
+                onMediaLoaded={this.onMediaLoaded}
               />
             </div>
             <div style={this.styles.controls}>
@@ -591,7 +603,7 @@ export default class ImageTab extends React.Component {
                   value={this.state.zoom}
                   className="slider"
                   min={1}
-                  max={3}
+                  max={this.state.maxZoom}
                   step={0.1}
                   aria-labelledby="Zoom"
                   onChange={(zoom) => this.setZoom(zoom)}
@@ -609,17 +621,25 @@ export default class ImageTab extends React.Component {
                   onChange={(rotation) => this.setRotation(rotation)}
                 />
               </div>
+            </div>
+            <Space direction="horizontal" size={1}>
+              <Button
+                onClick={this.retakePicture}
+                color="primary"
+                shape="round"
+                className="button-grey"
+              >
+                Take a different picture
+              </Button>
               <Button
                 onClick={this.showCroppedImage}
-                styles={this.styles.button}
-                variant="contained"
                 color="primary"
                 shape="round"
                 className="button-orange"
               >
                 Show Result
               </Button>
-            </div>
+            </Space>
           </>
         )}
         {this.state.croppedImage ? (
@@ -687,16 +707,15 @@ export default class ImageTab extends React.Component {
             </Space>
           </div>
         ) : null}
-        <Space direction="vertical">
-          <Button
-            type="primary"
-            shape="round"
-            className="button-grey"
-            onClick={this.props.prev}
-          >
-            Go back!
-          </Button>
-        </Space>
+
+        <Button
+          type="primary"
+          shape="round"
+          className="button-grey"
+          onClick={this.props.prev}
+        >
+          Go back!
+        </Button>
       </>
     );
   }
