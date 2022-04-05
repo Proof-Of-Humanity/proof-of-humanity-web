@@ -44,8 +44,8 @@ const challengeButtonFragments = {
 };
 
 function ChallengeTypeCard({ type, setType, currentType, ...rest }) {
-  //const { t, i18n } = useTranslation();
-  const { imageSrc, startCase, description, key} = type;
+  const { t } = useTranslation();
+  const { imageSrc, key} = type;
 
   return (
     <Card
@@ -64,7 +64,7 @@ function ChallengeTypeCard({ type, setType, currentType, ...rest }) {
 }
 
 function DuplicateInput({ submissionID, setDuplicate }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const [value, setValue] = useState("");
 
@@ -118,7 +118,7 @@ function DuplicateInput({ submissionID, setDuplicate }) {
   );
 }
 export default function ChallengeButton({ request, status, submissionID }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const {
     metaEvidence: _metaEvidence,

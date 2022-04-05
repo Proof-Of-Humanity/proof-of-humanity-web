@@ -47,7 +47,7 @@ function Deadline({
   return null;
 }
 export default function Deadlines({ submission, contract, status }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const {
     request: [request],
@@ -102,7 +102,7 @@ export default function Deadlines({ submission, contract, status }) {
               Date.now() > expirationTimestamp ? (
                 <RemoveButton request={request} contract={contract} submissionID={id} />
               ) : Date.now() > renewalTimestamp ? (
-                <NextLink href="/profile/[id]?reapply=true" as={`/profile/${accounts?.[0]}`}>
+                <NextLink href="/profile/new?reapply=true" as={`/profile/new`}>
                   <Button sx={{ width: "100%", marginY: 1 }}>
                     {t('profile_card_deadline_reapply')}
                   </Button>
@@ -121,7 +121,7 @@ export default function Deadlines({ submission, contract, status }) {
             }
             button={
               isSelf && (
-                <NextLink href="/profile/[id]?reapply=true" as={`/profile/${accounts?.[0]}`}>
+                <NextLink href="/profile/new?reapply=true" as={`/profile/new`}>
                   <Button sx={{ width: "100%", marginY: 1 }}>{t('profile_card_deadline_reapply')}</Button>
                 </NextLink>
               )
@@ -131,7 +131,7 @@ export default function Deadlines({ submission, contract, status }) {
       ) : status === submissionStatusEnum.Removed &&
         submissionTime === null &&
         isSelf ? (
-        <NextLink href="/profile/[id]?reapply=true" as={`/profile/${accounts?.[0]}`}>
+        <NextLink href="/profile/new?reapply=true" as={`/profile/new`}>
           <Button sx={{ width: "100%", marginY: 1 }}>{t('profile_card_deadline_reapply')}</Button>
         </NextLink>
       ) : status === submissionStatusEnum.Vouching && isSelf ? (

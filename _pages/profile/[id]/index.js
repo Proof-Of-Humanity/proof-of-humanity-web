@@ -4,74 +4,25 @@ import {
   Image,
   Text,
   useQuery,
-  useWeb3,
 } from "@kleros/components";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { graphql } from "relay-hooks";
 
 import SubmissionDetailsAccordion from "./submission-details-accordion";
 import SubmissionDetailsCard from "./submission-details-card";
-import { NewSubmitProfileCard } from "./submit-profile";
 
 import { submissionStatusEnum } from "data";
 import { Custom404 } from "pages";
 
 export default function ProfileWithID() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const { props } = useQuery();
-  const { web3 } = useWeb3();
-  const [accounts] = useWeb3("eth", "getAccounts");
-  const account = accounts?.[0];
 
   const router = useRouter();
   const { query } = router;
-
-  const reapply = query.reapply === "true";
-  const registered = props?.submission?.registered ?? false;
-
-  const handleAfterSend = useCallback(async () => {
-    if (reapply)
-      router.push({
-        pathname: "/profile/[id]",
-        query: { id: account },
-      });
-    await new Promise((r) => setTimeout(r, 3000));
-    location.reload();
-  }, [reapply, router, account]);
-
-  const isReapply = account === query.id && reapply;
-  const isRegistration = account === query.id && props?.submission === null;
-  const isResubmit =
-    account === query.id &&
-    props?.submission &&
-    props?.submission.status === "None" &&
-    !registered;
-
-  if (props && account && (isReapply || isRegistration || isResubmit))
-    return (
-      <>
-        <Head>
-          <title>{t("submit_profile")} | Proof of Humanity</title>
-          <meta httpEquiv="cache-control" content="no-cache" />
-          <meta httpEquiv="expires" content={0} />
-          <meta httpEquiv="pragma" content="no-cache" />
-        </Head>
-
-        <NewSubmitProfileCard
-          i18n={i18n}
-          contract={props.contract}
-          submission={props.submission}
-          reapply={reapply && registered}
-          afterSend={handleAfterSend}
-          account={account}
-          web3={web3}
-        />
-      </>
-    );
 
   const status =
     props?.submission &&
@@ -97,57 +48,23 @@ export default function ProfileWithID() {
           name ? `${name} (${query.id})` : query.id
         } | Proof of Humanity`}</title>
       </Head>
-      <Card
-        sx={{ marginBottom: 2 }}
-        mainSx={{
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          paddingY: 1,
-        }}
-      >
-        <Text
-          sx={{
-            alignItems: "center",
-            display: "flex",
-            fontWeight: "bold",
-            minWidth: "fit-content",
-          }}
-        >
-          <Image
-            crossOrigin="anonymous"
-            sx={{ height: 30, marginRight: 2 }}
-            src="/images/proof-of-humanity-logo-black.png"
-          />
+      <Card sx={{ marginBottom: 2 }} mainSx={{ flexWrap: "wrap", justifyContent: "space-between", paddingY: 1, }}>
+        <Text sx={{ alignItems: "center", display: "flex", fontWeight: "bold", minWidth: "fit-content" }}>
+          <Image crossOrigin="anonymous" sx={{ height: 30, marginRight: 2 }} src="/images/proof-of-humanity-logo-black.png" />
           {t("profile_status")}
         </Text>
-        <Text
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
+        <Text sx={{ display: "flex", alignItems: "center", gap: 8 }}>
           {status && (
             <>
               {t(`profile_status_${status.key}`)}
               {isExpired && ` (${t("profile_status_Expired")})`}
-              <status.Icon
-                sx={{
-                  path: { fill: "text" },
-                  stroke: "text",
-                  strokeWidth: 0,
-                }}
-              />
+              <status.Icon sx={{ path: { fill: "text" }, stroke: "text", strokeWidth: 0 }} />
             </>
           )}
         </Text>
       </Card>
       {status === submissionStatusEnum.Vouching && (
-        <Alert
-          type="muted"
-          title={t("profile_advice")}
-          sx={{ mb: 2, fontSize: 14 }}
-        >
+        <Alert type="muted" title={t("profile_advice")} sx={{ mb: 2, fontSize: 14 }}>
           <Text>{t("gasless_vouch_cost")}</Text>
         </Alert>
       )}
