@@ -4,6 +4,7 @@ import {
   Alert,
   Button,
   Checkbox,
+  Col,
   Image,
   Progress,
   Row,
@@ -42,13 +43,7 @@ export default class FinalizeTab extends React.Component {
 
     return this.props.state.txHash === "" ? (
       <Row>
-        <Space
-          direction="vertical"
-          size={1}
-          style={{
-            textAlign: "center",
-          }}
-        >
+        <Col span={24}>
           <Title level={2}>Finalize your registration</Title>
           <Paragraph>
             Verify your submission information and media is correct and submit
@@ -71,19 +66,23 @@ export default class FinalizeTab extends React.Component {
             showIcon
           />
           {this.props.state.name && (
-            <Title level={5}>
-              The name you submitted is: {this.props.state.name}
-            </Title>
+            <Row justify="left">
+              <Title level={4}>Name: {this.props.state.name}</Title>
+            </Row>
+          )}
+          {this.props.account && (
+            <Row justify="left">
+              <Title level={4}>Ethereum Address: {this.props.account}</Title>
+            </Row>
           )}
           {this.props.state.bio && (
-            <Title level={5}>
-              The name you submitted is: {this.props.state.bio}
-            </Title>
+            <Row justify="left">
+              <Title level={4}>About me: {this.props.state.bio}</Title>
+            </Row>
           )}
-          <Space size={1} direction="vertical" style={{ textAlign: "center" }}>
-            {this.props.state.imageURI !== "" ? (
-              <>
-                <Paragraph>This is your picture:</Paragraph>
+          <Row justify="center" style={{ marginTop: "5%" }}>
+            <Col xl={12} xs={24}>
+              {this.props.state.imageURI !== "" ? (
                 <Image
                   crossOrigin="anonymous"
                   preview={false}
@@ -91,65 +90,67 @@ export default class FinalizeTab extends React.Component {
                     width: "50%",
                     borderRadius: "50%",
                     border: "1px solid black",
+                    display: "block",
+                    margin: "0 auto",
                   }}
                   src={this.props.state.imageURI}
                 />
-              </>
-            ) : (
-              <>
-                <Paragraph>Your picture is loading, please wait.</Paragraph>
-                <Spin />
-              </>
-            )}
-          </Space>
-          <Space size={1} direction="vertical" style={{ textAlign: "center" }}>
-            {this.props.state.videoURI !== "" ? (
-              
-              <>
-              {console.log(this.props.state.videoURI)}
-                <Paragraph>This is your video:</Paragraph>
-                <Video
-                  config={{
-                    file: {
-                      attributes: {
-                        crossOrigin: "true",
+              ) : (
+                <>
+                  <Paragraph>Your picture is loading, please wait.</Paragraph>
+                  <Spin />
+                </>
+              )}
+            </Col>
+            <Col xl={12} xs={24}>
+              {this.props.state.videoURI !== "" ? (
+                <>
+                  <Video
+                    config={{
+                      file: {
+                        attributes: {
+                          crossOrigin: "true",
+                        },
                       },
-                    },
-                  }}
-                  controls
-                  onEnded={(event) => this.handleVideo(event)}
-                  style={{ width: "50%" }}
-                  url={this.props.state.videoURI}
-                />
-                {!this.state.playedVideo && (
-                  <Paragraph>
-                    Please check your whole video to be able to send the
-                    submission.
-                  </Paragraph>
-                )}
-              </>
-            ) : (
-              <>
-                <Paragraph>Your video is loading, please wait.</Paragraph>
-                <Spin />
-                <Progress
-                  percent={
-                    Math.round(this.props.state.progress * 100)
-                  }
-                  status="active"
-                />
-              </>
-            )}
-          </Space>
-          <Checkbox
-            onChange={(event) => {
-              this.props.stateHandler({ crowdfund: event.target.checked });
-            }}
-          >
-            I want to use Crowdfund (0 deposit)
-          </Checkbox>
+                    }}
+                    controls
+                    onEnded={(event) => this.handleVideo(event)}
+                    style={{ width: "100%" }}
+                    url={this.props.state.videoURI}
+                  />
+                  {!this.state.playedVideo && (
+                    <Paragraph style={{ textAlign: "center" }}>
+                      Please check your whole video to be able to send the
+                      submission.
+                    </Paragraph>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Paragraph>Your video is loading, please wait.</Paragraph>
+                  <Spin />
+                  <Progress
+                    percent={Math.round(this.props.state.progress * 100)}
+                    status="active"
+                  />
+                </>
+              )}
+            </Col>
+          </Row>
+          <Row justify="center">
+            <Col span={12} style={{ textAlign: "center" }}>
+              <Checkbox
+                style={{ fontSize: "large" }}
+                onChange={(event) => {
+                  this.props.stateHandler({ crowdfund: event.target.checked });
+                }}
+              >
+                I want to use Crowdfund (no self deposit)
+              </Checkbox>
+            </Col>
+          </Row>
           {/* Next steps... */}{" "}
-        </Space>
+        </Col>
         <Button
           type="primary"
           shape="round"
@@ -170,7 +171,7 @@ export default class FinalizeTab extends React.Component {
           onClick={this.handleSubmit}
           loading={this.state.loading && this.props.state.error === null}
         >
-          Done
+          Submit profile!
         </Button>
       </Row>
     ) : (

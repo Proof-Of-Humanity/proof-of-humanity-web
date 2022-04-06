@@ -6,6 +6,7 @@ import {
 import { Camera, CameraSwitch } from "@kleros/icons";
 import {
   Button,
+  Col,
   Image,
   List,
   Row,
@@ -14,7 +15,6 @@ import {
   Typography,
   Upload,
   message,
-  Col
 } from "antd";
 import React from "react";
 import Cropper from "react-easy-crop";
@@ -308,7 +308,9 @@ export default class ImageTab extends React.Component {
     this.setCroppedAreaPixels(croppedAreaPixels);
   };
   onMediaLoaded = (media) => {
-    const maxZoom = Math.floor(Math.min(media.naturalWidth, media.naturalHeight) / 256);
+    const maxZoom = Math.floor(
+      Math.min(media.naturalWidth, media.naturalHeight) / 256
+    );
     this.setState({ maxZoom });
     // console.log(media)
   };
@@ -325,6 +327,7 @@ export default class ImageTab extends React.Component {
       // console.log(buffer)
       this.setCroppedImage(croppedImage);
       this.setState({ picture: buffer });
+      window.location.href = "#verify";
     } catch {
       // console.error(err);
     }
@@ -353,21 +356,20 @@ export default class ImageTab extends React.Component {
 
     return outputArray;
   };
+
   draggerProps = {
     name: "file",
     multiple: false,
     accept: this.photoOptions.types.label,
     beforeUpload: (file) => {
-      if(this.photoOptions.types.value.indexOf(file.type) !== -1){
-        return true
-      } else{
-        message.error("The selected file is not supported.")
-        return Upload.LIST_IGNORE
-      }
+      if (this.photoOptions.types.value.includes(file.type)) return true;
+
+      message.error("The selected file is not supported.");
+      return Upload.LIST_IGNORE;
     },
     onChange: ({ file }) => {
       // console.log('onChange file=', file);
-      
+
       const blob = new Blob([file.originFileObj], { type: file.type });
       const imageURL = window.URL.createObjectURL(blob);
 
@@ -379,7 +381,6 @@ export default class ImageTab extends React.Component {
           cameraEnabled: false,
         });
       });
-     
 
       // console.log('onChange imageURL=', imageURL);
     },
@@ -635,31 +636,37 @@ export default class ImageTab extends React.Component {
                 />
               </div>
             </div>
-            <Space direction="horizontal" size={1}>
-              <Button
-                onClick={this.retakePicture}
-                color="primary"
-                shape="round"
-                className="button-grey"
-              >
-                Take a different picture
-              </Button>
-              <Button
-                onClick={this.showCroppedImage}
-                color="primary"
-                shape="round"
-                className="button-orange"
-              >
-                Show Result
-              </Button>
-            </Space>
+            <Row justify="center">
+              <Col span={12}>
+                <Button
+                  onClick={this.retakePicture}
+                  color="primary"
+                  shape="round"
+                  className="button-grey"
+                >
+                  Take a different picture
+                </Button>
+              </Col>
+              <Col span={12}>
+                <Button
+                  onClick={this.showCroppedImage}
+                  color="primary"
+                  shape="round"
+                  className="button-orange"
+                >
+                  Show Result
+                </Button>
+              </Col>
+            </Row>
           </>
         )}
-        
+
         {this.state.croppedImage ? (
           <div style={{ textAlign: "center" }}>
             <Space direction="vertical">
-              <Title level={2}>Verify your photo!</Title>
+              <Title level={2} id="verify">
+                Verify your photo!
+              </Title>
               <Paragraph>
                 Make sure <Text strong>your facial features are visible</Text>{" "}
                 and{" "}
@@ -702,12 +709,24 @@ export default class ImageTab extends React.Component {
             </Space>
             <Row justify="center">
               <Col span={12}>
-                <Button type="primary" shape="round" className="button-grey" onClick={this.retakePicture}>
+                <Button
+                  type="primary"
+                  shape="round"
+                  className="button-grey"
+                  onClick={this.retakePicture}
+                >
                   Take another picture
                 </Button>
               </Col>
               <Col span={12}>
-                <Button type="primary" disabled={this.state.croppedImage === null} shape="round" className="button-orange" onClick={this.uploadPicture} loading={this.state.loading}>
+                <Button
+                  type="primary"
+                  disabled={this.state.croppedImage === null}
+                  shape="round"
+                  className="button-orange"
+                  onClick={this.uploadPicture}
+                  loading={this.state.loading}
+                >
                   It&apos;s looking great!
                 </Button>
               </Col>
@@ -716,7 +735,12 @@ export default class ImageTab extends React.Component {
         ) : null}
         <Row justify="center">
           <Col span={24}>
-            <Button type="primary" shape="round" className="button-grey" onClick={this.props.prev}>
+            <Button
+              type="primary"
+              shape="round"
+              className="button-grey"
+              onClick={this.props.prev}
+            >
               Go back!
             </Button>
           </Col>

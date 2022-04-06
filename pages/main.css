@@ -52,7 +52,7 @@ a:hover {
   border-color: #ffb978 !important;
 }
 .ant-input {
-  border: solid 3px #ffb978 !important;
+  border: solid 1px #ffb978 !important;
   border-radius: 10px;
   color: #ffb978;
   display: block;
@@ -68,6 +68,7 @@ a:hover {
   margin: 10px;
   border-color: #f0f2f5;
   height: max-content;
+  white-space: pre-wrap;
 }
 .video-mode-buttons:hover {
   color: currentColor !important;
@@ -78,12 +79,11 @@ a:hover {
   position: absolute;
   width: 100%;
   left: 0;
-  bottom: 0;
+  bottom: 2%;
   text-align: center;
   font-size: 20px;
   /* font-family: Helvetica; */
   color: #FFF;
-  background-color: #000;
 }
 
 .steps-content > div > .ant-row > .ant-space {
@@ -143,7 +143,7 @@ a:hover {
 .button-orange {
   font-weight: bold;
   display: block;
-  margin: 0 auto;
+  margin: 5% auto;
   background-color: #ffb978 !important;
   border: none;
   color: white
@@ -151,7 +151,7 @@ a:hover {
 .button-grey {
   font-weight: bold;
   display: block;
-  margin: 0 auto;
+  margin: 5% auto;
   background-color: #95a5a6 !important;
   border: none;
   color: white
@@ -164,6 +164,7 @@ a:hover {
   display: block;
   margin: 0 auto;
   background-color: #ffb978 !important;
+  width:25%;
   border: none;
   color: white
 }
@@ -199,4 +200,10 @@ a:hover {
 }
 .ant-steps-icon {
   color:white;
+}
+.ant-steps-item-title::after{
+  background-color:#000000;
+}
+.ant-steps{
+  margin-bottom: 5%!important;
 }

@@ -7,7 +7,7 @@ import {
   RecordCamera,
   Stop,
 } from "@kleros/icons";
-import { Button, Col, Image, message, Row, Space, Typography, Upload } from "antd";
+import { Button, Col, Image, Row, Typography, Upload, message } from "antd";
 import React from "react";
 import Video from "react-player";
 import ReactWebcam from "react-webcam";
@@ -91,13 +91,10 @@ export default class VideoTab extends React.Component {
     multiple: false,
     accept: this.videoOptions.types.label,
     beforeUpload: (file) => {
-      if(this.videoOptions.types.value.indexOf(file.type) !== -1){
-        return true
-      } else{
-        message.error("The selected file is not supported.")
-        return Upload.LIST_IGNORE
-      }
-      
+      if (this.videoOptions.types.value.includes(file.type)) return true;
+
+      message.error("The selected file is not supported.");
+      return Upload.LIST_IGNORE;
     },
     onChange: ({ file }) => {
       // console.log("onChange file=", file);
@@ -134,7 +131,7 @@ export default class VideoTab extends React.Component {
       const { size } = file;
       // const { duration } = this.video;
 
-      videoSanitizer(buffer, size,this.props.state.OS, this.saveProgress)
+      videoSanitizer(buffer, size, this.props.state.OS, this.saveProgress)
         .then((URI) => {
           // console.log(`videoURI: ${URI}`);
           this.setState({ fileURI: URI });
@@ -181,7 +178,6 @@ export default class VideoTab extends React.Component {
   onUserMedia = (mediaStream) => {
     // console.log("User media detected", mediaStream);
     this.setState({ userMedia: mediaStream });
-    console.log(this.props.state.OS)
     // maybe move this to another place?
     if (this.state.videoDevices === 0)
       navigator.mediaDevices.enumerateDevices().then((devices) => {
@@ -198,7 +194,6 @@ export default class VideoTab extends React.Component {
 
   handleStartCaptureClick = () => {
     this.setState({ recording: true });
-
     this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
       mimeType: this.props.state.OS === "iOS" ? "video/mp4" : "video/webm",
     });
@@ -224,7 +219,9 @@ export default class VideoTab extends React.Component {
     // console.log(this.state.recordedVideo);
 
     const blob = new Blob(this.state.recordedVideo, {
-      type: `${this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"};codecs=h264,avc1`,
+      type: `${
+        this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"
+      };codecs=h264,avc1`,
     });
     const videoURL = window.URL.createObjectURL(blob);
 
@@ -248,69 +245,71 @@ export default class VideoTab extends React.Component {
       this.setState({ facingMode: "environment" });
     else this.setState({ facingMode: "user" });
   };
+  goBack = () => {
+    this.setState({
+      recording: false,
+      cameraEnabled: false,
+      recordedVideo: [],
+      recordedVideoUrl: "",
+      file: "",
+      recordingMode: "",
+    });
+    this.props.prev();
+  };
 
   render = () => (
     // console.log("videoTab render state", this.state);
 
     <>
       {this.state.recordingMode === "" && (
-        <Row>
-          <Title level={2}>Are you ready to speak?</Title>
-          <Paragraph>
-            You must be in a quiet room, with a working microphone and be able
-            to read from your screen. If you are unable to comply, then an
-            alternative process is available.
-          </Paragraph>
-          <Space direction="vertical" size={1} className="center">
-            <Space direction="horizontal">
-              <Button
-                onClick={() =>
-                  this.setState({
-                    recordingMode: "speaking",
-                    cameraEnabled: true,
-                  })
-                }
-                className="video-mode-buttons"
-              >
-                <Image
-                  preview={false}
-                  src="/images/speaker.png"
-                  width="200px"
-                  height="auto"
-                />
-                <Title
-                  level={4}
-                  style={{ marginTop: "10px", color: "#95a5a6" }}
+        <Row justify="center">
+          <Col span={24}>
+            <Title level={2}>Are you ready to speak?</Title>
+            <Paragraph>
+              You must be in a quiet room, with a working microphone and be able
+              to read from your screen. If you are unable to comply, then an
+              alternative process is available.
+            </Paragraph>
+            <Row justify="center">
+              <Col xs={24} xl={12}>
+                <Button
+                  onClick={() =>
+                    this.setState({
+                      recordingMode: "speaking",
+                      cameraEnabled: true,
+                    })
+                  }
+                  className="video-mode-buttons"
                 >
-                  I am able to identify my account using my voice and sight
-                </Title>
-              </Button>
-            </Space>
-            <Space direction="horizontal">
-              <Button
-                onClick={() =>
-                  this.setState({
-                    recordingMode: "visual",
-                    cameraEnabled: true,
-                  })
-                }
-                className="video-mode-buttons"
-              >
-                <Image
-                  preview={false}
-                  src="/images/sign.png"
-                  width="200px"
-                  height="auto"
-                />
-                <Title
-                  level={4}
-                  style={{ marginTop: "10px", color: "#95a5a6" }}
+                  <Image
+                    preview={false}
+                    src="/images/speaker.png"
+                    width="100%"
+                  />
+                  <Title level={4} style={{ marginTop: "10px" }}>
+                    I am able to identify my account using my voice and sight
+                  </Title>
+                </Button>
+              </Col>
+
+              <Col xs={24} xl={12}>
+                <Button
+                  onClick={() =>
+                    this.setState({
+                      recordingMode: "visual",
+                      cameraEnabled: true,
+                    })
+                  }
+                  className="video-mode-buttons"
                 >
-                  I would prefer to use a visual method
-                </Title>
-              </Button>
-            </Space>
-          </Space>
+                  <Image preview={false} src="/images/sign.png" width="100%" />
+                  <Title level={4} style={{ marginTop: "10px" }}>
+                    I would prefer to use a visual method
+                  </Title>
+                </Button>
+              </Col>
+            </Row>
+          </Col>
         </Row>
       )}
 
@@ -326,9 +325,9 @@ export default class VideoTab extends React.Component {
             )} />
             </Row>*/}
 
-      <Row>
+      <Row justify="center">
         {this.state.cameraEnabled && this.state.recordingMode !== "" ? (
-          <Col xs={24}>
+          <Col span={24}>
             <Title level={2}>Get ready to say your bit!</Title>
             <Title level={5}>
               Speak the words as they appear on the screen
@@ -359,71 +358,97 @@ export default class VideoTab extends React.Component {
               <div className="buttons-camera-container">
                 {!this.state.recording ? (
                   <>
-                    <Button
-                      onClick={this.handleStartCaptureClick}
-                      shape="round"
-                      className="button-orange-camera"
-                      style={{ marginBottom: "10px" }}
-                    >
-                      <RecordCamera width="25px" height="40px" fill="white" />
-                    </Button>
-                    <Space size={1} direction="horizontal">
+                    <Row justify="center">
+                      <Col span={6}>
+                        <Button
+                          onClick={this.handleStartCaptureClick}
+                          shape="round"
+                          className="button-orange-camera"
+                          style={{ marginBottom: "10px" }}
+                        >
+                          <RecordCamera
+                            width="25px"
+                            height="40px"
+                            fill="white"
+                          />
+                        </Button>
+                      </Col>
+                    </Row>
+                    <Row justify="center">
+                      <Col span={6}>
+                        <Button
+                          onClick={this.mirrorVideo}
+                          shape="round"
+                          className="button-orange-camera"
+                        >
+                          <MirrorCamera
+                            width="25px"
+                            height="25px"
+                            fill="white"
+                          />
+                        </Button>
+                      </Col>
+
+                      {this.state.videoDevices > 1 && (
+                        <Col span={6}>
+                          <Button
+                            onClick={this.switchCamera}
+                            shape="round"
+                            className="button-orange-camera"
+                          >
+                            <CameraSwitch
+                              width="25px"
+                              height="25px"
+                              fill="white"
+                            />
+                          </Button>
+                        </Col>
+                      )}
+                      {this.state.fullscreen ? (
+                        <Col span={6}>
+                          <Button
+                            onClick={this.closeFullscreen}
+                            shape="round"
+                            className="button-orange-camera"
+                          >
+                            <ExitFullscreen
+                              width="25px"
+                              height="25px"
+                              fill="white"
+                            />
+                          </Button>
+                        </Col>
+                      ) : (
+                        <Col span={6}>
+                          <Button
+                            onClick={this.toggleFullscreen}
+                            shape="round"
+                            className="button-orange-camera"
+                          >
+                            <Fullscreen
+                              width="25px"
+                              height="25px"
+                              fill="white"
+                            />
+                          </Button>
+                        </Col>
+                      )}
+                    </Row>
+                  </>
+                ) : (
+                  <Row justify="center">
+                    <Col span={6}>
+                      <Paragraph>RECORDING IN PROGRESS</Paragraph>
+                      <Paragraph />
                       <Button
-                        onClick={this.mirrorVideo}
+                        onClick={this.handleStopCaptureClick}
                         shape="round"
                         className="button-orange-camera"
                       >
-                        <MirrorCamera width="25px" height="25px" fill="white" />
+                        <Stop width="25px" height="25px" fill="white" />
                       </Button>
-
-                      {this.state.fullscreen ? (
-                        <Button
-                          onClick={this.closeFullscreen}
-                          shape="round"
-                          className="button-orange-camera"
-                        >
-                          <ExitFullscreen
-                            width="25px"
-                            height="25px"
-                            fill="white"
-                          />
-                        </Button>
-                      ) : (
-                        <Button
-                          onClick={this.toggleFullscreen}
-                          shape="round"
-                          className="button-orange-camera"
-                        >
-                          <Fullscreen width="25px" height="25px" fill="white" />
-                        </Button>
-                      )}
-
-                      {this.state.videoDevices > 1 && (
-                        <Button
-                          onClick={this.switchCamera}
-                          shape="round"
-                          className="button-orange-camera"
-                        >
-                          <CameraSwitch
-                            width="25px"
-                            height="25px"
-                            fill="white"
-                          />
-                        </Button>
-                      )}
-                    </Space>
-                  </>
-                ) : (
-                  <div>
-                    <div>RECORDING IN PROGRESS</div>
-                    <Button
-                      onClick={this.handleStopCaptureClick}
-                      shape="round"
-                      className="button-orange-camera"
-                    >
-                      <Stop width="25px" height="25px" fill="white" />
-                    </Button>
-                  </div>
+                    </Col>
+                  </Row>
                 )}
               </div>
             </div>
@@ -448,14 +473,28 @@ export default class VideoTab extends React.Component {
               style={{ width: "50%" }}
               url={this.state.recordedVideoUrl}
             />
-
-            <Button
-              onClick={this.retakeVideo}
-              shape="round"
-              className="button-grey"
-            >
-              Choose a different video
-            </Button>
+            <Row justify="center">
+              <Col xl={12} xs={24}>
+                <Button
+                  type="primary"
+                  disabled={this.state.file === ""}
+                  shape="round"
+                  className="button-orange"
+                  onClick={this.uploadVideo}
+                >
+                  Upload video
+                </Button>
+              </Col>
+              <Col xl={12} xs={24}>
+                <Button
+                  onClick={this.retakeVideo}
+                  shape="round"
+                  className="button-grey"
+                >
+                  Choose a different video
+                </Button>
+              </Col>
+            </Row>
           </Col>
         ) : null}
       </Row>
@@ -464,18 +503,9 @@ export default class VideoTab extends React.Component {
           type="primary"
           shape="round"
           className="button-grey"
-          onClick={this.props.prev}
+          onClick={this.goBack}
         >
-          Previous
-        </Button>
-        <Button
-          type="primary"
-          disabled={this.state.file === ""}
-          shape="round"
-          className="button-orange"
-          onClick={this.uploadVideo}
-        >
-          Next
+          Previous step
         </Button>
       </Row>
     </>

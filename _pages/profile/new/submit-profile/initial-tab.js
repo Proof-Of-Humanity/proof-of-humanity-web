@@ -49,9 +49,8 @@ export default class InitialTab extends React.Component {
               <Paragraph
                 style={{
                   wordWrap: "break-word",
-                  color: "#ffb978",
                   fontWeight: "bold",
-                  border: "3px solid #ffb978",
+                  border: "2px solid #ffb978",
                   borderRadius: "15px",
                   textAlign: "center",
                   margin: "0 auto",
@@ -60,6 +59,14 @@ export default class InitialTab extends React.Component {
               >
                 {this.props.account}
               </Paragraph>
+              <Link
+                href="https://tornado.cash"
+                target="_blank"
+                rel="noopener"
+                style={{ fontWeight: "bold" }}
+              >
+                Learn how to increase your privacy with Tornado Cash
+              </Link>
               <Checkbox
                 style={{ fontWeight: "bold" }}
                 onChange={(event) => {
@@ -70,14 +77,7 @@ export default class InitialTab extends React.Component {
                 world person and I will not use that wallet for any private or
                 sensitive information.
               </Checkbox>
-              <Link
-                href="https://tornado.cash"
-                target="_blank"
-                rel="noopener"
-                style={{ fontWeight: "bold" }}
-              >
-                Learn how to increase your privacy with Tornado Cash
-              </Link>
+
               <Button
                 disabled={!this.state.checked}
                 type="primary"
@@ -164,7 +164,7 @@ export default class InitialTab extends React.Component {
 
                 <Form.Item>
                   <Row>
-                    <Col xl={8} xs={24} style={{ margin: "0 auto" }}>
+                    <Col span={12} style={{ margin: "0 auto" }}>
                       <Button
                         type="primary"
                         shape="round"
@@ -176,7 +176,7 @@ export default class InitialTab extends React.Component {
                         Go back
                       </Button>
                     </Col>
-                    <Col xl={8} xs={24}>
+                    <Col span={12}>
                       <Button
                         disabled={this.props.state.name === ""}
                         htmlType="submit"
