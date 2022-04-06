@@ -91,7 +91,7 @@ export const IdQuery = graphql`
       submissionDuration
       submissionBaseDeposit
       arbitratorExtraData
-      ...submitProfileCard
+
       ...submissionDetailsCardContract
       ...submissionDetailsAccordionContract
     }

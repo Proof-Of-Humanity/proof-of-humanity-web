@@ -115,6 +115,7 @@
     "timeago-react": "^3.0.0",
     "timeago.js": "^4.0.2",
     "typography-theme-sutro": "^0.16.19",
+    "ua-parser-js": "^1.0.2",
     "web3": "^1.5.2",
     "web3modal": "^1.9.4",
     "yup": "^0.29.3"

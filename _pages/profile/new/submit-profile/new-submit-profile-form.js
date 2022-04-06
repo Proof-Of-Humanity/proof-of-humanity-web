@@ -1,6 +1,6 @@
 import { Col, Steps, message } from "antd";
 import React from "react";
-
+import UserAgent from 'ua-parser-js';
 import FinalizeTab from "./finalize-tab";
 import ImageTab from "./image-tab";
 import InitialTab from "./initial-tab";
@@ -25,6 +25,7 @@ export default class NewSubmitProfileForm extends React.Component {
       error: null,
       txHash: "",
       progress: 0,
+      OS:this.getOS()
     };
   }
   submissionSteps = [
@@ -73,6 +74,11 @@ export default class NewSubmitProfileForm extends React.Component {
   // setVideoUrl()
 
   // change stateHandler to specific functions for tabs to know instead of global one.
+  getOS = () => {
+    let userAgent = UserAgent(window.navigator.userAgent);
+    console.log(userAgent.os.name)
+    return userAgent.os.name
+  }
 
   stateHandler = (state) => {
     if (state) this.setState(state);

@@ -104,7 +104,9 @@ export default class FinalizeTab extends React.Component {
           </Space>
           <Space size={1} direction="vertical" style={{ textAlign: "center" }}>
             {this.props.state.videoURI !== "" ? (
+              
               <>
+              {console.log(this.props.state.videoURI)}
                 <Paragraph>This is your video:</Paragraph>
                 <Video
                   config={{
@@ -132,7 +134,7 @@ export default class FinalizeTab extends React.Component {
                 <Spin />
                 <Progress
                   percent={
-                    Math.round(this.props.state.progress * 100 * 10) / 10
+                    Math.round(this.props.state.progress * 100)
                   }
                   status="active"
                 />

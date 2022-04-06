@@ -134,7 +134,7 @@ export default class VideoTab extends React.Component {
       const { size } = file;
       // const { duration } = this.video;
 
-      videoSanitizer(buffer, size, this.saveProgress)
+      videoSanitizer(buffer, size,this.props.state.OS, this.saveProgress)
         .then((URI) => {
           // console.log(`videoURI: ${URI}`);
           this.setState({ fileURI: URI });
@@ -181,7 +181,7 @@ export default class VideoTab extends React.Component {
   onUserMedia = (mediaStream) => {
     // console.log("User media detected", mediaStream);
     this.setState({ userMedia: mediaStream });
-
+    console.log(this.props.state.OS)
     // maybe move this to another place?
     if (this.state.videoDevices === 0)
       navigator.mediaDevices.enumerateDevices().then((devices) => {
@@ -200,7 +200,7 @@ export default class VideoTab extends React.Component {
     this.setState({ recording: true });
 
     this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
-      mimeType: "video/webm",
+      mimeType: this.props.state.OS === "iOS" ? "video/mp4" : "video/webm",
     });
 
     this.mediaRecorderRef.current.ondataavailable = this.handleDataAvailable;
@@ -224,7 +224,7 @@ export default class VideoTab extends React.Component {
     // console.log(this.state.recordedVideo);
 
     const blob = new Blob(this.state.recordedVideo, {
-      type: "video/webm;codecs=h264,avc1",
+      type: `${this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"};codecs=h264,avc1`,
     });
     const videoURL = window.URL.createObjectURL(blob);
 
