@@ -14,6 +14,7 @@ import {
   Typography,
   Upload,
   message,
+  Col
 } from "antd";
 import React from "react";
 import Cropper from "react-easy-crop";
@@ -71,6 +72,7 @@ export default class ImageTab extends React.Component {
       ideal: 1080,
     }, //     height: { min: 480, ideal: 720, max: 1080 }
   };
+
   styles = {
     cropContainer: {
       position: "relative",
@@ -306,7 +308,7 @@ export default class ImageTab extends React.Component {
     this.setCroppedAreaPixels(croppedAreaPixels);
   };
   onMediaLoaded = (media) => {
-    const maxZoom = Math.floor(media.naturalHeight / 256);
+    const maxZoom = Math.floor(Math.min(media.naturalWidth, media.naturalHeight) / 256);
     this.setState({ maxZoom });
     // console.log(media)
   };
@@ -580,6 +582,7 @@ export default class ImageTab extends React.Component {
             </Space>
           </>
         ) : null}
+
         {this.state.image && this.state.picture && !this.state.croppedImage && (
           <>
             <Row>
@@ -596,6 +599,7 @@ export default class ImageTab extends React.Component {
                 crop={this.state.crop}
                 rotation={this.state.rotation}
                 zoom={this.state.zoom}
+                maxZoom={this.state.maxZoom}
                 aspect={1}
                 cropShape="round"
                 onCropChange={this.setCrop}
@@ -651,6 +655,7 @@ export default class ImageTab extends React.Component {
             </Space>
           </>
         )}
+        
         {this.state.croppedImage ? (
           <div style={{ textAlign: "center" }}>
             <Space direction="vertical">
@@ -664,67 +669,58 @@ export default class ImageTab extends React.Component {
                 You also must be looking straight at the camera.
               </Paragraph>
 
-              <Row wrap={false}>
-                <Image
-                  preview={false}
-                  style={{
-                    width: "300px",
-                    height: "auto",
-                    borderRadius: "50%",
-                    border: "1px solid black",
-                  }}
-                  src={this.state.croppedImage}
-                  alt="Crop result"
-                />
-
-                <List
-                  style={{ width: "100%" }}
-                  itemLayout="horizontal"
-                  dataSource={this.imageRulesList}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <List.Item.Meta
-                        title={item.title}
-                        description={item.description}
-                      />
-                    </List.Item>
-                  )}
-                />
+              <Row justify="center">
+                <Col xs={24} lg={12}>
+                  <Image
+                    preview={false}
+                    style={{
+                      width: "300px",
+                      height: "auto",
+                      borderRadius: "50%",
+                      border: "1px solid black",
+                    }}
+                    src={this.state.croppedImage}
+                    alt="Crop result"
+                  />
+                </Col>
+                <Col xs={24} lg={12}>
+                  <List
+                    style={{ width: "100%" }}
+                    itemLayout="horizontal"
+                    dataSource={this.imageRulesList}
+                    renderItem={(item) => (
+                      <List.Item>
+                        <List.Item.Meta
+                          title={item.title}
+                          description={item.description}
+                        />
+                      </List.Item>
+                    )}
+                  />
+                </Col>
               </Row>
             </Space>
-
-            <Space direction="vertical">
-              <Button
-                type="primary"
-                disabled={this.state.croppedImage === null}
-                shape="round"
-                className="button-orange"
-                onClick={this.uploadPicture}
-                loading={this.state.loading}
-              >
-                It&apos;s looking great!
-              </Button>
-
-              <Button
-                type="primary"
-                shape="round"
-                className="button-grey"
-                onClick={this.retakePicture}
-              >
-                No, let&apos;s take another picture
-              </Button>
-            </Space>
+            <Row justify="center">
+              <Col span={12}>
+                <Button type="primary" shape="round" className="button-grey" onClick={this.retakePicture}>
+                  Take another picture
+                </Button>
+              </Col>
+              <Col span={12}>
+                <Button type="primary" disabled={this.state.croppedImage === null} shape="round" className="button-orange" onClick={this.uploadPicture} loading={this.state.loading}>
+                  It&apos;s looking great!
+                </Button>
+              </Col>
+            </Row>
           </div>
         ) : null}
-
-        <Button
-          type="primary"
-          shape="round"
-          className="button-grey"
-          onClick={this.props.prev}
-        >
-          Go back!
-        </Button>
+        <Row justify="center">
+          <Col span={24}>
+            <Button type="primary" shape="round" className="button-grey" onClick={this.props.prev}>
+              Go back!
+            </Button>
+          </Col>
+        </Row>
       </>
     );
   }
