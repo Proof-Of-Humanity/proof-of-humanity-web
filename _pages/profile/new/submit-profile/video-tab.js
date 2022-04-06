@@ -460,7 +460,7 @@ export default class VideoTab extends React.Component {
             </Upload.Dragger>
           </Col>
         ) : !this.state.recording && this.state.recordedVideoUrl !== "" ? (
-          <Col xs={24} xl={12} style={{ display: "block", margin: "0 auto" }}>
+          <Col span={24} style={{ display: "block", margin: "0 auto" }}>
             <Video
               config={{
                 file: {
@@ -470,10 +470,20 @@ export default class VideoTab extends React.Component {
                 },
               }}
               controls
-              style={{ width: "50%" }}
+              width={'100%'}
+              height={'100%'}
               url={this.state.recordedVideoUrl}
             />
             <Row justify="center">
+            <Col xl={12} xs={24}>
+                <Button
+                  onClick={this.retakeVideo}
+                  shape="round"
+                  className="button-grey"
+                >
+                  Choose a different video
+                </Button>
+              </Col>
               <Col xl={12} xs={24}>
                 <Button
                   type="primary"
@@ -485,15 +495,7 @@ export default class VideoTab extends React.Component {
                   Upload video
                 </Button>
               </Col>
-              <Col xl={12} xs={24}>
-                <Button
-                  onClick={this.retakeVideo}
-                  shape="round"
-                  className="button-grey"
-                >
-                  Choose a different video
-                </Button>
-              </Col>
+              
             </Row>
           </Col>
         ) : null}

@@ -36,7 +36,7 @@ export default class FinalizeTab extends React.Component {
     this.props.prepareTransaction();
   };
   goToProfile = () => {
-    window.location.reload();
+    window.location = window.location.origin+'/profile/'+this.props.account;
   };
   render() {
     // img, video and submitter name source by props
@@ -80,7 +80,7 @@ export default class FinalizeTab extends React.Component {
               <Title level={4}>About me: {this.props.state.bio}</Title>
             </Row>
           )}
-          <Row justify="center" style={{ marginTop: "5%" }}>
+          <Row justify="center" align="middle" style={{ marginTop: "5%" }}>
             <Col xl={12} xs={24}>
               {this.props.state.imageURI !== "" ? (
                 <Image
@@ -127,12 +127,16 @@ export default class FinalizeTab extends React.Component {
                 </>
               ) : (
                 <>
+                <Row justify="center">
+                  <Col span={24} style={{textAlign: "center"}}>
                   <Paragraph>Your video is loading, please wait.</Paragraph>
                   <Spin />
                   <Progress
                     percent={Math.round(this.props.state.progress * 100)}
                     status="active"
                   />
+                  </Col>
+                  </Row>
                 </>
               )}
             </Col>
@@ -182,29 +186,23 @@ export default class FinalizeTab extends React.Component {
             But it&apos;s not over yet! Here are the next steps before you can
             start receiving UBI.
           </Title>
-          <Space
-            direction="horizontal"
-            size={1}
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            <CheckCircleFilled
-              style={{ fontSize: "50px", color: "green", marginRight: "20px" }}
-            />
-            <Title level={4} style={{ display: "block", margin: "0 auto" }}>
+          <Row justify="center" align="middle">
+            <Col span={24}>
+            
+            <Title level={5} style={{ display: "block", margin: "0 auto" }}>
               You need at least one existing member to vouch for you.
             </Title>
-          </Space>
-
+            </Col>
+          </Row>
+          <Row justify="center" align="middle">
+            <Col span={24}>
           <Link
             href="https://t.me/PoHCrowdvoucher"
             target="_blank"
             className="button-orange"
             style={{
-              width: "35%",
+              width: "50%",
+              height:"30%",
               borderRadius: "25px",
               color: "white",
               display: "flex",
@@ -213,18 +211,16 @@ export default class FinalizeTab extends React.Component {
           >
             Join the crowdvoucher group on Telegram
           </Link>
+          </Col>
+          </Row>
 
           {this.props.state.crowdfund && (
             <>
-              <Space
-                direction="horizontal"
-                size={1}
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                }}
-              >
+            <CheckCircleFilled
+              style={{ fontSize: "50px", color: "green", marginRight: "20px" }}
+            />
+            <Row justify="center">
+                <Col span={24}>
                 <Crowdfund
                   fill="green"
                   height="50px"
@@ -235,7 +231,7 @@ export default class FinalizeTab extends React.Component {
                   You need to find people who are willing to pay for your
                   deposit.
                 </Title>
-              </Space>
+              
 
               <Link
                 href="https://t.me/PoHcrowdfunding"
@@ -251,6 +247,8 @@ export default class FinalizeTab extends React.Component {
               >
                 Join the crowdfunding group on Telegram
               </Link>
+              </Col>
+              </Row>
             </>
           )}
 

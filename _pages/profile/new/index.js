@@ -5,7 +5,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { useQuery, useWeb3, Link } from "@kleros/components";
-import { Row, Col, Button, Space } from 'antd';
+import { Row, Col, Button, Space, Typography } from 'antd';
+const { Title, Paragraph } = Typography;
 
 import { NewSubmitProfileCard } from "./submit-profile";
 
@@ -62,14 +63,14 @@ export default function ProfileNew() {
 
   return (
     <Row justify="center">
-      <Col xs={24} md={12}>
-        <Space direction="vertical" size="middle">
-          <h2>Create your PoH profile</h2>
-          <p>It seems you don&apos;t have a wallet already, please</p>
+      <Space direction="vertical" size={1}>
+        
+          <Title level={2}>Create your Proof of Humanity profile</Title>
+          <Title level={5}>You don&apos;t have a wallet connected to the website</Title>
           <Button type="primary" shape="round" className="button-orange"onClick={connect}>Connect an Ethereum Wallet</Button>
-          <p>Don&apos;t already have a wallet? Click <Link href="https://ethereum.org/en/wallets/find-wallet/" target="_blank" rel="noreferrer noopener">here</Link> to learn on how to create and find one for your fit!</p>
-        </Space>
-      </Col>
+          <Paragraph>Don&apos;t have a wallet? Click <Link href="https://ethereum.org/en/wallets/find-wallet/" target="_blank" rel="noreferrer noopener">here</Link> to learn on how to create one!</Paragraph>
+        
+      </Space>
     </Row>
   );
 }
