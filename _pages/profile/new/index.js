@@ -62,7 +62,9 @@ export default function ProfileNew() {
 
 
   return (
+    
     <Row justify="center">
+      <Col className="submit-profile-card" style={{textAlign: 'center'}} xs={{ span: 24 }} xl={{ span: 12 }}>
       <Space direction="vertical" size={1}>
         
           <Title level={2}>Create your Proof of Humanity profile</Title>
@@ -71,6 +73,7 @@ export default function ProfileNew() {
           <Paragraph>Don&apos;t have a wallet? Click <Link href="https://ethereum.org/en/wallets/find-wallet/" target="_blank" rel="noreferrer noopener">here</Link> to learn on how to create one!</Paragraph>
         
       </Space>
+      </Col>
     </Row>
   );
 }

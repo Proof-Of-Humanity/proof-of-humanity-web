@@ -131,6 +131,8 @@ export default class FinalizeTab extends React.Component {
                     controls
                     onEnded={(event) => this.handleVideo(event)}
                     style={{ width: "100%" }}
+                    width={"100%"}
+                    height={"100%"}
                     url={this.props.state.videoURI}
                   />
                   {!this.state.playedVideo && (
