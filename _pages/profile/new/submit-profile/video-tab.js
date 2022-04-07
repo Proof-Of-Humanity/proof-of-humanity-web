@@ -11,6 +11,7 @@ import { Button, Col, Image, Row, Typography, Upload, message } from "antd";
 import React from "react";
 import Video from "react-player";
 import ReactWebcam from "react-webcam";
+import getBlobDuration from 'get-blob-duration'
 
 
 const { Title, Paragraph } = Typography;
@@ -41,14 +42,8 @@ export default class VideoTab extends React.Component {
 
   videoOptions = {
     types: {
-      value: [
-        "video/mp4",
-        "video/webm",
-        "video/quicktime",
-        "video/x-msvideo",
-        "video/x-matroska",
-      ],
-      label: ".mp4, .webm, .avi, .mov, .mkv",
+      value: ["video/mp4", "video/webm", "video/quicktime"],
+      label: ".mp4, .webm, .mov",
     },
     size: {
       value: 15 * 1024 * 1024, // ?? 15 seems low limit, maybe up to 32?
@@ -91,25 +86,39 @@ export default class VideoTab extends React.Component {
     name: "file",
     multiple: false,
     accept: this.videoOptions.types.label,
+    showUploadList: false,
     beforeUpload: (file) => {
-      if (this.videoOptions.types.value.includes(file.type)) return true;
-
-      message.error("The selected file is not supported.");
-      return Upload.LIST_IGNORE;
+      if (!this.videoOptions.types.value.includes(file.type)) {
+        message.error("The selected file is not supported.");
+        return Upload.LIST_IGNORE;
+      } else if (file.size > this.videoOptions.size.value) {
+        message.error("The selected file exceeds the size limit of 15MB.");
+        return Upload.LIST_IGNORE;
+      }
+      return true;
     },
     onChange: ({ file }) => {
       // console.log("onChange file=", file);
-
-      const blob = new Blob([file.originFileObj], { type: file.type });
-      const videoURL = window.URL.createObjectURL(blob);
-
+      const { status } = file;
+      if (status === "done") {
+        const blob = new Blob([file.originFileObj], { type: file.type });
+        const videoURL = window.URL.createObjectURL(blob);
+        getBlobDuration(blob).then((duration) => {
+          if (duration <= 60 * 2) {
+            this.setState({
+              file: blob,
+              recording: false,
+              cameraEnabled: false,
+              recordedVideoUrl: videoURL,
+            });
+          } else {
+            message.error(
+              "The selected file should be shorter than two minutes"
+            );
+          }
+        });
+      }
       // console.log("onChange videoURL=", videoURL);
-      this.setState({
-        file: blob,
-        recording: false,
-        cameraEnabled: false,
-        recordedVideoUrl: videoURL,
-      });
     },
     onDrop() {
       // console.log("Dropped files", event.dataTransfer.files);
@@ -221,8 +230,9 @@ export default class VideoTab extends React.Component {
     // console.log(this.state.recordedVideo);
 
     const blob = new Blob(this.state.recordedVideo, {
-      type: `${this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"
-        };codecs=h264,avc1`,
+      type: `${
+        this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"
+      };codecs=h264,avc1`,
     });
     const videoURL = window.URL.createObjectURL(blob);
 
@@ -259,9 +269,8 @@ export default class VideoTab extends React.Component {
   };
 
   render = () => (
-    
     // console.log("videoTab render state", this.state);
-    
+
     <>
       {this.state.recordingMode === "" && (
         <Row justify="center">
@@ -273,24 +282,38 @@ export default class VideoTab extends React.Component {
               alternative process is available.
             </Paragraph>
             <Row justify="center">
-            <Col xs={24} xl={12} className="video-mode-buttons" onClick={() => this.setState({recordingMode: "speaking", cameraEnabled: true})}>
-                  
-                  <Image
-                    preview={false}
-                    src="/images/speaker.png"
-                    width="50%"
-                  />
-                  <Title level={4} style={{ marginTop: "10px" }}>
-                    I am able to identify my account using my voice and sight
-                  </Title>
-                
+              <Col
+                xs={24}
+                xl={12}
+                className="video-mode-buttons"
+                onClick={() =>
+                  this.setState({
+                    recordingMode: "speaking",
+                    cameraEnabled: true,
+                  })
+                }
+              >
+                <Image preview={false} src="/images/speaker.png" width="50%" />
+                <Title level={4} style={{ marginTop: "10px" }}>
+                  I am able to identify my account using my voice and sight
+                </Title>
               </Col>
 
-              <Col xs={24} xl={12} className="video-mode-buttons" onClick={() => this.setState({recordingMode: "visual",cameraEnabled: true})}>
-                  <Image preview={false} src="/images/sign.png" width="50%" />
-                  <Title level={4} style={{ marginTop: "10px" }}>
-                    I would prefer to use a visual method
-                  </Title>
+              <Col
+                xs={24}
+                xl={12}
+                className="video-mode-buttons"
+                onClick={() =>
+                  this.setState({
+                    recordingMode: "visual",
+                    cameraEnabled: true,
+                  })
+                }
+              >
+                <Image preview={false} src="/images/sign.png" width="50%" />
+                <Title level={4} style={{ marginTop: "10px" }}>
+                  I would prefer to use a visual method
+                </Title>
               </Col>
             </Row>
           </Col>
@@ -347,33 +370,73 @@ export default class VideoTab extends React.Component {
                     </Row> */}
                     <Row justify="center">
                       <Col span={6}>
-                        <Button onClick={this.handleStartCaptureClick} shape="round" className="button-orange-camera">
-                          <RecordCamera width="25px" height="40px" fill="white" />
+                        <Button
+                          onClick={this.handleStartCaptureClick}
+                          shape="round"
+                          className="button-orange-camera"
+                        >
+                          <RecordCamera
+                            width="25px"
+                            height="40px"
+                            fill="white"
+                          />
                         </Button>
                       </Col>
                       <Col span={6}>
-                        <Button onClick={this.mirrorVideo} shape="round" className="button-orange-camera">
-                          <MirrorCamera width="25px" height="25px" fill="white" />
+                        <Button
+                          onClick={this.mirrorVideo}
+                          shape="round"
+                          className="button-orange-camera"
+                        >
+                          <MirrorCamera
+                            width="25px"
+                            height="25px"
+                            fill="white"
+                          />
                         </Button>
                       </Col>
 
                       {this.state.videoDevices > 1 && (
                         <Col span={6}>
-                          <Button onClick={this.switchCamera} shape="round" className="button-orange-camera">
-                            <CameraSwitch width="25px" height="25px" fill="white" />
+                          <Button
+                            onClick={this.switchCamera}
+                            shape="round"
+                            className="button-orange-camera"
+                          >
+                            <CameraSwitch
+                              width="25px"
+                              height="25px"
+                              fill="white"
+                            />
                           </Button>
                         </Col>
                       )}
                       {this.state.fullscreen ? (
                         <Col span={6}>
-                          <Button onClick={this.closeFullscreen} shape="round" className="button-orange-camera">
-                            <ExitFullscreen width="25px" height="25px" fill="white" />
+                          <Button
+                            onClick={this.closeFullscreen}
+                            shape="round"
+                            className="button-orange-camera"
+                          >
+                            <ExitFullscreen
+                              width="25px"
+                              height="25px"
+                              fill="white"
+                            />
                           </Button>
                         </Col>
                       ) : (
                         <Col span={6}>
-                          <Button onClick={this.toggleFullscreen} shape="round" className="button-orange-camera">
-                            <Fullscreen width="25px" height="25px" fill="white" />
+                          <Button
+                            onClick={this.toggleFullscreen}
+                            shape="round"
+                            className="button-orange-camera"
+                          >
+                            <Fullscreen
+                              width="25px"
+                              height="25px"
+                              fill="white"
+                            />
                           </Button>
                         </Col>
                       )}
@@ -416,20 +479,30 @@ export default class VideoTab extends React.Component {
                     },
                   }}
                   controls
-                  width={'100%'}
-                  height={'100%'}
+                  width={"100%"}
+                  height={"100%"}
                   url={this.state.recordedVideoUrl}
                 />
               </Col>
             </Row>
             <Row justify="center" style={{ width: "100%" }}>
               <Col xl={12} xs={24}>
-                <Button onClick={this.retakeVideo} shape="round" className="button-grey">
+                <Button
+                  onClick={this.retakeVideo}
+                  shape="round"
+                  className="button-grey"
+                >
                   Choose a different video
                 </Button>
               </Col>
               <Col xl={12} xs={24}>
-                <Button type="primary" disabled={this.state.file === ""} shape="round" className="button-orange" onClick={this.uploadVideo}>
+                <Button
+                  type="primary"
+                  disabled={this.state.file === ""}
+                  shape="round"
+                  className="button-orange"
+                  onClick={this.uploadVideo}
+                >
                   Upload video
                 </Button>
               </Col>
@@ -439,7 +512,12 @@ export default class VideoTab extends React.Component {
       </Row>
       <Row justify="center">
         <Col span={24}>
-          <Button type="primary" shape="round" className="button-grey" onClick={this.goBack} >
+          <Button
+            type="primary"
+            shape="round"
+            className="button-grey"
+            onClick={this.goBack}
+          >
             Previous
           </Button>
         </Col>
