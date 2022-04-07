@@ -14,13 +14,15 @@ import {
 } from "antd";
 import React from "react";
 import Video from "react-player";
-
+import {withRouter} from "next/router";
 const { Title, Link, Paragraph } = Typography;
 
-export default class FinalizeTab extends React.Component {
+
+class FinalizeTab extends React.Component {
   constructor(props) {
     super(props);
     // console.log('FinalizeTab props=', props);
+    console.log(this.props.router)
     this.state = {
       loading: false,
       playedVideo: false,
@@ -36,11 +38,12 @@ export default class FinalizeTab extends React.Component {
     this.props.prepareTransaction();
   };
   goToProfile = () => {
-    router.push({
+    
+    this.props.router.push({
       pathname: "/profile/[id]",
       query: { id: this.props.account },
     });
-    window.location.reload();
+    // window.location.reload();
   };
   render() {
     // img, video and submitter name source by props
@@ -296,3 +299,4 @@ export default class FinalizeTab extends React.Component {
     );
   }
 }
+export default withRouter(FinalizeTab);
