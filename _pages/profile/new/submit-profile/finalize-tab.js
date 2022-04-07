@@ -36,7 +36,7 @@ export default class FinalizeTab extends React.Component {
     this.props.prepareTransaction();
   };
   goToProfile = () => {
-    window.location = window.location.origin+'/profile/'+this.props.account;
+    window.location = window.location.origin + '/profile/' + this.props.account;
   };
   render() {
     // img, video and submitter name source by props
@@ -66,17 +66,30 @@ export default class FinalizeTab extends React.Component {
             showIcon
           />
           {this.props.state.name && (
-            <Row justify="left">
+            <Row>
               <Title level={4}>Name: {this.props.state.name}</Title>
             </Row>
           )}
           {this.props.account && (
-            <Row justify="left">
-              <Title level={4}>Ethereum Address: {this.props.account}</Title>
+            <Row>
+              <Paragraph>Ethereum Address: </Paragraph>
+              <Paragraph
+                style={{
+                  width: "100%",
+                  fontWeight: "bold",
+                  border: "2px solid #ffb978",
+                  borderRadius: "15px",
+                  textAlign: "center",
+                  margin: "0 auto",
+                  padding: "5px",
+                }}
+              >
+                {this.props.account}
+              </Paragraph>
             </Row>
           )}
           {this.props.state.bio && (
-            <Row justify="left">
+            <Row>
               <Title level={4}>About me: {this.props.state.bio}</Title>
             </Row>
           )}
@@ -96,10 +109,12 @@ export default class FinalizeTab extends React.Component {
                   src={this.props.state.imageURI}
                 />
               ) : (
-                <>
-                  <Paragraph>Your picture is loading, please wait.</Paragraph>
-                  <Spin />
-                </>
+                <Row justify="center">
+                  <Col span={24} style={{ textAlign: "center" }}>
+                    <Paragraph>Your picture is loading, please wait.</Paragraph>
+                    <Spin />
+                  </Col>
+                </Row>
               )}
             </Col>
             <Col xl={12} xs={24}>
@@ -127,15 +142,15 @@ export default class FinalizeTab extends React.Component {
                 </>
               ) : (
                 <>
-                <Row justify="center">
-                  <Col span={24} style={{textAlign: "center"}}>
-                  <Paragraph>Your video is loading, please wait.</Paragraph>
-                  <Spin />
-                  <Progress
-                    percent={Math.round(this.props.state.progress * 100)}
-                    status="active"
-                  />
-                  </Col>
+                  <Row justify="center">
+                    <Col span={24} style={{ textAlign: "center" }}>
+                      <Paragraph>Your video is loading, please wait.</Paragraph>
+                      <Spin />
+                      <Progress
+                        percent={Math.round(this.props.state.progress * 100)}
+                        status="active"
+                      />
+                    </Col>
                   </Row>
                 </>
               )}
@@ -175,7 +190,7 @@ export default class FinalizeTab extends React.Component {
           onClick={this.handleSubmit}
           loading={this.state.loading && this.props.state.error === null}
         >
-          Submit profile!
+          Submit profile
         </Button>
       </Row>
     ) : (
@@ -188,66 +203,66 @@ export default class FinalizeTab extends React.Component {
           </Title>
           <Row justify="center" align="middle">
             <Col span={24}>
-            
-            <Title level={5} style={{ display: "block", margin: "0 auto" }}>
-              You need at least one existing member to vouch for you.
-            </Title>
+
+              <Title level={5} style={{ display: "block", margin: "0 auto" }}>
+                You need at least one existing member to vouch for you.
+              </Title>
             </Col>
           </Row>
           <Row justify="center" align="middle">
             <Col span={24}>
-          <Link
-            href="https://t.me/PoHCrowdvoucher"
-            target="_blank"
-            className="button-orange"
-            style={{
-              width: "50%",
-              height:"30%",
-              borderRadius: "25px",
-              color: "white",
-              display: "flex",
-              justifyContent: "center",
-            }}
-          >
-            Join the crowdvoucher group on Telegram
-          </Link>
-          </Col>
-          </Row>
-
-          {this.props.state.crowdfund && (
-            <>
-            <CheckCircleFilled
-              style={{ fontSize: "50px", color: "green", marginRight: "20px" }}
-            />
-            <Row justify="center">
-                <Col span={24}>
-                <Crowdfund
-                  fill="green"
-                  height="50px"
-                  width="50px"
-                  style={{ marginRight: "20px" }}
-                />
-                <Title level={4} style={{ display: "block", margin: "0 auto" }}>
-                  You need to find people who are willing to pay for your
-                  deposit.
-                </Title>
-              
-
               <Link
-                href="https://t.me/PoHcrowdfunding"
+                href="https://t.me/PoHCrowdvoucher"
                 target="_blank"
                 className="button-orange"
                 style={{
-                  width: "35%",
+                  width: "50%",
+                  height: "30%",
                   borderRadius: "25px",
                   color: "white",
                   display: "flex",
                   justifyContent: "center",
                 }}
               >
-                Join the crowdfunding group on Telegram
+                Join the crowdvoucher group on Telegram
               </Link>
-              </Col>
+            </Col>
+          </Row>
+
+          {this.props.state.crowdfund && (
+            <>
+              <CheckCircleFilled
+                style={{ fontSize: "50px", color: "green", marginRight: "20px" }}
+              />
+              <Row justify="center">
+                <Col span={24}>
+                  <Crowdfund
+                    fill="green"
+                    height="50px"
+                    width="50px"
+                    style={{ marginRight: "20px" }}
+                  />
+                  <Title level={4} style={{ display: "block", margin: "0 auto" }}>
+                    You need to find people who are willing to pay for your
+                    deposit.
+                  </Title>
+
+
+                  <Link
+                    href="https://t.me/PoHcrowdfunding"
+                    target="_blank"
+                    className="button-orange"
+                    style={{
+                      width: "35%",
+                      borderRadius: "25px",
+                      color: "white",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    Join the crowdfunding group on Telegram
+                  </Link>
+                </Col>
               </Row>
             </>
           )}

@@ -63,12 +63,12 @@ function LanguageDropdown() {
   const languageMenu = (
     <Menu selectedKeys={[i18n.resolvedLanguage]}>
       {
-        languages.map((language) => (
+        languages.map((language, i, list) => (
           <React.Fragment key={`${language.key}-divider`}>
-            <Menu.Item key={language.key} onClick={() => changeLanguage(language.key)}>
+            <Menu.Item className="header-language-item" key={language.key} onClick={() => changeLanguage(language.key)}>
               <img src={`/images/${language.key}.png`} width="30" height="auto" /> {language.name}
             </Menu.Item>
-            <Menu.Divider />
+            { (i + 1 === list.length) ? null : <Menu.Divider />}
           </React.Fragment>
         ))
       }
@@ -148,7 +148,7 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
       <Item className="poh-header-item" key="2">
         <MenuOutlined onClick={() => toggleMobileMenuOpen()} />
       </Item>
-      <Item className="poh-header-item" key="1">
+      <Item className="poh-header-item" key="1" style={{ marginLeft: 'auto' }}>
         <LanguageDropdown />
       </Item>
     </Menu>

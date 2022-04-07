@@ -53,7 +53,7 @@ a:hover {
 }
 .ant-input {
   border: solid 1px #ffb978 !important;
-  border-radius: 10px;
+  border-radius: 4px;
   color: black;
   display: block;
   margin: 0 auto;
@@ -143,15 +143,15 @@ a:hover {
 .button-orange {
   font-weight: bold;
   display: block;
-  margin: 5% auto;
+  margin: 2% auto;
   background-color: #ffb978 !important;
   border: none;
-  color: white
+  color: white;
 }
 .button-grey {
   font-weight: bold;
   display: block;
-  margin: 5% auto;
+  margin: 2% auto;
   background-color: #95a5a6 !important;
   border: none;
   color: white
@@ -164,7 +164,7 @@ a:hover {
   display: block;
   margin: 0 auto;
   background-color: #ffb978 !important;
-  width:25%;
+  /* width:25%; */
   border: none;
   color: white
 }
@@ -206,4 +206,17 @@ a:hover {
 }
 .ant-steps{
   margin-bottom: 5%!important;
+}
+
+.header-language-item.ant-dropdown-menu-item-selected {
+  color: #d9945b !important;
+  background-color: #ffe7c9 !important;
+}
+
+.submit-profile-card {
+  padding: 16px;
+  background-color: white;
+  border-color: #eee;
+  border-radius: 4px;
+  box-shadow: 0 6px 10px rgb(153 153 153 / 25%);
 }

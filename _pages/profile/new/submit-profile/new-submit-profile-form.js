@@ -1,4 +1,4 @@
-import { Col, Steps, message } from "antd";
+import { Col, Steps, message, Button } from "antd";
 import React from "react";
 import UserAgent from "ua-parser-js";
 
@@ -31,7 +31,7 @@ export default class NewSubmitProfileForm extends React.Component {
   }
   submissionSteps = [
     {
-      title: "General information",
+      title: "Info",
       subtitle: "General information",
       // content: (props) => <GeneralSubmitTab props={props} />,
       content: (props) => (
@@ -42,14 +42,14 @@ export default class NewSubmitProfileForm extends React.Component {
     },
 
     {
-      title: "Take selfie",
+      title: "Selfie",
       subtitle: "Photo",
       content: (props) => <ImageTab {...props} />,
       description: "Upload your image",
       // icon: 2,
     },
     {
-      title: "Record video",
+      title: "Video",
       subtitle: "Video",
       content: (props) => <VideoTab {...props} />,
       description: "Upload your video",
@@ -210,7 +210,7 @@ export default class NewSubmitProfileForm extends React.Component {
     };
 
     return (
-      <Col xs={{ span: 24 }} xl={{ span: 12 }}>
+      <Col className="submit-profile-card" xs={{ span: 24 }} xl={{ span: 12 }}>
         <Steps size="small" current={current} responsive>
           {steps.map((step) => (
             <Step
@@ -232,6 +232,14 @@ export default class NewSubmitProfileForm extends React.Component {
             </div>
           ))}
         </div>
+
+        {/* --- TODO: REMOVE --- */}
+        <div>
+            helper buttons;
+            <Button onClick={() => this.prev()}>Prev</Button>
+            <Button onClick={() => this.next()}>Next</Button>
+        </div>
+        {/* --- TODO: REMOVE --- */}
       </Col>
     );
   }

@@ -78,14 +78,7 @@ export default class InitialTab extends React.Component {
                 sensitive information.
               </Checkbox>
 
-              <Button
-                disabled={!this.state.checked}
-                type="primary"
-                htmlType="submit"
-                shape="round"
-                className="button-orange"
-                onClick={() => this.setState({ currentStep: "name" })}
-              >
+              <Button disabled={!this.state.checked} type="primary" htmlType="submit" shape="round" className="button-orange" onClick={() => this.setState({ currentStep: "name" })}>
                 Next step: short bio
               </Button>
             </Space>
@@ -173,7 +166,7 @@ export default class InitialTab extends React.Component {
                           this.setState({ currentStep: "address" })
                         }
                       >
-                        Go back
+                        Previous
                       </Button>
                     </Col>
                     <Col span={12}>

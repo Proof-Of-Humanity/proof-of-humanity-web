@@ -219,9 +219,8 @@ export default class VideoTab extends React.Component {
     // console.log(this.state.recordedVideo);
 
     const blob = new Blob(this.state.recordedVideo, {
-      type: `${
-        this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"
-      };codecs=h264,avc1`,
+      type: `${this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"
+        };codecs=h264,avc1`,
     });
     const videoURL = window.URL.createObjectURL(blob);
 
@@ -358,78 +357,38 @@ export default class VideoTab extends React.Component {
               <div className="buttons-camera-container">
                 {!this.state.recording ? (
                   <>
+                    {/* <Row justify="center">
+
+                    </Row> */}
                     <Row justify="center">
                       <Col span={6}>
-                        <Button
-                          onClick={this.handleStartCaptureClick}
-                          shape="round"
-                          className="button-orange-camera"
-                          style={{ marginBottom: "10px" }}
-                        >
-                          <RecordCamera
-                            width="25px"
-                            height="40px"
-                            fill="white"
-                          />
+                        <Button onClick={this.handleStartCaptureClick} shape="round" className="button-orange-camera">
+                          <RecordCamera width="25px" height="40px" fill="white" />
                         </Button>
                       </Col>
-                    </Row>
-                    <Row justify="center">
                       <Col span={6}>
-                        <Button
-                          onClick={this.mirrorVideo}
-                          shape="round"
-                          className="button-orange-camera"
-                        >
-                          <MirrorCamera
-                            width="25px"
-                            height="25px"
-                            fill="white"
-                          />
+                        <Button onClick={this.mirrorVideo} shape="round" className="button-orange-camera">
+                          <MirrorCamera width="25px" height="25px" fill="white" />
                         </Button>
                       </Col>
 
                       {this.state.videoDevices > 1 && (
                         <Col span={6}>
-                          <Button
-                            onClick={this.switchCamera}
-                            shape="round"
-                            className="button-orange-camera"
-                          >
-                            <CameraSwitch
-                              width="25px"
-                              height="25px"
-                              fill="white"
-                            />
+                          <Button onClick={this.switchCamera} shape="round" className="button-orange-camera">
+                            <CameraSwitch width="25px" height="25px" fill="white" />
                           </Button>
                         </Col>
                       )}
                       {this.state.fullscreen ? (
                         <Col span={6}>
-                          <Button
-                            onClick={this.closeFullscreen}
-                            shape="round"
-                            className="button-orange-camera"
-                          >
-                            <ExitFullscreen
-                              width="25px"
-                              height="25px"
-                              fill="white"
-                            />
+                          <Button onClick={this.closeFullscreen} shape="round" className="button-orange-camera">
+                            <ExitFullscreen width="25px" height="25px" fill="white" />
                           </Button>
                         </Col>
                       ) : (
                         <Col span={6}>
-                          <Button
-                            onClick={this.toggleFullscreen}
-                            shape="round"
-                            className="button-orange-camera"
-                          >
-                            <Fullscreen
-                              width="25px"
-                              height="25px"
-                              fill="white"
-                            />
+                          <Button onClick={this.toggleFullscreen} shape="round" className="button-orange-camera">
+                            <Fullscreen width="25px" height="25px" fill="white" />
                           </Button>
                         </Col>
                       )}
@@ -460,55 +419,45 @@ export default class VideoTab extends React.Component {
             </Upload.Dragger>
           </Col>
         ) : !this.state.recording && this.state.recordedVideoUrl !== "" ? (
-          <Col span={24} style={{ display: "block", margin: "0 auto" }}>
-            <Video
-              config={{
-                file: {
-                  attributes: {
-                    crossOrigin: "true",
-                  },
-                },
-              }}
-              controls
-              width={'100%'}
-              height={'100%'}
-              url={this.state.recordedVideoUrl}
-            />
-            <Row justify="center">
-            <Col xl={12} xs={24}>
-                <Button
-                  onClick={this.retakeVideo}
-                  shape="round"
-                  className="button-grey"
-                >
+          <>
+            <Row>
+              <Col span={24} style={{ display: "block", margin: "0 auto" }}>
+                <Video
+                  config={{
+                    file: {
+                      attributes: {
+                        crossOrigin: "true",
+                      },
+                    },
+                  }}
+                  controls
+                  width={'100%'}
+                  height={'100%'}
+                  url={this.state.recordedVideoUrl}
+                />
+              </Col>
+            </Row>
+            <Row justify="center" style={{ width: "100%" }}>
+              <Col xl={12} xs={24}>
+                <Button onClick={this.retakeVideo} shape="round" className="button-grey">
                   Choose a different video
                 </Button>
               </Col>
               <Col xl={12} xs={24}>
-                <Button
-                  type="primary"
-                  disabled={this.state.file === ""}
-                  shape="round"
-                  className="button-orange"
-                  onClick={this.uploadVideo}
-                >
+                <Button type="primary" disabled={this.state.file === ""} shape="round" className="button-orange" onClick={this.uploadVideo}>
                   Upload video
                 </Button>
               </Col>
-              
             </Row>
-          </Col>
+          </>
         ) : null}
       </Row>
-      <Row style={{ marginTop: "2%" }}>
-        <Button
-          type="primary"
-          shape="round"
-          className="button-grey"
-          onClick={this.goBack}
-        >
-          Previous step
-        </Button>
+      <Row justify="center">
+        <Col span={24}>
+          <Button type="primary" shape="round" className="button-grey" onClick={this.goBack} >
+            Previous
+          </Button>
+        </Col>
       </Row>
     </>
   );

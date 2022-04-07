@@ -594,7 +594,7 @@ const SubmitProfileForm = memo(
                 marginLeft: "1rem",
               }}
             >
-              Go Back
+              Go back
             </Button>
             <Text sx={{ marginTop: 1 }}>
               Remember to subscribe to email notifications in Account &gt;

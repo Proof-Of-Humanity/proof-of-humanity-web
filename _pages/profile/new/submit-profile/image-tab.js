@@ -486,20 +486,16 @@ export default class ImageTab extends React.Component {
         {this.state.cameraEnabled ? (
           <>
             <Row>
-              <Space direction="vertical" size={1}>
-                <Title level={2}>Smile for the camera!</Title>
+              <Col span={24}>
+                <Title level={2}>Smile for the camera</Title>
                 <Paragraph style={{ color: "black" }}>
+                  If you have a camera, you may take a picture directly from your device. <br />
                   Take out any masks, sunglasses or anything that could block
                   your face and look straight at the camera.
                 </Paragraph>
-              </Space>
+              </Col>
             </Row>
-            <div
-              className="video-inner-container"
-              ref={(screen) => {
-                this.screen = screen;
-              }}
-            >
+            <div className="video-inner-container" ref={(screen) => { this.screen = screen; }}>
               <div className="video-overlay">Text inside video!</div>
               <ReactWebcam
                 style={{ width: "100%" }}
@@ -557,30 +553,27 @@ export default class ImageTab extends React.Component {
                 </Space>
               </div>
             </div>
-            <Space
-              direction="vertical"
-              size={1}
-              style={{ margin: "0 auto", display: "block" }}
-            >
-              <Upload.Dragger
-                {...this.draggerProps}
-                style={{
-                  width: "25%",
-                  height: "100%",
-                  backgroundColor: "#ffb978",
-                  fontWeight: "bold",
-                  display: "block",
-                  margin: "0 auto",
-                  border: "none",
-                  borderRadius: "10px",
-                  marginTop: "15px",
-                }}
-              >
-                <FileAddFilled />
-
-                <Paragraph className="ant-upload-text">Upload image</Paragraph>
-              </Upload.Dragger>
-            </Space>
+            <Row>
+              <Col span={24}>
+                <Title level={2}>Or upload an image</Title>
+              </Col>
+            </Row>
+            <Row justify="center">
+              <Col xs={12} lg={6}>
+                <Upload.Dragger
+                  {...this.draggerProps}
+                  style={{
+                    backgroundColor: "#ffb978",
+                    fontWeight: "bold",
+                    border: "none",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <FileAddFilled />
+                  <Paragraph className="ant-upload-text">Upload image</Paragraph>
+                </Upload.Dragger>
+              </Col>
+            </Row>
           </>
         ) : null}
 
@@ -638,23 +631,13 @@ export default class ImageTab extends React.Component {
             </div>
             <Row justify="center">
               <Col span={12}>
-                <Button
-                  onClick={this.retakePicture}
-                  color="primary"
-                  shape="round"
-                  className="button-grey"
-                >
-                  Take a different picture
+                <Button onClick={this.retakePicture} color="primary" shape="round" className="button-grey">
+                  Retake
                 </Button>
               </Col>
               <Col span={12}>
-                <Button
-                  onClick={this.showCroppedImage}
-                  color="primary"
-                  shape="round"
-                  className="button-orange"
-                >
-                  Show Result
+                <Button onClick={this.showCroppedImage} color="primary" shape="round" className="button-orange">
+                  Show result
                 </Button>
               </Col>
             </Row>
@@ -662,7 +645,7 @@ export default class ImageTab extends React.Component {
         )}
 
         {this.state.croppedImage ? (
-          <div style={{ textAlign: "center" }}>
+          <>
             <Space direction="vertical">
               <Title level={2} id="verify">
                 Verify your photo!
@@ -709,39 +692,23 @@ export default class ImageTab extends React.Component {
             </Space>
             <Row justify="center">
               <Col span={12}>
-                <Button
-                  type="primary"
-                  shape="round"
-                  className="button-grey"
-                  onClick={this.retakePicture}
-                >
-                  Take another picture
+                <Button type="primary" shape="round" className="button-grey" onClick={this.retakePicture}>
+                  Retake
                 </Button>
               </Col>
               <Col span={12}>
-                <Button
-                  type="primary"
-                  disabled={this.state.croppedImage === null}
-                  shape="round"
-                  className="button-orange"
-                  onClick={this.uploadPicture}
-                  loading={this.state.loading}
-                >
-                  It&apos;s looking great!
+                <Button type="primary" disabled={this.state.croppedImage === null} shape="round" className="button-orange" onClick={this.uploadPicture} loading={this.state.loading}>
+                  Looking great
                 </Button>
               </Col>
             </Row>
-          </div>
+          </>
         ) : null}
+
         <Row justify="center">
           <Col span={24}>
-            <Button
-              type="primary"
-              shape="round"
-              className="button-grey"
-              onClick={this.props.prev}
-            >
-              Go back!
+            <Button type="primary" shape="round" className="button-grey" onClick={this.props.prev}>
+              Previous
             </Button>
           </Col>
         </Row>
