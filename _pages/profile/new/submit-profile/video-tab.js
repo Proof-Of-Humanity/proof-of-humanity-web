@@ -270,42 +270,24 @@ export default class VideoTab extends React.Component {
               alternative process is available.
             </Paragraph>
             <Row justify="center">
-              <Col xs={24} xl={12}>
-                <Button
-                  onClick={() =>
-                    this.setState({
-                      recordingMode: "speaking",
-                      cameraEnabled: true,
-                    })
-                  }
-                  className="video-mode-buttons"
-                >
+            <Col xs={24} xl={12} className="video-mode-buttons" onClick={() => this.setState({recordingMode: "speaking", cameraEnabled: true})}>
+                  
                   <Image
                     preview={false}
                     src="/images/speaker.png"
-                    width="100%"
+                    width="50%"
                   />
                   <Title level={4} style={{ marginTop: "10px" }}>
                     I am able to identify my account using my voice and sight
                   </Title>
-                </Button>
+                
               </Col>
 
-              <Col xs={24} xl={12}>
-                <Button
-                  onClick={() =>
-                    this.setState({
-                      recordingMode: "visual",
-                      cameraEnabled: true,
-                    })
-                  }
-                  className="video-mode-buttons"
-                >
-                  <Image preview={false} src="/images/sign.png" width="100%" />
+              <Col xs={24} xl={12} className="video-mode-buttons" onClick={() => this.setState({recordingMode: "visual",cameraEnabled: true})}>
+                  <Image preview={false} src="/images/sign.png" width="50%" />
                   <Title level={4} style={{ marginTop: "10px" }}>
                     I would prefer to use a visual method
                   </Title>
-                </Button>
               </Col>
             </Row>
           </Col>

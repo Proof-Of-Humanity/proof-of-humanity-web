@@ -342,7 +342,7 @@ export default class ImageTab extends React.Component {
     const { picture } = this.state;
     const buffer = Buffer.from(picture);
     // console.log("image sanitizer")
-
+    this.props.next();
     photoSanitizer(buffer)
       .then((response) => {
         if (response === "grayscale") {
@@ -358,7 +358,7 @@ export default class ImageTab extends React.Component {
           this.setState({ fileURI: response, loading: false });
           this.props.stateHandler({ imageURI: response });
 
-          this.props.next();
+          
         }
       })
       .catch(() => {

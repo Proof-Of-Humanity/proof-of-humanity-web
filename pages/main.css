@@ -63,17 +63,17 @@ a:hover {
   margin: 0 auto;
 }
 .video-mode-buttons {
-  background-color: #f0f2f5;
+  background-color: #fff;
   font-weight: bold;
-  margin: 10px;
+  margin: 0 auto;
   border-color: #f0f2f5;
-  height: max-content;
-  white-space: pre-wrap;
+  text-align:center;
+  cursor: pointer;
 }
 .video-mode-buttons:hover {
   color: currentColor !important;
   border-color: #fff;
-  background-color: #fff !important;
+  background-color: #f0f2f5 !important;
 }
 .buttons-camera-container {
   position: absolute;
