@@ -220,3 +220,10 @@ a:hover {
   border-radius: 4px;
   box-shadow: 0 6px 10px rgb(153 153 153 / 25%);
 }
+.image-rules{
+  width: 90%;
+  height: 90%;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: block;
+}

@@ -96,18 +96,12 @@ export default class ImageTab extends React.Component {
     {
       title: "Image rules",
       description: (
-        <Space direction="horizontal" align="center">
-          <Space direction="vertical">
+        <Row justify="center">
+          <Col span={6}>
             <Image
               src="/images/front-facing.jpg"
               preview={false}
-              style={{
-                width: "75px",
-                height: "75px",
-                borderRadius: "50%",
-                margin: "0 auto",
-                display: "block",
-              }}
+              className="image-rules"
             />
             <CheckCircleFilled
               style={{
@@ -117,18 +111,12 @@ export default class ImageTab extends React.Component {
                 display: "block",
               }}
             />
-          </Space>
-          <Space direction="vertical">
+          </Col>
+          <Col span={6}>
             <Image
               src="/images/not-front-facing.jpg"
               preview={false}
-              style={{
-                width: "75px",
-                height: "75px",
-                borderRadius: "50%",
-                margin: "0 auto",
-                display: "block",
-              }}
+              className="image-rules"
             />
             <CloseCircleFilled
               style={{
@@ -138,19 +126,13 @@ export default class ImageTab extends React.Component {
                 display: "block",
               }}
             />
-          </Space>
+          </Col>
 
-          <Space direction="vertical">
+          <Col span={6}>
             <Image
               src="/images/glasses.jpg"
               preview={false}
-              style={{
-                width: "75px",
-                height: "75px",
-                borderRadius: "50%",
-                margin: "0 auto",
-                display: "block",
-              }}
+              className="image-rules"
             />
             <CheckCircleFilled
               style={{
@@ -160,18 +142,12 @@ export default class ImageTab extends React.Component {
                 display: "block",
               }}
             />
-          </Space>
-          <Space direction="vertical">
+          </Col>
+          <Col span={6}>
             <Image
               src="/images/sunglasses.jpg"
               preview={false}
-              style={{
-                width: "75px",
-                height: "75px",
-                borderRadius: "50%",
-                margin: "0 auto",
-                display: "block",
-              }}
+              className="image-rules"
             />
             <CloseCircleFilled
               style={{
@@ -181,25 +157,19 @@ export default class ImageTab extends React.Component {
                 display: "block",
               }}
             />
-          </Space>
-        </Space>
+          </Col>
+        </Row>
       ),
     },
     {
       title: "",
       description: (
-        <Space direction="horizontal" align="center">
-          <Space direction="vertical">
+        <Row justify="center">
+          <Col span={6}>
             <Image
               src="/images/hijab.jpg"
               preview={false}
-              style={{
-                width: "75px",
-                height: "75px",
-                borderRadius: "50%",
-                margin: "0 auto",
-                display: "block",
-              }}
+              className="image-rules"
             />
             <CheckCircleFilled
               style={{
@@ -209,18 +179,12 @@ export default class ImageTab extends React.Component {
                 display: "block",
               }}
             />
-          </Space>
-          <Space direction="vertical">
+          </Col>
+          <Col span={6}>
             <Image
               src="/images/niqab.jpg"
               preview={false}
-              style={{
-                width: "75px",
-                height: "75px",
-                borderRadius: "50%",
-                margin: "0 auto",
-                display: "block",
-              }}
+              className="image-rules"
             />
             <CloseCircleFilled
               style={{
@@ -230,18 +194,12 @@ export default class ImageTab extends React.Component {
                 display: "block",
               }}
             />
-          </Space>
-          <Space direction="vertical">
+          </Col>
+          <Col span={6}>
             <Image
               src="/images/b&w.jpg"
               preview={false}
-              style={{
-                width: "75px",
-                height: "75px",
-                borderRadius: "50%",
-                margin: "0 auto",
-                display: "block",
-              }}
+              className="image-rules"
             />
             <CloseCircleFilled
               style={{
@@ -251,18 +209,12 @@ export default class ImageTab extends React.Component {
                 display: "block",
               }}
             />
-          </Space>
-          <Space direction="vertical">
+          </Col>
+          <Col span={6}>
             <Image
               src="/images/mask.jpg"
               preview={false}
-              style={{
-                width: "75px",
-                height: "75px",
-                borderRadius: "50%",
-                margin: "0 auto",
-                display: "block",
-              }}
+              className="image-rules"
             />
             <CloseCircleFilled
               style={{
@@ -272,14 +224,10 @@ export default class ImageTab extends React.Component {
                 display: "block",
               }}
             />
-          </Space>
-        </Space>
+          </Col>
+        </Row>
       ),
-    },
-    {
-      title: "",
-      description: "",
-    },
+    }
   ];
 
   setCrop = (crop) => {
