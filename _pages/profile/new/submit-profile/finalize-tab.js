@@ -36,7 +36,11 @@ export default class FinalizeTab extends React.Component {
     this.props.prepareTransaction();
   };
   goToProfile = () => {
-    window.location = window.location.origin + '/profile/' + this.props.account;
+    router.push({
+      pathname: "/profile/[id]",
+      query: { id: this.props.account },
+    });
+    window.location.reload();
   };
   render() {
     // img, video and submitter name source by props
