@@ -12,9 +12,10 @@ import React from "react";
 import Video from "react-player";
 import ReactWebcam from "react-webcam";
 
+
 const { Title, Paragraph } = Typography;
 
-import { videoSanitizer } from "lib/media-controller";
+import { loadFFMPEG, videoSanitizer } from "lib/media-controller";
 
 export default class VideoTab extends React.Component {
   constructor(props) {
@@ -177,6 +178,7 @@ export default class VideoTab extends React.Component {
 
   onUserMedia = (mediaStream) => {
     // console.log("User media detected", mediaStream);
+    loadFFMPEG();
     this.setState({ userMedia: mediaStream });
     // maybe move this to another place?
     if (this.state.videoDevices === 0)
@@ -257,8 +259,9 @@ export default class VideoTab extends React.Component {
   };
 
   render = () => (
+    
     // console.log("videoTab render state", this.state);
-
+    
     <>
       {this.state.recordingMode === "" && (
         <Row justify="center">
