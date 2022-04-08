@@ -35,17 +35,13 @@ export default class InitialTab extends React.Component {
           <Row>
             <Space direction="vertical" size={1}>
               <Title level={2} style={{ fontWeight: "bold" }}>
-                {t("Create your Proof Of Humanity Profile")}
+                {t("submit_profile_initial_title")}
               </Title>
-              <Paragraph>
-                {t(
-                  "Submitting your profile to Proof of Humanity takes an average of 5-10 minutes, an existing Ethereum account and requires you to record a video of yourself talking."
-                )}
-              </Paragraph>
+              <Paragraph>{t("submit_profile_initial_description")}</Paragraph>
 
               {/* Add links or example how a profile gets registered? Register -> Vouch -> Pending (3.5 days) -> Start accruing UBI */}
 
-              <Paragraph>{t("Your connected wallet:")}</Paragraph>
+              <Paragraph>{t("submit_profile_your_wallet")}</Paragraph>
               <Paragraph
                 style={{
                   wordWrap: "break-word",
@@ -59,13 +55,8 @@ export default class InitialTab extends React.Component {
               >
                 {this.props.account}
               </Paragraph>
-              <Link
-                href="https://tornado.cash"
-                target="_blank"
-                rel="noopener"
-                style={{ fontWeight: "bold" }}
-              >
-                Learn how to increase your privacy with Tornado Cash
+              <Link href="https://tornado.cash" target="_blank" rel="noopener" style={{ fontWeight: "bold" }}>
+                {t("submit_profile_tornado_cash")}
               </Link>
               <Checkbox
                 style={{ fontWeight: "bold" }}
@@ -73,13 +64,11 @@ export default class InitialTab extends React.Component {
                   this.setState({ checked: event.target.checked });
                 }}
               >
-                I understand this wallet will be irreversebly linked to my real
-                world person and I will not use that wallet for any private or
-                sensitive information.
-              </Checkbox>
+                {t("submit_profile_sensitive_info")}
+                </Checkbox>
 
               <Button disabled={!this.state.checked} type="primary" htmlType="submit" shape="round" className="button-orange" onClick={() => this.setState({ currentStep: "name" })}>
-                Next step: short bio
+                {t("submit_profile_next")}
               </Button>
             </Space>
           </Row>
@@ -88,12 +77,10 @@ export default class InitialTab extends React.Component {
           <Row>
             <Space direction="vertical" size={1}>
               <Title level={2} style={{ fontWeight: "bold" }}>
-                {t("Tell us something about yourself")}
+                {t("submit_profile_info_title")}
               </Title>
               <Paragraph>
-                {t(
-                  "You can use a pseudonym if you feel more comfortable, but please provide some basic information about yourself."
-                )}
+                {t("submit_profile_info_description")}
               </Paragraph>
 
               <Form
@@ -134,23 +121,23 @@ export default class InitialTab extends React.Component {
           } style={{ marginBottom: "15px" }} closable showIcon>
             
           </Alert>*/}
-                <Title level={5}>I like to be called...</Title>
+                <Title level={5}>{t("submit_profile_info_name_title")}</Title>
                 <Form.Item
                   label=""
                   name="name"
                   rules={[
-                    { required: true, message: "Please enter your name" },
+                    { required: true, message: t("submit_profile_info_name_error_help") },
                   ]}
                 >
                   <Input
-                    placeholder="Your name"
+                    placeholder={t("submit_profile_info_name_placeholder")}
                     style={{ fontWeight: "bold" }}
                   />
                 </Form.Item>
-                <Title level={5}>Tell us something about yourself</Title>
+                <Title level={5}>{t("submit_profile_info_bio_title")}</Title>
                 <Form.Item label="" name="bio">
                   <Input.TextArea
-                    placeholder="Where you are from, how old you are, what things you like, etc"
+                    placeholder={t("submit_profile_info_bio_placeholder")}
                     style={{ fontWeight: "bold" }}
                   />
                 </Form.Item>
@@ -158,26 +145,13 @@ export default class InitialTab extends React.Component {
                 <Form.Item>
                   <Row>
                     <Col span={12} style={{ margin: "0 auto" }}>
-                      <Button
-                        type="primary"
-                        shape="round"
-                        className="button-grey"
-                        onClick={() =>
-                          this.setState({ currentStep: "address" })
-                        }
-                      >
-                        Previous
+                      <Button type="primary" shape="round" className="button-grey" onClick={() => this.setState({ currentStep: "address" }) }>
+                        {t("submit_profile_previous")}
                       </Button>
                     </Col>
                     <Col span={12}>
-                      <Button
-                        disabled={this.props.state.name === ""}
-                        htmlType="submit"
-                        shape="round"
-                        className="button-orange"
-                        onClick={this.handleAdvance}
-                      >
-                        Next step: selfie
+                      <Button disabled={this.props.state.name === ""} htmlType="submit" shape="round" className="button-orange" onClick={this.handleAdvance}>
+                        {t("submit_profile_next")}
                       </Button>
                     </Col>
                   </Row>

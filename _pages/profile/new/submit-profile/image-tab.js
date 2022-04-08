@@ -25,6 +25,7 @@ import getCroppedImg from "./crop-image";
 const { Title, Paragraph, Text } = Typography;
 
 import { photoSanitizer } from "lib/media-controller";
+import { Trans } from 'react-i18next';
 
 export default class ImageTab extends React.Component {
   constructor(props) {
@@ -94,7 +95,7 @@ export default class ImageTab extends React.Component {
 
   imageRulesList = [
     {
-      title: "Image rules",
+      title: this.props.i18n.t("submit_profile_image_rules_title"),
       description: (
         <Row justify="center">
           <Col span={6}>
@@ -245,9 +246,11 @@ export default class ImageTab extends React.Component {
   setCroppedAreaPixels = (croppedAreaPixels) => {
     // console.log(croppedAreaPixels)
     // let maxZoom = croppedAreaPixels.width / 256;
-    if (croppedAreaPixels.width > 256 && croppedAreaPixels.height > 256)
+    if (croppedAreaPixels.width > 256 && croppedAreaPixels.height > 256) {
       this.setState({ croppedAreaPixels });
-    else message.error("The cropped area must be greater than 256 pixels.");
+    } else {
+      message.error(this.props.i18n.t("submit_profile_image_size_error"));
+    }
   };
   setCroppedImage = (croppedImage) => this.setState({ croppedImage });
 
@@ -312,7 +315,7 @@ export default class ImageTab extends React.Component {
     beforeUpload: (file) => {
       if (this.photoOptions.types.value.includes(file.type)) return true;
 
-      message.error("The selected file is not supported.");
+      message.error(this.props.i18n.t("submit_profile_file_not_supported"));
       return Upload.LIST_IGNORE;
     },
     onChange: ({ file }) => {
@@ -343,11 +346,13 @@ export default class ImageTab extends React.Component {
     const buffer = Buffer.from(picture);
     // console.log("image sanitizer")
     this.props.next();
+
     photoSanitizer(buffer)
       .then((response) => {
+        // this if should be on catch(), response should be good when no errors
         if (response === "grayscale") {
           message.error(
-            "Image can't be black and white, please choose or take another one.",
+            this.props.i18n.t("submit_profile_image_grayscale"),
             10
           );
           this.setState({ loading: false, picture: false });
@@ -357,8 +362,6 @@ export default class ImageTab extends React.Component {
 
           this.setState({ fileURI: response, loading: false });
           this.props.stateHandler({ imageURI: response });
-
-          
         }
       })
       .catch(() => {
@@ -423,33 +426,31 @@ export default class ImageTab extends React.Component {
     // console.error("User media error", error);
   };
   switchCamera = () => {
-    if (this.state.facingMode === "user")
+    if (this.state.facingMode === "user") {
       this.setState({ facingMode: "environment" });
-    else this.setState({ facingMode: "user" });
+    } else {
+      this.setState({ facingMode: "user" });
+    }
   };
 
   render() {
+    const { t } = this.props.i18n;
+    console.log(t, this.props.i18n);
+
     return (
       <>
         {this.state.cameraEnabled ? (
           <>
             <Row>
               <Col span={24}>
-                <Title level={2}>Smile for the camera</Title>
-                <Paragraph style={{ color: "black" }}>
-                  If you have a camera, you may take a picture directly from your device. <br />
-                  Take out any masks, sunglasses or anything that could block
-                  your face and look straight at the camera.
-                </Paragraph>
+                <Title level={2}>{t("submit_profile_image_title")}</Title>
+                <Paragraph style={{ color: "black", whiteSpace: "pre-line" }}>{t("submit_profile_image_description")}</Paragraph>
               </Col>
             </Row>
             <div className="video-inner-container" ref={(screen) => { this.screen = screen; }}>
-              <div className="video-overlay">Text inside video!</div>
               <ReactWebcam
                 style={{ width: "100%" }}
-                ref={(camera) => {
-                  this.camera = camera;
-                }}
+                ref={(camera) => { this.camera = camera; }}
                 mirrored={false}
                 screenshotFormat="image/jpeg"
                 screenshotQuality={1}
@@ -463,7 +464,6 @@ export default class ImageTab extends React.Component {
                 onUserMedia={this.onUserMedia}
                 onUserMediaError={this.onUserMediaError}
               >
-                <div>TEST</div>
               </ReactWebcam>
 
               <div className="buttons-camera-container">
@@ -503,22 +503,17 @@ export default class ImageTab extends React.Component {
             </div>
             <Row>
               <Col span={24}>
-                <Title level={2}>Or upload an image</Title>
+                <Title level={2}>{t("submit_profile_image_upload_title")}</Title>
               </Col>
             </Row>
             <Row justify="center">
               <Col xs={12} lg={6}>
                 <Upload.Dragger
                   {...this.draggerProps}
-                  style={{
-                    backgroundColor: "#ffb978",
-                    fontWeight: "bold",
-                    border: "none",
-                    borderRadius: "10px",
-                  }}
+                  style={{ backgroundColor: "#ffb978", fontWeight: "bold", border: "none", borderRadius: "10px" }}
                 >
                   <FileAddFilled />
-                  <Paragraph className="ant-upload-text">Upload image</Paragraph>
+                  <Paragraph className="ant-upload-text">{t("submit_profile_image_upload_button")}</Paragraph>
                 </Upload.Dragger>
               </Col>
             </Row>
@@ -529,10 +524,8 @@ export default class ImageTab extends React.Component {
           <>
             <Row>
               <Space direction="vertical" size={1}>
-                <Title level={2}>Crop your image!</Title>
-                <Paragraph style={{ color: "black" }}>
-                  Make sure your face is centered and not rotated.
-                </Paragraph>
+                <Title level={2}>{t("submit_profile_image_crop_title")}</Title>
+                <Paragraph style={{ color: "black" }}>{t("submit_profile_image_crop_description")}</Paragraph>
               </Space>
             </Row>
             <div style={this.styles.cropContainer}>
@@ -551,41 +544,27 @@ export default class ImageTab extends React.Component {
                 onMediaLoaded={this.onMediaLoaded}
               />
             </div>
-            <div style={this.styles.controls}>
-              <div style={this.styles.sliderContainer}>
-                Zoom
-                <Slider
-                  value={this.state.zoom}
-                  className="slider"
-                  min={1}
-                  max={this.state.maxZoom}
-                  step={0.1}
-                  aria-labelledby="Zoom"
-                  onChange={(zoom) => this.setZoom(zoom)}
-                />
-              </div>
-              <div style={this.styles.sliderContainer}>
-                Rotation
-                <Slider
-                  value={this.state.rotation}
-                  style={{ color: "black" }}
-                  min={0}
-                  max={360}
-                  step={1}
-                  aria-labelledby="Rotation"
-                  onChange={(rotation) => this.setRotation(rotation)}
-                />
-              </div>
-            </div>
+            <Row justify="center">
+              <Col xs={24} xl={12}>
+                {t("submit_profile_image_crop_zoom")}
+                <Slider value={this.state.zoom} className="slider" min={1} max={this.state.maxZoom} step={0.1} aria-labelledby="Zoom" onChange={(zoom) => this.setZoom(zoom)} />
+                </Col>
+              </Row>
+              <Row justify="center">
+              <Col xs={24} xl={12}>
+                {t("submit_profile_image_crop_rotation")}
+                <Slider value={this.state.rotation} style={{ color: "black" }} min={0} max={360} step={1} aria-labelledby="Rotation" onChange={(rotation) => this.setRotation(rotation)} />
+              </Col>
+            </Row>
             <Row justify="center">
               <Col span={12}>
                 <Button onClick={this.retakePicture} color="primary" shape="round" className="button-grey">
-                  Retake
+                {t("submit_profile_image_retake")}
                 </Button>
               </Col>
               <Col span={12}>
                 <Button onClick={this.showCroppedImage} color="primary" shape="round" className="button-orange">
-                  Show result
+                {t("submit_profile_image_crop_result")}
                 </Button>
               </Col>
             </Row>
@@ -595,16 +574,16 @@ export default class ImageTab extends React.Component {
         {this.state.croppedImage ? (
           <>
             <Space direction="vertical">
-              <Title level={2} id="verify">
-                Verify your photo!
-              </Title>
-              <Paragraph>
-                Make sure <Text strong>your facial features are visible</Text>{" "}
-                and{" "}
-                <Text strong>
-                  not covered under heavy make up, masks or other coverings.
-                </Text>{" "}
-                You also must be looking straight at the camera.
+              <Title level={2} id="verify">{t("submit_profile_image_verify_title")}</Title>
+              <Paragraph style={{ whiteSpace: "pre-line" }}>
+                <Trans
+                  i18nKey="submit_profile_image_verify_description" 
+                  t={t}
+                  components={[
+                    <Text strong />,
+                    <Text strong />
+                  ]}
+                />
               </Paragraph>
 
               <Row justify="center">
@@ -641,12 +620,12 @@ export default class ImageTab extends React.Component {
             <Row justify="center">
               <Col span={12}>
                 <Button type="primary" shape="round" className="button-grey" onClick={this.retakePicture}>
-                  Retake
+                {t("submit_profile_image_retake")}
                 </Button>
               </Col>
               <Col span={12}>
                 <Button type="primary" disabled={this.state.croppedImage === null} shape="round" className="button-orange" onClick={this.uploadPicture} loading={this.state.loading}>
-                  Looking great
+                  {t("submit_profile_image_verify_next")}
                 </Button>
               </Col>
             </Row>
@@ -656,7 +635,7 @@ export default class ImageTab extends React.Component {
         <Row justify="center">
           <Col span={24}>
             <Button type="primary" shape="round" className="button-grey" onClick={this.props.prev}>
-              Previous
+              {t("submit_profile_previous")}
             </Button>
           </Col>
         </Row>

@@ -89,10 +89,10 @@ export default class VideoTab extends React.Component {
     showUploadList: false,
     beforeUpload: (file) => {
       if (!this.videoOptions.types.value.includes(file.type)) {
-        message.error("The selected file is not supported.");
+        message.error(this.props.i18n.t("submit_profile_file_not_supported"));
         return Upload.LIST_IGNORE;
       } else if (file.size > this.videoOptions.size.value) {
-        message.error("The selected file exceeds the size limit of 15MB.");
+        message.error(this.props.i18n.t("submit_profile_video_too_big"));
         return Upload.LIST_IGNORE;
       }
       return true;
@@ -103,6 +103,7 @@ export default class VideoTab extends React.Component {
       if (status === "done") {
         const blob = new Blob([file.originFileObj], { type: file.type });
         const videoURL = window.URL.createObjectURL(blob);
+
         getBlobDuration(blob).then((duration) => {
           if (duration <= 60 * 2) {
             this.setState({
@@ -112,9 +113,7 @@ export default class VideoTab extends React.Component {
               recordedVideoUrl: videoURL,
             });
           } else {
-            message.error(
-              "The selected file should be shorter than two minutes"
-            );
+            message.error(this.props.i18n.t("submit_profile_video_too_long"));
           }
         });
       }
@@ -128,8 +127,10 @@ export default class VideoTab extends React.Component {
     this.props.stateHandler({ progress });
   };
   uploadVideo = () => {
-    if (this.props.state.videoURI !== "")
+    if (this.props.state.videoURI !== "") {
       this.props.stateHandler({ videoURI: "" });
+    }
+
     const { file } = this.state;
     // console.log(file);
 
@@ -230,9 +231,8 @@ export default class VideoTab extends React.Component {
     // console.log(this.state.recordedVideo);
 
     const blob = new Blob(this.state.recordedVideo, {
-      type: `${
-        this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"
-      };codecs=h264,avc1`,
+      type: `${this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"
+        };codecs=h264,avc1`,
     });
     const videoURL = window.URL.createObjectURL(blob);
 
@@ -252,10 +252,13 @@ export default class VideoTab extends React.Component {
   };
 
   switchCamera = () => {
-    if (this.state.facingMode === "user")
+    if (this.state.facingMode === "user") {
       this.setState({ facingMode: "environment" });
-    else this.setState({ facingMode: "user" });
+    } else {
+      this.setState({ facingMode: "user" });
+    }
   };
+
   goBack = () => {
     this.setState({
       recording: false,
@@ -268,59 +271,58 @@ export default class VideoTab extends React.Component {
     this.props.prev();
   };
 
-  render = () => (
-    // console.log("videoTab render state", this.state);
+  render = () => {
+    const { t } = this.props.i18n;
 
-    <>
-      {this.state.recordingMode === "" && (
-        <Row justify="center">
-          <Col span={24}>
-            <Title level={2}>Are you ready to speak?</Title>
-            <Paragraph>
-              You must be in a quiet room, with a working microphone and be able
-              to read from your screen. If you are unable to comply, then an
-              alternative process is available.
-            </Paragraph>
-            <Row justify="center">
-              <Col
-                xs={24}
-                xl={12}
-                className="video-mode-buttons"
-                onClick={() =>
-                  this.setState({
-                    recordingMode: "speaking",
-                    cameraEnabled: true,
-                  })
-                }
-              >
-                <Image preview={false} src="/images/speaker.png" width="50%" />
-                <Title level={4} style={{ marginTop: "10px" }}>
-                  I am able to identify my account using my voice and sight
-                </Title>
-              </Col>
+    return (
+      // console.log("videoTab render state", this.state);
 
-              <Col
-                xs={24}
-                xl={12}
-                className="video-mode-buttons"
-                onClick={() =>
-                  this.setState({
-                    recordingMode: "visual",
-                    cameraEnabled: true,
-                  })
-                }
-              >
-                <Image preview={false} src="/images/sign.png" width="50%" />
-                <Title level={4} style={{ marginTop: "10px" }}>
-                  I would prefer to use a visual method
-                </Title>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      )}
+      <>
+        {this.state.recordingMode === "" && (
+          <Row justify="center">
+            <Col span={24}>
+              <Title level={2}>{t("submit_profile_video_title")}</Title>
+              <Paragraph>{t("submit_profile_video_description")}</Paragraph>
+              <Row justify="center">
+                <Col
+                  xs={24}
+                  xl={12}
+                  className="video-mode-buttons"
+                  onClick={() =>
+                    this.setState({
+                      recordingMode: "speaking",
+                      cameraEnabled: true,
+                    })
+                  }
+                >
+                  <Image preview={false} src="/images/speaker.png" width="50%" />
+                  <Title level={4} style={{ marginTop: "10px" }}>
+                    {t("submit_profile_video_by_voice")}
+                  </Title>
+                </Col>
 
-      {/* <Row>
+                <Col
+                  xs={24}
+                  xl={12}
+                  className="video-mode-buttons"
+                  onClick={() =>
+                    this.setState({
+                      recordingMode: "visual",
+                      cameraEnabled: true,
+                    })
+                  }
+                >
+                  <Image preview={false} src="/images/sign.png" width="50%" />
+                  <Title level={4} style={{ marginTop: "10px" }}>
+                    {t("submit_profile_video_visual")}
+                  </Title>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        )}
+
+        {/* <Row>
           <List style={{ width: '100%' }} itemLayout='horizontal' dataSource={this.videoRulesList}
             renderItem={item => (
               <List.Item>
@@ -332,196 +334,196 @@ export default class VideoTab extends React.Component {
             )} />
             </Row>*/}
 
-      <Row justify="center">
-        {this.state.cameraEnabled && this.state.recordingMode !== "" ? (
-          <Col span={24}>
-            <Title level={2}>Get ready to say your bit!</Title>
-            <Title level={5}>
-              Speak the words as they appear on the screen
-            </Title>
-            <div
-              className="video-inner-container"
-              ref={(screen) => {
-                this.screen = screen;
-              }}
-            >
-              <div className="video-overlay">Text inside video!</div>
-              <ReactWebcam
-                style={{ width: "100%" }}
-                ref={(camera) => {
-                  this.camera = camera;
+        <Row justify="center">
+          {this.state.cameraEnabled && this.state.recordingMode !== "" ? (
+            <Col span={24}>
+              <Title level={2}>{t("submit_profile_video_ready_title")}</Title>
+              <Title level={5}>
+                {t("submit_profile_video_ready_help")}
+              </Title>
+              <div
+                className="video-inner-container"
+                ref={(screen) => {
+                  this.screen = screen;
                 }}
-                audio
-                mirrored={this.state.mirrored}
-                videoConstraints={{
-                  ...this.videoConstraints,
-                  facingMode: this.state.facingMode,
-                }}
-                onCanPlayThrough={() => false}
-                onClick={(event) => event.preventDefault()}
-                onUserMedia={this.onUserMedia}
-                onUserMediaError={this.onUserMediaError}
-              />
-              <div className="buttons-camera-container">
-                {!this.state.recording ? (
-                  <>
-                    {/* <Row justify="center">
+              >
+                <div className="video-overlay">Text inside video.... TODO: Translate</div>
+                <ReactWebcam
+                  style={{ width: "100%" }}
+                  ref={(camera) => {
+                    this.camera = camera;
+                  }}
+                  audio
+                  mirrored={this.state.mirrored}
+                  videoConstraints={{
+                    ...this.videoConstraints,
+                    facingMode: this.state.facingMode,
+                  }}
+                  onCanPlayThrough={() => false}
+                  onClick={(event) => event.preventDefault()}
+                  onUserMedia={this.onUserMedia}
+                  onUserMediaError={this.onUserMediaError}
+                />
+                {this.state.recording && <i className="camera-recording-icon"></i>}
+                <div className="buttons-camera-container">
+                  {!this.state.recording ? (
+                    <>
+                      {/* <Row justify="center">
 
                     </Row> */}
+                      <Row justify="center">
+                        <Col span={6}>
+                          <Button
+                            onClick={this.handleStartCaptureClick}
+                            shape="round"
+                            className="button-orange-camera"
+                          >
+                            <RecordCamera
+                              width="25px"
+                              height="40px"
+                              fill="white"
+                            />
+                          </Button>
+                        </Col>
+                        <Col span={6}>
+                          <Button
+                            onClick={this.mirrorVideo}
+                            shape="round"
+                            className="button-orange-camera"
+                          >
+                            <MirrorCamera
+                              width="25px"
+                              height="25px"
+                              fill="white"
+                            />
+                          </Button>
+                        </Col>
+
+                        {this.state.videoDevices > 1 && (
+                          <Col span={6}>
+                            <Button
+                              onClick={this.switchCamera}
+                              shape="round"
+                              className="button-orange-camera"
+                            >
+                              <CameraSwitch
+                                width="25px"
+                                height="25px"
+                                fill="white"
+                              />
+                            </Button>
+                          </Col>
+                        )}
+                        {this.state.fullscreen ? (
+                          <Col span={6}>
+                            <Button
+                              onClick={this.closeFullscreen}
+                              shape="round"
+                              className="button-orange-camera"
+                            >
+                              <ExitFullscreen
+                                width="25px"
+                                height="25px"
+                                fill="white"
+                              />
+                            </Button>
+                          </Col>
+                        ) : (
+                          <Col span={6}>
+                            <Button
+                              onClick={this.toggleFullscreen}
+                              shape="round"
+                              className="button-orange-camera"
+                            >
+                              <Fullscreen
+                                width="25px"
+                                height="25px"
+                                fill="white"
+                              />
+                            </Button>
+                          </Col>
+                        )}
+                      </Row>
+                    </>
+                  ) : (
                     <Row justify="center">
                       <Col span={6}>
                         <Button
-                          onClick={this.handleStartCaptureClick}
+                          onClick={this.handleStopCaptureClick}
                           shape="round"
                           className="button-orange-camera"
                         >
-                          <RecordCamera
-                            width="25px"
-                            height="40px"
-                            fill="white"
-                          />
+                          <Stop width="25px" height="25px" fill="white" />
                         </Button>
                       </Col>
-                      <Col span={6}>
-                        <Button
-                          onClick={this.mirrorVideo}
-                          shape="round"
-                          className="button-orange-camera"
-                        >
-                          <MirrorCamera
-                            width="25px"
-                            height="25px"
-                            fill="white"
-                          />
-                        </Button>
-                      </Col>
-
-                      {this.state.videoDevices > 1 && (
-                        <Col span={6}>
-                          <Button
-                            onClick={this.switchCamera}
-                            shape="round"
-                            className="button-orange-camera"
-                          >
-                            <CameraSwitch
-                              width="25px"
-                              height="25px"
-                              fill="white"
-                            />
-                          </Button>
-                        </Col>
-                      )}
-                      {this.state.fullscreen ? (
-                        <Col span={6}>
-                          <Button
-                            onClick={this.closeFullscreen}
-                            shape="round"
-                            className="button-orange-camera"
-                          >
-                            <ExitFullscreen
-                              width="25px"
-                              height="25px"
-                              fill="white"
-                            />
-                          </Button>
-                        </Col>
-                      ) : (
-                        <Col span={6}>
-                          <Button
-                            onClick={this.toggleFullscreen}
-                            shape="round"
-                            className="button-orange-camera"
-                          >
-                            <Fullscreen
-                              width="25px"
-                              height="25px"
-                              fill="white"
-                            />
-                          </Button>
-                        </Col>
-                      )}
                     </Row>
-                  </>
-                ) : (
-                  <Row justify="center">
-                    <Col span={6}>
-                      <Paragraph>RECORDING IN PROGRESS</Paragraph>
-                      <Paragraph />
-                      <Button
-                        onClick={this.handleStopCaptureClick}
-                        shape="round"
-                        className="button-orange-camera"
-                      >
-                        <Stop width="25px" height="25px" fill="white" />
-                      </Button>
-                    </Col>
-                  </Row>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
 
-            <Upload.Dragger {...this.draggerProps} className="dragger">
-              <FileAddFilled />
+              <Upload.Dragger {...this.draggerProps} className="dragger">
+                <FileAddFilled />
 
-              <Paragraph className="ant-upload-text">Upload video</Paragraph>
-            </Upload.Dragger>
-          </Col>
-        ) : !this.state.recording && this.state.recordedVideoUrl !== "" ? (
-          <>
-            <Row>
-              <Col span={24} style={{ display: "block", margin: "0 auto" }}>
-                <Video
-                  config={{
-                    file: {
-                      attributes: {
-                        crossOrigin: "true",
+                <Paragraph className="ant-upload-text">{t("submit_profile_video_upload")}</Paragraph>
+              </Upload.Dragger>
+            </Col>
+          ) : !this.state.recording && this.state.recordedVideoUrl !== "" ? (
+            <>
+              <Row>
+                <Col span={24} style={{ display: "block", margin: "0 auto" }}>
+                  <Video
+                    config={{
+                      file: {
+                        attributes: {
+                          crossOrigin: "true",
+                        },
                       },
-                    },
-                  }}
-                  controls
-                  width={"100%"}
-                  height={"100%"}
-                  url={this.state.recordedVideoUrl}
-                />
-              </Col>
-            </Row>
-            <Row justify="center" style={{ width: "100%" }}>
-              <Col xl={12} xs={24}>
-                <Button
-                  onClick={this.retakeVideo}
-                  shape="round"
-                  className="button-grey"
-                >
-                  Choose a different video
-                </Button>
-              </Col>
-              <Col xl={12} xs={24}>
-                <Button
-                  type="primary"
-                  disabled={this.state.file === ""}
-                  shape="round"
-                  className="button-orange"
-                  onClick={this.uploadVideo}
-                >
-                  Upload video
-                </Button>
-              </Col>
-            </Row>
-          </>
-        ) : null}
-      </Row>
-      <Row justify="center">
-        <Col span={24}>
-          <Button
-            type="primary"
-            shape="round"
-            className="button-grey"
-            onClick={this.goBack}
-          >
-            Previous
-          </Button>
-        </Col>
-      </Row>
-    </>
-  );
+                    }}
+                    controls
+                    width={"100%"}
+                    height={"100%"}
+                    url={this.state.recordedVideoUrl}
+                  />
+                </Col>
+              </Row>
+              <Row justify="center" style={{ width: "100%" }}>
+                <Col xl={12} xs={24}>
+                  <Button
+                    onClick={this.retakeVideo}
+                    shape="round"
+                    className="button-grey"
+                  >
+                    {t("submit_profile_video_retake")}
+                  </Button>
+                </Col>
+                <Col xl={12} xs={24}>
+                  <Button
+                    type="primary"
+                    disabled={this.state.file === ""}
+                    shape="round"
+                    className="button-orange"
+                    onClick={this.uploadVideo}
+                  >
+                    {t("submit_profile_video_upload")}
+                  </Button>
+                </Col>
+              </Row>
+            </>
+          ) : null}
+        </Row>
+        <Row justify="center">
+          <Col span={24}>
+            <Button
+              type="primary"
+              shape="round"
+              className="button-grey"
+              onClick={this.goBack}
+            >
+              {t("submit_profile_previous")}
+            </Button>
+          </Col>
+        </Row>
+      </>
+    );
+  }
 }

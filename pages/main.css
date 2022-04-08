@@ -227,3 +227,39 @@ a:hover {
   margin: 0 auto;
   display: block;
 }
+
+/* TODO: REMOVE */
+.poh-content > div {
+  opacity: 1 !important;
+}
+/* USED FOR SMART REFRESH IN WHICH OPACITY SETS TO 0  */
+
+.camera-recording-icon {
+	animation-name: pulse;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  font-size: 0;
+  background-color: red;
+  border: 0;
+  border-radius: 50%;
+  margin: 6px;
+  outline: none;
+}
+
+@keyframes pulse{
+	0% {
+		box-shadow: 0px 0px 5px 0px rgba(173,0,0,.3);
+	}
+	65% {
+		box-shadow: 0px 0px 5px 13px rgba(173,0,0,.3);
+	}
+	90% {
+		box-shadow: 0px 0px 5px 13px rgba(173,0,0,0);
+	}
+}

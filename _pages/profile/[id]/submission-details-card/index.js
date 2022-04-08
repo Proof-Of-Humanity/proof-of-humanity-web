@@ -38,7 +38,7 @@ import {
   useEvidenceFile,
 } from "data";
 
-import { useTranslation } from "react-i18next";
+import { useTranslation, Trans } from "react-i18next";
 
 const submissionDetailsCardFragments = {
   contract: graphql`
@@ -456,10 +456,13 @@ export default function SubmissionDetailsCard({
             sx={{ mt: 3, wordWrap: "break-word" }}
           >
             <Text>
-              {t("profile_card_save_deposit_text_1")}&nbsp;
-              <Link href={`mailto:${id}@ethmail.cc`}>{id}@ethmail.cc</Link>
-              .&nbsp;
-              {t("profile_card_save_deposit_text_2")}
+              <Trans
+                i18nKey={"profile_card_save_deposit_text"}
+                t={t}
+                values={{ email: `${id}@ethmail.cc` }}
+                components={[
+                  <Link href={`mailto:${id}@ethmail.cc`} />
+                ]} />
             </Text>
           </Alert>
         )}

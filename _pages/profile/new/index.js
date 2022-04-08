@@ -1,6 +1,6 @@
 
 import { useCallback } from "react";
-import { useTranslation } from 'react-i18next'; 
+import { useTranslation, Trans } from 'react-i18next'; 
 import Head from "next/head";
 import { useRouter } from "next/router";
 
@@ -59,19 +59,22 @@ export default function ProfileNew() {
       </>
     );
   }
-
-
+  
   return (
-    
     <Row justify="center">
       <Col className="submit-profile-card" style={{textAlign: 'center'}} xs={{ span: 24 }} xl={{ span: 12 }}>
       <Space direction="vertical" size={1}>
-        
-          <Title level={2}>Create your Proof of Humanity profile</Title>
-          <Title level={5}>You don&apos;t have a wallet connected to the website</Title>
-          <Button type="primary" shape="round" className="button-orange"onClick={connect}>Connect an Ethereum Wallet</Button>
-          <Paragraph>Don&apos;t have a wallet? Click <Link href="https://ethereum.org/en/wallets/find-wallet/" target="_blank" rel="noreferrer noopener">here</Link> to learn on how to create one!</Paragraph>
-        
+          <Title level={2}>{t("submit_profile_title")}</Title>
+          <Title level={5}>{t("submit_profile_create_wallet")}</Title>
+          <Button type="primary" shape="round" className="button-orange"onClick={connect}>{t("submit_profile_connect_wallet")}</Button>
+          <Paragraph>
+            <Trans 
+            i18nKey="submit_profile_wallet_help" 
+            t={t}
+            components={[
+              <Link href="https://ethereum.org/en/wallets/find-wallet/" target="_blank" rel="noreferrer noopener"></Link>
+            ]} />
+          </Paragraph>
       </Space>
       </Col>
     </Row>
