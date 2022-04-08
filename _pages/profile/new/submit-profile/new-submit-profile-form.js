@@ -120,13 +120,14 @@ export default class NewSubmitProfileForm extends React.Component {
   returnFiles = async () => {
     const imageURI = this.state.imageURI.split("/");
     const videoURI = this.state.videoURI.split("/");
+    console.log(this.props.i18n)
     const file = {
       name: this.state.name,
       bio: this.state.bio,
       photo: `/${imageURI[3]}/${imageURI[4]}/${imageURI[5]}`,
       video: `/${videoURI[3]}/${videoURI[4]}/${videoURI[5]}`,
       confirmation: this.state.recordingMode,
-      language: this.props.i18n.language
+      language: this.state.language
     };
     const fileURI = await this.uploadToIPFS("file.json", JSON.stringify(file));
 

@@ -39,6 +39,7 @@ import {
 } from "data";
 
 import { useTranslation, Trans } from "react-i18next";
+import base2048 from "base-2048";
 
 const submissionDetailsCardFragments = {
   contract: graphql`
@@ -269,7 +270,21 @@ export default function SubmissionDetailsCard({
 
   const firstRoundFullyFunded = Number(lastRoundID) === 0 && hasPaid[0];
   let [shouldCheckVideo, checkedVideo] = useState(true);
-
+  const generatePhrase = (language) => {
+    const address = id.substring(2,id.length);
+    const bytes = Buffer.from(address, 'hex');
+    
+    if(language === "en"){
+      const words = base2048.english.encode(bytes);
+      console.log(words)
+      return words.split(" ").slice(0, 8).join(' ');
+    } else if(language === "es"){
+      const words = base2048.spanish.encode(bytes);
+      return words.split(" ").slice(0, 8).join(' ');
+    }
+    
+    
+  }
   return (
     <Card
       mainSx={{
@@ -434,6 +449,12 @@ export default function SubmissionDetailsCard({
           address={id}
           sx={{ marginBottom: 2, fontWeight: "bold" }}
         />
+        {evidence?.file?.confirmation === "speaking" && (
+          <Alert title={t('profile_card_confirmation_phrase_title')} style={{ marginBottom: "15px" }}>
+          {generatePhrase(evidence?.file?.language)}
+          </Alert>
+        )}
+        
         <Video
           config={{ file: { attributes: { crossOrigin: "true" } } }}
           url={evidence?.file?.video}

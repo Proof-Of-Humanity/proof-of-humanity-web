@@ -207,6 +207,7 @@ export default class VideoTab extends React.Component {
 
   handleStartCaptureClick = () => {
     this.setState({ recording: true });
+    this.props.stateHandler({language:this.props.i18n.language});
     this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
       mimeType: this.props.state.OS === "iOS" ? "video/mp4" : "video/webm",
     });

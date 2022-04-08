@@ -435,7 +435,6 @@ export default class ImageTab extends React.Component {
 
   render() {
     const { t } = this.props.i18n;
-    console.log(t, this.props.i18n);
 
     return (
       <>
