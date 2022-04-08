@@ -279,10 +279,10 @@ export default class VideoTab extends React.Component {
     if(language === "en"){
       const words = base2048.english.encode(bytes);
       console.log(words)
-      return words.split(" ").slice(0, 8).join(' ');
+      return "My confirmation phrase is " + words.split(" ").slice(0, 8).join(' ');
     } else if(language === "es"){
       const words = base2048.spanish.encode(bytes);
-      return words.split(" ").slice(0, 8).join(' ');
+      return "Mi frase de confirmación es "+ words.split(" ").slice(0, 8).join(' ');
     }
     
     
@@ -374,7 +374,7 @@ export default class VideoTab extends React.Component {
               >
                 <div className="video-overlay">
                   {t("submit_profile_video_phrase")}
-                  {this.generatePhrase()}
+                  {this.state.recordingMode === "speaking" &&(this.generatePhrase())}
                 </div>
                 <ReactWebcam
                   style={{ width: "100%" }}
@@ -487,12 +487,14 @@ export default class VideoTab extends React.Component {
                   )}
                 </div>
               </div>
-
-              <Upload.Dragger {...this.draggerProps} className="dragger">
+              {this.state.recordingMode === "visual" && (
+                <Upload.Dragger {...this.draggerProps} className="dragger">
                 <FileAddFilled />
 
                 <Paragraph className="ant-upload-text">{t("submit_profile_video_upload")}</Paragraph>
               </Upload.Dragger>
+              )}
+              
             </Col>
           ) : !this.state.recording && this.state.recordedVideoUrl !== "" ? (
             <>
