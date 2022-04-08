@@ -12,6 +12,7 @@ import React from "react";
 import Video from "react-player";
 import ReactWebcam from "react-webcam";
 import getBlobDuration from 'get-blob-duration'
+import base2048 from "base-2048";
 
 
 const { Title, Paragraph } = Typography;
@@ -270,6 +271,21 @@ export default class VideoTab extends React.Component {
     });
     this.props.prev();
   };
+  generatePhrase = () => {
+    const address = this.props.account.substring(2,this.props.account.length);
+    const bytes = Buffer.from(address, 'hex');
+    const { language } = this.props.i18n;
+    if(language === "en"){
+      const words = base2048.english.encode(bytes);
+      console.log(words)
+      return words.split(" ").slice(0, 8).join(' ');
+    } else if(language === "es"){
+      const words = base2048.spanish.encode(bytes);
+      return words.split(" ").slice(0, 8).join(' ');
+    }
+    
+    
+  }
 
   render = () => {
     const { t } = this.props.i18n;
@@ -288,12 +304,16 @@ export default class VideoTab extends React.Component {
                   xs={24}
                   xl={12}
                   className="video-mode-buttons"
-                  onClick={() =>
+                  onClick={() =>{
+                    this.props.stateHandler({
+                      recordingMode: "speaking",
+                    })
                     this.setState({
                       recordingMode: "speaking",
                       cameraEnabled: true,
                     })
                   }
+                }
                 >
                   <Image preview={false} src="/images/speaker.png" width="50%" />
                   <Title level={4} style={{ marginTop: "10px" }}>
@@ -305,12 +325,16 @@ export default class VideoTab extends React.Component {
                   xs={24}
                   xl={12}
                   className="video-mode-buttons"
-                  onClick={() =>
+                  onClick={() =>{
+                    this.props.stateHandler({
+                      recordingMode: "visual",
+                    })
                     this.setState({
                       recordingMode: "visual",
                       cameraEnabled: true,
                     })
                   }
+                }
                 >
                   <Image preview={false} src="/images/sign.png" width="50%" />
                   <Title level={4} style={{ marginTop: "10px" }}>
@@ -347,7 +371,10 @@ export default class VideoTab extends React.Component {
                   this.screen = screen;
                 }}
               >
-                <div className="video-overlay">Text inside video.... TODO: Translate</div>
+                <div className="video-overlay">
+                  {t("submit_profile_video_phrase")}
+                  {this.generatePhrase()}
+                </div>
                 <ReactWebcam
                   style={{ width: "100%" }}
                   ref={(camera) => {
@@ -369,7 +396,6 @@ export default class VideoTab extends React.Component {
                   {!this.state.recording ? (
                     <>
                       {/* <Row justify="center">
-
                     </Row> */}
                       <Row justify="center">
                         <Col span={6}>

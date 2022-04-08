@@ -190,6 +190,7 @@
   "submit_profile_video_retake": "Choose a different video",
   "submit_profile_video_too_long": "The selected file should be shorter than two minutes",
   "submit_profile_video_too_big": "The selected file exceeds the size limit of 15MB",
+  "submit_profile_video_phrase": "I certify that I am a real human and I'm not already registered in this registry. My confirmation phrase is ",
   
   "submit_profile_finalize_title": "Finalize your registration",
   "submit_profile_finalize_description": "Verify your submission information and media is correct and submit the transaction to register.",

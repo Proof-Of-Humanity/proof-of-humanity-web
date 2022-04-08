@@ -67,6 +67,7 @@
     "@walletconnect/web3-provider": "^1.6.2",
     "antd": "^4.19.1",
     "authereum": "0.0.4-beta.186",
+    "base-2048": "^0.0.1",
     "buffer": "^5.6.0",
     "dataloader": "^2.0.0",
     "downshift": "^6.0.6",

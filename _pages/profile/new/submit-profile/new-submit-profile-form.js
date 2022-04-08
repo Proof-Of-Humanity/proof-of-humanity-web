@@ -51,7 +51,7 @@ export default class NewSubmitProfileForm extends React.Component {
     {
       title: "Video",
       subtitle: "Video",
-      content: (props) => <VideoTab {...props} />,
+      content: (props) => <VideoTab {...props} account={this.props.account} />,
       description: "Upload your video",
       // icon: 3,
     },
@@ -125,6 +125,8 @@ export default class NewSubmitProfileForm extends React.Component {
       bio: this.state.bio,
       photo: `/${imageURI[3]}/${imageURI[4]}/${imageURI[5]}`,
       video: `/${videoURI[3]}/${videoURI[4]}/${videoURI[5]}`,
+      confirmation: this.state.recordingMode,
+      language: this.props.i18n.language
     };
     const fileURI = await this.uploadToIPFS("file.json", JSON.stringify(file));
 

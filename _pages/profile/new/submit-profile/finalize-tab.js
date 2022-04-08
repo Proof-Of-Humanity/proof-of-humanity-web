@@ -15,8 +15,9 @@ import {
 import React from "react";
 import Video from "react-player";
 import { withRouter } from "next/router";
-
+import { exitFFMPEG } from "lib/media-controller"
 const { Title, Link, Paragraph } = Typography;
+
 
 class FinalizeTab extends React.Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class FinalizeTab extends React.Component {
   };
 
   handleSubmit = () => {
-    this.props.stateHandler({ error: null });
+    this.props.stateHandler({ error: null});
     this.setState({ loading: true });
     this.props.prepareTransaction();
   };
@@ -44,7 +45,10 @@ class FinalizeTab extends React.Component {
       query: { id: this.props.account },
     });
   };
-
+    exitAndPrev = () => {
+      exitFFMPEG();
+      this.props.prev();
+    }
   render() {
     // img, video and submitter name source by props
     const { t } = this.props.i18n;
