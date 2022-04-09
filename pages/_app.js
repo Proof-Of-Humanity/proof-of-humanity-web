@@ -1,6 +1,5 @@
 import {
   ArchonProvider,
-  Box,
   Flex,
   RelayProvider,
   ThemeProvider,
@@ -12,7 +11,6 @@ import {
 import { Layout } from 'antd';
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { animated, useTransition } from "react-spring";
 
 import { indexQuery } from "_pages/index";
 import { IdQuery } from "_pages/profile/[id]";
@@ -79,8 +77,6 @@ function capitalize(string) {
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-const AnimatedBox = animated(Box);
-
 export default function App({ Component, pageProps }) {
   const { t } = useTranslation();
 
@@ -125,20 +121,6 @@ export default function App({ Component, pageProps }) {
     [router, networkFromQuery]
   );
 
-  const transitions = useTransition(
-    [{ key: router.route, Component, pageProps }],
-    (item) => item.key,
-    {
-      from: { opacity: 0, transform: "translate3d(0%,0,0)" },
-      enter: { opacity: 1, transform: "translate3d(0%,0,0)" },
-      leave: {
-        opacity: 0,
-        position: "absolute",
-        transform: "translate3d(-100%,0,0)",
-      },
-    }
-  );
-
   if (
     (networkFromProvider &&
       networkFromProvider.name !== process.env.NEXT_PUBLIC_NETWORK) ||
@@ -166,22 +148,7 @@ export default function App({ Component, pageProps }) {
             <Layout className="poh-layout">
               <AppHeader />
               <Content className="poh-content">
-                {transitions.map(({ key, props, item }) => {
-                  return (
-                    <AnimatedBox
-                      key={key}
-                      style={{
-                        ...props,
-                        transform: props.transform.interpolate((j) =>
-                          j === "translate3d(0%,0,0)" ? undefined : j
-                        ),
-                      }}
-                      sx={{ padding: 3 }}
-                    >
-                      <item.Component {...item.pageProps} />
-                    </AnimatedBox>
-                  );
-                })}
+                <Component {...pageProps} />
               </Content>
               <AppFooter />
             </Layout>
