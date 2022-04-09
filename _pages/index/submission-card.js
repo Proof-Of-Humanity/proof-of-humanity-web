@@ -64,7 +64,7 @@ export default function SubmissionCard({ submission, contract }) {
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
       <Card
         as="a"
-        sx={{ height: 367, color: "text" }}
+        sx={{ height: 326, color: "text" }}
         css={{ textDecoration: "none" }}
         header={
           <>

@@ -59,7 +59,7 @@ export default function HelpPopup({ ...rest }) {
       contentStyle={{ width: 248, lineHeight: 'initial' }}
       trigger={
         <IconButton aria-label="Help Menu">
-          <Help size="auto" fill="white" />
+          <Help fill="white" />
         </IconButton>
       }
       position="bottom right"

@@ -85,7 +85,7 @@ export default function AccountSettingsPopup({
   ]);
 
   return (
-    <Popup contentStyle={{ width: 490, lineHeight: 'initial' }} trigger={ <IconButton><Settings size="auto" /></IconButton> } position="bottom right">
+    <Popup contentStyle={{ width: 490, lineHeight: 'initial' }} trigger={ <IconButton><Settings/></IconButton> } position="bottom right">
       <Box sx={{ color: "text", paddingX: 1, paddingY: 2 }} >
         <Text sx={{ fontWeight: "bold", textAlign: "center" }} >
           {t('header_settings')}
