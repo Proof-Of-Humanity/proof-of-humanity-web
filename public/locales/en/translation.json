@@ -1,10 +1,6 @@
 {
   "poh_unsupported_network": "Unsupported network. Please switch to {{network}} and refresh.",
 
-  "Submit your profile": "Submit your profile",
-  "Follow the steps to register to Proof of Humanity": "Follow the steps to register to Proof of Humanity",
-  "How registration works? (link)": "How registration works? (link)",
-
   "header_profiles": "Profiles",
   "header_pools": "Pools",
   "header_submit_profile": "Submit Profile",
@@ -203,6 +199,7 @@
   "submit_profile_finalize_loading_video": "Your video is loading, please wait...",
   "submit_profile_finalize_video_check": "Please check your whole video to be able to send the submission.",
   "submit_profile_finalize_crowdfund": "I want to use Crowdfund (no self deposit)",
+  "submit_profile_finalize_selffund": "I want to fund my own submission",
 
   "submit_profile_nextsteps_title": "Your profile is being uploaded!",
   "submit_profile_nextsteps_description": "But it's not over yet! Here are the next steps before you can start receiving UBI.",

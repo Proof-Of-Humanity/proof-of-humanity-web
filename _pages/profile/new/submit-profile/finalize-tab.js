@@ -7,6 +7,7 @@ import {
   Col,
   Image,
   Progress,
+  Radio,
   Row,
   Space,
   Spin,
@@ -28,7 +29,15 @@ class FinalizeTab extends React.Component {
       playedVideo: false,
     };
   }
-
+  
+  componentDidMount = async () => {
+    
+    const deposit = await this.props.calculateDeposit();
+    if(deposit !== null){
+      this.setState({deposit:deposit.ether})
+    }
+    
+  }
   handleVideo = () => {
     this.setState({ playedVideo: true });
   };
@@ -169,16 +178,19 @@ class FinalizeTab extends React.Component {
               </Col>
             </Row>
             <Row justify="center">
-              <Col span={12} style={{ textAlign: "center" }}>
-                <Checkbox
-                  style={{ fontSize: "large" }}
-                  onChange={(event) => {
-                    this.props.stateHandler({ crowdfund: event.target.checked });
-                  }}
-                >
-                  {t("submit_profile_finalize_crowdfund")}
-                </Checkbox>
-              </Col>
+                <Radio.Group onChange={(event) => {this.props.stateHandler({ crowdfund: event.target.value })}}>
+                  
+                  <Radio value={"self"}>
+                    {t('submit_profile_finalize_selffund')} ({this.state.deposit} ETH)
+                  </Radio>
+                  
+                  
+                  <Radio value={"crowd"}>
+                    {t("submit_profile_finalize_crowdfund")}
+                  </Radio>
+                  
+                </Radio.Group>
+              
             </Row>
             {/* Next steps... */}{" "}
           </Col>
@@ -193,6 +205,7 @@ class FinalizeTab extends React.Component {
           <Button
             type="primary"
             disabled={
+              this.props.state.crowdfund === null ||
               this.props.state.videoURI === "" ||
               this.props.state.imageURI === "" ||
               !this.state.playedVideo
@@ -239,7 +252,7 @@ class FinalizeTab extends React.Component {
               </Col>
             </Row>
 
-            {this.props.state.crowdfund && (
+            {this.props.state.crowdfund === "crowd" && (
               <>
                 <CheckCircleFilled
                   style={{ fontSize: "50px", color: "green", marginRight: "20px" }}

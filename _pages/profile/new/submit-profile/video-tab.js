@@ -273,14 +273,14 @@ export default class VideoTab extends React.Component {
     this.props.prev();
   };
   generatePhrase = () => {
-    const address = this.props.account.substring(2,this.props.account.length);
+    const address = this.props.account.substring(2);
     const bytes = Buffer.from(address, 'hex');
-    const { language } = this.props.i18n;
-    if(language === "en"){
+    const { resolvedLanguage } = this.props.i18n;
+    if(resolvedLanguage === "en"){
       const words = base2048.english.encode(bytes);
       console.log(words)
       return "My confirmation phrase is " + words.split(" ").slice(0, 8).join(' ');
-    } else if(language === "es"){
+    } else if(resolvedLanguage === "es"){
       const words = base2048.spanish.encode(bytes);
       return "Mi frase de confirmación es "+ words.split(" ").slice(0, 8).join(' ');
     }

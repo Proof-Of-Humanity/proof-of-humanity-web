@@ -30,7 +30,7 @@ export default class NewSubmitProfileForm extends React.Component {
       subtitle: "General information",
       // content: (props) => <GeneralSubmitTab props={props} />,
       content: (props) => (
-        <InitialTab {...props} account={this.props.account} />
+        <InitialTab {...props} />
       ),
       description: "Set your name and info",
       // icon: 1,
@@ -46,7 +46,7 @@ export default class NewSubmitProfileForm extends React.Component {
     {
       title: "Video",
       subtitle: "Video",
-      content: (props) => <VideoTab {...props} account={this.props.account} />,
+      content: (props) => <VideoTab {...props} />,
       description: "Upload your video",
       // icon: 3,
     },
@@ -56,9 +56,8 @@ export default class NewSubmitProfileForm extends React.Component {
       content: (props) => (
         <FinalizeTab
           {...props}
-          deposit={this.props.deposit}
+          calculateDeposit={this.calculateDeposit}
           prepareTransaction={this.prepareTransaction}
-          account={this.props.account}
         />
       ),
       description: "Finalize your registration",
@@ -139,26 +138,27 @@ export default class NewSubmitProfileForm extends React.Component {
   };
 
   calculateDeposit = async () => {
-    let arbitrationCost = await this.props.web3.contracts.klerosLiquid.methods.arbitrationCost(this.props.contract.arbitratorExtraData).call();
-    const { toBN } = this.props.web3.utils;
-
-    const _submissionBaseDeposit = toBN(this.props.contract.submissionBaseDeposit);
+    if(this.props.contract === undefined || this.props.web3 === undefined) return null;
+    let arbitrationCost = await this.props.web3.contracts?.klerosLiquid?.methods.arbitrationCost(this.props.contract?.arbitratorExtraData).call();
+    const { toBN, fromWei } = this.props.web3.utils;
+    
+    const _submissionBaseDeposit = toBN(this.props.contract?.submissionBaseDeposit);
     const _arbitrationCost = toBN(arbitrationCost);
     const deposit = _submissionBaseDeposit.add(_arbitrationCost);
-
-    return deposit;
+    const ether = fromWei(deposit,"ether").toString();
+    return {BN:deposit, ether};
   }
   
   prepareTransaction = async () => {
     try {
       let registrationURI = await this.returnFiles();
-      let deposit = await this.calculateDeposit();
+      let { BN } = await this.calculateDeposit();
 
       this.props.web3.contracts.proofOfHumanity.methods
         .addSubmission(registrationURI, this.state.name)
         .send({
           from: this.props.account,
-          value: this.state.crowdfund ? 0 : deposit,
+          value: this.state.crowdfund === "crowd" ? 0 : BN,
         })
         .on("transactionHash", (tx) => {
           this.setState({ txHash: tx });
@@ -197,6 +197,7 @@ export default class NewSubmitProfileForm extends React.Component {
       next: this.next,
       prev: this.prev,
       reset: this.reset,
+      account: this.props.account
     };
 
     return (
