@@ -344,34 +344,21 @@ export default class ImageTab extends React.Component {
 
     const { picture } = this.state;
     const buffer = Buffer.from(picture);
-    // console.log("image sanitizer")
-    this.props.next();
 
     photoSanitizer(buffer)
       .then((response) => {
-        // this if should be on catch(), response should be good when no errors
-        if (response === "grayscale") {
-          message.error(
-            this.props.i18n.t("submit_profile_image_grayscale"),
-            10
-          );
-          this.setState({ loading: false, picture: false });
-          this.retakePicture();
-        } else {
-          // console.log('Image URI=', response);
-
-          this.setState({ fileURI: response, loading: false });
-          this.props.stateHandler({ imageURI: response });
-        }
+        this.setState({ fileURI: response, loading: false });
+        this.props.stateHandler({ imageURI: response });
+        this.props.next();
       })
-      .catch(() => {
-        // Handle errors
-        // console.log('Image upload error=', error);
+      .catch((error) => {
+        if (error === "image_grayscale") {
+          message.error(this.props.i18n.t("submit_profile_image_grayscale"), 5);
+        } else {
+          message.error("There was an error parsing your image, please try again", 5);
+        }
 
-        this.setState({
-          picture: false,
-          // cameraEnabled: true?
-        });
+        this.retakePicture();
       });
   };
 
@@ -394,6 +381,7 @@ export default class ImageTab extends React.Component {
 
   retakePicture = () => {
     this.setState({
+      loading: false,
       picture: null,
       image: "",
       cameraEnabled: true,

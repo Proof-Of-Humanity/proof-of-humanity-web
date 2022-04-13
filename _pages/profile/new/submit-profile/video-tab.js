@@ -149,19 +149,17 @@ export default class VideoTab extends React.Component {
           this.setState({ fileURI: URI });
           this.props.stateHandler({ videoURI: URI });
         })
-        .catch(() => {
-          // console.error(err);
-          // Handle errors
-          // console.log("Video upload error=", err);
+        .catch((error) => {
+          message.error("There was an error parsing your video, please try again", 5);
+
           this.setState({
-            cameraEnabled: false,
+            cameraEnabled: false, // true?
             recording: false,
             recordedVideo: [],
             recordedVideoUrl: "",
             videoURI: "",
             file: "",
             mirrored: false,
-            // cameraEnabled: true?
           });
         });
     });
