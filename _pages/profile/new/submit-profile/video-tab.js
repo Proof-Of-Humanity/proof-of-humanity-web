@@ -277,10 +277,10 @@ export default class VideoTab extends React.Component {
     if(resolvedLanguage === "en"){
       const words = base2048.english.encode(bytes);
       console.log(words)
-      return "My confirmation phrase is " + words.split(" ").slice(0, 8).join(' ');
+      return " My confirmation phrase is " + words.split(" ").slice(0, 8).join(' ');
     } else if(resolvedLanguage === "es"){
       const words = base2048.spanish.encode(bytes);
-      return "Mi frase de confirmación es "+ words.split(" ").slice(0, 8).join(' ');
+      return " Mi frase de confirmación es "+ words.split(" ").slice(0, 8).join(' ');
     }
     
     

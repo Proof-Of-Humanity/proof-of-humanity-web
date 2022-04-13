@@ -141,7 +141,7 @@ export default class NewSubmitProfileForm extends React.Component {
     if(this.props.contract === undefined || this.props.web3 === undefined) return null;
     let arbitrationCost = await this.props.web3.contracts?.klerosLiquid?.methods.arbitrationCost(this.props.contract?.arbitratorExtraData).call();
     const { toBN, fromWei } = this.props.web3.utils;
-    
+    if(arbitrationCost === undefined) return null;
     const _submissionBaseDeposit = toBN(this.props.contract?.submissionBaseDeposit);
     const _arbitrationCost = toBN(arbitrationCost);
     const deposit = _submissionBaseDeposit.add(_arbitrationCost);
@@ -221,13 +221,6 @@ export default class NewSubmitProfileForm extends React.Component {
           ))}
         </div>
 
-        {/* --- TODO: REMOVE --- */}
-        <div>
-            helper buttons;
-            <Button onClick={() => this.prev()}>Prev</Button>
-            <Button onClick={() => this.next()}>Next</Button>
-        </div>
-        {/* --- TODO: REMOVE --- */}
       </Col>
     );
   }

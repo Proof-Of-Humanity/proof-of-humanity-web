@@ -271,10 +271,10 @@ export default function SubmissionDetailsCard({
   const firstRoundFullyFunded = Number(lastRoundID) === 0 && hasPaid[0];
   let [shouldCheckVideo, checkedVideo] = useState(true);
   const generatePhrase = (language) => {
-    const address = id.substring(2,id.length);
+    const address = id.substring(2);
     const bytes = Buffer.from(address, 'hex');
     
-    if(language === "en"){
+    if(language === "en-US"){
       const words = base2048.english.encode(bytes);
       console.log(words)
       return words.split(" ").slice(0, 8).join(' ');

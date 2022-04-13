@@ -125,11 +125,13 @@ export default class InitialTab extends React.Component {
                 <Form.Item
                   label=""
                   name="name"
+                  
                   rules={[
                     { required: true, message: t("submit_profile_info_name_error_help") },
                   ]}
                 >
                   <Input
+                    autoComplete="off"
                     placeholder={t("submit_profile_info_name_placeholder")}
                     style={{ fontWeight: "bold" }}
                   />
