@@ -274,7 +274,7 @@ export default function SubmissionDetailsCard({
     const address = id.substring(2);
     const bytes = Buffer.from(address, 'hex');
     
-    if(language === "en-US"){
+    if(language === "en"){
       const words = base2048.english.encode(bytes);
       console.log(words)
       return words.split(" ").slice(0, 8).join(' ');

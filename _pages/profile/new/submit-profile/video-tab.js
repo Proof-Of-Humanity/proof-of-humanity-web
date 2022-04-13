@@ -205,7 +205,7 @@ export default class VideoTab extends React.Component {
 
   handleStartCaptureClick = () => {
     this.setState({ recording: true });
-    this.props.stateHandler({language:this.props.i18n.language});
+    this.props.stateHandler({language:this.props.i18n.resolvedLanguage});
     this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
       mimeType: this.props.state.OS === "iOS" ? "video/mp4" : "video/webm",
     });
@@ -277,10 +277,10 @@ export default class VideoTab extends React.Component {
     if(resolvedLanguage === "en"){
       const words = base2048.english.encode(bytes);
       console.log(words)
-      return " My confirmation phrase is " + words.split(" ").slice(0, 8).join(' ');
+      return " My confirmation phrase is: \n" + words.split(" ").slice(0, 8).join('\n');
     } else if(resolvedLanguage === "es"){
       const words = base2048.spanish.encode(bytes);
-      return " Mi frase de confirmación es "+ words.split(" ").slice(0, 8).join(' ');
+      return " Mi frase de confirmación es: \n"+ words.split(" ").slice(0, 8).join('\n');
     }
     
     
@@ -370,10 +370,15 @@ export default class VideoTab extends React.Component {
                   this.screen = screen;
                 }}
               >
-                <div className="video-overlay">
+                
+                  <div className="video-overlay">
+                    <div className="video-overlay-content">
                   {t("submit_profile_video_phrase")}
                   {this.state.recordingMode === "speaking" &&(this.generatePhrase())}
+                  </div>
                 </div>
+                
+                
                 <ReactWebcam
                   style={{ width: "100%" }}
                   ref={(camera) => {
