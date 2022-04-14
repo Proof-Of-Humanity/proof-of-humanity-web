@@ -221,7 +221,13 @@ export default class NewSubmitProfileForm extends React.Component {
             </div>
           ))}
         </div>
-
+{/* --- TODO: REMOVE --- */}
+<div>
+            helper buttons;
+            <Button onClick={() => this.prev()}>Prev</Button>
+            <Button onClick={() => this.next()}>Next</Button>
+        </div>
+        {/* --- TODO: REMOVE --- */}
       </Col>
     );
   }
