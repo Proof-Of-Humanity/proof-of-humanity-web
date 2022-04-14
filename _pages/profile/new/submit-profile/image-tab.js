@@ -3,7 +3,7 @@ import {
   CloseCircleFilled,
   FileAddFilled,
 } from "@ant-design/icons";
-import { Camera, CameraSwitch } from "@kleros/icons";
+import { Camera, CameraSwitch, ExitFullscreen,Fullscreen } from "@kleros/icons";
 import {
   Button,
   Col,
@@ -49,6 +49,7 @@ export default class ImageTab extends React.Component {
       facingMode: "user",
       videoDevices: 0,
       maxZoom: 3,
+      fullscreen:false
     };
   }
 
@@ -364,6 +365,7 @@ export default class ImageTab extends React.Component {
 
   takePicture = () => {
     // console.log(this.camera);
+    if (this.state.fullscreen) this.closeFullscreen();
     const picture = this.camera.getScreenshot();
     const buffer = this.urlB64ToUint8Array(picture.split(",")[1]);
     // console.log('Picture b64=', picture);
@@ -420,6 +422,14 @@ export default class ImageTab extends React.Component {
       this.setState({ facingMode: "user" });
     }
   };
+  toggleFullscreen = () => {
+    this.screen.webkitRequestFullscreen();
+    this.setState({ fullscreen: true });
+  };
+  closeFullscreen = () => {
+    document.webkitExitFullscreen();
+    this.setState({ fullscreen: false });
+  };
 
   render() {
     const { t } = this.props.i18n;
@@ -454,38 +464,60 @@ export default class ImageTab extends React.Component {
               </ReactWebcam>
 
               <div className="buttons-camera-container">
-                <Space size={1} direction="horizontal">
-                  <Button
-                    onClick={this.takePicture}
-                    shape="round"
-                    className="button-orange"
-                    style={{
-                      margin: "20px",
-                      width: "max-content",
-                      height: "100%",
-                      verticalAlign: "middle",
-                      display: "flex",
-                    }}
-                  >
-                    <Camera fill="white" width="25px" height="25px" />
-                  </Button>
-                  {this.state.videoDevices > 1 && (
+                <Row justify="center">
+                {this.state.videoDevices > 1 && (
+                    <Col span={6}>
                     <Button
                       onClick={this.switchCamera}
                       shape="round"
-                      className="button-orange"
-                      style={{
-                        margin: "20px",
-                        width: "max-content",
-                        height: "100%",
-                        verticalAlign: "middle",
-                        display: "flex",
-                      }}
+                      className="button-orange-camera"
+                      
                     >
                       <CameraSwitch fill="white" width="25px" height="25px" />
                     </Button>
+                    </Col>
                   )}
-                </Space>
+                  <Col span={6}>
+                  <Button
+                    onClick={this.takePicture}
+                    shape="round"
+                    className="button-orange-camera"
+                    
+                  >
+                    <Camera fill="white" width="25px" height="25px" />
+                  </Button>
+                  </Col>
+                  
+                  {this.state.fullscreen ? (
+                          <Col span={6}>
+                            <Button
+                              onClick={this.closeFullscreen}
+                              shape="round"
+                              className="button-orange-camera"
+                            >
+                              <ExitFullscreen
+                                width="25px"
+                                height="25px"
+                                fill="white"
+                              />
+                            </Button>
+                          </Col>
+                        ) : (
+                          <Col span={6}>
+                            <Button
+                              onClick={this.toggleFullscreen}
+                              shape="round"
+                              className="button-orange-camera"
+                            >
+                              <Fullscreen
+                                width="25px"
+                                height="25px"
+                                fill="white"
+                              />
+                            </Button>
+                          </Col>
+                        )}
+                </Row>
               </div>
             </div>
             <Row>
