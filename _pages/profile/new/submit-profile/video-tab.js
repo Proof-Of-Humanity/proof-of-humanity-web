@@ -116,6 +116,7 @@ export default class VideoTab extends React.Component {
         const videoURL = window.URL.createObjectURL(blob);
 
         getBlobDuration(blob).then(async (duration) => {
+          console.log("duration",duration)
           if (duration <= 60 * 2) {
             const video = document.createElement("video");
             video.crossOrigin = "anonymous";
@@ -132,6 +133,7 @@ export default class VideoTab extends React.Component {
                   recording: false,
                   cameraEnabled: false,
                   recordedVideoUrl: videoURL,
+                  duration
                 });
               } else{
                 message.error(this.props.i18n.t("submit_profile_video_too_small"));
@@ -170,8 +172,8 @@ export default class VideoTab extends React.Component {
       // let type = file.type.split('/')[1];
       const { size } = file;
       // const { duration } = this.video;
-
-      videoSanitizer(buffer, size, this.props.state.OS.os.name, this.saveProgress, this.state.mirrored)
+      console.log("duration",this.state.duration)
+      videoSanitizer(buffer, size, this.props.state.OS.os.name, this.saveProgress, this.state.mirrored,this.state.duration)
         .then((URI) => {
           // console.log(`videoURI: ${URI}`);
           this.setState({ fileURI: URI });
@@ -254,7 +256,7 @@ export default class VideoTab extends React.Component {
     if (this.state.recording) this.mediaRecorderRef.current.stop();
   };
 
-  handleStop = () => {
+  handleStop = async () => {
     if (this.state.fullscreen) this.closeFullscreen();
 
     // console.log(this.state.recordedVideo);
@@ -264,7 +266,8 @@ export default class VideoTab extends React.Component {
         };codecs=h264,avc1`,
     });
     const videoURL = window.URL.createObjectURL(blob);
-
+    const duration = await getBlobDuration(blob);
+    console.log(duration)
     // let buffer = await this.blobToArray(blob);
     // this.uploadVideo(buffer);
     this.setState({
@@ -272,6 +275,7 @@ export default class VideoTab extends React.Component {
       file: blob,
       recording: false,
       cameraEnabled: false,
+      duration
     });
   };
 
