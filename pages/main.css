@@ -36,6 +36,13 @@
   height: 90%;
   background-color: rgb(227, 253, 189);
 }
+.video-mirrored{
+  transform:scaleX(-1);
+}
+.video-mirrored video::-webkit-media-controls{
+  transform:rotateY(180deg);
+}
+
 a:hover {
   color: black !important;
 }

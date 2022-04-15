@@ -67,7 +67,8 @@ export default class NewSubmitProfileForm extends React.Component {
 
   getOS = () => {
     const userAgent = UserAgent(window.navigator.userAgent);
-    return userAgent.os.name;
+    console.log(userAgent)
+    return userAgent;
   };
 
   stateHandler = (state) => {

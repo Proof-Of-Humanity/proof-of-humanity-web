@@ -22,6 +22,7 @@ import { loadFFMPEG, videoSanitizer } from "lib/media-controller";
 export default class VideoTab extends React.Component {
   constructor(props) {
     super(props);
+    console.log(this.props.state.OS.device.type)
     this.mediaRecorderRef = React.createRef();
 
     // //console.log('VideoTab props=', props);
@@ -55,11 +56,19 @@ export default class VideoTab extends React.Component {
       minHeight: 352,
     },
   };
-
+  
   videoConstraints = {
-    width: { min: 640, ideal: 1920 }, //     width: { min: 640, ideal: 1280, max: 1920 },
-    height: { min: 480, ideal: 1080 }, //     height: { min: 480, ideal: 720, max: 1080 }
+    
+    width: this.props.state.OS.device.type === "mobile"?{min: 640, exact: 1280 }:{min:640, ideal:1920}, //     width: { min: 640, ideal: 1280, max: 1920 },
+    height: this.props.state.OS.device.type === "mobile"?{min: 480, exact: 720 }:{min:480, ideal:1080}, //     height: { min: 480, ideal: 720, max: 1080 }
     framerate: { min: 24, ideal: 60 },
+    /*mandatory:{
+      maxWidth:this.props.state.OS.device.type === "mobile"?1280 : 1920,
+      maxHeight:this.props.state.OS.device.type === "mobile"?720:1080,
+      minWidth:640,
+      minHeight:480
+    }*/
+    
   };
 
   videoRulesList = [
@@ -124,6 +133,7 @@ export default class VideoTab extends React.Component {
       // console.log("Dropped files", event.dataTransfer.files);
     },
   };
+  
   saveProgress = (progress) => {
     this.props.stateHandler({ progress });
   };
@@ -143,7 +153,7 @@ export default class VideoTab extends React.Component {
       const { size } = file;
       // const { duration } = this.video;
 
-      videoSanitizer(buffer, size, this.props.state.OS, this.saveProgress)
+      videoSanitizer(buffer, size, this.props.state.OS.os.name, this.saveProgress, this.state.mirrored)
         .then((URI) => {
           // console.log(`videoURI: ${URI}`);
           this.setState({ fileURI: URI });
@@ -260,6 +270,7 @@ export default class VideoTab extends React.Component {
   };
 
   goBack = () => {
+    if(this.state.recordingMode !== ""){
     this.setState({
       recording: false,
       cameraEnabled: false,
@@ -268,7 +279,18 @@ export default class VideoTab extends React.Component {
       file: "",
       recordingMode: "",
     });
-    this.props.prev();
+  } else {
+    this.setState({
+      recording: false,
+      cameraEnabled: false,
+      recordedVideo: [],
+      recordedVideoUrl: "",
+      file: "",
+      recordingMode: "",
+    });
+    this.props.prev()
+  }
+    
   };
   generatePhrase = () => {
     const address = this.props.account.substring(2);
@@ -288,7 +310,7 @@ export default class VideoTab extends React.Component {
 
   render = () => {
     const { t } = this.props.i18n;
-
+    console.log(this.videoConstraints);
     return (
       // console.log("videoTab render state", this.state);
 
@@ -365,13 +387,13 @@ export default class VideoTab extends React.Component {
                 {t("submit_profile_video_ready_help")}
               </Title>
               <div
-                className="video-inner-container"
+                className={this.state.mirrored?"video-inner-container video-mirrored":"video-inner-container"}
                 ref={(screen) => {
                   this.screen = screen;
                 }}
               >
                 
-                  <div className="video-overlay">
+                  <div className={this.state.mirrored?"video-overlay video-mirrored":"video-overlay"}>
                     <div className="video-overlay-content">
                   {t("submit_profile_video_phrase")}
                   {this.state.recordingMode === "speaking" &&(this.generatePhrase())}
@@ -385,7 +407,7 @@ export default class VideoTab extends React.Component {
                     this.camera = camera;
                   }}
                   audio
-                  mirrored={this.state.mirrored}
+                  //mirrored={this.state.mirrored}
                   videoConstraints={{
                     ...this.videoConstraints,
                     facingMode: this.state.facingMode,
@@ -396,7 +418,7 @@ export default class VideoTab extends React.Component {
                   onUserMediaError={this.onUserMediaError}
                 />
                 {this.state.recording && <i className="camera-recording-icon"></i>}
-                <div className="buttons-camera-container">
+                <div className={this.state.mirrored?"buttons-camera-container video-mirrored":"buttons-camera-container"}>
                   {!this.state.recording ? (
                     <>
                       {/* <Row justify="center">
@@ -504,6 +526,7 @@ export default class VideoTab extends React.Component {
               <Row>
                 <Col span={24} style={{ display: "block", margin: "0 auto" }}>
                   <Video
+                    className={this.state.mirrored?"video-mirrored":""}
                     config={{
                       file: {
                         attributes: {
