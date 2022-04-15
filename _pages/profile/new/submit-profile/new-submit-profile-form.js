@@ -178,10 +178,12 @@ export default class NewSubmitProfileForm extends React.Component {
           this.setState({ confirmed: true });
         })
         .on("error", (error) => {
-          if (error.code === 4001) {
+          if (error.stack) {
+            message.error(error.message, 5);
+          } else if (error.code === 4001) {
             message.error("Transaction rejected", 5);
-            this.setState({ error });
           }
+          this.setState({ error });
         });
     } catch (error) {
       console.error("There was an error preparing the transaction", error);
