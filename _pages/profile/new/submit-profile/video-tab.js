@@ -178,6 +178,7 @@ export default class VideoTab extends React.Component {
           this.props.stateHandler({ videoURI: URI });
         })
         .catch((error) => {
+          console.log(error)
           message.error("There was an error parsing your video, please try again", 5);
 
           this.setState({

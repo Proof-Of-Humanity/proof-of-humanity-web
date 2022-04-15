@@ -76,6 +76,7 @@ export default class NewSubmitProfileForm extends React.Component {
   };
 
   next = () => {
+    window.location.href = "#top";
     const current = this.state.current + 1;
     this.setState({ current });
   };
@@ -205,7 +206,7 @@ export default class NewSubmitProfileForm extends React.Component {
     };
 
     return (
-      <Col className="submit-profile-card" xs={{ span: 24 }} xl={{ span: 12 }}>
+      <Col id="top" className="submit-profile-card" xs={{ span: 24 }} xl={{ span: 12 }}>
         <Steps size="small" current={current} responsive={false}>
           {steps.map((step) => (
             <Step

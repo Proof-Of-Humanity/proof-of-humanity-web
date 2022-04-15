@@ -279,7 +279,6 @@ export default class ImageTab extends React.Component {
       // console.log(buffer)
       this.setCroppedImage(croppedImage);
       this.setState({ picture: buffer });
-      window.location.href = "#verify";
     } catch {
       // console.error(err);
     }
@@ -350,12 +349,14 @@ export default class ImageTab extends React.Component {
       .then((response) => {
         this.setState({ fileURI: response, loading: false });
         this.props.stateHandler({ imageURI: response });
+        window.location.href = "#top";
         this.props.next();
       })
       .catch((error) => {
         if (error === "image_grayscale") {
           message.error(this.props.i18n.t("submit_profile_image_grayscale"), 5);
         } else {
+          console.log(error)
           message.error("There was an error parsing your image, please try again", 5);
         }
 
@@ -593,7 +594,7 @@ export default class ImageTab extends React.Component {
         {this.state.croppedImage ? (
           <>
             <Space direction="vertical">
-              <Title level={2} id="verify">{t("submit_profile_image_verify_title")}</Title>
+              <Title level={2} >{t("submit_profile_image_verify_title")}</Title>
               <Paragraph style={{ whiteSpace: "pre-line" }}>
                 <Trans
                   i18nKey="submit_profile_image_verify_description" 
