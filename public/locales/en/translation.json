@@ -187,6 +187,7 @@
   "submit_profile_video_upload": "Upload video",
   "submit_profile_video_retake": "Choose a different video",
   "submit_profile_video_too_long": "The selected file should be shorter than two minutes",
+  "submit_profile_video_too_small": "The video's width and height must be bigger than 352 pixels",
   "submit_profile_video_too_big": "The selected file exceeds the size limit of 15MB",
   "submit_profile_video_phrase": "I certify that I am a real human and I'm not already registered in this registry. \n",
   

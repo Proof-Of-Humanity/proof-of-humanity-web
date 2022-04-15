@@ -13,6 +13,7 @@ import Video from "react-player";
 import ReactWebcam from "react-webcam";
 import getBlobDuration from 'get-blob-duration'
 import base2048 from "base-2048";
+import getVideoEmptyBorderSize from "/lib/get-video-empty-border-size";
 
 
 const { Title, Paragraph } = Typography;
@@ -114,14 +115,31 @@ export default class VideoTab extends React.Component {
         const blob = new Blob([file.originFileObj], { type: file.type });
         const videoURL = window.URL.createObjectURL(blob);
 
-        getBlobDuration(blob).then((duration) => {
+        getBlobDuration(blob).then(async (duration) => {
           if (duration <= 60 * 2) {
-            this.setState({
-              file: blob,
-              recording: false,
-              cameraEnabled: false,
-              recordedVideoUrl: videoURL,
-            });
+            const video = document.createElement("video");
+            video.crossOrigin = "anonymous";
+            video.src = videoURL;
+            video.preload = "auto";
+            video.addEventListener("loadeddata",(()=>{
+              const {videoWidth, videoHeight } = video;
+              const {minWidth,minHeight} = this.videoOptions.dimensions;
+              const borders = getVideoEmptyBorderSize(video);
+              console.log(videoWidth, borders.width, minWidth)
+              if(videoWidth - borders.width > minWidth && videoHeight - borders.height > minHeight){
+                this.setState({
+                  file: blob,
+                  recording: false,
+                  cameraEnabled: false,
+                  recordedVideoUrl: videoURL,
+                });
+              } else{
+                message.error(this.props.i18n.t("submit_profile_video_too_small"));
+              }
+            }))
+            
+            
+          
           } else {
             message.error(this.props.i18n.t("submit_profile_video_too_long"));
           }
