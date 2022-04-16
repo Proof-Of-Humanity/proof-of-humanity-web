@@ -27,6 +27,7 @@ export default class InitialTab extends React.Component {
   };
 
   render() {
+    console.log(this.props.submission)
     const { t } = this.props.i18n;
 
     return (
@@ -90,41 +91,11 @@ export default class InitialTab extends React.Component {
                 }
                 initialValues={{ remember: true }}
               >
-                {/* <Alert type="info"
-           message={
-           <>
-           <Title level={5}>Public address</Title><EthereumAccount address={this.props.account} diameter={24} sx={{ maxWidth: 388, color: "text", fontWeight: "bold" }} />
-            <Paragraph>
-              To improve your privacy, we recommend using an address which is
-              already public or a new one-seeded through{" "}
-              <Link
-                href="https://tornado.cash"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                tornado.cash
-              </Link>
-              .
-            </Paragrapharagraph>
-            </>
-          } style={{ marginBottom: "15px" }} showIcon>
-            
-        </Alert>
-          <Alert type={"info"} message={
-            <>
-            <Title level={5}>Advice</Title>
-            <Paragraph>
-              Submissions are final and cannot be edited. Be sure to follow
-              all submission rules to not lose your deposit.
-            </Paragrapharagraph>
-            </>
-          } style={{ marginBottom: "15px" }} closable showIcon>
-            
-          </Alert>*/}
                 <Title level={5}>{t("submit_profile_info_name_title")}</Title>
                 <Form.Item
                   label=""
                   name="name"
+                  initialValue={this.props.submission?.name}
                   
                   rules={[
                     { required: true, message: t("submit_profile_info_name_error_help") },
@@ -132,6 +103,7 @@ export default class InitialTab extends React.Component {
                 >
                   <Input
                     autoComplete="off"
+                    disabled={this.props.submission !== null}
                     placeholder={t("submit_profile_info_name_placeholder")}
                     style={{ fontWeight: "bold" }}
                   />

@@ -16,6 +16,7 @@ export default function NewSubmitProfileCard(props) {
         web3={props.web3}
         account={props.account}
         contract={_props?.contract}
+        submission={_props?.submission}
       />
     </Row>
   );

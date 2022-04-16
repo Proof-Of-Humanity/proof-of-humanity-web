@@ -205,7 +205,8 @@ export default class NewSubmitProfileForm extends React.Component {
       next: this.next,
       prev: this.prev,
       reset: this.reset,
-      account: this.props.account
+      account: this.props.account,
+      submission:this.props.submission
     };
 
     return (
