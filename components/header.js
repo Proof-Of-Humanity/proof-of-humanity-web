@@ -160,16 +160,17 @@ function DesktopNavbar() {
 
   return (
     <Row>
-      <Col span={6}>
-        {/* <NextLink href="/"> */}
-          {/* <Link variant="unstyled" sx={{ display: "flex" }}> */}
-            <ProofOfHumanityLogo style={{ verticalAlign: 'middle' }} size={32} />
+      <Col span={6} style={{display:"flex", alignItems:"center"}}>
+        <NextLink href="/">
+          <Link variant="unstyled" sx={{ display: "flex" }}>
+            <ProofOfHumanityLogo style={{ alignItems:"middle" }} size={32} />
+            </Link>
+        </NextLink> 
             {/* <Box sx={{ marginLeft: 1 }}>
               <Text>PROOF OF</Text>
               <Text>HUMANITY</Text>
             </Box>
-          </Link>
-        </NextLink> */}
+          */}
       </Col>
       <Col span={12}>
         <Menu className="poh-header-menu" mode="horizontal" style={{ width: '100%', justifyContent: 'center' }}>
