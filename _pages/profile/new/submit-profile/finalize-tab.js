@@ -191,6 +191,9 @@ class FinalizeTab extends React.Component {
                   </Radio>
                   
                 </Radio.Group>
+                {this.props.state.crowdfund === "self" && (
+                  <Alert message={t("submit_profile_deposit_info")} type="info" closable></Alert>
+                )}
               
             </Row>
             {/* Next steps... */}{" "}

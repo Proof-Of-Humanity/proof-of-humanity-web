@@ -91,7 +91,7 @@ export default function SubmissionCard({ submission, contract }) {
             overflowWrap: "anywhere",
           }}
         >
-          {evidence?.file?.name}
+          {name}
         </Text>
         <Text
           variant="multiClipped"

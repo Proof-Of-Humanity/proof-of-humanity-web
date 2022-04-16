@@ -210,6 +210,7 @@
   "submit_profile_nextsteps_crowdvoucher_group": "Join the crowdvoucher group on Telegram",
   "submit_profile_nextsteps_crowdfunding_group": "Join the crowdfunding group on Telegram",
   "submit_profile_nexsteps_goto_profile": "Go to my profile now!",
+  "submit_profile_deposit_info":"Your deposit will be returned when you finalize the registration if your profile complies with all the rules.",
 
   "submit_profile_file_not_supported": "The selected file type is not supported",
   "submit_profile_next": "Next",
