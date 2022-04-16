@@ -356,7 +356,7 @@ export default class ImageTab extends React.Component {
         if (error === "image_grayscale") {
           message.error(this.props.i18n.t("submit_profile_image_grayscale"), 5);
         } else {
-          console.log(error)
+          //console.log(error)
           message.error("There was an error parsing your image, please try again", 5);
         }
 

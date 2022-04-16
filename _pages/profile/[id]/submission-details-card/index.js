@@ -276,7 +276,7 @@ export default function SubmissionDetailsCard({
     
     if(language === "en"){
       const words = base2048.english.encode(bytes);
-      console.log(words)
+      //console.log(words)
       return words.split(" ").slice(0, 8).join(' ');
     } else if(language === "es"){
       const words = base2048.spanish.encode(bytes);

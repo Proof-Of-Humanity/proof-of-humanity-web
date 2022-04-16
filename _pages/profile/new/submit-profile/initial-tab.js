@@ -27,7 +27,7 @@ export default class InitialTab extends React.Component {
   };
 
   render() {
-    console.log(this.props.submission)
+    //console.log(this.props.submission)
     const { t } = this.props.i18n;
 
     return (
@@ -124,7 +124,7 @@ export default class InitialTab extends React.Component {
                       </Button>
                     </Col>
                     <Col span={12}>
-                      <Button disabled={this.props.state.name === ""} htmlType="submit" shape="round" className="button-orange" onClick={this.handleAdvance}>
+                      <Button disabled={this.props.submission?.name === undefined} htmlType="submit" shape="round" className="button-orange" onClick={this.handleAdvance}>
                         {t("submit_profile_next")}
                       </Button>
                     </Col>

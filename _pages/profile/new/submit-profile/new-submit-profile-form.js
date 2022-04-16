@@ -17,7 +17,7 @@ export default class NewSubmitProfileForm extends React.Component {
       current: 0,
       imageURI: "",
       videoURI: "",
-      name: "",
+      name: this.props.submission?.name,
       error: null,
       txHash: "",
       progress: 0,
@@ -67,7 +67,7 @@ export default class NewSubmitProfileForm extends React.Component {
 
   getOS = () => {
     const userAgent = UserAgent(window.navigator.userAgent);
-    console.log(userAgent)
+    //console.log(userAgent)
     return userAgent;
   };
 
@@ -118,7 +118,7 @@ export default class NewSubmitProfileForm extends React.Component {
   returnFiles = async () => {
     const imageURI = this.state.imageURI.split("/");
     const videoURI = this.state.videoURI.split("/");
-    console.log(this.state.language)
+    //console.log(this.state.language)
     const file = {
       name: this.state.name,
       bio: this.state.bio,
@@ -141,13 +141,13 @@ export default class NewSubmitProfileForm extends React.Component {
   };
 
   calculateDeposit = async () => {
-    console.log(this.props);
+    //console.log(this.props);
     if(this.props.contract === undefined || this.props.web3 === undefined) return null;
     let arbitrationCost = await this.props.web3.contracts?.klerosLiquid?.methods.arbitrationCost(this.props.contract?.arbitratorExtraData).call();
     const { toBN, fromWei } = this.props.web3.utils;
     if(arbitrationCost === undefined) return null;
     const _submissionBaseDeposit = toBN(this.props.contract.submissionBaseDeposit);
-    console.log(_submissionBaseDeposit)
+    //console.log(_submissionBaseDeposit)
     //const _submissionBaseDeposit = toBN(this.props.contract?.submissionBaseDeposit);
     const _arbitrationCost = toBN(arbitrationCost);
     const deposit = _submissionBaseDeposit.add(_arbitrationCost);
@@ -159,9 +159,9 @@ export default class NewSubmitProfileForm extends React.Component {
     try {
       let registrationURI = await this.returnFiles();
       let { BN } = await this.calculateDeposit();
+      let method = this.props.reapply ? this.props.web3.contracts.proofOfHumanity.methods.reapplySubmission :this.props.web3.contracts.proofOfHumanity.methods.addSubmission
 
-      this.props.web3.contracts.proofOfHumanity.methods
-        .addSubmission(registrationURI, this.state.name)
+      method(registrationURI, this.state.name)
         .send({
           from: this.props.account,
           value: this.state.crowdfund === "crowd" ? 0 : BN,
@@ -196,6 +196,7 @@ export default class NewSubmitProfileForm extends React.Component {
   };
 
   render() {
+    console.log(this.state.name)
     const { current } = this.state;
     const steps = this.submissionSteps;
     const props = {

@@ -1,13 +1,10 @@
 import { Row } from "antd";
 import React from "react";
-import { useQuery } from "relay-hooks";
+
 import NewSubmitProfileForm from "./new-submit-profile-form";
 
 export default function NewSubmitProfileCard(props) {
-  const {props:_props} = useQuery(newSubmitProfileCardQuery,{
-    id:props.account.toLowerCase()
-  })
-  console.log(_props?.contract)
+console.log(props)
   return (
     
     <Row justify="center">
@@ -15,24 +12,11 @@ export default function NewSubmitProfileCard(props) {
         i18n={props.i18n}
         web3={props.web3}
         account={props.account}
-        contract={_props?.contract}
-        submission={_props?.submission}
+        contract={props.contract}
+        submission={props.submission}
+        reapply={props.reapply}
       />
     </Row>
   );
-}
-export const newSubmitProfileCardQuery = graphql`
-query newSubmitProfileCardQuery($id: ID!) {
-  contract(id: 0) {
-    submissionDuration
-    submissionBaseDeposit
-    arbitratorExtraData
-  }
-  submission(id: $id) {
-    name
-    status
-    registered
-    submissionTime
-  }
-}
-`;
+};
+

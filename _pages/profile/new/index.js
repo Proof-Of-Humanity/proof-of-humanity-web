@@ -3,9 +3,10 @@ import { useCallback } from "react";
 import { useTranslation, Trans } from 'react-i18next'; 
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useQuery } from "relay-hooks";
 
-import { useQuery, useWeb3, Link } from "@kleros/components";
-import { Row, Col, Button, Space, Typography } from 'antd';
+import { useWeb3, Link } from "@kleros/components";
+import { Row, Col, Button, Space, Typography, message } from 'antd';
 const { Title, Paragraph } = Typography;
 
 import { NewSubmitProfileCard } from "./submit-profile";
@@ -15,15 +16,38 @@ export default function ProfileNew() {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { t, i18n } = useTranslation();
 
-  const { props } = useQuery();
-  const { web3 } = useWeb3();
-  const account = accounts?.[0];
 
+  const { web3 } = useWeb3();
+  const account = accounts?.[0].toLowerCase();
+
+  const { props } = useQuery(newProfileQuery,{
+    id:account
+  });
   const router = useRouter();
   const { query } = router;
 
   const reapply = query.reapply === "true";
   const registered = props?.submission?.registered ?? false;
+
+  const submissionDuration = Number(web3.contracts?.proofOfHumanity.methods.submissionDuration().call());
+
+  const renewalPeriodDuration = Number(web3.contracts?.proofOfHumanity.methods.renewalPeriodDuration().call());
+
+  const renewalTimestamp = (Number(props?.submission?.submissionTime) + (submissionDuration - renewalPeriodDuration)) * 1000;
+console.log(submissionDuration)
+  const canReapply = Date.now() > renewalTimestamp;
+  console.log("can reapply",canReapply)
+  //console.log("props",props)
+
+    if(registered && !canReapply){
+      message.error("You can't reapply yet", 5)
+      router.push({
+        pathname: "/profile/[id]",
+        query: { id: account },
+        asPath:`/profile/${account}`
+      });
+    }
+  
 
   const handleAfterSend = useCallback(async () => {
     if (reapply)
@@ -51,7 +75,7 @@ export default function ProfileNew() {
           i18n={i18n}
           contract={props?.contract}
           submission={props?.submission}
-          reapply={reapply && registered}
+          reapply={canReapply}
           afterSend={handleAfterSend}
           account={account}
           web3={web3}
@@ -80,3 +104,19 @@ export default function ProfileNew() {
     </Row>
   );
 }
+export const newProfileQuery = graphql`
+query newProfileQuery($id: ID!) {
+  contract(id: 0) {
+    submissionDuration
+    submissionBaseDeposit
+    arbitratorExtraData
+    renewalTime
+  }
+  submission(id: $id) {
+    name
+    status
+    registered
+    submissionTime
+  }
+}
+`;

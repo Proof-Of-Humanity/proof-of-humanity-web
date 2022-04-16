@@ -33,7 +33,7 @@ class FinalizeTab extends React.Component {
   componentDidMount = async () => {
     
     const deposit = await this.props.calculateDeposit();
-    console.log(deposit)
+    //console.log(deposit)
     if(deposit !== null){
       this.setState({deposit:deposit.ether})
     }
