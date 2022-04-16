@@ -58,6 +58,7 @@ export default class NewSubmitProfileForm extends React.Component {
           {...props}
           calculateDeposit={this.calculateDeposit}
           prepareTransaction={this.prepareTransaction}
+          rules={this.props.rules}
         />
       ),
       description: "Finalize your registration",

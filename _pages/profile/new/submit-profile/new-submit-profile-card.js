@@ -15,6 +15,7 @@ console.log(props)
         contract={props.contract}
         submission={props.submission}
         reapply={props.reapply}
+        rules={props.rules}
       />
     </Row>
   );

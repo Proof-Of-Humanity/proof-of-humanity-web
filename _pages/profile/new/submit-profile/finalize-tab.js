@@ -17,6 +17,7 @@ import React from "react";
 import Video from "react-player";
 import { withRouter } from "next/router";
 import { exitFFMPEG } from "lib/media-controller"
+
 const { Title, Link, Paragraph } = Typography;
 
 
@@ -37,6 +38,8 @@ class FinalizeTab extends React.Component {
     if(deposit !== null){
       this.setState({deposit:deposit.ether})
     }
+    if(this.props.contract !== undefined){
+  }
     
   }
   handleVideo = () => {
@@ -62,7 +65,7 @@ class FinalizeTab extends React.Component {
   render() {
     // img, video and submitter name source by props
     const { t } = this.props.i18n;
-
+    
     if (this.props.state.txHash === "") {
       return (
         <Row>
@@ -194,6 +197,7 @@ class FinalizeTab extends React.Component {
                 {this.props.state.crowdfund === "self" && (
                   <Alert message={t("submit_profile_deposit_info")} type="info" closable></Alert>
                 )}
+                <Alert message={this.props.rules} type="info"></Alert>
               
             </Row>
             {/* Next steps... */}{" "}

@@ -10,6 +10,7 @@ import { Row, Col, Button, Space, Typography, message } from 'antd';
 const { Title, Paragraph } = Typography;
 
 import { NewSubmitProfileCard } from "./submit-profile";
+import { useEvidenceFile } from "data";
 
 export default function ProfileNew() {
   const { connect } = useWeb3();
@@ -23,6 +24,7 @@ export default function ProfileNew() {
   const { props } = useQuery(newProfileQuery,{
     id:account
   });
+
   const router = useRouter();
   const { query } = router;
 
@@ -34,9 +36,8 @@ export default function ProfileNew() {
   const renewalPeriodDuration = Number(web3.contracts?.proofOfHumanity.methods.renewalPeriodDuration().call());
 
   const renewalTimestamp = (Number(props?.submission?.submissionTime) + (submissionDuration - renewalPeriodDuration)) * 1000;
-console.log(submissionDuration)
+
   const canReapply = Date.now() > renewalTimestamp;
-  console.log("can reapply",canReapply)
   //console.log("props",props)
 
     if(registered && !canReapply){
@@ -48,7 +49,14 @@ console.log(submissionDuration)
       });
     }
   
-
+    const fetchMetaEvidence = () =>{
+      console.log(props?.contract)
+      const evidence = useEvidenceFile()(props?.contract?.registrationMetaEvidence.URI);
+      console.log(evidence?.fileURI)
+      return evidence?.fileURI;      
+    }
+    const rules = fetchMetaEvidence();
+    
   const handleAfterSend = useCallback(async () => {
     if (reapply)
       router.push({
@@ -79,6 +87,7 @@ console.log(submissionDuration)
           afterSend={handleAfterSend}
           account={account}
           web3={web3}
+          rules={rules}
         />
       </>
     );
@@ -106,11 +115,16 @@ console.log(submissionDuration)
 }
 export const newProfileQuery = graphql`
 query newProfileQuery($id: ID!) {
+  
   contract(id: 0) {
     submissionDuration
     submissionBaseDeposit
     arbitratorExtraData
     renewalTime
+    registrationMetaEvidence{
+      id
+      URI
+    }
   }
   submission(id: $id) {
     name
