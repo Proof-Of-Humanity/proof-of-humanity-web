@@ -146,7 +146,7 @@ export default class NewSubmitProfileForm extends React.Component {
     let arbitrationCost = await this.props.web3.contracts?.klerosLiquid?.methods.arbitrationCost(this.props.contract?.arbitratorExtraData).call();
     const { toBN, fromWei } = this.props.web3.utils;
     if(arbitrationCost === undefined) return null;
-    const _submissionBaseDeposit = toBN(await this.props.web3.contracts?.proofOfHumanity?.methods.submissionBaseDeposit().call());
+    const _submissionBaseDeposit = toBN(this.props.contract.submissionBaseDeposit);
     console.log(_submissionBaseDeposit)
     //const _submissionBaseDeposit = toBN(this.props.contract?.submissionBaseDeposit);
     const _arbitrationCost = toBN(arbitrationCost);
