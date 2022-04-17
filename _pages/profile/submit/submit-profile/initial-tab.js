@@ -124,7 +124,7 @@ export default class InitialTab extends React.Component {
                       </Button>
                     </Col>
                     <Col span={12}>
-                      <Button disabled={this.props.submission?.name === undefined} htmlType="submit" shape="round" className="button-orange" onClick={this.handleAdvance}>
+                      <Button disabled={this.props.state.name === undefined || this.props.state.name === ""} htmlType="submit" shape="round" className="button-orange" onClick={this.handleAdvance}>
                         {t("submit_profile_next")}
                       </Button>
                     </Col>
