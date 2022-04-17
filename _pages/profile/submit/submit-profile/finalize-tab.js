@@ -62,6 +62,9 @@ class _FinalizeTab extends React.Component {
   exitAndPrev = () => {
     exitFFMPEG();
     this.props.prev();
+    this.props.stateHandler({
+      progress: 0,
+    });
   }
 
   render() {
@@ -208,7 +211,7 @@ class _FinalizeTab extends React.Component {
             type="primary"
             shape="round"
             className="button-grey"
-            onClick={this.props.prev}
+            onClick={this.exitAndPrev}
           >
             {t("submit_profile_previous")}
           </Button>
