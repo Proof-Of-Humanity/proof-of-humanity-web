@@ -27,7 +27,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     accentComplement: "#fdc9d3",
     highlight: "#009aff",
     muted: "#fffcf0",
-    skeleton: "#eee",
+    skeleton: "#ccc", // #eee
     skeletonHighlight: "#f5f5f5",
     success: "#00c851",
     warning: "#ffbb33",

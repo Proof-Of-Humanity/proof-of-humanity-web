@@ -18,6 +18,7 @@ import {
 } from "antd";
 import React from "react";
 import Cropper from "react-easy-crop";
+import { Trans } from 'react-i18next';
 import ReactWebcam from "react-webcam";
 
 import getCroppedImg from "./crop-image";
@@ -25,7 +26,7 @@ import getCroppedImg from "./crop-image";
 const { Title, Paragraph, Text } = Typography;
 
 import { photoSanitizer } from "lib/media-controller";
-import { Trans } from 'react-i18next';
+
 
 export default class ImageTab extends React.Component {
   constructor(props) {
@@ -600,8 +601,8 @@ export default class ImageTab extends React.Component {
                   i18nKey="submit_profile_image_verify_description" 
                   t={t}
                   components={[
-                    <Text strong />,
-                    <Text strong />
+                    <Text key="1" strong />,
+                    <Text key="2" strong />
                   ]}
                 />
               </Paragraph>

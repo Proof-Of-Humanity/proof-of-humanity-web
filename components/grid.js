@@ -10,7 +10,7 @@ export default function Grid({ children, rows, ...rest }) {
             (rest.columns[rest.columns.length - 1] || rest.columns) *
               (rows || 1)
           ),
-        ].map((_, i) => <ReactLoadingSkeleton key={i} height="100%" />)}
+        ].map((_, i) => <ReactLoadingSkeleton key={i} height="326px" />)}
     </_Grid>
   );
 }

@@ -7,7 +7,7 @@ import { useEvidenceFile } from "data";
 import { Dropdown, Menu, Layout, Row, Col, Drawer } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { ProofOfHumanityLogo } from "@kleros/icons";
-import { HelpPopup, Link, NextLink, AccountSettingsPopup as _AccountSettingsPopup, useWeb3, WalletConnection, Image } from "@kleros/components";
+import { HelpPopup, Link, NextLink, AccountSettingsPopup as _AccountSettingsPopup, useWeb3, WalletConnection, Image } from "./index";
 import { useWindowWidth } from '@react-hook/window-size';
 
 const { Header } = Layout;
@@ -31,8 +31,8 @@ function MyProfileLink(props) {
     !profile?.submission ||
     (!profile?.submission?.registered && profile?.submission?.status === "None");
 
-  const href = (accounts?.[0] && !showSubmitProfile) ? "/profile/[id]" : "/profile/new"
-  const link = (accounts?.[0] && !showSubmitProfile) ? `/profile/${accounts?.[0]}` : `/profile/new`;
+  const href = (accounts?.[0] && !showSubmitProfile) ? "/profile/[id]" : "/profile/submit"
+  const link = (accounts?.[0] && !showSubmitProfile) ? `/profile/${accounts?.[0]}` : `/profile/submit`;
 
   return (
     <NextLink href={href} as={link}>
@@ -66,7 +66,7 @@ function LanguageDropdown() {
         languages.map((language, i, list) => (
           <React.Fragment key={`${language.key}-divider`}>
             <Menu.Item className="header-language-item" key={language.key} onClick={() => changeLanguage(language.key)}>
-              <img src={`/images/${language.key}.png`} width="30" height="auto" /> {language.name}
+              <Image src={`/images/${language.key}.png`} width="30" height="auto" /> {language.name}
             </Menu.Item>
             { (i + 1 === list.length) ? null : <Menu.Divider />}
           </React.Fragment>
@@ -78,7 +78,7 @@ function LanguageDropdown() {
   return (
     <Dropdown overlay={languageMenu}>
       <div className="ant-dropdown-link" onClick={event => event.preventDefault()}>
-        <img src={`/images/${i18n.resolvedLanguage}.png`} width="45" height="auto" />
+        <Image src={`/images/${i18n.resolvedLanguage}.png`} width="45" height="auto" />
       </div>
     </Dropdown>
   )
@@ -143,16 +143,57 @@ function AccountSettingsPopup() {
 }
 
 function MobileNavbar({ toggleMobileMenuOpen }) {
+  const [accounts] = useWeb3("eth", "getAccounts");
+
+  const { t } = useTranslation();
+
+  const { props: profile } = useQuery(appQuery, {
+      id: accounts?.[0]?.toLowerCase(),
+      contributor: accounts?.[0]?.toLowerCase(),
+    },
+    { skip: !accounts?.[0] }
+  );
+
+  const showSubmitProfile =
+    !profile?.submission ||
+    (!profile?.submission?.registered && profile?.submission?.status === "None");
+
   return (
-    <Menu className="poh-header-menu" mode="horizontal" style={{ lineHeight: '64px' }}>
-      <Item className="poh-header-item" key="2">
-        <MenuOutlined onClick={() => toggleMobileMenuOpen()} />
-      </Item>
-      <Item className="poh-header-item" key="1" style={{ marginLeft: 'auto' }}>
-        <LanguageDropdown />
-      </Item>
-    </Menu>
-  )
+    <Row>
+      <Col span={showSubmitProfile ? 6 : 12}>
+        {/* <Row justify="left"> */}
+          <MenuOutlined onClick={() => toggleMobileMenuOpen()} />
+        {/* </Row> */}
+      </Col>
+      {
+        showSubmitProfile &&
+        <Col span={12}>
+          <Row justify="center">
+            <NextLink href="/profile/submit" as="/profile/submit">
+              <Link variant="navigation"> {t('header_submit_profile')} </Link>
+            </NextLink>
+          </Row>
+        </Col>
+      }
+      <Col span={showSubmitProfile ? 6 : 12}>
+        <Row justify="end">
+          <LanguageDropdown />
+        </Row>
+      </Col>
+    </Row>
+  );
+
+  // return (
+  //   <Menu className="poh-header-menu" mode="horizontal" style={{ lineHeight: '64px' }}>
+  //     <Item className="poh-header-item" key="1">
+  //       <MenuOutlined onClick={() => toggleMobileMenuOpen()} />
+  //     </Item>
+  //     <Item>Submit profile</Item>
+  //     <Item className="poh-header-item" key="2" style={{ marginLeft: 'auto' }}>
+  //       <LanguageDropdown />
+  //     </Item>
+  //   </Menu>
+  // );
 }
 
 function DesktopNavbar() {
@@ -161,10 +202,10 @@ function DesktopNavbar() {
   return (
     <Row>
       <Col span={6} style={{display:"flex", alignItems:"center"}}>
-        <NextLink href="/">
+        <NextLink href="/" as="/">
           <Link variant="unstyled" sx={{ display: "flex" }}>
             <ProofOfHumanityLogo style={{ alignItems:"middle" }} size={32} />
-            </Link>
+          </Link>
         </NextLink> 
             {/* <Box sx={{ marginLeft: 1 }}>
               <Text>PROOF OF</Text>

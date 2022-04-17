@@ -15,7 +15,6 @@ import getBlobDuration from 'get-blob-duration'
 import base2048 from "base-2048";
 import getVideoEmptyBorderSize from "/lib/get-video-empty-border-size";
 
-
 const { Title, Paragraph } = Typography;
 
 import { loadFFMPEG, videoSanitizer } from "lib/media-controller";
@@ -23,7 +22,7 @@ import { loadFFMPEG, videoSanitizer } from "lib/media-controller";
 export default class VideoTab extends React.Component {
   constructor(props) {
     super(props);
-    console.log(this.props.state.OS.device.type)
+    // console.log(this.props.state.OS.device.type)
     this.mediaRecorderRef = React.createRef();
 
     // //console.log('VideoTab props=', props);
@@ -115,19 +114,20 @@ export default class VideoTab extends React.Component {
         const blob = new Blob([file.originFileObj], { type: file.type });
         const videoURL = window.URL.createObjectURL(blob);
 
-        getBlobDuration(blob).then(async (duration) => {
-          console.log("duration",duration)
+        getBlobDuration(blob).then((duration) => {
+          // console.log("duration",duration)
           if (duration <= 60 * 2) {
             const video = document.createElement("video");
             video.crossOrigin = "anonymous";
             video.src = videoURL;
             video.preload = "auto";
-            video.addEventListener("loadeddata",(()=>{
+
+            video.addEventListener("loadeddata", () => {
               const {videoWidth, videoHeight } = video;
               const {minWidth,minHeight} = this.videoOptions.dimensions;
               const borders = getVideoEmptyBorderSize(video);
-              console.log(videoWidth, borders.width, minWidth)
-              if(videoWidth - borders.width > minWidth && videoHeight - borders.height > minHeight){
+              // console.log(videoWidth, borders.width, minWidth)
+              if (videoWidth - borders.width > minWidth && videoHeight - borders.height > minHeight) {
                 this.setState({
                   file: blob,
                   recording: false,
@@ -135,13 +135,10 @@ export default class VideoTab extends React.Component {
                   recordedVideoUrl: videoURL,
                   duration
                 });
-              } else{
+              } else {
                 message.error(this.props.i18n.t("submit_profile_video_too_small"));
               }
-            }))
-            
-            
-          
+            });
           } else {
             message.error(this.props.i18n.t("submit_profile_video_too_long"));
           }
@@ -157,6 +154,7 @@ export default class VideoTab extends React.Component {
   saveProgress = (progress) => {
     this.props.stateHandler({ progress });
   };
+
   uploadVideo = () => {
     if (this.props.state.videoURI !== "") {
       this.props.stateHandler({ videoURI: "" });
@@ -172,7 +170,7 @@ export default class VideoTab extends React.Component {
       // let type = file.type.split('/')[1];
       const { size } = file;
       // const { duration } = this.video;
-      console.log("duration",this.state.duration)
+      // console.log("duration",this.state.duration)
       videoSanitizer(buffer, size, this.props.state.OS.os.name, this.saveProgress, this.state.mirrored,this.state.duration)
         .then((URI) => {
           // console.log(`videoURI: ${URI}`);
@@ -180,7 +178,7 @@ export default class VideoTab extends React.Component {
           this.props.stateHandler({ videoURI: URI });
         })
         .catch((error) => {
-          console.log(error)
+          console.error(error);
           message.error("There was an error parsing your video, please try again", 5);
 
           this.setState({
@@ -200,6 +198,7 @@ export default class VideoTab extends React.Component {
     this.screen.webkitRequestFullscreen();
     this.setState({ fullscreen: true });
   };
+
   closeFullscreen = () => {
     document.webkitExitFullscreen();
     this.setState({ fullscreen: false });
@@ -230,8 +229,8 @@ export default class VideoTab extends React.Component {
       });
   };
 
-  onUserMediaError = () => {
-    // console.error("User media error", error);
+  onUserMediaError = (error) => {
+    console.error("User media error", error);
   };
 
   handleStartCaptureClick = () => {
@@ -252,6 +251,7 @@ export default class VideoTab extends React.Component {
       recordedVideo: this.state.recordedVideo.concat(data),
     });
   };
+
   handleStopCaptureClick = () => {
     if (this.state.recording) this.mediaRecorderRef.current.stop();
   };
@@ -267,7 +267,7 @@ export default class VideoTab extends React.Component {
     });
     const videoURL = window.URL.createObjectURL(blob);
     const duration = await getBlobDuration(blob);
-    console.log(duration)
+    // console.log(duration)
     // let buffer = await this.blobToArray(blob);
     // this.uploadVideo(buffer);
     this.setState({
@@ -280,8 +280,11 @@ export default class VideoTab extends React.Component {
   };
 
   mirrorVideo = () => {
-    if (this.state.mirrored === true) this.setState({ mirrored: false });
-    else this.setState({ mirrored: true });
+    if (this.state.mirrored === true) {
+      this.setState({ mirrored: false });
+    } else {
+      this.setState({ mirrored: true });
+    }
   };
 
   switchCamera = () => {
@@ -293,47 +296,47 @@ export default class VideoTab extends React.Component {
   };
 
   goBack = () => {
-    if(this.state.recordingMode !== ""){
-    this.setState({
-      recording: false,
-      cameraEnabled: false,
-      recordedVideo: [],
-      recordedVideoUrl: "",
-      file: "",
-      recordingMode: "",
-    });
-  } else {
-    this.setState({
-      recording: false,
-      cameraEnabled: false,
-      recordedVideo: [],
-      recordedVideoUrl: "",
-      file: "",
-      recordingMode: "",
-    });
-    this.props.prev()
+    if (this.state.recordingMode !== ""){
+      this.setState({
+        recording: false,
+        cameraEnabled: false,
+        recordedVideo: [],
+        recordedVideoUrl: "",
+        file: "",
+        recordingMode: "",
+      });
+    } else {
+      this.setState({
+        recording: false,
+        cameraEnabled: false,
+        recordedVideo: [],
+        recordedVideoUrl: "",
+        file: "",
+        recordingMode: "",
+      });
+
+      this.props.prev()
+    }
   }
-    
-  };
+
   generatePhrase = () => {
     const address = this.props.account.substring(2);
     const bytes = Buffer.from(address, 'hex');
     const { resolvedLanguage } = this.props.i18n;
-    if(resolvedLanguage === "en"){
+
+    if (resolvedLanguage === "en") {
       const words = base2048.english.encode(bytes);
-      console.log(words)
+      // console.log(words);
       return " My confirmation phrase is: \n" + words.split(" ").slice(0, 8).join(' ');
-    } else if(resolvedLanguage === "es"){
+    } else if (resolvedLanguage === "es"){
       const words = base2048.spanish.encode(bytes);
       return " Mi frase de confirmación es: \n"+ words.split(" ").slice(0, 8).join(' ');
     }
-    
-    
   }
 
   render = () => {
     const { t } = this.props.i18n;
-    console.log(this.videoConstraints);
+    // console.log(this.videoConstraints);
     return (
       // console.log("videoTab render state", this.state);
 
@@ -440,7 +443,7 @@ export default class VideoTab extends React.Component {
                   onUserMedia={this.onUserMedia}
                   onUserMediaError={this.onUserMediaError}
                 />
-                {this.state.recording && <i className="camera-recording-icon"></i>}
+                {this.state.recording && <i className="camera-recording-icon" />}
                 <div className={this.state.mirrored?"buttons-camera-container video-mirrored":"buttons-camera-container"}>
                   {!this.state.recording ? (
                     <>

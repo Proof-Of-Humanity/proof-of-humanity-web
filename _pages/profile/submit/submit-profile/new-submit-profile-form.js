@@ -24,6 +24,7 @@ export default class NewSubmitProfileForm extends React.Component {
       OS: this.getOS(),
     };
   }
+
   submissionSteps = [
     {
       title: "Info",
@@ -197,7 +198,7 @@ export default class NewSubmitProfileForm extends React.Component {
   };
 
   render() {
-    console.log(this.state.name)
+    // console.log(this.state.name)
     const { current } = this.state;
     const steps = this.submissionSteps;
     const props = {

@@ -3,7 +3,7 @@ import { useCallback } from "react";
 import { useTranslation, Trans } from 'react-i18next'; 
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useQuery } from "relay-hooks";
+import { graphql, useQuery } from "relay-hooks";
 
 import { useWeb3, Link } from "@kleros/components";
 import { Row, Col, Button, Space, Typography, message } from 'antd';
@@ -12,6 +12,27 @@ const { Title, Paragraph } = Typography;
 import { NewSubmitProfileCard } from "./submit-profile";
 import { useEvidenceFile } from "data";
 
+const submitProfileQuery = graphql`
+  query submitProfileQuery($id: ID!) {
+    contract(id: 0) {
+      submissionDuration
+      submissionBaseDeposit
+      arbitratorExtraData
+      renewalTime
+      registrationMetaEvidence{
+        id
+        URI
+      }
+    }
+    submission(id: $id) {
+      name
+      status
+      registered
+      submissionTime
+    }
+  }
+`;
+
 export default function ProfileNew() {
   const { connect } = useWeb3();
   const [accounts] = useWeb3("eth", "getAccounts");
@@ -19,9 +40,9 @@ export default function ProfileNew() {
 
 
   const { web3 } = useWeb3();
-  const account = accounts?.[0].toLowerCase();
+  const account = accounts?.[0]?.toLowerCase();
 
-  const { props } = useQuery(newProfileQuery,{
+  const { props } = useQuery(submitProfileQuery,{
     id:account
   });
 
@@ -40,22 +61,19 @@ export default function ProfileNew() {
   const canReapply = Date.now() > renewalTimestamp;
   //console.log("props",props)
 
-    if(registered && !canReapply){
-      message.error("You can't reapply yet", 5)
-      router.push({
-        pathname: "/profile/[id]",
-        query: { id: account },
-        asPath:`/profile/${account}`
-      });
-    }
-  
-    const fetchMetaEvidence = () =>{
-      console.log(props?.contract)
-      const evidence = useEvidenceFile()(props?.contract?.registrationMetaEvidence.URI);
-      console.log(evidence?.fileURI)
-      return evidence?.fileURI;      
-    }
-    const rules = fetchMetaEvidence();
+  if(registered && !canReapply){
+    message.error("You can't reapply yet", 5)
+    router.push({
+      pathname: "/profile/[id]",
+      query: { id: account },
+      asPath:`/profile/${account}`
+    });
+  }
+
+  // console.log(props?.contract)
+  const evidence = useEvidenceFile()(props?.contract?.registrationMetaEvidence.URI);
+  // console.log(evidence?.fileURI)
+  const rules =  evidence?.fileURI;      
     
   const handleAfterSend = useCallback(async () => {
     if (reapply)
@@ -105,7 +123,7 @@ export default function ProfileNew() {
             i18nKey="submit_profile_wallet_help" 
             t={t}
             components={[
-              <Link href="https://ethereum.org/en/wallets/find-wallet/" target="_blank" rel="noreferrer noopener"></Link>
+              <Link key="1" href="https://ethereum.org/en/wallets/find-wallet/" target="_blank" rel="noreferrer noopener"></Link>
             ]} />
           </Paragraph>
       </Space>
@@ -113,24 +131,3 @@ export default function ProfileNew() {
     </Row>
   );
 }
-export const newProfileQuery = graphql`
-query newProfileQuery($id: ID!) {
-  
-  contract(id: 0) {
-    submissionDuration
-    submissionBaseDeposit
-    arbitratorExtraData
-    renewalTime
-    registrationMetaEvidence{
-      id
-      URI
-    }
-  }
-  submission(id: $id) {
-    name
-    status
-    registered
-    submissionTime
-  }
-}
-`;

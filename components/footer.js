@@ -13,21 +13,21 @@ export default function AppFooter() {
   return (
     <Footer className="poh-footer">
       <Row>
-        <Col span={8}>
+        <Col xs={12} lg={8}>
           <Row justify="start">
             <Link className="poh-footer-text" variant="navigation" sx={{ fontSize: 1 }} newTab href="https://www.proofofhumanity.id/">
               {t('footer_learn_more')}
             </Link>
           </Row>
         </Col>
-        <Col span={8}>
+        <Col xs={0} lg={8}>
           <Row justify="center">
             <Link sx={{ alignItems: "center", display: "flex" }} newTab href="https://kleros.io">
               <SecuredByKlerosWhite sx={{ width: 200 }} />
             </Link>
           </Row>
         </Col>
-        <Col span={8}>
+        <Col xs={12} lg={8}>
           <Row justify="end">
             <SocialIcons color="#ffffff" />
           </Row>

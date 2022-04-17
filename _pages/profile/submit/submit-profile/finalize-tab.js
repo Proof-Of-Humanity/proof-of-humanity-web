@@ -3,7 +3,7 @@ import { Crowdfund } from "@kleros/icons";
 import {
   Alert,
   Button,
-  Checkbox,
+  // Checkbox,
   Col,
   Image,
   Progress,
@@ -20,8 +20,7 @@ import { exitFFMPEG } from "lib/media-controller"
 
 const { Title, Link, Paragraph } = Typography;
 
-
-class FinalizeTab extends React.Component {
+class _FinalizeTab extends React.Component {
   constructor(props) {
     super(props);
 
@@ -32,16 +31,17 @@ class FinalizeTab extends React.Component {
   }
   
   componentDidMount = async () => {
-    
     const deposit = await this.props.calculateDeposit();
-    //console.log(deposit)
-    if(deposit !== null){
+    if (deposit !== null) {
       this.setState({deposit:deposit.ether})
     }
-    if(this.props.contract !== undefined){
-  }
+
+    // if (this.props.contract !== undefined) {
+
+    // }
     
   }
+
   handleVideo = () => {
     this.setState({ playedVideo: true });
   };
@@ -58,10 +58,12 @@ class FinalizeTab extends React.Component {
       query: { id: this.props.account },
     });
   };
-    exitAndPrev = () => {
-      exitFFMPEG();
-      this.props.prev();
-    }
+
+  exitAndPrev = () => {
+    exitFFMPEG();
+    this.props.prev();
+  }
+
   render() {
     // img, video and submitter name source by props
     const { t } = this.props.i18n;
@@ -320,4 +322,5 @@ class FinalizeTab extends React.Component {
   }
 }
 
-export default withRouter(FinalizeTab);
+const FinalizeTab = withRouter(_FinalizeTab);
+export default FinalizeTab;
