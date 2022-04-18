@@ -1,4 +1,4 @@
-import { Col, Steps, message, Button } from "antd";
+import { Button, Col, Steps, message } from "antd";
 import React from "react";
 import UserAgent from "ua-parser-js";
 
@@ -30,9 +30,7 @@ export default class NewSubmitProfileForm extends React.Component {
       title: "Info",
       subtitle: "General information",
       // content: (props) => <GeneralSubmitTab props={props} />,
-      content: (props) => (
-        <InitialTab {...props} />
-      ),
+      content: (props) => <InitialTab {...props} />,
       description: "Set your name and info",
       // icon: 1,
     },
@@ -69,7 +67,7 @@ export default class NewSubmitProfileForm extends React.Component {
 
   getOS = () => {
     const userAgent = UserAgent(window.navigator.userAgent);
-    //console.log(userAgent)
+    // console.log(userAgent)
     return userAgent;
   };
 
@@ -100,7 +98,7 @@ export default class NewSubmitProfileForm extends React.Component {
 
   uploadToIPFS = async (fileName, buffer) => {
     try {
-      let request = await fetch("https://ipfs.kleros.io/add", {
+      const request = await fetch("https://ipfs.kleros.io/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -109,59 +107,73 @@ export default class NewSubmitProfileForm extends React.Component {
         }),
       });
 
-      let { data } = await request.json();
+      const { data } = await request.json();
       return `/ipfs/${data[1].hash}${data[0].path}`;
-    } catch (error) {
-      console.error("Upload to IPFS error", error);
+    } catch (err) {
+      console.error("Upload to IPFS error", err);
       message.error("Upload to IPFS error");
     }
-  }
+  };
 
   returnFiles = async () => {
     const imageURI = this.state.imageURI.split("/");
     const videoURI = this.state.videoURI.split("/");
-    //console.log(this.state.language)
+    // console.log(this.state.language)
     const file = {
       name: this.state.name,
       bio: this.state.bio,
       photo: `/${imageURI[3]}/${imageURI[4]}/${imageURI[5]}`,
       video: `/${videoURI[3]}/${videoURI[4]}/${videoURI[5]}`,
       confirmation: this.state.recordingMode,
-      language: this.state.language
+      language: this.state.language,
     };
 
     try {
-      const fileURI = await this.uploadToIPFS("file.json", JSON.stringify(file));
+      const fileURI = await this.uploadToIPFS(
+        "file.json",
+        JSON.stringify(file)
+      );
       const registration = { fileURI, name: "Registration" };
-      const registrationURI = await this.uploadToIPFS("registration.json", JSON.stringify(registration));
+      const registrationURI = await this.uploadToIPFS(
+        "registration.json",
+        JSON.stringify(registration)
+      );
 
       return registrationURI;
-    } catch (error) {
-      console.error("Return files error", error);
+    } catch (err) {
+      console.error("Return files error", err);
       message.error("There was an error uploading files");
     }
   };
 
   calculateDeposit = async () => {
-    //console.log(this.props);
-    if(this.props.contract === undefined || this.props.web3 === undefined) return null;
-    let arbitrationCost = await this.props.web3.contracts?.klerosLiquid?.methods.arbitrationCost(this.props.contract?.arbitratorExtraData).call();
+    // console.log(this.props);
+    if (this.props.contract === undefined || this.props.web3 === undefined)
+      return null;
+    const arbitrationCost =
+      await this.props.web3.contracts?.klerosLiquid?.methods
+        .arbitrationCost(this.props.contract?.arbitratorExtraData)
+        .call();
     const { toBN, fromWei } = this.props.web3.utils;
-    if(arbitrationCost === undefined) return null;
-    const _submissionBaseDeposit = toBN(this.props.contract.submissionBaseDeposit);
-    //console.log(_submissionBaseDeposit)
-    //const _submissionBaseDeposit = toBN(this.props.contract?.submissionBaseDeposit);
+    if (arbitrationCost === undefined) return null;
+    const _submissionBaseDeposit = toBN(
+      this.props.contract.submissionBaseDeposit
+    );
+    // console.log(_submissionBaseDeposit)
+    // const _submissionBaseDeposit = toBN(this.props.contract?.submissionBaseDeposit);
     const _arbitrationCost = toBN(arbitrationCost);
     const deposit = _submissionBaseDeposit.add(_arbitrationCost);
-    const ether = fromWei(deposit,"ether").toString();
-    return {BN:deposit, ether};
-  }
-  
+    const ether = fromWei(deposit, "ether").toString();
+    return { BN: deposit, ether };
+  };
+
   prepareTransaction = async () => {
     try {
-      let registrationURI = await this.returnFiles();
-      let { BN } = await this.calculateDeposit();
-      let method = this.props.reapply ? this.props.web3.contracts.proofOfHumanity.methods.reapplySubmission :this.props.web3.contracts.proofOfHumanity.methods.addSubmission
+      const registrationURI = await this.returnFiles();
+      const { BN } = await this.calculateDeposit();
+      const method = this.props.reapply
+        ? this.props.web3.contracts.proofOfHumanity.methods.reapplySubmission
+        : this.props.web3.contracts.proofOfHumanity.methods.addSubmission;
 
       method(registrationURI, this.state.name)
         .send({
@@ -172,7 +184,8 @@ export default class NewSubmitProfileForm extends React.Component {
           this.setState({ txHash: tx });
 
           const config = {
-            content: "Transaction succesfully sent! Click this message to view it.",
+            content:
+              "Transaction succesfully sent! Click this message to view it.",
             duration: 10,
             onClick: () => {
               window.open(`https://etherscan.io/tx/${tx}`, "_blank");
@@ -184,15 +197,14 @@ export default class NewSubmitProfileForm extends React.Component {
           this.setState({ confirmed: true });
         })
         .on("error", (error) => {
-          if (error.stack) {
-            message.error(error.message, 5);
-          } else if (error.code === 4001) {
+          if (error.stack) message.error(error.message, 5);
+          else if (error.code === 4001)
             message.error("Transaction rejected", 5);
-          }
+
           this.setState({ error });
         });
-    } catch (error) {
-      console.error("There was an error preparing the transaction", error);
+    } catch (err) {
+      console.error("There was an error preparing the transaction", err);
       message.error("Unexpected error");
     }
   };
@@ -209,11 +221,16 @@ export default class NewSubmitProfileForm extends React.Component {
       prev: this.prev,
       reset: this.reset,
       account: this.props.account,
-      submission:this.props.submission
+      submission: this.props.submission,
     };
 
     return (
-      <Col id="top" className="submit-profile-card" xs={{ span: 24 }} xl={{ span: 12 }}>
+      <Col
+        id="top"
+        className="submit-profile-card"
+        xs={{ span: 24 }}
+        xl={{ span: 12 }}
+      >
         <Steps size="small" current={current} responsive={false}>
           {steps.map((step) => (
             <Step
@@ -227,16 +244,19 @@ export default class NewSubmitProfileForm extends React.Component {
 
         <div className="steps-content">
           {steps.map((step, index) => (
-            <div key={`form-item-${index}`} style={{ display: index === current ? "block" : "none" }}>
+            <div
+              key={`form-item-${index}`}
+              style={{ display: index === current ? "block" : "none" }}
+            >
               {step.content(props)}
             </div>
           ))}
         </div>
-{/* --- TODO: REMOVE --- */}
-<div>
-            helper buttons;
-            <Button onClick={() => this.prev()}>Prev</Button>
-            <Button onClick={() => this.next()}>Next</Button>
+        {/* --- TODO: REMOVE --- */}
+        <div>
+          helper buttons;
+          <Button onClick={() => this.prev()}>Prev</Button>
+          <Button onClick={() => this.next()}>Next</Button>
         </div>
         {/* --- TODO: REMOVE --- */}
       </Col>

@@ -10,12 +10,11 @@ import {
   useReducer,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { useStorageReducer } from "react-storage-hooks";
 import usePromise from "react-use-promise";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
-import { useTranslation } from 'react-i18next';
-
 
 const deriveAccount = async function (message, create = true) {
   const [account] = await this.eth.getAccounts();
@@ -32,19 +31,18 @@ const deriveAccount = async function (message, create = true) {
 };
 
 export const createWeb3 = (infuraURL, t) => {
-  
   const web3 = new Web3(infuraURL);
   web3.modal = new Web3Modal({
     cacheProvider: true,
     providerOptions: {
-      injected:{
-        display:{
-          description:t("web3_modal_metamask")
-        }
+      injected: {
+        display: {
+          description: t("web3_modal_metamask"),
+        },
       },
       walletconnect: {
-        display:{
-          description:t("web3_modal_walletconnect")
+        display: {
+          description: t("web3_modal_walletconnect"),
         },
         package: WalletConnectWeb3Provider,
         options: {
@@ -52,8 +50,8 @@ export const createWeb3 = (infuraURL, t) => {
         },
       },
       authereum: {
-        display:{
-          description:t("web3_modal_authereum")
+        display: {
+          description: t("web3_modal_authereum"),
         },
         package: Authereum,
       },
@@ -79,12 +77,12 @@ export default function Web3Provider({
   onNetworkChange,
   children,
 }) {
-  const {t} = useTranslation();
+  const { t } = useTranslation();
   const [web3, setWeb3] = useState(() => createWeb3(infuraURL, t));
 
   useEffect(() => {
     if (infuraURL !== web3.infuraURL) setWeb3(createWeb3(infuraURL, t));
-  }, [infuraURL, web3.infuraURL]);
+  }, [infuraURL, web3.infuraURL, t]);
 
   useEffect(() => {
     let cancelled = false;

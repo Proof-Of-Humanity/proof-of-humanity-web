@@ -1,27 +1,27 @@
-import React from 'react';
+import React from "react";
 
 export default function GoogleFont(props) {
-  var fontsStr = "";
+  let fontsString = "";
   if (props.typography.options.googleFonts) {
-    var fonts = props.typography.options.googleFonts.map(function (font) {
-      var str = "";
-      str += font.name.split(" ").join("+");
-      str += ":";
-      str += font.styles.join(",");
+    const fonts = props.typography.options.googleFonts.map((font) => {
+      let string = "";
+      string += font.name.split(" ").join("+");
+      string += ":";
+      string += font.styles.join(",");
 
-      return str;
+      return string;
     });
 
-    fontsStr = fonts.join("|");
+    fontsString = fonts.join("|");
 
-    if (fontsStr) {
+    if (fontsString)
       return React.createElement("link", {
-        href: "//fonts.googleapis.com/css?family=" + fontsStr,
+        href: `//fonts.googleapis.com/css?family=${fontsString}`,
         rel: "stylesheet",
         type: "text/css",
-        crossOrigin: 'anonymous'
+        crossOrigin: "anonymous",
       });
-    }
+
     return null;
   }
-};
+}

@@ -1,4 +1,5 @@
 import { DownArrow, File, UpArrow } from "@kleros/icons";
+import { useTranslation } from "react-i18next";
 import { Box, Flex } from "theme-ui";
 
 import Alert from "./alert";
@@ -9,7 +10,6 @@ import { NextETHLink } from "./next-router";
 import ScrollTo, { ScrollArea } from "./scroll-to";
 import SubmitEvidenceButton from "./submit-evidence-button";
 import Text from "./text";
-import { useTranslation } from 'react-i18next';
 
 const intlDateTimeFormat = new Intl.DateTimeFormat("default", {
   year: "numeric",
@@ -25,7 +25,7 @@ function EvidenceItem({
   evidence: { URI, sender, creationTime },
   index,
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const evidence = useEvidenceFile()(URI);
   if (evidence?.fileURIError) return null;
 
@@ -41,7 +41,8 @@ function EvidenceItem({
               <Text>
                 <Text as="span" sx={{ fontWeight: "bold" }}>
                   #{index}
-                </Text>&nbsp;{t('profile_evidence_submitted_by')}&nbsp;
+                </Text>
+                &nbsp;{t("profile_evidence_submitted_by")}&nbsp;
                 <NextETHLink address={sender}>{sender}</NextETHLink>
               </Text>
               <Text>
@@ -58,11 +59,10 @@ function EvidenceItem({
       }
       footerSx={{ justifyContent: "space-between", paddingX: 3 }}
     >
-      <Text sx={{ fontSize: 2, fontWeight: "bold" }}>
-        {evidence?.name}
-      </Text>
+      <Text sx={{ fontSize: 2, fontWeight: "bold" }}>{evidence?.name}</Text>
       <Text>
-        {evidence?.description || (evidence ? t('profile_evidence_no_description') : undefined)}
+        {evidence?.description ||
+          (evidence ? t("profile_evidence_no_description") : undefined)}
       </Text>
     </Card>
   );
@@ -74,13 +74,19 @@ export default function Evidence({
   useEvidenceFile,
   submission,
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   return (
     <ScrollTo>
       {({ scroll }) => (
         <Box sx={{ paddingX: 4 }}>
-          <Flex sx={{ alignItems: "center", justifyContent: "space-between", marginBottom: 3 }}>
+          <Flex
+            sx={{
+              alignItems: "center",
+              justifyContent: "space-between",
+              marginBottom: 3,
+            }}
+          >
             <SubmitEvidenceButton contract={contract} args={args} />
             <Text
               sx={{ color: "primary" }}
@@ -89,18 +95,28 @@ export default function Evidence({
                 scroll({ y: evidences.length * 190, smooth: true })
               }
             >
-              {t('profile_details_evidence_scroll_first')}&nbsp;
+              {t("profile_details_evidence_scroll_first")}&nbsp;
               <DownArrow
                 sx={{ stroke: "background", path: { fill: "primary" } }}
               />
             </Text>
           </Flex>
           {submission?.disputed && (
-            <Alert type="muted" title={t('profile_advice')} sx={{ mb: 3 }}>
-              <Text>{t('profile_evidence_advice')}</Text>
+            <Alert type="muted" title={t("profile_advice")} sx={{ mb: 3 }}>
+              <Text>{t("profile_evidence_advice")}</Text>
             </Alert>
           )}
-          <ScrollArea sx={{ marginBottom: 2, marginTop: -2, marginX: -4, maxHeight: 650, overflowY: "scroll", paddingTop: 3, paddingX: 4 }}>
+          <ScrollArea
+            sx={{
+              marginBottom: 2,
+              marginTop: -2,
+              marginX: -4,
+              maxHeight: 650,
+              overflowY: "scroll",
+              paddingTop: 3,
+              paddingX: 4,
+            }}
+          >
             {evidences.map((evidence, index) => (
               <EvidenceItem
                 key={evidence.id}
@@ -111,9 +127,15 @@ export default function Evidence({
             ))}
           </ScrollArea>
           <Flex sx={{ justifyContent: "flex-end" }}>
-            <Text sx={{ color: "primary" }} role="button" onClick={() => scroll({ y: 0, smooth: true })}>
-            {t('profile_details_evidence_scroll_bottom')}&nbsp;
-              <UpArrow sx={{ stroke: "background", path: { fill: "primary" } }} />
+            <Text
+              sx={{ color: "primary" }}
+              role="button"
+              onClick={() => scroll({ y: 0, smooth: true })}
+            >
+              {t("profile_details_evidence_scroll_bottom")}&nbsp;
+              <UpArrow
+                sx={{ stroke: "background", path: { fill: "primary" } }}
+              />
             </Text>
           </Flex>
         </Box>

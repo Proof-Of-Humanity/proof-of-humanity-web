@@ -4,7 +4,7 @@ import React from "react";
 import NewSubmitProfileForm from "./new-submit-profile-form";
 
 export default function NewSubmitProfileCard(props) {
-// console.log(props)
+  // console.log(props)
   return (
     <Row justify="center">
       <NewSubmitProfileForm
@@ -18,5 +18,4 @@ export default function NewSubmitProfileCard(props) {
       />
     </Row>
   );
-};
-
+}

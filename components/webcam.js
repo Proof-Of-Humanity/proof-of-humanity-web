@@ -15,7 +15,7 @@ export default function Webcam({
     mandatory: {
       maxWidth: 1920,
       maxHeight: 1080,
-    }
+    },
   },
   mirrored = true,
   photo = true,
@@ -36,7 +36,6 @@ export default function Webcam({
 
   const popupWidth = "1920px";
   const popupMaxHeight = "auto";
-  const popupMinHeight = "auto";
 
   useEffect(
     () => () => {
@@ -75,7 +74,7 @@ export default function Webcam({
         <ReactWebcam
           ref={ref}
           mirrored={_mirrored}
-          screenshotFormat={'image/jpeg'}
+          screenshotFormat="image/jpeg"
           screenshotQuality={1}
           forceScreenshotSourceSize
           videoConstraints={videoConstraints}

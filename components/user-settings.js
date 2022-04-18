@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { createDerivedAccountAPIs } from "./archon-provider";
 import Button from "./button";
@@ -7,15 +8,13 @@ import Divider from "./divider";
 import Form, { Field } from "./form";
 import Text from "./text";
 
-import { useTranslation } from 'react-i18next';
-
 export default function UserSettings({
   userSettingsURL,
   settings,
   parseSettings,
   normalizeSettings,
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const {
     useAPIs: {
       getUserSettings: useUserSettings,
@@ -71,28 +70,47 @@ export default function UserSettings({
             acc[setting] = boolean();
             return acc;
           }, {}),
-          email: string().email(t('header_notifications_valid_email')).required(t('header_notifications_email_required')),
+          email: string()
+            .email(t("header_notifications_valid_email"))
+            .required(t("header_notifications_email_required")),
         }),
-        [settings]
+        [settings, t]
       )}
       onSubmit={async (_settings) => {
         setMessage("");
         await send(normalizeSettings(_settings));
-        setMessage(t('header_notifications_changes_saved'));
+        setMessage(t("header_notifications_changes_saved"));
       }}
     >
       {({ isSubmitting }) => (
         <>
           {Object.keys(settings).map((setting) => (
-            <Field key={setting} as={Checkbox} name={setting} {...settings[setting]} />
+            <Field
+              key={setting}
+              as={Checkbox}
+              name={setting}
+              {...settings[setting]}
+            />
           ))}
           <Field name="email" label="Email" />
           <Divider />
-          <Button sx={{ display: "block", marginTop: -2, marginX: "auto", }} type="submit" loading={isSubmitting}>
-            {t('header_notifications_save')}
+          <Button
+            sx={{ display: "block", marginTop: -2, marginX: "auto" }}
+            type="submit"
+            loading={isSubmitting}
+          >
+            {t("header_notifications_save")}
           </Button>
           {message && (
-            <Text sx={{ bottom: 1, color: "success", fontSize: 12, position: "absolute", right: 1 }}>
+            <Text
+              sx={{
+                bottom: 1,
+                color: "success",
+                fontSize: 12,
+                position: "absolute",
+                right: 1,
+              }}
+            >
               {message}
             </Text>
           )}

@@ -8,16 +8,16 @@ import {
   Stop,
 } from "@kleros/icons";
 import { Button, Col, Image, Row, Typography, Upload, message } from "antd";
+import base2048 from "base-2048";
+import getBlobDuration from "get-blob-duration";
 import React from "react";
 import Video from "react-player";
 import ReactWebcam from "react-webcam";
-import getBlobDuration from 'get-blob-duration'
-import base2048 from "base-2048";
-import getVideoEmptyBorderSize from "/lib/get-video-empty-border-size";
+
+import getVideoEmptyBorderSize from "lib/get-video-empty-border-size";
+import { loadFFMPEG, videoSanitizer } from "lib/media-controller";
 
 const { Title, Paragraph } = Typography;
-
-import { loadFFMPEG, videoSanitizer } from "lib/media-controller";
 
 export default class VideoTab extends React.Component {
   constructor(props) {
@@ -56,19 +56,22 @@ export default class VideoTab extends React.Component {
       minHeight: 352,
     },
   };
-  
   videoConstraints = {
-    
-    width: this.props.state.OS.device.type === "mobile"?{min: 640, exact: 1280 }:{min:640, ideal:1920}, //     width: { min: 640, ideal: 1280, max: 1920 },
-    height: this.props.state.OS.device.type === "mobile"?{min: 480, exact: 720 }:{min:480, ideal:1080}, //     height: { min: 480, ideal: 720, max: 1080 }
+    width:
+      this.props.state.OS.device.type === "mobile"
+        ? { min: 640, exact: 1280 }
+        : { min: 640, ideal: 1920 }, //     width: { min: 640, ideal: 1280, max: 1920 },
+    height:
+      this.props.state.OS.device.type === "mobile"
+        ? { min: 480, exact: 720 }
+        : { min: 480, ideal: 1080 }, //     height: { min: 480, ideal: 720, max: 1080 }
     framerate: { min: 24, ideal: 60 },
-    /*mandatory:{
+    /* mandatory:{
       maxWidth:this.props.state.OS.device.type === "mobile"?1280 : 1920,
       maxHeight:this.props.state.OS.device.type === "mobile"?720:1080,
       minWidth:640,
       minHeight:480
     }*/
-    
   };
 
   videoRulesList = [
@@ -84,8 +87,7 @@ export default class VideoTab extends React.Component {
     },
     {
       title: "Say the required phrase",
-      description:
-        'The submitter must say (in English) "I certify that I am a real human and that I am not already registered in this registry". Submitter should speak in their normal voice.',
+      description: `The submitter must say (in English) "I certify that I am a real human and that I am not already registered in this registry". Submitter should speak in their normal voice.`,
     },
     // { title: '',  description: '' },
     // { title: '',  description: '' },
@@ -101,7 +103,8 @@ export default class VideoTab extends React.Component {
       if (!this.videoOptions.types.value.includes(file.type)) {
         message.error(this.props.i18n.t("submit_profile_file_not_supported"));
         return Upload.LIST_IGNORE;
-      } else if (file.size > this.videoOptions.size.value) {
+      }
+      if (file.size > this.videoOptions.size.value) {
         message.error(this.props.i18n.t("submit_profile_video_too_big"));
         return Upload.LIST_IGNORE;
       }
@@ -123,25 +126,28 @@ export default class VideoTab extends React.Component {
             video.preload = "auto";
 
             video.addEventListener("loadeddata", () => {
-              const {videoWidth, videoHeight } = video;
-              const {minWidth,minHeight} = this.videoOptions.dimensions;
+              const { videoWidth, videoHeight } = video;
+              const { minWidth, minHeight } = this.videoOptions.dimensions;
               const borders = getVideoEmptyBorderSize(video);
               // console.log(videoWidth, borders.width, minWidth)
-              if (videoWidth - borders.width > minWidth && videoHeight - borders.height > minHeight) {
+              if (
+                videoWidth - borders.width > minWidth &&
+                videoHeight - borders.height > minHeight
+              )
                 this.setState({
                   file: blob,
                   recording: false,
                   cameraEnabled: false,
                   recordedVideoUrl: videoURL,
-                  duration
+                  duration,
                 });
-              } else {
-                message.error(this.props.i18n.t("submit_profile_video_too_small"));
-              }
+              else
+                message.error(
+                  this.props.i18n.t("submit_profile_video_too_small")
+                );
             });
-          } else {
+          } else
             message.error(this.props.i18n.t("submit_profile_video_too_long"));
-          }
         });
       }
       // console.log("onChange videoURL=", videoURL);
@@ -150,15 +156,14 @@ export default class VideoTab extends React.Component {
       // console.log("Dropped files", event.dataTransfer.files);
     },
   };
-  
+
   saveProgress = (progress) => {
     this.props.stateHandler({ progress });
   };
 
   uploadVideo = () => {
-    if (this.props.state.videoURI !== "") {
+    if (this.props.state.videoURI !== "")
       this.props.stateHandler({ videoURI: "" });
-    }
 
     const { file } = this.state;
     // console.log(file);
@@ -171,15 +176,25 @@ export default class VideoTab extends React.Component {
       const { size } = file;
       // const { duration } = this.video;
       // console.log("duration",this.state.duration)
-      videoSanitizer(buffer, size, this.props.state.OS.os.name, this.saveProgress, this.state.mirrored,this.state.duration)
+      videoSanitizer(
+        buffer,
+        size,
+        this.props.state.OS.os.name,
+        this.saveProgress,
+        this.state.mirrored,
+        this.state.duration
+      )
         .then((URI) => {
           // console.log(`videoURI: ${URI}`);
           this.setState({ fileURI: URI });
           this.props.stateHandler({ videoURI: URI });
         })
-        .catch((error) => {
-          console.error(error);
-          message.error("There was an error parsing your video, please try again", 5);
+        .catch((err) => {
+          console.error(err);
+          message.error(
+            "There was an error parsing your video, please try again",
+            5
+          );
 
           this.setState({
             cameraEnabled: false, // true?
@@ -235,7 +250,7 @@ export default class VideoTab extends React.Component {
 
   handleStartCaptureClick = () => {
     this.setState({ recording: true });
-    this.props.stateHandler({language:this.props.i18n.resolvedLanguage});
+    this.props.stateHandler({ language: this.props.i18n.resolvedLanguage });
     this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
       mimeType: this.props.state.OS === "iOS" ? "video/mp4" : "video/webm",
     });
@@ -262,8 +277,9 @@ export default class VideoTab extends React.Component {
     // console.log(this.state.recordedVideo);
 
     const blob = new Blob(this.state.recordedVideo, {
-      type: `${this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"
-        };codecs=h264,avc1`,
+      type: `${
+        this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"
+      };codecs=h264,avc1`,
     });
     const videoURL = window.URL.createObjectURL(blob);
     const duration = await getBlobDuration(blob);
@@ -275,28 +291,23 @@ export default class VideoTab extends React.Component {
       file: blob,
       recording: false,
       cameraEnabled: false,
-      duration
+      duration,
     });
   };
 
   mirrorVideo = () => {
-    if (this.state.mirrored === true) {
-      this.setState({ mirrored: false });
-    } else {
-      this.setState({ mirrored: true });
-    }
+    if (this.state.mirrored === true) this.setState({ mirrored: false });
+    else this.setState({ mirrored: true });
   };
 
   switchCamera = () => {
-    if (this.state.facingMode === "user") {
+    if (this.state.facingMode === "user")
       this.setState({ facingMode: "environment" });
-    } else {
-      this.setState({ facingMode: "user" });
-    }
+    else this.setState({ facingMode: "user" });
   };
 
   goBack = () => {
-    if (this.state.recordingMode !== ""){
+    if (this.state.recordingMode !== "")
       this.setState({
         recording: false,
         cameraEnabled: false,
@@ -305,7 +316,7 @@ export default class VideoTab extends React.Component {
         file: "",
         recordingMode: "",
       });
-    } else {
+    else {
       this.setState({
         recording: false,
         cameraEnabled: false,
@@ -315,24 +326,31 @@ export default class VideoTab extends React.Component {
         recordingMode: "",
       });
 
-      this.props.prev()
+      this.props.prev();
     }
-  }
+  };
 
   generatePhrase = () => {
-    const address = this.props.account.substring(2);
-    const bytes = Buffer.from(address, 'hex');
+    const address = this.props.account.slice(2);
+    const bytes = Buffer.from(address, "hex");
     const { resolvedLanguage } = this.props.i18n;
 
     if (resolvedLanguage === "en") {
       const words = base2048.english.encode(bytes);
       // console.log(words);
-      return " My confirmation phrase is: \n" + words.split(" ").slice(0, 8).join(' ');
-    } else if (resolvedLanguage === "es"){
-      const words = base2048.spanish.encode(bytes);
-      return " Mi frase de confirmación es: \n"+ words.split(" ").slice(0, 8).join(' ');
+      return ` My confirmation phrase is: \n${words
+        .split(" ")
+        .slice(0, 8)
+        .join(" ")}`;
     }
-  }
+    if (resolvedLanguage === "es") {
+      const words = base2048.spanish.encode(bytes);
+      return ` Mi frase de confirmación es: \n${words
+        .split(" ")
+        .slice(0, 8)
+        .join(" ")}`;
+    }
+  };
 
   render = () => {
     const { t } = this.props.i18n;
@@ -351,18 +369,21 @@ export default class VideoTab extends React.Component {
                   xs={24}
                   xl={12}
                   className="video-mode-buttons"
-                  onClick={() =>{
+                  onClick={() => {
                     this.props.stateHandler({
                       recordingMode: "speaking",
-                    })
+                    });
                     this.setState({
                       recordingMode: "speaking",
                       cameraEnabled: true,
-                    })
-                  }
-                }
+                    });
+                  }}
                 >
-                  <Image preview={false} src="/images/speaker.png" width="50%" />
+                  <Image
+                    preview={false}
+                    src="/images/speaker.png"
+                    width="50%"
+                  />
                   <Title level={4} style={{ marginTop: "10px" }}>
                     {t("submit_profile_video_by_voice")}
                   </Title>
@@ -372,16 +393,15 @@ export default class VideoTab extends React.Component {
                   xs={24}
                   xl={12}
                   className="video-mode-buttons"
-                  onClick={() =>{
+                  onClick={() => {
                     this.props.stateHandler({
                       recordingMode: "visual",
-                    })
+                    });
                     this.setState({
                       recordingMode: "visual",
                       cameraEnabled: true,
-                    })
-                  }
-                }
+                    });
+                  }}
                 >
                   <Image preview={false} src="/images/sign.png" width="50%" />
                   <Title level={4} style={{ marginTop: "10px" }}>
@@ -409,31 +429,38 @@ export default class VideoTab extends React.Component {
           {this.state.cameraEnabled && this.state.recordingMode !== "" ? (
             <Col span={24}>
               <Title level={2}>{t("submit_profile_video_ready_title")}</Title>
-              <Title level={5}>
-                {t("submit_profile_video_ready_help")}
-              </Title>
+              <Title level={5}>{t("submit_profile_video_ready_help")}</Title>
               <div
-                className={this.state.mirrored?"video-inner-container video-mirrored":"video-inner-container"}
+                className={
+                  this.state.mirrored
+                    ? "video-inner-container video-mirrored"
+                    : "video-inner-container"
+                }
                 ref={(screen) => {
                   this.screen = screen;
                 }}
               >
-                
-                  <div className={this.state.mirrored?"video-overlay video-mirrored":"video-overlay"}>
-                    <div className="video-overlay-content">
-                  {t("submit_profile_video_phrase")}
-                  {this.state.recordingMode === "speaking" &&(this.generatePhrase())}
+                <div
+                  className={
+                    this.state.mirrored
+                      ? "video-overlay video-mirrored"
+                      : "video-overlay"
+                  }
+                >
+                  <div className="video-overlay-content">
+                    {t("submit_profile_video_phrase")}
+                    {this.state.recordingMode === "speaking" &&
+                      this.generatePhrase()}
                   </div>
                 </div>
-                
-                
+
                 <ReactWebcam
                   style={{ width: "100%" }}
                   ref={(camera) => {
                     this.camera = camera;
                   }}
                   audio
-                  //mirrored={this.state.mirrored}
+                  // mirrored={this.state.mirrored}
                   videoConstraints={{
                     ...this.videoConstraints,
                     facingMode: this.state.facingMode,
@@ -443,8 +470,16 @@ export default class VideoTab extends React.Component {
                   onUserMedia={this.onUserMedia}
                   onUserMediaError={this.onUserMediaError}
                 />
-                {this.state.recording && <i className="camera-recording-icon" />}
-                <div className={this.state.mirrored?"buttons-camera-container video-mirrored":"buttons-camera-container"}>
+                {this.state.recording && (
+                  <i className="camera-recording-icon" />
+                )}
+                <div
+                  className={
+                    this.state.mirrored
+                      ? "buttons-camera-container video-mirrored"
+                      : "buttons-camera-container"
+                  }
+                >
                   {!this.state.recording ? (
                     <>
                       {/* <Row justify="center">
@@ -540,19 +575,20 @@ export default class VideoTab extends React.Component {
               </div>
               {this.state.recordingMode === "visual" && (
                 <Upload.Dragger {...this.draggerProps} className="dragger">
-                <FileAddFilled />
+                  <FileAddFilled />
 
-                <Paragraph className="ant-upload-text">{t("submit_profile_video_upload")}</Paragraph>
-              </Upload.Dragger>
+                  <Paragraph className="ant-upload-text">
+                    {t("submit_profile_video_upload")}
+                  </Paragraph>
+                </Upload.Dragger>
               )}
-              
             </Col>
           ) : !this.state.recording && this.state.recordedVideoUrl !== "" ? (
             <>
               <Row>
                 <Col span={24} style={{ display: "block", margin: "0 auto" }}>
                   <Video
-                    className={this.state.mirrored?"video-mirrored":""}
+                    className={this.state.mirrored ? "video-mirrored" : ""}
                     config={{
                       file: {
                         attributes: {
@@ -561,8 +597,8 @@ export default class VideoTab extends React.Component {
                       },
                     }}
                     controls
-                    width={"100%"}
-                    height={"100%"}
+                    width="100%"
+                    height="100%"
                     url={this.state.recordedVideoUrl}
                   />
                 </Col>
@@ -606,5 +642,5 @@ export default class VideoTab extends React.Component {
         </Row>
       </>
     );
-  }
+  };
 }

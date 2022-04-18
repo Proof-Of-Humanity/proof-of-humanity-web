@@ -1,5 +1,6 @@
 import { Settings } from "@kleros/icons";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "relay-hooks";
 import { Box, Flex, IconButton } from "theme-ui";
 
@@ -19,7 +20,6 @@ import { useContract, useWeb3 } from "./web3-provider";
 import { appQuery } from "_pages/index/app-query";
 import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
 import { address as pohAddress } from "subgraph/config";
-import { useTranslation } from 'react-i18next';
 
 export default function AccountSettingsPopup({
   name,
@@ -85,23 +85,38 @@ export default function AccountSettingsPopup({
   ]);
 
   return (
-    <Popup contentStyle={{ width: 490, lineHeight: 'initial' }} trigger={ <IconButton><Settings/></IconButton> } position="bottom right">
-      <Box sx={{ color: "text", paddingX: 1, paddingY: 2 }} >
-        <Text sx={{ fontWeight: "bold", textAlign: "center" }} >
-          {t('header_settings')}
+    <Popup
+      contentStyle={{ width: 490, lineHeight: "initial" }}
+      trigger={
+        <IconButton>
+          <Settings />
+        </IconButton>
+      }
+      position="bottom right"
+    >
+      <Box sx={{ color: "text", paddingX: 1, paddingY: 2 }}>
+        <Text sx={{ fontWeight: "bold", textAlign: "center" }}>
+          {t("header_settings")}
         </Text>
         <Tabs>
           <TabList>
-            <Tab>{t('header_settings_account')}</Tab>
-            <Tab>{t('header_settings_notifications')}</Tab>
+            <Tab>{t("header_settings_account")}</Tab>
+            <Tab>{t("header_settings_notifications")}</Tab>
           </TabList>
           <TabPanel>
-            <Text sx={{ fontSize: 14, marginBottom: 3 }} >
+            <Text sx={{ fontSize: 14, marginBottom: 3 }}>
               {accounts &&
-                (accounts.length === 0 ? t('header_settings_connected_infura') : (
+                (accounts.length === 0 ? (
+                  t("header_settings_connected_infura")
+                ) : (
                   <Flex sx={{ alignItems: "center" }}>
                     {photo ? (
-                      <Image crossOrigin="anonymous" sx={{ objectFit: "contain", width: 32, height: 32 }} variant="avatar" src={photo} />
+                      <Image
+                        crossOrigin="anonymous"
+                        sx={{ objectFit: "contain", width: 32, height: 32 }}
+                        variant="avatar"
+                        src={photo}
+                      />
                     ) : (
                       <Identicon address={accounts[0]} />
                     )}
@@ -120,12 +135,27 @@ export default function AccountSettingsPopup({
             </Text>
             <NetworkTag sx={{ mb: 1 }} />
             <Divider />
-            <Button sx={{ display: "block", marginTop: -2, marginX: "auto", class: 'asdasd', lineHeight: 'initial', lineHeights: { 'button': 'initial'}}} onClick={changeWallet} >
-              {accounts && accounts.length === 0 ? t('header_settings_connect_wallet') : t('header_settings_change_wallet')}
+            <Button
+              sx={{
+                display: "block",
+                marginTop: -2,
+                marginX: "auto",
+                class: "asdasd",
+                lineHeight: "initial",
+                lineHeights: { button: "initial" },
+              }}
+              onClick={changeWallet}
+            >
+              {accounts && accounts.length === 0
+                ? t("header_settings_connect_wallet")
+                : t("header_settings_change_wallet")}
             </Button>
             {withdrawableContributions?.length > 0 && (
-              <Button sx={{ display: "block", marginTop: 2, marginX: "auto" }} onClick={withdrawFeesAndRewards} >
-                {t('header_settings_withdraw_fees_rewards')}
+              <Button
+                sx={{ display: "block", marginTop: 2, marginX: "auto" }}
+                onClick={withdrawFeesAndRewards}
+              >
+                {t("header_settings_withdraw_fees_rewards")}
               </Button>
             )}
           </TabPanel>

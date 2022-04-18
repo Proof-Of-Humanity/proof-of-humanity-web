@@ -3,7 +3,7 @@
 
   "header_profiles": "Profiles",
   "header_pools": "Piscinas",
-  "header_submit_profile":  "Submeter Perfil",
+  "header_submit_profile": "Submeter Perfil",
   "header_my_profile": "Meu Perfil",
   "header_connect_button": "Connect",
 
@@ -11,7 +11,7 @@
   "header_settings_account": "Conta",
   "header_settings_notifications": "Notificações",
   "header_settings_withdraw_fees_rewards": "Retirada das Taxas e Recompensas",
-  "header_settings_connect_wallet":  "Conecte sua carteira",
+  "header_settings_connect_wallet": "Conecte sua carteira",
   "header_settings_change_wallet": "Troque sua carteira",
   "header_settings_connected_infura": "Conectado ao Infura",
 
@@ -31,7 +31,7 @@
   "header_faq_begginer_guide": "Crypto Beginner's Guide",
 
   "footer_learn_more": "Aprenda mais",
-  
+
   "submit_profile": "Submeter_perfil",
   "profile_title": "Perfil",
   "profile_status": "status do perfil",
@@ -62,7 +62,7 @@
   "profile_status_challenge_reason_IncorrectSubmission_description": "Partes da submissão estão incorretas",
   "profile_status_challenge_reason_Decription_Deceased_description": "O apresentante faleceu",
   "profile_status_challenge_reason_Duplicate_description": "O apresentante já está registrado",
-  "profile_status_challenge_reason_DoesNotExist_description": "O apresentante não existe",  
+  "profile_status_challenge_reason_DoesNotExist_description": "O apresentante não existe",
   "profile_status_duplicate_of": "de",
 
   "profile_share_vouching_title": "Registre-se e ateste este perfil em Proof Of Humanity",
@@ -83,16 +83,16 @@
   "profile_card_deposit": "Depósito",
 
   "profile_card_deadline_last_change": "Última modificação",
-  "profile_card_deadadline_challenge_deadline": "Prazo de Desafio",
+  "profile_card_deadline_challenge_deadline": "Prazo de Desafio",
   "profile_card_deadline_accepted": "Aceitado",
   "profile_card_deadline_deadline_expira": "Expira",
-  "profile_card_deadadline_renewal_available": "Renovação disponível",
+  "profile_card_deadline_renewal_available": "Renovação disponível",
   "profile_card_deadline_reapply": "Reaplicar",
 
   "profile_card_challenge_not_duplicate_of_itself": "Uma apresentação não pode ser um duplicado de si mesmo",
-  "profile_card_challenge_valid_duplicate":  " Duplicata Válida",
+  "profile_card_challenge_valid_duplicate": " Duplicata Válida",
   "profile_card_challenge_should_be_registered_or_pending": "Uma suposta duplicata deve ser registrada ou pendente de registro",
-  "profile_card_challenge_duplicate_address":  "Endereço Duplicado",
+  "profile_card_challenge_duplicate_address": "Endereço Duplicado",
   "profile_card_challenge_see_profile": "Ver Perfil",
   "profile_card_challenge_request": " Solicitação de Desafio",
   "profile_card_challenge_primary_doc": "Documento Primário",
@@ -103,13 +103,13 @@
   "profile_card_cancel_submission": "Cancelar Submissão",
 
   "profile_card_request_request_removal": " Solicitação de Remoção",
-  "profile_card_request_request_removal_evidence_name":  "Nome da evidência",
+  "profile_card_request_request_removal_evidence_name": "Nome da evidência",
 
   "profile_card_file": "Arquivo",
   "profile_card_vouch": "Vouch",
   "profile_card_remove": "Remover",
   "profile_card_vouch_text": "Certifique-se de que a pessoa existe e que você a encontrou fisicamente. Observe que, no caso de uma disputa, se uma submissão é rejeitada pelo motivo Duplicata ou Não existe, todos os que a tinham atestado serão removidos do registro. Note que seu vouch será contado somente quando e enquanto você estiver registrado, e outra submissão não estiver usando seu vouch",
-  "profile_card_remove_vouch": " Remover Vouch",  
+  "profile_card_remove_vouch": " Remover Vouch",
   "profile_card_gasless_vouch": "Gasless Vouch",
   "profile_card_vouch_saved": "Vouch salvado exitosamente",
 
@@ -152,7 +152,7 @@
   "submit_profile_your_wallet": "Sua carteira conectada é:",
   "submit_profile_tornado_cash": "Aprenda como aumentar sua privacidade com o Tornado Cash",
   "submit_profile_sensitive_info": "Entendo que esta carteira estará irreversivelmente ligada à minha pessoa do mundo real e não usarei essa carteira para qualquer informação privada ou sensível",
-  
+
   "submit_profile_info_info_title": "Informações básicas",
   "submit_profile_info_description": "Registrar-se para Proof of Humanity exige que você defina um nome. Você pode usar um pseudônimo se você se sentir mais confortável",
   "submit_profile_info_info_name_title": "Eu gosto de ser chamado de...",
@@ -170,7 +170,7 @@
   "submit_profile_image_crop_crop_zoom": "Zoom",
   "submit_profile_image_crop_crop_rotation": "Rotação",
   "submit_profile_image_image_size_error": "A área cortada deve ser maior que 256 pixels",
-  
+
   "submit_profile_image_grayscale": "A imagem não pode ser em preto e branco, por favor escolha ou tome outra",
   "submit_profile_image_rules_title": "Regras de imagem",
   "submit_profile_image_verify_title": "Verifique sua imagem!",
@@ -178,8 +178,8 @@
   "submit_profile_image_verify_next": "Tudo legal",
   "submit_profile_image_crop_result": "Mostrar resultado",
   "submit_profile_image_retake": " Refazer",
-  "submit_profile_image_result_title":"Sua imagem",
-  
+  "submit_profile_image_result_title": "Sua imagem",
+
   "submit_profile_video_title": "Você está pronto para falar?",
   "submit_profile_video_description": "Você deve estar em uma sala silenciosa, com um microfone funcional e ser capaz de ler de seu monitor. Se você não conseguir cumprir, então um processo alternativo está disponível",
   "submit_profile_video_video_by_voice": "Eu sou capaz de identificar minha conta usando minha voz e minha visão",
@@ -192,7 +192,7 @@
   "submit_profile_video_too_small": "A largura e altura do vídeo deve ser maior do de 352 píxeis",
   "submit_profile_video_too_big": "O arquivo selecionado excede o limite de tamanho de 15MB",
   "submit_profile_video_phrase": "Certifico que sou um ser humano de verdade e ainda não estou registrado neste registro. \n",
-  
+
   "submit_profile_finalize_title": "Finalize sua inscrição",
   "submit_profile_finalize_description": "Verifique se as informações e a mídia de sua submissão estão corretas e submeta a transação para registro",
   "submit_profile_finalize_name": "Nome",
@@ -212,7 +212,7 @@
   "submit_profile_extsteps_crowdvoucher_group": "Junte-se ao grupo de crowdvoucher no Telegram",
   "submit_profile_nextsteps_crowdfunding_group": " Junte-se ao grupo de crowdfunding no Telegram",
   "submit_profile_exsteps_goto_profile": "Vá ao meu perfil agora!",
-"submit_profile_deposit_info": "Seu depósito será devolvido quando você finalizar o registro se seu perfil cumprir com todas as regras",
+  "submit_profile_deposit_info": "Seu depósito será devolvido quando você finalizar o registro se seu perfil cumprir com todas as regras",
 
   "submit_profile_file_not_supported": "O tipo de arquivo selecionado não é suportado",
   "submit_profile_next": "Próximo",

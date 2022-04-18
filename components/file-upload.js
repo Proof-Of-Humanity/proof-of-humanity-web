@@ -1,4 +1,5 @@
 import { Trash } from "@kleros/icons";
+import fetch from "node-fetch";
 import { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { Box, Flex } from "theme-ui";
@@ -9,7 +10,6 @@ import Input from "./input";
 import Text from "./text";
 import Video from "./video";
 import Webcam from "./webcam";
-import fetch from 'node-fetch';
 
 const bufferToString = (buffer) => {
   let string = "";
@@ -44,35 +44,30 @@ export default function FileUpload({
 
   const onChange = (_files, ...args) => {
     if (_files)
-      for (const file of Array.isArray(_files) ? _files : [_files]){
+      for (const file of Array.isArray(_files) ? _files : [_files]) {
         file.toJSON = () => ({
           isSerializedFile: true,
           type: file.type,
           name: file.name,
           content: bufferToString(file.content),
         });
-        console.log(file.type)
-        let mimetype = file.type.split('/');
-        if(mimetype[0] == "image"){
-        fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/photo', {
-          method: 'POST',
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({buffer:Buffer.from(file.content)}),
-          
-        }).then(function(URI){
-          console.log(URI)
-        })
-      }
-      if(mimetype[0] == "video"){
-        fetch(process.env.NEXT_PUBLIC_MEDIA_SERVER + '/video', {
-          method: 'POST',
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({buffer:Buffer.from(file.content),type:mimetype[1]}),
-          
-        }).then(function(URI){
-          console.log(URI)
-        })
-      }
+        const mimetype = file.type.split("/");
+        if (mimetype[0] === "image")
+          fetch(`${process.env.NEXT_PUBLIC_MEDIA_SERVER}/photo`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ buffer: Buffer.from(file.content) }),
+          }).then((URI) => URI);
+
+        if (mimetype[0] === "video")
+          fetch(`${process.env.NEXT_PUBLIC_MEDIA_SERVER}/video`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              buffer: Buffer.from(file.content),
+              type: mimetype[1],
+            }),
+          }).then((URI) => URI);
       }
     return _onChange
       ? _onChange({ target: { name, value: _files } })
@@ -214,9 +209,17 @@ export default function FileUpload({
                 }}
               >
                 {file.type.startsWith("video") ? (
-                  <Video config={{ file: { attributes: { crossOrigin: 'true' }}}} variant="thumbnail" url={file.preview} />
+                  <Video
+                    config={{ file: { attributes: { crossOrigin: "true" } } }}
+                    variant="thumbnail"
+                    url={file.preview}
+                  />
                 ) : file.type.startsWith("image") ? (
-                  <Image crossOrigin="anonymous" variant="thumbnail" src={file.preview} />
+                  <Image
+                    crossOrigin="anonymous"
+                    variant="thumbnail"
+                    src={file.preview}
+                  />
                 ) : (
                   <Text>{file.name}</Text>
                 )}

@@ -13,10 +13,11 @@ import {
   Spin,
   Typography,
 } from "antd";
+import { withRouter } from "next/router";
 import React from "react";
 import Video from "react-player";
-import { withRouter } from "next/router";
-import { exitFFMPEG } from "lib/media-controller"
+
+import { exitFFMPEG } from "lib/media-controller";
 
 const { Title, Link, Paragraph } = Typography;
 
@@ -29,25 +30,22 @@ class _FinalizeTab extends React.Component {
       playedVideo: false,
     };
   }
-  
+
   componentDidMount = async () => {
     const deposit = await this.props.calculateDeposit();
-    if (deposit !== null) {
-      this.setState({deposit:deposit.ether})
-    }
+    if (deposit !== null) this.setState({ deposit: deposit.ether });
 
     // if (this.props.contract !== undefined) {
 
     // }
-    
-  }
+  };
 
   handleVideo = () => {
     this.setState({ playedVideo: true });
   };
 
   handleSubmit = () => {
-    this.props.stateHandler({ error: null});
+    this.props.stateHandler({ error: null });
     this.setState({ loading: true });
     this.props.prepareTransaction();
   };
@@ -65,13 +63,13 @@ class _FinalizeTab extends React.Component {
     this.props.stateHandler({
       progress: 0,
     });
-  }
+  };
 
   render() {
     // img, video and submitter name source by props
     const { t } = this.props.i18n;
-    
-    if (this.props.state.txHash === "") {
+
+    if (this.props.state.txHash === "")
       return (
         <Row>
           <Col span={24}>
@@ -96,7 +94,9 @@ class _FinalizeTab extends React.Component {
             /> */}
             {this.props.state.name && (
               <Row>
-                <Title level={4}>{t("submit_profile_finalize_name")}: {this.props.state.name}</Title>
+                <Title level={4}>
+                  {t("submit_profile_finalize_name")}: {this.props.state.name}
+                </Title>
               </Row>
             )}
             {this.props.account && (
@@ -119,7 +119,9 @@ class _FinalizeTab extends React.Component {
             )}
             {this.props.state.bio && (
               <Row>
-                <Title level={4}>{t("submit_profile_finalize_about")}: {this.props.state.bio}</Title>
+                <Title level={4}>
+                  {t("submit_profile_finalize_about")}: {this.props.state.bio}
+                </Title>
               </Row>
             )}
             <Row justify="center" align="middle" style={{ marginTop: "5%" }}>
@@ -140,7 +142,9 @@ class _FinalizeTab extends React.Component {
                 ) : (
                   <Row justify="center">
                     <Col span={24} style={{ textAlign: "center" }}>
-                      <Paragraph>{t("submit_profile_finalize_loading_picture")}</Paragraph>
+                      <Paragraph>
+                        {t("submit_profile_finalize_loading_picture")}
+                      </Paragraph>
                       <Spin />
                     </Col>
                   </Row>
@@ -160,8 +164,8 @@ class _FinalizeTab extends React.Component {
                       controls
                       onEnded={(event) => this.handleVideo(event)}
                       style={{ width: "100%" }}
-                      width={"100%"}
-                      height={"100%"}
+                      width="100%"
+                      height="100%"
                       url={this.props.state.videoURI}
                     />
                     {!this.state.playedVideo && (
@@ -171,41 +175,64 @@ class _FinalizeTab extends React.Component {
                     )}
                   </>
                 ) : (
-                  <>
-                    <Row justify="center">
-                      <Col span={24} style={{ textAlign: "center" }}>
-                        <Paragraph>{t("submit_profile_finalize_loading_video")}</Paragraph>
-                        <Spin />
-                        <Progress
-                          percent={Math.round(this.props.state.progress * 100)}
-                          status="active"
-                        />
-                      </Col>
-                    </Row>
-                  </>
+                  <Row justify="center">
+                    <Col span={24} style={{ textAlign: "center" }}>
+                      <Paragraph>
+                        {t("submit_profile_finalize_loading_video")}
+                      </Paragraph>
+                      <Spin />
+                      <Progress
+                        percent={Math.round(this.props.state.progress * 100)}
+                        status="active"
+                      />
+                    </Col>
+                  </Row>
                 )}
               </Col>
             </Row>
             <Row justify="center">
-                <Radio.Group onChange={(event) => {this.props.stateHandler({ crowdfund: event.target.value })}}>
-                  
-                  <Radio value={"self"}>
-                    {t('submit_profile_finalize_selffund')} ({this.state.deposit} ETH)
-                  </Radio>
-                  
-                  
-                  <Radio value={"crowd"}>
-                    {t("submit_profile_finalize_crowdfund")}
-                  </Radio>
-                  
-                </Radio.Group>
-                {this.props.state.crowdfund === "self" && (
-                  <Alert style={{marginTop:"2%"}} message={t("submit_profile_deposit_info")} type="info" closable></Alert>
-                )}
-                
-              
+              <Radio.Group
+                onChange={(event) => {
+                  this.props.stateHandler({ crowdfund: event.target.value });
+                }}
+              >
+                <Radio value="self">
+                  {t("submit_profile_finalize_selffund")} ({this.state.deposit}{" "}
+                  ETH)
+                </Radio>
+
+                <Radio value="crowd">
+                  {t("submit_profile_finalize_crowdfund")}
+                </Radio>
+              </Radio.Group>
+              {this.props.state.crowdfund === "self" && (
+                <Alert
+                  style={{ marginTop: "2%" }}
+                  message={t("submit_profile_deposit_info")}
+                  type="info"
+                  closable
+                />
+              )}
             </Row>
-            <Alert style={{textAlign: "center", width:"max-content", margin: "0 auto", marginTop:"3%"}}message={<Link href={this.props.rules} target="_blank" rel="noopener" style={{color: "black", fontWeight: "bold"}}>{t("submit_profile_rules_info")}</Link>} type="info"></Alert>
+            <Alert
+              style={{
+                textAlign: "center",
+                width: "max-content",
+                margin: "0 auto",
+                marginTop: "3%",
+              }}
+              message={
+                <Link
+                  href={this.props.rules}
+                  target="_blank"
+                  rel="noopener"
+                  style={{ color: "black", fontWeight: "bold" }}
+                >
+                  {t("submit_profile_rules_info")}
+                </Link>
+              }
+              type="info"
+            />
             {/* Next steps... */}{" "}
           </Col>
           <Button
@@ -233,96 +260,102 @@ class _FinalizeTab extends React.Component {
           </Button>
         </Row>
       );
-    } else {
-      return (
-        <Row style={{ display: "block", margin: "0 auto" }}>
-          <Space direction="vertical">
-            <Title level={2}>{t("submit_profile_nextsteps_title")}</Title>
-            <Title level={4}>{t("submit_profile_nextsteps_description")}</Title>
-            <Row justify="center" align="middle">
-              <Col span={24}>
-                <Title level={5} style={{ display: "block", margin: "0 auto" }}>
-                  {t("submit_profile_nextsteps_vouch_help")}
-                </Title>
-              </Col>
-            </Row>
-            <Row justify="center" align="middle">
-              <Col span={24}>
-                <Link
-                  href="https://t.me/PoHCrowdvoucher"
-                  target="_blank"
-                  className="button-orange"
-                  style={{
-                    width: "50%",
-                    height: "30%",
-                    borderRadius: "25px",
-                    color: "white",
-                    display: "flex",
-                    justifyContent: "center",
-                  }}
-                >
-                  {t("submit_profile_nextsteps_crowdvoucher_group")}
-                </Link>
-              </Col>
-            </Row>
 
-            {this.props.state.crowdfund === "crowd" && (
-              <>
-                <CheckCircleFilled
-                  style={{ fontSize: "50px", color: "green", marginRight: "20px" }}
-                />
-                <Row justify="center">
-                  <Col span={24}>
-                    <Crowdfund
-                      fill="green"
-                      height="50px"
-                      width="50px"
-                      style={{ marginRight: "20px" }}
-                    />
-                    <Title level={4} style={{ display: "block", margin: "0 auto" }}>
-                      {t("submit_profile_nextsteps_deposit_help")}
-                    </Title>
-                    <Link
-                      href="https://t.me/PoHcrowdfunding"
-                      target="_blank"
-                      className="button-orange"
-                      style={{
-                        width: "35%",
-                        borderRadius: "25px",
-                        color: "white",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {t("submit_profile_nextsteps_crowdfunding_group")}
-                    </Link>
-                  </Col>
-                </Row>
-              </>
-            )}
-
-            {this.props.state.confirmed && (
-              <Button
-                type="primary"
-                shape="round"
+    return (
+      <Row style={{ display: "block", margin: "0 auto" }}>
+        <Space direction="vertical">
+          <Title level={2}>{t("submit_profile_nextsteps_title")}</Title>
+          <Title level={4}>{t("submit_profile_nextsteps_description")}</Title>
+          <Row justify="center" align="middle">
+            <Col span={24}>
+              <Title level={5} style={{ display: "block", margin: "0 auto" }}>
+                {t("submit_profile_nextsteps_vouch_help")}
+              </Title>
+            </Col>
+          </Row>
+          <Row justify="center" align="middle">
+            <Col span={24}>
+              <Link
+                href="https://t.me/PoHCrowdvoucher"
+                target="_blank"
+                className="button-orange"
                 style={{
-                  fontWeight: "bold",
-                  display: "block",
-                  margin: "50px auto",
-                  backgroundColor: "#ffb978",
-                  border: "none",
                   width: "50%",
-                  height: "60px",
+                  height: "30%",
+                  borderRadius: "25px",
+                  color: "white",
+                  display: "flex",
+                  justifyContent: "center",
                 }}
-                onClick={this.goToProfile}
               >
-                {t("submit_profile_nexsteps_goto_profile")}
-              </Button>
-            )}
-          </Space>
-        </Row>
-      );
-    }
+                {t("submit_profile_nextsteps_crowdvoucher_group")}
+              </Link>
+            </Col>
+          </Row>
+
+          {this.props.state.crowdfund === "crowd" && (
+            <>
+              <CheckCircleFilled
+                style={{
+                  fontSize: "50px",
+                  color: "green",
+                  marginRight: "20px",
+                }}
+              />
+              <Row justify="center">
+                <Col span={24}>
+                  <Crowdfund
+                    fill="green"
+                    height="50px"
+                    width="50px"
+                    style={{ marginRight: "20px" }}
+                  />
+                  <Title
+                    level={4}
+                    style={{ display: "block", margin: "0 auto" }}
+                  >
+                    {t("submit_profile_nextsteps_deposit_help")}
+                  </Title>
+                  <Link
+                    href="https://t.me/PoHcrowdfunding"
+                    target="_blank"
+                    className="button-orange"
+                    style={{
+                      width: "35%",
+                      borderRadius: "25px",
+                      color: "white",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    {t("submit_profile_nextsteps_crowdfunding_group")}
+                  </Link>
+                </Col>
+              </Row>
+            </>
+          )}
+
+          {this.props.state.confirmed && (
+            <Button
+              type="primary"
+              shape="round"
+              style={{
+                fontWeight: "bold",
+                display: "block",
+                margin: "50px auto",
+                backgroundColor: "#ffb978",
+                border: "none",
+                width: "50%",
+                height: "60px",
+              }}
+              onClick={this.goToProfile}
+            >
+              {t("submit_profile_nexsteps_goto_profile")}
+            </Button>
+          )}
+        </Space>
+      </Row>
+    );
   }
 }
 

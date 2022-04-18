@@ -27,7 +27,7 @@ export default class InitialTab extends React.Component {
   };
 
   render() {
-    //console.log(this.props.submission)
+    // console.log(this.props.submission)
     const { t } = this.props.i18n;
 
     return (
@@ -56,7 +56,12 @@ export default class InitialTab extends React.Component {
               >
                 {this.props.account}
               </Paragraph>
-              <Link href="https://tornado.cash" target="_blank" rel="noopener" style={{ fontWeight: "bold" }}>
+              <Link
+                href="https://tornado.cash"
+                target="_blank"
+                rel="noopener"
+                style={{ fontWeight: "bold" }}
+              >
                 {t("submit_profile_tornado_cash")}
               </Link>
               <Checkbox
@@ -66,9 +71,16 @@ export default class InitialTab extends React.Component {
                 }}
               >
                 {t("submit_profile_sensitive_info")}
-                </Checkbox>
+              </Checkbox>
 
-              <Button disabled={!this.state.checked} type="primary" htmlType="submit" shape="round" className="button-orange" onClick={() => this.setState({ currentStep: "name" })}>
+              <Button
+                disabled={!this.state.checked}
+                type="primary"
+                htmlType="submit"
+                shape="round"
+                className="button-orange"
+                onClick={() => this.setState({ currentStep: "name" })}
+              >
                 {t("submit_profile_next")}
               </Button>
             </Space>
@@ -80,9 +92,7 @@ export default class InitialTab extends React.Component {
               <Title level={2} style={{ fontWeight: "bold" }}>
                 {t("submit_profile_info_title")}
               </Title>
-              <Paragraph>
-                {t("submit_profile_info_description")}
-              </Paragraph>
+              <Paragraph>{t("submit_profile_info_description")}</Paragraph>
 
               <Form
                 name="basicform"
@@ -96,9 +106,11 @@ export default class InitialTab extends React.Component {
                   label=""
                   name="name"
                   initialValue={this.props.submission?.name}
-                  
                   rules={[
-                    { required: true, message: t("submit_profile_info_name_error_help") },
+                    {
+                      required: true,
+                      message: t("submit_profile_info_name_error_help"),
+                    },
                   ]}
                 >
                   <Input
@@ -119,12 +131,28 @@ export default class InitialTab extends React.Component {
                 <Form.Item>
                   <Row>
                     <Col span={12} style={{ margin: "0 auto" }}>
-                      <Button type="primary" shape="round" className="button-grey" onClick={() => this.setState({ currentStep: "address" }) }>
+                      <Button
+                        type="primary"
+                        shape="round"
+                        className="button-grey"
+                        onClick={() =>
+                          this.setState({ currentStep: "address" })
+                        }
+                      >
                         {t("submit_profile_previous")}
                       </Button>
                     </Col>
                     <Col span={12}>
-                      <Button disabled={this.props.state.name === undefined || this.props.state.name === ""} htmlType="submit" shape="round" className="button-orange" onClick={this.handleAdvance}>
+                      <Button
+                        disabled={
+                          this.props.state.name === undefined ||
+                          this.props.state.name === ""
+                        }
+                        htmlType="submit"
+                        shape="round"
+                        className="button-orange"
+                        onClick={this.handleAdvance}
+                      >
                         {t("submit_profile_next")}
                       </Button>
                     </Col>
