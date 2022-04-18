@@ -5,10 +5,12 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 
 import translationEN from '../public/locales/en/translation.json';
 import translationES from '../public/locales/es/translation.json';
+import translationPT from '../public/locales/pt/translation.json';
 
 const resources = {
   en: { translation: translationEN },
-  es: { translation: translationES }
+  es: { translation: translationES },
+  pt: { translation: translationPT}
 };
 
 i18n

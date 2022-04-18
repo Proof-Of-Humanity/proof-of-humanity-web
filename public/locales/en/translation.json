@@ -213,5 +213,9 @@
 
   "submit_profile_file_not_supported": "The selected file type is not supported",
   "submit_profile_next": "Next",
-  "submit_profile_previous": "Previous"
+  "submit_profile_previous": "Previous",
+
+  "web3_modal_walletconnect":"Scan with WalletConnect to connect",
+  "web3_modal_authereum":"Connect with your Authereum account",
+  "web3_modal_metamask":"Connect your Metamask wallet"
 }
