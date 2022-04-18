@@ -97,7 +97,7 @@ export default class ImageTab extends React.Component {
 
   imageRulesList = [
     {
-      title: this.props.i18n.t("submit_profile_image_rules_title"),
+      title: <Title level={4} style={{textAlign: "center"}}>{this.props.i18n.t("submit_profile_image_rules_title")}</Title>,
       description: (
         <Row justify="center">
           <Col span={6}>
@@ -607,15 +607,18 @@ export default class ImageTab extends React.Component {
                 />
               </Paragraph>
 
-              <Row justify="center">
+              <Row justify="center" align="middle">
                 <Col xs={24} lg={12}>
+                  <Title level={4} style={{textAlign: "center", marginBottom:"3%"}}>{t("submit_profile_image_result_title")}</Title>
                   <Image
                     preview={false}
                     style={{
-                      width: "300px",
+                      width: "50%",
                       height: "auto",
                       borderRadius: "50%",
                       border: "1px solid black",
+                      display:"block", 
+                      margin: "0 auto"
                     }}
                     src={this.state.croppedImage}
                     alt="Crop result"

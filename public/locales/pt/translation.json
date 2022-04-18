@@ -178,6 +178,7 @@
   "submit_profile_image_verify_next": "Tudo legal",
   "submit_profile_image_crop_result": "Mostrar resultado",
   "submit_profile_image_retake": " Refazer",
+  "submit_profile_image_result_title":"Sua imagem",
   
   "submit_profile_video_title": "Você está pronto para falar?",
   "submit_profile_video_description": "Você deve estar em uma sala silenciosa, com um microfone funcional e ser capaz de ler de seu monitor. Se você não conseguir cumprir, então um processo alternativo está disponível",
@@ -202,6 +203,7 @@
   "submit_profile_finalize_video_check": "Por favor, verifique todo o seu vídeo para poder submeter sua submissão",
   "submit_profile_finalize_crowdfund": "Eu quero usar Crowdfund (sem depósito próprio)",
   "submit_profile_finalize_selffund": "Eu quero financiar minha própria submissão",
+  "submit_profile_rules_info": "Clique aqui para revisar as regras de registro atuais",
 
   "submit_profile_nextsteps_title": "Seu perfil está sendo publicado!",
   "submit_profile_nextsteps_description": "Mas ainda não acabou! Aqui estão os próximos passos antes que você possa começar a receber o UBI",

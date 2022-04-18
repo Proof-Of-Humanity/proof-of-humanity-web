@@ -200,11 +200,12 @@ class _FinalizeTab extends React.Component {
                   
                 </Radio.Group>
                 {this.props.state.crowdfund === "self" && (
-                  <Alert message={t("submit_profile_deposit_info")} type="info" closable></Alert>
+                  <Alert style={{marginTop:"2%"}} message={t("submit_profile_deposit_info")} type="info" closable></Alert>
                 )}
-                <Alert message={this.props.rules} type="info"></Alert>
+                
               
             </Row>
+            <Alert style={{textAlign: "center", width:"max-content", margin: "0 auto", marginTop:"3%"}}message={<Link href={this.props.rules} target="_blank" rel="noopener" style={{color: "black", fontWeight: "bold"}}>{t("submit_profile_rules_info")}</Link>} type="info"></Alert>
             {/* Next steps... */}{" "}
           </Col>
           <Button

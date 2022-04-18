@@ -177,6 +177,7 @@
   "submit_profile_image_verify_next": "Looking great",
   "submit_profile_image_crop_result": "Show result",
   "submit_profile_image_retake": "Retake",
+  "submit_profile_image_result_title":"Your picture",
   
   "submit_profile_video_title": "Are you ready to speak?",
   "submit_profile_video_description": "You must be in a quiet room, with a working microphone and be able to read from your screen. If you are unable to comply, then an alternative process is available.",
@@ -201,6 +202,7 @@
   "submit_profile_finalize_video_check": "Please check your whole video to be able to send the submission.",
   "submit_profile_finalize_crowdfund": "I want to use Crowdfund (no self deposit)",
   "submit_profile_finalize_selffund": "I want to fund my own submission",
+  "submit_profile_rules_info":"Click here to review the current registration rules",
 
   "submit_profile_nextsteps_title": "Your profile is being uploaded!",
   "submit_profile_nextsteps_description": "But it's not over yet! Here are the next steps before you can start receiving UBI.",
