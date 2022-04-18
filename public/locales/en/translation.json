@@ -122,6 +122,9 @@
   "profile_card_vouches_in_use": "Vouches in use in other submissions",
   "profile_card_vouches_used": "All vouches given to this submission are being used by other submissions. Either wait for them to resolve or ask that someone else with a free vouch to also vouch for you.",
 
+  "profile_details_previous_requests":"Previous Submissions",
+  "profile_details_previous_requests_button":"Go to submission number",
+
   "profile_details_evidence": "Evidence",
   "profile_details_appeal": "Appeal",
   "profile_details_evidence_scroll_first": "Scroll to 1st Evidence",

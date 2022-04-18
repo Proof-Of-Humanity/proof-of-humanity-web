@@ -337,9 +337,9 @@ class _FinalizeTab extends React.Component {
 
           {this.props.state.confirmed && (
             <Button
-              type="primary"
-              shape="round"
-              style={{
+                type="primary"
+                shape="round"
+                style={{
                 fontWeight: "bold",
                 display: "block",
                 margin: "50px auto",

@@ -32,7 +32,7 @@
 
   "footer_learn_more": "Aprenda mais",
 
-  "submit_profile": "Submeter_perfil",
+  "submit_profile": "Submeter perfil",
   "profile_title": "Perfil",
   "profile_status": "status do perfil",
   "profile_advice": "Conselho",
@@ -121,6 +121,9 @@
   "profile_card_pending_vouch_release": " Liberação de vouch pendente",
   "profile_card_vouches_in_use": " Vouches em uso em outras apresentações",
   "profile_card_vouches_used": "Todos os vouches dados a este envio estão sendo utilizados por outras apresentações. Ou esperar que eles resolvam ou pedir que outra pessoa com um comprovante livre também ateste por você",
+
+  "profile_details_previous_requests": " Submissões Anteriores",
+  "profile_details_previous_requests_button": "Ir para a submissão numero",
 
   "profile_details_evidence": "Evidência",
   "profile_details_appeal": " Apelar",

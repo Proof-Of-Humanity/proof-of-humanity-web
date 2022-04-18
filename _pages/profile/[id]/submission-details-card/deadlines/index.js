@@ -21,7 +21,7 @@ const deadlinesFragments = {
     fragment deadlinesSubmission on Submission {
       id
       submissionTime
-      request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
+      request: requests(orderBy: creationTime, orderDirection: desc) {
         lastStatusChange
         ...challengeButtonRequest
         ...removeButtonRequest

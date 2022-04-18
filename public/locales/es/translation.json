@@ -122,6 +122,9 @@
   "profile_card_vouches_in_use": "Validaciones en uso en otro registro",
   "profile_card_vouches_used": "Todos las validaciones otorgadas a este registro están siendo utilizados por otros registros. Espere a que resuelvan o solicite que otra persona con una validacion libre pueda validarlo.",
 
+  "profile_details_previous_requests":"Registros Previos",
+  "profile_details_previous_requests_button":"Ver el registro número",
+
   "profile_details_evidence": "Evidencia",
   "profile_details_appeal": "Apelar",
   "profile_details_evidence_scroll_first": "Bajar a la 1er Evidencia",

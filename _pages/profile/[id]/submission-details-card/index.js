@@ -24,6 +24,7 @@ import {
   TwitterShareButton,
 } from "react-share";
 import { graphql, useFragment } from "relay-hooks";
+import { useRouter } from "next/router";
 
 import Deadlines from "./deadlines";
 import GaslessVouchButton from "./gasless-vouch";
@@ -67,14 +68,13 @@ const submissionDetailsCardFragments = {
       }
       requests(
         orderBy: creationTime
-        orderDirection: desc
-        first: 1
+        orderDirection: asc
         where: { registration: true }
       ) {
         arbitrator
         arbitratorExtraData
         lastStatusChange
-        evidence(orderBy: creationTime, first: 1) {
+        evidence(orderBy: creationTime, orderDirection: desc) {
           URI
         }
         vouches {
@@ -129,10 +129,10 @@ export default function SubmissionDetailsCard({
   contract,
   vouchers,
 }) {
-  const { t, i18n } = useTranslation();
-
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { query } = router;
   const {
-    requests: [request],
     latestRequest: [latestRequest],
     id,
     name,
@@ -142,6 +142,7 @@ export default function SubmissionDetailsCard({
     submissionDetailsCardFragments.submission,
     submission
   ));
+  const { requests } = submission;
 
   const orderedVouchees = lodashOrderBy(
     vouchees,
@@ -150,10 +151,13 @@ export default function SubmissionDetailsCard({
   );
 
   const [accounts] = useWeb3("eth", "getAccounts");
+  
+    // console.log(isNaN(query.request))
+    let requestID = query.request === undefined || query.request > requests.length || query.request <= 0 || Number.isNaN(query.request) ? requests.length - 1 : query.request - 1;
+  const { lastStatusChange } = requests[requestID];
   const isSelf =
     accounts?.[0] && accounts[0].toLowerCase() === id.toLowerCase();
-
-  const { lastStatusChange } = request;
+    const isLatestRequest = requestID === requests.length -1;
   const {
     submissionBaseDeposit,
     submissionDuration,
@@ -176,8 +180,8 @@ export default function SubmissionDetailsCard({
   const { rounds, lastRoundID } = challenge || {};
   const round = (rounds && rounds[0]) || {};
   const { hasPaid } = round || {};
-
-  const evidence = useEvidenceFile()(request.evidence[0].URI);
+  // console.log(requests)
+  const evidence = useEvidenceFile()(requests[requestID].evidence[0].URI);
   const contributions = useMemo(
     () =>
       round.contributions.map((contribution) =>
@@ -186,22 +190,16 @@ export default function SubmissionDetailsCard({
     [round.contributions]
   );
 
-  const compoundName =
-    [evidence?.file?.firstName, evidence?.file?.lastName]
-      .filter(Boolean)
-      .join(" ") || name;
-  const displayName =
-    compoundName === name ? name : `${compoundName} (${name})`;
 
   const [arbitrationCost] = useContract(
     "klerosLiquid",
     "arbitrationCost",
     useMemo(
       () => ({
-        address: request.arbitrator,
-        args: [request.arbitratorExtraData],
+        address: requests[0].arbitrator,
+        args: [requests[0].arbitratorExtraData],
       }),
-      [request]
+      [requests]
     )
   );
   const { web3 } = useWeb3();
@@ -241,7 +239,7 @@ export default function SubmissionDetailsCard({
       voucher.id !== id.toLowerCase()
   );
 
-  const currentGraphVouchers = request.vouches.filter(
+  const currentGraphVouchers = requests[0].vouches.filter(
     (voucher) =>
       Date.now() / 1000 - voucher.submissionTime < submissionDuration &&
       voucher.id !== id.toLowerCase()
@@ -285,6 +283,8 @@ export default function SubmissionDetailsCard({
     
     
   }
+
+
   return (
     <Card
       mainSx={{
@@ -344,7 +344,9 @@ export default function SubmissionDetailsCard({
                   {t("profile_card_fund_submission")}
                 </FundButton>
               )}
-              {!isSelf ? (
+              {
+              isLatestRequest ? (
+              !isSelf ? (
                 !shouldCheckVideo ? (
                   <React.Fragment>
                     <GaslessVouchButton submissionID={id} />
@@ -353,7 +355,9 @@ export default function SubmissionDetailsCard({
                 ) : (
                   <Text>{t("profile_card_video_check")}</Text>
                 )
-              ) : null}
+              ) : null
+              ) : <Text>Please go to the <Link href={`?request=${requests.length}`}>current request</Link> to vouch for this profile</Text>
+            }
             </>
           )}
         </Box>
