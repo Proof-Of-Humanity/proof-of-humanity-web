@@ -85,7 +85,7 @@
   "profile_card_deadline_last_change": "Última modificação",
   "profile_card_deadline_challenge_deadline": "Prazo de Desafio",
   "profile_card_deadline_accepted": "Aceitado",
-  "profile_card_deadline_deadline_expira": "Expira",
+  "profile_card_deadline_expires": "Expira",
   "profile_card_deadline_renewal_available": "Renovação disponível",
   "profile_card_deadline_reapply": "Reaplicar",
 
@@ -102,8 +102,8 @@
 
   "profile_card_cancel_submission": "Cancelar Submissão",
 
-  "profile_card_request_request_removal": " Solicitação de Remoção",
-  "profile_card_request_request_removal_evidence_name": "Nome da evidência",
+  "profile_card_request_removal": " Solicitação de Remoção",
+  "profile_card_request_removal_evidence_name": "Nome da evidência",
 
   "profile_card_file": "Arquivo",
   "profile_card_vouch": "Vouch",
@@ -120,7 +120,7 @@
   "profile_card_start_accruing": " Começar a acumular UBI",
   "profile_card_pending_vouch_release": " Liberação de vouch pendente",
   "profile_card_vouches_in_use": " Vouches em uso em outras apresentações",
-  "profile_card_vouches_vouches_utilizado": "Todos os vouches dados a este envio estão sendo utilizados por outras apresentações. Ou esperar que eles resolvam ou pedir que outra pessoa com um comprovante livre também ateste por você",
+  "profile_card_vouches_used": "Todos os vouches dados a este envio estão sendo utilizados por outras apresentações. Ou esperar que eles resolvam ou pedir que outra pessoa com um comprovante livre também ateste por você",
 
   "profile_details_evidence": "Evidência",
   "profile_details_appeal": " Apelar",
@@ -130,9 +130,9 @@
   "profile_evidence_submit_evidence": "Submeter Evidência",
   "profile_evidence_name_validation": "Deve ter 50 caracteres ou menos",
   "profile_evidence_description_validation": "Deve ter 300 caracteres ou menos",
-  "profile_evidence_evidence_error_required": "Obrigatório",
-  "profile_evidence_submitted_submitted_by": "submetido por",
-  "profile_evidence_file_size_size": "Arquivo deve ser {{{max_size}} ou menos",
+  "profile_evidence_error_required": "Obrigatório",
+  "profile_evidence_submitted_by": "submetido por",
+  "profile_evidence_file_size": "Arquivo deve ser {{{max_size}} ou menos",
   "profile_evidence_example_placeholder": "Por exemplo, o apresentante não é uma pessoa real",
   "profile_evidence_example_description": "Descrição da evidência (seus argumentos)",
   "profile_evidence_no_description": "Sem descrição",
@@ -153,11 +153,11 @@
   "submit_profile_tornado_cash": "Aprenda como aumentar sua privacidade com o Tornado Cash",
   "submit_profile_sensitive_info": "Entendo que esta carteira estará irreversivelmente ligada à minha pessoa do mundo real e não usarei essa carteira para qualquer informação privada ou sensível",
 
-  "submit_profile_info_info_title": "Informações básicas",
+  "submit_profile_info_title": "Informações básicas",
   "submit_profile_info_description": "Registrar-se para Proof of Humanity exige que você defina um nome. Você pode usar um pseudônimo se você se sentir mais confortável",
-  "submit_profile_info_info_name_title": "Eu gosto de ser chamado de...",
+  "submit_profile_info_name_title": "Eu gosto de ser chamado de...",
   "submit_profile_info_name_name_placeholder": "Seu nome",
-  "submit_profile_info_info_name_error_help": "Por favor, digite seu nome",
+  "submit_profile_info_name_error_help": "Por favor, digite seu nome",
   "submit_profile_info_bio_title": "Conte algo sobre você",
   "submit_profile_info_bio_placeholder": "De onde você é, quantos anos você tem, que coisas você gosta, etc.",
 
@@ -167,9 +167,9 @@
   "submit_profile_image_upload_button": " Carregar imagem",
   "submit_profile_image_crop_title": "Cortar sua imagem!",
   "submit_profile_image_crop_description": "Certifique-se de que seu rosto esteja centrado e não rotacionado",
-  "submit_profile_image_crop_crop_zoom": "Zoom",
-  "submit_profile_image_crop_crop_rotation": "Rotação",
-  "submit_profile_image_image_size_error": "A área cortada deve ser maior que 256 pixels",
+  "submit_profile_image_crop_zoom": "Zoom",
+  "submit_profile_image_crop_rotation": "Rotação",
+  "submit_profile_image_size_error": "A área cortada deve ser maior que 256 pixels",
 
   "submit_profile_image_grayscale": "A imagem não pode ser em preto e branco, por favor escolha ou tome outra",
   "submit_profile_image_rules_title": "Regras de imagem",
@@ -182,7 +182,7 @@
 
   "submit_profile_video_title": "Você está pronto para falar?",
   "submit_profile_video_description": "Você deve estar em uma sala silenciosa, com um microfone funcional e ser capaz de ler de seu monitor. Se você não conseguir cumprir, então um processo alternativo está disponível",
-  "submit_profile_video_video_by_voice": "Eu sou capaz de identificar minha conta usando minha voz e minha visão",
+  "submit_profile_video_by_voice": "Eu sou capaz de identificar minha conta usando minha voz e minha visão",
   "submit_profile_video_visual": "Eu preferiria usar um método visual",
   "submit_profile_video_ready_title": "Prepare-se para falar",
   "submit_profile_video_ready_help": "Diga as palavras como elas aparecem em seu monitor",
