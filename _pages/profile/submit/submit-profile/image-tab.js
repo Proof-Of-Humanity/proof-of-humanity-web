@@ -440,7 +440,7 @@ export default class ImageTab extends React.Component {
 
     return (
       <>
-        {this.state.cameraEnabled ? (
+        {this.state.cameraEnabled && this.props.state.permission ? (
           <>
             <Row>
               <Col span={24}>
@@ -526,33 +526,36 @@ export default class ImageTab extends React.Component {
                 </Row>
               </div>
             </div>
-            <Row>
-              <Col span={24}>
-                <Title level={2}>
-                  {t("submit_profile_image_upload_title")}
-                </Title>
-              </Col>
-            </Row>
-            <Row justify="center">
-              <Col xs={12} lg={6}>
-                <Upload.Dragger
-                  {...this.draggerProps}
-                  style={{
-                    backgroundColor: "#ffb978",
-                    fontWeight: "bold",
-                    border: "none",
-                    borderRadius: "10px",
-                  }}
-                >
-                  <FileAddFilled />
-                  <Paragraph className="ant-upload-text">
-                    {t("submit_profile_image_upload_button")}
-                  </Paragraph>
-                </Upload.Dragger>
-              </Col>
-            </Row>
           </>
-        ) : null}
+        ) : (
+          <Row>
+            <Col span={24}>
+              <Title level={2}>{t("submit_profile_missing_permissions")}</Title>
+              <Paragraph style={{ color: "black", whiteSpace: "pre-line" }}>
+                {t("submit_profile_missing_permissions_description")}
+              </Paragraph>
+            </Col>
+          </Row>
+        )}
+        <Title level={2}>{t("submit_profile_image_upload_title")}</Title>
+        <Row justify="center">
+          <Col xs={12} lg={6}>
+            <Upload.Dragger
+              {...this.draggerProps}
+              style={{
+                backgroundColor: "#ffb978",
+                fontWeight: "bold",
+                border: "none",
+                borderRadius: "10px",
+              }}
+            >
+              <FileAddFilled />
+              <Paragraph className="ant-upload-text">
+                {t("submit_profile_image_upload_button")}
+              </Paragraph>
+            </Upload.Dragger>
+          </Col>
+        </Row>
 
         {this.state.image && this.state.picture && !this.state.croppedImage && (
           <>

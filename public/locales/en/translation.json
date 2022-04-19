@@ -190,6 +190,7 @@
   "submit_profile_video_visual": "I would prefer to use a visual method",
   "submit_profile_video_ready_title": "Get ready to say your bit!",
   "submit_profile_video_ready_help": "Speak the words as they appear on the screen",
+  "submit_profile_video_upload_title": "Or upload a video",
   "submit_profile_video_upload": "Upload video",
   "submit_profile_video_retake": "Choose a different video",
   "submit_profile_video_too_long": "The selected file should be shorter than two minutes",
@@ -217,6 +218,9 @@
   "submit_profile_nextsteps_crowdfunding_group": "Join the crowdfunding group on Telegram",
   "submit_profile_nexsteps_goto_profile": "Go to my profile now!",
   "submit_profile_deposit_info": "Your deposit will be returned when you finalize the registration if your profile complies with all the rules.",
+
+  "submit_profile_missing_permissions": "The permissions for your camera were rejected",
+  "submit_profile_missing_permissions_description": "Please reset your permission settings if you intend on using your camera",
 
   "submit_profile_file_not_supported": "The selected file type is not supported",
   "submit_profile_next": "Next",

@@ -31,8 +31,6 @@ class _FinalizeTab extends React.Component {
     };
   }
 
-
-
   handleVideo = () => {
     this.setState({ playedVideo: true });
   };
@@ -59,7 +57,7 @@ class _FinalizeTab extends React.Component {
   };
 
   render() {
-    console.log(this.props.state)
+    // console.log(this.props.state)
     // img, video and submitter name source by props
     const { t } = this.props.i18n;
 
@@ -191,8 +189,8 @@ class _FinalizeTab extends React.Component {
                 }}
               >
                 <Radio value="self">
-                  {t("submit_profile_finalize_selffund")} ({this.props.state.deposit.ether}{" "}
-                  ETH)
+                  {t("submit_profile_finalize_selffund")} (
+                  {this.props.state.deposit.ether} ETH)
                 </Radio>
 
                 <Radio value="crowd">

@@ -197,7 +197,7 @@ export default class VideoTab extends React.Component {
           );
 
           this.setState({
-            cameraEnabled: false, // true?
+            cameraEnabled: true,
             recording: false,
             recordedVideo: [],
             recordedVideoUrl: "",
@@ -359,7 +359,7 @@ export default class VideoTab extends React.Component {
       // console.log("videoTab render state", this.state);
 
       <>
-        {this.state.recordingMode === "" && (
+        {this.state.recordingMode === "" && this.props.state.permission && (
           <Row justify="center">
             <Col span={24}>
               <Title level={2}>{t("submit_profile_video_title")}</Title>
@@ -425,8 +425,11 @@ export default class VideoTab extends React.Component {
             )} />
             </Row>*/}
 
-        <Row justify="center">
-          {this.state.cameraEnabled && this.state.recordingMode !== "" ? (
+        {this.state.cameraEnabled &&
+        this.props.state.recordingMode !== "" &&
+        this.props.state.permission &&
+        this.state.recordedVideoUrl === "" ? (
+          <Row justify="center">
             <Col span={24}>
               <Title level={2}>{t("submit_profile_video_ready_title")}</Title>
               <Title level={5}>{t("submit_profile_video_ready_help")}</Title>
@@ -573,61 +576,72 @@ export default class VideoTab extends React.Component {
                   )}
                 </div>
               </div>
-              {this.state.recordingMode === "visual" && (
-                <Upload.Dragger {...this.draggerProps} className="dragger">
-                  <FileAddFilled />
-
-                  <Paragraph className="ant-upload-text">
-                    {t("submit_profile_video_upload")}
-                  </Paragraph>
-                </Upload.Dragger>
-              )}
             </Col>
-          ) : !this.state.recording && this.state.recordedVideoUrl !== "" ? (
-            <>
-              <Row>
-                <Col span={24} style={{ display: "block", margin: "0 auto" }}>
-                  <Video
-                    className={this.state.mirrored ? "video-mirrored" : ""}
-                    config={{
-                      file: {
-                        attributes: {
-                          crossOrigin: "true",
-                        },
+          </Row>
+        ) : !this.props.state.permission &&
+          this.state.recordedVideoUrl === "" ? (
+          <Row>
+            <Col span={24}>
+              <Title level={2}>{t("submit_profile_missing_permissions")}</Title>
+              <Paragraph style={{ color: "black", whiteSpace: "pre-line" }}>
+                {t("submit_profile_missing_permissions_description")}
+              </Paragraph>
+              <Title level={2}>{t("submit_profile_video_upload_title")}</Title>
+              <Upload.Dragger {...this.draggerProps} className="dragger">
+                <FileAddFilled />
+
+                <Paragraph className="ant-upload-text">
+                  {t("submit_profile_video_upload")}
+                </Paragraph>
+              </Upload.Dragger>
+            </Col>
+          </Row>
+        ) : null}
+        {!this.state.recording && this.state.recordedVideoUrl !== "" ? (
+          <>
+            <Row>
+              <Col span={24} style={{ display: "block", margin: "0 auto" }}>
+                <Video
+                  className={this.state.mirrored ? "video-mirrored" : ""}
+                  config={{
+                    file: {
+                      attributes: {
+                        crossOrigin: "true",
                       },
-                    }}
-                    controls
-                    width="100%"
-                    height="100%"
-                    url={this.state.recordedVideoUrl}
-                  />
-                </Col>
-              </Row>
-              <Row justify="center" style={{ width: "100%" }}>
-                <Col xl={12} xs={24}>
-                  <Button
-                    onClick={this.retakeVideo}
-                    shape="round"
-                    className="button-grey"
-                  >
-                    {t("submit_profile_video_retake")}
-                  </Button>
-                </Col>
-                <Col xl={12} xs={24}>
-                  <Button
-                    type="primary"
-                    disabled={this.state.file === ""}
-                    shape="round"
-                    className="button-orange"
-                    onClick={this.uploadVideo}
-                  >
-                    {t("submit_profile_video_upload")}
-                  </Button>
-                </Col>
-              </Row>
-            </>
-          ) : null}
-        </Row>
+                    },
+                  }}
+                  controls
+                  width="100%"
+                  height="100%"
+                  url={this.state.recordedVideoUrl}
+                />
+              </Col>
+            </Row>
+            <Row justify="center" style={{ width: "100%" }}>
+              <Col xl={12} xs={24}>
+                <Button
+                  onClick={this.retakeVideo}
+                  shape="round"
+                  className="button-grey"
+                >
+                  {t("submit_profile_video_retake")}
+                </Button>
+              </Col>
+              <Col xl={12} xs={24}>
+                <Button
+                  type="primary"
+                  disabled={this.state.file === ""}
+                  shape="round"
+                  className="button-orange"
+                  onClick={this.uploadVideo}
+                >
+                  {t("submit_profile_video_upload")}
+                </Button>
+              </Col>
+            </Row>
+          </>
+        ) : null}
+
         <Row justify="center">
           <Col span={24}>
             <Button
