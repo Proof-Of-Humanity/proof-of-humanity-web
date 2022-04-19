@@ -13,8 +13,11 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { User } from "@kleros/icons";
+import base2048 from "base-2048";
 import lodashOrderBy from "lodash.orderby";
+import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import {
   RedditIcon,
   RedditShareButton,
@@ -24,7 +27,6 @@ import {
   TwitterShareButton,
 } from "react-share";
 import { graphql, useFragment } from "relay-hooks";
-import { useRouter } from "next/router";
 
 import Deadlines from "./deadlines";
 import GaslessVouchButton from "./gasless-vouch";
@@ -38,9 +40,6 @@ import {
   submissionStatusEnum,
   useEvidenceFile,
 } from "data";
-
-import { useTranslation, Trans } from "react-i18next";
-import base2048 from "base-2048";
 
 const submissionDetailsCardFragments = {
   contract: graphql`
@@ -151,13 +150,18 @@ export default function SubmissionDetailsCard({
   );
 
   const [accounts] = useWeb3("eth", "getAccounts");
-  
-    // console.log(isNaN(query.request))
-    let requestID = query.request === undefined || query.request > requests.length || query.request <= 0 || Number.isNaN(query.request) ? requests.length - 1 : query.request - 1;
+
+  const requestID =
+    query.request === undefined ||
+    query.request > requests.length ||
+    query.request <= 0 ||
+    Number.isNaN(Number(query.request))
+      ? requests.length - 1
+      : query.request - 1;
   const { lastStatusChange } = requests[requestID];
   const isSelf =
     accounts?.[0] && accounts[0].toLowerCase() === id.toLowerCase();
-    const isLatestRequest = requestID === requests.length -1;
+  const isLatestRequest = requestID === requests.length - 1;
   const {
     submissionBaseDeposit,
     submissionDuration,
@@ -189,7 +193,6 @@ export default function SubmissionDetailsCard({
       ),
     [round.contributions]
   );
-
 
   const [arbitrationCost] = useContract(
     "klerosLiquid",
@@ -267,23 +270,21 @@ export default function SubmissionDetailsCard({
       : t("profile_share_check_out_title");
 
   const firstRoundFullyFunded = Number(lastRoundID) === 0 && hasPaid[0];
-  let [shouldCheckVideo, checkedVideo] = useState(true);
+  const [shouldCheckVideo, checkedVideo] = useState(true);
   const generatePhrase = (language) => {
-    const address = id.substring(2);
-    const bytes = Buffer.from(address, 'hex');
-    
-    if(language === "en"){
-      const words = base2048.english.encode(bytes);
-      //console.log(words)
-      return words.split(" ").slice(0, 8).join(' ');
-    } else if(language === "es"){
-      const words = base2048.spanish.encode(bytes);
-      return words.split(" ").slice(0, 8).join(' ');
-    }
-    
-    
-  }
+    const address = id.slice(2);
+    const bytes = Buffer.from(address, "hex");
 
+    if (language === "en") {
+      const words = base2048.english.encode(bytes);
+      // console.log(words)
+      return words.split(" ").slice(0, 8).join(" ");
+    }
+    if (language === "es") {
+      const words = base2048.spanish.encode(bytes);
+      return words.split(" ").slice(0, 8).join(" ");
+    }
+  };
 
   return (
     <Card
@@ -344,20 +345,26 @@ export default function SubmissionDetailsCard({
                   {t("profile_card_fund_submission")}
                 </FundButton>
               )}
-              {
-              isLatestRequest ? (
-              !isSelf ? (
-                !shouldCheckVideo ? (
-                  <React.Fragment>
-                    <GaslessVouchButton submissionID={id} />
-                    <VouchButton submissionID={id} />
-                  </React.Fragment>
-                ) : (
-                  <Text>{t("profile_card_video_check")}</Text>
-                )
-              ) : null
-              ) : <Text>Please go to the <Link href={`?request=${requests.length}`}>current request</Link> to vouch for this profile</Text>
-            }
+              {isLatestRequest ? (
+                !isSelf ? (
+                  !shouldCheckVideo ? (
+                    <>
+                      <GaslessVouchButton submissionID={id} />
+                      <VouchButton submissionID={id} />
+                    </>
+                  ) : (
+                    <Text>{t("profile_card_video_check")}</Text>
+                  )
+                ) : null
+              ) : (
+                <Text>
+                  Please go to the{" "}
+                  <Link href={`?request=${requests.length}`}>
+                    current request
+                  </Link>{" "}
+                  to vouch for this profile
+                </Text>
+              )}
             </>
           )}
         </Box>
@@ -454,11 +461,14 @@ export default function SubmissionDetailsCard({
           sx={{ marginBottom: 2, fontWeight: "bold" }}
         />
         {evidence?.file?.confirmation === "speaking" && (
-          <Alert title={t('profile_card_confirmation_phrase_title')} style={{ marginBottom: "15px" }}>
-          {generatePhrase(evidence?.file?.language)}
+          <Alert
+            title={t("profile_card_confirmation_phrase_title")}
+            style={{ marginBottom: "15px" }}
+          >
+            {generatePhrase(evidence?.file?.language)}
           </Alert>
         )}
-        
+
         <Video
           config={{ file: { attributes: { crossOrigin: "true" } } }}
           url={evidence?.file?.video}
@@ -482,12 +492,13 @@ export default function SubmissionDetailsCard({
           >
             <Text>
               <Trans
-                i18nKey={"profile_card_save_deposit_text"}
+                i18nKey="profile_card_save_deposit_text"
                 t={t}
                 values={{ email: `${id}@ethmail.cc` }}
                 components={[
-                  <Link href={`mailto:${id}@ethmail.cc`} />
-                ]} />
+                  <Link href={`mailto:${id}@ethmail.cc`} key="mail" />,
+                ]}
+              />
             </Text>
           </Alert>
         )}
