@@ -17,6 +17,7 @@ import {
   zeroAddress,
 } from "@kleros/components";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
@@ -25,8 +26,6 @@ import {
   submissionStatusEnum,
   useEvidenceFile,
 } from "data";
-
-import { useTranslation } from 'react-i18next';
 
 const challengeButtonFragments = {
   request: graphql`
@@ -45,7 +44,7 @@ const challengeButtonFragments = {
 
 function ChallengeTypeCard({ type, setType, currentType, ...rest }) {
   const { t } = useTranslation();
-  const { imageSrc, key} = type;
+  const { imageSrc, key } = type;
 
   return (
     <Card
@@ -57,8 +56,12 @@ function ChallengeTypeCard({ type, setType, currentType, ...rest }) {
       {...rest}
     >
       <Image crossOrigin="anonymous" sx={{ marginBottom: 2 }} src={imageSrc} />
-      <Text sx={{ marginBottom: 2 }}>{t(`profile_status_challenge_reason_${key}`)}</Text>
-      <Text sx={{ fontWeight: "body" }}>{t(`profile_status_challenge_reason_${key}_description`)}</Text>
+      <Text sx={{ marginBottom: 2 }}>
+        {t(`profile_status_challenge_reason_${key}`)}
+      </Text>
+      <Text sx={{ fontWeight: "body" }}>
+        {t(`profile_status_challenge_reason_${key}_description`)}
+      </Text>
     </Card>
   );
 }
@@ -82,36 +85,31 @@ function DuplicateInput({ submissionID, setDuplicate }) {
   );
 
   let message;
-  if (submissionID.toLowerCase() === value.toLowerCase()) {
-    message = t('profile_card_challenge_not_duplicate_of_itself');
-  } else if (isValidAddress && submission) {
-    if (Number(submission.status) > 0 || submission.registered) {
-      message = t('profile_card_challenge_valid_duplicate');
-    } else {
-      message = t('profile_card_challenge_should_be_registered_or_pending');
-    }
-  }
+  if (submissionID.toLowerCase() === value.toLowerCase())
+    message = t("profile_card_challenge_not_duplicate_of_itself");
+  else if (isValidAddress && submission)
+    if (Number(submission.status) > 0 || submission.registered)
+      message = t("profile_card_challenge_valid_duplicate");
+    else message = t("profile_card_challenge_should_be_registered_or_pending");
 
   useEffect(() => {
-    if (message === t('profile_card_challenge_valid_duplicate')) {
+    if (message === t("profile_card_challenge_valid_duplicate"))
       setDuplicate(value);
-    } else {
-      setDuplicate();
-    }
-  }, [message, setDuplicate, value]);
+    else setDuplicate();
+  }, [message, setDuplicate, value, t]);
 
   return (
     <Box sx={{ marginBottom: 2 }}>
       <Input
         sx={{ marginBottom: 1 }}
-        placeholder={t('profile_card_challenge_duplicate_address')}
+        placeholder={t("profile_card_challenge_duplicate_address")}
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
       {message && <Text>{message}</Text>}
       {isValidAddress && (
         <NextLink href="/profile/[id]" as={`/profile/${value}`}>
-          <Link newTab>{t('profile_card_challenge_see_profile')}</Link>
+          <Link newTab>{t("profile_card_challenge_see_profile")}</Link>
         </NextLink>
       )}
     </Box>
@@ -163,33 +161,45 @@ export default function ChallengeButton({ request, status, submissionID }) {
     <Popup
       contentStyle={{ width: undefined }}
       trigger={
-        <Button sx={{ marginY: 1, width: "100%" }} disabled={disputed && currentReasonIsNotDuplicate} disabledTooltip={t('profile_card_already_challenged')} loading={!isGraphSynced} >
-          {t('profile_card_challenge_request')}
+        <Button
+          sx={{ marginY: 1, width: "100%" }}
+          disabled={disputed && currentReasonIsNotDuplicate}
+          disabledTooltip={t("profile_card_already_challenged")}
+          loading={!isGraphSynced}
+        >
+          {t("profile_card_challenge_request")}
         </Button>
       }
       modal
     >
       {(close) => (
         <Box sx={{ fontWeight: "bold", padding: 2 }}>
-          <Card variant="muted" sx={{ fontSize: 1, marginBottom: 2 }} mainSx={{ padding: 0 }}>
+          <Card
+            variant="muted"
+            sx={{ fontSize: 1, marginBottom: 2 }}
+            mainSx={{ padding: 0 }}
+          >
             <Link newTab href={metaEvidence?.fileURI}>
-              <Text>{metaEvidence && t('profile_card_challenge_primary_doc')}</Text>
+              <Text>
+                {metaEvidence && t("profile_card_challenge_primary_doc")}
+              </Text>
             </Link>
           </Card>
-          <Text sx={{ marginBottom: 1 }}>{t('profile_card_deposit')}:</Text>
+          <Text sx={{ marginBottom: 1 }}>{t("profile_card_deposit")}:</Text>
           <Card
             variant="muted"
             sx={{ fontSize: 2, marginBottom: 2 }}
             mainSx={{ padding: 0 }}
           >
             <Text>
-              {arbitrationCost &&
-                `${web3.utils.fromWei(arbitrationCost)} ETH`}
+              {arbitrationCost && `${web3.utils.fromWei(arbitrationCost)} ETH`}
             </Text>
           </Card>
           {status === submissionStatusEnum.PendingRegistration && (
             <>
-              <Text sx={{ marginBottom: 1 }}>{t('profile_card_challenge_type')}:</Text>
+              <Text sx={{ marginBottom: 1 }}>
+                {t("profile_card_challenge_type")}:
+              </Text>
               <Grid sx={{ marginBottom: 2 }} gap={1} columns={[1, 2, 4]}>
                 <ChallengeTypeCard
                   type={challengeReasonEnum.IncorrectSubmission}
@@ -226,7 +236,9 @@ export default function ChallengeButton({ request, status, submissionID }) {
               setDuplicate={setDuplicate}
             />
           )}
-          <Text sx={{ marginBottom: 1 }}>{t('profile_card_challenge_justification')}:</Text>
+          <Text sx={{ marginBottom: 1 }}>
+            {t("profile_card_challenge_justification")}:
+          </Text>
           <Textarea
             sx={{ marginBottom: 2 }}
             onChange={(event_) => setReason(event_.target.value)}
@@ -261,7 +273,7 @@ export default function ChallengeButton({ request, status, submissionID }) {
             }}
             loading={loading}
           >
-            {t('profile_card_challenge_request')}
+            {t("profile_card_challenge_request")}
           </Button>
         </Box>
       )}

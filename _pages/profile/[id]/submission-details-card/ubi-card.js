@@ -17,14 +17,13 @@ import {
   useRef,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { graphql, useQuery } from "relay-hooks";
 
 import { submissionStatusEnum } from "data";
 import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
 import UBIAbi from "subgraph/abis/ubi";
 import { UBIAddress, address as pohAddress } from "subgraph/config";
-
-import { useTranslation } from 'react-i18next';
 
 function useInterval(callback, delay) {
   const savedCallback = useRef();
@@ -198,7 +197,7 @@ export default function UBICard({
   registeredVouchers,
   firstRoundFullyFunded,
 }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { web3 } = useWeb3();
   const [, rerender] = useReducer(() => ({}), {});
   const [requiredNumberOfVouchesBN] = useContract(
@@ -210,7 +209,7 @@ export default function UBICard({
     () => Number(requiredNumberOfVouchesBN),
     [requiredNumberOfVouchesBN]
   );
-  
+
   const { props: vouchesReceivedQuery } = useQuery(
     graphql`
       query ubiCardQuery($id: ID!, $vouchesReceivedLength: BigInt!) {
@@ -525,13 +524,13 @@ export default function UBICard({
               }
               loading={reportRemovalLoading}
             >
-              {t('profile_card_seize_ubi')}
+              {t("profile_card_seize_ubi")}
             </Button>
           )}
         {status.key === submissionStatusEnum.Vouching.key &&
           [...queuedVouches.keys()].length > 0 &&
           [...queuedVouches.keys()].length === registeredVouchers.length &&
-          `${t('profile_card_vouches_in_use')}: ${
+          `${t("profile_card_vouches_in_use")}: ${
             [...queuedVouches.keys()].length
           }`}
 
@@ -540,13 +539,13 @@ export default function UBICard({
           status.key === submissionStatusEnum.Vouching.key &&
           firstRoundFullyFunded && (
             <Flex sx={{ alignItems: "center" }}>
-              <Text sx={{ marginRight: 2 }}>{t('profile_card_wait_or')}</Text>
+              <Text sx={{ marginRight: 2 }}>{t("profile_card_wait_or")}</Text>
               <Button
                 variant="secondary"
                 onClick={advanceToPending}
                 loading={changeStateToPendingSendLoading}
               >
-                {t('profile_card_advance_to_pending')}
+                {t("profile_card_advance_to_pending")}
               </Button>
             </Flex>
           )}
@@ -558,7 +557,7 @@ export default function UBICard({
               onClick={registerAndAdvanceOthers}
               loading={fetchingElegible}
             >
-              {t('profile_card_finalize_registration')}&nbsp;
+              {t("profile_card_finalize_registration")}&nbsp;
               <Text as="span" role="img" sx={{ marginLeft: 1 }}>
                 💧
               </Text>
@@ -574,7 +573,7 @@ export default function UBICard({
                 }
                 loading={startAccruingLoading}
               >
-                {t('profile_card_start_accruing')}&nbsp;
+                {t("profile_card_start_accruing")}&nbsp;
                 <Text as="span" role="img" sx={{ marginLeft: 1 }}>
                   💧
                 </Text>
@@ -585,8 +584,12 @@ export default function UBICard({
       {status.key === submissionStatusEnum.Vouching.key &&
         [...queuedVouches.keys()].length > 0 &&
         [...queuedVouches.keys()].length === registeredVouchers.length && (
-          <Alert type="muted" title={t('profile_card_pending_vouch_release')} sx={{ mt: 3 }}>
-            <Text>{t('profile_card_vouches_used')}</Text>
+          <Alert
+            type="muted"
+            title={t("profile_card_pending_vouch_release")}
+            sx={{ mt: 3 }}
+          >
+            <Text>{t("profile_card_vouches_used")}</Text>
           </Alert>
         )}
     </>

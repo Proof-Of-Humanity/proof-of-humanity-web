@@ -9,19 +9,18 @@ import {
 } from "@kleros/components";
 import { Warning } from "@kleros/icons";
 import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { address as pohAddress } from "subgraph/config";
 
-import { useTranslation } from 'react-i18next';
-
 export default function GasslessVouchButton({ submissionID }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const web3Context = useWeb3Context();
 
   const [accounts] = useWeb3("eth", "getAccounts");
 
-  const vouchText = t('profile_card_vouch_text');;
+  const vouchText = t("profile_card_vouch_text");
 
   const [addVouchLabel, setAddVouchLabel] = useState(vouchText);
 
@@ -112,8 +111,18 @@ export default function GasslessVouchButton({ submissionID }) {
   return registered || vouched ? (
     <Popup
       trigger={
-        <Button sx={{ marginTop: 2, marginBottom: 0, width: "100%", backgroundImage: "linear-gradient(90deg,var(--theme-ui-colors-primary,#007cff) 0%,var(--theme-ui-colors-secondary,#00b7ff) 100%)" }}>
-          {vouched ? t('profile_card_remove_vouch') : t('profile_card_gasless_vouch')}
+        <Button
+          sx={{
+            marginTop: 2,
+            marginBottom: 0,
+            width: "100%",
+            backgroundImage:
+              "linear-gradient(90deg,var(--theme-ui-colors-primary,#007cff) 0%,var(--theme-ui-colors-secondary,#00b7ff) 100%)",
+          }}
+        >
+          {vouched
+            ? t("profile_card_remove_vouch")
+            : t("profile_card_gasless_vouch")}
         </Button>
       }
       modal
@@ -122,16 +131,16 @@ export default function GasslessVouchButton({ submissionID }) {
         <Box sx={{ padding: 2 }}>
           <Warning />
           <Text sx={{ marginBottom: 2 }}>{addVouchLabel}</Text>
-          {addVouchLabel !== t('profile_card_vouch_saved') && (
+          {addVouchLabel !== t("profile_card_vouch_saved") && (
             <Button
               onClick={() => {
                 signVouch().then(() => {
-                  setAddVouchLabel(t('profile_card_vouch_saved'));
+                  setAddVouchLabel(t("profile_card_vouch_saved"));
                   setTimeout(close, 3000);
                 });
               }}
             >
-              {t('profile_card_gasless_vouch')}
+              {t("profile_card_gasless_vouch")}
             </Button>
           )}
         </Box>

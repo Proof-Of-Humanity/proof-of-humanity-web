@@ -8,12 +8,12 @@ import {
 } from "@kleros/components";
 import { Warning } from "@kleros/icons";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
-import { useTranslation } from 'react-i18next';
 
 export default function VouchButton({ submissionID }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [accounts] = useWeb3("eth", "getAccounts");
   const [registered] = useContract(
     "proofOfHumanity",
@@ -49,7 +49,7 @@ export default function VouchButton({ submissionID }) {
           }
           loading={!isGraphSynced}
         >
-          {vouched && t('profile_card_remove')} {t('profile_card_vouch')}
+          {vouched && t("profile_card_remove")} {t("profile_card_vouch")}
         </Button>
       }
       modal
@@ -57,7 +57,7 @@ export default function VouchButton({ submissionID }) {
       {(close) => (
         <Box sx={{ padding: 2 }}>
           <Warning />
-          <Text sx={{ marginBottom: 2 }}>{t('profile_card_vouch_text')}</Text>
+          <Text sx={{ marginBottom: 2 }}>{t("profile_card_vouch_text")}</Text>
           <Button
             onClick={() =>
               addVouchSend(submissionID)
@@ -66,7 +66,7 @@ export default function VouchButton({ submissionID }) {
             }
             loading={addVouchLoading}
           >
-            {t('profile_card_vouch')}
+            {t("profile_card_vouch")}
           </Button>
         </Box>
       )}

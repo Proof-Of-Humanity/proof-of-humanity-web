@@ -31,14 +31,7 @@ class _FinalizeTab extends React.Component {
     };
   }
 
-  componentDidMount = async () => {
-    const deposit = await this.props.calculateDeposit();
-    if (deposit !== null) this.setState({ deposit: deposit.ether });
 
-    // if (this.props.contract !== undefined) {
-
-    // }
-  };
 
   handleVideo = () => {
     this.setState({ playedVideo: true });
@@ -66,6 +59,7 @@ class _FinalizeTab extends React.Component {
   };
 
   render() {
+    console.log(this.props.state)
     // img, video and submitter name source by props
     const { t } = this.props.i18n;
 
@@ -197,7 +191,7 @@ class _FinalizeTab extends React.Component {
                 }}
               >
                 <Radio value="self">
-                  {t("submit_profile_finalize_selffund")} ({this.state.deposit}{" "}
+                  {t("submit_profile_finalize_selffund")} ({this.props.state.deposit.ether}{" "}
                   ETH)
                 </Radio>
 
@@ -337,9 +331,9 @@ class _FinalizeTab extends React.Component {
 
           {this.props.state.confirmed && (
             <Button
-                type="primary"
-                shape="round"
-                style={{
+              type="primary"
+              shape="round"
+              style={{
                 fontWeight: "bold",
                 display: "block",
                 margin: "50px auto",

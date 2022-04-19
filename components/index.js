@@ -65,4 +65,4 @@ export { zeroAddress, ethereumAddressRegExp, createEnum } from "./parsing";
 
 export { default as AppHeader } from "./header";
 export { default as AppFooter } from "./footer";
-export {default as PreviousRequests } from "./previous-requests";
+export { default as PreviousRequests } from "./previous-requests";

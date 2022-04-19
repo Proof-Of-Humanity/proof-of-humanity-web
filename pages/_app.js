@@ -1,16 +1,17 @@
 import {
+  AppFooter,
+  AppHeader,
   ArchonProvider,
   Flex,
   RelayProvider,
   ThemeProvider,
   Web3Provider,
   createWrapConnection,
-  AppHeader,
-  AppFooter
 } from "@kleros/components";
-import { Layout } from 'antd';
+import { Layout } from "antd";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { indexQuery } from "_pages/index";
 import { IdQuery } from "_pages/profile/[id]";
@@ -26,12 +27,11 @@ import {
   transactionBatcherAddress,
 } from "subgraph/config";
 
-import '../i18n/i18n';
-import { useTranslation } from 'react-i18next';
+import "i18n/i18n";
 
 // CSS imports
 // import 'antd/dist/antd.css';
-import './main.css';
+import "./main.css";
 
 const { Content } = Layout;
 
@@ -127,8 +127,15 @@ export default function App({ Component, pageProps }) {
     network !== process.env.NEXT_PUBLIC_NETWORK
   )
     return (
-      <Flex sx={{ alignItems: "center", height: "100vh", justifyContent: "center", width: "100vw" }}>
-        {t('poh_unsupported_network', { network: capitalize(network) })}
+      <Flex
+        sx={{
+          alignItems: "center",
+          height: "100vh",
+          justifyContent: "center",
+          width: "100vw",
+        }}
+      >
+        {t("poh_unsupported_network", { network: capitalize(network) })}
       </Flex>
     );
 
@@ -142,8 +149,16 @@ export default function App({ Component, pageProps }) {
 
   return (
     <ThemeProvider theme={theme}>
-      <RelayProvider endpoint={endpoint} queries={queries} connectToRouteChange={connectToRouteChange}>
-        <Web3Provider infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT} contracts={contracts} onNetworkChange={onNetworkChange}>
+      <RelayProvider
+        endpoint={endpoint}
+        queries={queries}
+        connectToRouteChange={connectToRouteChange}
+      >
+        <Web3Provider
+          infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT}
+          contracts={contracts}
+          onNetworkChange={onNetworkChange}
+        >
           <ArchonProvider>
             <Layout className="poh-layout">
               <AppHeader />

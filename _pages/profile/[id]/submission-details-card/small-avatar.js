@@ -1,12 +1,11 @@
 import { Box, Image, Link, NextLink, Popup } from "@kleros/components";
+import { useTranslation } from "react-i18next";
 import { graphql, useQuery } from "relay-hooks";
 
 import { useEvidenceFile } from "data";
 
-import { useTranslation } from 'react-i18next';
-
 export default function SmallAvatar({ submissionId }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const { props } = useQuery(
     graphql`
@@ -42,12 +41,12 @@ export default function SmallAvatar({ submissionId }) {
 
   const name =
     evidence instanceof Error
-      ? t('profile_card_maintenance')
+      ? t("profile_card_maintenance")
       : evidence?.file?.name &&
         (_name.replaceAll(/[^\s\w]/g, "") ===
         evidence.file.name.replaceAll(/[^\s\w]/g, "")
           ? evidence.file.name
-          : t('profile_card_maintenance'));
+          : t("profile_card_maintenance"));
 
   const variant =
     submission?.status === "None" && request?.disputed
@@ -60,11 +59,16 @@ export default function SmallAvatar({ submissionId }) {
         <Popup
           trigger={
             <Box sx={{ span: { display: "flex" } }}>
-              <Image crossOrigin="anonymous" variant={variant} src={evidence?.file?.photo} />
+              <Image
+                crossOrigin="anonymous"
+                variant={variant}
+                src={evidence?.file?.photo}
+              />
             </Box>
           }
           on={["focus", "hover"]}
-          sx={{ color: "text", fontSize: 1, textAlign: "center" }}>
+          sx={{ color: "text", fontSize: 1, textAlign: "center" }}
+        >
           {name}
         </Popup>
       </Link>

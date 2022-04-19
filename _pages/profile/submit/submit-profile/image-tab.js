@@ -101,11 +101,7 @@ export default class ImageTab extends React.Component {
 
   imageRulesList = [
     {
-      title: (
-        <Title level={4} style={{ textAlign: "center" }}>
-          {this.props.i18n.t("submit_profile_image_rules_title")}
-        </Title>
-      ),
+      title: this.props.i18n.t("submit_profile_image_rules_title"),
       description: (
         <Row justify="center">
           <Col span={6}>

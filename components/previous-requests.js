@@ -1,10 +1,10 @@
+import { Button } from "antd";
 import { useTranslation } from "react-i18next";
 import { Box, Flex } from "theme-ui";
-import { Button } from "antd";
-import Card from "./card";
 
-import Text from "./text";
+import Card from "./card";
 import { ScrollArea } from "./scroll-to";
+import Text from "./text";
 
 const intlDateTimeFormat = new Intl.DateTimeFormat("default", {
   year: "numeric",
@@ -29,16 +29,14 @@ function RequestItem({
       sx={{ marginBottom: 2 }}
       mainSx={{ alignItems: "flex-start", flexDirection: "column" }}
       footer={
-        <>
-          <Flex sx={{ alignItems: "center" }}>
-            <Box sx={{ marginLeft: 1 }}>
-              <Text as="span" sx={{ fontWeight: "bold" }}>
-                #{index}{" "}
-                {intlDateTimeFormat.format(new Date(creationTime * 1000))}
-              </Text>
-            </Box>
-          </Flex>
-        </>
+        <Flex sx={{ alignItems: "center" }}>
+          <Box sx={{ marginLeft: 1 }}>
+            <Text as="span" sx={{ fontWeight: "bold" }}>
+              #{index}{" "}
+              {intlDateTimeFormat.format(new Date(creationTime * 1000))}
+            </Text>
+          </Box>
+        </Flex>
       }
       footerSx={{ justifyContent: "space-between", paddingX: 3 }}
     >
@@ -74,16 +72,14 @@ export default function PreviousRequests({ requests, useEvidenceFile }) {
           paddingX: 4,
         }}
       >
-        {requests.map((request, index) => {
-          return (
-            <RequestItem
-              key={request.evidence[0].id}
-              useEvidenceFile={useEvidenceFile}
-              request={request.evidence[0]}
-              index={requests.length - index}
-            />
-          );
-        })}
+        {requests.map((request, index) => (
+          <RequestItem
+            key={request.evidence[0].id}
+            useEvidenceFile={useEvidenceFile}
+            request={request.evidence[0]}
+            index={requests.length - index}
+          />
+        ))}
       </ScrollArea>
     </Box>
   );

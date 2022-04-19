@@ -12,11 +12,10 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
-
-import { useTranslation } from 'react-i18next';
 
 const removeButtonFragments = {
   contract: graphql`
@@ -34,7 +33,7 @@ const removeButtonFragments = {
 };
 
 export default function RemoveButton({ request, contract, submissionID }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const { arbitrator, arbitratorExtraData } = useFragment(
     removeButtonFragments.request,
@@ -67,10 +66,12 @@ export default function RemoveButton({ request, contract, submissionID }) {
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
 
   const createValidationSchema = ({ string, file }) => ({
-    name: string().max(50, t('profile_evidence_name_validation')).required(t('profile_evidence_error_required')),
+    name: string()
+      .max(50, t("profile_evidence_name_validation"))
+      .required(t("profile_evidence_error_required")),
     description: string()
-      .max(300, t('profile_evidence_description_validation'))
-      .required(t('profile_evidence_error_required')),
+      .max(300, t("profile_evidence_description_validation"))
+      .required(t("profile_evidence_error_required")),
     file: file(),
   });
 
@@ -78,8 +79,8 @@ export default function RemoveButton({ request, contract, submissionID }) {
     <Popup
       contentStyle={{ width: undefined }}
       trigger={
-        <Button sx={{ marginY: 1, width: "100%" }} loading={!isGraphSynced} >
-          {t('profile_card_request_removal')}
+        <Button sx={{ marginY: 1, width: "100%" }} loading={!isGraphSynced}>
+          {t("profile_card_request_removal")}
         </Button>
       }
       modal
@@ -106,26 +107,32 @@ export default function RemoveButton({ request, contract, submissionID }) {
         >
           {({ isSubmitting }) => (
             <>
-              <Text sx={{ fontSize: 1, marginBottom: 1 }}>{t('profile_card_deposit')}:</Text>
-              <Card variant="muted" sx={{ fontSize: 2, marginBottom: 3 }} mainSx={{ padding: 0 }} >
+              <Text sx={{ fontSize: 1, marginBottom: 1 }}>
+                {t("profile_card_deposit")}:
+              </Text>
+              <Card
+                variant="muted"
+                sx={{ fontSize: 2, marginBottom: 3 }}
+                mainSx={{ padding: 0 }}
+              >
                 <Text>
                   {totalCost && `${web3.utils.fromWei(totalCost)} ETH`}
                 </Text>
               </Card>
               <Field
                 name="name"
-                label={t('profile_card_request_removal_evidence_name')}
-                placeholder={t('profile_evidence_example_placeholder')}
+                label={t("profile_card_request_removal_evidence_name")}
+                placeholder={t("profile_evidence_example_placeholder")}
               />
               <Field
                 as={Textarea}
                 name="description"
-                label={t('profile_evidence_example_description')}
+                label={t("profile_evidence_example_description")}
               />
               <Field
                 as={FileUpload}
                 name="file"
-                label={t('profile_card_file')}
+                label={t("profile_card_file")}
                 accept="image/png, image/jpeg, application/pdf"
                 maxSize={2 * 1024 * 1024}
               />
@@ -135,7 +142,7 @@ export default function RemoveButton({ request, contract, submissionID }) {
                 disabled={!totalCost}
                 loading={isSubmitting}
               >
-                {t('profile_card_request_removal')}
+                {t("profile_card_request_removal")}
               </Button>
             </>
           )}

@@ -1,9 +1,8 @@
 import { Card, Image, NextLink, Text } from "@kleros/components";
+import { useTranslation } from "react-i18next";
 import { graphql, useFragment } from "relay-hooks";
 
 import { submissionStatusEnum, useEvidenceFile } from "data";
-
-import { useTranslation } from 'react-i18next'; 
 
 const submissionCardFragments = {
   contract: graphql`
@@ -34,7 +33,7 @@ const submissionCardFragments = {
 };
 
 export default function SubmissionCard({ submission, contract }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   const {
     submissionTime,
@@ -76,13 +75,17 @@ export default function SubmissionCard({ submission, contract }) {
             />
             <Text>
               {t(`profile_status_${status.key}`)}
-              {isExpired && ` (${t('profile_status_Expired')})`}
+              {isExpired && ` (${t("profile_status_Expired")})`}
             </Text>
           </>
         }
         mainSx={{ flexDirection: "column" }}
       >
-        <Image crossOrigin="anonymous" variant="avatar" src={evidence?.file?.photo} />
+        <Image
+          crossOrigin="anonymous"
+          variant="avatar"
+          src={evidence?.file?.photo}
+        />
         <Text
           sx={{
             fontSize: 1,

@@ -69,7 +69,7 @@ const dropdownOptions = [
   ],
 ];
 
-export const dropdownOptionsEnum = createEnum(
+const dropdownOptionsEnum = createEnum(
   dropdownOptions,
   ({ status, registered, submissionTime, submissionDuration, disputed }) => {
     if (status === dropdownOptionsEnum.None.key) {

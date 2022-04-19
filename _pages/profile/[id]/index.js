@@ -1,10 +1,4 @@
-import {
-  Alert,
-  Card,
-  Image,
-  Text,
-  useQuery,
-} from "@kleros/components";
+import { Alert, Card, Image, Text, useQuery } from "@kleros/components";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
@@ -37,9 +31,7 @@ export default function ProfileWithID() {
 
   const name = props?.submission?.name ?? "";
 
-  if (props?.submission === null) {
-    return <Custom404 />;
-  }
+  if (props?.submission === null) return <Custom404 />;
 
   return (
     <>
@@ -48,9 +40,27 @@ export default function ProfileWithID() {
           name ? `${name} (${query.id})` : query.id
         } | Proof of Humanity`}</title>
       </Head>
-      <Card sx={{ marginBottom: 2 }} mainSx={{ flexWrap: "wrap", justifyContent: "space-between", paddingY: 1, }}>
-        <Text sx={{ alignItems: "center", display: "flex", fontWeight: "bold", minWidth: "fit-content" }}>
-          <Image crossOrigin="anonymous" sx={{ height: 30, marginRight: 2 }} src="/images/proof-of-humanity-logo-black.png" />
+      <Card
+        sx={{ marginBottom: 2 }}
+        mainSx={{
+          flexWrap: "wrap",
+          justifyContent: "space-between",
+          paddingY: 1,
+        }}
+      >
+        <Text
+          sx={{
+            alignItems: "center",
+            display: "flex",
+            fontWeight: "bold",
+            minWidth: "fit-content",
+          }}
+        >
+          <Image
+            crossOrigin="anonymous"
+            sx={{ height: 30, marginRight: 2 }}
+            src="/images/proof-of-humanity-logo-black.png"
+          />
           {t("profile_status")}
         </Text>
         <Text sx={{ display: "flex", alignItems: "center", gap: 8 }}>
@@ -58,13 +68,19 @@ export default function ProfileWithID() {
             <>
               {t(`profile_status_${status.key}`)}
               {isExpired && ` (${t("profile_status_Expired")})`}
-              <status.Icon sx={{ path: { fill: "text" }, stroke: "text", strokeWidth: 0 }} />
+              <status.Icon
+                sx={{ path: { fill: "text" }, stroke: "text", strokeWidth: 0 }}
+              />
             </>
           )}
         </Text>
       </Card>
       {status === submissionStatusEnum.Vouching && (
-        <Alert type="muted" title={t("profile_advice")} sx={{ mb: 2, fontSize: 14 }}>
+        <Alert
+          type="muted"
+          title={t("profile_advice")}
+          sx={{ mb: 2, fontSize: 14 }}
+        >
           <Text>{t("gasless_vouch_cost")}</Text>
         </Alert>
       )}
