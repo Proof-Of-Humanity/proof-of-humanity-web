@@ -52,16 +52,17 @@ export default function RelayProvider({
     createEnvironment(endpoint)
   );
   useEffect(() => {
-    if (endpoint !== environment.endpoint)
+    if (endpoint !== environment.endpoint) {
       setEnvironment(createEnvironment(endpoint));
+    }
   }, [endpoint, environment]);
 
   useEffect(() => {
-    if (environment)
+    if (environment) {
       connectToRouteChange((path, query) => {
         (async () => {
           if (queries[path]) {
-            if (path === "/profile/:id" && query.id.endsWith(".eth"))
+            if (path === "/profile/:id" && query.id.endsWith(".eth")) {
               try {
                 const resolvedAddress = await resolveEns(query.id);
                 query.id = resolvedAddress;
@@ -69,6 +70,7 @@ export default function RelayProvider({
               } catch {
                 // do nothing, it will behave the same as with an address that has no profile
               }
+            }
 
             prefetch.next(environment, queries[path], query);
             const refetchedKeys = {};
@@ -83,6 +85,7 @@ export default function RelayProvider({
           setInitialized(true);
         })();
       });
+    }
   }, [environment, connectToRouteChange, queries, prefetch]);
   return initialized ? (
     <RelayEnvironmentProvider environment={environment}>

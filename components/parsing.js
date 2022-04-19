@@ -9,7 +9,9 @@ export const createEnum = (keys, parse) => {
   const _enum = keys.reduce(
     (acc, key, index) => {
       let extra;
-      if (Array.isArray(key)) [key, extra] = key;
+      if (Array.isArray(key)) {
+        [key, extra] = key;
+      }
 
       const value = {
         key,

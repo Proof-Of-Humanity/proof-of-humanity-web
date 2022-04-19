@@ -61,7 +61,7 @@ class _FinalizeTab extends React.Component {
     // img, video and submitter name source by props
     const { t } = this.props.i18n;
 
-    if (this.props.state.txHash === "")
+    if (this.props.state.txHash === "") {
       return (
         <Row>
           <Col span={24}>
@@ -252,6 +252,7 @@ class _FinalizeTab extends React.Component {
           </Button>
         </Row>
       );
+    }
 
     return (
       <Row style={{ display: "block", margin: "0 auto" }}>

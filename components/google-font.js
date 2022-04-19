@@ -14,13 +14,14 @@ export default function GoogleFont(props) {
 
     fontsString = fonts.join("|");
 
-    if (fontsString)
+    if (fontsString) {
       return React.createElement("link", {
         href: `//fonts.googleapis.com/css?family=${fontsString}`,
         rel: "stylesheet",
         type: "text/css",
         crossOrigin: "anonymous",
       });
+    }
 
     return null;
   }

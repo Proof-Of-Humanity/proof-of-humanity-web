@@ -23,7 +23,9 @@ function RequestItem({
 }) {
   const { t } = useTranslation();
   const evidence = useEvidenceFile()(URI);
-  if (evidence?.fileURIError) return null;
+  if (evidence?.fileURIError) {
+    return null;
+  }
   return (
     <Card
       sx={{ marginBottom: 2 }}

@@ -56,7 +56,7 @@ export default function ProfileNew() {
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (canReapply === null)
+    if (canReapply === null) {
       // Is this needed?
       Promise.all([
         web3.contracts?.proofOfHumanity.methods.submissionDuration().call(),
@@ -68,6 +68,7 @@ export default function ProfileNew() {
           1000;
         setCanReapply(Date.now() > renewalTimestamp);
       });
+    }
   });
 
   useEffect(() => {
@@ -75,7 +76,9 @@ export default function ProfileNew() {
     if (submission?.registered && canReapply === false) {
       message.error("You can't reapply yet", 5);
       router.push({ pathname: "/profile/[id]", query: { id: account } });
-    } else if (submission === null || !account) setLoading(false);
+    } else if (submission === null || !account) {
+      setLoading(false);
+    }
   }, [submission, canReapply, router, account]);
 
   // console.log(props?.contract)
@@ -86,11 +89,12 @@ export default function ProfileNew() {
   const rules = evidence?.fileURI;
 
   const handleAfterSend = useCallback(async () => {
-    if (reapply)
+    if (reapply) {
       router.push({
         pathname: "/profile/[id]",
         query: { id: account },
       });
+    }
     await new Promise((r) => setTimeout(r, 3000));
     location.reload();
   }, [reapply, router, account]);
@@ -98,14 +102,15 @@ export default function ProfileNew() {
   // console.log('profile new', account, props);
 
   // console.log('isLoading', isLoading);
-  if (isLoading)
+  if (isLoading) {
     return (
       <Row justify="center">
         <LoadingOutlined style={{ fontSize: 60 }} spin />
       </Row>
     );
+  }
 
-  if (account)
+  if (account) {
     return (
       <>
         <Head>
@@ -127,6 +132,7 @@ export default function ProfileNew() {
         />
       </>
     );
+  }
 
   return (
     <>

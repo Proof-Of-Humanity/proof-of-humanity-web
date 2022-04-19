@@ -318,8 +318,11 @@ export default function AppHeader() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   function toggleMobileMenuOpen() {
-    if (!mobileMenuOpen) setMobileMenuOpen(true);
-    else setMobileMenuOpen(false);
+    if (!mobileMenuOpen) {
+      setMobileMenuOpen(true);
+    } else {
+      setMobileMenuOpen(false);
+    }
   }
 
   const isDesktop = width >= 768;

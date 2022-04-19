@@ -36,7 +36,7 @@ function Deadline({
   displayEvenIfDeadlinePassed = true,
   button,
 }) {
-  if (displayEvenIfDeadlinePassed || Date.now() < datetime)
+  if (displayEvenIfDeadlinePassed || Date.now() < datetime) {
     return (
       <Text>
         <Text sx={{ fontWeight: "bold" }}>{label}: </Text>
@@ -44,6 +44,7 @@ function Deadline({
         {whenDatetime(Date.now(), datetime) && button}
       </Text>
     );
+  }
   return null;
 }
 export default function Deadlines({ submission, contract, status }) {

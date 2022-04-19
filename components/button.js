@@ -51,7 +51,9 @@ const Button = forwardRef(
           ref={innerRef}
           id={id && `${id}-text`}
           onClick={(event) => {
-            if (rest.preventDefault) event.preventDefault();
+            if (rest.preventDefault) {
+              event.preventDefault();
+            }
           }}
         >
           <Box
@@ -62,7 +64,9 @@ const Button = forwardRef(
               textAlign: "center",
             }}
             onClick={(event) => {
-              if (rest.preventDefault) event.preventDefault();
+              if (rest.preventDefault) {
+                event.preventDefault();
+              }
             }}
           >
             {children}
@@ -90,7 +94,9 @@ const Button = forwardRef(
             width: "100%",
           }}
           onClick={(event) => {
-            if (rest.preventDefault) event.preventDefault();
+            if (rest.preventDefault) {
+              event.preventDefault();
+            }
             innerRef.current.click();
           }}
         />

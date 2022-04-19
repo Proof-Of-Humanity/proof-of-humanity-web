@@ -24,8 +24,12 @@ function ETH(...args) {
   string.apply(this, args);
   this.withMutation(() => {
     this.transform((value) => {
-      if (!value) return this.default();
-      if (this.isType(value) || typeof value !== "string") return value;
+      if (!value) {
+        return this.default();
+      }
+      if (this.isType(value) || typeof value !== "string") {
+        return value;
+      }
       const [units, decimals] = (
         /[Ee]/.test(value) ? prettyNum(value) : value
       ).split(".");
@@ -72,8 +76,9 @@ const isObject = (value) => {
 
 const getFirstErrorKey = (errors, keys = []) => {
   const firstErrorKey = Object.keys(errors)[0];
-  if (isObject(errors[firstErrorKey]))
+  if (isObject(errors[firstErrorKey])) {
     return getFirstErrorKey(errors[firstErrorKey], [...keys, firstErrorKey]);
+  }
 
   return [...keys, firstErrorKey].join(".");
 };

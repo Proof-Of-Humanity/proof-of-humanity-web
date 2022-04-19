@@ -47,12 +47,16 @@ export default function AccountSettingsPopup({
   const { contributions: withdrawableContributions } = props ?? {};
   const { send: batchSend } = useContract("transactionBatcher", "batchSend");
   const pohInstance = useMemo(() => {
-    if (!ProofOfHumanityAbi || !pohAddress) return;
+    if (!ProofOfHumanityAbi || !pohAddress) {
+      return;
+    }
     return new web3.eth.Contract(ProofOfHumanityAbi, pohAddress);
   }, [web3.eth.Contract]);
 
   const withdrawFeesAndRewards = useCallback(() => {
-    if (!batchSend || withdrawableContributions?.length === 0) return;
+    if (!batchSend || withdrawableContributions?.length === 0) {
+      return;
+    }
     const withdrawCalls = withdrawableContributions.map(
       (withdrawableContribution) => {
         const { requestIndex, roundIndex, round } = withdrawableContribution;

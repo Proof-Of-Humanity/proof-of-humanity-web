@@ -108,8 +108,11 @@ export default function App({ Component, pageProps }) {
       const { name: _network } = ETHNet;
       if (networkFromQuery !== _network) {
         const searchParameters = new URLSearchParams(location.search);
-        if (!_network) searchParameters.delete("network");
-        else searchParameters.set("network", _network);
+        if (!_network) {
+          searchParameters.delete("network");
+        } else {
+          searchParameters.set("network", _network);
+        }
 
         router.replace({
           pathname: location.pathname,
@@ -125,7 +128,7 @@ export default function App({ Component, pageProps }) {
     (networkFromProvider &&
       networkFromProvider.name !== process.env.NEXT_PUBLIC_NETWORK) ||
     network !== process.env.NEXT_PUBLIC_NETWORK
-  )
+  ) {
     return (
       <Flex
         sx={{
@@ -138,6 +141,7 @@ export default function App({ Component, pageProps }) {
         {t("poh_unsupported_network", { network: capitalize(network) })}
       </Flex>
     );
+  }
 
   const apiKey = process.env.NEXT_PUBLIC_THEGRAPH_APIKEY;
   const subgraphID = process.env.NEXT_PUBLIC_SUBGRAPHID;

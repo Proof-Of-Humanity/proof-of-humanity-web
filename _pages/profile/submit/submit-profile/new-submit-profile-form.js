@@ -72,16 +72,21 @@ export default class NewSubmitProfileForm extends React.Component {
 
   getOS = () => {
     const userAgent = UserAgent(window.navigator.userAgent);
-    // console.log(userAgent)
+    // console.log(userAgent);
     return userAgent;
   };
 
-  componentDidUpdate = () => {
-    if (this.state.permission === null)
-      if (this.state.OS.device.type !== "mobile")
+  componentDidUpdate = (previousProps) => {
+    // console.log(previousProps);
+    if (previousProps.contract !== this.props.contract) {
+      this.calculateDeposit();
+    }
+    if (this.state.permission === null) {
+      if (this.state.OS.device.type !== "mobile") {
         navigator.permissions.query({ name: "camera" }).then((res) => {
-          if (res.state === "granted") this.setState({ permission: true });
-          else if (res.state === "prompt")
+          if (res.state === "granted") {
+            this.setState({ permission: true });
+          } else if (res.state === "prompt") {
             navigator.mediaDevices
               .getUserMedia({ audio: true, video: true })
               .then(() => {
@@ -90,10 +95,11 @@ export default class NewSubmitProfileForm extends React.Component {
               .catch(() => {
                 this.setState({ permission: false, recordingMode: "visual" });
               });
-          else if (res.state === "denied")
+          } else if (res.state === "denied") {
             this.setState({ permission: false, recordingMode: "visual" });
+          }
         });
-      else
+      } else {
         navigator.mediaDevices
           .getUserMedia({ audio: true, video: true })
           .then(() => {
@@ -102,10 +108,14 @@ export default class NewSubmitProfileForm extends React.Component {
           .catch(() => {
             this.setState({ permission: false, recordingMode: "visual" });
           });
+      }
+    }
   };
 
   stateHandler = (state) => {
-    if (state) this.setState(state);
+    if (state) {
+      this.setState(state);
+    }
   };
 
   next = () => {
@@ -190,12 +200,11 @@ export default class NewSubmitProfileForm extends React.Component {
     );
     // console.log(_submissionBaseDeposit)
     // const _submissionBaseDeposit = toBN(this.props.contract?.submissionBaseDeposit);
-    if (arbitrationCost) {
-      const _arbitrationCost = toBN(arbitrationCost);
-      const deposit = _submissionBaseDeposit.add(_arbitrationCost);
-      const ether = fromWei(deposit, "ether").toString();
-      this.setState({ deposit: { bigNumber: deposit, ether } });
-    }
+
+    const _arbitrationCost = toBN(arbitrationCost);
+    const deposit = _submissionBaseDeposit.add(_arbitrationCost);
+    const ether = fromWei(deposit, "ether").toString();
+    this.setState({ deposit: { bigNumber: deposit, ether } });
   };
 
   prepareTransaction = async () => {
@@ -228,9 +237,11 @@ export default class NewSubmitProfileForm extends React.Component {
           this.setState({ confirmed: true });
         })
         .on("error", (error) => {
-          if (error.stack) message.error(error.message, 5);
-          else if (error.code === 4001)
+          if (error.stack) {
+            message.error(error.message, 5);
+          } else if (error.code === 4001) {
             message.error("Transaction rejected", 5);
+          }
 
           this.setState({ error });
         });
@@ -239,13 +250,7 @@ export default class NewSubmitProfileForm extends React.Component {
       message.error("Unexpected error");
     }
   };
-  componentDidUpdate(previousProps) {
-    if (
-      previousProps.contract === undefined &&
-      this.props.contract !== undefined
-    )
-      this.calculateDeposit();
-  }
+
   render() {
     // console.log(this.state.name)
     const { current } = this.state;

@@ -27,7 +27,9 @@ function EvidenceItem({
 }) {
   const { t } = useTranslation();
   const evidence = useEvidenceFile()(URI);
-  if (evidence?.fileURIError) return null;
+  if (evidence?.fileURIError) {
+    return null;
+  }
 
   return (
     <Card

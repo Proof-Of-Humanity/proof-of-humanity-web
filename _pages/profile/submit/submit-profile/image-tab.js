@@ -252,9 +252,11 @@ export default class ImageTab extends React.Component {
   setCroppedAreaPixels = (croppedAreaPixels) => {
     // console.log(croppedAreaPixels)
     // let maxZoom = croppedAreaPixels.width / 256;
-    if (croppedAreaPixels.width > 256 && croppedAreaPixels.height > 256)
+    if (croppedAreaPixels.width > 256 && croppedAreaPixels.height > 256) {
       this.setState({ croppedAreaPixels });
-    else message.error(this.props.i18n.t("submit_profile_image_size_error"));
+    } else {
+      message.error(this.props.i18n.t("submit_profile_image_size_error"));
+    }
   };
   setCroppedImage = (croppedImage) => this.setState({ croppedImage });
 
@@ -305,8 +307,9 @@ export default class ImageTab extends React.Component {
     const rawData = window.atob(base64);
     const outputArray = new Uint8Array(rawData.length);
 
-    for (let i = 0; i < rawData.length; ++i)
+    for (let i = 0; i < rawData.length; ++i) {
       outputArray[i] = rawData.charCodeAt(i);
+    }
 
     return outputArray;
   };
@@ -316,7 +319,9 @@ export default class ImageTab extends React.Component {
     multiple: false,
     accept: this.photoOptions.types.label,
     beforeUpload: (file) => {
-      if (this.photoOptions.types.value.includes(file.type)) return true;
+      if (this.photoOptions.types.value.includes(file.type)) {
+        return true;
+      }
 
       message.error(this.props.i18n.t("submit_profile_file_not_supported"));
       return Upload.LIST_IGNORE;
@@ -356,14 +361,16 @@ export default class ImageTab extends React.Component {
         this.props.next();
       })
       .catch((err) => {
-        if (err === "image_grayscale")
+        if (err === "image_grayscale") {
           message.error(this.props.i18n.t("submit_profile_image_grayscale"), 5);
+        }
         // console.log(error)
-        else
+        else {
           message.error(
             "There was an error parsing your image, please try again",
             5
           );
+        }
 
         this.retakePicture();
       });
@@ -371,7 +378,9 @@ export default class ImageTab extends React.Component {
 
   takePicture = () => {
     // console.log(this.camera);
-    if (this.state.fullscreen) this.closeFullscreen();
+    if (this.state.fullscreen) {
+      this.closeFullscreen();
+    }
     const picture = this.camera.getScreenshot();
     const buffer = this.urlB64ToUint8Array(picture.split(",")[1]);
     // console.log('Picture b64=', picture);
@@ -406,13 +415,14 @@ export default class ImageTab extends React.Component {
 
   onUserMedia = () => {
     // console.log('User media detected', mediaStream);
-    if (this.state.videoDevices === 0)
+    if (this.state.videoDevices === 0) {
       navigator.mediaDevices.enumerateDevices().then((devices) => {
         const videoDevices = devices.filter(
           (d) => d.kind === "videoinput"
         ).length;
         this.setState({ videoDevices });
       });
+    }
 
     // this.camera.video.webkitRequestFullscreen();
     // this.screen.webkitRequestFullscreen();
@@ -422,9 +432,11 @@ export default class ImageTab extends React.Component {
     // console.error("User media error", error);
   };
   switchCamera = () => {
-    if (this.state.facingMode === "user")
+    if (this.state.facingMode === "user") {
       this.setState({ facingMode: "environment" });
-    else this.setState({ facingMode: "user" });
+    } else {
+      this.setState({ facingMode: "user" });
+    }
   };
   toggleFullscreen = () => {
     this.screen.webkitRequestFullscreen();

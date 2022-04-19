@@ -31,7 +31,9 @@ export default function ProfileWithID() {
 
   const name = props?.submission?.name ?? "";
 
-  if (props?.submission === null) return <Custom404 />;
+  if (props?.submission === null) {
+    return <Custom404 />;
+  }
 
   return (
     <>

@@ -47,7 +47,9 @@ export default function SubmitEvidenceButton({ contract, args }) {
           createValidationSchema={createValidationSchema}
           onSubmit={async ({ name, description, file }) => {
             const evidence = { name, description };
-            if (state !== "idle") return;
+            if (state !== "idle") {
+              return;
+            }
 
             if (file) {
               setState("uploading-file");

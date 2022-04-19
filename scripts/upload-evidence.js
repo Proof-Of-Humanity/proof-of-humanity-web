@@ -14,8 +14,9 @@ const { uploadToKleros } = require("./utils");
         path.dirname(process.argv[2]),
         evidence.fileURI[key]
       );
-      if (fs.existsSync(filePath))
+      if (fs.existsSync(filePath)) {
         evidence.fileURI[key] = await uploadToKleros(filePath);
+      }
     })
   );
 

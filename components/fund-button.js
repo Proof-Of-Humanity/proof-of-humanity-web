@@ -23,19 +23,21 @@ export default function FundButton({
       contribution: eth()
         .test({
           test(value) {
-            if (value.lte(_web3.utils.toBN(0)))
+            if (value.lte(_web3.utils.toBN(0))) {
               return this.createError({
                 message: `You need to contribute something.`,
               });
+            }
             return true;
           },
         })
         .test({
           test(value) {
-            if (value.gt(amountNeeded))
+            if (value.gt(amountNeeded)) {
               return this.createError({
                 message: `There's no need to contribute this much.`,
               });
+            }
             return true;
           },
         }),

@@ -39,7 +39,9 @@ export default function Webcam({
 
   useEffect(
     () => () => {
-      if (file) URL.revokeObjectURL(file.preview);
+      if (file) {
+        URL.revokeObjectURL(file.preview);
+      }
     },
     [file]
   );
@@ -115,7 +117,9 @@ export default function Webcam({
                   _file.preview = URL.createObjectURL(_file);
                   _file.content = buffer;
                   setFile(_file);
-                  if (onChange) onChange(_file);
+                  if (onChange) {
+                    onChange(_file);
+                  }
                 });
                 setPopupOpen(false);
               }}
@@ -173,9 +177,10 @@ export default function Webcam({
                   mediaRecorderRef.current.addEventListener(
                     "dataavailable",
                     ({ data }) => {
-                      if (data.size > 0)
+                      if (data.size > 0) {
                         recordedChunksRef.current =
                           recordedChunksRef.current.concat(data);
+                      }
                     }
                   );
                   mediaRecorderRef.current.addEventListener(
@@ -192,7 +197,9 @@ export default function Webcam({
                       _file.preview = URL.createObjectURL(_file);
                       _file.content = buffer;
                       setFile(_file);
-                      if (onChange) onChange(_file);
+                      if (onChange) {
+                        onChange(_file);
+                      }
 
                       if (ref.current?.mirrored) {
                         ref.current.ctx.translate(-ref.current.canvas.width, 0);
@@ -201,7 +208,9 @@ export default function Webcam({
                       }
 
                       recordedChunksRef.current = [];
-                      if (ref.current) ref.current.recording = false;
+                      if (ref.current) {
+                        ref.current.recording = false;
+                      }
                       setRecording(false);
                     }
                   );

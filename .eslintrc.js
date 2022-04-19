@@ -80,7 +80,7 @@ module.exports = {
     "prefer-template": "error",
     "require-await": "error",
     "spaced-comment": "error",
-    curly: ["error", "multi"], // Don't use unnecessary curly braces.
+    curly: "error", // Don't use unnecessary curly braces.
     eqeqeq: "error",
     // Force the use of aliases for aliased modules.
     "no-restricted-imports": [

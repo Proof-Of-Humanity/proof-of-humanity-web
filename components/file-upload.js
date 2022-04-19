@@ -14,14 +14,17 @@ import Webcam from "./webcam";
 const bufferToString = (buffer) => {
   let string = "";
   const bytes = new Uint8Array(buffer);
-  for (let i = 0; i < bytes.length; i++)
-    string += String.fromCharCode(bytes[i]);
+  for (const byte of bytes) {
+    string += String.fromCharCode(byte);
+  }
   return string;
 };
 const stringToBuffer = (string) => {
   const buffer = new ArrayBuffer(string.length);
   const bufferView = new Uint8Array(buffer);
-  for (let i = 0; i < string.length; i++) bufferView[i] = string.charCodeAt(i);
+  for (let i = 0; i < string.length; i++) {
+    bufferView[i] = string.charCodeAt(i);
+  }
   return buffer;
 };
 export default function FileUpload({
@@ -43,7 +46,7 @@ export default function FileUpload({
   const [popupOpen, setPopupOpen] = useState(false);
 
   const onChange = (_files, ...args) => {
-    if (_files)
+    if (_files) {
       for (const file of Array.isArray(_files) ? _files : [_files]) {
         file.toJSON = () => ({
           isSerializedFile: true,
@@ -52,14 +55,15 @@ export default function FileUpload({
           content: bufferToString(file.content),
         });
         const mimetype = file.type.split("/");
-        if (mimetype[0] === "image")
+        if (mimetype[0] === "image") {
           fetch(`${process.env.NEXT_PUBLIC_MEDIA_SERVER}/photo`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ buffer: Buffer.from(file.content) }),
           }).then((URI) => URI);
+        }
 
-        if (mimetype[0] === "video")
+        if (mimetype[0] === "video") {
           fetch(`${process.env.NEXT_PUBLIC_MEDIA_SERVER}/video`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -68,7 +72,9 @@ export default function FileUpload({
               type: mimetype[1],
             }),
           }).then((URI) => URI);
+        }
       }
+    }
     return _onChange
       ? _onChange({ target: { name, value: _files } })
       : setFiles(_files, ...args);
@@ -99,7 +105,9 @@ export default function FileUpload({
       const _files = Array.isArray(value) ? value : [value];
       if (_files.some((file) => file.isSerializedFile)) {
         const parsedFiles = _files.map((file) => {
-          if (!file.isSerializedFile) return file;
+          if (!file.isSerializedFile) {
+            return file;
+          }
 
           const buffer = stringToBuffer(file.content);
           file = new File([buffer], file.name, { type: file.type });
@@ -119,15 +127,18 @@ export default function FileUpload({
   }, [value, _onChange, name]);
 
   useEffect(() => {
-    if (value !== undefined && value !== files) setFiles(value);
+    if (value !== undefined && value !== files) {
+      setFiles(value);
+    }
   }, [value, files]);
 
   useEffect(
     () => () => {
-      if (files)
+      if (files) {
         (Array.isArray(files) ? files : [files]).forEach((file) =>
           URL.revokeObjectURL(file.preview)
         );
+      }
     },
     [files]
   );
@@ -147,7 +158,9 @@ export default function FileUpload({
           },
           variant: "forms.fileUpload",
           onBlur() {
-            if (onBlur) onBlur({ target: { name } });
+            if (onBlur) {
+              onBlur({ target: { name } });
+            }
           },
           ...rest,
         })}

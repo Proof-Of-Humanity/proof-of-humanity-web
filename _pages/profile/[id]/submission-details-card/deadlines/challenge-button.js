@@ -85,17 +85,22 @@ function DuplicateInput({ submissionID, setDuplicate }) {
   );
 
   let message;
-  if (submissionID.toLowerCase() === value.toLowerCase())
+  if (submissionID.toLowerCase() === value.toLowerCase()) {
     message = t("profile_card_challenge_not_duplicate_of_itself");
-  else if (isValidAddress && submission)
-    if (Number(submission.status) > 0 || submission.registered)
+  } else if (isValidAddress && submission) {
+    if (Number(submission.status) > 0 || submission.registered) {
       message = t("profile_card_challenge_valid_duplicate");
-    else message = t("profile_card_challenge_should_be_registered_or_pending");
+    } else {
+      message = t("profile_card_challenge_should_be_registered_or_pending");
+    }
+  }
 
   useEffect(() => {
-    if (message === t("profile_card_challenge_valid_duplicate"))
+    if (message === t("profile_card_challenge_valid_duplicate")) {
       setDuplicate(value);
-    else setDuplicate();
+    } else {
+      setDuplicate();
+    }
   }, [message, setDuplicate, value, t]);
 
   return (
@@ -252,7 +257,7 @@ export default function ChallengeButton({ request, status, submissionID }) {
             }
             onClick={async () => {
               let evidenceUploadResult;
-              if (reason && reason.length > 0)
+              if (reason && reason.length > 0) {
                 evidenceUploadResult = await upload(
                   "evidence.json",
                   JSON.stringify({
@@ -260,6 +265,7 @@ export default function ChallengeButton({ request, status, submissionID }) {
                     description: reason,
                   })
                 );
+              }
 
               const { pathname } = evidenceUploadResult || {};
               await send(

@@ -40,7 +40,9 @@ export default function GasslessVouchButton({ submissionID }) {
   );
 
   const signVouch = useCallback(async () => {
-    if (!web3Context) return;
+    if (!web3Context) {
+      return;
+    }
 
     const { connect, web3 } = web3Context;
     if (!accounts?.[0]) {
@@ -88,7 +90,9 @@ export default function GasslessVouchButton({ submissionID }) {
             from,
           },
           (err, result) => {
-            if (err) return reject(err);
+            if (err) {
+              return reject(err);
+            }
 
             return resolve(result);
           }

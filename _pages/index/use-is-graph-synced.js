@@ -25,7 +25,9 @@ export default function useIsGraphSynced(blockNumber) {
 
   const refetchQuery = useRefetchQuery();
   useEffect(() => {
-    if (refetchQuery) refetchQuery(blockNumber);
+    if (refetchQuery) {
+      refetchQuery(blockNumber);
+    }
   }, [props, refetchQuery, blockNumber]);
 
   return Boolean(props) || !blockNumber;

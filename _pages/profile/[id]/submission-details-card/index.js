@@ -221,15 +221,18 @@ export default function SubmissionDetailsCard({
 
   const [offChainVouches, setOffChainVouches] = useState([]);
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      return;
+    }
     (async () => {
       const res = await (
         await fetch(
           `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/search?submissionId=${id}`
         )
       ).json();
-      if (res && res.vouches && res.vouches.length > 0)
+      if (res && res.vouches && res.vouches.length > 0) {
         setOffChainVouches(res.vouches[0].vouchers);
+      }
     })();
   }, [id]);
 

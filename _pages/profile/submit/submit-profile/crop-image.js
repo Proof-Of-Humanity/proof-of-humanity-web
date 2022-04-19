@@ -38,7 +38,9 @@ export default async function getCroppedImg(
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
 
-  if (!context) return null;
+  if (!context) {
+    return null;
+  }
 
   const rotRad = getRadianAngle(rotation);
 

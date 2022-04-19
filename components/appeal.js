@@ -28,8 +28,9 @@ function isWinnerAndOpposingPartyDidntPay(
   loserDeadline
 ) {
   const currentTime = web3.utils.toBN(Math.floor(Date.now() / 1000));
-  if (isWinner && !oppositeHasPaid && loserDeadline?.lt(currentTime))
+  if (isWinner && !oppositeHasPaid && loserDeadline?.lt(currentTime)) {
     return true;
+  }
 
   return false;
 }

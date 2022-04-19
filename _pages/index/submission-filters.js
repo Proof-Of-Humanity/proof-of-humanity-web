@@ -128,8 +128,11 @@ export default function SubmissionFilters({
         value={router.query.search || ""}
         onChange={(event) => {
           const query = { ...router.query };
-          if (!event.target.value) delete query.search;
-          else query.search = event.target.value;
+          if (!event.target.value) {
+            delete query.search;
+          } else {
+            query.search = event.target.value;
+          }
           router.push({
             pathname: "/",
             query,
@@ -154,9 +157,12 @@ export default function SubmissionFilters({
             query.status = value;
 
             if (value === "registered" || value === "expired") {
-              if (submissionDuration)
+              if (submissionDuration) {
                 query.submissionDuration = submissionDuration.toNumber();
-            } else delete query.submissionDuration;
+              }
+            } else {
+              delete query.submissionDuration;
+            }
           }
 
           delete query.skip;

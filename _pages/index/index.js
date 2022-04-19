@@ -15,7 +15,9 @@ function getSubmissionCounter(
   nSubmissions,
   props
 ) {
-  if (searchFilter) return nSubmissions;
+  if (searchFilter) {
+    return nSubmissions;
+  }
   switch (statusFilter) {
     case "vouching":
       return props?.counter?.vouchingPhase || 0;

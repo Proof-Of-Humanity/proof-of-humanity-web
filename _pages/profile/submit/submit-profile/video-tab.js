@@ -133,7 +133,7 @@ export default class VideoTab extends React.Component {
               if (
                 videoWidth - borders.width > minWidth &&
                 videoHeight - borders.height > minHeight
-              )
+              ) {
                 this.setState({
                   file: blob,
                   recording: false,
@@ -141,13 +141,15 @@ export default class VideoTab extends React.Component {
                   recordedVideoUrl: videoURL,
                   duration,
                 });
-              else
+              } else {
                 message.error(
                   this.props.i18n.t("submit_profile_video_too_small")
                 );
+              }
             });
-          } else
+          } else {
             message.error(this.props.i18n.t("submit_profile_video_too_long"));
+          }
         });
       }
       // console.log("onChange videoURL=", videoURL);
@@ -162,8 +164,9 @@ export default class VideoTab extends React.Component {
   };
 
   uploadVideo = () => {
-    if (this.props.state.videoURI !== "")
+    if (this.props.state.videoURI !== "") {
       this.props.stateHandler({ videoURI: "" });
+    }
 
     const { file } = this.state;
     // console.log(file);
@@ -235,13 +238,14 @@ export default class VideoTab extends React.Component {
     loadFFMPEG();
     this.setState({ userMedia: mediaStream });
     // maybe move this to another place?
-    if (this.state.videoDevices === 0)
+    if (this.state.videoDevices === 0) {
       navigator.mediaDevices.enumerateDevices().then((devices) => {
         const videoDevices = devices.filter(
           (d) => d.kind === "videoinput"
         ).length;
         this.setState({ videoDevices });
       });
+    }
   };
 
   onUserMediaError = (error) => {
@@ -268,11 +272,15 @@ export default class VideoTab extends React.Component {
   };
 
   handleStopCaptureClick = () => {
-    if (this.state.recording) this.mediaRecorderRef.current.stop();
+    if (this.state.recording) {
+      this.mediaRecorderRef.current.stop();
+    }
   };
 
   handleStop = async () => {
-    if (this.state.fullscreen) this.closeFullscreen();
+    if (this.state.fullscreen) {
+      this.closeFullscreen();
+    }
 
     // console.log(this.state.recordedVideo);
 
@@ -296,18 +304,23 @@ export default class VideoTab extends React.Component {
   };
 
   mirrorVideo = () => {
-    if (this.state.mirrored === true) this.setState({ mirrored: false });
-    else this.setState({ mirrored: true });
+    if (this.state.mirrored === true) {
+      this.setState({ mirrored: false });
+    } else {
+      this.setState({ mirrored: true });
+    }
   };
 
   switchCamera = () => {
-    if (this.state.facingMode === "user")
+    if (this.state.facingMode === "user") {
       this.setState({ facingMode: "environment" });
-    else this.setState({ facingMode: "user" });
+    } else {
+      this.setState({ facingMode: "user" });
+    }
   };
 
   goBack = () => {
-    if (this.state.recordingMode !== "")
+    if (this.state.recordingMode !== "") {
       this.setState({
         recording: false,
         cameraEnabled: false,
@@ -316,7 +329,7 @@ export default class VideoTab extends React.Component {
         file: "",
         recordingMode: "",
       });
-    else {
+    } else {
       this.setState({
         recording: false,
         cameraEnabled: false,

@@ -92,10 +92,11 @@ export default function RemoveButton({ request, contract, submissionID }) {
           onSubmit={async ({ name, description, file }) => {
             let evidence = { name, description };
 
-            if (file)
+            if (file) {
               evidence.fileURI = (
                 await upload(file.name, file.content)
               ).pathname;
+            }
             ({ pathname: evidence } = await upload(
               "evidence.json",
               JSON.stringify(evidence)

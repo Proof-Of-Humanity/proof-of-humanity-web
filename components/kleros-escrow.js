@@ -73,16 +73,19 @@ export default class KlerosEscrow {
       }
     );
 
-    if (currency)
+    if (currency) {
       this.tokenContract = new this.web3.eth.Contract(erc20, currency, {
         from: account,
       });
-    else delete this.tokenContract;
+    } else {
+      delete this.tokenContract;
+    }
   }
 
   upload(fileName, bufferOrJSON) {
-    if (typeof bufferOrJSON !== "string" && !Buffer.isBuffer(bufferOrJSON))
+    if (typeof bufferOrJSON !== "string" && !Buffer.isBuffer(bufferOrJSON)) {
       bufferOrJSON = JSON.stringify(bufferOrJSON);
+    }
 
     return fetch(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`, {
       method: "POST",
@@ -99,7 +102,9 @@ export default class KlerosEscrow {
   }
 
   async getTransactions(address) {
-    if (!address) address = await this.getAccount();
+    if (!address) {
+      address = await this.getAccount();
+    }
     const transactionIDs = await this.contract.methods
       .getTransactionIDsByAddress(address)
       .call();
@@ -119,10 +124,11 @@ export default class KlerosEscrow {
   }
 
   async createTransaction(amount, recipient, timeout, metaEvidence) {
-    if (this.tokenContract)
+    if (this.tokenContract) {
       await this.tokenContract.methods
         .approve(this.contract.options.address, amount)
         .send();
+    }
 
     if (metaEvidence.file) {
       metaEvidence = { ...metaEvidence };
