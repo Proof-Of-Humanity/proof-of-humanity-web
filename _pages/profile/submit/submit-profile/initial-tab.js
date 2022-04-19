@@ -36,9 +36,15 @@ export default class InitialTab extends React.Component {
           <Row>
             <Space direction="vertical" size={1}>
               <Title level={2} style={{ fontWeight: "bold" }}>
-                {t("submit_profile_initial_title")}
+                {this.props.reapply
+                  ? t("submit_profile_initial_title_reapply")
+                  : t("submit_profile_initial_title")}
               </Title>
-              <Paragraph>{t("submit_profile_initial_description")}</Paragraph>
+              <Paragraph>
+                {this.props.reapply
+                  ? t("submit_profile_initial_description_reapply")
+                  : t("submit_profile_initial_description")}
+              </Paragraph>
 
               {/* Add links or example how a profile gets registered? Register -> Vouch -> Pending (3.5 days) -> Start accruing UBI */}
 
@@ -56,25 +62,29 @@ export default class InitialTab extends React.Component {
               >
                 {this.props.account}
               </Paragraph>
-              <Link
-                href="https://tornado.cash"
-                target="_blank"
-                rel="noopener"
-                style={{ fontWeight: "bold" }}
-              >
-                {t("submit_profile_tornado_cash")}
-              </Link>
-              <Checkbox
-                style={{ fontWeight: "bold" }}
-                onChange={(event) => {
-                  this.setState({ checked: event.target.checked });
-                }}
-              >
-                {t("submit_profile_sensitive_info")}
-              </Checkbox>
+              {!this.props.reapply && (
+                <>
+                  <Link
+                    href="https://tornado.cash"
+                    target="_blank"
+                    rel="noopener"
+                    style={{ fontWeight: "bold" }}
+                  >
+                    {t("submit_profile_tornado_cash")}
+                  </Link>
 
+                  <Checkbox
+                    style={{ fontWeight: "bold" }}
+                    onChange={(event) => {
+                      this.setState({ checked: event.target.checked });
+                    }}
+                  >
+                    {t("submit_profile_sensitive_info")}
+                  </Checkbox>
+                </>
+              )}
               <Button
-                disabled={!this.state.checked}
+                disabled={!this.state.checked && !this.props.reapply}
                 type="primary"
                 htmlType="submit"
                 shape="round"
@@ -92,7 +102,11 @@ export default class InitialTab extends React.Component {
               <Title level={2} style={{ fontWeight: "bold" }}>
                 {t("submit_profile_info_title")}
               </Title>
-              <Paragraph>{t("submit_profile_info_description")}</Paragraph>
+              <Paragraph>
+                {!(this.props.reapply || this.props?.submission)
+                  ? t("submit_profile_info_description")
+                  : null}
+              </Paragraph>
 
               <Form
                 name="basicform"

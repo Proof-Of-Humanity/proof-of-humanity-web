@@ -24,8 +24,8 @@ export default class NewSubmitProfileForm extends React.Component {
       OS: this.getOS(),
       deposit: {
         bigNumber: 0,
-        ether: 0
-      }
+        ether: 0,
+      },
     };
   }
 
@@ -161,10 +161,12 @@ export default class NewSubmitProfileForm extends React.Component {
     );
     // console.log(_submissionBaseDeposit)
     // const _submissionBaseDeposit = toBN(this.props.contract?.submissionBaseDeposit);
-    const _arbitrationCost = toBN(arbitrationCost);
-    const deposit = _submissionBaseDeposit.add(_arbitrationCost);
-    const ether = fromWei(deposit, "ether").toString();
-    this.setState({deposit:{ bigNumber: deposit, ether }})
+    if (arbitrationCost) {
+      const _arbitrationCost = toBN(arbitrationCost);
+      const deposit = _submissionBaseDeposit.add(_arbitrationCost);
+      const ether = fromWei(deposit, "ether").toString();
+      this.setState({ deposit: { bigNumber: deposit, ether } });
+    }
   };
 
   prepareTransaction = async () => {
@@ -177,7 +179,8 @@ export default class NewSubmitProfileForm extends React.Component {
       method(registrationURI, this.state.name)
         .send({
           from: this.props.account,
-          value: this.state.crowdfund === "crowd" ? 0 : this.state.deposit.bigNumber,
+          value:
+            this.state.crowdfund === "crowd" ? 0 : this.state.deposit.bigNumber,
         })
         .on("transactionHash", (tx) => {
           this.setState({ txHash: tx });
@@ -207,10 +210,12 @@ export default class NewSubmitProfileForm extends React.Component {
       message.error("Unexpected error");
     }
   };
-  componentDidUpdate(prevProps){
-    if(prevProps.contract === undefined && this.props.contract !== undefined){
-      this.calculateDeposit()
-    }
+  componentDidUpdate(previousProps) {
+    if (
+      previousProps.contract === undefined &&
+      this.props.contract !== undefined
+    )
+      this.calculateDeposit();
   }
   render() {
     // console.log(this.state.name)
@@ -225,6 +230,7 @@ export default class NewSubmitProfileForm extends React.Component {
       reset: this.reset,
       account: this.props.account,
       submission: this.props.submission,
+      reapply: this.props.reapply,
     };
 
     return (

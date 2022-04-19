@@ -31,7 +31,7 @@
   "header_faq_begginer_guide": "Crypto Beginner's Guide",
 
   "footer_learn_more": "Learn More",
-  
+
   "submit_profile": "Submit profile",
   "profile_title": "Profile",
   "profile_status": "Profile Status",
@@ -62,7 +62,7 @@
   "profile_status_challenge_reason_IncorrectSubmission_description": "Parts of the submission are incorrect.",
   "profile_status_challenge_reason_Deceased_description": "The submitter has passed away.",
   "profile_status_challenge_reason_Duplicate_description": "The submitter is already registered.",
-  "profile_status_challenge_reason_DoesNotExist_description": "The submitter does not exist.",  
+  "profile_status_challenge_reason_DoesNotExist_description": "The submitter does not exist.",
   "profile_status_duplicate_of": "of",
 
   "profile_share_vouching_title": "Register and vouch for this profile on Proof Of Humanity.",
@@ -109,7 +109,7 @@
   "profile_card_vouch": "Vouch",
   "profile_card_remove": "Remove",
   "profile_card_vouch_text": "Make sure the person exists and that you have physically encountered\n them. Note that in the case of a dispute, if a submission is\n rejected for reason “Duplicate” or “Does not exist”, everyone who\n had vouched for it will get removed from the registry. Note that\n your vouch will only be counted when and as long as you are\n registered, and another submission is not using your vouch.",
-  "profile_card_remove_vouch": "Remove Vouch",  
+  "profile_card_remove_vouch": "Remove Vouch",
   "profile_card_gasless_vouch": "Gasless Vouch",
   "profile_card_vouch_saved": "Vouch saved successfully.",
 
@@ -122,8 +122,8 @@
   "profile_card_vouches_in_use": "Vouches in use in other submissions",
   "profile_card_vouches_used": "All vouches given to this submission are being used by other submissions. Either wait for them to resolve or ask that someone else with a free vouch to also vouch for you.",
 
-  "profile_details_previous_requests":"Previous Submissions",
-  "profile_details_previous_requests_button":"Go to submission number",
+  "profile_details_previous_requests": "Previous Submissions",
+  "profile_details_previous_requests_button": "Go to submission number",
 
   "profile_details_evidence": "Evidence",
   "profile_details_appeal": "Appeal",
@@ -150,12 +150,14 @@
   "submit_profile_connect_wallet": "Connect an Ethereum Wallet",
   "submit_profile_wallet_help": "Don't have a wallet? Click <0>here</0> to learn on how to create one!",
 
-  "submit_profile_initial_title": "Create your Proof Of Humanity Profile",
+  "submit_profile_initial_title": "Create your Proof Of Humanity profile",
+  "submit_profile_initial_title_reapply": "Reapply your Proof Of Humanity profile",
   "submit_profile_initial_description": "Submitting your profile to Proof of Humanity takes an average of 5-10 minutes, an existing Ethereum account and requires you to record a video of yourself talking.",
+  "submit_profile_initial_description_reapply": "Reapplying your profile to Proof of Humanity takes an average of 5-10 minutes, an existing Ethereum account and requires you to record a video of yourself talking.",
   "submit_profile_your_wallet": "Your connected wallet is:",
   "submit_profile_tornado_cash": "Learn how to increase your privacy with Tornado Cash",
   "submit_profile_sensitive_info": "I understand this wallet will be irreversebly linked to my real world person and I will not use that wallet for any private or sensitive information.",
-  
+
   "submit_profile_info_title": "Basic information",
   "submit_profile_info_description": "Registering to Proof of Humanity requires you to set a name. You can use a pseudonym if you feel more comfortable.",
   "submit_profile_info_name_title": "I like to be called...",
@@ -180,8 +182,8 @@
   "submit_profile_image_verify_next": "Looking great",
   "submit_profile_image_crop_result": "Show result",
   "submit_profile_image_retake": "Retake",
-  "submit_profile_image_result_title":"Your picture",
-  
+  "submit_profile_image_result_title": "Your picture",
+
   "submit_profile_video_title": "Are you ready to speak?",
   "submit_profile_video_description": "You must be in a quiet room, with a working microphone and be able to read from your screen. If you are unable to comply, then an alternative process is available.",
   "submit_profile_video_by_voice": "I am able to identify my account using my voice and sight",
@@ -194,7 +196,7 @@
   "submit_profile_video_too_small": "The video's width and height must be bigger than 352 pixels",
   "submit_profile_video_too_big": "The selected file exceeds the size limit of 15MB",
   "submit_profile_video_phrase": "I certify that I am a real human and I'm not already registered in this registry. \n",
-  
+
   "submit_profile_finalize_title": "Finalize your registration",
   "submit_profile_finalize_description": "Verify your submission information and media is correct and submit the transaction to register.",
   "submit_profile_finalize_name": "Name",
@@ -205,7 +207,7 @@
   "submit_profile_finalize_video_check": "Please check your whole video to be able to send the submission.",
   "submit_profile_finalize_crowdfund": "I want to use Crowdfund (no self deposit)",
   "submit_profile_finalize_selffund": "I want to fund my own submission",
-  "submit_profile_rules_info":"Click here to review the current registration rules",
+  "submit_profile_rules_info": "Click here to review the current registration rules",
 
   "submit_profile_nextsteps_title": "Your profile is being uploaded!",
   "submit_profile_nextsteps_description": "But it's not over yet! Here are the next steps before you can start receiving UBI.",
@@ -214,13 +216,13 @@
   "submit_profile_nextsteps_crowdvoucher_group": "Join the crowdvoucher group on Telegram",
   "submit_profile_nextsteps_crowdfunding_group": "Join the crowdfunding group on Telegram",
   "submit_profile_nexsteps_goto_profile": "Go to my profile now!",
-  "submit_profile_deposit_info":"Your deposit will be returned when you finalize the registration if your profile complies with all the rules.",
+  "submit_profile_deposit_info": "Your deposit will be returned when you finalize the registration if your profile complies with all the rules.",
 
   "submit_profile_file_not_supported": "The selected file type is not supported",
   "submit_profile_next": "Next",
   "submit_profile_previous": "Previous",
 
-  "web3_modal_walletconnect":"Scan with WalletConnect to connect",
-  "web3_modal_authereum":"Connect with your Authereum account",
-  "web3_modal_metamask":"Connect your Metamask wallet"
+  "web3_modal_walletconnect": "Scan with WalletConnect to connect",
+  "web3_modal_authereum": "Connect with your Authereum account",
+  "web3_modal_metamask": "Connect your Metamask wallet"
 }
