@@ -111,7 +111,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
   const requestsForUI = requests.slice(1);
   return (
     <Accordion>
-      {requestsForUI.length > 1 && (
+      {requestsForUI.length >= 1 && (
         <SubmissionDetailsAccordionItem
           heading={t("profile_details_previous_requests")}
           panelSx={{ paddingX: 0 }}
