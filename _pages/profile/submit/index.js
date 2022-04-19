@@ -1,8 +1,9 @@
+import { LoadingOutlined } from "@ant-design/icons";
 import { Link, useWeb3 } from "@kleros/components";
 import { Button, Col, Row, Space, Typography, message } from "antd";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { graphql, useQuery } from "relay-hooks";
 
@@ -49,32 +50,33 @@ export default function ProfileNew() {
   const { query } = router;
 
   const reapply = query.reapply === "true";
-  const registered = props?.submission?.registered ?? false;
+  const registered = props?.submission?.registered;
 
-  const submissionDuration = Number(
-    web3.contracts?.proofOfHumanity.methods.submissionDuration().call()
-  );
+  const [canReapply, setCanReapply] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
-  const renewalPeriodDuration = Number(
-    web3.contracts?.proofOfHumanity.methods.renewalPeriodDuration().call()
-  );
+  Promise.all([
+    web3.contracts?.proofOfHumanity.methods.submissionDuration().call(),
+    web3.contracts?.proofOfHumanity.methods.renewalPeriodDuration().call(),
+  ]).then(([submissionDuration, renewalPeriodDuration]) => {
+    const renewalTimestamp =
+      (Number(props?.submission?.submissionTime) +
+        (submissionDuration - renewalPeriodDuration)) *
+      1000;
+    setCanReapply(Date.now() > renewalTimestamp);
+  });
 
-  const renewalTimestamp =
-    (Number(props?.submission?.submissionTime) +
-      (submissionDuration - renewalPeriodDuration)) *
-    1000;
+  // console.log('props registered', props?.submission)
 
-  const canReapply = Date.now() > renewalTimestamp;
-  // console.log("props",props)
-
-  if (registered && !canReapply) {
-    message.error("You can't reapply yet", 5);
-    router.push({
-      pathname: "/profile/[id]",
-      query: { id: account },
-      asPath: `/profile/${account}`,
-    });
-  }
+  useEffect(() => {
+    // console.log('useEffect', registered, canReapply); // it takes time until this gets its value
+    if (registered && canReapply === false) {
+      message.error("You can't reapply yet", 5);
+      router.push({ pathname: "/profile/[id]", query: { id: account } });
+    } else if (registered === false)
+      // console.log('set false', registered, typeof registered);
+      setLoading(false);
+  }, [registered, canReapply, router, account]);
 
   // console.log(props?.contract)
   const evidence = useEvidenceFile()(
@@ -94,6 +96,9 @@ export default function ProfileNew() {
   }, [reapply, router, account]);
 
   // console.log('profile new', account, props);
+
+  // console.log('isLoading', isLoading);
+  if (isLoading) return <LoadingOutlined style={{ fontSize: 60 }} spin />;
 
   if (account)
     return (
