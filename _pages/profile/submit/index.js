@@ -1,15 +1,16 @@
-
-import { useCallback } from "react";
-import { useTranslation, Trans } from 'react-i18next'; 
+import { LoadingOutlined } from "@ant-design/icons";
+import { Link, useWeb3 } from "@kleros/components";
+import { Button, Col, Row, Space, Typography, message } from "antd";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { graphql, useQuery } from "relay-hooks";
 
-import { useWeb3, Link } from "@kleros/components";
-import { Row, Col, Button, Space, Typography, message } from 'antd';
 const { Title, Paragraph } = Typography;
 
 import { NewSubmitProfileCard } from "./submit-profile";
+
 import { useEvidenceFile } from "data";
 
 const submitProfileQuery = graphql`
@@ -19,7 +20,7 @@ const submitProfileQuery = graphql`
       submissionBaseDeposit
       arbitratorExtraData
       renewalTime
-      registrationMetaEvidence{
+      registrationMetaEvidence {
         id
         URI
       }
@@ -38,43 +39,52 @@ export default function ProfileNew() {
   const [accounts] = useWeb3("eth", "getAccounts");
   const { t, i18n } = useTranslation();
 
-
   const { web3 } = useWeb3();
   const account = accounts?.[0]?.toLowerCase();
 
-  const { props } = useQuery(submitProfileQuery,{
-    id:account
+  const { props } = useQuery(submitProfileQuery, {
+    id: account,
   });
 
   const router = useRouter();
   const { query } = router;
 
   const reapply = query.reapply === "true";
-  const registered = props?.submission?.registered ?? false;
+  const registered = props?.submission?.registered;
 
-  const submissionDuration = Number(web3.contracts?.proofOfHumanity.methods.submissionDuration().call());
+  const [canReapply, setCanReapply] = useState(null);
+  const [isLoading, setLoading] = useState(true);
 
-  const renewalPeriodDuration = Number(web3.contracts?.proofOfHumanity.methods.renewalPeriodDuration().call());
+  Promise.all([
+    web3.contracts?.proofOfHumanity.methods.submissionDuration().call(),
+    web3.contracts?.proofOfHumanity.methods.renewalPeriodDuration().call(),
+  ]).then(([submissionDuration, renewalPeriodDuration]) => {
+    const renewalTimestamp =
+      (Number(props?.submission?.submissionTime) +
+        (submissionDuration - renewalPeriodDuration)) *
+      1000;
+    setCanReapply(Date.now() > renewalTimestamp);
+  });
 
-  const renewalTimestamp = (Number(props?.submission?.submissionTime) + (submissionDuration - renewalPeriodDuration)) * 1000;
+  // console.log('props registered', props?.submission)
 
-  const canReapply = Date.now() > renewalTimestamp;
-  //console.log("props",props)
-
-  if(registered && !canReapply){
-    message.error("You can't reapply yet", 5)
-    router.push({
-      pathname: "/profile/[id]",
-      query: { id: account },
-      asPath:`/profile/${account}`
-    });
-  }
+  useEffect(() => {
+    // console.log('useEffect', registered, canReapply); // it takes time until this gets its value
+    if (registered && canReapply === false) {
+      message.error("You can't reapply yet", 5);
+      router.push({ pathname: "/profile/[id]", query: { id: account } });
+    } else if (registered === false)
+      // console.log('set false', registered, typeof registered);
+      setLoading(false);
+  }, [registered, canReapply, router, account]);
 
   // console.log(props?.contract)
-  const evidence = useEvidenceFile()(props?.contract?.registrationMetaEvidence.URI);
+  const evidence = useEvidenceFile()(
+    props?.contract?.registrationMetaEvidence.URI
+  );
   // console.log(evidence?.fileURI)
-  const rules =  evidence?.fileURI;      
-    
+  const rules = evidence?.fileURI;
+
   const handleAfterSend = useCallback(async () => {
     if (reapply)
       router.push({
@@ -87,7 +97,10 @@ export default function ProfileNew() {
 
   // console.log('profile new', account, props);
 
-  if (account) {
+  // console.log('isLoading', isLoading);
+  if (isLoading) return <LoadingOutlined style={{ fontSize: 60 }} spin />;
+
+  if (account)
     return (
       <>
         <Head>
@@ -109,24 +122,41 @@ export default function ProfileNew() {
         />
       </>
     );
-  }
-  
+
   return (
     <Row justify="center">
-      <Col className="submit-profile-card" style={{textAlign: 'center'}} xs={{ span: 24 }} xl={{ span: 12 }}>
-      <Space direction="vertical" size={1}>
+      <Col
+        className="submit-profile-card"
+        style={{ textAlign: "center" }}
+        xs={{ span: 24 }}
+        xl={{ span: 12 }}
+      >
+        <Space direction="vertical" size={1}>
           <Title level={2}>{t("submit_profile_title")}</Title>
           <Title level={5}>{t("submit_profile_create_wallet")}</Title>
-          <Button type="primary" shape="round" className="button-orange"onClick={connect}>{t("submit_profile_connect_wallet")}</Button>
+          <Button
+            type="primary"
+            shape="round"
+            className="button-orange"
+            onClick={connect}
+          >
+            {t("submit_profile_connect_wallet")}
+          </Button>
           <Paragraph>
-            <Trans 
-            i18nKey="submit_profile_wallet_help" 
-            t={t}
-            components={[
-              <Link key="1" href="https://ethereum.org/en/wallets/find-wallet/" target="_blank" rel="noreferrer noopener"></Link>
-            ]} />
+            <Trans
+              i18nKey="submit_profile_wallet_help"
+              t={t}
+              components={[
+                <Link
+                  key="1"
+                  href="https://ethereum.org/en/wallets/find-wallet/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                />,
+              ]}
+            />
           </Paragraph>
-      </Space>
+        </Space>
       </Col>
     </Row>
   );
