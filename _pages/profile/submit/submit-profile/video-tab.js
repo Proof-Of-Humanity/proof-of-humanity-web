@@ -576,26 +576,50 @@ export default class VideoTab extends React.Component {
                   )}
                 </div>
               </div>
+              <Row>
+                <Col span={24}>
+                  <Title level={2}>
+                    {t("submit_profile_video_upload_title")}
+                  </Title>
+                  <Upload.Dragger {...this.draggerProps} className="dragger">
+                    <FileAddFilled />
+
+                    <Paragraph className="ant-upload-text">
+                      {t("submit_profile_video_upload")}
+                    </Paragraph>
+                  </Upload.Dragger>
+                </Col>
+              </Row>
             </Col>
           </Row>
         ) : !this.props.state.permission &&
           this.state.recordedVideoUrl === "" ? (
-          <Row>
-            <Col span={24}>
-              <Title level={2}>{t("submit_profile_missing_permissions")}</Title>
-              <Paragraph style={{ color: "black", whiteSpace: "pre-line" }}>
-                {t("submit_profile_missing_permissions_description")}
-              </Paragraph>
-              <Title level={2}>{t("submit_profile_video_upload_title")}</Title>
-              <Upload.Dragger {...this.draggerProps} className="dragger">
-                <FileAddFilled />
-
-                <Paragraph className="ant-upload-text">
-                  {t("submit_profile_video_upload")}
+          <>
+            <Row>
+              <Col span={24}>
+                <Title level={2}>
+                  {t("submit_profile_missing_permissions")}
+                </Title>
+                <Paragraph style={{ color: "black", whiteSpace: "pre-line" }}>
+                  {t("submit_profile_missing_permissions_description")}
                 </Paragraph>
-              </Upload.Dragger>
-            </Col>
-          </Row>
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24}>
+                <Title level={2}>
+                  {t("submit_profile_video_upload_title")}
+                </Title>
+                <Upload.Dragger {...this.draggerProps} className="dragger">
+                  <FileAddFilled />
+
+                  <Paragraph className="ant-upload-text">
+                    {t("submit_profile_video_upload")}
+                  </Paragraph>
+                </Upload.Dragger>
+              </Col>
+            </Row>
+          </>
         ) : null}
         {!this.state.recording && this.state.recordedVideoUrl !== "" ? (
           <>

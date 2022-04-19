@@ -69,27 +69,39 @@ export default class NewSubmitProfileForm extends React.Component {
       // icon: 4,
     },
   ];
-  componentDidUpdate = () => {
-    if (this.state.permission === null)
-      navigator.permissions.query({ name: "camera" }).then((res) => {
-        if (res.state === "granted") this.setState({ permission: true });
-        else if (res.state === "prompt")
-          navigator.mediaDevices
-            .getUserMedia({ audio: true, video: this.cameraConstraints })
-            .then(() => {
-              this.setState({ permission: true });
-            })
-            .catch(() => {
-              this.setState({ permission: false, recordingMode: "visual" });
-            });
-        else if (res.state === "denied")
-          this.setState({ permission: false, recordingMode: "visual" });
-      });
-  };
+
   getOS = () => {
     const userAgent = UserAgent(window.navigator.userAgent);
     // console.log(userAgent)
     return userAgent;
+  };
+
+  componentDidUpdate = () => {
+    if (this.state.permission === null)
+      if (this.state.OS.device.type !== "mobile")
+        navigator.permissions.query({ name: "camera" }).then((res) => {
+          if (res.state === "granted") this.setState({ permission: true });
+          else if (res.state === "prompt")
+            navigator.mediaDevices
+              .getUserMedia({ audio: true, video: true })
+              .then(() => {
+                this.setState({ permission: true });
+              })
+              .catch(() => {
+                this.setState({ permission: false, recordingMode: "visual" });
+              });
+          else if (res.state === "denied")
+            this.setState({ permission: false, recordingMode: "visual" });
+        });
+      else
+        navigator.mediaDevices
+          .getUserMedia({ audio: true, video: true })
+          .then(() => {
+            this.setState({ permission: true });
+          })
+          .catch(() => {
+            this.setState({ permission: false, recordingMode: "visual" });
+          });
   };
 
   stateHandler = (state) => {
