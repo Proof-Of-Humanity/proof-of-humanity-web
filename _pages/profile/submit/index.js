@@ -50,33 +50,33 @@ export default function ProfileNew() {
   const { query } = router;
 
   const reapply = query.reapply === "true";
-  const registered = props?.submission?.registered;
+  const submission = props?.submission;
 
   const [canReapply, setCanReapply] = useState(null);
   const [isLoading, setLoading] = useState(true);
 
-  Promise.all([
-    web3.contracts?.proofOfHumanity.methods.submissionDuration().call(),
-    web3.contracts?.proofOfHumanity.methods.renewalPeriodDuration().call(),
-  ]).then(([submissionDuration, renewalPeriodDuration]) => {
-    const renewalTimestamp =
-      (Number(props?.submission?.submissionTime) +
-        (submissionDuration - renewalPeriodDuration)) *
-      1000;
-    setCanReapply(Date.now() > renewalTimestamp);
+  useEffect(() => {
+    if (canReapply === null)
+      // Is this needed?
+      Promise.all([
+        web3.contracts?.proofOfHumanity.methods.submissionDuration().call(),
+        web3.contracts?.proofOfHumanity.methods.renewalPeriodDuration().call(),
+      ]).then(([submissionDuration, renewalPeriodDuration]) => {
+        const renewalTimestamp =
+          (Number(props?.submission?.submissionTime) +
+            (submissionDuration - renewalPeriodDuration)) *
+          1000;
+        setCanReapply(Date.now() > renewalTimestamp);
+      });
   });
 
-  // console.log('props registered', props?.submission)
-
   useEffect(() => {
-    // console.log('useEffect', registered, canReapply); // it takes time until this gets its value
-    if (registered && canReapply === false) {
+    // console.log(submission?.registered);
+    if (submission?.registered && canReapply === false) {
       message.error("You can't reapply yet", 5);
       router.push({ pathname: "/profile/[id]", query: { id: account } });
-    } else if (registered === false)
-      // console.log('set false', registered, typeof registered);
-      setLoading(false);
-  }, [registered, canReapply, router, account]);
+    } else if (submission === null) setLoading(false);
+  }, [submission, canReapply, router, account]);
 
   // console.log(props?.contract)
   const evidence = useEvidenceFile()(
