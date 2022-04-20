@@ -45,7 +45,12 @@ function EvidenceItem({
                   #{index}
                 </Text>
                 &nbsp;{t("profile_evidence_submitted_by")}&nbsp;
-                <NextETHLink address={sender}>{sender}</NextETHLink>
+                <NextETHLink
+                  address={sender}
+                  style={{ overflowWrap: "break-word" }}
+                >
+                  {sender}
+                </NextETHLink>
               </Text>
               <Text>
                 {intlDateTimeFormat.format(new Date(creationTime * 1000))}

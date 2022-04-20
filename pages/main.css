@@ -118,6 +118,7 @@ a:hover {
 
 .poh-header-item {
   color: initial !important;
+  text-align: center;
 }
 
 .poh-header-item::after {
@@ -140,9 +141,22 @@ a:hover {
   text-decoration: none;
 }
 
+.poh-drawer-text {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 12px 0px !important;
+  color: black !important;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
 .poh-header-text:hover,
 .poh-footer-text:hover {
   color: var(--theme-ui-colors-background, #fffffa) !important;
+}
+
+.poh-drawer-text:hover {
+  color: initial !important;
 }
 
 /* Main content use all screen */

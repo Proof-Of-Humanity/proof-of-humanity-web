@@ -20,7 +20,6 @@ import { appQuery } from "_pages/index/app-query";
 import { useEvidenceFile } from "data";
 
 const { Header } = Layout;
-const { Item } = Menu;
 
 function MyProfileLink(props) {
   const [accounts] = useWeb3("eth", "getAccounts");
@@ -108,7 +107,7 @@ function LanguageDropdown() {
       >
         <Image
           src={`/images/${i18n.resolvedLanguage}.png`}
-          width="45"
+          width="35"
           height="auto"
         />
       </div>
@@ -195,39 +194,28 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
 
   return (
     <Row>
-      <Col span={showSubmitProfile ? 6 : 12}>
-        {/* <Row justify="left"> */}
+      <Col span={showSubmitProfile ? 2 : 12}>
         <MenuOutlined onClick={() => toggleMobileMenuOpen()} />
-        {/* </Row> */}
       </Col>
       {showSubmitProfile && (
         <Col span={12}>
           <Row justify="center">
             <NextLink href="/profile/submit" as="/profile/submit">
-              <Link variant="navigation"> {t("header_submit_profile")} </Link>
+              <Link className="poh-header-text" variant="navigation">
+                {" "}
+                {t("header_submit_profile")}{" "}
+              </Link>
             </NextLink>
           </Row>
         </Col>
       )}
-      <Col span={showSubmitProfile ? 6 : 12}>
-        <Row justify="end">
+      <Col span={showSubmitProfile ? 10 : 12}>
+        <Row justify="center">
           <LanguageDropdown />
         </Row>
       </Col>
     </Row>
   );
-
-  // return (
-  //   <Menu className="poh-header-menu" mode="horizontal" style={{ lineHeight: '64px' }}>
-  //     <Item className="poh-header-item" key="1">
-  //       <MenuOutlined onClick={() => toggleMobileMenuOpen()} />
-  //     </Item>
-  //     <Item>Submit profile</Item>
-  //     <Item className="poh-header-item" key="2" style={{ marginLeft: 'auto' }}>
-  //       <LanguageDropdown />
-  //     </Item>
-  //   </Menu>
-  // );
 }
 
 function DesktopNavbar() {
@@ -235,7 +223,7 @@ function DesktopNavbar() {
 
   return (
     <Row>
-      <Col span={6} style={{ display: "flex", alignItems: "center" }}>
+      <Col span={1} style={{ display: "flex", alignItems: "center" }}>
         <NextLink href="/" as="/">
           <Link variant="unstyled" sx={{ display: "flex" }}>
             <ProofOfHumanityLogo style={{ alignItems: "middle" }} size={32} />
@@ -247,33 +235,19 @@ function DesktopNavbar() {
             </Box>
           */}
       </Col>
-      <Col span={12}>
-        <Menu
-          className="poh-header-menu"
-          mode="horizontal"
-          style={{ width: "100%", justifyContent: "center" }}
-        >
-          <Item key="1" className="poh-header-item">
+      <Col className="poh-header-menu" span={17}>
+        <Row justify="center">
+          <Col span={6} className="poh-header-item">
             <NextLink href="/" as="/">
               <Link className="poh-header-text" variant="navigation">
                 {t("header_profiles")}
               </Link>
             </NextLink>
-          </Item>
-          <Item key="2" className="poh-header-item">
+          </Col>
+          <Col span={8} className="poh-header-item">
             <MyProfileLink className="poh-header-text" />
-          </Item>
-          <Item key="3" className="poh-header-item">
-            <Link
-              className="poh-header-text"
-              variant="navigation"
-              newTab
-              href="https://pools.proofofhumanity.id/"
-            >
-              {t("header_pools")}
-            </Link>
-          </Item>
-        </Menu>
+          </Col>
+        </Row>
       </Col>
       <Col flex="auto" span={6}>
         <Row justify="end" align="middle">
@@ -330,36 +304,23 @@ export default function AppHeader() {
   return (
     <>
       <Drawer
-        width={220}
-        title="Navigate"
+        width={200}
+        title="Proof of Humanity"
         placement="left"
         closable={false}
         onClose={() => setMobileMenuOpen(false)}
         visible={mobileMenuOpen}
       >
-        <Menu
-          theme="light"
-          style={{ border: "none" }}
-          onClick={() => toggleMobileMenuOpen()}
-        >
-          <Item key="1">
-            <NextLink href="/" as="/">
-              <Link variant="navigation">{t("header_profiles")}</Link>
-            </NextLink>
-          </Item>
-          <Item key="2">
-            <MyProfileLink />
-          </Item>
-          <Item key="3">
-            <Link
-              variant="navigation"
-              newTab
-              href="https://pools.proofofhumanity.id/"
-            >
-              {t("header_pools")}
+        <Row onClick={() => setMobileMenuOpen(false)}>
+          <NextLink href="/" as="/">
+            <Link className="poh-drawer-text" variant="navigation">
+              {t("header_profiles")}
             </Link>
-          </Item>
-        </Menu>
+          </NextLink>
+        </Row>
+        <Row onClick={() => setMobileMenuOpen(false)}>
+          <MyProfileLink className="poh-drawer-text" />
+        </Row>
       </Drawer>
       <Header className="poh-header">
         {isDesktop ? (

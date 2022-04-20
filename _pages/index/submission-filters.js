@@ -1,5 +1,6 @@
 import { Card, Input, Select, Text } from "@kleros/components";
 import { Check, Expired, Pending, Search } from "@kleros/icons";
+import { Col, Row } from "antd";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 
@@ -120,63 +121,64 @@ export default function SubmissionFilters({
         flexDirection: ["column", "row", "row", "row"],
       }}
     >
-      <Input
-        variant="mutedInput"
-        aria-label={t("profile_search_search_text")}
-        placeholder={t("profile_search_search_text")}
-        icon={<Search />}
-        value={router.query.search || ""}
-        onChange={(event) => {
-          const query = { ...router.query };
-          if (!event.target.value) {
-            delete query.search;
-          } else {
-            query.search = event.target.value;
-          }
-          router.push({
-            pathname: "/",
-            query,
-          });
-        }}
-      />
-      <Select
-        sx={{
-          marginLeft: 1,
-          width: 240,
-          button: { textAlign: "left" },
-          marginTop: [2, 0, 0, 0],
-        }}
-        items={dropdownOptions}
-        onChange={({ key, value }) => {
-          const query = { ...router.query };
-
-          if (key === "all") {
-            delete query.status;
-            delete query.submissionDuration;
-          } else {
-            query.status = value;
-
-            if (value === "registered" || value === "expired") {
-              if (submissionDuration) {
-                query.submissionDuration = submissionDuration.toNumber();
+      <Row style={{ width: "100%", rowGap: "4px" }}>
+        <Col xs={24} md={18}>
+          <Input
+            variant="mutedInput"
+            aria-label={t("profile_search_search_text")}
+            placeholder={t("profile_search_search_text")}
+            icon={<Search />}
+            value={router.query.search || ""}
+            onChange={(event) => {
+              const query = { ...router.query };
+              if (!event.target.value) {
+                delete query.search;
+              } else {
+                query.search = event.target.value;
               }
-            } else {
-              delete query.submissionDuration;
-            }
-          }
+              router.push({
+                pathname: "/",
+                query,
+              });
+            }}
+          />
+        </Col>
+        <Col xs={24} md={6}>
+          <Select
+            sx={{ button: { textAlign: "left" } }}
+            items={dropdownOptions}
+            onChange={({ key, value }) => {
+              const query = { ...router.query };
 
-          delete query.skip;
+              if (key === "all") {
+                delete query.status;
+                delete query.submissionDuration;
+              } else {
+                query.status = value;
 
-          router.replace({
-            pathname: "/",
-            query,
-          });
-        }}
-        value={dropdownOptions.find(
-          ({ value }) => value === router.query.status
-        )}
-        label={`${t("profile_search_filter_by_text")}:`}
-      />
+                if (value === "registered" || value === "expired") {
+                  if (submissionDuration) {
+                    query.submissionDuration = submissionDuration.toNumber();
+                  }
+                } else {
+                  delete query.submissionDuration;
+                }
+              }
+
+              delete query.skip;
+
+              router.replace({
+                pathname: "/",
+                query,
+              });
+            }}
+            value={dropdownOptions.find(
+              ({ value }) => value === router.query.status
+            )}
+            label={`${t("profile_search_filter_by_text")}:`}
+          />
+        </Col>
+      </Row>
     </Card>
   );
 }
