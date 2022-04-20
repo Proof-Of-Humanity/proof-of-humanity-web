@@ -26,7 +26,8 @@ export default class NewSubmitProfileForm extends React.Component {
         bigNumber: 0,
         ether: 0,
       },
-      permission: null,
+      cameraPermission: true,
+      userMediaError: "",
     };
   }
 
@@ -76,40 +77,40 @@ export default class NewSubmitProfileForm extends React.Component {
     return userAgent;
   };
 
-  componentDidUpdate = (previousProps) => {
+  componentDidUpdate = () => {
     // console.log(previousProps);
-    if (previousProps.contract !== this.props.contract) {
+    if (this.props.contract !== undefined && this.state.deposit.ether === 0) {
       this.calculateDeposit();
     }
-    if (this.state.permission === null) {
-      if (this.state.OS.device.type !== "mobile") {
-        navigator.permissions.query({ name: "camera" }).then((res) => {
-          if (res.state === "granted") {
-            this.setState({ permission: true });
-          } else if (res.state === "prompt") {
-            navigator.mediaDevices
-              .getUserMedia({ audio: true, video: true })
-              .then(() => {
-                this.setState({ permission: true });
-              })
-              .catch(() => {
-                this.setState({ permission: false, recordingMode: "visual" });
-              });
-          } else if (res.state === "denied") {
-            this.setState({ permission: false, recordingMode: "visual" });
-          }
-        });
-      } else {
-        navigator.mediaDevices
-          .getUserMedia({ audio: true, video: true })
-          .then(() => {
-            this.setState({ permission: true });
-          })
-          .catch(() => {
-            this.setState({ permission: false, recordingMode: "visual" });
-          });
-      }
-    }
+    // if (this.state.permission === null) {
+    //   if (this.state.OS.device.type !== "mobile") {
+    //     navigator.permissions.query({ name: "camera" }).then((res) => {
+    //       if (res.state === "granted") {
+    //         this.setState({ permission: true });
+    //       } else if (res.state === "prompt") {
+    //         navigator.mediaDevices
+    //           .getUserMedia({ audio: true, video: true })
+    //           .then(() => {
+    //             this.setState({ permission: true });
+    //           })
+    //           .catch(() => {
+    //             this.setState({ permission: false, recordingMode: "visual" });
+    //           });
+    //       } else if (res.state === "denied") {
+    //         this.setState({ permission: false, recordingMode: "visual" });
+    //       }
+    //     });
+    //   } else {
+    //     navigator.mediaDevices
+    //       .getUserMedia({ audio: true, video: true })
+    //       .then(() => {
+    //         this.setState({ permission: true });
+    //       })
+    //       .catch(() => {
+    //         this.setState({ permission: false, recordingMode: "visual" });
+    //       });
+    //   }
+    // }
   };
 
   stateHandler = (state) => {

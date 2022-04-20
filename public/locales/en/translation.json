@@ -221,6 +221,10 @@
 
   "submit_profile_missing_permissions": "The permissions for your camera were rejected",
   "submit_profile_missing_permissions_description": "Please reset your permission settings if you intend on using your camera",
+  "submit_profile_missing_constraints": "The resolution of your camera is not enough",
+  "submit_profile_missing_constraints_description": "Please use a different camera or device to be able to use it",
+  "submit_profile_missing_camera": "You don't have a connected camera",
+  "submit_profile_missing_camera_description": "Please check if you have a camera connected to be able to use it",
 
   "submit_profile_file_not_supported": "The selected file type is not supported",
   "submit_profile_next": "Next",
