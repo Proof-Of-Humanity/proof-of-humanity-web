@@ -62,7 +62,7 @@
   "profile_status_challenge_reason_IncorrectSubmission_description": "Parte del registro es incorrecto.",
   "profile_status_challenge_reason_Deceased_description": "El registrado ha fallecido.",
   "profile_status_challenge_reason_Duplicate_description": "El registrado ya existado.",
-  "profile_status_challenge_reason_DoesNotExist_description": "El registrado no existe.",  
+  "profile_status_challenge_reason_DoesNotExist_description": "El registrado no existe.",
   "profile_status_duplicate_of": "de",
 
   "profile_share_vouching_title": "Registrate y valida a este perfil en Proof Of Humanity.",
@@ -109,7 +109,7 @@
   "profile_card_vouch": "Validar",
   "profile_card_remove": "Remover",
   "profile_card_vouch_text": "Asegúrate de que la persona exista y de que te hayas encontrado físicamente\n. Tenga en cuenta que, en el caso de una disputa, si un envío se\n rechaza por motivo \"Duplicado\" o \"No existente\", todos los que\n habían respondido por ello serán eliminados del registro. Tenga en cuenta que\n su validacion solo se contará cuando y mientras esté\n registrado, y otro envío no este utilizando su validacion.",
-  "profile_card_remove_vouch": "Remover validacion",  
+  "profile_card_remove_vouch": "Remover validacion",
   "profile_card_gasless_vouch": "Validar sin Gas",
   "profile_card_vouch_saved": "Validacion guardada correctamente.",
 
@@ -122,8 +122,8 @@
   "profile_card_vouches_in_use": "Validaciones en uso en otro registro",
   "profile_card_vouches_used": "Todos las validaciones otorgadas a este registro están siendo utilizados por otros registros. Espere a que resuelvan o solicite que otra persona con una validacion libre pueda validarlo.",
 
-  "profile_details_previous_requests":"Registros Previos",
-  "profile_details_previous_requests_button":"Ver el registro número",
+  "profile_details_previous_requests": "Registros Previos",
+  "profile_details_previous_requests_button": "Ver el registro número",
 
   "profile_details_evidence": "Evidencia",
   "profile_details_appeal": "Apelar",
@@ -145,7 +145,6 @@
 
   "profile_evidence_advice": "Solo envia evidencia si crees que el registro es correcto\n como esta. Enviar archivos como evidencia no ayudara si los originales son incorrectos.",
 
-  
   "submit_profile_title": "Crea tu perfil de Proof of Humanity",
   "submit_profile_create_wallet": "No tienes una billetera conectada al sitio web",
   "submit_profile_connect_wallet": "Conectar una billetera de Ethereum",
@@ -156,7 +155,7 @@
   "submit_profile_your_wallet": "Tu billetera conectada es:",
   "submit_profile_tornado_cash": "Aprende a aumentar tu privacidad con Tornado Cash",
   "submit_profile_sensitive_info": "Entiendo que esta cartera estará irreversiblemente vinculada a mi persona en el mundo real y que no utilizaré esa cartera para ninguna información privada o sensible",
-  
+
   "submit_profile_info_title": "Información básica",
   "submit_profile_info_description": "El registro en Proof of Humanity requiere que establezcas un nombre. Puedes utilizar un seudónimo si te sientes más cómodo",
   "submit_profile_info_name_title": "Me gusta que me llamen...",
@@ -181,8 +180,8 @@
   "submit_profile_image_verify_next": "Se ve muy bien",
   "submit_profile_image_crop_result": "Mostrar resultado",
   "submit_profile_image_retake": "Tomar de nuevo",
-  "submit_profile_image_result_title":"Tu imagen",
-  
+  "submit_profile_image_result_title": "Tu imagen",
+
   "submit_profile_video_title": "¿Estás listo para hablar?",
   "submit_profile_video_description": "Debes estar en una sala tranquila, con un micrófono que funcione y poder leer de su pantalla. Si no puede hacerlo, hay un proceso alternativo disponible",
   "submit_profile_video_by_voice": "Soy capaz de identificar mi cuenta utilizando mi voz y mi vista",
@@ -196,7 +195,7 @@
   "submit_profile_video_too_small": "El ancho y la altura del vídeo deben ser superiores a 352 píxeles",
 
   "submit_profile_video_phrase": "Certifico que soy un ser humano real y no estoy registrado en este registro. \n",
-  
+
   "submit_profile_finalize_title": "Finaliza tu registro",
   "submit_profile_finalize_description": "Verifica que la información de tu registro y los archivos son correctos y envía la transacción para registrarte",
   "submit_profile_finalize_name": "Nombre",
@@ -217,6 +216,13 @@
   "submit_profile_nextsteps_crowdfunding_group": "Únete al grupo de Crowdfunding en Telegram",
   "submit_profile_nexsteps_goto_profile": "¡Ir a mi perfil ahora!",
   "submit_profile_deposit_info": "Tu depósito será devuelto cuando finalices el registro si tu perfil cumple con todas las reglas",
+
+  "submit_profile_missing_permissions": "Los permisos para acceder a tu camara fueron rechazados",
+  "submit_profile_missing_permissions_description": "Por favor reiniciá los permisos si deseas utilizar tu cámara",
+  "submit_profile_missing_constraints": "The resolution of your camera is not enough",
+  "submit_profile_missing_constraints_description": "Please use a different camera or device to be able to use it",
+  "submit_profile_missing_camera": "You don't have a connected camera",
+  "submit_profile_missing_camera_description": "Please check if you have a camera connected to be able to use it",
 
   "submit_profile_file_not_supported": "El tipo de archivo seleccionado no es compatible",
   "submit_profile_next": "Siguiente",

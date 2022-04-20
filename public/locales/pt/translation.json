@@ -217,6 +217,13 @@
   "submit_profile_exsteps_goto_profile": "Vá ao meu perfil agora!",
   "submit_profile_deposit_info": "Seu depósito será devolvido quando você finalizar o registro se seu perfil cumprir com todas as regras",
 
+  "submit_profile_missing_missing_permissions": "As permissões para sua câmera foram rejeitadas",
+  "submit_profile_missing_missing_permissions_description": "Por favor, reajuste suas configurações de permissão se você pretende usar sua câmera",
+  "submit_profile_missing_constraints": "The resolution of your camera is not enough",
+  "submit_profile_missing_constraints_description": "Please use a different camera or device to be able to use it",
+  "submit_profile_missing_camera": "You don't have a connected camera",
+  "submit_profile_missing_camera_description": "Please check if you have a camera connected to be able to use it",
+
   "submit_profile_file_not_supported": "O tipo de arquivo selecionado não é suportado",
   "submit_profile_next": "Próximo",
   "submit_profile_previous": "Anterior",

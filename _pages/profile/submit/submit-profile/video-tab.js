@@ -213,6 +213,7 @@ export default class VideoTab extends React.Component {
   };
 
   toggleFullscreen = () => {
+    // console.log(this.screen.webkitRequestFullscreen)
     this.screen.webkitRequestFullscreen();
     this.setState({ fullscreen: true });
   };
@@ -249,7 +250,7 @@ export default class VideoTab extends React.Component {
   };
 
   onUserMediaError = (error) => {
-    console.error("User media error", error);
+    console.error(error);
   };
 
   handleStartCaptureClick = () => {
@@ -286,8 +287,8 @@ export default class VideoTab extends React.Component {
 
     const blob = new Blob(this.state.recordedVideo, {
       type: `${
-        this.props.state.OS === "iOS" ? "video/mp4" : "video/webm"
-      };codecs=h264,avc1`,
+        this.props.state.OS.os.name === "iOS" ? "video/mp4" : "video/webm"
+      };codecs=h264`,
     });
     const videoURL = window.URL.createObjectURL(blob);
     const duration = await getBlobDuration(blob);
@@ -372,59 +373,61 @@ export default class VideoTab extends React.Component {
       // console.log("videoTab render state", this.state);
 
       <>
-        {this.state.recordingMode === "" && this.props.state.permission && (
-          <Row justify="center">
-            <Col span={24}>
-              <Title level={2}>{t("submit_profile_video_title")}</Title>
-              <Paragraph>{t("submit_profile_video_description")}</Paragraph>
-              <Row justify="center">
-                <Col
-                  xs={24}
-                  xl={12}
-                  className="video-mode-buttons"
-                  onClick={() => {
-                    this.props.stateHandler({
-                      recordingMode: "speaking",
-                    });
-                    this.setState({
-                      recordingMode: "speaking",
-                      cameraEnabled: true,
-                    });
-                  }}
-                >
-                  <Image
-                    preview={false}
-                    src="/images/speaker.png"
-                    width="50%"
-                  />
-                  <Title level={4} style={{ marginTop: "10px" }}>
-                    {t("submit_profile_video_by_voice")}
-                  </Title>
-                </Col>
+        {this.state.recordingMode === "" &&
+          this.props.state.cameraPermission &&
+          this.props.state.userMediaError === "" && (
+            <Row justify="center">
+              <Col span={24}>
+                <Title level={2}>{t("submit_profile_video_title")}</Title>
+                <Paragraph>{t("submit_profile_video_description")}</Paragraph>
+                <Row justify="center">
+                  <Col
+                    xs={24}
+                    xl={12}
+                    className="video-mode-buttons"
+                    onClick={() => {
+                      this.props.stateHandler({
+                        recordingMode: "speaking",
+                      });
+                      this.setState({
+                        recordingMode: "speaking",
+                        cameraEnabled: true,
+                      });
+                    }}
+                  >
+                    <Image
+                      preview={false}
+                      src="/images/speaker.png"
+                      width="50%"
+                    />
+                    <Title level={4} style={{ marginTop: "10px" }}>
+                      {t("submit_profile_video_by_voice")}
+                    </Title>
+                  </Col>
 
-                <Col
-                  xs={24}
-                  xl={12}
-                  className="video-mode-buttons"
-                  onClick={() => {
-                    this.props.stateHandler({
-                      recordingMode: "visual",
-                    });
-                    this.setState({
-                      recordingMode: "visual",
-                      cameraEnabled: true,
-                    });
-                  }}
-                >
-                  <Image preview={false} src="/images/sign.png" width="50%" />
-                  <Title level={4} style={{ marginTop: "10px" }}>
-                    {t("submit_profile_video_visual")}
-                  </Title>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        )}
+                  <Col
+                    xs={24}
+                    xl={12}
+                    className="video-mode-buttons"
+                    onClick={() => {
+                      this.props.stateHandler({
+                        recordingMode: "visual",
+                      });
+                      this.setState({
+                        recordingMode: "visual",
+                        cameraEnabled: true,
+                      });
+                    }}
+                  >
+                    <Image preview={false} src="/images/sign.png" width="50%" />
+                    <Title level={4} style={{ marginTop: "10px" }}>
+                      {t("submit_profile_video_visual")}
+                    </Title>
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          )}
 
         {/* <Row>
           <List style={{ width: '100%' }} itemLayout='horizontal' dataSource={this.videoRulesList}
@@ -440,7 +443,8 @@ export default class VideoTab extends React.Component {
 
         {this.state.cameraEnabled &&
         this.props.state.recordingMode !== "" &&
-        this.props.state.permission &&
+        this.props.state.cameraPermission &&
+        this.props.state.userMediaError === "" &&
         this.state.recordedVideoUrl === "" ? (
           <Row justify="center">
             <Col span={24}>
@@ -605,17 +609,48 @@ export default class VideoTab extends React.Component {
               </Row>
             </Col>
           </Row>
-        ) : !this.props.state.permission &&
+        ) : (!this.props.state.cameraPermission ||
+            this.props.state.userMediaError !== "") &&
           this.state.recordedVideoUrl === "" ? (
           <>
             <Row>
               <Col span={24}>
-                <Title level={2}>
-                  {t("submit_profile_missing_permissions")}
-                </Title>
-                <Paragraph style={{ color: "black", whiteSpace: "pre-line" }}>
-                  {t("submit_profile_missing_permissions_description")}
-                </Paragraph>
+                {!this.props.state.cameraPermission && (
+                  <>
+                    <Title level={2}>
+                      {t("submit_profile_missing_permissions")}
+                    </Title>
+                    <Paragraph
+                      style={{ color: "black", whiteSpace: "pre-line" }}
+                    >
+                      {t("submit_profile_missing_permissions_description")}
+                    </Paragraph>
+                  </>
+                )}
+                {this.props.state.userMediaError === "NoCamera" && (
+                  <>
+                    <Title level={2}>
+                      {t("submit_profile_missing_camera")}
+                    </Title>
+                    <Paragraph
+                      style={{ color: "black", whiteSpace: "pre-line" }}
+                    >
+                      {t("submit_profile_missing_camera_description")}
+                    </Paragraph>
+                  </>
+                )}
+                {this.props.state.userMediaError === "NoConstraints" && (
+                  <>
+                    <Title level={2}>
+                      {t("submit_profile_missing_constraints")}
+                    </Title>
+                    <Paragraph
+                      style={{ color: "black", whiteSpace: "pre-line" }}
+                    >
+                      {t("submit_profile_missing_constraints_description")}
+                    </Paragraph>
+                  </>
+                )}
               </Col>
             </Row>
             <Row>

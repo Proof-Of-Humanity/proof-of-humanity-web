@@ -101,7 +101,6 @@ export default class ImageTab extends React.Component {
 
   imageRulesList = [
     {
-      title: this.props.i18n.t("submit_profile_image_rules_title"),
       description: (
         <Row justify="center">
           <Col span={6}>
@@ -428,8 +427,34 @@ export default class ImageTab extends React.Component {
     // this.screen.webkitRequestFullscreen();
   };
 
-  onUserMediaError = () => {
+  onUserMediaError = (error) => {
     // console.error("User media error", error);
+    // console.log(error.name); /* handle the error */
+    if (
+      error.name === "NotFoundError" ||
+      error.name === "DevicesNotFoundError"
+    ) {
+      this.props.stateHandler({ userMediaError: "NoCamera" });
+      // required track is missing
+    } else if (
+      error.name === "NotAllowedError" ||
+      error.name === "PermissionDeniedError"
+    ) {
+      // permission denied in browser
+      this.props.stateHandler({ cameraPermission: false });
+    } else if (
+      error.name === "OverconstrainedError" ||
+      error.name === "ConstraintNotSatisfiedError"
+    ) {
+      // constraints can not be satisfied by avb. devices
+      this.props.stateHandler({ userMediaError: "NoConstraints" });
+    } else if (
+      error.name === "NotReadableError" ||
+      error.name === "TrackStartError"
+    ) {
+      this.props.stateHandler({ userMediaError: "NoCamera" });
+      // webcam or mic are already in use
+    }
   };
   switchCamera = () => {
     if (this.state.facingMode === "user") {
@@ -452,7 +477,9 @@ export default class ImageTab extends React.Component {
 
     return (
       <>
-        {this.state.cameraEnabled && this.props.state.permission ? (
+        {this.state.cameraEnabled &&
+        this.props.state.cameraPermission &&
+        this.props.state.userMediaError === "" ? (
           <>
             <Row>
               <Col span={24}>
@@ -562,12 +589,42 @@ export default class ImageTab extends React.Component {
           <>
             <Row>
               <Col span={24}>
-                <Title level={2}>
-                  {t("submit_profile_missing_permissions")}
-                </Title>
-                <Paragraph style={{ color: "black", whiteSpace: "pre-line" }}>
-                  {t("submit_profile_missing_permissions_description")}
-                </Paragraph>
+                {!this.props.state.cameraPermission && (
+                  <>
+                    <Title level={2}>
+                      {t("submit_profile_missing_permissions")}
+                    </Title>
+                    <Paragraph
+                      style={{ color: "black", whiteSpace: "pre-line" }}
+                    >
+                      {t("submit_profile_missing_permissions_description")}
+                    </Paragraph>
+                  </>
+                )}
+                {this.props.state.userMediaError === "NoCamera" && (
+                  <>
+                    <Title level={2}>
+                      {t("submit_profile_missing_camera")}
+                    </Title>
+                    <Paragraph
+                      style={{ color: "black", whiteSpace: "pre-line" }}
+                    >
+                      {t("submit_profile_missing_camera_description")}
+                    </Paragraph>
+                  </>
+                )}
+                {this.props.state.userMediaError === "NoConstraints" && (
+                  <>
+                    <Title level={2}>
+                      {t("submit_profile_missing_constraints")}
+                    </Title>
+                    <Paragraph
+                      style={{ color: "black", whiteSpace: "pre-line" }}
+                    >
+                      {t("submit_profile_missing_constraints_description")}
+                    </Paragraph>
+                  </>
+                )}
               </Col>
             </Row>
 
@@ -710,16 +767,16 @@ export default class ImageTab extends React.Component {
                   />
                 </Col>
                 <Col xs={24} lg={12}>
+                  <Title level={4} style={{ textAlign: "center" }}>
+                    {this.props.i18n.t("submit_profile_image_rules_title")}
+                  </Title>
                   <List
                     style={{ width: "100%" }}
                     itemLayout="horizontal"
                     dataSource={this.imageRulesList}
                     renderItem={(item) => (
                       <List.Item>
-                        <List.Item.Meta
-                          title={item.title}
-                          description={item.description}
-                        />
+                        <List.Item.Meta description={item.description} />
                       </List.Item>
                     )}
                   />
