@@ -219,10 +219,10 @@
 
   "submit_profile_missing_permissions": "Los permisos para acceder a tu camara fueron rechazados",
   "submit_profile_missing_permissions_description": "Por favor reiniciá los permisos si deseas utilizar tu cámara",
-  "submit_profile_missing_constraints": "The resolution of your camera is not enough",
-  "submit_profile_missing_constraints_description": "Please use a different camera or device to be able to use it",
-  "submit_profile_missing_camera": "You don't have a connected camera",
-  "submit_profile_missing_camera_description": "Please check if you have a camera connected to be able to use it",
+  "submit_profile_missing_constraints": "La resolución de tu cámara no es suficiente",
+  "submit_profile_missing_constraints_description": "Por favor, utiliza otra cámara o dispositivo para poder utilizarla",
+  "submit_profile_missing_camera": "No tienes una cámara conectada",
+  "submit_profile_missing_camera_description": "Por favor, comprueba si tienes una cámara conectada para poder utilizarla",
 
   "submit_profile_file_not_supported": "El tipo de archivo seleccionado no es compatible",
   "submit_profile_next": "Siguiente",
