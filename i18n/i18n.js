@@ -2,6 +2,7 @@ import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
+import translationCN from "public/locales/cn/translation";
 import translationEN from "public/locales/en/translation";
 import translationES from "public/locales/es/translation";
 import translationPT from "public/locales/pt/translation";
@@ -10,6 +11,7 @@ const resources = {
   en: { translation: translationEN },
   es: { translation: translationES },
   pt: { translation: translationPT },
+  cn: { translation: translationCN },
 };
 
 i18n
