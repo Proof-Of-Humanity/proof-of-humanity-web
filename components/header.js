@@ -85,7 +85,7 @@ function LanguageDropdown() {
             onClick={() => changeLanguage(language.key)}
           >
             <Image
-              src={`/images/${language.key}.png`}
+              src={`/images/flags/${language.key}.svg`}
               width="30"
               height="auto"
             />{" "}
@@ -106,8 +106,8 @@ function LanguageDropdown() {
         onKeyDown={(event) => event.preventDefault()}
       >
         <Image
-          src={`/images/${i18n.resolvedLanguage}.png`}
-          width="35"
+          src={`/images/flags/${i18n.resolvedLanguage}.svg`}
+          width="30"
           height="auto"
         />
       </div>
