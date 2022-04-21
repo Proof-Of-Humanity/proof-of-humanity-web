@@ -184,8 +184,12 @@ export default function SubmissionDetailsCard({
   const { rounds, lastRoundID } = challenge || {};
   const round = (rounds && rounds[0]) || {};
   const { hasPaid } = round || {};
-  // console.log(requests)
-  const evidence = useEvidenceFile()(requests[requestID].evidence[0].URI);
+
+  const lastEvidence = requests[requestID].evidence.length - 1;
+  const evidence = useEvidenceFile()(
+    requests[requestID].evidence[lastEvidence].URI
+  );
+
   const contributions = useMemo(
     () =>
       round.contributions.map((contribution) =>
