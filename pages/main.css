@@ -207,10 +207,10 @@ a:hover {
   color: rgba(0, 0, 0, 0.25)
 }
 .dragger {
-        background-color: #ffb978;
-        font-weight: bold;
-        border: none;
-        border-radius: 10px;
+        background-color: #ffb978!important;
+        font-weight: bold!important;
+        border: none!important;
+        border-radius: 10px!important;
 }
 .slider{
       padding: 22px 0px;

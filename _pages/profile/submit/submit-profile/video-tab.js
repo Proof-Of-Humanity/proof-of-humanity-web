@@ -596,15 +596,7 @@ export default class VideoTab extends React.Component {
               <Title level={2}>{t("submit_profile_video_upload_title")}</Title>
               <Row justify="center">
                 <Col xs={12} lg={6}>
-                  <Upload.Dragger
-                    {...this.draggerProps}
-                    style={{
-                      backgroundColor: "#ffb978",
-                      fontWeight: "bold",
-                      border: "none",
-                      borderRadius: "10px",
-                    }}
-                  >
+                  <Upload.Dragger {...this.draggerProps} className="dragger">
                     <FileAddFilled />
                     <Paragraph className="ant-upload-text">
                       {t("submit_profile_image_upload_button")}
@@ -661,15 +653,7 @@ export default class VideoTab extends React.Component {
             <Title level={2}>{t("submit_profile_video_upload_title")}</Title>
             <Row justify="center">
               <Col xs={12} lg={6}>
-                <Upload.Dragger
-                  {...this.draggerProps}
-                  style={{
-                    backgroundColor: "#ffb978",
-                    fontWeight: "bold",
-                    border: "none",
-                    borderRadius: "10px",
-                  }}
-                >
+                <Upload.Dragger {...this.draggerProps} className="dragger">
                   <FileAddFilled />
 
                   <Paragraph className="ant-upload-text">
