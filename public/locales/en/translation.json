@@ -227,6 +227,9 @@
   "submit_profile_missing_camera_description": "Please check if you have a camera connected to be able to use it",
 
   "submit_profile_file_not_supported": "The selected file type is not supported",
+
+  "submit_profile_reapply_error_message": "You can't reapply yet",
+
   "submit_profile_next": "Next",
   "submit_profile_previous": "Previous",
 

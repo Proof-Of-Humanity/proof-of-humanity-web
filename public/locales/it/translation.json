@@ -227,6 +227,9 @@
   "submit_profile_missing_camera_description": "Per favore controlla se hai una telecamera collegata per poterla usare",
 
   "submit_profile_file_not_supported": "Il tipo di file selezionato non è supportato",
+
+  "submit_profile_reapply_error_message": "Non puoi ancora riapplicare",
+
   "submit_profile_next": "Successivo",
   "submit_profile_previous": "Precedente",
 

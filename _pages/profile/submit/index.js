@@ -74,12 +74,12 @@ export default function ProfileNew() {
   useEffect(() => {
     // console.log(submission?.registered);
     if (submission?.registered && canReapply === false) {
-      message.error("You can't reapply yet", 5);
+      message.error(t("submit_profile_reapply_error_message"), 5);
       router.push({ pathname: "/profile/[id]", query: { id: account } });
     } else if (submission === null || !account) {
       setLoading(false);
     }
-  }, [submission, canReapply, router, account]);
+  }, [submission, canReapply, router, account, t]);
 
   // console.log(props?.contract)
   const evidence = useEvidenceFile()(

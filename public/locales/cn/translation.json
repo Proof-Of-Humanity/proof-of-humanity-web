@@ -224,6 +224,8 @@
   "submit_profile_missing_camera_description": "请检查你是否有一个连接的相机，以便能够使用它",
   "submit_profile_file_not_supported": "不支持所选文件类型",
 
+  "submit_profile_reapply_error_message": "你还不能重新申请",
+
   "submit_profile_next": "下一个",
   "submit_profile_previous": "上一个",
 
