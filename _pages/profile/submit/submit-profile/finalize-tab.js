@@ -9,7 +9,6 @@ import {
   Progress,
   Radio,
   Row,
-  Space,
   Spin,
   Typography,
 } from "antd";
@@ -187,13 +186,16 @@ class _FinalizeTab extends React.Component {
                 onChange={(event) => {
                   this.props.stateHandler({ crowdfund: event.target.value });
                 }}
+                style={{
+                  marginTop: "5%",
+                }}
               >
-                <Radio value="self">
+                <Radio value="self" style={{ fontSize: "18px" }}>
                   {t("submit_profile_finalize_selffund")} (
                   {this.props.state.deposit.ether} ETH)
                 </Radio>
 
-                <Radio value="crowd">
+                <Radio value="crowd" style={{ fontSize: "18px" }}>
                   {t("submit_profile_finalize_crowdfund")}
                 </Radio>
               </Radio.Group>
@@ -256,7 +258,7 @@ class _FinalizeTab extends React.Component {
 
     return (
       <Row style={{ display: "block", margin: "0 auto" }}>
-        <Space direction="vertical">
+        <Col span={24}>
           <Title level={2}>{t("submit_profile_nextsteps_title")}</Title>
           <Title level={4}>{t("submit_profile_nextsteps_description")}</Title>
           <Row justify="center" align="middle">
@@ -346,7 +348,7 @@ class _FinalizeTab extends React.Component {
               {t("submit_profile_nexsteps_goto_profile")}
             </Button>
           )}
-        </Space>
+        </Col>
       </Row>
     );
   }
