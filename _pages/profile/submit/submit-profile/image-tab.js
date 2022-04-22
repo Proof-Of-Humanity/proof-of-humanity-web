@@ -16,7 +16,6 @@ import {
   List,
   Row,
   Slider,
-  Space,
   Typography,
   Upload,
   message,
@@ -637,12 +636,12 @@ export default class ImageTab extends React.Component {
         {this.state.image && this.state.picture && !this.state.croppedImage && (
           <>
             <Row>
-              <Space direction="vertical" size={1}>
+              <Col span={24}>
                 <Title level={2}>{t("submit_profile_image_crop_title")}</Title>
                 <Paragraph style={{ color: "black" }}>
                   {t("submit_profile_image_crop_description")}
                 </Paragraph>
-              </Space>
+              </Col>
             </Row>
             <div style={this.styles.cropContainer}>
               <Cropper
@@ -715,20 +714,24 @@ export default class ImageTab extends React.Component {
 
         {this.state.croppedImage ? (
           <>
-            <Space direction="vertical">
-              <Title level={2}>{t("submit_profile_image_verify_title")}</Title>
-              <Paragraph style={{ whiteSpace: "pre-line" }}>
-                <Trans
-                  i18nKey="submit_profile_image_verify_description"
-                  t={t}
-                  components={[
-                    <Text key="1" strong />,
-                    <Text key="2" strong />,
-                  ]}
-                />
-              </Paragraph>
+            <Row justify="center">
+              <Col span={24}>
+                <Title level={2}>
+                  {t("submit_profile_image_verify_title")}
+                </Title>
+                <Paragraph style={{ whiteSpace: "pre-line" }}>
+                  <Trans
+                    i18nKey="submit_profile_image_verify_description"
+                    t={t}
+                    components={[
+                      <Text key="1" strong />,
+                      <Text key="2" strong />,
+                    ]}
+                  />
+                </Paragraph>
+              </Col>
 
-              <Row justify="center" align="middle">
+              <Row justify="center" align="stretch">
                 <Col xs={24} lg={12}>
                   <Title
                     level={4}
@@ -739,7 +742,7 @@ export default class ImageTab extends React.Component {
                   <Image
                     preview={false}
                     style={{
-                      width: "50%",
+                      width: "65%",
                       height: "auto",
                       borderRadius: "50%",
                       border: "1px solid black",
@@ -755,7 +758,7 @@ export default class ImageTab extends React.Component {
                     {this.props.i18n.t("submit_profile_image_rules_title")}
                   </Title>
                   <List
-                    style={{ width: "100%" }}
+                    style={{ width: "100%", height: "100%" }}
                     itemLayout="horizontal"
                     dataSource={this.imageRulesList}
                     renderItem={(item) => (
@@ -766,7 +769,7 @@ export default class ImageTab extends React.Component {
                   />
                 </Col>
               </Row>
-            </Space>
+            </Row>
             <Row justify="center">
               <Col span={12}>
                 <Button
