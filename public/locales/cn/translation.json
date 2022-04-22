@@ -50,7 +50,7 @@
   "profile_status_Vouching": "证明",
   "profile_status_PendingRegistration": "待注册",
   "profile_status_PendingRemoval": "待删除",
-  "profile_status_ChallengeRegistration": "注册挑战",
+  "profile_status_ChallengedRegistration": "注册挑战",
   "profile_status_ChallengedRemoval": "挑战移除",
   "profile_status_Expired": "过期",
   "profile_status_Removed": "已删除",

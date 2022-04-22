@@ -593,16 +593,21 @@ export default class VideoTab extends React.Component {
                   )}
                 </div>
               </div>
-              <Row>
-                <Col span={24}>
-                  <Title level={2}>
-                    {t("submit_profile_video_upload_title")}
-                  </Title>
-                  <Upload.Dragger {...this.draggerProps} className="dragger">
+              <Title level={2}>{t("submit_profile_video_upload_title")}</Title>
+              <Row justify="center">
+                <Col xs={12} lg={6}>
+                  <Upload.Dragger
+                    {...this.draggerProps}
+                    style={{
+                      backgroundColor: "#ffb978",
+                      fontWeight: "bold",
+                      border: "none",
+                      borderRadius: "10px",
+                    }}
+                  >
                     <FileAddFilled />
-
                     <Paragraph className="ant-upload-text">
-                      {t("submit_profile_video_upload")}
+                      {t("submit_profile_image_upload_button")}
                     </Paragraph>
                   </Upload.Dragger>
                 </Col>
@@ -653,12 +658,18 @@ export default class VideoTab extends React.Component {
                 )}
               </Col>
             </Row>
-            <Row>
-              <Col span={24}>
-                <Title level={2}>
-                  {t("submit_profile_video_upload_title")}
-                </Title>
-                <Upload.Dragger {...this.draggerProps} className="dragger">
+            <Title level={2}>{t("submit_profile_video_upload_title")}</Title>
+            <Row justify="center">
+              <Col xs={12} lg={6}>
+                <Upload.Dragger
+                  {...this.draggerProps}
+                  style={{
+                    backgroundColor: "#ffb978",
+                    fontWeight: "bold",
+                    border: "none",
+                    borderRadius: "10px",
+                  }}
+                >
                   <FileAddFilled />
 
                   <Paragraph className="ant-upload-text">
