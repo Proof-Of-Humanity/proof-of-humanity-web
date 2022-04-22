@@ -230,5 +230,8 @@
 
   "web3_modal_walletconnect": " Escanear com WalletConnect para conectar",
   "web3_modal_authereum": "Conecte-se com sua conta Authereum",
-  "web3_modal_metamask": "Conecte sua carteira Metamask"
+  "web3_modal_metamask": "Conecte sua carteira Metamask",
+
+  "404_title": "Página não encontrada",
+  "404_descrição": "A página solicitada não existe. Por favor, tente novamente"
 }

@@ -229,5 +229,8 @@
 
   "web3_modal_walletconnect": "用 WalletConnect 扫描连接",
   "web3_modal_authereum": "连接您的 Authereum 账户",
-  "web3_modal_metamask": "连接你的 Metamask 钱包"
+  "web3_modal_metamask": "连接你的 Metamask 钱包",
+
+  "404_title": "找不到网页",
+  "404_description": "请求的页面不存在。请再试一次。"
 }

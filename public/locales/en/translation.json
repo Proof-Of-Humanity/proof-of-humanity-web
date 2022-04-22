@@ -232,5 +232,8 @@
 
   "web3_modal_walletconnect": "Scan with WalletConnect to connect",
   "web3_modal_authereum": "Connect with your Authereum account",
-  "web3_modal_metamask": "Connect your Metamask wallet"
+  "web3_modal_metamask": "Connect your Metamask wallet",
+
+  "404_title": "Page not found",
+  "404_description": "The requested page does not exist. Please try again."
 }

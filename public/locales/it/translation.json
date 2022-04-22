@@ -35,8 +35,8 @@
   "submit_profile": "Invia profilo",
   "profile_title": "Profilo",
   "profile_status": "Stato del profilo",
-  "consiglio_del_profilo": "Consigli",
-  "costo_voucher_senza_gas": "I buoni senza gas non hanno alcun costo. Attenzione ai truffatori che intendono far pagare questo tipo di buoni",
+  "profile_advice": "Consigli",
+  "gasless_vouch_cost": "I buoni senza gas non hanno alcun costo. Attenzione ai truffatori che intendono far pagare questo tipo di buoni",
 
   "profile_card_maintenance": "Stiamo facendo dei lavori di manutenzione e saremo presto di nuovo online",
 
@@ -47,7 +47,7 @@
 
   "profile_search_all": "Tutti",
   "profile_status_Registered": "Registrato",
-  "stato_profilo_Vouching": "Vouching",
+  "profile_status_Vouching": "Vouching",
   "profile_status_PendingRegistration": "Registrazione in sospeso",
   "profile_status_PendingRemoval": "Rimozione in sospeso",
   "profile_status_ChallengedRegistration": "Registrazione contestata",
@@ -80,7 +80,7 @@
   "profile_card_vouched_by": "Vouched by",
   "profile_card_vouched_for": "Accreditato per",
   "profile_card_vouchers": "Buoni",
-  "profilo_card_deposito": "Deposito",
+  "profile_card_deposit": "Deposito",
 
   "profile_card_deadline_last_change": "Ultima modifica",
   "profile_card_deadline_challenge_deadline": "Scadenza sfida",
@@ -143,7 +143,7 @@
   "profile_evidence_uploading_evidence": "Salvataggio delle prove",
   "profile_evidence_submitting_tx": "Preparare la transazione",
 
-  "profilo_evidenza_consiglio": "Invia le prove solo se credi che l'invio sia corretto così com'è. Inviare nuovi file come prova non aiuterà se quelli inviati non sono corretti",
+  "profile_evidence_advice": "Invia le prove solo se credi che l'invio sia corretto così com'è. Inviare nuovi file come prova non aiuterà se quelli inviati non sono corretti",
 
   "submit_profile_title": "Crea il tuo profilo Proof of Humanity",
   "submit_profile_create_wallet": "Non hai un portafoglio collegato al sito web",
@@ -232,5 +232,8 @@
 
   "web3_modal_walletconnect": "Scansione con WalletConnect per connettersi",
   "web3_modal_authereum": "Collegati con il tuo account Authereum",
-  "web3_modal_metamask": "Connetti il tuo portafoglio Metamask"
+  "web3_modal_metamask": "Connetti il tuo portafoglio Metamask",
+
+  "404_title": "Pagina non trovata",
+  "404_description": "La pagina richiesta non esiste. Per favore riprova."
 }
