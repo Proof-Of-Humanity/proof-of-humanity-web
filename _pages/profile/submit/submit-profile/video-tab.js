@@ -475,7 +475,7 @@ export default class VideoTab extends React.Component {
                 </div>
 
                 <ReactWebcam
-                  style={{ width: "100%" }}
+                  style={{ width: "100%", display: "block" }}
                   ref={(camera) => {
                     this.camera = camera;
                   }}
@@ -669,6 +669,7 @@ export default class VideoTab extends React.Component {
             <Row>
               <Col span={24} style={{ display: "block", margin: "0 auto" }}>
                 <Video
+                  style={{ display: "block" }}
                   className={this.state.mirrored ? "video-mirrored" : ""}
                   config={{
                     file: {

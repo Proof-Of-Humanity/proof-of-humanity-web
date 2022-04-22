@@ -155,7 +155,7 @@ class _FinalizeTab extends React.Component {
                       }}
                       controls
                       onEnded={(event) => this.handleVideo(event)}
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", display: "block" }}
                       width="100%"
                       height="100%"
                       url={this.props.state.videoURI}

@@ -496,7 +496,7 @@ export default class ImageTab extends React.Component {
               }}
             >
               <ReactWebcam
-                style={{ width: "100%" }}
+                style={{ width: "100%", display: "block" }}
                 ref={(camera) => {
                   this.camera = camera;
                 }}
