@@ -142,9 +142,9 @@ function AccountSettingsPopup() {
 
   const evidence = evidenceURI ? getEvidenceFile(evidenceURI) : null;
   const displayName =
-    [evidence?.file.firstName, evidence?.file.lastName]
+    [evidence?.file?.firstName, evidence?.file?.lastName]
       .filter(Boolean)
-      .join(" ") || evidence?.file.name;
+      .join(" ") || evidence?.file?.name;
 
   return (
     <_AccountSettingsPopup
