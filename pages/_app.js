@@ -144,7 +144,7 @@ function AccountSettingsPopup() {
   const displayName =
     [evidence?.file?.firstName, evidence?.file?.lastName]
       .filter(Boolean)
-      .join(" ") || evidence?.file.name;
+      .join(" ") || evidence?.file?.name;
 
   return (
     <_AccountSettingsPopup
