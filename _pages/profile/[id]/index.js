@@ -22,12 +22,11 @@ export default function ProfileWithID() {
     props?.submission &&
     props?.contract &&
     submissionStatusEnum.parse({ ...props.submission, ...props.contract });
-
-  const isExpired =
-    status === submissionStatusEnum.Registered &&
-    props?.submission &&
-    Date.now() / 1000 - props.submission.submissionTime >
-      props.contract.submissionDuration;
+  // const isExpired =
+  //   status === submissionStatusEnum.Registered &&
+  //   props?.submission &&
+  //   Date.now() / 1000 - props.submission.submissionTime >
+  //     props.contract.submissionDuration;
 
   const name = props?.submission?.name ?? "";
 
@@ -68,8 +67,8 @@ export default function ProfileWithID() {
         <Text sx={{ display: "flex", alignItems: "center", gap: 8 }}>
           {status && (
             <>
-              {t(`profile_status_${status.key}`)}
-              {isExpired && ` (${t("profile_status_Expired")})`}
+              {status.startCase}
+              {/* {isExpired && " (Expired)"} */}
               <status.Icon
                 sx={{ path: { fill: "text" }, stroke: "text", strokeWidth: 0 }}
               />

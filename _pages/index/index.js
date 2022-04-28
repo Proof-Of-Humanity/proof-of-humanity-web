@@ -114,9 +114,6 @@ export const indexQuery = graphql`
     $search: String = ""
     $address: ID
   ) {
-    contract(id: 0) {
-      ...submissionCardContract
-    }
     submissions(
       orderBy: creationTime
       orderDirection: desc
