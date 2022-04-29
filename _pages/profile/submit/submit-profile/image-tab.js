@@ -3,6 +3,7 @@ import {
   CloseCircleFilled,
   FileAddFilled,
 } from "@ant-design/icons";
+import { MediaErrors } from "@kleros/components";
 import {
   Camera,
   CameraSwitch,
@@ -580,42 +581,11 @@ export default class ImageTab extends React.Component {
           <>
             <Row>
               <Col span={24}>
-                {!this.props.state.cameraPermission && (
-                  <>
-                    <Title level={2}>
-                      {t("submit_profile_missing_permissions")}
-                    </Title>
-                    <Paragraph
-                      style={{ color: "black", whiteSpace: "pre-line" }}
-                    >
-                      {t("submit_profile_missing_permissions_description")}
-                    </Paragraph>
-                  </>
-                )}
-                {this.props.state.userMediaError === "NoCamera" && (
-                  <>
-                    <Title level={2}>
-                      {t("submit_profile_missing_camera")}
-                    </Title>
-                    <Paragraph
-                      style={{ color: "black", whiteSpace: "pre-line" }}
-                    >
-                      {t("submit_profile_missing_camera_description")}
-                    </Paragraph>
-                  </>
-                )}
-                {this.props.state.userMediaError === "NoConstraints" && (
-                  <>
-                    <Title level={2}>
-                      {t("submit_profile_missing_constraints")}
-                    </Title>
-                    <Paragraph
-                      style={{ color: "black", whiteSpace: "pre-line" }}
-                    >
-                      {t("submit_profile_missing_constraints_description")}
-                    </Paragraph>
-                  </>
-                )}
+                <MediaErrors
+                  cameraPermission={this.props.state.cameraPermission}
+                  userMediaError={this.props.state.userMediaError}
+                  i18n={this.props.i18n}
+                />
               </Col>
             </Row>
 
