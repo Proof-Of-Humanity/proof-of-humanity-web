@@ -1,9 +1,8 @@
-import { Button } from "antd";
+import { Button, Col, Row } from "antd";
 import { useTranslation } from "react-i18next";
 import { Box, Flex } from "theme-ui";
 
 import Card from "./card";
-import { ScrollArea } from "./scroll-to";
 import Text from "./text";
 
 const intlDateTimeFormat = new Intl.DateTimeFormat("default", {
@@ -27,62 +26,62 @@ function RequestItem({
     return null;
   }
   return (
-    <Card
-      sx={{ marginBottom: 2 }}
-      mainSx={{ alignItems: "flex-start", flexDirection: "column" }}
-      footer={
-        <Flex sx={{ alignItems: "center" }}>
-          <Box sx={{ marginLeft: 1 }}>
-            <Text as="span" sx={{ fontWeight: "bold" }}>
-              #{index}{" "}
-              {intlDateTimeFormat.format(new Date(creationTime * 1000))}
-            </Text>
-          </Box>
-        </Flex>
-      }
-      footerSx={{ justifyContent: "space-between", paddingX: 3 }}
+    <Col
+      xl={4}
+      xs={24}
+      style={{ alignItems: "center", backgroundColor: "muted" }}
     >
-      <Button
-        type="primary"
-        shape="round"
-        style={{
-          fontWeight: "bold",
-          display: "block",
-          backgroundColor: "#ffb978",
-          border: "none",
-          width: "max-content",
-          height: "60px",
+      <Card
+        mainSx={{
+          alignItems: "center",
+          flexDirection: "column",
+          backgroundColor: "muted",
         }}
-        onClick={() => (location.href = `?request=${index}`)}
+        footer={
+          <Flex sx={{ alignItems: "center" }}>
+            <Box sx={{ marginLeft: 1 }}>
+              <Text as="span" sx={{ fontWeight: "bold" }}>
+                #{index}{" "}
+                {intlDateTimeFormat.format(new Date(creationTime * 1000))}
+              </Text>
+            </Box>
+          </Flex>
+        }
+        footerSx={{ justifyContent: "center", paddingX: 3 }}
       >
-        {t("profile_details_previous_requests_button")} {index}
-      </Button>
-    </Card>
+        <Button
+          type="primary"
+          shape="round"
+          style={{
+            fontWeight: "bold",
+            display: "block",
+            backgroundColor: "#ffb978",
+            border: "none",
+            width: "max-content",
+            height: "60px",
+          }}
+          onClick={() => (location.href = `?request=${index}`)}
+        >
+          {t("profile_details_previous_requests_button")} {index}
+        </Button>
+      </Card>
+    </Col>
   );
 }
 export default function PreviousRequests({ requests, useEvidenceFile }) {
   return (
     <Box sx={{ paddingX: 4 }}>
-      <ScrollArea
-        sx={{
-          marginBottom: 2,
-          marginTop: -2,
-          marginX: -4,
-          maxHeight: 650,
-          overflowY: "scroll",
-          paddingTop: 3,
-          paddingX: 4,
-        }}
-      >
+      <Row justify="center">
         {requests.map((request, index) => (
           <RequestItem
             key={request.evidence[0].id}
             useEvidenceFile={useEvidenceFile}
             request={request.evidence[0]}
-            index={requests.length - index}
+            index={index + 1}
+            length={requests.length}
           />
         ))}
-      </ScrollArea>
+      </Row>
     </Box>
   );
 }
