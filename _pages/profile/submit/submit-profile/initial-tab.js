@@ -159,8 +159,9 @@ export default class InitialTab extends React.Component {
                     <Col span={12}>
                       <Button
                         disabled={
-                          this.props.state.name === undefined ||
-                          this.props.state.name === ""
+                          (this.props.state.name === undefined ||
+                            this.props.state.name === "") &&
+                          this.props?.submission === null
                         }
                         htmlType="submit"
                         shape="round"
