@@ -1,4 +1,4 @@
-import { Button, Col, Steps, message } from "antd";
+import { Col, Steps, message } from "antd";
 import React from "react";
 import UserAgent from "ua-parser-js";
 
@@ -296,13 +296,14 @@ export default class NewSubmitProfileForm extends React.Component {
             </div>
           ))}
         </div>
-        {/* --- TODO: REMOVE --- */}
+        {/*
+        
         <div>
           helper buttons;
           <Button onClick={() => this.prev()}>Prev</Button>
           <Button onClick={() => this.next()}>Next</Button>
         </div>
-        {/* --- TODO: REMOVE --- */}
+        */}
       </Col>
     );
   }
