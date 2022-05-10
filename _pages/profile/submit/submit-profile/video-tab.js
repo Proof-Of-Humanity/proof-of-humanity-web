@@ -503,10 +503,8 @@ export default class VideoTab extends React.Component {
                 >
                   {!this.state.recording ? (
                     <>
-                      {/* <Row justify="center">
-                    </Row> */}
-                      <Row justify="center">
-                        <Col span={6}>
+                      <Row justify="center" style={{ marginBottom: "2%" }}>
+                        <Col span={12}>
                           <Button
                             onClick={this.handleStartCaptureClick}
                             shape="round"
@@ -514,12 +512,14 @@ export default class VideoTab extends React.Component {
                           >
                             <RecordCamera
                               width="25px"
-                              height="40px"
+                              height="25px"
                               fill="white"
                             />
                           </Button>
                         </Col>
-                        <Col span={6}>
+                      </Row>
+                      <Row justify="center">
+                        <Col span={8}>
                           <Button
                             onClick={this.mirrorVideo}
                             shape="round"
@@ -534,7 +534,7 @@ export default class VideoTab extends React.Component {
                         </Col>
 
                         {this.state.videoDevices > 1 && (
-                          <Col span={6}>
+                          <Col span={8}>
                             <Button
                               onClick={this.switchCamera}
                               shape="round"
@@ -549,7 +549,7 @@ export default class VideoTab extends React.Component {
                           </Col>
                         )}
                         {this.state.fullscreen ? (
-                          <Col span={6}>
+                          <Col span={8}>
                             <Button
                               onClick={this.closeFullscreen}
                               shape="round"
@@ -563,7 +563,7 @@ export default class VideoTab extends React.Component {
                             </Button>
                           </Col>
                         ) : (
-                          <Col span={6}>
+                          <Col span={8}>
                             <Button
                               onClick={this.toggleFullscreen}
                               shape="round"
@@ -581,7 +581,7 @@ export default class VideoTab extends React.Component {
                     </>
                   ) : (
                     <Row justify="center">
-                      <Col span={6}>
+                      <Col span={12}>
                         <Button
                           onClick={this.handleStopCaptureClick}
                           shape="round"
