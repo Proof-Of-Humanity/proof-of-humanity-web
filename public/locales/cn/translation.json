@@ -155,6 +155,7 @@
   "submit_profile_your_wallet": "你连接的钱包是：",
   "submit_profile_tornado_cash": "了解如何使用 Tornado Cash 增加您的隐私",
   "submit_profile_sensitive_info": "我明白这个钱包将与我现实世界的人不可逆转地联系起来，我不会将该钱包用于任何私人或敏感信息。",
+  "submit_profile_ios_incompatible": "iOS devices are not supported for this registration process. Please try again with a different device.",
 
   "submit_profile_info_title": "基本信息",
   "submit_profile_info_description": "注册人类证明需要你设置一个名字。如果你觉得更舒服可以使用化名。",

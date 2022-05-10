@@ -157,6 +157,7 @@
   "submit_profile_your_wallet": "Your connected wallet is:",
   "submit_profile_tornado_cash": "Learn how to increase your privacy with Tornado Cash",
   "submit_profile_sensitive_info": "I understand this wallet will be irreversebly linked to my real world person and I will not use that wallet for any private or sensitive information.",
+  "submit_profile_ios_incompatible": "iOS devices are not supported for this registration process. Please try again with a different device.",
 
   "submit_profile_info_title": "Basic information",
   "submit_profile_info_description": "Registering to Proof of Humanity requires you to set a name. You can use a pseudonym if you feel more comfortable.",

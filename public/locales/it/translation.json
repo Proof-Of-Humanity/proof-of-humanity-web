@@ -149,6 +149,7 @@
   "submit_profile_create_wallet": "Non hai un portafoglio collegato al sito web",
   "submit_profile_connect_wallet": "Collega un portafoglio Ethereum",
   "submit_profile_wallet_help": "Non hai un portafoglio? Clicca <0>qui</0> per imparare a crearne uno!",
+  "submit_profile_ios_incompatible": "iOS devices are not supported for this registration process. Please try again with a different device.",
 
   "submit_profile_initial_title": "Crea il tuo profilo su Proof Of Humanity",
   "submit_profile_initial_title_reapply": "Riapplica il tuo profilo su Proof Of Humanity",

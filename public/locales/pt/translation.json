@@ -155,6 +155,7 @@
   "submit_profile_your_wallet": "Sua carteira conectada é:",
   "submit_profile_tornado_cash": "Aprenda como aumentar sua privacidade com o Tornado Cash",
   "submit_profile_sensitive_info": "Entendo que esta carteira estará irreversivelmente ligada à minha pessoa do mundo real e não usarei essa carteira para qualquer informação privada ou sensível",
+  "submit_profile_ios_incompatible": "iOS devices are not supported for this registration process. Please try again with a different device.",
 
   "submit_profile_info_title": "Informações básicas",
   "submit_profile_info_description": "Registrar-se para Proof of Humanity exige que você defina um nome. Você pode usar um pseudônimo se você se sentir mais confortável",

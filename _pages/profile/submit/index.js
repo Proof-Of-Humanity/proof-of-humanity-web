@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { graphql, useQuery } from "relay-hooks";
+import UserAgent from "ua-parser-js";
 
 const { Title, Paragraph } = Typography;
 
@@ -54,6 +55,7 @@ export default function ProfileNew() {
 
   const [canReapply, setCanReapply] = useState(null);
   const [isLoading, setLoading] = useState(true);
+  const isIOS = UserAgent(window.navigator.userAgent).os.name === "iOS";
 
   useEffect(() => {
     if (canReapply === null) {
@@ -110,7 +112,7 @@ export default function ProfileNew() {
     );
   }
 
-  if (account) {
+  if (account && !isIOS) {
     return (
       <>
         <Head>
@@ -133,7 +135,28 @@ export default function ProfileNew() {
       </>
     );
   }
-
+  if (isIOS) {
+    return (
+      <>
+        <Head>
+          <title>{t("submit_profile")} | Proof of Humanity</title>
+          <meta httpEquiv="cache-control" content="no-cache" />
+          <meta httpEquiv="expires" content={0} />
+          <meta httpEquiv="pragma" content="no-cache" />
+        </Head>
+        <Row justify="center">
+          <Col
+            className="submit-profile-card"
+            style={{ textAlign: "center" }}
+            xs={{ span: 24 }}
+            xl={{ span: 12 }}
+          >
+            <Paragraph>{t("submit_profile_ios_incompatible")}</Paragraph>
+          </Col>
+        </Row>
+      </>
+    );
+  }
   return (
     <>
       <Head>
