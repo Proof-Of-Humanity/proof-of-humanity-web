@@ -198,6 +198,7 @@
   "submit_profile_video_too_small": "The video's width and height must be bigger than 352 pixels",
   "submit_profile_video_too_big": "The selected file exceeds the size limit of 15MB",
   "submit_profile_video_phrase": "I certify that I am a real human and I'm not already registered in this registry. \n",
+  "submit_profile_video_result_title": "This is your video!",
 
   "submit_profile_finalize_title": "Finalize your registration",
   "submit_profile_finalize_description": "Verify your submission information and media is correct and submit the transaction to register.",

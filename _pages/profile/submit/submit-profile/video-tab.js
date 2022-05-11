@@ -638,6 +638,9 @@ export default class VideoTab extends React.Component {
           <>
             <Row>
               <Col span={24} style={{ display: "block", margin: "0 auto" }}>
+                <Title level={4}>
+                  {t("submit_profile_video_result_title")}
+                </Title>
                 <Video
                   style={{ display: "block" }}
                   className={this.state.mirrored ? "video-mirrored" : ""}
