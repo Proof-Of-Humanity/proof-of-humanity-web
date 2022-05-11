@@ -233,6 +233,7 @@ export default class VideoTab extends React.Component {
       file: "",
       recordingMode: "",
     });
+    window.location.href = "#top";
   };
 
   onUserMedia = (mediaStream) => {
@@ -594,17 +595,26 @@ export default class VideoTab extends React.Component {
                   )}
                 </div>
               </div>
-              <Title level={2}>{t("submit_profile_video_upload_title")}</Title>
-              <Row justify="center">
-                <Col xs={12} lg={6}>
-                  <Upload.Dragger {...this.draggerProps} className="dragger">
-                    <FileAddFilled />
-                    <Paragraph className="ant-upload-text">
-                      {t("submit_profile_image_upload_button")}
-                    </Paragraph>
-                  </Upload.Dragger>
-                </Col>
-              </Row>
+              {this.state.recordingMode === "visual" && (
+                <>
+                  <Title level={2}>
+                    {t("submit_profile_video_upload_title")}
+                  </Title>
+                  <Row justify="center">
+                    <Col xs={12} lg={6}>
+                      <Upload.Dragger
+                        {...this.draggerProps}
+                        className="dragger"
+                      >
+                        <FileAddFilled />
+                        <Paragraph className="ant-upload-text">
+                          {t("submit_profile_video_upload")}
+                        </Paragraph>
+                      </Upload.Dragger>
+                    </Col>
+                  </Row>
+                </>
+              )}
             </Col>
           </Row>
         ) : (!this.props.state.cameraPermission ||
@@ -637,10 +647,8 @@ export default class VideoTab extends React.Component {
         {!this.state.recording && this.state.recordedVideoUrl !== "" ? (
           <>
             <Row>
+              <Title level={4}>{t("submit_profile_video_result_title")}</Title>
               <Col span={24} style={{ display: "block", margin: "0 auto" }}>
-                <Title level={4}>
-                  {t("submit_profile_video_result_title")}
-                </Title>
                 <Video
                   style={{ display: "block" }}
                   className={this.state.mirrored ? "video-mirrored" : ""}
