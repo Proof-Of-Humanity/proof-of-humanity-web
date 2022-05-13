@@ -9,7 +9,7 @@ export default function Custom404() {
     <Row justify="center">
       <Col span={12} style={{ textAlign: "center" }}>
         <Image
-          src="images/404.png"
+          src="/images/404.png"
           style={{ width: "25%", height: "auto" }}
           preview={false}
         />
