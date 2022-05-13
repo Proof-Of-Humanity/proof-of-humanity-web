@@ -67,7 +67,7 @@ export default function ProfileWithID() {
         <Text sx={{ display: "flex", alignItems: "center", gap: 8 }}>
           {status && (
             <>
-              {status.startCase}
+              {t(`profile_status_${status.key}`)}
               {/* {isExpired && " (Expired)"} */}
               <status.Icon
                 sx={{ path: { fill: "text" }, stroke: "text", strokeWidth: 0 }}
