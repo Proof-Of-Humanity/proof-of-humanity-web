@@ -283,6 +283,7 @@ export default class ImageTab extends React.Component {
       // console.log(buffer)
       this.setCroppedImage(croppedImage);
       this.setState({ picture: buffer });
+      window.location.href = "#top";
     } catch {
       // console.error(err);
     }
@@ -410,6 +411,7 @@ export default class ImageTab extends React.Component {
       },
       rotation: 0,
     });
+    window.location.href = "#top";
   };
 
   onUserMedia = () => {
