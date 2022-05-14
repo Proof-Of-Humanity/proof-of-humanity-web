@@ -41,7 +41,7 @@
   "profile_card_maintenance": "Estamos fazendo algum trabalho de manutenção e estaremos online novamente em breve",
 
   "profile_search_profile_text": "Perfil",
-  "profile_search_profile_suffix": "s",
+  "profile_search_profile_suffix": "es",
   "profile_search_search_text": "Busca (sensível a maiúsculas e minúsculas)",
   "profile_search_filter_by_text": "Filtrar por status",
 
@@ -75,7 +75,7 @@
   "profile_card_dispute_text": " Disputa",
   "profile_card_dispute_suffix": "s",
   "profile_card_something_wrong": "Algo errado com esta apresentação?",
-  "profile_card_save_deposit_text": "Ainda há tempo para salvar o depósito dessa pessoa! Envie-lhes um e-mail para <0>{{{{email}}</0>. Ele pode salvar o depósito do remetente",
+  "profile_card_save_deposit_text": "Ainda há tempo para salvar o depósito dessa pessoa! Envie-lhes um e-mail para <0>{{email}}</0>. Ele pode salvar o depósito do remetente",
 
   "profile_card_vouched_by": " Verificado por",
   "profile_card_vouched_for": "Verificou",
