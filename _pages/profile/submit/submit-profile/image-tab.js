@@ -480,14 +480,6 @@ export default class ImageTab extends React.Component {
       } else {
         this.setState({ facingMode: "user" });
       }
-    } else {
-      const cameraIndex =
-        this.state.currentCameraIndex === this.state.videoDevices.length
-          ? 0
-          : this.state.currentCameraIndex + 1;
-      this.setState({
-        currentCamera: this.state.videoDevices[cameraIndex].deviceId,
-      });
     }
   };
   toggleFullscreen = () => {
