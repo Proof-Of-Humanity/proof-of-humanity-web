@@ -16,6 +16,7 @@ import {
   Image,
   List,
   Row,
+  Select,
   Slider,
   Typography,
   Upload,
@@ -29,6 +30,7 @@ import ReactWebcam from "react-webcam";
 import getCroppedImg from "./crop-image";
 
 const { Title, Paragraph, Text } = Typography;
+const { Option } = Select;
 
 import { photoSanitizer } from "lib/media-controller";
 
@@ -52,9 +54,11 @@ export default class ImageTab extends React.Component {
       croppedImage: null,
       userMedia: null,
       facingMode: "user",
-      videoDevices: 0,
+      videoDevices: [],
       maxZoom: 3,
       fullscreen: false,
+      currentCamera: "",
+      currentCameraIndex: 0,
     };
   }
 
@@ -413,15 +417,18 @@ export default class ImageTab extends React.Component {
     });
     window.location.href = "#top";
   };
-
+  handleChange = (value) => {
+    this.setState({ currentCamera: value });
+  };
   onUserMedia = () => {
     // console.log('User media detected', mediaStream);
-    if (this.state.videoDevices === 0) {
+    if (this.state.videoDevices.length === 0) {
       navigator.mediaDevices.enumerateDevices().then((devices) => {
-        const videoDevices = devices.filter(
-          (d) => d.kind === "videoinput"
-        ).length;
-        this.setState({ videoDevices });
+        const videoDevices = devices.filter((d) => d.kind === "videoinput");
+        this.setState({
+          videoDevices,
+          currentCamera: videoDevices[0].deviceId,
+        });
       });
     }
 
@@ -436,7 +443,12 @@ export default class ImageTab extends React.Component {
       error.name === "NotFoundError" ||
       error.name === "DevicesNotFoundError"
     ) {
-      this.props.stateHandler({ userMediaError: "NoCamera" });
+      if (this.state.videoDevices.length > 0) {
+        this.switchCamera();
+      } else {
+        this.props.stateHandler({ userMediaError: "NoCamera" });
+      }
+
       // required track is missing
     } else if (
       error.name === "NotAllowedError" ||
@@ -459,10 +471,23 @@ export default class ImageTab extends React.Component {
     }
   };
   switchCamera = () => {
-    if (this.state.facingMode === "user") {
-      this.setState({ facingMode: "environment" });
+    if (
+      this.props.state.OS.os.name === "iOS" ||
+      this.props.state.OS.os.name === "Android"
+    ) {
+      if (this.state.facingMode === "user") {
+        this.setState({ facingMode: "environment" });
+      } else {
+        this.setState({ facingMode: "user" });
+      }
     } else {
-      this.setState({ facingMode: "user" });
+      const cameraIndex =
+        this.state.currentCameraIndex === this.state.videoDevices.length
+          ? 0
+          : this.state.currentCameraIndex + 1;
+      this.setState({
+        currentCamera: this.state.videoDevices[cameraIndex].deviceId,
+      });
     }
   };
   toggleFullscreen = () => {
@@ -491,6 +516,30 @@ export default class ImageTab extends React.Component {
                 </Paragraph>
               </Col>
             </Row>
+            <Row justify="center">
+              <Col span={24}>
+                {this.state.videoDevices.length > 0 &&
+                  !(
+                    this.props.state.OS.os.name === "iOS" ||
+                    this.props.state.OS.os.name === "Android"
+                  ) && (
+                    <Select
+                      defaultValue={this.state.currentCamera}
+                      onChange={this.handleChange}
+                    >
+                      {this.state.videoDevices.map((currentDevice) => (
+                        <Option
+                          value={currentDevice.deviceId}
+                          key={currentDevice.deviceId}
+                        >
+                          {currentDevice.label}
+                        </Option>
+                      ))}
+                    </Select>
+                  )}
+              </Col>
+            </Row>
+
             <div
               className="video-inner-container"
               ref={(screen) => {
@@ -508,6 +557,7 @@ export default class ImageTab extends React.Component {
                 forceScreenshotSourceSize
                 videoConstraints={{
                   ...this.cameraConstraints,
+                  deviceId: this.state.currentCamera,
                   facingMode: this.state.facingMode,
                 }}
                 onCanPlayThrough={() => false}
@@ -518,17 +568,23 @@ export default class ImageTab extends React.Component {
 
               <div className="buttons-camera-container">
                 <Row justify="center">
-                  {this.state.videoDevices > 1 && (
-                    <Col span={6}>
-                      <Button
-                        onClick={this.switchCamera}
-                        shape="round"
-                        className="button-orange-camera"
-                      >
-                        <CameraSwitch fill="white" width="25px" height="25px" />
-                      </Button>
-                    </Col>
-                  )}
+                  {this.state.videoDevices.length > 1 &&
+                    (this.props.state.OS.os.name === "iOS" ||
+                      this.props.state.OS.os.name === "Android") && (
+                      <Col span={6}>
+                        <Button
+                          onClick={this.switchCamera}
+                          shape="round"
+                          className="button-orange-camera"
+                        >
+                          <CameraSwitch
+                            fill="white"
+                            width="25px"
+                            height="25px"
+                          />
+                        </Button>
+                      </Col>
+                    )}
                   <Col span={6}>
                     <Button
                       onClick={this.takePicture}
