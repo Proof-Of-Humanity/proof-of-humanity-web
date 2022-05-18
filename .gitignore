@@ -24,3 +24,4 @@
 /assets/seed-submissions/
 
 .env
+.vercel
