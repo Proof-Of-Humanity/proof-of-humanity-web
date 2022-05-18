@@ -126,8 +126,8 @@ export default function RemoveButton({ request, contract, submissionID }) {
                 as={FileUpload}
                 name="file"
                 label="File"
-                accept="image/png, image/jpeg, application/pdf"
-                maxSize={2 * 1024 * 1024}
+                accept="image/png, image/jpeg, application/pdf, video/mp4, video/webm, video/quicktime"
+                maxSize={4 * 1024 * 1024}
               />
               <Button
                 sx={{ display: "block", margin: "auto" }}
