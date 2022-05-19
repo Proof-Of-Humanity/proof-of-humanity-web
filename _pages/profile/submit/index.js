@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
 import { graphql, useQuery } from "relay-hooks";
-import UserAgent from "ua-parser-js";
 
 const { Title, Paragraph } = Typography;
 
@@ -55,7 +54,6 @@ export default function ProfileNew() {
 
   const [canReapply, setCanReapply] = useState(null);
   const [isLoading, setLoading] = useState(true);
-  const isIOS = UserAgent(window.navigator.userAgent).os.name === "iOS";
 
   useEffect(() => {
     if (canReapply === null) {
@@ -135,7 +133,7 @@ export default function ProfileNew() {
       </>
     );
   }
-  /*if (isIOS) {
+  /* if (isIOS) {
     return (
       <>
         <Head>
