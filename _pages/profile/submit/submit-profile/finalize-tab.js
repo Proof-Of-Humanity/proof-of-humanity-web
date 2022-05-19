@@ -116,7 +116,7 @@ class _FinalizeTab extends React.Component {
               </Row>
             )}
             <Row justify="center" align="middle" style={{ marginTop: "5%" }}>
-              <Col xl={12} xs={24}>
+              <Col xl={12} xs={24} style={{margin: "0 auto",display: "flex",alignContent: "center",justifyContent: "center"}}>
                 {this.props.state.imageURI !== "" ? (
                   <Image
                     crossOrigin="anonymous"

@@ -182,6 +182,7 @@ export default class VideoTab extends React.Component {
       const { size } = file;
       // const { duration } = this.video;
       // console.log("duration",this.state.duration)
+      console.log(this.state.mirrored)
       videoSanitizer(
         buffer,
         size,
