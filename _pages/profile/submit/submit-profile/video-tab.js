@@ -101,6 +101,7 @@ export default class VideoTab extends React.Component {
     accept: this.videoOptions.types.label,
     showUploadList: false,
     beforeUpload: (file) => {
+      console.log(file.toString());
       if (!this.videoOptions.types.value.includes(file.type)) {
         message.error(this.props.i18n.t("submit_profile_file_not_supported"));
         return Upload.LIST_IGNORE;
@@ -112,6 +113,7 @@ export default class VideoTab extends React.Component {
       return true;
     },
     onChange: ({ file }) => {
+      console.log(file.toString())
       // console.log("onChange file=", file);
       const { status } = file;
       if (status === "done") {
@@ -259,7 +261,7 @@ export default class VideoTab extends React.Component {
     this.setState({ recording: true });
     this.props.stateHandler({ language: this.props.i18n.resolvedLanguage });
     this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
-      mimeType: this.props.state.OS === "iOS" ? "video/mp4" : "video/webm",
+      mimeType: this.props.state.OS.os.name === "iOS" ? "video/mp4" : "video/webm",
     });
 
     this.mediaRecorderRef.current.ondataavailable = this.handleDataAvailable;
@@ -319,6 +321,7 @@ export default class VideoTab extends React.Component {
       this.props.state.OS.os.name === "iOS" ||
       this.props.state.OS.os.name === "Android"
     ) {
+      console.log(this.state.facingMode)
       if (this.state.facingMode === "user") {
         this.setState({ facingMode: "environment" });
       } else {

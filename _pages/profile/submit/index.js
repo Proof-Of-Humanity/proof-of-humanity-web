@@ -112,7 +112,7 @@ export default function ProfileNew() {
     );
   }
 
-  if (account && !isIOS) {
+  if (account) {
     return (
       <>
         <Head>
@@ -135,7 +135,7 @@ export default function ProfileNew() {
       </>
     );
   }
-  if (isIOS) {
+  /*if (isIOS) {
     return (
       <>
         <Head>
@@ -156,7 +156,7 @@ export default function ProfileNew() {
         </Row>
       </>
     );
-  }
+  }*/
   return (
     <>
       <Head>

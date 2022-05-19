@@ -426,6 +426,7 @@ export default class ImageTab extends React.Component {
         this.setState({ videoDevices });
         this.props.stateHandler({ currentCamera: videoDevices[0].deviceId });
       });
+      console.log(videoDevices)
     }
 
     // this.camera.video.webkitRequestFullscreen();
@@ -512,7 +513,7 @@ export default class ImageTab extends React.Component {
                     this.props.state.OS.os.name === "Android"
                   ) && (
                     <Select
-                      defaultValue={this.state.videoDevices[0].label}
+                      defaultValue={this.props.state.currentCamera !== "" ? this.state.videoDevices.find(device => device.deviceId === this.props.state.currentCamera).label : this.state.videoDevices[0].label}
                       onChange={this.handleChange}
                       style={{ width: "20%" }}
                     >
