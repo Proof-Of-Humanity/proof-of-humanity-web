@@ -260,7 +260,8 @@ export default class VideoTab extends React.Component {
     this.setState({ recording: true });
     this.props.stateHandler({ language: this.props.i18n.resolvedLanguage });
     this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
-      mimeType: this.props.state.OS === "iOS" ? "video/mp4" : "video/webm",
+      mimeType:
+        this.props.state.OS.os.name === "iOS" ? "video/mp4" : "video/webm",
     });
 
     this.mediaRecorderRef.current.ondataavailable = this.handleDataAvailable;
@@ -664,6 +665,7 @@ export default class VideoTab extends React.Component {
                 <Video
                   style={{ display: "block" }}
                   className={this.state.mirrored ? "video-mirrored" : ""}
+                  playsinline
                   config={{
                     file: {
                       attributes: {
