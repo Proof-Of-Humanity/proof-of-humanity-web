@@ -320,6 +320,11 @@ export default class ImageTab extends React.Component {
     name: "file",
     multiple: false,
     accept: this.photoOptions.types.label,
+    customRequest: ({ onSuccess }) => {
+      setTimeout(() => {
+        onSuccess("ok");
+      }, 0);
+    },
     beforeUpload: (file) => {
       if (this.photoOptions.types.value.includes(file.type)) {
         return true;
@@ -426,7 +431,6 @@ export default class ImageTab extends React.Component {
         this.setState({ videoDevices });
         this.props.stateHandler({ currentCamera: videoDevices[0].deviceId });
       });
-      console.log(videoDevices)
     }
 
     // this.camera.video.webkitRequestFullscreen();
@@ -468,15 +472,10 @@ export default class ImageTab extends React.Component {
     }
   };
   switchCamera = () => {
-    if (
-      this.props.state.OS.os.name === "iOS" ||
-      this.props.state.OS.os.name === "Android"
-    ) {
-      if (this.state.facingMode === "user") {
-        this.setState({ facingMode: "environment" });
-      } else {
-        this.setState({ facingMode: "user" });
-      }
+    if (this.state.facingMode === "user") {
+      this.setState({ facingMode: "environment" });
+    } else {
+      this.setState({ facingMode: "user" });
     }
   };
   toggleFullscreen = () => {
@@ -507,13 +506,21 @@ export default class ImageTab extends React.Component {
             </Row>
             <Row justify="center">
               <Col span={24}>
-                {this.state.videoDevices.length > 0 &&
+                {this.state.videoDevices.length > 1 &&
                   !(
                     this.props.state.OS.os.name === "iOS" ||
                     this.props.state.OS.os.name === "Android"
                   ) && (
                     <Select
-                      defaultValue={this.props.state.currentCamera !== "" ? this.state.videoDevices.find(device => device.deviceId === this.props.state.currentCamera).label : this.state.videoDevices[0].label}
+                      defaultValue={
+                        this.props.state.currentCamera !== ""
+                          ? this.state.videoDevices.find(
+                              (device) =>
+                                device.deviceId ===
+                                this.props.state.currentCamera
+                            ).label
+                          : this.state.videoDevices[0].label
+                      }
                       onChange={this.handleChange}
                       style={{ width: "20%" }}
                     >
@@ -547,7 +554,10 @@ export default class ImageTab extends React.Component {
                 forceScreenshotSourceSize
                 videoConstraints={{
                   ...this.cameraConstraints,
-                  deviceId: this.props.state.currentCamera,
+                  deviceId:
+                    this.props.state.OS.device.type === "mobile"
+                      ? undefined
+                      : this.props.state.currentCamera,
                   facingMode: this.state.facingMode,
                 }}
                 onCanPlayThrough={() => false}
