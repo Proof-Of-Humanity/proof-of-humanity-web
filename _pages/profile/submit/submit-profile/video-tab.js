@@ -315,10 +315,15 @@ export default class VideoTab extends React.Component {
   };
 
   switchCamera = () => {
-    if (this.state.facingMode === "user") {
-      this.setState({ facingMode: "environment" });
-    } else {
-      this.setState({ facingMode: "user" });
+    if (
+      this.props.state.OS.os.name === "iOS" ||
+      this.props.state.OS.os.name === "Android"
+    ) {
+      if (this.state.facingMode === "user") {
+        this.setState({ facingMode: "environment" });
+      } else {
+        this.setState({ facingMode: "user" });
+      }
     }
   };
 
@@ -485,6 +490,7 @@ export default class VideoTab extends React.Component {
                   // mirrored={this.state.mirrored}
                   videoConstraints={{
                     ...this.videoConstraints,
+                    deviceId: this.props.state.currentCamera,
                     facingMode: this.state.facingMode,
                   }}
                   onCanPlayThrough={() => false}
@@ -534,21 +540,23 @@ export default class VideoTab extends React.Component {
                           </Button>
                         </Col>
 
-                        {this.state.videoDevices > 1 && (
-                          <Col span={8}>
-                            <Button
-                              onClick={this.switchCamera}
-                              shape="round"
-                              className="button-orange-camera"
-                            >
-                              <CameraSwitch
-                                width="25px"
-                                height="25px"
-                                fill="white"
-                              />
-                            </Button>
-                          </Col>
-                        )}
+                        {this.state.videoDevices > 1 &&
+                          (this.props.state.OS.os.name === "iOS" ||
+                            this.props.state.OS.os.name === "Android") && (
+                            <Col span={8}>
+                              <Button
+                                onClick={this.switchCamera}
+                                shape="round"
+                                className="button-orange-camera"
+                              >
+                                <CameraSwitch
+                                  width="25px"
+                                  height="25px"
+                                  fill="white"
+                                />
+                              </Button>
+                            </Col>
+                          )}
                         {this.state.fullscreen ? (
                           <Col span={8}>
                             <Button

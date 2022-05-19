@@ -28,6 +28,7 @@ export default class NewSubmitProfileForm extends React.Component {
       },
       cameraPermission: true,
       userMediaError: "",
+      currentCamera: "",
     };
   }
 

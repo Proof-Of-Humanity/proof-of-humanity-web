@@ -57,8 +57,6 @@ export default class ImageTab extends React.Component {
       videoDevices: [],
       maxZoom: 3,
       fullscreen: false,
-      currentCamera: "",
-      currentCameraIndex: 0,
     };
   }
 
@@ -418,17 +416,15 @@ export default class ImageTab extends React.Component {
     window.location.href = "#top";
   };
   handleChange = (value) => {
-    this.setState({ currentCamera: value });
+    this.props.stateHandler({ currentCamera: value });
   };
   onUserMedia = () => {
     // console.log('User media detected', mediaStream);
     if (this.state.videoDevices.length === 0) {
       navigator.mediaDevices.enumerateDevices().then((devices) => {
         const videoDevices = devices.filter((d) => d.kind === "videoinput");
-        this.setState({
-          videoDevices,
-          currentCamera: videoDevices[0].deviceId,
-        });
+        this.setState({ videoDevices });
+        this.props.stateHandler({ currentCamera: videoDevices[0].deviceId });
       });
     }
 
@@ -516,8 +512,9 @@ export default class ImageTab extends React.Component {
                     this.props.state.OS.os.name === "Android"
                   ) && (
                     <Select
-                      defaultValue={this.state.currentCamera}
+                      defaultValue={this.state.videoDevices[0].label}
                       onChange={this.handleChange}
+                      style={{ width: "20%" }}
                     >
                       {this.state.videoDevices.map((currentDevice) => (
                         <Option
@@ -549,7 +546,7 @@ export default class ImageTab extends React.Component {
                 forceScreenshotSourceSize
                 videoConstraints={{
                   ...this.cameraConstraints,
-                  deviceId: this.state.currentCamera,
+                  deviceId: this.props.state.currentCamera,
                   facingMode: this.state.facingMode,
                 }}
                 onCanPlayThrough={() => false}
