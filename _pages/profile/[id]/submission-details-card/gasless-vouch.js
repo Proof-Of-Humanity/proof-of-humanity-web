@@ -102,6 +102,7 @@ export default function GasslessVouchButton({ submissionID }) {
       body: JSON.stringify({
         signature,
         msgData: messageParameters,
+        voucherAddress: from,
       }),
     });
   }, [accounts, submissionID, web3Context]);
