@@ -8,6 +8,7 @@
     "@commitlint/cli": "^9.1.2",
     "@commitlint/config-conventional": "^9.1.2",
     "@graphprotocol/graph-cli": "^0.21.1",
+    "@graphprotocol/graph-ts": "^0.18.1",
     "@next/bundle-analyzer": "^9.5.2",
     "@storybook/addon-a11y": "^6.0.28",
     "@storybook/addon-essentials": "^6.0.28",
@@ -148,7 +149,7 @@
     }
   },
   "scripts": {
-    "depcheck": "depcheck . --ignores=@commitlint/*,@typescript-eslint/*,@babel/*,babel-*,typescript,typescript-*,@storybook/*,storybook-*,eslint-*,electron,react-is,@kleros/components,@kleros/icons,_pages,pages,data,subgraph,buffer,lib,i18n,*public*",
+    "depcheck": "depcheck . --ignores=@commitlint/*,@typescript-eslint/*,@babel/*,babel-*,typescript,typescript-*,@storybook/*,storybook-*,eslint-*,electron,@graphprotocol,react-is,@kleros/components,@kleros/icons,_pages,pages,data,subgraph,buffer,lib,i18n,*public*",
     "lint": "eslint --ext js,mdx .",
     "dev": "next",
     "local:dev:relay": "env-cmd -f .env.local npm run dev:relay:mainnet",
