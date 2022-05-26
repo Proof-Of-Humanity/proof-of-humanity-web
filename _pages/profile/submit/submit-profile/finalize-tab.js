@@ -1,5 +1,3 @@
-import { CheckCircleFilled } from "@ant-design/icons";
-import { Crowdfund } from "@kleros/icons";
 import {
   Alert,
   Button,
@@ -116,7 +114,16 @@ class _FinalizeTab extends React.Component {
               </Row>
             )}
             <Row justify="center" align="middle" style={{ marginTop: "5%" }}>
-              <Col xl={12} xs={24} style={{margin: "0 auto",display: "flex",alignContent: "center",justifyContent: "center"}}>
+              <Col
+                xl={12}
+                xs={24}
+                style={{
+                  margin: "0 auto",
+                  display: "flex",
+                  alignContent: "center",
+                  justifyContent: "center",
+                }}
+              >
                 {this.props.state.imageURI !== "" ? (
                   <Image
                     crossOrigin="anonymous"
@@ -263,7 +270,7 @@ class _FinalizeTab extends React.Component {
           <Title level={4}>{t("submit_profile_nextsteps_description")}</Title>
           <Row justify="center" align="middle">
             <Col span={24}>
-              <Title level={5} style={{ display: "block", margin: "0 auto" }}>
+              <Title level={4} style={{ display: "block", margin: "0 auto" }}>
                 {t("submit_profile_nextsteps_vouch_help")}
               </Title>
             </Col>
@@ -275,7 +282,7 @@ class _FinalizeTab extends React.Component {
                 target="_blank"
                 className="button-orange"
                 style={{
-                  width: "50%",
+                  width: "75%",
                   height: "30%",
                   borderRadius: "25px",
                   color: "white",
@@ -289,45 +296,27 @@ class _FinalizeTab extends React.Component {
           </Row>
 
           {this.props.state.crowdfund === "crowd" && (
-            <>
-              <CheckCircleFilled
-                style={{
-                  fontSize: "50px",
-                  color: "green",
-                  marginRight: "20px",
-                }}
-              />
-              <Row justify="center">
-                <Col span={24}>
-                  <Crowdfund
-                    fill="green"
-                    height="50px"
-                    width="50px"
-                    style={{ marginRight: "20px" }}
-                  />
-                  <Title
-                    level={4}
-                    style={{ display: "block", margin: "0 auto" }}
-                  >
-                    {t("submit_profile_nextsteps_deposit_help")}
-                  </Title>
-                  <Link
-                    href="https://t.me/PoHcrowdfunding"
-                    target="_blank"
-                    className="button-orange"
-                    style={{
-                      width: "35%",
-                      borderRadius: "25px",
-                      color: "white",
-                      display: "flex",
-                      justifyContent: "center",
-                    }}
-                  >
-                    {t("submit_profile_nextsteps_crowdfunding_group")}
-                  </Link>
-                </Col>
-              </Row>
-            </>
+            <Row justify="center">
+              <Col span={24}>
+                <Title level={4} style={{ display: "block", margin: "0 auto" }}>
+                  {t("submit_profile_nextsteps_deposit_help")}
+                </Title>
+                <Link
+                  href="https://t.me/PoHcrowdfunding"
+                  target="_blank"
+                  className="button-orange"
+                  style={{
+                    width: "75%",
+                    borderRadius: "25px",
+                    color: "white",
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  {t("submit_profile_nextsteps_crowdfunding_group")}
+                </Link>
+              </Col>
+            </Row>
           )}
 
           {this.props.state.confirmed && (

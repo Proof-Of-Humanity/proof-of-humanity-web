@@ -39,7 +39,7 @@
 .video-mirrored{
   transform:scaleX(-1);
 }
-.video-mirrored video::-webkit-media-controls{
+.video-mirrored video::-webkit-media-controls-panel{
   transform:rotateY(180deg);
 }
 
@@ -186,7 +186,7 @@ a:hover {
   color: white
 }
 .button-orange:hover {
-  color: currentColor !important;
+  color: white;
 }
 .button-orange-camera {
   font-weight: bold;
