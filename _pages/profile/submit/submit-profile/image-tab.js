@@ -104,7 +104,7 @@ export default class ImageTab extends React.Component {
   imageRulesList = [
     {
       description: (
-        <Row justify="center">
+        <Row justify="center" gutter={5}>
           <Col span={6}>
             <Image
               src="/images/front-facing.jpg"
@@ -172,7 +172,7 @@ export default class ImageTab extends React.Component {
     {
       title: "",
       description: (
-        <Row justify="center">
+        <Row justify="center" gutter={5}>
           <Col span={6}>
             <Image
               src="/images/hijab.jpg"
