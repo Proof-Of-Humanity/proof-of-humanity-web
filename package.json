@@ -120,6 +120,7 @@
     "ua-parser-js": "^1.0.2",
     "web3": "^1.5.2",
     "web3modal": "^1.9.4",
+    "ws": "^8.6.0",
     "yup": "^0.29.3"
   },
   "lint-staged": {
@@ -148,7 +149,7 @@
     }
   },
   "scripts": {
-    "depcheck": "depcheck . --ignores=@commitlint/*,@typescript-eslint/*,@babel/*,babel-*,typescript,typescript-*,@storybook/*,storybook-*,eslint-*,electron,react-is,@kleros/components,@kleros/icons,_pages,pages,data,subgraph,buffer,lib,i18n,public",
+    "depcheck": "depcheck . --ignores=@commitlint/*,@typescript-eslint/*,@babel/*,babel-*,typescript,typescript-*,@storybook/*,storybook-*,eslint-*,electron,react-is,@kleros/components,@kleros/icons,_pages,pages,data,subgraph,buffer,lib,i18n,*public*",
     "lint": "eslint --ext js,mdx .",
     "dev": "next",
     "local:dev:relay": "env-cmd -f .env.local npm run dev:relay:mainnet",
