@@ -1,7 +1,7 @@
 import { MenuOutlined } from "@ant-design/icons";
 import { ProofOfHumanityLogo } from "@kleros/icons";
 import { useWindowWidth } from "@react-hook/window-size";
-import { Col, Drawer, Dropdown, Layout, Menu, Row } from "antd";
+import { Col, Drawer, Dropdown, Layout, Menu, Row, Typography } from "antd";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "relay-hooks";
@@ -19,6 +19,7 @@ import {
 import { appQuery } from "_pages/index/app-query";
 import { useEvidenceFile } from "data";
 
+const { Paragraph } = Typography;
 const { Header } = Layout;
 
 function MyProfileLink(props) {
@@ -285,6 +286,8 @@ function DesktopNavbar() {
 }
 
 export default function AppHeader() {
+  const { connect } = useWeb3();
+  const [accounts] = useWeb3("eth", "getAccounts");
   const { t } = useTranslation();
 
   const width = useWindowWidth();
@@ -321,6 +324,17 @@ export default function AppHeader() {
         <Row onClick={() => setMobileMenuOpen(false)}>
           <MyProfileLink className="poh-drawer-text" />
         </Row>
+        {accounts?.length === 0 && (
+          <Row>
+            <Paragraph
+              className="poh-drawer-text"
+              variant="navigation"
+              onClick={connect}
+            >
+              {t("header_connect_button")}
+            </Paragraph>
+          </Row>
+        )}
       </Drawer>
       <Header className="poh-header">
         {isDesktop ? (
