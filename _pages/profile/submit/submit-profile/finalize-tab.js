@@ -84,13 +84,20 @@ class _FinalizeTab extends React.Component {
             {this.props.state.name && (
               <Row>
                 <Title level={4}>
-                  {t("submit_profile_finalize_name")}: {this.props.state.name}
+                  {t("submit_profile_finalize_name")}:&nbsp;
+                  <div
+                    style={{ fontWeight: "initial", display: "inline-block" }}
+                  >
+                    {this.props.state.name}
+                  </div>
                 </Title>
               </Row>
             )}
             {this.props.account && (
               <Row>
-                <Paragraph>{t("submit_profile_finalize_eth_addr")}: </Paragraph>
+                <Title level={4}>
+                  {t("submit_profile_finalize_eth_addr")}:{" "}
+                </Title>
                 <Paragraph
                   style={{
                     width: "100%",
@@ -218,7 +225,7 @@ class _FinalizeTab extends React.Component {
             <Alert
               style={{
                 textAlign: "center",
-                width: "max-content",
+                width: "fit-content",
                 margin: "0 auto",
                 marginTop: "3%",
               }}
