@@ -34,4 +34,4 @@ export { default as Fullscreen } from "./fullscreen";
 export { default as ExitFullscreen } from "./fullscreen-exit";
 export { default as RecordCamera } from "./record-camera";
 export { default as Stop } from "./stop";
-export { default as Crowdfund } from "./crowdfund";
+export { default as Discord } from "./discord";

@@ -1,4 +1,11 @@
-import { Blog, Github, LinkedIn, Telegram, Twitter } from "@kleros/icons";
+import {
+  Blog,
+  Discord,
+  Github,
+  LinkedIn,
+  Telegram,
+  Twitter,
+} from "@kleros/icons";
 
 import Link from "./link";
 
@@ -8,6 +15,7 @@ export default function SocialIcons({
   blog = true,
   linkedIn = true,
   telegram = true,
+  discord = true,
   color = "#ffffff",
   sx,
 }) {
@@ -56,6 +64,15 @@ export default function SocialIcons({
           href="https://t.me/proofhumanity"
         >
           <Telegram sx={{ fill: color }} />
+        </Link>
+      )}
+      {discord && (
+        <Link
+          sx={{ marginX: "6px", ...sx }}
+          newTab
+          href="https://discord.gg/eQGnF6aW6p"
+        >
+          <Discord sx={{ fill: color }} />
         </Link>
       )}
     </>
