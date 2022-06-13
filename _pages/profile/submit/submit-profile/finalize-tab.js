@@ -52,6 +52,9 @@ class _FinalizeTab extends React.Component {
       progress: 0,
     });
   };
+  playVideo = () => {
+    this.setState({ playing: true });
+  };
 
   render() {
     // console.log(this.props.state)
@@ -167,6 +170,7 @@ class _FinalizeTab extends React.Component {
                         },
                       }}
                       controls
+                      playing={this.state.playing}
                       onEnded={(event) => this.handleVideo(event)}
                       style={{ width: "100%", display: "block" }}
                       width="100%"
@@ -251,21 +255,32 @@ class _FinalizeTab extends React.Component {
           >
             {t("submit_profile_previous")}
           </Button>
-          <Button
-            type="primary"
-            disabled={
-              this.props.state.crowdfund === null ||
-              this.props.state.videoURI === "" ||
-              this.props.state.imageURI === "" ||
-              !this.state.playedVideo
-            }
-            shape="round"
-            className="button-orange"
-            onClick={this.handleSubmit}
-            loading={this.state.loading && this.props.state.error === null}
-          >
-            {t("submit_profile")}
-          </Button>
+          {this.state.playedVideo ? (
+            <Button
+              type="primary"
+              disabled={
+                this.props.state.crowdfund === null ||
+                this.props.state.videoURI === "" ||
+                this.props.state.imageURI === "" ||
+                !this.state.playedVideo
+              }
+              shape="round"
+              className="button-orange"
+              onClick={this.handleSubmit}
+              loading={this.state.loading && this.props.state.error === null}
+            >
+              {t("submit_profile")}
+            </Button>
+          ) : (
+            <Button
+              type="primary"
+              shape="round"
+              className="button-orange"
+              onClick={this.playVideo}
+            >
+              {t("submit_profile_finalize_video_check")}
+            </Button>
+          )}
         </Row>
       );
     }
