@@ -176,7 +176,8 @@
   "submit_profile_image_size_error": "A área cortada deve ser maior que 256 pixels",
 
   "submit_profile_image_grayscale": "A imagem não pode ser em preto e branco, por favor escolha ou tome outra",
-  "submit_profile_image_rules_title": "Regras de imagem",
+  "submit_profile_image_rules_title": "Regras para o perfil",
+  "submit_profile_checked_rules": "Certifico que entendi todas as regras mostradas",
   "submit_profile_image_verify_title": "Verifique sua imagem!",
   "submit_profile_image_verify_description": "Certifique-se de que <0>suas características faciais estejam visíveis</0> e que <1>não esteja coberto por maquiagem pesada, máscaras ou outras coberturas.</1>\nVocê também deve estar observando diretamente a câmera",
   "submit_profile_image_verify_next": "Tudo legal",

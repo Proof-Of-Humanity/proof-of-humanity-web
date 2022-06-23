@@ -12,6 +12,7 @@ import {
 } from "@kleros/icons";
 import {
   Button,
+  Checkbox,
   Col,
   Image,
   List,
@@ -57,6 +58,7 @@ export default class ImageTab extends React.Component {
       videoDevices: [],
       maxZoom: 3,
       fullscreen: false,
+      checkedRules: false,
     };
   }
 
@@ -104,17 +106,17 @@ export default class ImageTab extends React.Component {
   imageRulesList = [
     {
       description: (
-        <Row justify="center" gutter={5}>
+        <Row justify="center" gutter={20}>
           <Col span={6}>
             <Image
-              src="/images/front-facing.jpg"
+              src="/images/facial-features.jpg"
               preview={false}
               className="image-rules"
             />
-            <CheckCircleFilled
+            <CloseCircleFilled
               style={{
                 fontSize: "20px",
-                color: "green",
+                color: "red",
                 margin: "0 auto",
                 display: "block",
               }}
@@ -172,7 +174,7 @@ export default class ImageTab extends React.Component {
     {
       title: "",
       description: (
-        <Row justify="center" gutter={5}>
+        <Row justify="center" gutter={20}>
           <Col span={6}>
             <Image
               src="/images/hijab.jpg"
@@ -492,7 +494,35 @@ export default class ImageTab extends React.Component {
 
     return (
       <>
-        {this.state.cameraEnabled &&
+        {!this.state.checkedRules && (
+          <Row>
+            <Col span={24}>
+              <Title level={2}>
+                {this.props.i18n.t("submit_profile_image_rules_title")}
+              </Title>
+              <List
+                style={{ width: "100%", height: "100%" }}
+                itemLayout="horizontal"
+                dataSource={this.imageRulesList}
+                renderItem={(item) => (
+                  <List.Item>
+                    <List.Item.Meta description={item.description} />
+                  </List.Item>
+                )}
+              />
+            </Col>
+            <Checkbox
+              style={{ fontWeight: "bold", margin: "20px auto", size: "20px" }}
+              onChange={(event) => {
+                this.setState({ checkedRules: event.target.checked });
+              }}
+            >
+              {t("submit_profile_checked_rules")}
+            </Checkbox>
+          </Row>
+        )}
+        {this.state.checkedRules &&
+        this.state.cameraEnabled &&
         this.props.state.cameraPermission &&
         this.props.state.userMediaError === "" ? (
           <>
@@ -635,7 +665,7 @@ export default class ImageTab extends React.Component {
               </Col>
             </Row>
           </>
-        ) : !this.state.image ? (
+        ) : !this.state.image && this.state.checkedRules ? (
           <>
             <Row>
               <Col span={24}>
@@ -760,7 +790,7 @@ export default class ImageTab extends React.Component {
               </Col>
 
               <Row justify="center" align="stretch">
-                <Col xs={24} lg={12}>
+                <Col span={24}>
                   <Title
                     level={4}
                     style={{ textAlign: "center", marginBottom: "3%" }}
@@ -779,21 +809,6 @@ export default class ImageTab extends React.Component {
                     }}
                     src={this.state.croppedImage}
                     alt="Crop result"
-                  />
-                </Col>
-                <Col xs={24} lg={12}>
-                  <Title level={4} style={{ textAlign: "center" }}>
-                    {this.props.i18n.t("submit_profile_image_rules_title")}
-                  </Title>
-                  <List
-                    style={{ width: "100%", height: "100%" }}
-                    itemLayout="horizontal"
-                    dataSource={this.imageRulesList}
-                    renderItem={(item) => (
-                      <List.Item>
-                        <List.Item.Meta description={item.description} />
-                      </List.Item>
-                    )}
                   />
                 </Col>
               </Row>
