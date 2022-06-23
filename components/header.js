@@ -70,7 +70,7 @@ function LanguageDropdown() {
     { name: "English", key: "en" },
     { name: "Español", key: "es" },
     { name: "Português", key: "pt" },
-    { name: "Français", key: "fr" },
+    // { name: "Français", key: "fr" },
     { name: "Italiano", key: "it" },
     { name: "中国人", key: "cn" },
   ];
@@ -274,7 +274,7 @@ function DesktopNavbar() {
               },
             }}
           />
-          <Link href="https://snapshot.org/#/poh.eth/">
+          <Link href="https://snapshot.org/#/poh.eth/" target="_blank">
             <Image src="/images/governance.png" width={25} sx={{ margin: 1 }} />
           </Link>
           <AccountSettingsPopup />
