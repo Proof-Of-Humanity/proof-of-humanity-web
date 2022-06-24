@@ -111,7 +111,7 @@ export default class ImageTab extends React.Component {
           <Tooltip
             color="#ffb978"
             key="#ffb978"
-            title="Facial features must not be obstructed by the Ethereum Address sign and be clearly visible"
+            title={this.props.i18n.t("submit_profile_rules_sign")}
           >
             <Col span={6}>
               <Image
@@ -133,7 +133,7 @@ export default class ImageTab extends React.Component {
           <Tooltip
             color="#ffb978"
             key="#ffb978"
-            title="Submitter must look straight at the camera"
+            title={this.props.i18n.t("submit_profile_rules_front_facing")}
           >
             <Col span={6}>
               <Image
@@ -154,7 +154,7 @@ export default class ImageTab extends React.Component {
           <Tooltip
             color="#ffb978"
             key="#ffb978"
-            title="Example of a rule respecting photo"
+            title={this.props.i18n.t("submit_profile_rules_example")}
           >
             <Col span={6}>
               <Image
@@ -175,7 +175,7 @@ export default class ImageTab extends React.Component {
           <Tooltip
             color="#ffb978"
             key="#ffb978"
-            title="There must not be any objects hiding the facial features of the submitter"
+            title={this.props.i18n.t("submit_profile_rules_sunglasses")}
           >
             <Col span={6}>
               <Image
@@ -203,7 +203,9 @@ export default class ImageTab extends React.Component {
           <Tooltip
             color="#ffb978"
             key="#ffb978"
-            title="Headcover not covering the internal region of the face is acceptable"
+            title={this.props.i18n.t(
+              "submit_profile_rules_headcover_acceptable"
+            )}
           >
             <Col span={6}>
               <Image
@@ -224,7 +226,9 @@ export default class ImageTab extends React.Component {
           <Tooltip
             color="#ffb978"
             key="#ffb978"
-            title="Headcover  covering the internal region of the face is not acceptable"
+            title={this.props.i18n.t(
+              "submit_profile_rules_headcover_not_acceptable"
+            )}
           >
             <Col span={6}>
               <Image
@@ -245,7 +249,7 @@ export default class ImageTab extends React.Component {
           <Tooltip
             color="#ffb978"
             key="#ffb978"
-            title="Photos must be in color and not contain any artificial alterations"
+            title={this.props.i18n.t("submit_profile_rules_color")}
           >
             <Col span={6}>
               <Image
@@ -266,7 +270,7 @@ export default class ImageTab extends React.Component {
           <Tooltip
             color="#ffb978"
             key="#ffb978"
-            title="Masks or any other item that hinders the facial features are not allowed"
+            title={this.props.i18n.t("submit_profile_rules_masks")}
           >
             <Col span={6}>
               <Image
@@ -547,7 +551,7 @@ export default class ImageTab extends React.Component {
           <Row>
             <Col span={24}>
               <Title level={2} style={{ marginBottom: "5%" }}>
-                {this.props.i18n.t("submit_profile_image_rules_title")}
+                {this.props.i18n.t("submit_profile_rules_title")}
               </Title>
               <List
                 style={{ width: "100%", height: "100%" }}
@@ -566,7 +570,7 @@ export default class ImageTab extends React.Component {
                 this.setState({ checkedRules: event.target.checked });
               }}
             >
-              {t("submit_profile_checked_rules")}
+              {t("submit_profile_rules_checked")}
             </Checkbox>
           </Row>
         )}
