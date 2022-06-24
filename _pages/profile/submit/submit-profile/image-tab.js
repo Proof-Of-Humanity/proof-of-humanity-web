@@ -19,6 +19,7 @@ import {
   Row,
   Select,
   Slider,
+  Tooltip,
   Typography,
   Upload,
   message,
@@ -107,67 +108,91 @@ export default class ImageTab extends React.Component {
     {
       description: (
         <Row justify="center" gutter={20}>
-          <Col span={6}>
-            <Image
-              src="/images/facial-features.jpg"
-              preview={false}
-              className="image-rules"
-            />
-            <CloseCircleFilled
-              style={{
-                fontSize: "20px",
-                color: "red",
-                margin: "0 auto",
-                display: "block",
-              }}
-            />
-          </Col>
-          <Col span={6}>
-            <Image
-              src="/images/not-front-facing.jpg"
-              preview={false}
-              className="image-rules"
-            />
-            <CloseCircleFilled
-              style={{
-                fontSize: "20px",
-                color: "red",
-                margin: "0 auto",
-                display: "block",
-              }}
-            />
-          </Col>
+          <Tooltip
+            color="#ffb978"
+            key="#ffb978"
+            title="Facial features must not be obstructed by the Ethereum Address sign and be clearly visible"
+          >
+            <Col span={6}>
+              <Image
+                src="/images/facial-features.jpg"
+                preview={false}
+                className="image-rules"
+              />
 
-          <Col span={6}>
-            <Image
-              src="/images/glasses.jpg"
-              preview={false}
-              className="image-rules"
-            />
-            <CheckCircleFilled
-              style={{
-                fontSize: "20px",
-                color: "green",
-                margin: "0 auto",
-                display: "block",
-              }}
-            />
-          </Col>
-          <Col span={6}>
-            <Image
-              src="/images/sunglasses.jpg"
-              preview={false}
-              className="image-rules"
-            />
-            <CloseCircleFilled
-              style={{
-                fontSize: "20px",
-                color: "red",
-                margin: "0 auto",
-                display: "block",
-              }}
-            />
-          </Col>
+              <CloseCircleFilled
+                style={{
+                  fontSize: "20px",
+                  color: "red",
+                  margin: "0 auto",
+                  display: "block",
+                }}
+              />
+            </Col>
+          </Tooltip>
+          <Tooltip
+            color="#ffb978"
+            key="#ffb978"
+            title="Submitter must look straight at the camera"
+          >
+            <Col span={6}>
+              <Image
+                src="/images/not-front-facing.jpg"
+                preview={false}
+                className="image-rules"
+              />
+              <CloseCircleFilled
+                style={{
+                  fontSize: "20px",
+                  color: "red",
+                  margin: "0 auto",
+                  display: "block",
+                }}
+              />
+            </Col>
+          </Tooltip>
+          <Tooltip
+            color="#ffb978"
+            key="#ffb978"
+            title="Example of a rule respecting photo"
+          >
+            <Col span={6}>
+              <Image
+                src="/images/glasses.jpg"
+                preview={false}
+                className="image-rules"
+              />
+              <CheckCircleFilled
+                style={{
+                  fontSize: "20px",
+                  color: "green",
+                  margin: "0 auto",
+                  display: "block",
+                }}
+              />
+            </Col>
+          </Tooltip>
+          <Tooltip
+            color="#ffb978"
+            key="#ffb978"
+            title="There must not be any objects hiding the facial features of the submitter"
+          >
+            <Col span={6}>
+              <Image
+                src="/images/sunglasses.jpg"
+                preview={false}
+                className="image-rules"
+              />
+              <CloseCircleFilled
+                style={{
+                  fontSize: "20px",
+                  color: "red",
+                  margin: "0 auto",
+                  display: "block",
+                }}
+              />
+            </Col>
+          </Tooltip>
         </Row>
       ),
     },
@@ -175,66 +200,90 @@ export default class ImageTab extends React.Component {
       title: "",
       description: (
         <Row justify="center" gutter={20}>
-          <Col span={6}>
-            <Image
-              src="/images/hijab.jpg"
-              preview={false}
-              className="image-rules"
-            />
-            <CheckCircleFilled
-              style={{
-                fontSize: "20px",
-                color: "green",
-                margin: "0 auto",
-                display: "block",
-              }}
-            />
-          </Col>
-          <Col span={6}>
-            <Image
-              src="/images/niqab.jpg"
-              preview={false}
-              className="image-rules"
-            />
-            <CloseCircleFilled
-              style={{
-                fontSize: "20px",
-                color: "red",
-                margin: "0 auto",
-                display: "block",
-              }}
-            />
-          </Col>
-          <Col span={6}>
-            <Image
-              src="/images/b&w.jpg"
-              preview={false}
-              className="image-rules"
-            />
-            <CloseCircleFilled
-              style={{
-                fontSize: "20px",
-                color: "red",
-                margin: "0 auto",
-                display: "block",
-              }}
-            />
-          </Col>
-          <Col span={6}>
-            <Image
-              src="/images/mask.jpg"
-              preview={false}
-              className="image-rules"
-            />
-            <CloseCircleFilled
-              style={{
-                fontSize: "20px",
-                color: "red",
-                margin: "0 auto",
-                display: "block",
-              }}
-            />
-          </Col>
+          <Tooltip
+            color="#ffb978"
+            key="#ffb978"
+            title="Headcover not covering the internal region of the face is acceptable"
+          >
+            <Col span={6}>
+              <Image
+                src="/images/hijab.jpg"
+                preview={false}
+                className="image-rules"
+              />
+              <CheckCircleFilled
+                style={{
+                  fontSize: "20px",
+                  color: "green",
+                  margin: "0 auto",
+                  display: "block",
+                }}
+              />
+            </Col>
+          </Tooltip>
+          <Tooltip
+            color="#ffb978"
+            key="#ffb978"
+            title="Headcover  covering the internal region of the face is not acceptable"
+          >
+            <Col span={6}>
+              <Image
+                src="/images/niqab.jpg"
+                preview={false}
+                className="image-rules"
+              />
+              <CloseCircleFilled
+                style={{
+                  fontSize: "20px",
+                  color: "red",
+                  margin: "0 auto",
+                  display: "block",
+                }}
+              />
+            </Col>
+          </Tooltip>
+          <Tooltip
+            color="#ffb978"
+            key="#ffb978"
+            title="Photos must be in color and not contain any artificial alterations"
+          >
+            <Col span={6}>
+              <Image
+                src="/images/b&w.jpg"
+                preview={false}
+                className="image-rules"
+              />
+              <CloseCircleFilled
+                style={{
+                  fontSize: "20px",
+                  color: "red",
+                  margin: "0 auto",
+                  display: "block",
+                }}
+              />
+            </Col>
+          </Tooltip>
+          <Tooltip
+            color="#ffb978"
+            key="#ffb978"
+            title="Masks or any other item that hinders the facial features are not allowed"
+          >
+            <Col span={6}>
+              <Image
+                src="/images/mask.jpg"
+                preview={false}
+                className="image-rules"
+              />
+              <CloseCircleFilled
+                style={{
+                  fontSize: "20px",
+                  color: "red",
+                  margin: "0 auto",
+                  display: "block",
+                }}
+              />
+            </Col>
+          </Tooltip>
         </Row>
       ),
     },
@@ -497,7 +546,7 @@ export default class ImageTab extends React.Component {
         {!this.state.checkedRules && (
           <Row>
             <Col span={24}>
-              <Title level={2}>
+              <Title level={2} style={{ marginBottom: "5%" }}>
                 {this.props.i18n.t("submit_profile_image_rules_title")}
               </Title>
               <List
