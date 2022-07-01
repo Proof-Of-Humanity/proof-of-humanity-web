@@ -70,7 +70,7 @@ function LanguageDropdown() {
     { name: "English", key: "en" },
     { name: "Español", key: "es" },
     { name: "Português", key: "pt" },
-    // { name: "Français", key: "fr" },
+    { name: "Français", key: "fr" },
     { name: "Italiano", key: "it" },
     { name: "中国人", key: "cn" },
   ];
