@@ -204,7 +204,7 @@
   "submit_profile_video_too_long": "O arquivo selecionado deve ser inferior a dois minutos",
   "submit_profile_video_too_small": "A largura e altura do vídeo deve ser maior do de 352 píxeis",
   "submit_profile_video_too_big": "O arquivo selecionado excede o limite de tamanho de 15MB",
-  "submit_profile_video_phrase": "I certify that I am a real human and I'm not already registered in this registry.'\n",
+  "submit_profile_video_phrase": "I certify that I am a real human and I'm not already registered in this registry. \n",
 
   "submit_profile_finalize_title": "Finalize sua inscrição",
   "submit_profile_finalize_description": "Verifique se as informações e a mídia do seu perfil estão corretas e envie a transação para registro",

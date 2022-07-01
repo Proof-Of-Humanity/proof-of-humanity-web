@@ -358,14 +358,6 @@ export default class VideoTab extends React.Component {
     const bytes = Buffer.from(address, "hex");
     const { resolvedLanguage } = this.props.i18n;
 
-    if (resolvedLanguage === "en") {
-      const words = base2048.english.encode(bytes);
-      // console.log(words);
-      return ` My confirmation phrase is: \n${words
-        .split(" ")
-        .slice(0, 8)
-        .join(" ")}`;
-    }
     if (resolvedLanguage === "es") {
       const words = base2048.spanish.encode(bytes);
       return ` Mi frase de confirmación es: \n${words
@@ -373,6 +365,12 @@ export default class VideoTab extends React.Component {
         .slice(0, 8)
         .join(" ")}`;
     }
+    const words = base2048.english.encode(bytes);
+    // console.log(words);
+    return ` My confirmation phrase is: \n${words
+      .split(" ")
+      .slice(0, 8)
+      .join(" ")}`;
   };
 
   render = () => {

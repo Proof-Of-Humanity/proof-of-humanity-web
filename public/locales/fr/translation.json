@@ -208,7 +208,7 @@
   "submit_profile_video_too_long": "Le dossier choisis doit faire moins de deux minutes",
   "submit_profile_video_too_small": "La largeur et la hauteur de la vidéo doivent être supérieures à 352 pixels",
   "submit_profile_video_too_big": "Le dossier choisit est supérieur à la limite  de 15MB",
-  "submit_profile_video_phrase": "I certify that I am a real human and that I am nor already registered in this registry. \n",
+  "submit_profile_video_phrase": "I certify that I am a real human and I'm not already registered in this registry. \n",
   "submit_profile_video_result_title": "¡Voici ta vidéo!",
 
   "submit_profile_finalize_title": "Termine ton enregistrement",

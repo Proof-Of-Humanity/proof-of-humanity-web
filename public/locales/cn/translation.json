@@ -204,7 +204,7 @@
   "submit_profile_video_too_long": "所选文件应短于两分钟",
   "submit_profile_video_too_small": "视频的宽度和高度必须大于 352 像素",
   "submit_profile_video_too_big": "所选文件超过 15MB 的大小限制",
-  "submit_profile_video_phrase": "I certify that I am a real human and that I am not already registered in this registry. \n",
+  "submit_profile_video_phrase": "I certify that I am a real human and I'm not already registered in this registry. \n",
 
   "submit_profile_finalize_title": "完成注册",
   "submit_profile_finalize_description": "验证您的提交信息和媒体是否正确并提交交易进行注册。",
