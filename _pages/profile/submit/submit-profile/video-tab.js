@@ -234,6 +234,7 @@ export default class VideoTab extends React.Component {
       file: "",
       recordingMode: "",
     });
+    this.props.stateHandler({ videoURI: "" });
     window.location.href = "#top";
   };
 
@@ -689,15 +690,26 @@ export default class VideoTab extends React.Component {
                 </Button>
               </Col>
               <Col xl={12} xs={24}>
-                <Button
-                  type="primary"
-                  disabled={this.state.file === ""}
-                  shape="round"
-                  className="button-orange"
-                  onClick={this.uploadVideo}
-                >
-                  {t("submit_profile_video_upload")}
-                </Button>
+                {this.props.state.videoURI === "" ? (
+                  <Button
+                    type="primary"
+                    disabled={this.state.file === ""}
+                    shape="round"
+                    className="button-orange"
+                    onClick={this.uploadVideo}
+                  >
+                    {t("submit_profile_video_upload")}
+                  </Button>
+                ) : (
+                  <Button
+                    type="primary"
+                    shape="round"
+                    className="button-orange"
+                    onClick={this.props.next}
+                  >
+                    {t("submit_profile_next")}
+                  </Button>
+                )}
               </Col>
             </Row>
           </>
