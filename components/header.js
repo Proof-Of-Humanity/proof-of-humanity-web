@@ -107,6 +107,7 @@ function LanguageDropdown() {
         onKeyDown={(event) => event.preventDefault()}
       >
         <Image
+          sx={{ border: "2px solid #fff", borderRadius: 100 }}
           src={`/images/flags/${i18n.resolvedLanguage}.svg`}
           width="30"
           height="auto"
@@ -252,7 +253,6 @@ function DesktopNavbar() {
       </Col>
       <Col flex="auto" span={6}>
         <Row justify="end" align="middle">
-          <LanguageDropdown />
           <WalletConnection
             buttonProps={{
               sx: {
@@ -274,11 +274,12 @@ function DesktopNavbar() {
               },
             }}
           />
+          <AccountSettingsPopup />
+          <HelpPopup />
           <Link href="https://snapshot.org/#/poh.eth/" target="_blank">
             <Image src="/images/governance.png" width={25} sx={{ margin: 1 }} />
           </Link>
-          <AccountSettingsPopup />
-          <HelpPopup />
+          <LanguageDropdown />
         </Row>
       </Col>
     </Row>
