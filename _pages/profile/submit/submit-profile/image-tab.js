@@ -110,7 +110,6 @@ export default class ImageTab extends React.Component {
         <Row justify="center" gutter={20}>
           <Tooltip
             color="#ffb978"
-            key="#ffb978"
             title={this.props.i18n.t("submit_profile_rules_sign")}
           >
             <Col span={6}>
@@ -132,7 +131,6 @@ export default class ImageTab extends React.Component {
           </Tooltip>
           <Tooltip
             color="#ffb978"
-            key="#ffb978"
             title={this.props.i18n.t("submit_profile_rules_front_facing")}
           >
             <Col span={6}>
@@ -153,7 +151,6 @@ export default class ImageTab extends React.Component {
           </Tooltip>
           <Tooltip
             color="#ffb978"
-            key="#ffb978"
             title={this.props.i18n.t("submit_profile_rules_example")}
           >
             <Col span={6}>
@@ -174,7 +171,6 @@ export default class ImageTab extends React.Component {
           </Tooltip>
           <Tooltip
             color="#ffb978"
-            key="#ffb978"
             title={this.props.i18n.t("submit_profile_rules_sunglasses")}
           >
             <Col span={6}>
@@ -202,7 +198,6 @@ export default class ImageTab extends React.Component {
         <Row justify="center" gutter={20}>
           <Tooltip
             color="#ffb978"
-            key="#ffb978"
             title={this.props.i18n.t(
               "submit_profile_rules_headcover_acceptable"
             )}
@@ -225,7 +220,6 @@ export default class ImageTab extends React.Component {
           </Tooltip>
           <Tooltip
             color="#ffb978"
-            key="#ffb978"
             title={this.props.i18n.t(
               "submit_profile_rules_headcover_not_acceptable"
             )}
@@ -248,7 +242,6 @@ export default class ImageTab extends React.Component {
           </Tooltip>
           <Tooltip
             color="#ffb978"
-            key="#ffb978"
             title={this.props.i18n.t("submit_profile_rules_color")}
           >
             <Col span={6}>
@@ -269,7 +262,6 @@ export default class ImageTab extends React.Component {
           </Tooltip>
           <Tooltip
             color="#ffb978"
-            key="#ffb978"
             title={this.props.i18n.t("submit_profile_rules_masks")}
           >
             <Col span={6}>
@@ -473,6 +465,7 @@ export default class ImageTab extends React.Component {
       },
       rotation: 0,
     });
+    this.props.stateHandler({ imageURI: "" });
     window.location.href = "#top";
   };
   handleChange = (value) => {
@@ -878,16 +871,27 @@ export default class ImageTab extends React.Component {
                 </Button>
               </Col>
               <Col span={12}>
-                <Button
-                  type="primary"
-                  disabled={this.state.croppedImage === null}
-                  shape="round"
-                  className="button-orange"
-                  onClick={this.uploadPicture}
-                  loading={this.state.loading}
-                >
-                  {t("submit_profile_image_verify_next")}
-                </Button>
+                {this.props.state.imageURI === "" ? (
+                  <Button
+                    type="primary"
+                    disabled={this.state.croppedImage === null}
+                    shape="round"
+                    className="button-orange"
+                    onClick={this.uploadPicture}
+                    loading={this.state.loading}
+                  >
+                    {t("submit_profile_image_verify_next")}
+                  </Button>
+                ) : (
+                  <Button
+                    type="primary"
+                    shape="round"
+                    className="button-orange"
+                    onClick={this.props.next}
+                  >
+                    {t("submit_profile_next")}
+                  </Button>
+                )}
               </Col>
             </Row>
           </>
