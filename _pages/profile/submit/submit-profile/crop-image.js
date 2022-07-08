@@ -31,8 +31,7 @@ function rotateSize(width, height, rotation) {
 export default async function getCroppedImg(
   imageSource,
   pixelCrop,
-  rotation = 0,
-  flip = [{ horizontal: false, vertical: false }]
+  rotation = 0
 ) {
   const image = await createImage(imageSource);
   const canvas = document.createElement("canvas");
@@ -58,7 +57,6 @@ export default async function getCroppedImg(
   // translate canvas context to a central location to allow rotating and flipping around the center
   context.translate(bBoxWidth / 2, bBoxHeight / 2);
   context.rotate(rotRad);
-  context.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
   context.translate(-image.width / 2, -image.height / 2);
 
   // draw rotated image
