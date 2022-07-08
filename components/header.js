@@ -197,7 +197,10 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
   return (
     <Row>
       <Col span={showSubmitProfile ? 2 : 12}>
-        <MenuOutlined onClick={() => toggleMobileMenuOpen()} />
+        <MenuOutlined
+          style={{ color: "#fff" }}
+          onClick={() => toggleMobileMenuOpen()}
+        />
       </Col>
       {showSubmitProfile && (
         <Col span={12}>
@@ -212,7 +215,7 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
         </Col>
       )}
       <Col span={showSubmitProfile ? 10 : 12}>
-        <Row justify="center">
+        <Row justify="end">
           <LanguageDropdown />
         </Row>
       </Col>
