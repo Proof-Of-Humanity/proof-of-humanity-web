@@ -262,7 +262,10 @@ export default class VideoTab extends React.Component {
     this.props.stateHandler({ language: this.props.i18n.resolvedLanguage });
     this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
       mimeType:
-        this.props.state.OS.os.name === "iOS" ? "video/mp4" : "video/webm",
+        this.props.state.OS.os.name === "iOS" ||
+        this.props.state.OS.device.model === "iPad"
+          ? "video/mp4"
+          : "video/webm",
     });
 
     this.mediaRecorderRef.current.ondataavailable = this.handleDataAvailable;
