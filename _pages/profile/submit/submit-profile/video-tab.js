@@ -42,13 +42,9 @@ export default class VideoTab extends React.Component {
       fullscreen: false,
     };
   }
-  mimeType =
-    (this.props.state.OS.os.name === "iOS" &&
-      !this.props.state.OS.device.model === "iPad") ||
-    (this.props.state.OS.os.name === "Mac OS" &&
-      this.props.state.OS.browser.name === "Safari")
-      ? "video/mp4"
-      : "video/webm";
+  mimeType = MediaRecorder.isTypeSupported("video/webm")
+    ? "video/webm"
+    : "video/mp4";
   videoOptions = {
     types: {
       value: ["video/mp4", "video/webm", "video/quicktime"],
