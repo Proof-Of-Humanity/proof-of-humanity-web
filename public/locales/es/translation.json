@@ -165,7 +165,7 @@
   "submit_profile_info_bio_title": "Cuente algo sobre usted",
   "submit_profile_info_bio_placeholder": "De dónde eres, qué edad tienes, qué cosas te gustan, etc",
 
-  "submit_profile_image_title": "Sonríe para la cámara",
+  "submit_profile_image_title": "Toma tu foto con la cámara",
   "submit_profile_image_description": "Si tienes una cámara, puedes hacer una foto directamente desde tu dispositivo.\nQuítate cualquier máscara, gafas de sol o cualquier cosa que pueda bloquear tu cara y mira directamente a la cámara",
   "submit_profile_image_upload_title": "O sube una imagen",
   "submit_profile_image_upload_button": "Subir imagen",
@@ -197,6 +197,7 @@
   "submit_profile_video_description": "Debes estar en una sala tranquila, con un micrófono que funcione y poder leer de su pantalla. Si no puede hacerlo, hay un proceso alternativo disponible",
   "submit_profile_video_by_voice": "Soy capaz de identificar mi cuenta utilizando mi voz y mi vista",
   "submit_profile_video_visual": "Prefiero utilizar un método visual",
+  "submit_profile_video_instruction": "Debes mostrar un cartel físico que contenga la misma dirección de Ethereum que se está utilizando para este registro. Ese cartel puede ser una pantalla. Asegúrate de que sea legible y esté en la orientación correcta",
   "submit_profile_video_ready_title": "¡Prepárate para hablar!",
   "submit_profile_video_ready_help": "Di las palabras que aparecen en la pantalla",
   "submit_profile_video_upload": "Subir vídeo",

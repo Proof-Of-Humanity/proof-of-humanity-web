@@ -610,6 +610,9 @@ export default class VideoTab extends React.Component {
               </div>
               {this.state.recordingMode === "visual" && (
                 <>
+                  <Title level={4} style={{ textAlign: "center" }}>
+                    {t("submit_profile_video_instruction")}
+                  </Title>
                   <Title level={2}>
                     {t("submit_profile_video_upload_title")}
                   </Title>

@@ -197,6 +197,7 @@
   "submit_profile_video_description": "Você deve estar em uma sala silenciosa, com um microfone funcional e ser capaz de ler de seu monitor. Se você não conseguir cumprir, então um processo alternativo está disponível",
   "submit_profile_video_by_voice": "Eu sou capaz de identificar minha conta usando minha voz e minha visão",
   "submit_profile_video_visual": "Eu preferiria usar um método visual",
+  "submit_profile_video_instruction": "Você deve exibir um sinal físico que contenha o mesmo endereço Ethereum que está sendo usado para este registro. Esse sinal pode ser uma tela. Certifique-se de que seja legível e esteja na orientação correta",
   "submit_profile_video_ready_title": "Prepare-se para falar",
   "submit_profile_video_ready_help": "Diga as palavras como elas aparecem em seu monitor",
   "submit_profile_video_upload": " Carregar vídeo",

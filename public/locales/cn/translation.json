@@ -197,6 +197,7 @@
   "submit_profile_video_description": "你必须在一个安静的房间里，有一个正常工作的麦克风，并且能够从你的屏幕上阅读。如果你不能遵守，那么可以使用替代过程。",
   "submit_profile_video_by_voice": "我可以使用我的声音和视觉识别我的帐户",
   "submit_profile_video_visual": "我更喜欢使用视觉方法",
+  "submit_profile_video_instruction": "你必须展示一个物理标志，其中包含被用于此注册的相同以太坊地址。该标志可以是一个屏幕。请确保它是可读的，并且方向正确。",
   "submit_profile_video_ready_title": "准备好发表你的意见吧！",
   "submit_profile_video_ready_help": "说出屏幕上出现的单词",
   "submit_profile_video_upload": "上传视频",

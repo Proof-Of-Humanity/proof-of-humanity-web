@@ -200,6 +200,7 @@
   "submit_profile_video_description": "Tu dois être dans un endroit tranquil, avec un micro qui funcione et pouvoir lire l’écran. Si tu ne peux pas le faire, il y a un autre moyen disponible. ",
   "submit_profile_video_by_voice": "Je suis capable d’identifier mon compte utilizando ma voix et ma vue",
   "submit_profile_video_visual": "Je préfѐre utiliser la método visuelle",
+  "submit_profile_video_instruction": "Vous devez afficher un signe physique qui contient la même adresse Ethereum utilisée pour cet enregistrement. Ce signe peut être un écran. Assurez-vous qu'il est lisible et dans la bonne orientation.",
   "submit_profile_video_ready_title": "¡Prépare-toi à parler!",
   "submit_profile_video_ready_help": "Répéte les phrases de l’écran",
   "submit_profile_video_upload_title": "Ou télécharge une vidéo",
