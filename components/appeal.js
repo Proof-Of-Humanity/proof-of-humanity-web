@@ -266,8 +266,7 @@ function AppealTabPanel({
         <TwitterShareButton
           url={location.href}
           title={shareTitle}
-          via="Kleros_io"
-          hashtags={["kleros", "appeals"]}
+          hashtags={["proofofhumanity", "appeals"]}
         >
           <TwitterIcon size={32} />
         </TwitterShareButton>
