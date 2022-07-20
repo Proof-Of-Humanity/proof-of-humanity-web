@@ -4,6 +4,7 @@ import {
   // Checkbox,
   Col,
   Image,
+  InputNumber,
   Progress,
   Radio,
   Row,
@@ -54,6 +55,13 @@ class _FinalizeTab extends React.Component {
   };
   playVideo = () => {
     this.setState({ playing: true });
+  };
+  setDepositAmount = (value) => {
+    if (value === null) {
+      this.props.stateHandler({ customDeposit: "0" });
+    } else {
+      this.props.stateHandler({ customDeposit: String(value) });
+    }
   };
 
   render() {
@@ -223,6 +231,14 @@ class _FinalizeTab extends React.Component {
                   message={t("submit_profile_deposit_info")}
                   type="info"
                   closable
+                />
+              )}
+              {this.props.state.crowdfund === "crowd" && (
+                <InputNumber
+                  min={0}
+                  max={this.props.state.deposit.ether}
+                  defaultValue={0}
+                  onChange={this.setDepositAmount}
                 />
               )}
             </Row>

@@ -26,6 +26,7 @@ export default class NewSubmitProfileForm extends React.Component {
         bigNumber: 0,
         ether: 0,
       },
+      customDeposit: "0",
       cameraPermission: true,
       userMediaError: "",
       currentCamera: "",
@@ -200,10 +201,11 @@ export default class NewSubmitProfileForm extends React.Component {
     const _submissionBaseDeposit = toBN(
       this.props.contract.submissionBaseDeposit
     );
-    // console.log(_submissionBaseDeposit)
+    // console.log(_submissionBaseDeposit, this.props.contract.submissionBaseDeposit)
     // const _submissionBaseDeposit = toBN(this.props.contract?.submissionBaseDeposit);
 
     const _arbitrationCost = toBN(arbitrationCost);
+    // console.log(arbitrationCost,_arbitrationCost)
     const deposit = _submissionBaseDeposit.add(_arbitrationCost);
     const ether = fromWei(deposit, "ether").toString();
     this.setState({ deposit: { bigNumber: deposit, ether } });
@@ -211,7 +213,9 @@ export default class NewSubmitProfileForm extends React.Component {
 
   prepareTransaction = async () => {
     try {
+      const { toWei } = this.props.web3.utils;
       const registrationURI = await this.returnFiles();
+      // console.log(registrationURI)
       const method = this.props.reapply
         ? this.props.web3.contracts.proofOfHumanity.methods.reapplySubmission
         : this.props.web3.contracts.proofOfHumanity.methods.addSubmission;
@@ -220,7 +224,9 @@ export default class NewSubmitProfileForm extends React.Component {
         .send({
           from: this.props.account,
           value:
-            this.state.crowdfund === "crowd" ? 0 : this.state.deposit.bigNumber,
+            this.state.crowdfund === "crowd"
+              ? toWei(this.state.customDeposit, "ether")
+              : this.state.deposit.bigNumber,
         })
         .on("transactionHash", (tx) => {
           this.setState({ txHash: tx });
@@ -248,6 +254,7 @@ export default class NewSubmitProfileForm extends React.Component {
           this.setState({ error });
         });
     } catch (err) {
+      this.setState({ error: err });
       console.error("There was an error preparing the transaction", err);
       message.error("Unexpected error");
     }
@@ -304,7 +311,7 @@ export default class NewSubmitProfileForm extends React.Component {
           <Button onClick={() => this.prev()}>Prev</Button>
           <Button onClick={() => this.next()}>Next</Button>
         </div>
-        */}
+          */}
       </Col>
     );
   }
