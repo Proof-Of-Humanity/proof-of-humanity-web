@@ -12,7 +12,6 @@ import {
 } from "@kleros/icons";
 import {
   Button,
-  Checkbox,
   Col,
   Image,
   List,
@@ -534,6 +533,13 @@ export default class ImageTab extends React.Component {
     document.webkitExitFullscreen();
     this.setState({ fullscreen: false });
   };
+  checkRules = () => {
+    if (this.state.checkedRules) {
+      this.setState({ checkedRules: false });
+    } else {
+      this.setState({ checkedRules: true });
+    }
+  };
 
   render() {
     const { t } = this.props.i18n;
@@ -557,14 +563,6 @@ export default class ImageTab extends React.Component {
                 )}
               />
             </Col>
-            <Checkbox
-              style={{ fontWeight: "bold", margin: "20px auto", size: "20px" }}
-              onChange={(event) => {
-                this.setState({ checkedRules: event.target.checked });
-              }}
-            >
-              {t("submit_profile_rules_checked")}
-            </Checkbox>
           </Row>
         )}
         {this.state.checkedRules &&
@@ -898,16 +896,55 @@ export default class ImageTab extends React.Component {
         ) : null}
 
         <Row justify="center">
-          <Col span={24}>
-            <Button
-              type="primary"
-              shape="round"
-              className="button-grey"
-              onClick={this.props.prev}
-            >
-              {t("submit_profile_previous")}
-            </Button>
-          </Col>
+          {!this.state.checkedRules ? (
+            <>
+              <Col span={12}>
+                <Button
+                  type="primary"
+                  shape="round"
+                  className="button-grey"
+                  onClick={this.props.prev}
+                >
+                  {t("submit_profile_previous")}
+                </Button>
+              </Col>
+              <Col span={12}>
+                <Button
+                  type="primary"
+                  shape="round"
+                  className="button-orange"
+                  onClick={this.checkRules}
+                >
+                  {t("submit_profile_rules_checked")}
+                </Button>
+              </Col>
+            </>
+          ) : (
+            <>
+              <Col span={12}>
+                <Button
+                  type="primary"
+                  shape="round"
+                  className="button-grey"
+                  onClick={this.checkRules}
+                >
+                  {t("submit_profile_previous")}
+                </Button>
+              </Col>
+              {this.props.state.imageURI !== "" && (
+                <Col span={12}>
+                  <Button
+                    type="primary"
+                    shape="round"
+                    className="button-orange"
+                    onClick={this.props.next}
+                  >
+                    {t("submit_profile_next")}
+                  </Button>
+                </Col>
+              )}
+            </>
+          )}
         </Row>
       </>
     );
