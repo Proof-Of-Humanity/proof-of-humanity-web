@@ -107,6 +107,7 @@ function LanguageDropdown() {
         onKeyDown={(event) => event.preventDefault()}
       >
         <Image
+          sx={{ border: "2px solid #fff", borderRadius: 100 }}
           src={`/images/flags/${i18n.resolvedLanguage}.svg`}
           width="30"
           height="auto"
@@ -196,7 +197,10 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
   return (
     <Row>
       <Col span={showSubmitProfile ? 2 : 12}>
-        <MenuOutlined onClick={() => toggleMobileMenuOpen()} />
+        <MenuOutlined
+          style={{ color: "#fff" }}
+          onClick={() => toggleMobileMenuOpen()}
+        />
       </Col>
       {showSubmitProfile && (
         <Col span={12}>
@@ -211,7 +215,7 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
         </Col>
       )}
       <Col span={showSubmitProfile ? 10 : 12}>
-        <Row justify="center">
+        <Row justify="end">
           <LanguageDropdown />
         </Row>
       </Col>
@@ -252,7 +256,6 @@ function DesktopNavbar() {
       </Col>
       <Col flex="auto" span={6}>
         <Row justify="end" align="middle">
-          <LanguageDropdown />
           <WalletConnection
             buttonProps={{
               sx: {
@@ -274,11 +277,12 @@ function DesktopNavbar() {
               },
             }}
           />
+          <AccountSettingsPopup />
+          <HelpPopup />
           <Link href="https://snapshot.org/#/poh.eth/" target="_blank">
             <Image src="/images/governance.png" width={25} sx={{ margin: 1 }} />
           </Link>
-          <AccountSettingsPopup />
-          <HelpPopup />
+          <LanguageDropdown />
         </Row>
       </Col>
     </Row>

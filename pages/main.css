@@ -163,6 +163,7 @@ a:hover {
 .poh-content {
   padding: 32px;
   min-height: calc(100vh - 64px - 76px);
+  background: #fff;
 }
 
 /* Header buttons */
