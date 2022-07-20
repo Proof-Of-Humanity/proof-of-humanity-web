@@ -544,8 +544,7 @@ export default function SubmissionDetailsCard({
           <TwitterShareButton
             url={location.href}
             title={shareTitle}
-            via="Kleros_io"
-            hashtags={["kleros", "proofofhumanity"]}
+            hashtags={["proofofhumanity"]}
           >
             <TwitterIcon size={32} />
           </TwitterShareButton>
