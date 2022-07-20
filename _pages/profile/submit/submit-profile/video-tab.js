@@ -42,7 +42,9 @@ export default class VideoTab extends React.Component {
       fullscreen: false,
     };
   }
-
+  mimeType = MediaRecorder.isTypeSupported("video/webm")
+    ? "video/webm"
+    : "video/mp4";
   videoOptions = {
     types: {
       value: ["video/mp4", "video/webm", "video/quicktime"],
@@ -254,15 +256,16 @@ export default class VideoTab extends React.Component {
   };
 
   onUserMediaError = (error) => {
-    console.error(error);
+    console.error(error.toString());
   };
 
   handleStartCaptureClick = () => {
     this.setState({ recording: true });
     this.props.stateHandler({ language: this.props.i18n.resolvedLanguage });
+
+    // console.log(this.mimeType, this.props.state.OS)
     this.mediaRecorderRef.current = new MediaRecorder(this.camera.stream, {
-      mimeType:
-        this.props.state.OS.os.name === "iOS" ? "video/mp4" : "video/webm",
+      mimeType: this.mimeType,
     });
 
     this.mediaRecorderRef.current.ondataavailable = this.handleDataAvailable;
@@ -291,9 +294,7 @@ export default class VideoTab extends React.Component {
     // console.log(this.state.recordedVideo);
 
     const blob = new Blob(this.state.recordedVideo, {
-      type: `${
-        this.props.state.OS.os.name === "iOS" ? "video/mp4" : "video/webm"
-      };codecs=h264`,
+      type: `${this.mimeType};codecs=h264`,
     });
     const videoURL = window.URL.createObjectURL(blob);
     const duration = await getBlobDuration(blob);
