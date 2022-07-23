@@ -72,7 +72,7 @@ function LanguageDropdown() {
     { name: "Português", key: "pt" },
     { name: "Français", key: "fr" },
     { name: "Italiano", key: "it" },
-    { name: "中国人", key: "cn" },
+    { name: "中文", key: "cn" },
   ];
 
   // Remove hardcode to programatical list
