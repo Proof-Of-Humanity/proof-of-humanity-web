@@ -8,7 +8,6 @@ import {
   Image,
   Link,
   Text,
-  Video,
   useContract,
   useWeb3,
 } from "@kleros/components";
@@ -18,6 +17,7 @@ import lodashOrderBy from "lodash.orderby";
 import { useRouter } from "next/router";
 import React, { useEffect, useMemo, useState } from "react";
 import { Trans, useTranslation } from "react-i18next";
+import Video from "react-player";
 import {
   RedditIcon,
   RedditShareButton,
@@ -159,6 +159,7 @@ export default function SubmissionDetailsCard({
       ? requests.length - 1
       : query.request - 1;
   const { lastStatusChange } = requests[requestID];
+  const isConnected = accounts?.length > 0;
   const isSelf =
     accounts?.[0] && accounts[0].toLowerCase() === id.toLowerCase();
   const isLatestRequest = requestID === requests.length - 1;
@@ -277,7 +278,7 @@ export default function SubmissionDetailsCard({
       : t("profile_share_check_out_title");
 
   const firstRoundFullyFunded = Number(lastRoundID) === 0 && hasPaid[0];
-  const [shouldCheckVideo, checkedVideo] = useState(true);
+  const [checkedVideo, setCheckedVideo] = useState();
   const generatePhrase = (language) => {
     const address = id.slice(2);
     const bytes = Buffer.from(address, "hex");
@@ -289,6 +290,10 @@ export default function SubmissionDetailsCard({
     const words = base2048.english.encode(bytes);
     // console.log(words)
     return words.split(" ").slice(0, 8).join(" ");
+  };
+
+  const handleVideo = () => {
+    setCheckedVideo(true);
   };
 
   return (
@@ -351,8 +356,8 @@ export default function SubmissionDetailsCard({
                 </FundButton>
               )}
               {isLatestRequest ? (
-                !isSelf ? (
-                  !shouldCheckVideo ? (
+                !isSelf && isConnected ? (
+                  checkedVideo ? (
                     <>
                       <GaslessVouchButton submissionID={id} />
                       <VouchButton submissionID={id} />
@@ -476,10 +481,14 @@ export default function SubmissionDetailsCard({
 
         <Video
           config={{ file: { attributes: { crossOrigin: "true" } } }}
+          controls
           url={evidence?.file?.video}
           onEnded={() => {
-            checkedVideo(false);
+            handleVideo();
           }}
+          width="100%"
+          height="100%"
+          style={{ maxHeight: "500px" }}
         />
         <UBICard
           submissionID={id}
