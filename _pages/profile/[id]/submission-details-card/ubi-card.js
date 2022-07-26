@@ -6,6 +6,7 @@ import {
   Flex,
   Text,
   useContract,
+  useQuery,
   useWeb3,
 } from "@kleros/components";
 import { UBI } from "@kleros/icons";
@@ -18,7 +19,7 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { graphql, useQuery } from "relay-hooks";
+import { graphql } from "relay-hooks";
 
 import { submissionStatusEnum } from "data";
 import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
