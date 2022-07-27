@@ -363,7 +363,9 @@ export default function SubmissionDetailsCard({
                       <VouchButton submissionID={id} />
                     </>
                   ) : (
-                    <Text>{t("profile_card_video_check")}</Text>
+                    <Text style={{ color: "red", fontWeight: "bold" }}>
+                      {t("profile_card_video_check")}
+                    </Text>
                   )
                 ) : null
               ) : (
