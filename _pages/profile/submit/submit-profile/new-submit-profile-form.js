@@ -220,7 +220,9 @@ export default class NewSubmitProfileForm extends React.Component {
         ? this.props.web3.contracts.proofOfHumanity.methods.reapplySubmission
         : this.props.web3.contracts.proofOfHumanity.methods.addSubmission;
 
-      method(registrationURI, this.state.name)
+      const name = this.state.name || this.props.submission?.name;
+
+      method(registrationURI, name)
         .send({
           from: this.props.account,
           value:
