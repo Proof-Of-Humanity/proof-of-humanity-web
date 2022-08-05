@@ -25,7 +25,9 @@ export default function Pagination({
             button.children = "‹";
             break;
           case "page-number":
-            if (activePage === pageNumber) button.activeClassName = "active";
+            if (activePage === pageNumber) {
+              button.activeClassName = "active";
+            }
             button.children = pageNumber;
             break;
           case "ellipsis":

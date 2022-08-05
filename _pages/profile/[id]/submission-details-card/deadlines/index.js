@@ -6,6 +6,7 @@ import {
   useContract,
   useWeb3,
 } from "@kleros/components";
+import { useTranslation } from "react-i18next";
 import { graphql, useFragment } from "relay-hooks";
 
 import ChallengeButton from "./challenge-button";
@@ -26,7 +27,7 @@ const deadlinesFragments = {
     fragment deadlinesSubmission on Submission {
       id
       submissionTime
-      request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
+      request: requests(orderBy: creationTime, orderDirection: desc) {
         lastStatusChange
         ...challengeButtonRequest
         ...removeButtonRequest
@@ -41,7 +42,7 @@ function Deadline({
   displayEvenIfDeadlinePassed = true,
   button,
 }) {
-  if (displayEvenIfDeadlinePassed || Date.now() < datetime)
+  if (displayEvenIfDeadlinePassed || Date.now() < datetime) {
     return (
       <Text>
         <Text sx={{ fontWeight: "bold" }}>{label}: </Text>
@@ -49,9 +50,12 @@ function Deadline({
         {whenDatetime(Date.now(), datetime) && button}
       </Text>
     );
+  }
   return null;
 }
 export default function Deadlines({ submission, contract, status }) {
+  const { t } = useTranslation();
+
   const {
     request: [request],
     id,
@@ -77,7 +81,7 @@ export default function Deadlines({ submission, contract, status }) {
   return (
     <>
       <Deadline
-        label="Last Change"
+        label={t("profile_card_deadline_last_change")}
         datetime={request.lastStatusChange * 1000}
       />
       {status === submissionStatusEnum.PendingRegistration ||
@@ -85,7 +89,7 @@ export default function Deadlines({ submission, contract, status }) {
       status === submissionStatusEnum.ChallengedRegistration ||
       status === submissionStatusEnum.ChallengedRemoval ? (
         <Deadline
-          label="Challenge Deadline"
+          label={t("profile_card_deadline_challenge_deadline")}
           datetime={
             (Number(request.lastStatusChange) +
               Number(challengePeriodDuration)) *
@@ -106,7 +110,7 @@ export default function Deadlines({ submission, contract, status }) {
           submissionTime !== String(0)) ? (
         <>
           <Deadline
-            label="Accepted"
+            label={t("profile_card_deadline_accepted")}
             datetime={submissionTime * 1000}
             whenDatetime={(now) =>
               status === submissionStatusEnum.Registered &&
@@ -121,7 +125,7 @@ export default function Deadlines({ submission, contract, status }) {
             }
           />
           <Deadline
-            label="Expires"
+            label={t("profile_card_deadline_expires")}
             datetime={expirationTimestamp}
             button={
               Date.now() > expirationTimestamp ? (
@@ -132,23 +136,18 @@ export default function Deadlines({ submission, contract, status }) {
                 />
               ) : Date.now() > renewalTimestamp ? (
                 <NextLink
-                  href="/profile/[id]?reapply=true"
-                  as={`/profile/${accounts?.[0]}`}
+                  href="/profile/submit?reapply=true"
+                  as="/profile/submit"
                 >
-                  <Button
-                    sx={{
-                      width: "100%",
-                      marginY: 1,
-                    }}
-                  >
-                    Reapply
+                  <Button sx={{ width: "100%", marginY: 1 }}>
+                    {t("profile_card_deadline_reapply")}
                   </Button>
                 </NextLink>
               ) : null
             }
           />
           <Deadline
-            label="Renewal available"
+            label={t("profile_card_deadline_renewal_available")}
             datetime={renewalTimestamp}
             displayEvenIfDeadlinePassed={false}
             whenDatetime={(now, datetime) =>
@@ -159,16 +158,11 @@ export default function Deadlines({ submission, contract, status }) {
             button={
               isSelf && (
                 <NextLink
-                  href="/profile/[id]?reapply=true"
-                  as={`/profile/${accounts?.[0]}`}
+                  href="/profile/submit?reapply=true"
+                  as="/profile/submit"
                 >
-                  <Button
-                    sx={{
-                      width: "100%",
-                      marginY: 1,
-                    }}
-                  >
-                    Reapply
+                  <Button sx={{ width: "100%", marginY: 1 }}>
+                    {t("profile_card_deadline_reapply")}
                   </Button>
                 </NextLink>
               )
@@ -178,26 +172,13 @@ export default function Deadlines({ submission, contract, status }) {
       ) : status === submissionStatusEnum.Removed &&
         submissionTime === null &&
         isSelf ? (
-        <NextLink
-          href="/profile/[id]?reapply=true"
-          as={`/profile/${accounts?.[0]}`}
-        >
-          <Button
-            sx={{
-              width: "100%",
-              marginY: 1,
-            }}
-          >
-            Reapply
+        <NextLink href="/profile/submit?reapply=true" as="/profile/submit">
+          <Button sx={{ width: "100%", marginY: 1 }}>
+            {t("profile_card_deadline_reapply")}
           </Button>
         </NextLink>
       ) : status === submissionStatusEnum.Vouching && isSelf ? (
-        <WithdrawButton
-          sx={{
-            marginY: 1,
-            width: "100%",
-          }}
-        />
+        <WithdrawButton sx={{ marginY: 1, width: "100%" }} />
       ) : null}
     </>
   );

@@ -12,6 +12,7 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
@@ -30,18 +31,15 @@ const removeButtonFragments = {
     }
   `,
 };
-const createValidationSchema = ({ string, file }) => ({
-  name: string().max(50, "Must be 50 characters or less.").required("Required"),
-  description: string()
-    .max(300, "Must be 300 characters or less.")
-    .required("Required"),
-  file: file(),
-});
+
 export default function RemoveButton({ request, contract, submissionID }) {
+  const { t } = useTranslation();
+
   const { arbitrator, arbitratorExtraData } = useFragment(
     removeButtonFragments.request,
     request
   );
+
   const { upload } = useArchon();
 
   const [arbitrationCost] = useContract(
@@ -66,18 +64,23 @@ export default function RemoveButton({ request, contract, submissionID }) {
 
   const { receipt, send } = useContract("proofOfHumanity", "removeSubmission");
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
+
+  const createValidationSchema = ({ string, file }) => ({
+    name: string()
+      .max(50, t("profile_evidence_name_validation"))
+      .required(t("profile_evidence_error_required")),
+    description: string()
+      .max(300, t("profile_evidence_description_validation"))
+      .required(t("profile_evidence_error_required")),
+    file: file(),
+  });
+
   return (
     <Popup
       contentStyle={{ width: undefined }}
       trigger={
-        <Button
-          sx={{
-            marginY: 1,
-            width: "100%",
-          }}
-          loading={!isGraphSynced}
-        >
-          Request Removal
+        <Button sx={{ marginY: 1, width: "100%" }} loading={!isGraphSynced}>
+          {t("profile_card_request_removal")}
         </Button>
       }
       modal
@@ -88,21 +91,26 @@ export default function RemoveButton({ request, contract, submissionID }) {
           createValidationSchema={createValidationSchema}
           onSubmit={async ({ name, description, file }) => {
             let evidence = { name, description };
-            if (file)
+
+            if (file) {
               evidence.fileURI = (
                 await upload(file.name, file.content)
               ).pathname;
+            }
             ({ pathname: evidence } = await upload(
               "evidence.json",
               JSON.stringify(evidence)
             ));
+
             await send(submissionID, evidence, { value: totalCost });
             close();
           }}
         >
           {({ isSubmitting }) => (
             <>
-              <Text sx={{ fontSize: 1, marginBottom: 1 }}>Deposit:</Text>
+              <Text sx={{ fontSize: 1, marginBottom: 1 }}>
+                {t("profile_card_deposit")}:
+              </Text>
               <Card
                 variant="muted"
                 sx={{ fontSize: 2, marginBottom: 3 }}
@@ -114,18 +122,18 @@ export default function RemoveButton({ request, contract, submissionID }) {
               </Card>
               <Field
                 name="name"
-                label="Evidence Name"
-                placeholder="E.g. The submitter is not a real person."
+                label={t("profile_card_request_removal_evidence_name")}
+                placeholder={t("profile_evidence_example_placeholder")}
               />
               <Field
                 as={Textarea}
                 name="description"
-                label="Evidence Description (Your Arguments)"
+                label={t("profile_evidence_example_description")}
               />
               <Field
                 as={FileUpload}
                 name="file"
-                label="File"
+                label={t("profile_card_file")}
                 accept="image/png, image/jpeg, application/pdf, video/mp4, video/webm, video/quicktime"
                 maxSize={4 * 1024 * 1024}
               />
@@ -135,7 +143,7 @@ export default function RemoveButton({ request, contract, submissionID }) {
                 disabled={!totalCost}
                 loading={isSubmitting}
               >
-                Request Removal
+                {t("profile_card_request_removal")}
               </Button>
             </>
           )}

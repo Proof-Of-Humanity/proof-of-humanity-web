@@ -17,6 +17,7 @@ import {
   zeroAddress,
 } from "@kleros/components";
 import { useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { graphql, useFragment } from "relay-hooks";
 
 import useIsGraphSynced from "_pages/index/use-is-graph-synced";
@@ -40,8 +41,11 @@ const challengeButtonFragments = {
     }
   `,
 };
+
 function ChallengeTypeCard({ type, setType, currentType, ...rest }) {
-  const { imageSrc, startCase, description } = type;
+  const { t } = useTranslation();
+  const { imageSrc, key } = type;
+
   return (
     <Card
       variant="muted"
@@ -51,15 +55,24 @@ function ChallengeTypeCard({ type, setType, currentType, ...rest }) {
       active={type === currentType}
       {...rest}
     >
-      <Image sx={{ marginBottom: 2 }} src={imageSrc} />
-      <Text sx={{ marginBottom: 2 }}>{startCase}</Text>
-      <Text sx={{ fontWeight: "body" }}>{description}</Text>
+      <Image crossOrigin="anonymous" sx={{ marginBottom: 2 }} src={imageSrc} />
+      <Text sx={{ marginBottom: 2 }}>
+        {t(`profile_status_challenge_reason_${key}`)}
+      </Text>
+      <Text sx={{ fontWeight: "body" }}>
+        {t(`profile_status_challenge_reason_${key}_description`)}
+      </Text>
     </Card>
   );
 }
+
 function DuplicateInput({ submissionID, setDuplicate }) {
+  const { t } = useTranslation();
+
   const [value, setValue] = useState("");
+
   const isValidAddress = ethereumAddressRegExp.test(value);
+
   const [submission] = useContract(
     "proofOfHumanity",
     "getSubmissionInfo",
@@ -72,36 +85,44 @@ function DuplicateInput({ submissionID, setDuplicate }) {
   );
 
   let message;
-  if (submissionID.toLowerCase() === value.toLowerCase())
-    message = "A submission can not be a duplicate of itself.";
-  else if (isValidAddress && submission)
-    if (Number(submission.status) > 0 || submission.registered)
-      message = "Valid duplicate.";
-    else
-      message =
-        "A supposed duplicate should be either registered or pending registration.";
+  if (submissionID.toLowerCase() === value.toLowerCase()) {
+    message = t("profile_card_challenge_not_duplicate_of_itself");
+  } else if (isValidAddress && submission) {
+    if (Number(submission.status) > 0 || submission.registered) {
+      message = t("profile_card_challenge_valid_duplicate");
+    } else {
+      message = t("profile_card_challenge_should_be_registered_or_pending");
+    }
+  }
+
   useEffect(() => {
-    if (message === "Valid duplicate.") setDuplicate(value);
-    else setDuplicate();
-  }, [message, setDuplicate, value]);
+    if (message === t("profile_card_challenge_valid_duplicate")) {
+      setDuplicate(value);
+    } else {
+      setDuplicate();
+    }
+  }, [message, setDuplicate, value, t]);
+
   return (
     <Box sx={{ marginBottom: 2 }}>
       <Input
         sx={{ marginBottom: 1 }}
-        placeholder="Duplicate Address"
+        placeholder={t("profile_card_challenge_duplicate_address")}
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
       {message && <Text>{message}</Text>}
       {isValidAddress && (
         <NextLink href="/profile/[id]" as={`/profile/${value}`}>
-          <Link newTab>See Profile</Link>
+          <Link newTab>{t("profile_card_challenge_see_profile")}</Link>
         </NextLink>
       )}
     </Box>
   );
 }
 export default function ChallengeButton({ request, status, submissionID }) {
+  const { t } = useTranslation();
+
   const {
     metaEvidence: _metaEvidence,
     currentReason: _currentReason,
@@ -140,20 +161,18 @@ export default function ChallengeButton({ request, status, submissionID }) {
   const isGraphSynced = useIsGraphSynced(receipt?.blockNumber);
   const [reason, setReason] = useState();
   const { upload } = useArchon();
+
   return (
     <Popup
       contentStyle={{ width: undefined }}
       trigger={
         <Button
-          sx={{
-            marginY: 1,
-            width: "100%",
-          }}
+          sx={{ marginY: 1, width: "100%" }}
           disabled={disputed && currentReasonIsNotDuplicate}
-          disabledTooltip="Already Challenged"
+          disabledTooltip={t("profile_card_already_challenged")}
           loading={!isGraphSynced}
         >
-          Challenge Request
+          {t("profile_card_challenge_request")}
         </Button>
       }
       modal
@@ -166,23 +185,26 @@ export default function ChallengeButton({ request, status, submissionID }) {
             mainSx={{ padding: 0 }}
           >
             <Link newTab href={metaEvidence?.fileURI}>
-              <Text>{metaEvidence && "Primary Document"}</Text>
+              <Text>
+                {metaEvidence && t("profile_card_challenge_primary_doc")}
+              </Text>
             </Link>
           </Card>
-          <Text sx={{ marginBottom: 1 }}>Deposit:</Text>
+          <Text sx={{ marginBottom: 1 }}>{t("profile_card_deposit")}:</Text>
           <Card
             variant="muted"
             sx={{ fontSize: 2, marginBottom: 2 }}
             mainSx={{ padding: 0 }}
           >
             <Text>
-              {arbitrationCost &&
-                `${web3.utils.fromWei(arbitrationCost)} ETH Deposit`}
+              {arbitrationCost && `${web3.utils.fromWei(arbitrationCost)} ETH`}
             </Text>
           </Card>
           {status === submissionStatusEnum.PendingRegistration && (
             <>
-              <Text sx={{ marginBottom: 1 }}>Challenge Type:</Text>
+              <Text sx={{ marginBottom: 1 }}>
+                {t("profile_card_challenge_type")}:
+              </Text>
               <Grid sx={{ marginBottom: 2 }} gap={1} columns={[1, 2, 4]}>
                 <ChallengeTypeCard
                   type={challengeReasonEnum.IncorrectSubmission}
@@ -219,7 +241,9 @@ export default function ChallengeButton({ request, status, submissionID }) {
               setDuplicate={setDuplicate}
             />
           )}
-          <Text sx={{ marginBottom: 1 }}>Justification:</Text>
+          <Text sx={{ marginBottom: 1 }}>
+            {t("profile_card_challenge_justification")}:
+          </Text>
           <Textarea
             sx={{ marginBottom: 2 }}
             onChange={(event_) => setReason(event_.target.value)}
@@ -233,7 +257,7 @@ export default function ChallengeButton({ request, status, submissionID }) {
             }
             onClick={async () => {
               let evidenceUploadResult;
-              if (reason && reason.length > 0)
+              if (reason && reason.length > 0) {
                 evidenceUploadResult = await upload(
                   "evidence.json",
                   JSON.stringify({
@@ -241,6 +265,7 @@ export default function ChallengeButton({ request, status, submissionID }) {
                     description: reason,
                   })
                 );
+              }
 
               const { pathname } = evidenceUploadResult || {};
               await send(
@@ -254,7 +279,7 @@ export default function ChallengeButton({ request, status, submissionID }) {
             }}
             loading={loading}
           >
-            Challenge Request
+            {t("profile_card_challenge_request")}
           </Button>
         </Box>
       )}

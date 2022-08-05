@@ -3,6 +3,7 @@
     "baseUrl": ".",
     "paths": {
       "@kleros/components*": ["components"],
+      "pages": ["pages"],
       "@kleros/icons*": ["icons"]
     }
   }

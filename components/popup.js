@@ -25,14 +25,18 @@ export default function Popup({
         boxShadow: "none",
         ...contentStyle,
       }}
-      overlayStyle={{ overflow: "scroll", ...overlayStyle }}
+      overlayStyle={{ overflow: "hidden", ...overlayStyle }}
       onOpen={() => {
         setAnimatedStyle({ opacity: 1, scale: 1 });
-        if (onOpen) onOpen();
+        if (onOpen) {
+          onOpen();
+        }
       }}
       onClose={() => {
         setAnimatedStyle({ opacity: 0, scale: 0 });
-        if (onClose) onClose();
+        if (onClose) {
+          onClose();
+        }
       }}
       {...rest}
       arrow={false}

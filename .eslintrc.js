@@ -45,10 +45,10 @@ module.exports = {
   rules: {
     // Core
     "arrow-body-style": "error", // Don't use unnecessary curly braces for arrow functions.
-    "new-cap": "error", // Require constructor names to begin with a capital letter.
+    "new-cap": 0, // Require constructor names to begin with a capital letter.
     "new-parens": "error",
     "no-array-constructor": "error",
-    "no-console": "error",
+    "no-console": ["error", { allow: ["error"] }],
     "no-duplicate-imports": ["error", { includeExports: true }],
     "no-else-return": ["error", { allowElseIf: false }],
     "no-extra-bind": "error",
@@ -60,7 +60,8 @@ module.exports = {
     "no-shadow": "error",
     "no-unneeded-ternary": ["error", { defaultAssignment: false }],
     "no-unused-expressions": "error",
-    "no-use-before-define": "error",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"],
     "no-useless-computed-key": "error",
     "no-useless-concat": "error",
     "no-useless-constructor": "error",
@@ -79,7 +80,7 @@ module.exports = {
     "prefer-template": "error",
     "require-await": "error",
     "spaced-comment": "error",
-    curly: ["error", "multi"], // Don't use unnecessary curly braces.
+    curly: "error", // Don't use unnecessary curly braces.
     eqeqeq: "error",
     // Force the use of aliases for aliased modules.
     "no-restricted-imports": [
@@ -88,7 +89,6 @@ module.exports = {
         patterns: [
           "**/components",
           "!@kleros/components",
-          "**/icons",
           "!@kleros/icons",
           "..", // No relative parent imports.
           "theme-ui", // This should be internal to the design system.
@@ -119,6 +119,7 @@ module.exports = {
           "components/index.js",
           "components/.storybook/**",
           "components/*.stories.{js,mdx}",
+          "i18n",
         ],
       },
     ],
@@ -130,7 +131,10 @@ module.exports = {
           "next/*",
           "_pages/**",
           "assets/**",
+          "i18n/**",
           "lib/**",
+          "public/**",
+          "timeago.js/**",
           "subgraph/**",
           "react-player/lazy",
           "@storybook/addon-docs/blocks",
@@ -249,7 +253,6 @@ module.exports = {
           "dfn",
           "dialog",
           "dir",
-          "div",
           "dl",
           "dt",
           "em",
@@ -272,7 +275,6 @@ module.exports = {
           "header",
           "hr",
           "html",
-          "i",
           "iframe",
           "img",
           "input",
@@ -355,7 +357,6 @@ module.exports = {
       "error",
       [
         'import.*(/|\\.)";', // Don't use trailing slashes or cyclic index imports.
-        '"\\d+"', // Don't use numerical strings.
         "[^\\d]0p[x]", // Don't use pixels unit for zero values.
         "(?=.*[A-F])#[0-9a-fA-F]{1,6}", // Don't use upper case letters in hex colors.
         "@js[x]", // Don't use a custom JSX pragma.
@@ -383,9 +384,12 @@ module.exports = {
         ["@kleros/components", "./components"],
         ["@kleros/icons", "./icons"],
         ["_pages", "./_pages"],
+        ["pages", "./pages"],
         ["assets", "./assets"],
         ["data", "./data"],
+        ["i18n", "./i18n"],
         ["lib", "./lib"],
+        ["public", "./public"],
         ["subgraph", "./subgraph"],
       ],
     },
@@ -402,7 +406,6 @@ module.exports = {
           {
             patterns: [
               "@kleros/components",
-              "**/icons",
               "!@kleros/icons",
               "..", // No relative parent imports.
             ],
@@ -419,7 +422,6 @@ module.exports = {
             patterns: [
               "**/components",
               "!@kleros/components",
-              "@kleros/icons",
               "..", // No relative parent imports.
               "theme-ui", // This should be internal to the design system.
               "next/link", // Use the custom version that maintains query parameters instead.
@@ -432,6 +434,7 @@ module.exports = {
     {
       files: [
         "./*.js",
+        "./*.json",
         "scripts/**.js",
         "subgraph/**.js",
         "components/.storybook/main.js",
@@ -470,6 +473,7 @@ module.exports = {
 
         "plugin:@typescript-eslint/recommended",
         // MDX Plugin
+        "plugin:import/typescript",
       ],
       plugins: ["@typescript-eslint"],
     },

@@ -1,65 +1,22 @@
-import {
-  Alert,
-  Card,
-  Image,
-  Text,
-  useQuery,
-  useWeb3,
-} from "@kleros/components";
+import { Alert, Card, Image, Text, useQuery } from "@kleros/components";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { graphql } from "relay-hooks";
 
 import SubmissionDetailsAccordion from "./submission-details-accordion";
 import SubmissionDetailsCard from "./submission-details-card";
-import SubmitProfileCard from "./submit-profile-card";
 
 import { submissionStatusEnum } from "data";
+import { Custom404 } from "pages";
 
 export default function ProfileWithID() {
+  const { t } = useTranslation();
+
   const { props } = useQuery();
-  const [accounts] = useWeb3("eth", "getAccounts");
-  const account = accounts?.[0];
 
   const router = useRouter();
   const { query } = router;
-
-  const reapply = query.reapply === "true";
-  const registered = props?.submission?.registered ?? false;
-
-  const handleAfterSend = useCallback(async () => {
-    if (reapply)
-      router.push({
-        pathname: "/profile/[id]",
-        query: { id: account },
-      });
-    await new Promise((r) => setTimeout(r, 3000));
-    location.reload();
-  }, [reapply, router, account]);
-
-  const isReapply = account === query.id && reapply;
-  const isRegistration = account === query.id && props?.submission === null;
-  const isResubmit =
-    account === query.id &&
-    props?.submission &&
-    props?.submission.status === "None" &&
-    !registered;
-
-  if (props && account && (isReapply || isRegistration || isResubmit))
-    return (
-      <>
-        <Head>
-          <title>Submit Profile | Proof of Humanity</title>
-        </Head>
-        <SubmitProfileCard
-          contract={props.contract}
-          submission={props.submission}
-          reapply={reapply && registered}
-          afterSend={handleAfterSend}
-        />
-      </>
-    );
 
   const status =
     props?.submission &&
@@ -72,10 +29,15 @@ export default function ProfileWithID() {
   //     props.contract.submissionDuration;
 
   const name = props?.submission?.name ?? "";
+
+  if (props?.submission === null) {
+    return <Custom404 />;
+  }
+
   return (
     <>
       <Head>
-        <title>{`Profile: ${
+        <title>{`${t("profile_title")}: ${
           name ? `${name} (${query.id})` : query.id
         } | Proof of Humanity`}</title>
       </Head>
@@ -96,42 +58,34 @@ export default function ProfileWithID() {
           }}
         >
           <Image
+            crossOrigin="anonymous"
             sx={{ height: 30, marginRight: 2 }}
             src="/images/proof-of-humanity-logo-black.png"
           />
-          Profile Status
+          {t("profile_status")}
         </Text>
-        <Text
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
+        <Text sx={{ display: "flex", alignItems: "center", gap: 8 }}>
           {status && (
             <>
-              {status.startCase}
+              {t(`profile_status_${status.key}`)}
               {/* {isExpired && " (Expired)"} */}
               <status.Icon
-                sx={{
-                  path: { fill: "text" },
-                  stroke: "text",
-                  strokeWidth: 0,
-                }}
+                sx={{ path: { fill: "text" }, stroke: "text", strokeWidth: 0 }}
               />
             </>
           )}
         </Text>
       </Card>
       {status === submissionStatusEnum.Vouching && (
-        <Alert type="muted" title="Advice" sx={{ mb: 2, fontSize: 14 }}>
-          <Text>
-            Gasless vouches have no cost. Beware of scammers that intend to
-            charge for those type of vouches.
-          </Text>
+        <Alert
+          type="muted"
+          title={t("profile_advice")}
+          sx={{ mb: 2, fontSize: 14 }}
+        >
+          <Text>{t("gasless_vouch_cost")}</Text>
         </Alert>
       )}
-      {props?.submission && (
+      {props?.submission ? (
         <>
           <SubmissionDetailsCard
             submission={props.submission}
@@ -143,7 +97,7 @@ export default function ProfileWithID() {
             contract={props.contract}
           />
         </>
-      )}
+      ) : null}
     </>
   );
 }
@@ -152,7 +106,9 @@ export const IdQuery = graphql`
   query IdQuery($id: ID!, $_id: [String!]) {
     contract(id: 0) {
       submissionDuration
-      ...submitProfileCard
+      submissionBaseDeposit
+      arbitratorExtraData
+
       ...submissionDetailsCardContract
       ...submissionDetailsAccordionContract
     }

@@ -31,8 +31,9 @@ export default function ArchonProvider({ children }) {
       )
   );
   useEffect(() => {
-    if (web3.currentProvider !== archon.arbitrable.web3.currentProvider)
+    if (web3.currentProvider !== archon.arbitrable.web3.currentProvider) {
       archon.setProvider(web3.currentProvider);
+    }
   }, [web3.currentProvider, archon]);
 
   return (

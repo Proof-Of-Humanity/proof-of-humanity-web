@@ -11,7 +11,12 @@ import Text from "./text";
 
 export default function Webcam({
   sx,
-  videoConstraints = { height: 480, width: 480 },
+  videoConstraints = {
+    mandatory: {
+      maxWidth: 1920,
+      maxHeight: 1080,
+    },
+  },
   mirrored = true,
   photo = true,
   onChange,
@@ -29,13 +34,14 @@ export default function Webcam({
   const mediaRecorderRef = useRef();
   const recordedChunksRef = useRef([]);
 
-  const popupWidth = "65vh";
-  const popupMaxHeight = "85vh";
-  const popupMinHeight = "65vh";
+  const popupWidth = "1920px";
+  const popupMaxHeight = "auto";
 
   useEffect(
     () => () => {
-      if (file) URL.revokeObjectURL(file.preview);
+      if (file) {
+        URL.revokeObjectURL(file.preview);
+      }
     },
     [file]
   );
@@ -51,14 +57,14 @@ export default function Webcam({
       <Box
         sx={{
           video: {
-            height: popupWidth,
+            height: "auto",
             marginBottom: -4,
             width: popupWidth,
           },
           display: "flex",
           flexDirection: "column",
-          minHeight: popupMinHeight,
-          maxHeight: popupMaxHeight,
+          // minHeight: popupMinHeight,
+          // maxHeight: popupMaxHeight,
           minWidth: popupWidth,
           ...sx,
         }}
@@ -70,6 +76,9 @@ export default function Webcam({
         <ReactWebcam
           ref={ref}
           mirrored={_mirrored}
+          screenshotFormat="image/jpeg"
+          screenshotQuality={1}
+          forceScreenshotSourceSize
           videoConstraints={videoConstraints}
           onCanPlayThrough={() => setLoading(false)}
           {...rest}
@@ -101,14 +110,16 @@ export default function Webcam({
               onClick={(event) => {
                 event.preventDefault();
                 ref.current.getCanvas().toBlob(async (blob) => {
-                  const _file = new File([blob], "capture.png", {
+                  const _file = new File([blob], "capture.jpg", {
                     type: blob.type,
                   });
                   const buffer = await _file.arrayBuffer();
                   _file.preview = URL.createObjectURL(_file);
                   _file.content = buffer;
                   setFile(_file);
-                  if (onChange) onChange(_file);
+                  if (onChange) {
+                    onChange(_file);
+                  }
                 });
                 setPopupOpen(false);
               }}
@@ -161,14 +172,15 @@ export default function Webcam({
                     .getAudioTracks()
                     .forEach((track) => stream.addTrack(track));
                   mediaRecorderRef.current = new MediaRecorder(stream, {
-                    mimeType: "video/webm",
+                    mimeType: "video/webm;codecs=h264,avc1",
                   });
                   mediaRecorderRef.current.addEventListener(
                     "dataavailable",
                     ({ data }) => {
-                      if (data.size > 0)
+                      if (data.size > 0) {
                         recordedChunksRef.current =
                           recordedChunksRef.current.concat(data);
+                      }
                     }
                   );
                   mediaRecorderRef.current.addEventListener(
@@ -185,7 +197,9 @@ export default function Webcam({
                       _file.preview = URL.createObjectURL(_file);
                       _file.content = buffer;
                       setFile(_file);
-                      if (onChange) onChange(_file);
+                      if (onChange) {
+                        onChange(_file);
+                      }
 
                       if (ref.current?.mirrored) {
                         ref.current.ctx.translate(-ref.current.canvas.width, 0);
@@ -194,7 +208,9 @@ export default function Webcam({
                       }
 
                       recordedChunksRef.current = [];
-                      if (ref.current) ref.current.recording = false;
+                      if (ref.current) {
+                        ref.current.recording = false;
+                      }
                       setRecording(false);
                     }
                   );

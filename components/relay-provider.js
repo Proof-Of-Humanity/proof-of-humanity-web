@@ -12,6 +12,7 @@ import {
 } from "relay-hooks";
 import { Environment, RecordSource, Store } from "relay-runtime";
 import { Flex } from "theme-ui";
+import Web3 from "web3";
 
 const createEnvironment = (endpoint) => {
   const environment = new Environment({
@@ -27,7 +28,17 @@ const createEnvironment = (endpoint) => {
   environment.endpoint = endpoint;
   return environment;
 };
+
+const resolveEns = async (name) => {
+  const web3 = new Web3(
+    new Web3.providers.HttpProvider(process.env.NEXT_PUBLIC_INFURA_ENDPOINT)
+  );
+  const resolvedAddress = await web3.eth.ens.getAddress(name);
+  return resolvedAddress.toLowerCase();
+};
+
 const Context = createContext();
+
 export default function RelayProvider({
   endpoint,
   queries,
@@ -41,26 +52,39 @@ export default function RelayProvider({
     createEnvironment(endpoint)
   );
   useEffect(() => {
-    if (endpoint !== environment.endpoint)
+    if (endpoint !== environment.endpoint) {
       setEnvironment(createEnvironment(endpoint));
+    }
   }, [endpoint, environment]);
 
   useEffect(() => {
     if (environment) {
       connectToRouteChange((path, query) => {
-        if (queries[path]) {
-          prefetch.next(environment, queries[path], query);
-          const refetchedKeys = {};
-          prefetch.refetchQuery = (fetchKey) => {
-            refetchedKeys[fetchKey] = true;
-            prefetch.next(environment, queries[path], query, {
-              fetchPolicy: "network-only",
-              fetchKey: Object.keys(refetchedKeys).length,
-            });
-          };
-        }
+        (async () => {
+          if (queries[path]) {
+            if (path === "/profile/:id" && query.id.endsWith(".eth")) {
+              try {
+                const resolvedAddress = await resolveEns(query.id);
+                query.id = resolvedAddress;
+                query._id = [resolvedAddress];
+              } catch {
+                // do nothing, it will behave the same as with an address that has no profile
+              }
+            }
+
+            prefetch.next(environment, queries[path], query);
+            const refetchedKeys = {};
+            prefetch.refetchQuery = (fetchKey) => {
+              refetchedKeys[fetchKey] = true;
+              prefetch.next(environment, queries[path], query, {
+                fetchPolicy: "network-only",
+                fetchKey: Object.keys(refetchedKeys).length,
+              });
+            };
+          }
+          setInitialized(true);
+        })();
       });
-      setInitialized(true);
     }
   }, [environment, connectToRouteChange, queries, prefetch]);
   return initialized ? (

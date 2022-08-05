@@ -5,7 +5,9 @@ import {
   AccordionItemPanel,
   Appeal,
   Evidence,
+  PreviousRequests,
 } from "@kleros/components";
+import { useTranslation } from "react-i18next";
 import { graphql, useFragment } from "relay-hooks";
 
 import { challengeReasonEnum, useEvidenceFile } from "data";
@@ -22,7 +24,18 @@ const submissionDetailsAccordionFragments = {
     fragment submissionDetailsAccordionSubmission on Submission {
       id
       disputed
-      request: requests(orderBy: creationTime, orderDirection: desc, first: 1) {
+      requests(
+        orderBy: creationTime
+        orderDirection: asc
+        where: { registration: true }
+      ) {
+        evidence(orderBy: creationTime, orderDirection: desc) {
+          URI
+          creationTime
+          id
+        }
+      }
+      request: requests(orderBy: creationTime, orderDirection: desc) {
         requester
         arbitrator
         arbitratorExtraData
@@ -50,6 +63,7 @@ const submissionDetailsAccordionFragments = {
     }
   `,
 };
+
 function SubmissionDetailsAccordionItem({ heading, panelSx, panel }) {
   return (
     <AccordionItem>
@@ -59,6 +73,8 @@ function SubmissionDetailsAccordionItem({ heading, panelSx, panel }) {
   );
 }
 export default function SubmissionDetailsAccordion({ submission, contract }) {
+  const { t } = useTranslation();
+
   const {
     request: [
       {
@@ -71,7 +87,9 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
     ],
     id,
     disputed,
+    requests,
   } = useFragment(submissionDetailsAccordionFragments.submission, submission);
+
   const challenges = _challenges
     .filter(({ disputeID }) => disputeID !== null)
     .map((challenge) => ({
@@ -79,6 +97,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
       reason: challengeReasonEnum.parse(challenge.reason),
       parties: [requester, challenge.challenger],
     }));
+
   const { sharedStakeMultiplier, winnerStakeMultiplier, loserStakeMultiplier } =
     useFragment(submissionDetailsAccordionFragments.contract, contract);
 
@@ -89,11 +108,23 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
         c.appealPeriod[0] !== "0" && c.appealPeriod[1] !== "0"
     )
     .filter(({ rounds }) => !rounds[0].hasPaid[0] || !rounds[0].hasPaid[1]);
-
+  const requestsForUI = requests.slice(1);
   return (
     <Accordion>
+      {requestsForUI.length >= 1 && (
+        <SubmissionDetailsAccordionItem
+          heading={t("profile_details_previous_requests")}
+          panelSx={{ paddingX: 0 }}
+          panel={
+            <PreviousRequests
+              useEvidenceFile={useEvidenceFile}
+              requests={requestsForUI}
+            />
+          }
+        />
+      )}
       <SubmissionDetailsAccordionItem
-        heading="Evidence"
+        heading={t("profile_details_evidence")}
         panelSx={{ paddingX: 0 }}
         panel={
           <Evidence
@@ -107,7 +138,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
       />
       {disputed && challengesWithPendingAppeals.length > 0 && (
         <SubmissionDetailsAccordionItem
-          heading="Appeal"
+          heading={t("profile_details_appeal")}
           panel={
             <Appeal
               challenges={challenges}

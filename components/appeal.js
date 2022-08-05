@@ -28,8 +28,9 @@ function isWinnerAndOpposingPartyDidntPay(
   loserDeadline
 ) {
   const currentTime = web3.utils.toBN(Math.floor(Date.now() / 1000));
-  if (isWinner && !oppositeHasPaid && loserDeadline?.lt(currentTime))
+  if (isWinner && !oppositeHasPaid && loserDeadline?.lt(currentTime)) {
     return true;
+  }
 
   return false;
 }
@@ -265,8 +266,7 @@ function AppealTabPanel({
         <TwitterShareButton
           url={location.href}
           title={shareTitle}
-          via="Kleros_io"
-          hashtags={["kleros", "appeals"]}
+          hashtags={["proofofhumanity", "appeals"]}
         >
           <TwitterIcon size={32} />
         </TwitterShareButton>

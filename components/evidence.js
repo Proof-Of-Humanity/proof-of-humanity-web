@@ -1,4 +1,5 @@
 import { DownArrow, File, UpArrow } from "@kleros/icons";
+import { useTranslation } from "react-i18next";
 import { Box, Flex } from "theme-ui";
 
 import Alert from "./alert";
@@ -24,8 +25,12 @@ function EvidenceItem({
   evidence: { URI, sender, creationTime },
   index,
 }) {
+  const { t } = useTranslation();
   const evidence = useEvidenceFile()(URI);
-  if (evidence?.fileURIError) return null;
+  if (evidence?.fileURIError) {
+    return null;
+  }
+
   return (
     <Card
       sx={{ marginBottom: 2 }}
@@ -38,9 +43,14 @@ function EvidenceItem({
               <Text>
                 <Text as="span" sx={{ fontWeight: "bold" }}>
                   #{index}
-                </Text>{" "}
-                submitted by{" "}
-                <NextETHLink address={sender}>{sender}</NextETHLink>
+                </Text>
+                &nbsp;{t("profile_evidence_submitted_by")}&nbsp;
+                <NextETHLink
+                  address={sender}
+                  style={{ overflowWrap: "break-word" }}
+                >
+                  {sender}
+                </NextETHLink>
               </Text>
               <Text>
                 {intlDateTimeFormat.format(new Date(creationTime * 1000))}
@@ -56,16 +66,10 @@ function EvidenceItem({
       }
       footerSx={{ justifyContent: "space-between", paddingX: 3 }}
     >
-      <Text
-        sx={{
-          fontSize: 2,
-          fontWeight: "bold",
-        }}
-      >
-        {evidence?.name}
-      </Text>
+      <Text sx={{ fontSize: 2, fontWeight: "bold" }}>{evidence?.name}</Text>
       <Text>
-        {evidence?.description || (evidence ? "No description." : undefined)}
+        {evidence?.description ||
+          (evidence ? t("profile_evidence_no_description") : undefined)}
       </Text>
     </Card>
   );
@@ -77,6 +81,8 @@ export default function Evidence({
   useEvidenceFile,
   submission,
 }) {
+  const { t } = useTranslation();
+
   return (
     <ScrollTo>
       {({ scroll }) => (
@@ -96,19 +102,15 @@ export default function Evidence({
                 scroll({ y: evidences.length * 190, smooth: true })
               }
             >
-              Scroll to 1st Evidence{" "}
+              {t("profile_details_evidence_scroll_first")}&nbsp;
               <DownArrow
                 sx={{ stroke: "background", path: { fill: "primary" } }}
               />
             </Text>
           </Flex>
           {submission?.disputed && (
-            <Alert type="muted" title="Advice" sx={{ mb: 3 }}>
-              <Text>
-                Only send evidence if you believe that the submission is correct
-                as it is. Sending new files as evidence won&apos;t help if the
-                submitted ones are incorrect.
-              </Text>
+            <Alert type="muted" title={t("profile_advice")} sx={{ mb: 3 }}>
+              <Text>{t("profile_evidence_advice")}</Text>
             </Alert>
           )}
           <ScrollArea
@@ -131,17 +133,13 @@ export default function Evidence({
               />
             ))}
           </ScrollArea>
-          <Flex
-            sx={{
-              justifyContent: "flex-end",
-            }}
-          >
+          <Flex sx={{ justifyContent: "flex-end" }}>
             <Text
               sx={{ color: "primary" }}
               role="button"
               onClick={() => scroll({ y: 0, smooth: true })}
             >
-              Scroll to Last Evidence{" "}
+              {t("profile_details_evidence_scroll_bottom")}&nbsp;
               <UpArrow
                 sx={{ stroke: "background", path: { fill: "primary" } }}
               />

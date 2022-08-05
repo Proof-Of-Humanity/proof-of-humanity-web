@@ -1,4 +1,5 @@
 import { Card, Image, NextLink, Text, useContract } from "@kleros/components";
+import { useTranslation } from "react-i18next";
 import { graphql, useFragment } from "relay-hooks";
 
 import { submissionStatusEnum, useEvidenceFile } from "data";
@@ -27,6 +28,8 @@ const submissionCardFragments = {
 };
 
 export default function SubmissionCard({ submission }) {
+  const { t } = useTranslation();
+
   const {
     submissionTime,
     requests: [request],
@@ -38,6 +41,7 @@ export default function SubmissionCard({ submission }) {
     "proofOfHumanity",
     "submissionDuration"
   );
+
   const status = submissionStatusEnum.parse({
     ...rest,
     submissionTime,
@@ -48,11 +52,12 @@ export default function SubmissionCard({ submission }) {
     status === submissionStatusEnum.Registered &&
     Date.now() / 1000 - submissionTime > submissionDuration;
   const evidence = useEvidenceFile()(request.evidence[0].URI);
+
   return (
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
       <Card
         as="a"
-        sx={{ height: 367, color: "text" }}
+        sx={{ height: 326, color: "text" }}
         css={{ textDecoration: "none" }}
         header={
           <>
@@ -63,14 +68,18 @@ export default function SubmissionCard({ submission }) {
               }}
             />
             <Text>
-              {status.startCase}
-              {isExpired && " (Expired)"}
+              {t(`profile_status_${status.key}`)}
+              {isExpired && ` (${t("profile_status_Expired")})`}
             </Text>
           </>
         }
         mainSx={{ flexDirection: "column" }}
       >
-        <Image variant="avatar" src={evidence?.file?.photo} />
+        <Image
+          crossOrigin="anonymous"
+          variant="avatar"
+          src={evidence?.file?.photo}
+        />
         <Text
           sx={{
             fontSize: 1,
@@ -79,13 +88,7 @@ export default function SubmissionCard({ submission }) {
             overflowWrap: "anywhere",
           }}
         >
-          {evidence instanceof Error
-            ? "We are doing some maintenance work and will be online again soon."
-            : evidence?.file?.name &&
-              (name.replaceAll(/[^\s\w]/g, "") ===
-              evidence.file.name.replaceAll(/[^\s\w]/g, "")
-                ? evidence.file.name
-                : "We are doing some maintenance work and will be online again soon.")}
+          {name}
         </Text>
         <Text
           variant="multiClipped"

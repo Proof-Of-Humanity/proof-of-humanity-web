@@ -15,7 +15,9 @@ function getSubmissionCounter(
   nSubmissions,
   props
 ) {
-  if (searchFilter) return nSubmissions;
+  if (searchFilter) {
+    return nSubmissions;
+  }
   switch (statusFilter) {
     case "vouching":
       return props?.counter?.vouchingPhase || 0;
@@ -76,7 +78,7 @@ export default function Index() {
         numberOfSubmissions={submissionCounter}
         submissionDuration={submissionDuration}
       />
-      <Grid sx={{ minHeight: 750 }} gap={2} columns={[1, 2, 3, 4]} rows={2}>
+      <Grid sx={{ minHeight: 652 }} gap={2} columns={[1, 2, 3, 4]} rows={2}>
         {submissions?.map((submission) => (
           <SubmissionCard
             key={submission.id}

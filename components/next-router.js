@@ -55,22 +55,25 @@ export const createWrapConnection = (queries, queryEnums) => {
     query = [...new URLSearchParams(query).entries()].reduce(
       (acc, [key, value]) => {
         const queryEnumQuery = queryEnums[key]?.[value]?.query;
-        if (typeof queryEnumQuery === "function")
+        if (typeof queryEnumQuery === "function") {
           funcQueryEnumQueries.push(queryEnumQuery);
-        else if (queryEnumQuery) acc = { ...acc, ...queryEnumQuery };
-        else
+        } else if (queryEnumQuery) {
+          acc = { ...acc, ...queryEnumQuery };
+        } else {
           acc[key] =
             typeof value === "boolean" ||
             Number.isNaN(Number(value)) ||
             value.startsWith("0x")
               ? value
               : Number(value);
+        }
         return acc;
       },
       {}
     );
-    for (const funcQueryEnumQuery of funcQueryEnumQueries)
+    for (const funcQueryEnumQuery of funcQueryEnumQueries) {
       query = { ...query, ...funcQueryEnumQuery(query) };
+    }
 
     for (const [key, matcher] of Object.entries(matchers)) {
       const _match = matcher(path);
@@ -90,7 +93,9 @@ export const createWrapConnection = (queries, queryEnums) => {
       }
     }
 
-    if (query.search) query.address = query.search;
+    if (query.search) {
+      query.address = query.search;
+    }
     return { path, query };
   };
 

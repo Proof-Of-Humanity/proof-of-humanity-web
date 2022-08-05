@@ -10,6 +10,7 @@ import {
   useReducer,
   useState,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { useStorageReducer } from "react-storage-hooks";
 import usePromise from "react-use-promise";
 import Web3 from "web3";
@@ -21,7 +22,9 @@ const deriveAccount = async function (message, create = true) {
 
   let secret = localStorage.getItem(storageKey);
   if (secret === null) {
-    if (!create) return secret;
+    if (!create) {
+      return secret;
+    }
     secret = await this.eth.personal.sign(message, account);
     localStorage.setItem(storageKey, secret);
   }
@@ -29,18 +32,29 @@ const deriveAccount = async function (message, create = true) {
   return this.eth.accounts.privateKeyToAccount(this.utils.keccak256(secret));
 };
 
-export const createWeb3 = (infuraURL) => {
+export const createWeb3 = (infuraURL, t) => {
   const web3 = new Web3(infuraURL);
   web3.modal = new Web3Modal({
     cacheProvider: true,
     providerOptions: {
+      injected: {
+        display: {
+          description: t("web3_modal_metamask"),
+        },
+      },
       walletconnect: {
+        display: {
+          description: t("web3_modal_walletconnect"),
+        },
         package: WalletConnectWeb3Provider,
         options: {
           infuraId: infuraURL.slice(infuraURL.lastIndexOf("/") + 1),
         },
       },
       authereum: {
+        display: {
+          description: t("web3_modal_authereum"),
+        },
         package: Authereum,
       },
     },
@@ -65,18 +79,23 @@ export default function Web3Provider({
   onNetworkChange,
   children,
 }) {
-  const [web3, setWeb3] = useState(() => createWeb3(infuraURL));
+  const { t } = useTranslation();
+  const [web3, setWeb3] = useState(() => createWeb3(infuraURL, t));
 
   useEffect(() => {
-    if (infuraURL !== web3.infuraURL) setWeb3(createWeb3(infuraURL));
-  }, [infuraURL, web3.infuraURL]);
+    if (infuraURL !== web3.infuraURL) {
+      setWeb3(createWeb3(infuraURL, t));
+    }
+  }, [infuraURL, web3.infuraURL, t]);
 
   useEffect(() => {
     let cancelled = false;
     (async () => {
       if (web3.modal.cachedProvider) {
         const _web3 = await createWeb3FromModal(web3.modal, web3.infuraURL);
-        if (!cancelled) setWeb3(_web3);
+        if (!cancelled) {
+          setWeb3(_web3);
+        }
       }
     })();
 
@@ -108,10 +127,14 @@ export default function Web3Provider({
           name: { 42: "kovan", 1: "mainnet" }[ETHNetID],
         };
         setWeb3({ ...web3 });
-        if (onNetworkChange) onNetworkChange(web3.ETHNet);
+        if (onNetworkChange) {
+          onNetworkChange(web3.ETHNet);
+        }
       }
 
-      if (networkIdToName[ETHNetID] !== process.env.NEXT_PUBLIC_NETWORK) return;
+      if (networkIdToName[ETHNetID] !== process.env.NEXT_PUBLIC_NETWORK) {
+        return;
+      }
 
       if (contracts !== web3._contracts) {
         const [account] = await web3.eth.getAccounts();
@@ -254,7 +277,9 @@ export function useContract(
   );
   const send = useCallback(
     async (...__args) => {
-      if (!contract.options.from) await connect();
+      if (!contract.options.from) {
+        await connect();
+      }
 
       let _args;
       let _options;
@@ -264,7 +289,9 @@ export function useContract(
       ) {
         _args = __args.slice(0, -1);
         _options = __args[__args.length - 1];
-      } else _args = __args;
+      } else {
+        _args = __args;
+      }
       return new Promise((resolve, reject) =>
         run(_args, _options)
           .on("transactionHash", (transactionHash) =>
@@ -295,8 +322,11 @@ export function useContract(
           const _receipt = await web3.eth.getTransactionReceipt(
             sendState.transactionHash
           );
-          if (_receipt) resolve(_receipt);
-          else setTimeout(poll, 2000);
+          if (_receipt) {
+            resolve(_receipt);
+          } else {
+            setTimeout(poll, 2000);
+          }
         };
         poll();
       }),

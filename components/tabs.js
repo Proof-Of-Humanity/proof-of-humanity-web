@@ -18,7 +18,9 @@ export function TabList({ sx, ...rest }) {
   const [tabIndex, setTabIndex] = useState(0);
   useEffect(() => {
     const _tabIndex = rest.children.findIndex((tab) => tab.props.selected);
-    if (tabIndex !== _tabIndex) setTabIndex(_tabIndex);
+    if (tabIndex !== _tabIndex) {
+      setTabIndex(_tabIndex);
+    }
   }, [rest.children, tabIndex]);
 
   const [measureRef, { width: _width, left }] = useMeasure();

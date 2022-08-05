@@ -92,7 +92,9 @@ const { getEvidenceFile: useEvidenceFile } = createUseDataloaders({
       const nestedFile = await fetchFile(file.fileURI);
       file.fileURI = ipfsGateway + file.fileURI;
       file.file = Object.keys(nestedFile).reduce((acc, key) => {
-        if (acc[key].startsWith("/ipfs/")) acc[key] = ipfsGateway + acc[key];
+        if (acc[key].startsWith("/ipfs/")) {
+          acc[key] = ipfsGateway + acc[key];
+        }
         return acc;
       }, nestedFile);
     }

@@ -24,7 +24,9 @@ export default function EscrowWidget({
   onOpen,
   onClose,
 }) {
-  if (!web3) web3 = defaultWeb3;
+  if (!web3) {
+    web3 = defaultWeb3;
+  }
 
   const klerosEscrowRef = useRef(new KlerosEscrow(web3));
   useEffect(() => {
@@ -44,9 +46,12 @@ export default function EscrowWidget({
           "metaEvidenceFile",
           metaEvidence.file
         )}`;
-        if (!cancelled) setMetaEvidenceFileURI(_metaEvidenceFileURI);
-      } else if (metaEvidence.fileURI !== metaEvidenceFileURI)
+        if (!cancelled) {
+          setMetaEvidenceFileURI(_metaEvidenceFileURI);
+        }
+      } else if (metaEvidence.fileURI !== metaEvidenceFileURI) {
         setMetaEvidenceFileURI(metaEvidence.fileURI);
+      }
     })();
     return () => (cancelled = true);
   }, [metaEvidence, metaEvidenceFileURI]);

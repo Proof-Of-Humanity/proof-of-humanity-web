@@ -69,20 +69,23 @@ const dropdownOptions = [
   ],
 ];
 
-export const dropdownOptionsEnum = createEnum(
+const dropdownOptionsEnum = createEnum(
   dropdownOptions,
   ({ status, registered, submissionTime, submissionDuration, disputed }) => {
     if (status === dropdownOptionsEnum.None.key) {
-      if (!registered) return dropdownOptionsEnum.Removed;
+      if (!registered) {
+        return dropdownOptionsEnum.Removed;
+      }
       return submissionTime >=
         Math.floor(Date.now() / 1000) - submissionDuration
         ? dropdownOptionsEnum.Registered
         : dropdownOptionsEnum.Expired;
     }
-    if (disputed)
+    if (disputed) {
       return status === dropdownOptionsEnum.PendingRegistration.key
         ? dropdownOptionsEnum.ChallengedRegistration
         : dropdownOptionsEnum.ChallengedRemoval;
+    }
     return dropdownOptionsEnum[status];
   }
 );
@@ -101,16 +104,19 @@ export const submissionStatusEnum = createEnum(
   allStatus,
   ({ status, registered, submissionTime, submissionDuration, disputed }) => {
     if (status === submissionStatusEnum.None.key) {
-      if (!registered) return submissionStatusEnum.Removed;
+      if (!registered) {
+        return submissionStatusEnum.Removed;
+      }
       return submissionTime >=
         Math.floor(Date.now() / 1000) - submissionDuration
         ? submissionStatusEnum.Registered
         : submissionStatusEnum.Expired;
     }
-    if (disputed)
+    if (disputed) {
       return status === submissionStatusEnum.PendingRegistration.key
         ? submissionStatusEnum.ChallengedRegistration
         : submissionStatusEnum.ChallengedRemoval;
+    }
     return submissionStatusEnum[status];
   }
 );

@@ -8,13 +8,16 @@ import {
   Image,
   Link,
   Text,
-  Video,
   useContract,
   useWeb3,
 } from "@kleros/components";
 import { User } from "@kleros/icons";
+import base2048 from "base-2048";
 import lodashOrderBy from "lodash.orderby";
-import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useMemo, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
+import Video from "react-player";
 import {
   RedditIcon,
   RedditShareButton,
@@ -64,14 +67,13 @@ const submissionDetailsCardFragments = {
       }
       requests(
         orderBy: creationTime
-        orderDirection: desc
-        first: 1
+        orderDirection: asc
         where: { registration: true }
       ) {
         arbitrator
         arbitratorExtraData
         lastStatusChange
-        evidence(orderBy: creationTime, first: 1) {
+        evidence(orderBy: creationTime, orderDirection: desc) {
           URI
         }
         vouches {
@@ -126,8 +128,10 @@ export default function SubmissionDetailsCard({
   contract,
   vouchers,
 }) {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { query } = router;
   const {
-    requests: [request],
     latestRequest: [latestRequest],
     id,
     name,
@@ -137,6 +141,7 @@ export default function SubmissionDetailsCard({
     submissionDetailsCardFragments.submission,
     submission
   ));
+  const { requests } = submission;
 
   const orderedVouchees = lodashOrderBy(
     vouchees,
@@ -145,10 +150,19 @@ export default function SubmissionDetailsCard({
   );
 
   const [accounts] = useWeb3("eth", "getAccounts");
+
+  const requestID =
+    query.request === undefined ||
+    query.request > requests.length ||
+    query.request <= 0 ||
+    Number.isNaN(Number(query.request))
+      ? requests.length - 1
+      : query.request - 1;
+  const { lastStatusChange } = requests[requestID];
+  const isConnected = accounts?.length > 0;
   const isSelf =
     accounts?.[0] && accounts[0].toLowerCase() === id.toLowerCase();
-
-  const { lastStatusChange } = request;
+  const isLatestRequest = requestID === requests.length - 1;
   const {
     submissionBaseDeposit,
     submissionDuration,
@@ -172,7 +186,11 @@ export default function SubmissionDetailsCard({
   const round = (rounds && rounds[0]) || {};
   const { hasPaid } = round || {};
 
-  const evidence = useEvidenceFile()(request.evidence[0].URI);
+  const lastEvidence = requests[requestID].evidence.length - 1;
+  const evidence = useEvidenceFile()(
+    requests[requestID].evidence[lastEvidence].URI
+  );
+
   const contributions = useMemo(
     () =>
       round.contributions.map((contribution) =>
@@ -181,22 +199,15 @@ export default function SubmissionDetailsCard({
     [round.contributions]
   );
 
-  const compoundName =
-    [evidence?.file?.firstName, evidence?.file?.lastName]
-      .filter(Boolean)
-      .join(" ") || name;
-  const displayName =
-    compoundName === name ? name : `${compoundName} (${name})`;
-
   const [arbitrationCost] = useContract(
     "klerosLiquid",
     "arbitrationCost",
     useMemo(
       () => ({
-        address: request.arbitrator,
-        args: [request.arbitratorExtraData],
+        address: requests[0].arbitrator,
+        args: [requests[0].arbitratorExtraData],
       }),
-      [request]
+      [requests]
     )
   );
   const { web3 } = useWeb3();
@@ -215,15 +226,18 @@ export default function SubmissionDetailsCard({
 
   const [offChainVouches, setOffChainVouches] = useState([]);
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      return;
+    }
     (async () => {
       const res = await (
         await fetch(
           `${process.env.NEXT_PUBLIC_VOUCH_DB_URL}/vouch/search?submissionId=${id}`
         )
       ).json();
-      if (res && res.vouches && res.vouches.length > 0)
+      if (res && res.vouches && res.vouches.length > 0) {
         setOffChainVouches(res.vouches[0].vouchers);
+      }
     })();
   }, [id]);
 
@@ -236,7 +250,7 @@ export default function SubmissionDetailsCard({
       voucher.id !== id.toLowerCase()
   );
 
-  const currentGraphVouchers = request.vouches.filter(
+  const currentGraphVouchers = requests[0].vouches.filter(
     (voucher) =>
       Date.now() / 1000 - voucher.submissionTime < submissionDuration &&
       voucher.id !== id.toLowerCase()
@@ -260,10 +274,22 @@ export default function SubmissionDetailsCard({
 
   const shareTitle =
     status === submissionStatusEnum.Vouching
-      ? "Register and vouch for this profile on Proof Of Humanity."
-      : "Check out this profile on Proof Of Humanity.";
+      ? t("profile_share_vouching_title")
+      : t("profile_share_check_out_title");
 
   const firstRoundFullyFunded = Number(lastRoundID) === 0 && hasPaid[0];
+  const generatePhrase = (language) => {
+    const address = id.slice(2);
+    const bytes = Buffer.from(address, "hex");
+
+    if (language === "es") {
+      const words = base2048.spanish.encode(bytes);
+      return words.split(" ").slice(0, 8).join(" ");
+    }
+    const words = base2048.english.encode(bytes);
+    // console.log(words)
+    return words.split(" ").slice(0, 8).join(" ");
+  };
 
   return (
     <Card
@@ -285,6 +311,7 @@ export default function SubmissionDetailsCard({
         }}
       >
         <Image
+          crossOrigin="anonymous"
           sx={{ objectFit: "contain" }}
           variant="avatar"
           src={evidence?.file?.photo}
@@ -298,12 +325,12 @@ export default function SubmissionDetailsCard({
           }}
         >
           {evidence instanceof Error
-            ? "We are doing some maintenance work and will be online again soon."
+            ? t("profile_card_maintenance")
             : evidence?.file?.name &&
               (name.replaceAll(/[^\s\w]/g, "") ===
               evidence.file.name.replaceAll(/[^\s\w]/g, "")
                 ? evidence.file.name
-                : "We are doing some maintenance work and will be online again soon.")}
+                : name)}
         </Text>
         <Text sx={{ wordBreak: "break-word" }} count={2}>
           {evidence?.file ? evidence.file.bio || " " : null}
@@ -320,23 +347,31 @@ export default function SubmissionDetailsCard({
                   method="fundSubmission"
                   args={[id]}
                 >
-                  Fund Submission
+                  {t("profile_card_fund_submission")}
                 </FundButton>
               )}
-              {!isSelf && <GaslessVouchButton submissionID={id} />}
-              {!isSelf && <VouchButton submissionID={id} />}
+              {isLatestRequest ? (
+                !isSelf && isConnected ? (
+                  <>
+                    <GaslessVouchButton submissionID={id} />
+                    <VouchButton submissionID={id} />
+                  </>
+                ) : null
+              ) : (
+                <Text>
+                  Please go to the{" "}
+                  <Link href={`?request=${requests.length}`}>
+                    current request
+                  </Link>{" "}
+                  to vouch for this profile
+                </Text>
+              )}
             </>
           )}
         </Box>
         <Flex sx={{ width: "100%" }}>
-          <Box
-            sx={{
-              flex: 1,
-              marginBottom: 3,
-              paddingX: 1,
-            }}
-          >
-            <Text>Vouchers</Text>
+          <Box sx={{ flex: 1, marginBottom: 3, paddingX: 1 }}>
+            <Text>{t("profile_card_vouchers")}</Text>
             <Text sx={{ fontWeight: "bold", paddingX: 1 }}>
               {String(currentVouchers.length)}/{requiredNumberOfVouches}
             </Text>
@@ -350,7 +385,7 @@ export default function SubmissionDetailsCard({
                 borderLeftWidth: 1,
               }}
             >
-              <Text>Deposit</Text>
+              <Text>{t("profile_card_deposit")}</Text>
               <Text sx={{ fontWeight: "bold" }}>
                 {firstRoundFullyFunded
                   ? "100%"
@@ -368,23 +403,18 @@ export default function SubmissionDetailsCard({
         </Flex>
         {challenges?.length > 0 && challenge.disputeID !== null && (
           <Flex
-            sx={{
-              alignItems: "center",
-              flexDirection: "column",
-              marginTop: 3,
-            }}
+            sx={{ alignItems: "center", flexDirection: "column", marginTop: 3 }}
           >
             <Text sx={{ fontWeight: "bold" }}>
-              {`Dispute${activeChallenges?.length > 1 ? "s" : ""}:`}
+              {`${t("profile_card_dispute_text")}${
+                activeChallenges?.length > 1
+                  ? t("profile_card_dispute_suffix")
+                  : ""
+              }:`}
             </Text>
             {activeChallenges.map(
               ({ disputeID, reason, duplicateSubmission }, i) => (
-                <Flex
-                  key={i}
-                  sx={{
-                    flexDirection: "row",
-                  }}
-                >
+                <Flex key={i} sx={{ flexDirection: "row" }}>
                   <Link
                     newTab
                     href={`https://resolve.kleros.io/cases/${disputeID}`}
@@ -392,10 +422,14 @@ export default function SubmissionDetailsCard({
                   >
                     #{disputeID}{" "}
                     {challengeReasonEnum.parse(reason).startCase !== "None"
-                      ? challengeReasonEnum.parse(reason).startCase
+                      ? t(
+                          `profile_status_challenge_reason_${
+                            challengeReasonEnum.parse(reason).key
+                          }`
+                        )
                       : null}
                     {challengeReasonEnum.parse(reason).startCase === "Duplicate"
-                      ? " of-"
+                      ? ` ${t("profile_status_duplicate_of")} -`
                       : null}
                   </Link>
                   {challengeReasonEnum.parse(reason).startCase ===
@@ -416,27 +450,34 @@ export default function SubmissionDetailsCard({
         </Box>
       </Flex>
       <Box sx={{ flex: 1, padding: 4 }}>
-        <Flex
-          sx={{
-            alignItems: "center",
-            gap: 8,
-            marginBottom: "4px",
-          }}
-        >
+        <Flex sx={{ alignItems: "center", gap: 8, marginBottom: "4px" }}>
           <User />
           <Text as="span" sx={{ fontWeight: "bold" }}>
-            {displayName}
+            {name}
           </Text>
         </Flex>
         <EthereumAccount
           diameter={16}
           address={id}
-          sx={{
-            marginBottom: 2,
-            fontWeight: "bold",
-          }}
+          sx={{ marginBottom: 2, fontWeight: "bold" }}
         />
-        <Video url={evidence?.file?.video} />
+        {evidence?.file?.confirmation === "speaking" && (
+          <Alert
+            title={t("profile_card_confirmation_phrase_title")}
+            style={{ marginBottom: "15px" }}
+          >
+            {generatePhrase(evidence?.file?.language)}
+          </Alert>
+        )}
+
+        <Video
+          config={{ file: { attributes: { crossOrigin: "true" } } }}
+          controls
+          url={evidence?.file?.video}
+          width="100%"
+          height="100%"
+          style={{ maxHeight: "500px" }}
+        />
         <UBICard
           submissionID={id}
           lastStatusChange={lastStatusChange}
@@ -448,27 +489,25 @@ export default function SubmissionDetailsCard({
         {status === submissionStatusEnum.Vouching && (
           <Alert
             type="muted"
-            title="Something wrong with this submission?"
+            title={t("profile_card_something_wrong")}
             sx={{ mt: 3, wordWrap: "break-word" }}
           >
             <Text>
-              There is still time to save this submitter&apos;s deposit! Send
-              them an email to{" "}
-              <Link href={`mailto:${id}@ethmail.cc`}>{id}@ethmail.cc</Link>. It
-              may save the submitter&apos;s deposit!
+              <Trans
+                i18nKey="profile_card_save_deposit_text"
+                t={t}
+                values={{ email: `${id}@ethmail.cc` }}
+                components={[
+                  <Link href={`mailto:${id}@ethmail.cc`} key="mail" />,
+                ]}
+              />
             </Text>
           </Alert>
         )}
         {registeredVouchers.length > 0 && (
           <>
-            <Text
-              sx={{
-                marginTop: 2,
-                marginBottom: 1,
-                opacity: 0.45,
-              }}
-            >
-              Vouched by:
+            <Text sx={{ marginTop: 2, marginBottom: 1, opacity: 0.45 }}>
+              {t("profile_card_vouched_by")}:
             </Text>
             <Flex sx={{ flexWrap: "wrap" }}>
               {registeredVouchers.map((voucherId) => (
@@ -479,14 +518,8 @@ export default function SubmissionDetailsCard({
         )}
         {vouchees.length > 0 && (
           <>
-            <Text
-              sx={{
-                marginTop: 2,
-                marginBottom: 1,
-                opacity: 0.45,
-              }}
-            >
-              Vouched for:
+            <Text sx={{ marginTop: 2, marginBottom: 1, opacity: 0.45 }}>
+              {t("profile_card_vouched_for")}:
             </Text>
             <Flex sx={{ flexWrap: "wrap" }}>
               {orderedVouchees.map(({ id: address }) => (
@@ -506,8 +539,7 @@ export default function SubmissionDetailsCard({
           <TwitterShareButton
             url={location.href}
             title={shareTitle}
-            via="Kleros_io"
-            hashtags={["kleros", "proofofhumanity"]}
+            hashtags={["proofofhumanity"]}
           >
             <TwitterIcon size={32} />
           </TwitterShareButton>

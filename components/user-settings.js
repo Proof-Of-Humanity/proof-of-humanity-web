@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { createDerivedAccountAPIs } from "./archon-provider";
 import Button from "./button";
@@ -13,6 +14,7 @@ export default function UserSettings({
   parseSettings,
   normalizeSettings,
 }) {
+  const { t } = useTranslation();
   const {
     useAPIs: {
       getUserSettings: useUserSettings,
@@ -54,6 +56,7 @@ export default function UserSettings({
   );
   const { send } = usePatchUserSettings();
   const [message, setMessage] = useState();
+
   return (
     <Form
       enableReinitialize
@@ -67,14 +70,16 @@ export default function UserSettings({
             acc[setting] = boolean();
             return acc;
           }, {}),
-          email: string().email("Must be a valid email.").required("Required"),
+          email: string()
+            .email(t("header_notifications_valid_email"))
+            .required(t("header_notifications_email_required")),
         }),
-        [settings]
+        [settings, t]
       )}
       onSubmit={async (_settings) => {
         setMessage("");
         await send(normalizeSettings(_settings));
-        setMessage("Changes saved.");
+        setMessage(t("header_notifications_changes_saved"));
       }}
     >
       {({ isSubmitting }) => (
@@ -90,15 +95,11 @@ export default function UserSettings({
           <Field name="email" label="Email" />
           <Divider />
           <Button
-            sx={{
-              display: "block",
-              marginTop: -2,
-              marginX: "auto",
-            }}
+            sx={{ display: "block", marginTop: -2, marginX: "auto" }}
             type="submit"
             loading={isSubmitting}
           >
-            Save
+            {t("header_notifications_save")}
           </Button>
           {message && (
             <Text

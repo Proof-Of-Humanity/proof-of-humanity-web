@@ -1,5 +1,6 @@
 import { Settings } from "@kleros/icons";
 import { useCallback, useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "relay-hooks";
 import { Box, Flex, IconButton } from "theme-ui";
 
@@ -28,6 +29,7 @@ export default function AccountSettingsPopup({
   parseSettings,
   normalizeSettings,
 }) {
+  const { t } = useTranslation();
   const [accounts] = useWeb3("eth", "getAccounts");
   const { connect, web3 } = useWeb3();
   const { props } = useQuery(appQuery, {
@@ -45,12 +47,16 @@ export default function AccountSettingsPopup({
   const { contributions: withdrawableContributions } = props ?? {};
   const { send: batchSend } = useContract("transactionBatcher", "batchSend");
   const pohInstance = useMemo(() => {
-    if (!ProofOfHumanityAbi || !pohAddress) return;
+    if (!ProofOfHumanityAbi || !pohAddress) {
+      return;
+    }
     return new web3.eth.Contract(ProofOfHumanityAbi, pohAddress);
   }, [web3.eth.Contract]);
 
   const withdrawFeesAndRewards = useCallback(() => {
-    if (!batchSend || withdrawableContributions?.length === 0) return;
+    if (!batchSend || withdrawableContributions?.length === 0) {
+      return;
+    }
     const withdrawCalls = withdrawableContributions.map(
       (withdrawableContribution) => {
         const { requestIndex, roundIndex, round } = withdrawableContribution;
@@ -84,53 +90,34 @@ export default function AccountSettingsPopup({
 
   return (
     <Popup
-      contentStyle={{ width: 490 }}
+      contentStyle={{ width: 490, lineHeight: "initial" }}
       trigger={
         <IconButton>
-          <Settings size="auto" />
+          <Settings />
         </IconButton>
       }
       position="bottom right"
     >
-      <Box
-        sx={{
-          color: "text",
-          paddingX: 1,
-          paddingY: 2,
-        }}
-      >
-        <Text
-          sx={{
-            fontWeight: "bold",
-            textAlign: "center",
-          }}
-        >
-          Settings
+      <Box sx={{ color: "text", paddingX: 1, paddingY: 2 }}>
+        <Text sx={{ fontWeight: "bold", textAlign: "center" }}>
+          {t("header_settings")}
         </Text>
         <Tabs>
           <TabList>
-            <Tab>Account</Tab>
-            <Tab>Notifications</Tab>
+            <Tab>{t("header_settings_account")}</Tab>
+            <Tab>{t("header_settings_notifications")}</Tab>
           </TabList>
           <TabPanel>
-            <Text
-              sx={{
-                fontSize: 10,
-                marginBottom: 3,
-              }}
-            >
+            <Text sx={{ fontSize: 14, marginBottom: 3 }}>
               {accounts &&
                 (accounts.length === 0 ? (
-                  "Connected to Infura"
+                  t("header_settings_connected_infura")
                 ) : (
                   <Flex sx={{ alignItems: "center" }}>
                     {photo ? (
                       <Image
-                        sx={{
-                          objectFit: "contain",
-                          width: 32,
-                          height: 32,
-                        }}
+                        crossOrigin="anonymous"
+                        sx={{ objectFit: "contain", width: 32, height: 32 }}
                         variant="avatar"
                         src={photo}
                       />
@@ -157,22 +144,22 @@ export default function AccountSettingsPopup({
                 display: "block",
                 marginTop: -2,
                 marginX: "auto",
+                class: "asdasd",
+                lineHeight: "initial",
+                lineHeights: { button: "initial" },
               }}
               onClick={changeWallet}
             >
-              {accounts &&
-                `${accounts.length === 0 ? "Connect" : "Change"} Wallet`}
+              {accounts && accounts.length === 0
+                ? t("header_settings_connect_wallet")
+                : t("header_settings_change_wallet")}
             </Button>
             {withdrawableContributions?.length > 0 && (
               <Button
-                sx={{
-                  display: "block",
-                  marginTop: 2,
-                  marginX: "auto",
-                }}
+                sx={{ display: "block", marginTop: 2, marginX: "auto" }}
                 onClick={withdrawFeesAndRewards}
               >
-                Withdraw Fees and Rewards
+                {t("header_settings_withdraw_fees_rewards")}
               </Button>
             )}
           </TabPanel>

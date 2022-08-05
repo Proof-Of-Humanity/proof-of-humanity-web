@@ -46,7 +46,9 @@ const Card = forwardRef(
             boxShadow: [20, 12],
             zIndex: 1,
           });
-          if (rest.onMouseEnter) rest.onMouseEnter();
+          if (rest.onMouseEnter) {
+            rest.onMouseEnter();
+          }
         },
         onMouseMove({ pageY, pageX }) {
           setAnimatedStyle({
@@ -57,7 +59,9 @@ const Card = forwardRef(
               1.1,
             ],
           });
-          if (rest.onMouseMove) rest.onMouseMove();
+          if (rest.onMouseMove) {
+            rest.onMouseMove();
+          }
         },
         onMouseLeave() {
           setTimeout(() => {
@@ -67,7 +71,9 @@ const Card = forwardRef(
               zIndex: 0,
             });
           }, 400);
-          if (rest.onMouseLeave) rest.onMouseLeave();
+          if (rest.onMouseLeave) {
+            rest.onMouseLeave();
+          }
         },
       };
     return (

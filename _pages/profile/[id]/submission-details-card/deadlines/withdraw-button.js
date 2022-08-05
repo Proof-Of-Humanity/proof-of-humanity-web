@@ -1,7 +1,10 @@
 import { Button, useContract } from "@kleros/components";
 import { useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function WithdrawButton({ sx, ...rest }) {
+  const { t } = useTranslation();
+
   const { send: sendWithdraw } = useContract(
     "proofOfHumanity",
     "withdrawSubmission"
@@ -21,7 +24,7 @@ export default function WithdrawButton({ sx, ...rest }) {
         ...sx,
       }}
     >
-      Cancel Submission
+      {t("profile_card_cancel_submission")}
     </Button>
   );
 }

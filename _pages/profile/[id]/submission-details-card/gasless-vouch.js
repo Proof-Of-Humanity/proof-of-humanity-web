@@ -9,27 +9,27 @@ import {
 } from "@kleros/components";
 import { Warning } from "@kleros/icons";
 import { useCallback, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import { address as pohAddress } from "subgraph/config";
 
-const vouchText = `
-Make sure the person exists and that you have physically encountered
-them. Note that in the case of a dispute, if a submission is
-rejected for reason “Duplicate” or “Does not exist”, everyone who
-had vouched for it will get removed from the registry. Note that
-your vouch will only be counted when and as long as you are
-registered, and another submission is not using your vouch.
-`;
-
 export default function GasslessVouchButton({ submissionID }) {
+  const { t } = useTranslation();
+
   const web3Context = useWeb3Context();
+
   const [accounts] = useWeb3("eth", "getAccounts");
+
+  const vouchText = t("profile_card_vouch_text");
+
   const [addVouchLabel, setAddVouchLabel] = useState(vouchText);
+
   const [registered] = useContract(
     "proofOfHumanity",
     "isRegistered",
     useMemo(() => ({ args: [accounts?.[0]] }), [accounts])
   );
+
   const [vouched] = useContract(
     "proofOfHumanity",
     "vouches",
@@ -38,14 +38,18 @@ export default function GasslessVouchButton({ submissionID }) {
       [accounts, submissionID]
     )
   );
+
   const signVouch = useCallback(async () => {
-    if (!web3Context) return;
+    if (!web3Context) {
+      return;
+    }
 
     const { connect, web3 } = web3Context;
     if (!accounts?.[0]) {
       await connect();
       return;
     }
+
     const chainId = await web3.eth.net.getId();
 
     const messageParameters = JSON.stringify({
@@ -86,7 +90,9 @@ export default function GasslessVouchButton({ submissionID }) {
             from,
           },
           (err, result) => {
-            if (err) return reject(err);
+            if (err) {
+              return reject(err);
+            }
 
             return resolve(result);
           }
@@ -105,6 +111,7 @@ export default function GasslessVouchButton({ submissionID }) {
       }),
     });
   }, [accounts, submissionID, web3Context]);
+
   return registered || vouched ? (
     <Popup
       trigger={
@@ -117,7 +124,9 @@ export default function GasslessVouchButton({ submissionID }) {
               "linear-gradient(90deg,var(--theme-ui-colors-primary,#007cff) 0%,var(--theme-ui-colors-secondary,#00b7ff) 100%)",
           }}
         >
-          {vouched ? "Remove" : "Gasless"} Vouch
+          {vouched
+            ? t("profile_card_remove_vouch")
+            : t("profile_card_gasless_vouch")}
         </Button>
       }
       modal
@@ -126,16 +135,16 @@ export default function GasslessVouchButton({ submissionID }) {
         <Box sx={{ padding: 2 }}>
           <Warning />
           <Text sx={{ marginBottom: 2 }}>{addVouchLabel}</Text>
-          {addVouchLabel !== "Vouch saved successfully." && (
+          {addVouchLabel !== t("profile_card_vouch_saved") && (
             <Button
               onClick={() => {
                 signVouch().then(() => {
-                  setAddVouchLabel("Vouch saved successfully.");
+                  setAddVouchLabel(t("profile_card_vouch_saved"));
                   setTimeout(close, 3000);
                 });
               }}
             >
-              Gasless Vouch
+              {t("profile_card_gasless_vouch")}
             </Button>
           )}
         </Box>
