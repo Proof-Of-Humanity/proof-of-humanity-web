@@ -278,7 +278,6 @@ export default function SubmissionDetailsCard({
       : t("profile_share_check_out_title");
 
   const firstRoundFullyFunded = Number(lastRoundID) === 0 && hasPaid[0];
-  const [checkedVideo, setCheckedVideo] = useState();
   const generatePhrase = (language) => {
     const address = id.slice(2);
     const bytes = Buffer.from(address, "hex");
@@ -290,10 +289,6 @@ export default function SubmissionDetailsCard({
     const words = base2048.english.encode(bytes);
     // console.log(words)
     return words.split(" ").slice(0, 8).join(" ");
-  };
-
-  const handleVideo = () => {
-    setCheckedVideo(true);
   };
 
   return (
@@ -357,16 +352,10 @@ export default function SubmissionDetailsCard({
               )}
               {isLatestRequest ? (
                 !isSelf && isConnected ? (
-                  checkedVideo ? (
-                    <>
-                      <GaslessVouchButton submissionID={id} />
-                      <VouchButton submissionID={id} />
-                    </>
-                  ) : (
-                    <Text style={{ color: "red", fontWeight: "bold" }}>
-                      {t("profile_card_video_check")}
-                    </Text>
-                  )
+                  <>
+                    <GaslessVouchButton submissionID={id} />
+                    <VouchButton submissionID={id} />
+                  </>
                 ) : null
               ) : (
                 <Text>
@@ -485,9 +474,6 @@ export default function SubmissionDetailsCard({
           config={{ file: { attributes: { crossOrigin: "true" } } }}
           controls
           url={evidence?.file?.video}
-          onEnded={() => {
-            handleVideo();
-          }}
           width="100%"
           height="100%"
           style={{ maxHeight: "500px" }}
