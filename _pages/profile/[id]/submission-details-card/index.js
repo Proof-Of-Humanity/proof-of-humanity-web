@@ -13,6 +13,7 @@ import {
   useWeb3,
 } from "@kleros/components";
 import { User } from "@kleros/icons";
+import base2048 from "base-2048";
 import lodashOrderBy from "lodash.orderby";
 import { useEffect, useMemo, useState } from "react";
 import {
@@ -265,6 +266,19 @@ export default function SubmissionDetailsCard({
 
   const firstRoundFullyFunded = Number(lastRoundID) === 0 && hasPaid[0];
 
+  const generatePhrase = (language) => {
+    const address = id.slice(2);
+    const bytes = Buffer.from(address, "hex");
+
+    if (language === "es") {
+      const words = base2048.spanish.encode(bytes);
+      return words.split(" ").slice(0, 8).join(" ");
+    }
+    const words = base2048.english.encode(bytes);
+    // console.log(words)
+    return words.split(" ").slice(0, 8).join(" ");
+  };
+
   return (
     <Card
       mainSx={{
@@ -436,6 +450,14 @@ export default function SubmissionDetailsCard({
             fontWeight: "bold",
           }}
         />
+        {evidence?.file?.confirmation === "speaking" && (
+          <Alert
+            title="This submission uses verbal confirmation. Confirmation phrase is:"
+            style={{ marginBottom: "15px" }}
+          >
+            {generatePhrase(evidence?.file?.language)}
+          </Alert>
+        )}
         <Video url={evidence?.file?.video} />
         <UBICard
           submissionID={id}
