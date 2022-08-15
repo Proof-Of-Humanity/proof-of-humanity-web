@@ -25,11 +25,6 @@ export default function GasslessVouchButton({ submissionID }) {
   const web3Context = useWeb3Context();
   const [accounts] = useWeb3("eth", "getAccounts");
   const [addVouchLabel, setAddVouchLabel] = useState(vouchText);
-  const [registered] = useContract(
-    "proofOfHumanity",
-    "isRegistered",
-    useMemo(() => ({ args: [accounts?.[0]] }), [accounts])
-  );
   const [vouched] = useContract(
     "proofOfHumanity",
     "vouches",
@@ -105,7 +100,7 @@ export default function GasslessVouchButton({ submissionID }) {
       }),
     });
   }, [accounts, submissionID, web3Context]);
-  return registered || vouched ? (
+  return vouched ? (
     <Popup
       trigger={
         <Button
