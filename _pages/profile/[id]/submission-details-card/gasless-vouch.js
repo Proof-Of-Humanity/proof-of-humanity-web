@@ -100,7 +100,7 @@ export default function GasslessVouchButton({ submissionID }) {
       }),
     });
   }, [accounts, submissionID, web3Context]);
-  return vouched ? (
+  return (
     <Popup
       trigger={
         <Button
@@ -136,5 +136,5 @@ export default function GasslessVouchButton({ submissionID }) {
         </Box>
       )}
     </Popup>
-  ) : null;
+  );
 }
