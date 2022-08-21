@@ -324,13 +324,7 @@ export default function SubmissionDetailsCard({
             overflowWrap: "anywhere",
           }}
         >
-          {evidence instanceof Error
-            ? t("profile_card_maintenance")
-            : evidence?.file?.name &&
-              (name.replaceAll(/[^\s\w]/g, "") ===
-              evidence.file.name.replaceAll(/[^\s\w]/g, "")
-                ? evidence.file.name
-                : name)}
+          {evidence instanceof Error ? t("profile_card_maintenance") : name}
         </Text>
         <Text sx={{ wordBreak: "break-word" }} count={2}>
           {evidence?.file ? evidence.file.bio || " " : null}
