@@ -27,7 +27,7 @@ export default class Document extends NextDocument {
             property="og:image"
             content="https://app.proofofhumanity.id/images/open-graph-image.png"
           />
-          <meta property="og:url" content="https://www.proofofhumanity.id/" />
+          <meta property="og:url" content="https://proofofhumanity.org/" />
           <meta name="twitter:card" content="summary_large_image" />
         </Head>
         <Box as="body">

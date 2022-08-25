@@ -20,7 +20,7 @@ export default function AppFooter() {
               variant="navigation"
               sx={{ fontSize: 1 }}
               newTab
-              href="https://www.proofofhumanity.id/"
+              href="https://proofofhumanity.org/"
             >
               {t("footer_learn_more")}
             </Link>
