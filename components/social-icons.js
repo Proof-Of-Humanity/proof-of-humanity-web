@@ -25,7 +25,7 @@ export default function SocialIcons({
         <Link
           sx={{ marginX: "6px", ...sx }}
           newTab
-          href="https://twitter.com/proofofhumanity"
+          href="https://twitter.com/pohdao"
         >
           <Twitter sx={{ fill: color }} />
         </Link>
@@ -34,7 +34,7 @@ export default function SocialIcons({
         <Link
           sx={{ marginX: "6px", ...sx }}
           newTab
-          href="https://github.com/Proof-Of-Humanity"
+          href="https://github.com/OpenProofOfHumanity"
         >
           <Github sx={{ fill: color }} />
         </Link>
@@ -43,7 +43,7 @@ export default function SocialIcons({
         <Link
           sx={{ marginX: "6px", ...sx }}
           newTab
-          href="https://blog.kleros.io"
+          href="https://proofofhumanity.org"
         >
           <Blog sx={{ fill: color }} />
         </Link>
@@ -52,7 +52,7 @@ export default function SocialIcons({
         <Link
           sx={{ marginX: "6px", ...sx }}
           newTab
-          href="https://www.linkedin.com/company/kleros"
+          href="https://www.linkedin.com/company/74985941/admin/"
         >
           <LinkedIn sx={{ fill: color }} />
         </Link>
@@ -61,7 +61,7 @@ export default function SocialIcons({
         <Link
           sx={{ marginX: "6px", ...sx }}
           newTab
-          href="https://t.me/proofhumanity"
+          href="https://t.me/proofofhumanityDAOen"
         >
           <Telegram sx={{ fill: color }} />
         </Link>
