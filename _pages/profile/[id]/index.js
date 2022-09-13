@@ -3,6 +3,7 @@ import {
   Card,
   Image,
   Text,
+  useContract,
   useQuery,
   useWeb3,
 } from "@kleros/components";
@@ -38,6 +39,11 @@ export default function ProfileWithID() {
     location.reload();
   }, [reapply, router, account]);
 
+  const [submissionDuration] = useContract(
+    "proofOfHumanity",
+    "submissionDuration"
+  );
+
   const isReapply = account === query.id && reapply;
   const isRegistration = account === query.id && props?.submission === null;
   const isResubmit =
@@ -64,7 +70,11 @@ export default function ProfileWithID() {
   const status =
     props?.submission &&
     props?.contract &&
-    submissionStatusEnum.parse({ ...props.submission, ...props.contract });
+    submissionStatusEnum.parse({
+      ...props.submission,
+      ...props.contract,
+      submissionDuration,
+    });
   // const isExpired =
   //   status === submissionStatusEnum.Registered &&
   //   props?.submission &&
