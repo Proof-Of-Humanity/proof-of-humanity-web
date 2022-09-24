@@ -31,14 +31,14 @@ const Card = forwardRef(
       !rest.disabled && {
         style: {
           ...animatedStyle,
-          boxShadow: animatedStyle.boxShadow.interpolate(
+          /* boxShadow: animatedStyle.boxShadow.interpolate(
             (blur, spread) =>
-              `0 6px ${blur}px ${spread}px rgba(153, 153, 153, 0.25)`
+              `0 6px ${0}px ${0}px rgba(153, 153, 153, 0.25)`
           ),
           transform: animatedStyle.rotateXRotateYScale.interpolate(
             (rotateX, rotateY, scale) =>
-              `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`
-          ),
+              `perspective(500px) rotateX(${0}deg) rotateY(${0}deg) scale(${1})`
+          ),*/
           ...rest.style,
         },
         onMouseEnter() {

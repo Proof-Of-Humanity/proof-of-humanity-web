@@ -19,14 +19,14 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
 
   // Colors
   colors: {
-    text: "#000",
-    background: "#fffffa",
-    primary: "#ff9900",
+    text: "#9b9b9b",
+    background: "#222",
+    primary: "#fab62f", // "#ff9900",
     secondary: "#ffc700",
     accent: "#ffb978",
     accentComplement: "#fdc9d3",
     highlight: "#009aff",
-    muted: "#fffcf0",
+    muted: "#171717", // "#b6ff9c", // "#000", /// "#fffcf0",
     skeleton: "#ccc", // #eee
     skeletonHighlight: "#f5f5f5",
     success: "#00c851",
@@ -79,8 +79,8 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     },
     panel: {
       backgroundColor: "background",
-      bordeRadius: 3,
-      boxShadow: "0 6px 90px rgba(153, 153, 153, 0.25)",
+      bordeRadius: 5,
+      // boxShadow: "0 6px 90px rgba(153, 153, 153, 0.25)",
       fontSize: 1,
       paddingX: 4,
       paddingY: 3,
@@ -237,7 +237,8 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     primary: {
       backgroundColor: "background",
       borderRadius: 3,
-      boxShadow: "0 6px 10px rgba(153, 153, 153, 0.25)",
+      // boxShadow: "0 6px 10px rgba(153, 153, 153, 0.25)",
+      border: "1px solid #2f2f2f",
       fontFamily: "heading",
       fontSize: 0,
     },
@@ -343,10 +344,11 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
   },
   images: {
     avatar: {
-      borderRadius: 62,
-      height: 124,
-      objectFit: "contain",
-      width: 124,
+      borderRadius: 10,
+      height: 150,
+      objectFit: "cover",
+      boxShadow: "-1px 1px 20px -5px #000000b8",
+      width: 150,
     },
     smallAvatar: {
       borderColor: "success",

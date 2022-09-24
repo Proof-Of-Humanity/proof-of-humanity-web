@@ -1,4 +1,4 @@
-import { SecuredByKlerosWhite } from "@kleros/icons";
+import { UBI } from "@kleros/icons";
 import { Col, Layout, Row } from "antd";
 import { useTranslation } from "react-i18next";
 
@@ -31,9 +31,9 @@ export default function AppFooter() {
             <Link
               sx={{ alignItems: "center", display: "flex" }}
               newTab
-              href="https://kleros.io"
+              href="https://ubi.eth.limo"
             >
-              <SecuredByKlerosWhite sx={{ width: 200 }} />
+              <UBI sx={{ width: 32, height: 32 }} />
             </Link>
           </Row>
         </Col>
