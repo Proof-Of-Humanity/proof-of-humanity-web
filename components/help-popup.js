@@ -12,31 +12,31 @@ export default function HelpPopup({ ...rest }) {
     {
       key: "get-help-en",
       text: t("header_faq_help"),
-      url: "https://t.me/proofhumanity",
+      url: "https://t.me/proofofhumanityDAOen",
       Icon: Telegram,
     },
     {
       key: "get-help-es",
       text: t("header_faq_help_es"),
-      url: "https://t.me/proofhumanity",
+      url: "https://t.me/proofofhumanityDAOes",
       Icon: Telegram,
     },
     {
       key: "forums",
       text: t("header_faq_forums"),
-      url: "https://gov.proofofhumanity.id/",
+      url: "https://ubidao.social/",
       Icon: Chat,
     },
     {
       key: "report-bug",
       text: t("header_faq_bugreport"),
-      url: "https://github.com/Proof-Of-Humanity/proof-of-humanity-web/issues",
+      url: "https://github.com/OpenProofOfHumanity",
       Icon: Bug,
     },
     {
       key: "tutorial",
       text: t("header_faq_tutorial"),
-      url: "https://kleros.gitbook.io/docs/products/proof-of-humanity/proof-of-humanity-tutorial",
+      url: "https://proof-of-humanity.gitbook.io/docs/",
       Icon: Book,
     },
     {
@@ -48,7 +48,7 @@ export default function HelpPopup({ ...rest }) {
     {
       key: "faq",
       text: t("header_faq"),
-      url: "https://kleros.gitbook.io/docs/products/proof-of-humanity/poh-faq",
+      url: "https://proof-of-humanity.gitbook.io/docs/proof-of-humanity-faq",
       Icon: Help,
     },
   ];
