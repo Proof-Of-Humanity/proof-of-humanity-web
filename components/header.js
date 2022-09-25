@@ -66,12 +66,12 @@ function LanguageDropdown() {
   };
 
   const languages = [
-    { name: "English", key: "en" },
-    { name: "Español", key: "es" },
-    { name: "Português", key: "pt" },
-    { name: "Français", key: "fr" },
-    { name: "Italiano", key: "it" },
-    { name: "中文", key: "cn" },
+    { name: "🇬🇧 English", key: "en" },
+    { name: "🇪🇸 Español", key: "es" },
+    { name: "🇵🇹 Português", key: "pt" },
+    { name: "🇫🇷 Français", key: "fr" },
+    { name: "🇮🇹 Italiano", key: "it" },
+    { name: "🇨🇳 中文", key: "cn" },
   ];
 
   // Remove hardcode to programatical list
@@ -84,11 +84,6 @@ function LanguageDropdown() {
             key={language.key}
             onClick={() => changeLanguage(language.key)}
           >
-            <Image
-              src={`/images/flags/${language.key}.svg`}
-              width="30"
-              height="auto"
-            />{" "}
             {language.name}
           </Menu.Item>
           {i + 1 === list.length ? null : <Menu.Divider />}
@@ -98,7 +93,7 @@ function LanguageDropdown() {
   );
 
   return (
-    <Dropdown overlay={languageMenu}>
+    <Dropdown sx={{ width: 200, cursor: "pointer" }} overlay={languageMenu}>
       <div
         aria-hidden="true"
         className="ant-dropdown-link"
@@ -106,9 +101,9 @@ function LanguageDropdown() {
         onKeyDown={(event) => event.preventDefault()}
       >
         <Image
-          sx={{ border: "2px solid #fff", borderRadius: 100 }}
-          src={`/images/flags/${i18n.resolvedLanguage}.svg`}
-          width="30"
+          sx={{ width: 25, cursor: "pointer" }}
+          src="/images/globe.svg"
+          width="25"
           height="auto"
         />
       </div>
@@ -284,7 +279,7 @@ function DesktopNavbar() {
           <AccountSettingsPopup />
           <HelpPopup />
           <Link href="https://snapshot.org/#/poh.eth/" target="_blank">
-            <Image src="/images/governance.png" width={25} sx={{ margin: 1 }} />
+            <Image src="/images/hand.svg" width={20} sx={{ margin: 1 }} />
           </Link>
           <LanguageDropdown />
         </Row>
