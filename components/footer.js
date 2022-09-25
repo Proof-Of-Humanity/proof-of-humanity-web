@@ -1,7 +1,7 @@
-import { UBI } from "@kleros/icons";
 import { Col, Layout, Row } from "antd";
 import { useTranslation } from "react-i18next";
 
+import Image from "./image";
 import Link from "./link";
 import SocialIcons from "./social-icons";
 
@@ -33,7 +33,12 @@ export default function AppFooter() {
               newTab
               href="https://ubi.eth.limo"
             >
-              <UBI sx={{ width: 32, height: 32 }} />
+              <Image
+                sx={{ cursor: "pointer" }}
+                src="/images/ubi-logo.png"
+                width="72"
+                height="auto"
+              />
             </Link>
           </Row>
         </Col>
