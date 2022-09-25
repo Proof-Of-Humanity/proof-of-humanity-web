@@ -144,7 +144,7 @@ a:hover {
   color: var(--theme-ui-colors-background, #fffffa) !important;
   font-weight: 600;
   text-decoration: none;
-  padding: 12px 0px 0px 12px;
+  /* padding: 12px 0px 0px 12px; */
 }
 
 .poh-drawer-text {

@@ -114,7 +114,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
       {requestsForUI.length >= 1 && (
         <SubmissionDetailsAccordionItem
           heading={t("profile_details_previous_requests")}
-          panelSx={{ paddingX: 0 }}
+          panelSx={{ paddingX: 0, borderRadius: 12 }}
           panel={
             <PreviousRequests
               useEvidenceFile={useEvidenceFile}
@@ -125,7 +125,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
       )}
       <SubmissionDetailsAccordionItem
         heading={t("profile_details_evidence")}
-        panelSx={{ paddingX: 0 }}
+        panelSx={{ paddingX: 0, borderRadius: 12 }}
         panel={
           <Evidence
             contract="proofOfHumanity"

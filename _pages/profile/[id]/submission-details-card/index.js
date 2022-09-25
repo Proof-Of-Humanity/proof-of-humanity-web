@@ -460,7 +460,7 @@ export default function SubmissionDetailsCard({
         {evidence?.file?.confirmation === "speaking" && (
           <Alert
             title={t("profile_card_confirmation_phrase_title")}
-            style={{ marginBottom: "15px" }}
+            style={{ marginBottom: "15px", borderRadius: 12 }}
           >
             {generatePhrase(evidence?.file?.language)}
           </Alert>
@@ -486,7 +486,7 @@ export default function SubmissionDetailsCard({
           <Alert
             type="muted"
             title={t("profile_card_something_wrong")}
-            sx={{ mt: 3, wordWrap: "break-word" }}
+            sx={{ mt: 3, wordWrap: "break-word", borderRadius: 12 }}
           >
             <Text>
               <Trans

@@ -275,7 +275,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     },
     footer: {
       backgroundColor: "muted",
-      borderRadius: "0 0 3px 3px",
+      borderRadius: "0 0 12px 12px",
       justifyContent: "flex-end",
       padding: 1,
     },

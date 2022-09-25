@@ -80,7 +80,7 @@ export default function ProfileWithID() {
         <Alert
           type="muted"
           title={t("profile_advice")}
-          sx={{ mb: 2, fontSize: 14 }}
+          sx={{ mb: 2, fontSize: 14, borderRadius: 12 }}
         >
           <Text>{t("gasless_vouch_cost")}</Text>
         </Alert>
