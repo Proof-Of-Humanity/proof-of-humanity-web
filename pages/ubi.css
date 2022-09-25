@@ -135,6 +135,10 @@ a:hover {
   /* background-color: #691073; */
 }
 
+.ant-dropdown-menu {
+  min-width: 180px;
+}
+
 .poh-header-text,
 .poh-footer-text {
   font-size: 18px;

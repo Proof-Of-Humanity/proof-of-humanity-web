@@ -2,6 +2,7 @@ import { Book, Bug, Chat, Ether, Help, Telegram } from "@kleros/icons";
 import { useTranslation } from "react-i18next";
 import { Box, IconButton } from "theme-ui";
 
+import Image from "./image";
 import Link from "./link";
 import List, { ListItem } from "./list";
 import Popup from "./popup";
@@ -57,8 +58,12 @@ export default function HelpPopup({ ...rest }) {
     <Popup
       contentStyle={{ width: 248, lineHeight: "initial" }}
       trigger={
-        <IconButton aria-label="Help Menu">
-          <Help fill="white" />
+        <IconButton sx={{ cursor: "pointer", marginTop: "3px", width: "40px" }}>
+          <Image
+            src="/images/help.svg"
+            crossOrigin="anonymous"
+            sx={{ objectFit: "contain" }}
+          />
         </IconButton>
       }
       position="bottom right"

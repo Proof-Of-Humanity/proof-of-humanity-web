@@ -93,7 +93,7 @@ function LanguageDropdown() {
   );
 
   return (
-    <Dropdown sx={{ width: 200, cursor: "pointer" }} overlay={languageMenu}>
+    <Dropdown sx={{ minWidth: 200, cursor: "pointer" }} overlay={languageMenu}>
       <div
         aria-hidden="true"
         className="ant-dropdown-link"
@@ -101,9 +101,8 @@ function LanguageDropdown() {
         onKeyDown={(event) => event.preventDefault()}
       >
         <Image
-          sx={{ width: 25, cursor: "pointer" }}
+          sx={{ width: 36, cursor: "pointer" }}
           src="/images/globe.svg"
-          width="25"
           height="auto"
         />
       </div>
@@ -276,12 +275,12 @@ function DesktopNavbar() {
               },
             }}
           />
+          <LanguageDropdown />
           <AccountSettingsPopup />
           <HelpPopup />
           <Link href="https://snapshot.org/#/poh.eth/" target="_blank">
-            <Image src="/images/hand.svg" width={20} sx={{ margin: 1 }} />
+            <Image src="/images/hand.svg" width={28} sx={{ margin: 1 }} />
           </Link>
-          <LanguageDropdown />
         </Row>
       </Col>
     </Row>
