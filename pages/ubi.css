@@ -149,7 +149,7 @@ a:hover {
   font-weight: 500;
   text-decoration: none;
   /* padding: 12px 0px 0px 12px; */
-  background-color: #222222d6;
+  background-color: #22222280;
   box-shadow: 0px 7px 7px -8px black;
   padding: 8px 24px;
   border-radius: 32px;
@@ -168,7 +168,7 @@ a:hover {
 .poh-header-text:hover,
 .poh-footer-text:hover {
   color: var(--theme-ui-colors-background, #fffffa) !important;
-  background-color: black;
+  background-color: #222222d6;
 }
 
 .poh-drawer-text:hover {
