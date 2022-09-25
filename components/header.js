@@ -1,5 +1,4 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { ProofOfHumanityLogo } from "@kleros/icons";
 import { useWindowWidth } from "@react-hook/window-size";
 import { Col, Drawer, Dropdown, Layout, Menu, Row, Typography } from "antd";
 import React, { useState } from "react";
@@ -231,7 +230,12 @@ function DesktopNavbar() {
       <Col span={1} style={{ display: "flex", alignItems: "center" }}>
         <NextLink href="/" as="/">
           <Link variant="unstyled" sx={{ display: "flex" }}>
-            <ProofOfHumanityLogo style={{ alignItems: "middle" }} size={32} />
+            {/* <ProofOfHumanityLogo style={{ alignItems: "middle" }} size={32} /> */}
+            <Image
+              sx={{ width: 90, minWidth: 90 }}
+              src="/images/poh-logo-white.svg"
+              height="auto"
+            />
           </Link>
         </NextLink>
         {/* <Box sx={{ marginLeft: 1 }}>

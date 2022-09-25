@@ -47,6 +47,7 @@ export default function ProfileWithID() {
           flexWrap: "wrap",
           justifyContent: "space-between",
           paddingY: 1,
+          padding: 16,
         }}
       >
         <Text
@@ -60,7 +61,7 @@ export default function ProfileWithID() {
           <Image
             crossOrigin="anonymous"
             sx={{ height: 30, marginRight: 2 }}
-            src="/images/proof-of-humanity-logo-black.png"
+            src="/images/proof-of-humanity-logo-white.png"
           />
           {t("profile_status")}
         </Text>
