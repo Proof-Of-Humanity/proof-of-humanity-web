@@ -18,7 +18,6 @@ export default function AppFooter() {
             <Link
               className="poh-footer-text"
               variant="navigation"
-              sx={{ fontSize: 1 }}
               newTab
               href="https://proofofhumanity.org/"
             >

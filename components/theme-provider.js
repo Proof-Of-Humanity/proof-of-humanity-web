@@ -8,9 +8,9 @@ import typographyThemeSutro from "typography-theme-sutro";
 export const typographyTheme = {
   ...typographyThemeSutro,
   bodyFontFamily: typographyThemeSutro.headerFontFamily,
-  boldWeight: 600,
+  boldWeight: 500,
   googleFonts: [{ name: "Open Sans", styles: [300, "300i", 600, "600i"] }],
-  headerWeight: 600,
+  headerWeight: 500,
 };
 export const theme = merge(merge(base, toTheme(typographyTheme)), {
   // Settings
@@ -379,6 +379,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       color: "background",
       fontWeight: "bold",
       textDecoration: "none",
+      margin: "0 5px",
     },
     unstyled: {
       color: "inherit",

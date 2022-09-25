@@ -224,7 +224,6 @@ function DesktopNavbar() {
       <Col span={1} style={{ display: "flex", alignItems: "center" }}>
         <NextLink href="/" as="/">
           <Link variant="unstyled" sx={{ display: "flex" }}>
-            {/* <ProofOfHumanityLogo style={{ alignItems: "middle" }} size={32} /> */}
             <Image
               sx={{ width: 90, minWidth: 90 }}
               src="/images/poh-logo-white.svg"
@@ -232,22 +231,15 @@ function DesktopNavbar() {
             />
           </Link>
         </NextLink>
-        {/* <Box sx={{ marginLeft: 1 }}>
-              <Text>PROOF OF</Text>
-              <Text>HUMANITY</Text>
-            </Box>
-          */}
       </Col>
       <Col className="poh-header-menu" span={17}>
         <Row justify="center">
-          <Col span={6} className="poh-header-item">
+          <Col span={15} className="poh-header-item">
             <NextLink href="/" as="/">
               <Link className="poh-header-text" variant="navigation">
                 {t("header_profiles")}
               </Link>
             </NextLink>
-          </Col>
-          <Col span={8} className="poh-header-item">
             <MyProfileLink className="poh-header-text" />
           </Col>
         </Row>
