@@ -234,7 +234,7 @@ function DesktopNavbar() {
       </Col>
       <Col className="poh-header-menu" span={17}>
         <Row justify="center">
-          <Col span={15} className="poh-header-item">
+          <Col span={17} className="poh-header-item">
             <NextLink href="/" as="/">
               <Link className="poh-header-text" variant="navigation">
                 {t("header_profiles")}

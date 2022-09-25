@@ -136,7 +136,8 @@ a:hover {
 }
 
 .ant-dropdown-menu {
-  min-width: 180px;
+  min-width: 160px;
+  margin-left: -60px;
 }
 
 .poh-header-text,

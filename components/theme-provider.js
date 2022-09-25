@@ -379,7 +379,9 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       color: "background",
       fontWeight: "bold",
       textDecoration: "none",
-      margin: "0 5px",
+      margin: "16px 5px",
+      lineHeight: "initial",
+      height: "32px",
     },
     unstyled: {
       color: "inherit",
