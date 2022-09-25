@@ -166,6 +166,7 @@ export default function ProfileNew() {
 
       <Row justify="center">
         <Col
+          sx={{ color: "#fff" }}
           className="submit-profile-card"
           style={{ textAlign: "center" }}
           xs={{ span: 24 }}

@@ -57,6 +57,7 @@ export default class InitialTab extends React.Component {
                   borderRadius: "15px",
                   textAlign: "center",
                   margin: "0 auto",
+                  backgroundImage: `linear-gradient(90.13deg, var(--theme-ui-colors-accentComplement) 49.89%,var(--theme-ui-colors-accentComplement) 93.37%)`,
                   padding: "5px",
                 }}
               >

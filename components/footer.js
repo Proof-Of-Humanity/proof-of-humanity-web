@@ -16,6 +16,7 @@ export default function AppFooter() {
         <Col xs={12} lg={8}>
           <Row justify="start">
             <Link
+              sx={{ marginTop: 0 }}
               className="poh-footer-text"
               variant="navigation"
               newTab

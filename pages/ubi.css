@@ -256,12 +256,24 @@ a:hover {
   background-color: #ffe7c9 !important;
 }
 
+h2.ant-typography {
+  color: #fff;
+}
+
+.ant-typography {
+  color: #bbbbbb;
+  font-family: system-ui;
+  line-height: 1.6em;
+}
+
 .submit-profile-card {
-  padding: 16px;
-  background-color: white;
-  border-color: #eee;
+  padding: 28px;
+  background-color: #222;
+  text-align: center;
+  color: white;
+  border: 1px solid #2f2f2f;
+  /* border-color: #eee; */
   border-radius: 12px;
-  /* box-shadow: 0 6px 10px rgb(153 153 153 / 25%); */
 }
 .image-rules{
   width: 100%;
