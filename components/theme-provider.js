@@ -236,7 +236,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
   cards: {
     primary: {
       backgroundColor: "background",
-      borderRadius: 3,
+      borderRadius: 12,
       // boxShadow: "0 6px 10px rgba(153, 153, 153, 0.25)",
       border: "1px solid #2f2f2f",
       fontFamily: "heading",
@@ -264,13 +264,14 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
   card: {
     header: {
       backgroundColor: "muted",
-      borderRadius: "3px 3px 0 0",
+      borderRadius: "12px 12px 0 0",
       justifyContent: "space-between",
       paddingX: 2,
       paddingY: 1,
     },
     main: {
       padding: 3,
+      bordeRadius: 12,
     },
     footer: {
       backgroundColor: "muted",

@@ -83,7 +83,7 @@ class _FinalizeTab extends React.Component {
                   <Paragraph>
                     People can try to notify you of problems in your submission
                     and save your deposit via your{" "}
-                    <Link href="https://ethmail.cc/">ethmail.cc</Link>. Make sure
+                    <Link href="https://ethermail.io/">ethermail.io</Link>. Make sure
                     to check it while submission is being processed.
                   </Paragraph>
                 </>

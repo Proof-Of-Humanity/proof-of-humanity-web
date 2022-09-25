@@ -67,7 +67,7 @@ a:hover {
 }
 .ant-input {
   border: solid 1px #b6ff9c !important;
-  border-radius: 4px;
+  border-radius: 12px;
   color: black;
   display: block;
   margin: 0 auto;
@@ -144,6 +144,7 @@ a:hover {
   color: var(--theme-ui-colors-background, #fffffa) !important;
   font-weight: 600;
   text-decoration: none;
+  padding: 12px 0px 0px 12px;
 }
 
 .poh-drawer-text {
@@ -153,6 +154,7 @@ a:hover {
   color: black !important;
   text-decoration: none;
   box-sizing: border-box;
+  padding: 12px 0px 0px 12px;
 }
 
 .poh-header-text:hover,
@@ -248,7 +250,7 @@ a:hover {
   padding: 16px;
   background-color: white;
   border-color: #eee;
-  border-radius: 4px;
+  border-radius: 12px;
   /* box-shadow: 0 6px 10px rgb(153 153 153 / 25%); */
 }
 .image-rules{
