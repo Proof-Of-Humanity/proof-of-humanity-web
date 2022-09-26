@@ -45,44 +45,36 @@ export default class InitialTab extends React.Component {
                   ? t("submit_profile_initial_description_reapply")
                   : t("submit_profile_initial_description")}
               </Paragraph>
-
+              <Link
+                className="tornado-link"
+                href="https://tornado.cash"
+                target="_blank"
+                rel="noopener"
+                style={{ margin: "0 10%" }}
+              >
+                {t("submit_profile_tornado_cash")}
+              </Link>
               {/* Add links or example how a profile gets registered? Register -> Vouch -> Pending (3.5 days) -> Start accruing UBI */}
 
               <Paragraph>{t("submit_profile_your_wallet")}</Paragraph>
               <Paragraph
+                className="wallet-address"
                 style={{
-                  wordWrap: "break-word",
-                  fontWeight: "bold",
-                  border: "2px solid #ffb978",
-                  borderRadius: "15px",
-                  textAlign: "center",
-                  margin: "0 auto",
-                  backgroundImage: `linear-gradient(90.13deg, var(--theme-ui-colors-accentComplement) 49.89%,var(--theme-ui-colors-accentComplement) 93.37%)`,
-                  padding: "5px",
+                  fontFamily: "monospace",
+                  color: "#fff",
                 }}
               >
                 {this.props.account}
               </Paragraph>
               {!this.props.reapply && (
-                <>
-                  <Link
-                    href="https://tornado.cash"
-                    target="_blank"
-                    rel="noopener"
-                    style={{ fontWeight: "bold" }}
-                  >
-                    {t("submit_profile_tornado_cash")}
-                  </Link>
-
-                  <Checkbox
-                    style={{ fontWeight: "bold" }}
-                    onChange={(event) => {
-                      this.setState({ checked: event.target.checked });
-                    }}
-                  >
-                    {t("submit_profile_sensitive_info")}
-                  </Checkbox>
-                </>
+                <Checkbox
+                  style={{ fontWeight: "bold" }}
+                  onChange={(event) => {
+                    this.setState({ checked: event.target.checked });
+                  }}
+                >
+                  {t("submit_profile_sensitive_info")}
+                </Checkbox>
               )}
               <Button
                 disabled={!this.state.checked && !this.props.reapply}

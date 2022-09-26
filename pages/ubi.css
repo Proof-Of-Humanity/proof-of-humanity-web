@@ -260,6 +260,32 @@ h2.ant-typography {
   color: #fff;
 }
 
+.ant-typography.tornado-link {
+  margin: 0px 10%;
+  color: rgb(250, 182, 47);
+  font-size: 0.8em;
+  line-height: 1.2em;
+  padding-bottom: 20px;
+  display: inline-block;
+}
+
+.ant-typography.tornado-link:hover {
+  text-decoration: underline;
+}
+
+.wallet-address {
+  overflow-wrap: break-word;
+  color: white;
+  background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #f67dc1) 25.89%, var(--theme-ui-colors-accentComplement, #7a56f1) 93.37%);
+  border-radius: 32px;
+  font-family: monospace;
+  display: inline-block;
+  text-align: center;
+  margin: 0px auto 20px;
+  padding: 12px 32px;
+  font-size: 1.2em;
+}
+
 .ant-typography {
   color: #bbbbbb;
   font-family: system-ui;
