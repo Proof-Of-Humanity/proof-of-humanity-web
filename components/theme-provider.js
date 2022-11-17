@@ -33,7 +33,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     warning: "#ffbb33",
     danger: "#ff4444",
     info: "#33b5e5",
-    neutral: "#fff",
+    neutral: "#999",
   },
 
   // Styles
