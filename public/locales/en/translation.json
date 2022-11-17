@@ -146,14 +146,14 @@
   "profile_evidence_advice": "Only send evidence if you believe that the submission is correct\n as it is. Sending new files as evidence won't help if the submitted ones are incorrect.",
 
   "submit_profile_title": "Create your Proof of Humanity profile",
-  "submit_profile_create_wallet": "You don't have a wallet connected to the website",
+  "submit_profile_create_wallet": "🚨 You don't have a wallet connected to the website",
   "submit_profile_connect_wallet": "Connect an Ethereum Wallet",
   "submit_profile_wallet_help": "Don't have a wallet? Click <0>here</0> to learn on how to create one!",
 
   "submit_profile_initial_title": "Create your Proof Of Humanity profile",
   "submit_profile_initial_title_reapply": "Reapply your Proof Of Humanity profile",
-  "submit_profile_initial_description": "Submitting your profile to Proof of Humanity takes an average of 5-10 minutes, an existing Ethereum account and requires you to record a video of yourself talking.",
-  "submit_profile_initial_description_reapply": "Reapplying your profile to Proof of Humanity takes an average of 5-10 minutes, an existing Ethereum account and requires you to record a video of yourself talking.",
+  "submit_profile_initial_description": "Submitting your profile to Proof of Humanity takes an average of 5-10 minutes. It requires an existing Ethereum account and that you to record a video of yourself talking.",
+  "submit_profile_initial_description_reapply": "Reapplying your profile to Proof of Humanity takes an average of 5-10 minutes. It requires an existing Ethereum account and that you to record a video of yourself talking.",
   "submit_profile_your_wallet": "Your connected wallet is:",
   "submit_profile_tornado_cash": "👁 Learn how to increase your privacy with Tornado Cash",
   "submit_profile_sensitive_info": "I understand this wallet will be irreversebly linked to my real world person and I will not use that wallet for any private or sensitive information.",

@@ -182,6 +182,37 @@ a:hover {
   min-height: calc(100vh - 64px - 76px);
   background: #171717;
 }
+a.ant-typography, .ant-typography a {
+  color: var(--theme-ui-colors-primary, #fab62f);
+  outline: none;
+  cursor: pointer;
+  transition: color 0.3s;
+  text-decoration: none;
+}
+
+.ant-typography a:hover {
+  text-decoration: underline;
+}
+
+
+.ant-steps-item-process>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title {
+  color: white;
+}
+
+.ant-steps-item-wait>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title {
+  color: white;
+}
+
+h5.ant-typography,
+div.ant-typography-h5,
+div.ant-typography-h5>textarea,
+.ant-typography h5 {
+  margin-bottom: 0.5em;
+  color: rgb(255 255 255 / 85%);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.5;
+}
 
 /* Header buttons */
 .poh-header > div > div > div > button {
@@ -190,11 +221,15 @@ a:hover {
 .button-orange {
   font-weight: bold;
   display: block;
-  margin: 2% auto;
-  background-color: #b6ff9c !important;
+  margin: 32px auto;
+  background: #7dffb5;
   border: none;
-  color: white;
+  color: var(--theme-ui-colors-background, #222);
+  height: auto;
+  box-shadow: inset 0px -16px 20px -20px black;
+  padding: 12px 24px;
 }
+
 .button-grey {
   font-weight: bold;
   display: block;
@@ -260,6 +295,21 @@ h2.ant-typography {
   color: #fff;
 }
 
+.ant-checkbox-wrapper {
+  margin: 0;
+  padding: 20px 0px;
+  color: white;
+  max-width: 550px;
+  font-size: 14px;
+  font-variant: tabular-nums;
+  list-style: none;
+  font-feature-settings: 'tnum', "tnum";
+  display: inline-flex;
+  align-items: baseline;
+  line-height: unset;
+  cursor: pointer;
+}
+
 .ant-typography.tornado-link {
   margin: 0px 10%;
   color: rgb(250, 182, 47);
@@ -296,6 +346,8 @@ h2.ant-typography {
   padding: 28px;
   background-color: #222;
   text-align: center;
+  min-width: 70%;
+  max-width: 900px;
   color: white;
   border: 1px solid #2f2f2f;
   /* border-color: #eee; */
