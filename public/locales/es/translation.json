@@ -153,7 +153,7 @@
   "submit_profile_initial_title": "Crea tu perfil de Proof Of Humanity",
   "submit_profile_initial_description": "Enviar tu perfil a Proof of Humanity toma alrededor de 5 a 10 minutos, una cuenta de Ethereum existente y requiere que grabes un video de ti mismo hablando.",
   "submit_profile_your_wallet": "Tu billetera conectada es:",
-  "submit_profile_tornado_cash": "Aprende a aumentar tu privacidad con Tornado Cash",
+  "submit_profile_tornado_cash": "👁 Aprende a aumentar tu privacidad con Tornado Cash",
   "submit_profile_sensitive_info": "Entiendo que esta cartera estará irreversiblemente vinculada a mi persona en el mundo real y que no utilizaré esa cartera para ninguna información privada o sensible",
   "submit_profile_ios_incompatible": "Los dispositivos iOS no son compatibles con este proceso de registración. Por favor vuelva a intentarlo desde otro dispositivo.",
 
@@ -177,7 +177,7 @@
   "submit_profile_image_grayscale": "La imagen no puede ser en blanco y negro, por favor elija o tome otra",
   "submit_profile_image_verify_title": "¡Verifica tu imagen!",
   "submit_profile_image_verify_description": "Asegúrate de que <0>tus rasgos faciales son visibles</0> y de que <1>no estás cubierto por un maquillaje pesado, máscaras u otras coberturas.</1>también debes estar mirando directamente a la cámara",
-  "submit_profile_image_verify_next": "Se ve muy bien",
+  "submit_profile_image_verify_next": "Se ve muy bien 👍",
   "submit_profile_image_crop_result": "Mostrar resultado",
   "submit_profile_image_retake": "Tomar de nuevo",
   "submit_profile_image_result_title": "Tu imagen",

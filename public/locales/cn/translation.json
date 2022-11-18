@@ -153,7 +153,7 @@
   "submit_profile_initial_title": "创建你的人性证明文件",
   "submit_profile_initial_description": "将您的个人资料提交给 Proof of Humanity 平均需要 5-10 分钟，一个现有的以太坊帐户，并且需要您录制一段自己说话的视频。",
   "submit_profile_your_wallet": "你连接的钱包是：",
-  "submit_profile_tornado_cash": "了解如何使用 Tornado Cash 增加您的隐私",
+  "submit_profile_tornado_cash": "👁 了解如何使用 Tornado Cash 增加您的隐私",
   "submit_profile_sensitive_info": "我明白这个钱包将与我现实世界的人不可逆转地联系起来，我不会将该钱包用于任何私人或敏感信息。",
   "submit_profile_ios_incompatible": "iOS devices are not supported for this registration process. Please try again with a different device.",
 
@@ -177,7 +177,7 @@
   "submit_profile_image_grayscale": "图片不能是黑白的，请选择或拍另一张",
   "submit_profile_image_verify_title": "验证你的图片！",
   "submit_profile_image_verify_description": "确保<0>你的面部特征清晰可见</0>并且<1>你没有被浓妆、面具或其他遮盖物覆盖。</1>\n你还必须直视在相机上。",
-  "submit_profile_image_verify_next": "看起来很棒",
+  "submit_profile_image_verify_next": "看起来很棒👍",
   "submit_profile_image_crop_result": "显示结果",
   "submit_profile_image_retake": "重拍",
   "submit_profile_image_result_title": "你的照片",

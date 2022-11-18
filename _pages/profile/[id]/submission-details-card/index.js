@@ -304,6 +304,8 @@ export default function SubmissionDetailsCard({
           alignItems: "center",
           backgroundColor: "muted",
           flexDirection: "column",
+          borderTopLeftRadius: 12,
+          borderBottomLeftRadius: 12,
           maxWidth: [null, null, null, 300],
           paddingX: 3,
           paddingY: 4,
@@ -458,7 +460,7 @@ export default function SubmissionDetailsCard({
         {evidence?.file?.confirmation === "speaking" && (
           <Alert
             title={t("profile_card_confirmation_phrase_title")}
-            style={{ marginBottom: "15px" }}
+            style={{ marginBottom: "15px", borderRadius: 12 }}
           >
             {generatePhrase(evidence?.file?.language)}
           </Alert>
@@ -484,15 +486,15 @@ export default function SubmissionDetailsCard({
           <Alert
             type="muted"
             title={t("profile_card_something_wrong")}
-            sx={{ mt: 3, wordWrap: "break-word" }}
+            sx={{ mt: 3, wordWrap: "break-word", borderRadius: 12 }}
           >
             <Text>
               <Trans
                 i18nKey="profile_card_save_deposit_text"
                 t={t}
-                values={{ email: `${id}@ethmail.cc` }}
+                values={{ email: `${id}@ethermail.io` }}
                 components={[
-                  <Link href={`mailto:${id}@ethmail.cc`} key="mail" />,
+                  <Link href={`mailto:${id}@ethermail.io`} key="mail" />,
                 ]}
               />
             </Text>

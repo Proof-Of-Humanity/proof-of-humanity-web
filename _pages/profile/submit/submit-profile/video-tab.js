@@ -406,10 +406,16 @@ export default class VideoTab extends React.Component {
                   >
                     <Image
                       preview={false}
-                      src="/images/speaker.png"
+                      src="/images/speak.svg"
                       width="50%"
                     />
-                    <Title level={4} style={{ marginTop: "10px" }}>
+                    <Title
+                      level={4}
+                      style={{
+                        marginTop: "10px",
+                        color: "#fff",
+                      }}
+                    >
                       {t("submit_profile_video_by_voice")}
                     </Title>
                   </Col>
@@ -428,8 +434,14 @@ export default class VideoTab extends React.Component {
                       });
                     }}
                   >
-                    <Image preview={false} src="/images/sign.png" width="50%" />
-                    <Title level={4} style={{ marginTop: "10px" }}>
+                    <Image preview={false} src="/images/sign.svg" width="50%" />
+                    <Title
+                      level={4}
+                      style={{
+                        marginTop: "10px",
+                        color: "#fff",
+                      }}
+                    >
                       {t("submit_profile_video_visual")}
                     </Title>
                   </Col>
@@ -525,7 +537,7 @@ export default class VideoTab extends React.Component {
                             <RecordCamera
                               width="25px"
                               height="25px"
-                              fill="white"
+                              fill="black"
                             />
                           </Button>
                         </Col>
@@ -540,7 +552,7 @@ export default class VideoTab extends React.Component {
                             <MirrorCamera
                               width="25px"
                               height="25px"
-                              fill="white"
+                              fill="black"
                             />
                           </Button>
                         </Col>
@@ -557,7 +569,7 @@ export default class VideoTab extends React.Component {
                                 <CameraSwitch
                                   width="25px"
                                   height="25px"
-                                  fill="white"
+                                  fill="black"
                                 />
                               </Button>
                             </Col>
@@ -572,7 +584,7 @@ export default class VideoTab extends React.Component {
                               <ExitFullscreen
                                 width="25px"
                                 height="25px"
-                                fill="white"
+                                fill="black"
                               />
                             </Button>
                           </Col>
@@ -586,7 +598,7 @@ export default class VideoTab extends React.Component {
                               <Fullscreen
                                 width="25px"
                                 height="25px"
-                                fill="white"
+                                fill="black"
                               />
                             </Button>
                           </Col>
@@ -601,7 +613,7 @@ export default class VideoTab extends React.Component {
                           shape="round"
                           className="button-orange-camera"
                         >
-                          <Stop width="25px" height="25px" fill="white" />
+                          <Stop width="25px" height="25px" fill="black" />
                         </Button>
                       </Col>
                     </Row>
@@ -610,7 +622,14 @@ export default class VideoTab extends React.Component {
               </div>
               {this.state.recordingMode === "visual" && (
                 <>
-                  <Title level={4} style={{ textAlign: "center" }}>
+                  <Title
+                    level={4}
+                    style={{
+                      textAlign: "center",
+                      color: "#dedede",
+                      fontWeight: 400,
+                    }}
+                  >
                     {t("submit_profile_video_instruction")}
                   </Title>
                   <Title level={2}>
@@ -622,7 +641,7 @@ export default class VideoTab extends React.Component {
                         {...this.draggerProps}
                         className="dragger"
                       >
-                        <FileAddFilled />
+                        <FileAddFilled style={{ color: "#fff" }} />
                         <Paragraph className="ant-upload-text">
                           {t("submit_profile_video_upload")}
                         </Paragraph>
@@ -650,7 +669,7 @@ export default class VideoTab extends React.Component {
             <Row justify="center">
               <Col xs={12} lg={6}>
                 <Upload.Dragger {...this.draggerProps} className="dragger">
-                  <FileAddFilled />
+                  <FileAddFilled style={{ color: "#fff" }} />
 
                   <Paragraph className="ant-upload-text">
                     {t("submit_profile_video_upload")}

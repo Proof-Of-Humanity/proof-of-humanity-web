@@ -12,6 +12,8 @@ import { Box } from "theme-ui";
 
 import SVG from "./svg";
 
+const accColor = "#7dffb5";
+
 export default function Accordion({
   allowMultipleExpanded = true,
   allowZeroExpanded = true,
@@ -55,23 +57,26 @@ function AnimatedAccordionItemHeading({ expanded, children, ...rest }) {
     rotate: expanded ? 0 : -90,
     transformOrigin: "center",
   });
+
   return (
     <Box as={_AccordionItemHeading} {...rest}>
       <Box
         as={_AccordionItemButton}
         variant="accordion.heading"
         sx={{
-          backgroundImage({ colors: { accent, accentComplement } }) {
-            return `linear-gradient(90deg, ${accent} 0%, ${accentComplement} 100%, ${accentComplement} 100%)`;
-          },
+          backgroundImage: `linear-gradient(90.13deg, var(--theme-ui-colors-accent, ${accColor}) 49.89%, var(--theme-ui-colors-accentComplement, #517aea) 93.37%)`,
+          boxShadow: "inset 2px 2px 16px #0000009e",
           position: "relative",
+          borderRadius: "30px",
+          padding: "16px 128px 16px 32px",
+          cursor: "pointer",
         }}
       >
         {children}
         <SVG
           sx={{
             position: "absolute",
-            right: 2,
+            right: 3,
             top: "50%",
             transform: "translateY(-50%)",
           }}

@@ -31,7 +31,7 @@ import "i18n/i18n";
 
 // CSS imports
 // import 'antd/dist/antd.css';
-import "./main.css";
+import "./ubi.css";
 
 const { Content } = Layout;
 
