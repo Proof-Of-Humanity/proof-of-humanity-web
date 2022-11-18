@@ -137,7 +137,7 @@
     "lint": "eslint --ext js,mdx .",
     "dev": "next",
     "local:dev:relay": "env-cmd -f .env.local npm run dev:relay:mainnet",
-    "dev:relay:mainnet": "get-graphql-schema https://gateway.thegraph.com/api/d98c97feb09f87d2d86956a815a5dbb5/subgraphs/id/0xb2a33ae0e07fd2ca8dbde9545f6ce0b3234dc4e8-0 > subgraph/build/full-schema.graphql && get-graphql-schema https://gateway.thegraph.com/api/d98c97feb09f87d2d86956a815a5dbb5/subgraphs/id/0xb2a33ae0e07fd2ca8dbde9545f6ce0b3234dc4e8-0 --json > subgraph/build/full-schema.json && relay-compiler --watch",
+    "dev:relay:mainnet": "get-graphql-schema https://gateway.thegraph.com/api/4f682d845e474f89a2262c4428953abb/subgraphs/id/0xb2a33ae0e07fd2ca8dbde9545f6ce0b3234dc4e8-0 > subgraph/build/full-schema.graphql && get-graphql-schema https://gateway.thegraph.com/api/4f682d845e474f89a2262c4428953abb/subgraphs/id/0xb2a33ae0e07fd2ca8dbde9545f6ce0b3234dc4e8-0 --json > subgraph/build/full-schema.json && relay-compiler --watch",
     "local:dev:relay:test": "env-cmd -f .env.local cross-var 'npm run dev:relay:test:$NEXT_PUBLIC_NETWORK'",
     "dev:relay:test:mainnet": "get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-mainnet > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-mainnet --json > subgraph/build/full-schema.json && relay-compiler --watch",
     "dev:relay:test:kovan": "get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-kovan > subgraph/build/full-schema.graphql && get-graphql-schema https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-kovan --json > subgraph/build/full-schema.json && relay-compiler --watch",
