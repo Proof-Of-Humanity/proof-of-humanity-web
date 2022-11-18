@@ -51,12 +51,11 @@ a:hover {
   color: rgba(201, 203, 206, 0.815) !important;
 }
 .ant-slider-track {
-  background-color: #b6ff9c !important
+  background-color: #1890ff !important;
 }
 .ant-slider-handle {
-
-  border: solid 2px #000000 !important;
-  background-color: black
+  border: solid 2px #1890ff !important;
+  background-color: #1890ff;
 }
 .ant-slider-handle:hover {
   background: '#b6ff9c' !important
@@ -256,7 +255,8 @@ div.ant-typography-h5>textarea,
   font-weight: bold;
   display: block;
   margin: 0 auto;
-  background-color: #b6ff9c !important;
+  background-color: #7dffb5 !important;
+  box-shadow:inset 0px -16px 20px -20px black;
   /* width:25%; */
   border: none;
   color: white
@@ -269,10 +269,12 @@ div.ant-typography-h5>textarea,
   color: rgba(0, 0, 0, 0.25)
 }
 .dragger {
-        background-color: #b6ff9c!important;
-        font-weight: bold!important;
-        border: none!important;
-        border-radius: 10px!important;
+  border: solid 1px #f8b42f !important;
+  background-color: #1e1e1e !important;
+  font-weight: bold !important;
+  box-shadow: 6px 6px 0px black;
+  /* border: none!important; */
+  border-radius: 6px !important;
 }
 .slider{
       padding: 22px 0px;

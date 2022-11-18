@@ -573,9 +573,7 @@ export default class ImageTab extends React.Component {
             <Row>
               <Col span={24}>
                 <Title level={2}>{t("submit_profile_image_title")}</Title>
-                <Paragraph style={{ color: "black", whiteSpace: "pre-line" }}>
-                  {t("submit_profile_image_description")}
-                </Paragraph>
+                <Paragraph>{t("submit_profile_image_description")}</Paragraph>
               </Col>
             </Row>
             <Row justify="center">
@@ -652,7 +650,7 @@ export default class ImageTab extends React.Component {
                           className="button-orange-camera"
                         >
                           <CameraSwitch
-                            fill="white"
+                            fill="black"
                             width="25px"
                             height="25px"
                           />
@@ -665,7 +663,7 @@ export default class ImageTab extends React.Component {
                       shape="round"
                       className="button-orange-camera"
                     >
-                      <Camera fill="white" width="25px" height="25px" />
+                      <Camera fill="black" width="25px" height="25px" />
                     </Button>
                   </Col>
 
@@ -679,7 +677,7 @@ export default class ImageTab extends React.Component {
                         <ExitFullscreen
                           width="25px"
                           height="25px"
-                          fill="white"
+                          fill="black"
                         />
                       </Button>
                     </Col>
@@ -690,7 +688,7 @@ export default class ImageTab extends React.Component {
                         shape="round"
                         className="button-orange-camera"
                       >
-                        <Fullscreen width="25px" height="25px" fill="white" />
+                        <Fullscreen width="25px" height="25px" fill="black" />
                       </Button>
                     </Col>
                   )}
@@ -701,7 +699,7 @@ export default class ImageTab extends React.Component {
             <Row justify="center">
               <Col xs={12} lg={6}>
                 <Upload.Dragger {...this.draggerProps} className="dragger">
-                  <FileAddFilled />
+                  <FileAddFilled style={{ color: "#fff" }} />
                   <Paragraph className="ant-upload-text">
                     {t("submit_profile_image_upload_button")}
                   </Paragraph>
@@ -725,7 +723,7 @@ export default class ImageTab extends React.Component {
             <Row justify="center">
               <Col xs={12} lg={6}>
                 <Upload.Dragger {...this.draggerProps} className="dragger">
-                  <FileAddFilled />
+                  <FileAddFilled style={{ color: "#fff" }} />
                   <Paragraph className="ant-upload-text">
                     {t("submit_profile_image_upload_button")}
                   </Paragraph>
@@ -740,7 +738,7 @@ export default class ImageTab extends React.Component {
             <Row>
               <Col span={24}>
                 <Title level={2}>{t("submit_profile_image_crop_title")}</Title>
-                <Paragraph style={{ color: "black" }}>
+                <Paragraph>
                   {t("submit_profile_image_crop_description")}
                 </Paragraph>
               </Col>
