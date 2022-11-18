@@ -239,14 +239,20 @@ div.ant-typography-h5>textarea,
   padding: 12px 24px;
 }
 
+
+.ant-steps-item-finish>.ant-steps-item-container>.ant-steps-item-content>.ant-steps-item-title {
+  color: #fff;
+}
+
 .ant-form-item-explain-error {
   margin: 5px 0px 20px;
 }
 
 .button-orange:hover, .button-grey:hover {
+  background-color: #40a9ff;
   color: white;
 }
-.button-orange-camera {
+.button-orange-camera, .button-grey-camera {
   font-weight: bold;
   display: block;
   margin: 0 auto;
@@ -255,13 +261,11 @@ div.ant-typography-h5>textarea,
   border: none;
   color: white
 }
-.button-orange-camera:hover {
+.button-orange-camera:hover, .button-grey-camera:hover {
   color: currentColor !important;
 }
-.button-grey:hover {
-  color: currentColor !important;
-}
-.button-orange:hover:disabled {
+
+.button-orange:hover:disabled, .button-grey:hover:disabled {
   color: rgba(0, 0, 0, 0.25)
 }
 .dragger {
