@@ -835,7 +835,11 @@ export default class ImageTab extends React.Component {
                 <Col span={24}>
                   <Title
                     level={4}
-                    style={{ textAlign: "center", marginBottom: "3%" }}
+                    style={{
+                      color: "white",
+                      textAlign: "center",
+                      marginBottom: "3%",
+                    }}
                   >
                     {t("submit_profile_image_result_title")}
                   </Title>

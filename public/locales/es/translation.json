@@ -177,7 +177,7 @@
   "submit_profile_image_grayscale": "La imagen no puede ser en blanco y negro, por favor elija o tome otra",
   "submit_profile_image_verify_title": "¡Verifica tu imagen!",
   "submit_profile_image_verify_description": "Asegúrate de que <0>tus rasgos faciales son visibles</0> y de que <1>no estás cubierto por un maquillaje pesado, máscaras u otras coberturas.</1>también debes estar mirando directamente a la cámara",
-  "submit_profile_image_verify_next": "Se ve muy bien",
+  "submit_profile_image_verify_next": "Se ve muy bien 👍",
   "submit_profile_image_crop_result": "Mostrar resultado",
   "submit_profile_image_retake": "Tomar de nuevo",
   "submit_profile_image_result_title": "Tu imagen",

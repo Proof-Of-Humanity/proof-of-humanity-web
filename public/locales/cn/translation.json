@@ -177,7 +177,7 @@
   "submit_profile_image_grayscale": "图片不能是黑白的，请选择或拍另一张",
   "submit_profile_image_verify_title": "验证你的图片！",
   "submit_profile_image_verify_description": "确保<0>你的面部特征清晰可见</0>并且<1>你没有被浓妆、面具或其他遮盖物覆盖。</1>\n你还必须直视在相机上。",
-  "submit_profile_image_verify_next": "看起来很棒",
+  "submit_profile_image_verify_next": "看起来很棒👍",
   "submit_profile_image_crop_result": "显示结果",
   "submit_profile_image_retake": "重拍",
   "submit_profile_image_result_title": "你的照片",

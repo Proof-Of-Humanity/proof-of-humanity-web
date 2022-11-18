@@ -64,7 +64,7 @@ a:hover {
   background-color: #40a9ff !important;
   border-color: #40a9ff !important;
 }
-.ant-input {
+.ant-input, .ant-input-counter {
   border: solid 1px #f8b42f !important;
   border-radius: 6px;
   background-color: #1e1e1e;
@@ -73,6 +73,17 @@ a:hover {
   display: block;
   margin: 0 auto;
   box-shadow: 6px 6px 0px black;
+}
+
+.ant-input-counter {
+  width: 150px;
+  margin: 20px 0px;
+}
+
+.ant-alert-info {
+  background: #fab62f;
+  border-radius: 10px;
+  border: 3px solid #fab62f;
 }
 
 .ant-input.ant-input-status-error, .ant-input:hover {
@@ -85,17 +96,20 @@ a:hover {
   margin: 0 auto;
 }
 .video-mode-buttons {
-  background-color: #fff;
   font-weight: bold;
   margin: 0 auto;
+  color: white;
+  padding: 30px;
+  border: solid 3px transparent !important;
   border-color: #f0f2f5;
   text-align:center;
   cursor: pointer;
 }
 .video-mode-buttons:hover {
-  color: currentColor !important;
+  border: solid 3px #fff !important;
+  border-radius: 6px;
   border-color: #fff;
-  background-color: #f0f2f5 !important;
+  background-color: #ffffff12;
 }
 .buttons-camera-container {
   position: absolute;
