@@ -225,7 +225,7 @@ function DesktopNavbar() {
         <NextLink href="/" as="/">
           <Link variant="unstyled" sx={{ display: "flex" }}>
             <Image
-              sx={{ width: 90, minWidth: 90 }}
+              sx={{ width: 105, minWidth: 105 }}
               src="/images/poh-logo-white.svg"
               height="auto"
             />
