@@ -361,10 +361,9 @@ h2.ant-typography {
   font-size: 1.2em;
 }
 
+h4.ant-typography,
 .ant-typography {
   color: #bbbbbb;
-  font-family: system-ui;
-  line-height: 1.6em;
 }
 
 .submit-profile-card {
