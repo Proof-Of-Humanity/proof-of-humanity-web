@@ -19,7 +19,7 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
 
   // Colors
   colors: {
-    text: "#9b9b9b",
+    text: "#ffffff",
     background: "#222",
     primary: "#fab62f", // "#ff9900",
     secondary: "#ffc700",
