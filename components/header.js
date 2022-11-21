@@ -221,7 +221,7 @@ function DesktopNavbar() {
 
   return (
     <Row>
-      <Col span={1} style={{ display: "flex", alignItems: "center" }}>
+      <Col span={2} style={{ display: "flex", alignItems: "center" }}>
         <NextLink href="/" as="/">
           <Link variant="unstyled" sx={{ display: "flex" }}>
             <Image
