@@ -72,10 +72,48 @@ class _FinalizeTab extends React.Component {
     if (this.props.state.txHash === "") {
       return (
         <Row>
-          <Col span={24}>
+          <Col span={24} style={{ color: "#fff" }}>
             <Title level={2}>{t("submit_profile_finalize_title")}</Title>
-            <Paragraph>{t("submit_profile_finalize_description")}</Paragraph>
-            <Paragraph>{t("submit_profile_finalize_eth_addr")}:</Paragraph>
+            <Paragraph className="ant-typography">
+              {t("submit_profile_finalize_description")}
+            </Paragraph>
+            {this.props.state.name && (
+              <Paragraph>
+                <Title
+                  level={4}
+                  style={{ color: "white", marginBottom: "-20px" }}
+                >
+                  {t("submit_profile_finalize_name")}:&nbsp;
+                </Title>
+                <Title level={4} style={{ color: "white" }}>
+                  <div
+                    style={{ fontWeight: "initial", display: "inline-block" }}
+                  >
+                    {this.props.state.name}
+                  </div>
+                </Title>
+              </Paragraph>
+            )}
+            {this.props.state.bio && (
+              <Paragraph>
+                <Title
+                  level={4}
+                  style={{ color: "white", marginBottom: "-20px" }}
+                >
+                  {t("submit_profile_finalize_about")}:&nbsp;
+                </Title>
+                <Title level={4} style={{ color: "white" }}>
+                  <div
+                    style={{ fontWeight: "initial", display: "inline-block" }}
+                  >
+                    {this.props.state.bio}
+                  </div>
+                </Title>
+              </Paragraph>
+            )}
+            <Title level={4} style={{ color: "white" }}>
+              {t("submit_profile_finalize_eth_addr")}:
+            </Title>
             {/* Change how we show this alert.. this design should be new */}
             {/* <Alert
               message={
@@ -93,18 +131,6 @@ class _FinalizeTab extends React.Component {
               closable
               showIcon
             /> */}
-            {this.props.state.name && (
-              <Row>
-                <Title level={4}>
-                  {t("submit_profile_finalize_name")}:&nbsp;
-                  <div
-                    style={{ fontWeight: "initial", display: "inline-block" }}
-                  >
-                    {this.props.state.name}
-                  </div>
-                </Title>
-              </Row>
-            )}
             {this.props.account && (
               <Row>
                 <Paragraph
@@ -116,13 +142,6 @@ class _FinalizeTab extends React.Component {
                 >
                   {this.props.account}
                 </Paragraph>
-              </Row>
-            )}
-            {this.props.state.bio && (
-              <Row>
-                <Title level={4}>
-                  {t("submit_profile_finalize_about")}: {this.props.state.bio}
-                </Title>
               </Row>
             )}
             <Row justify="center" align="middle" style={{ marginTop: "5%" }}>
