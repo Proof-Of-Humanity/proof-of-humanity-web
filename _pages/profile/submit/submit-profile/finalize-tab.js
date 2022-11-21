@@ -114,23 +114,6 @@ class _FinalizeTab extends React.Component {
             <Title level={4} style={{ color: "white" }}>
               {t("submit_profile_finalize_eth_addr")}:
             </Title>
-            {/* Change how we show this alert.. this design should be new */}
-            {/* <Alert
-              message={
-                <>
-                  <Title level={5}>Pro tip</Title>
-                  <Paragraph>
-                    People can try to notify you of problems in your submission
-                    and save your deposit via your{" "}
-                    <Link href="https://ethermail.io/">ethermail.io</Link>. Make sure
-                    to check it while submission is being processed.
-                  </Paragraph>
-                </>
-              }
-              style={{ marginBottom: "15px" }}
-              closable
-              showIcon
-            /> */}
             {this.props.account && (
               <Row>
                 <Paragraph
