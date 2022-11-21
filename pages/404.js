@@ -7,7 +7,7 @@ export default function Custom404() {
   const { t } = useTranslation();
   return (
     <Row justify="center">
-      <Col span={12} style={{ textAlign: "center" }}>
+      <Col span={12} style={{ textAlign: "center", color: "#fff" }}>
         <Image
           src="/images/404.png"
           style={{ width: "25%", height: "auto" }}

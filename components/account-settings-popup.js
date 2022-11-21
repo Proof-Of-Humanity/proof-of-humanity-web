@@ -1,4 +1,3 @@
-import { Settings } from "@kleros/icons";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "relay-hooks";
@@ -90,10 +89,14 @@ export default function AccountSettingsPopup({
 
   return (
     <Popup
-      contentStyle={{ width: 490, lineHeight: "initial" }}
+      contentStyle={{ width: 490, lineHeight: "initial", cursor: "pointer" }}
       trigger={
-        <IconButton>
-          <Settings />
+        <IconButton sx={{ cursor: "pointer", marginTop: "3px", width: "40px" }}>
+          <Image
+            src="/images/ethereum.svg"
+            crossOrigin="anonymous"
+            sx={{ objectFit: "contain" }}
+          />
         </IconButton>
       }
       position="bottom right"

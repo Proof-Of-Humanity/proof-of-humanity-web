@@ -72,63 +72,59 @@ class _FinalizeTab extends React.Component {
     if (this.props.state.txHash === "") {
       return (
         <Row>
-          <Col span={24}>
+          <Col span={24} style={{ color: "#fff" }}>
             <Title level={2}>{t("submit_profile_finalize_title")}</Title>
-            <Paragraph>{t("submit_profile_finalize_description")}</Paragraph>
-            {/* Change how we show this alert.. this design should be new */}
-            {/* <Alert
-              message={
-                <>
-                  <Title level={5}>Pro tip</Title>
-                  <Paragraph>
-                    People can try to notify you of problems in your submission
-                    and save your deposit via your{" "}
-                    <Link href="https://ethmail.cc/">ethmail.cc</Link>. Make sure
-                    to check it while submission is being processed.
-                  </Paragraph>
-                </>
-              }
-              style={{ marginBottom: "15px" }}
-              closable
-              showIcon
-            /> */}
+            <Paragraph className="ant-typography">
+              {t("submit_profile_finalize_description")}
+            </Paragraph>
             {this.props.state.name && (
-              <Row>
-                <Title level={4}>
+              <Paragraph>
+                <Title
+                  level={4}
+                  style={{ color: "white", marginBottom: "-20px" }}
+                >
                   {t("submit_profile_finalize_name")}:&nbsp;
+                </Title>
+                <Title level={4} style={{ color: "white" }}>
                   <div
                     style={{ fontWeight: "initial", display: "inline-block" }}
                   >
                     {this.props.state.name}
                   </div>
                 </Title>
-              </Row>
+              </Paragraph>
             )}
+            {this.props.state.bio && (
+              <Paragraph>
+                <Title
+                  level={4}
+                  style={{ color: "white", marginBottom: "-20px" }}
+                >
+                  {t("submit_profile_finalize_about")}:&nbsp;
+                </Title>
+                <Title level={4} style={{ color: "white" }}>
+                  <div
+                    style={{ fontWeight: "initial", display: "inline-block" }}
+                  >
+                    {this.props.state.bio}
+                  </div>
+                </Title>
+              </Paragraph>
+            )}
+            <Title level={4} style={{ color: "white" }}>
+              {t("submit_profile_finalize_eth_addr")}:
+            </Title>
             {this.props.account && (
               <Row>
-                <Title level={4}>
-                  {t("submit_profile_finalize_eth_addr")}:{" "}
-                </Title>
                 <Paragraph
+                  className="wallet-address"
                   style={{
-                    width: "100%",
-                    fontWeight: "bold",
-                    border: "2px solid #ffb978",
-                    borderRadius: "15px",
-                    textAlign: "center",
-                    margin: "0 auto",
-                    padding: "5px",
+                    fontFamily: "monospace",
+                    color: "#fff",
                   }}
                 >
                   {this.props.account}
                 </Paragraph>
-              </Row>
-            )}
-            {this.props.state.bio && (
-              <Row>
-                <Title level={4}>
-                  {t("submit_profile_finalize_about")}: {this.props.state.bio}
-                </Title>
               </Row>
             )}
             <Row justify="center" align="middle" style={{ marginTop: "5%" }}>
@@ -186,7 +182,12 @@ class _FinalizeTab extends React.Component {
                       url={this.props.state.videoURI}
                     />
                     {!this.state.playedVideo && (
-                      <Paragraph style={{ textAlign: "center" }}>
+                      <Paragraph
+                        style={{
+                          textAlign: "center",
+                          fontSize: "12px",
+                        }}
+                      >
                         {t("submit_profile_finalize_video_check")}
                       </Paragraph>
                     )}
@@ -216,12 +217,18 @@ class _FinalizeTab extends React.Component {
                   marginTop: "5%",
                 }}
               >
-                <Radio value="self" style={{ fontSize: "18px" }}>
+                <Radio value="self" style={{ fontSize: "18px", color: "#fff" }}>
                   {t("submit_profile_finalize_selffund")} (
                   {this.props.state.deposit.ether} ETH)
                 </Radio>
 
-                <Radio value="crowd" style={{ fontSize: "18px" }}>
+                <Radio
+                  value="crowd"
+                  style={{
+                    fontSize: "18px",
+                    color: "#fff",
+                  }}
+                >
                   {t("submit_profile_finalize_crowdfund")}
                 </Radio>
               </Radio.Group>
@@ -235,6 +242,7 @@ class _FinalizeTab extends React.Component {
               )}
               {this.props.state.crowdfund === "crowd" && (
                 <InputNumber
+                  className="ant-input-counter"
                   min={0}
                   max={this.props.state.deposit.ether}
                   defaultValue={0}
@@ -242,26 +250,18 @@ class _FinalizeTab extends React.Component {
                 />
               )}
             </Row>
-            <Alert
-              style={{
-                textAlign: "center",
-                width: "fit-content",
-                margin: "0 auto",
-                marginTop: "3%",
-              }}
-              message={
-                <Link
-                  href={this.props.rules}
-                  target="_blank"
-                  rel="noopener"
-                  style={{ color: "black", fontWeight: "bold" }}
-                >
-                  {t("submit_profile_rules_info")}
-                </Link>
-              }
-              type="info"
-            />
-            {/* Next steps... */}{" "}
+            <Row justify="center" style={{ paddingTop: "30px" }}>
+              <Link
+                className="tornado-link"
+                href={this.props.rules}
+                target="_blank"
+                rel="noopener"
+                style={{ margin: "0 10%" }}
+              >
+                {t("submit_profile_rules_info")}
+              </Link>
+              {/* Next steps... */}{" "}
+            </Row>
           </Col>
           <Button
             type="primary"

@@ -86,7 +86,7 @@ export default function Evidence({
   return (
     <ScrollTo>
       {({ scroll }) => (
-        <Box sx={{ paddingX: 4 }}>
+        <Box sx={{ paddingX: 4, borderRadius: 12 }}>
           <Flex
             sx={{
               alignItems: "center",

@@ -1,7 +1,7 @@
-import { SecuredByKlerosWhite } from "@kleros/icons";
 import { Col, Layout, Row } from "antd";
 import { useTranslation } from "react-i18next";
 
+import Image from "./image";
 import Link from "./link";
 import SocialIcons from "./social-icons";
 
@@ -16,9 +16,9 @@ export default function AppFooter() {
         <Col xs={12} lg={8}>
           <Row justify="start">
             <Link
+              sx={{ marginTop: 0 }}
               className="poh-footer-text"
               variant="navigation"
-              sx={{ fontSize: 1 }}
               newTab
               href="https://proofofhumanity.org/"
             >
@@ -31,9 +31,14 @@ export default function AppFooter() {
             <Link
               sx={{ alignItems: "center", display: "flex" }}
               newTab
-              href="https://kleros.io"
+              href="https://ubi.eth.limo"
             >
-              <SecuredByKlerosWhite sx={{ width: 200 }} />
+              <Image
+                sx={{ cursor: "pointer" }}
+                src="/images/ubi-logo.png"
+                width="72"
+                height="auto"
+              />
             </Link>
           </Row>
         </Col>

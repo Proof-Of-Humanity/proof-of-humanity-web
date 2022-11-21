@@ -1,5 +1,4 @@
 import { MenuOutlined } from "@ant-design/icons";
-import { ProofOfHumanityLogo } from "@kleros/icons";
 import { useWindowWidth } from "@react-hook/window-size";
 import { Col, Drawer, Dropdown, Layout, Menu, Row, Typography } from "antd";
 import React, { useState } from "react";
@@ -67,12 +66,12 @@ function LanguageDropdown() {
   };
 
   const languages = [
-    { name: "English", key: "en" },
-    { name: "Español", key: "es" },
-    { name: "Português", key: "pt" },
-    { name: "Français", key: "fr" },
-    { name: "Italiano", key: "it" },
-    { name: "中文", key: "cn" },
+    { name: "🇬🇧 English", key: "en" },
+    { name: "🇪🇸 Español", key: "es" },
+    { name: "🇵🇹 Português", key: "pt" },
+    { name: "🇫🇷 Français", key: "fr" },
+    { name: "🇮🇹 Italiano", key: "it" },
+    { name: "🇨🇳 中文", key: "cn" },
   ];
 
   // Remove hardcode to programatical list
@@ -85,11 +84,6 @@ function LanguageDropdown() {
             key={language.key}
             onClick={() => changeLanguage(language.key)}
           >
-            <Image
-              src={`/images/flags/${language.key}.svg`}
-              width="30"
-              height="auto"
-            />{" "}
             {language.name}
           </Menu.Item>
           {i + 1 === list.length ? null : <Menu.Divider />}
@@ -99,7 +93,7 @@ function LanguageDropdown() {
   );
 
   return (
-    <Dropdown overlay={languageMenu}>
+    <Dropdown sx={{ minWidth: 200, cursor: "pointer" }} overlay={languageMenu}>
       <div
         aria-hidden="true"
         className="ant-dropdown-link"
@@ -107,9 +101,8 @@ function LanguageDropdown() {
         onKeyDown={(event) => event.preventDefault()}
       >
         <Image
-          sx={{ border: "2px solid #fff", borderRadius: 100 }}
-          src={`/images/flags/${i18n.resolvedLanguage}.svg`}
-          width="30"
+          sx={{ width: 36, cursor: "pointer" }}
+          src="/images/globe.svg"
           height="auto"
         />
       </div>
@@ -228,28 +221,25 @@ function DesktopNavbar() {
 
   return (
     <Row>
-      <Col span={1} style={{ display: "flex", alignItems: "center" }}>
+      <Col span={2} style={{ display: "flex", alignItems: "center" }}>
         <NextLink href="/" as="/">
           <Link variant="unstyled" sx={{ display: "flex" }}>
-            <ProofOfHumanityLogo style={{ alignItems: "middle" }} size={32} />
+            <Image
+              sx={{ width: 105, minWidth: 105 }}
+              src="/images/poh-logo-white.svg"
+              height="auto"
+            />
           </Link>
         </NextLink>
-        {/* <Box sx={{ marginLeft: 1 }}>
-              <Text>PROOF OF</Text>
-              <Text>HUMANITY</Text>
-            </Box>
-          */}
       </Col>
       <Col className="poh-header-menu" span={17}>
         <Row justify="center">
-          <Col span={6} className="poh-header-item">
+          <Col span={17} className="poh-header-item">
             <NextLink href="/" as="/">
               <Link className="poh-header-text" variant="navigation">
                 {t("header_profiles")}
               </Link>
             </NextLink>
-          </Col>
-          <Col span={8} className="poh-header-item">
             <MyProfileLink className="poh-header-text" />
           </Col>
         </Row>
@@ -277,12 +267,12 @@ function DesktopNavbar() {
               },
             }}
           />
+          <LanguageDropdown />
           <AccountSettingsPopup />
           <HelpPopup />
           <Link href="https://snapshot.org/#/poh.eth/" target="_blank">
-            <Image src="/images/governance.png" width={25} sx={{ margin: 1 }} />
+            <Image src="/images/hand.svg" width={28} sx={{ margin: 1 }} />
           </Link>
-          <LanguageDropdown />
         </Row>
       </Col>
     </Row>

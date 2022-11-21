@@ -8,9 +8,9 @@ import typographyThemeSutro from "typography-theme-sutro";
 export const typographyTheme = {
   ...typographyThemeSutro,
   bodyFontFamily: typographyThemeSutro.headerFontFamily,
-  boldWeight: 600,
+  boldWeight: 500,
   googleFonts: [{ name: "Open Sans", styles: [300, "300i", 600, "600i"] }],
-  headerWeight: 600,
+  headerWeight: 500,
 };
 export const theme = merge(merge(base, toTheme(typographyTheme)), {
   // Settings
@@ -19,15 +19,15 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
 
   // Colors
   colors: {
-    text: "#000",
-    background: "#fffffa",
-    primary: "#ff9900",
+    text: "#9b9b9b",
+    background: "#222",
+    primary: "#fab62f", // "#ff9900",
     secondary: "#ffc700",
     accent: "#ffb978",
     accentComplement: "#fdc9d3",
     highlight: "#009aff",
-    muted: "#fffcf0",
-    skeleton: "#ccc", // #eee
+    muted: "#171717", // "#b6ff9c", // "#000", /// "#fffcf0",
+    skeleton: "#646464", // "#ccc", // #eee
     skeletonHighlight: "#f5f5f5",
     success: "#00c851",
     warning: "#ffbb33",
@@ -79,8 +79,8 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
     },
     panel: {
       backgroundColor: "background",
-      bordeRadius: 3,
-      boxShadow: "0 6px 90px rgba(153, 153, 153, 0.25)",
+      bordeRadius: 5,
+      // boxShadow: "0 6px 90px rgba(153, 153, 153, 0.25)",
       fontSize: 1,
       paddingX: 4,
       paddingY: 3,
@@ -236,8 +236,9 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
   cards: {
     primary: {
       backgroundColor: "background",
-      borderRadius: 3,
-      boxShadow: "0 6px 10px rgba(153, 153, 153, 0.25)",
+      borderRadius: 12,
+      // boxShadow: "0 6px 10px rgba(153, 153, 153, 0.25)",
+      border: "1px solid #2f2f2f",
       fontFamily: "heading",
       fontSize: 0,
     },
@@ -263,17 +264,18 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
   card: {
     header: {
       backgroundColor: "muted",
-      borderRadius: "3px 3px 0 0",
+      borderRadius: "12px 12px 0 0",
       justifyContent: "space-between",
       paddingX: 2,
       paddingY: 1,
     },
     main: {
       padding: 3,
+      bordeRadius: 12,
     },
     footer: {
       backgroundColor: "muted",
-      borderRadius: "0 0 3px 3px",
+      borderRadius: "0 0 12px 12px",
       justifyContent: "flex-end",
       padding: 1,
     },
@@ -343,10 +345,11 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
   },
   images: {
     avatar: {
-      borderRadius: 62,
-      height: 124,
-      objectFit: "contain",
-      width: 124,
+      borderRadius: 10,
+      height: 150,
+      objectFit: "cover",
+      boxShadow: "-1px 1px 20px -5px #000000b8",
+      width: 150,
     },
     smallAvatar: {
       borderColor: "success",
@@ -376,6 +379,9 @@ export const theme = merge(merge(base, toTheme(typographyTheme)), {
       color: "background",
       fontWeight: "bold",
       textDecoration: "none",
+      margin: "16px 5px",
+      lineHeight: "initial",
+      height: "32px",
     },
     unstyled: {
       color: "inherit",
