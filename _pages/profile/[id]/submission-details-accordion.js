@@ -125,7 +125,7 @@ export default function SubmissionDetailsAccordion({ submission, contract }) {
       )}
       <SubmissionDetailsAccordionItem
         heading={t("profile_details_evidence")}
-        panelSx={{ paddingX: 0, borderRadius: 12 }}
+        panelSx={{ paddingX: 0, borderRadius: 12, margin: 15 }}
         panel={
           <Evidence
             contract="proofOfHumanity"
