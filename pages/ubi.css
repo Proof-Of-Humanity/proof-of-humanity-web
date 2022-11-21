@@ -361,6 +361,7 @@ h2.ant-typography {
   font-size: 1.2em;
 }
 
+h1.ant-typography,
 h4.ant-typography,
 .ant-typography {
   color: #bbbbbb;
