@@ -164,9 +164,10 @@ export default class NewSubmitProfileForm extends React.Component {
   returnFiles = async () => {
     const imageURI = this.state.imageURI.split("/");
     const videoURI = this.state.videoURI.split("/");
+    const name = this.state.name || this.props.submission?.name;
     // console.log(this.state.language)
     const file = {
-      name: this.state.name,
+      name,
       bio: this.state.bio,
       photo: `/${imageURI[3]}/${imageURI[4]}/${imageURI[5]}`,
       video: `/${videoURI[3]}/${videoURI[4]}/${videoURI[5]}`,
