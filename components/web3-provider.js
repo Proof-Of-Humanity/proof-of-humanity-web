@@ -98,6 +98,7 @@ export default function Web3Provider({
     let cancelled = false;
     const networkIdToName = {
       1: "mainnet",
+      5: "goerli",
       42: "kovan",
     };
     (async () => {
@@ -105,7 +106,7 @@ export default function Web3Provider({
       if (!cancelled && ETHNetID !== web3.ETHNet?.ID) {
         web3.ETHNet = {
           ID: ETHNetID,
-          name: { 42: "kovan", 1: "mainnet" }[ETHNetID],
+          name: { 42: "kovan", 1: "mainnet", 5: "goerli" }[ETHNetID],
         };
         setWeb3({ ...web3 });
         if (onNetworkChange) onNetworkChange(web3.ETHNet);

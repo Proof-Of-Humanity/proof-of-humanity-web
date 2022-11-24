@@ -378,7 +378,9 @@ export default function App({ Component, pageProps }) {
   const subgraphID = process.env.NEXT_PUBLIC_SUBGRAPHID;
 
   const endpoint =
-    process.env.NEXT_PUBLIC_TESTING === "true"
+    networkFromQuery === "goerli"
+      ? `https://api.thegraph.com/subgraphs/name/bilinkis/proof-of-humanity-goerli`
+      : process.env.NEXT_PUBLIC_TESTING === "true"
       ? `https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-${networkFromQuery}`
       : `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${subgraphID}`;
 
