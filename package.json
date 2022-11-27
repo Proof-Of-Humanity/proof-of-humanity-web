@@ -152,7 +152,7 @@
     "build:graph:test": "cross-var 'npm run build:graph:test:$NEXT_PUBLIC_NETWORK'",
     "build:graph:test:goerli": "cd subgraph && mustache config/goerli.json subgraph.template.yaml > subgraph.yaml && graph codegen && graph build",
     "build:graph:test:mainnet": "npm run build:graph:mainnet",
-    "deploy:graph:test:goerli": "npm run build:graph:test:goerli && cd subgraph && graph deploy --product hosted-service kleros/proof-of-humanity-goerli",
+    "deploy:graph:test:goerli": "npm run build:graph:test:goerli && cd subgraph && graph deploy --product hosted-service bilinkis/proof-of-humanity-goerli",
     "deploy:graph:test:mainnet": "npm run build:graph:test:mainnet && cd subgraph && graph deploy --product hosted-service kleros/proof-of-humanity-mainnet",
     "deploy:graph:mainnet": "npm run build:graph:mainnet && cd subgraph && graph deploy --studio poh",
     "storybook": "start-storybook --config-dir components/.storybook --static-dir components/.storybook/public --port 6006 --no-dll",
