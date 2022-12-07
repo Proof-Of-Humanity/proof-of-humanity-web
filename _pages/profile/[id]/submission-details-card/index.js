@@ -313,6 +313,8 @@ export default function SubmissionDetailsCard({
         >
           {evidence instanceof Error
             ? "We are doing some maintenance work and will be online again soon."
+            : evidence?.file?.name === undefined
+            ? name
             : evidence?.file?.name &&
               (name.replaceAll(/[^\s\w]/g, "") ===
               evidence.file.name.replaceAll(/[^\s\w]/g, "")
