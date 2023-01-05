@@ -93,7 +93,8 @@ export default function SubmissionCard({ submission }) {
         <Text
           variant="multiClipped"
           sx={{
-            height: 52,
+            height: 42,
+            fontSize: "12px",
             textAlign: "center",
             wordBreak: "break-word",
           }}
