@@ -251,5 +251,12 @@
   "web3_modal_metamask": "Connect your Metamask wallet",
 
   "404_title": "Page not found",
-  "404_description": "The requested page does not exist. Please try again."
+  "404_description": "The requested page does not exist. Please try again.",
+
+  "chain_Mainnet": "Mainnet",
+  "chain_Polygon": "Polygon",
+  "chain_Arbitrum": "Arbitrum",
+  "chain_Optimism": "Optimism",
+  "chain_Gnosis": "Gnosis",
+  "chain_ZkSync": "zkSync"
 }
