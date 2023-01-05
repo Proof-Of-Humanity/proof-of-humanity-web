@@ -348,6 +348,11 @@ h2.ant-typography {
   text-decoration: underline;
 }
 
+.poh-nft:hover {
+  border: 1px solid #414141;
+  background-color: #2d2d2d;
+}
+
 .wallet-address {
   overflow-wrap: break-word;
   color: white;

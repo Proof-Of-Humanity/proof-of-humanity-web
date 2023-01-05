@@ -89,6 +89,7 @@ export default function SubmissionCard({ submission }) {
           // borderTop: `1px solid ${statusColorCode(status.key)}`,
         }}
         css={{ textDecoration: "none" }}
+        className="poh-nft"
         header={
           <>
             <Image
@@ -116,6 +117,10 @@ export default function SubmissionCard({ submission }) {
           crossOrigin="anonymous"
           variant="avatar"
           src={evidence?.file?.photo}
+          sx={{
+            marginTop: "-10px",
+            marginBottom: "10px",
+          }}
         />
         <Text
           sx={{
