@@ -353,6 +353,17 @@ h2.ant-typography {
   background-color: #2d2d2d;
 }
 
+.search-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.filter-dropdown {
+  border-radius: 10px;
+}
+
 .wallet-address {
   overflow-wrap: break-word;
   color: white;

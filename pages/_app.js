@@ -42,13 +42,14 @@ const queries = {
 const wrapConnection = createWrapConnection(queries, queryEnums);
 const theme = {
   colors: {
-    vouching: "#4d00b4",
-    pendingRegistration: "#ccc",
-    pendingRemoval: "#ff9900",
-    challengedRegistration: "#ffc700",
-    challengedRemoval: "#ffc700",
-    registered: "#009aff",
-    removed: "#4a4a4a",
+    vouching: "#ff81b7",
+    pendingRegistration: "#fbb630",
+    pendingRemoval: "#fbb630",
+    challengedRegistration: "#ff006d",
+    challengedRemoval: "#ff006d",
+    expired: "#ff006d",
+    registered: "#91ff81",
+    removed: "#ff006d",
   },
 };
 

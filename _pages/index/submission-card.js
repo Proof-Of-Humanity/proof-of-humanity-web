@@ -86,7 +86,6 @@ export default function SubmissionCard({ submission }) {
           height: 326,
           color: "text",
           boxShadow: statusColorCode(status.key),
-          // borderTop: `1px solid ${statusColorCode(status.key)}`,
         }}
         css={{ textDecoration: "none" }}
         className="poh-nft"
