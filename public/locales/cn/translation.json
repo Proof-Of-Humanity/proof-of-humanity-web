@@ -246,5 +246,12 @@
   "web3_modal_metamask": "连接你的 Metamask 钱包",
 
   "404_title": "找不到网页",
-  "404_description": "请求的页面不存在。请再试一次。"
+  "404_description": "请求的页面不存在。请再试一次。",
+
+  "chain_Mainnet": "Mainnet",
+  "chain_Polygon": "Polygon",
+  "chain_Arbitrum": "Arbitrum",
+  "chain_Optimism": "Optimism",
+  "chain_Gnosis": "Gnosis",
+  "chain_ZkSync": "zkSync"
 }

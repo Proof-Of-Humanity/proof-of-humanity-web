@@ -357,7 +357,6 @@ module.exports = {
       "error",
       [
         'import.*(/|\\.)";', // Don't use trailing slashes or cyclic index imports.
-        "[^\\d]0p[x]", // Don't use pixels unit for zero values.
         "(?=.*[A-F])#[0-9a-fA-F]{1,6}", // Don't use upper case letters in hex colors.
         "@js[x]", // Don't use a custom JSX pragma.
         "Style[d]", // Don't use "styled" components.

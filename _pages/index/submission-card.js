@@ -27,6 +27,31 @@ const submissionCardFragments = {
   `,
 };
 
+function statusColorCode(key) {
+  let color = "#fff";
+
+  switch (key) {
+    case "PendingRegistration":
+    case "PendingRemoval":
+      color = "#fbb630";
+      break;
+    case "Vouching":
+      color = "#ff81b7";
+      break;
+    case "ChallengedRegistration":
+    case "ChallengedRemoval":
+    case "Expired":
+      color = "#ff006d";
+      break;
+    case "Registered":
+      color = "#91ff81";
+      break;
+    default:
+  }
+
+  return `0px -1px 0px ${color}`;
+}
+
 export default function SubmissionCard({ submission }) {
   const { t } = useTranslation();
 
@@ -57,17 +82,29 @@ export default function SubmissionCard({ submission }) {
     <NextLink href="/profile/[id]" as={`/profile/${id}`}>
       <Card
         as="a"
-        sx={{ height: 326, color: "text" }}
+        sx={{
+          height: 326,
+          color: "text",
+          boxShadow: statusColorCode(status.key),
+        }}
         css={{ textDecoration: "none" }}
+        className="poh-nft"
         header={
           <>
-            <status.Icon
+            <Image
+              src="/images/eth.svg"
+              crossOrigin="anonymous"
+              alt={t(`chain_Mainnet`)}
               sx={{
-                stroke: status.camelCase,
-                path: { fill: status.camelCase },
+                objectFit: "contain",
+                height: "20px",
               }}
             />
-            <Text>
+            <Text
+              sx={{
+                fontSize: "13px",
+              }}
+            >
               {t(`profile_status_${status.key}`)}
               {isExpired && ` (${t("profile_status_Expired")})`}
             </Text>
@@ -79,6 +116,10 @@ export default function SubmissionCard({ submission }) {
           crossOrigin="anonymous"
           variant="avatar"
           src={evidence?.file?.photo}
+          sx={{
+            marginTop: "-10px",
+            marginBottom: "10px",
+          }}
         />
         <Text
           sx={{
@@ -93,7 +134,10 @@ export default function SubmissionCard({ submission }) {
         <Text
           variant="multiClipped"
           sx={{
-            height: 52,
+            opacity: 0.66,
+            lineHeight: "18px",
+            height: 36,
+            fontSize: "12px",
             textAlign: "center",
             wordBreak: "break-word",
           }}

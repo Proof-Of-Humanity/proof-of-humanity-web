@@ -348,6 +348,35 @@ h2.ant-typography {
   text-decoration: underline;
 }
 
+.poh-nft:hover {
+  border: 1px solid #414141;
+  background-color: #2d2d2d;
+}
+
+.search-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.filter-dropdown {
+  border-radius: 10px;
+}
+
+ul.filter-dropdown-list, li.filter-dropdown-list {
+  margin-top: -6px;
+  background: rgb(34, 34, 34);
+  border-radius: 10px;
+  color: white;
+  box-shadow: 0px 0px;
+  border: 1px solid rgb(100, 100, 100);
+}
+
+.filter-input:focus {
+  outline-width: 0;
+}
+
 .wallet-address {
   overflow-wrap: break-word;
   color: white;
