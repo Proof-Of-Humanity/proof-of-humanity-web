@@ -72,7 +72,7 @@ export default function Index() {
   return (
     <>
       <Head>
-        <title>Proof of Humanity</title>
+        <title>Proof of Humanity — Open & Democratic</title>
       </Head>
       <SubmissionFilters
         numberOfSubmissions={submissionCounter}
