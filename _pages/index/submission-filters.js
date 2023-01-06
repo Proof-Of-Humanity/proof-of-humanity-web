@@ -116,6 +116,7 @@ export default function SubmissionFilters({
         <Col xs={24} md={18}>
           <Input
             sx={{ marginTop: "2px" }}
+            className="filter-input"
             variant="mutedInput"
             aria-label={t("profile_search_search_text")}
             placeholder={t("profile_search_search_text")}
@@ -143,8 +144,12 @@ export default function SubmissionFilters({
         </Col>
         <Col xs={24} md={6}>
           <Select
-            sx={{ button: { textAlign: "left", borderRadius: "10px" } }}
+            sx={{
+              button: { textAlign: "left", borderRadius: "10px" },
+            }}
             items={dropdownOptions}
+            dropdownStyle={{ fontSize: "20px" }}
+            className="filter-dropdown-list"
             onChange={({ key, value }) => {
               const query = { ...router.query };
 
