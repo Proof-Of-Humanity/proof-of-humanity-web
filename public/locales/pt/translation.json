@@ -247,7 +247,7 @@
   "web3_modal_metamask": "Conecte sua carteira Metamask",
 
   "404_title": "Página não encontrada",
-  "404_descrição": "A página solicitada não existe. Por favor, tente novamente",
+  "404_description": "A página solicitada não existe. Por favor, tente novamente",
 
   "chain_Mainnet": "Mainnet",
   "chain_Polygon": "Polygon",
