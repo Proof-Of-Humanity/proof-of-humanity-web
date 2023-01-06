@@ -1,5 +1,5 @@
 import { Card, Input, Select } from "@kleros/components";
-import { Check, Expired, Pending } from "@kleros/icons";
+import { Check, Expired, Pending, User } from "@kleros/icons";
 import { Col, Image, Row } from "antd";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
@@ -20,7 +20,7 @@ export default function SubmissionFilters({
       toString: () =>
         `${t("profile_search_all")} — ${numberOfSubmissions.toLocaleString()}`,
       query: {},
-      Icon: Pending,
+      Icon: User,
     },
     {
       index: 1,
