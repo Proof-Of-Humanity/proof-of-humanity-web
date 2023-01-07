@@ -20,7 +20,7 @@ export default function AppFooter() {
               className="poh-footer-text"
               variant="navigation"
               newTab
-              href="https://proofofhumanity.org/"
+              href="https://proofofhumanity.eth.limo/"
             >
               {t("footer_learn_more")}
             </Link>

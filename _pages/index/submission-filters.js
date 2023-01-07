@@ -1,6 +1,6 @@
-import { Card, Input, Select, Text } from "@kleros/components";
-import { Check, Expired, Pending, Search } from "@kleros/icons";
-import { Col, Row } from "antd";
+import { Card, Input, Select } from "@kleros/components";
+import { Check, Expired, Pending, User } from "@kleros/icons";
+import { Col, Image, Row } from "antd";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 
@@ -16,10 +16,11 @@ export default function SubmissionFilters({
       index: 0,
       key: "all",
       value: undefined,
-      color: "none",
-      toString: () => t("profile_search_all"),
+      color: "#fff",
+      toString: () =>
+        `${t("profile_search_all")} — ${numberOfSubmissions.toLocaleString()}`,
       query: {},
-      Icon: Pending,
+      Icon: User,
     },
     {
       index: 1,
@@ -68,22 +69,6 @@ export default function SubmissionFilters({
     },
     {
       index: 6,
-      key: "registered",
-      value: "registered",
-      color: "registered",
-      toString: () => t("profile_status_Registered"),
-      query: ({ submissionDuration: _submissionDuration }) => ({
-        where: {
-          status: "None",
-          registered: true,
-          submissionTime_gte:
-            Math.floor(Date.now() / 1000) - (_submissionDuration || 0),
-        },
-      }),
-      Icon: Check,
-    },
-    {
-      index: 7,
       key: "expired",
       value: "expired",
       color: "expired",
@@ -98,25 +83,31 @@ export default function SubmissionFilters({
       }),
       Icon: Expired,
     },
+    {
+      index: 7,
+      key: "registered",
+      value: "registered",
+      color: "registered",
+      toString: () => t("profile_status_Registered"),
+      query: ({ submissionDuration: _submissionDuration }) => ({
+        where: {
+          status: "None",
+          registered: true,
+          submissionTime_gte:
+            Math.floor(Date.now() / 1000) - (_submissionDuration || 0),
+        },
+      }),
+      Icon: Check,
+    },
   ];
 
   return (
     <Card
       sx={{ marginBottom: 2 }}
-      header={
-        <Text sx={{ maxWidth: 150 }}>
-          {(numberOfSubmissions || numberOfSubmissions === 0) &&
-            `${numberOfSubmissions} ${t("profile_search_profile_text")}${
-              numberOfSubmissions === 1
-                ? ""
-                : t("profile_search_profile_suffix")
-            }`}
-        </Text>
-      }
       headerSx={{ fontWeight: "bold", justifyContent: "flex-end" }}
       mainSx={{
-        paddingX: 2,
-        paddingY: 1,
+        paddingX: 0,
+        paddingY: 0,
         display: "flex",
         flexDirection: ["column", "row", "row", "row"],
       }}
@@ -124,10 +115,18 @@ export default function SubmissionFilters({
       <Row style={{ width: "100%", rowGap: "4px" }}>
         <Col xs={24} md={18}>
           <Input
+            sx={{ marginTop: "2px" }}
+            className="filter-input"
             variant="mutedInput"
             aria-label={t("profile_search_search_text")}
             placeholder={t("profile_search_search_text")}
-            icon={<Search />}
+            icon={
+              <Image
+                src="/images/search.svg"
+                className="search-icon"
+                preview={false}
+              />
+            }
             value={router.query.search || ""}
             onChange={(event) => {
               const query = { ...router.query };
@@ -145,8 +144,12 @@ export default function SubmissionFilters({
         </Col>
         <Col xs={24} md={6}>
           <Select
-            sx={{ button: { textAlign: "left" } }}
+            sx={{
+              button: { textAlign: "left", borderRadius: "10px" },
+            }}
             items={dropdownOptions}
+            dropdownStyle={{ fontSize: "20px" }}
+            className="filter-dropdown-list"
             onChange={({ key, value }) => {
               const query = { ...router.query };
 

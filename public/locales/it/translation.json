@@ -250,5 +250,12 @@
   "web3_modal_metamask": "Connetti il tuo portafoglio Metamask",
 
   "404_title": "Pagina non trovata",
-  "404_description": "La pagina richiesta non esiste. Per favore riprova."
+  "404_description": "La pagina richiesta non esiste. Per favore riprova.",
+
+  "chain_Mainnet": "Mainnet",
+  "chain_Polygon": "Polygon",
+  "chain_Arbitrum": "Arbitrum",
+  "chain_Optimism": "Optimism",
+  "chain_Gnosis": "Gnosis",
+  "chain_ZkSync": "zkSync"
 }

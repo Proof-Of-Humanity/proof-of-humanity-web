@@ -348,6 +348,43 @@ h2.ant-typography {
   text-decoration: underline;
 }
 
+.poh-nft:hover {
+  border: 1px solid #414141;
+  background-color: #2d2d2d;
+}
+
+.search-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.filter-dropdown {
+  border-radius: 10px;
+}
+
+.filter-dropdown-list > ul {
+  margin-top: -6px !important;
+  background: rgb(34, 34, 34) !important;
+  border-radius: 10px !important;
+  color: white;
+  font-size: 13px;
+  box-shadow: inset 0px 0px 0 1px rgb(100 100 100) !important;
+}
+
+.filter-dropdown-list > ul > div > div > li {
+  border-left-width: 0px !important;
+}
+
+.filter-dropdown-list > ul >div > div > li:hover {
+  cursor:pointer;
+}
+
+.filter-input:focus {
+  outline-width: 0;
+}
+
 .wallet-address {
   overflow-wrap: break-word;
   color: white;
@@ -389,6 +426,7 @@ h4.ant-typography,
 /* TODO: REMOVE */
 .poh-content > div {
   opacity: 1 !important;
+  margin-bottom: 32px;
 }
 /* USED FOR SMART REFRESH IN WHICH OPACITY SETS TO 0  */
 
