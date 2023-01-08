@@ -127,8 +127,9 @@ a:hover {
 }
 
 .poh-header {
-  background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 49.89%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%);
-  box-shadow: inset 0px -20px 20px -20px #00000091;
+  /* background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 49.89%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%); */
+  /* box-shadow: inset 0px -20px 20px -20px #00000091; */
+  background: #171717;
   /* background-color: #691073; */
   z-index: 1;
   /* color: var(--theme-ui-colors-background,#fffffa); */
