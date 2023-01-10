@@ -230,15 +230,18 @@ function DesktopNavbar() {
   return (
     <Row>
       <Col span={2} style={{ display: "flex", alignItems: "center" }}>
-        <NextLink href="/" as="/">
-          <Link variant="unstyled" sx={{ display: "flex" }}>
-            <Image
-              sx={{ width: 130, minWidth: 130 }}
-              src="/images/democratic-poh-logo-white.svg"
-              height="auto"
-            />
-          </Link>
-        </NextLink>
+        <Link
+          href="https://proofofhumanity.eth.limo"
+          target="_blank"
+          variant="unstyled"
+          sx={{ display: "flex" }}
+        >
+          <Image
+            sx={{ width: 130, minWidth: 130 }}
+            src="/images/democratic-poh-logo-white.svg"
+            height="auto"
+          />
+        </Link>
       </Col>
       <Col className="poh-header-menu" span={17}>
         <Row justify="center">
