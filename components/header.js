@@ -49,7 +49,15 @@ function MyProfileLink(props) {
 
   return (
     <NextLink href={href} as={link}>
-      <Link {...props} variant="navigation">
+      <Link
+        {...props}
+        className={
+          window.location.pathname !== "/"
+            ? "poh-header-text poh-header-text-selected"
+            : "poh-header-text"
+        }
+        variant="navigation"
+      >
         {showSubmitProfile
           ? t("header_submit_profile")
           : t("header_my_profile")}
@@ -247,7 +255,7 @@ function DesktopNavbar() {
                 {t("header_profiles")}
               </Link>
             </NextLink>
-            <MyProfileLink className="poh-header-text" />
+            <MyProfileLink />
           </Col>
         </Row>
       </Col>
