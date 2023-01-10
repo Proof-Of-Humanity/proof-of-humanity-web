@@ -17,7 +17,7 @@ export default function AppFooter() {
           <Row justify="start">
             <Link
               sx={{ marginTop: 0 }}
-              className="poh-footer-text"
+              className="poh-header-text"
               variant="navigation"
               newTab
               href="https://proofofhumanity.eth.limo/"

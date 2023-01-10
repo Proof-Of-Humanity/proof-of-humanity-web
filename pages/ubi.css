@@ -153,16 +153,22 @@ a:hover {
 }
 
 .poh-footer {
-  background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 49.89%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%);
-  box-shadow: inset 0px 20px 20px -20px #00000091;
+  /* background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 49.89%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%);
+  box-shadow: inset 0px 20px 20px -20px #00000091; */
   /* background-image: linear-gradient(90.13deg,var(--theme-ui-colors-accent,#b6ff9c) 49.89%,var(--theme-ui-colors-accentComplement,#fdc9d3) 93.37%); */
   height: 76px;
+  background-color: #171717;
   /* background-color: #691073; */
 }
 
 .ant-dropdown-menu {
   min-width: 160px;
   margin-left: -60px;
+}
+
+.poh-layout {
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .poh-header-text,

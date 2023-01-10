@@ -285,9 +285,6 @@ function DesktopNavbar() {
           <LanguageDropdown />
           <AccountSettingsPopup />
           <HelpPopup />
-          <Link href="https://snapshot.org/#/poh.eth/" target="_blank">
-            <Image src="/images/hand.svg" width={28} sx={{ margin: 1 }} />
-          </Link>
         </Row>
       </Col>
     </Row>
