@@ -49,7 +49,15 @@ function MyProfileLink(props) {
 
   return (
     <NextLink href={href} as={link}>
-      <Link {...props} variant="navigation">
+      <Link
+        {...props}
+        className={
+          window.location.pathname !== "/"
+            ? "poh-header-text poh-header-text-selected"
+            : "poh-header-text"
+        }
+        variant="navigation"
+      >
         {showSubmitProfile
           ? t("header_submit_profile")
           : t("header_my_profile")}
@@ -222,25 +230,35 @@ function DesktopNavbar() {
   return (
     <Row>
       <Col span={2} style={{ display: "flex", alignItems: "center" }}>
-        <NextLink href="/" as="/">
-          <Link variant="unstyled" sx={{ display: "flex" }}>
-            <Image
-              sx={{ width: 105, minWidth: 105 }}
-              src="/images/poh-logo-white.svg"
-              height="auto"
-            />
-          </Link>
-        </NextLink>
+        <Link
+          href="https://proofofhumanity.eth.limo"
+          target="_blank"
+          variant="unstyled"
+          sx={{ display: "flex" }}
+        >
+          <Image
+            sx={{ width: 130, minWidth: 130 }}
+            src="/images/democratic-poh-logo-white.svg"
+            height="auto"
+          />
+        </Link>
       </Col>
       <Col className="poh-header-menu" span={17}>
         <Row justify="center">
           <Col span={17} className="poh-header-item">
             <NextLink href="/" as="/">
-              <Link className="poh-header-text" variant="navigation">
+              <Link
+                className={
+                  window.location.pathname === "/"
+                    ? "poh-header-text poh-header-text-selected"
+                    : "poh-header-text"
+                }
+                variant="navigation"
+              >
                 {t("header_profiles")}
               </Link>
             </NextLink>
-            <MyProfileLink className="poh-header-text" />
+            <MyProfileLink />
           </Col>
         </Row>
       </Col>
@@ -270,9 +288,6 @@ function DesktopNavbar() {
           <LanguageDropdown />
           <AccountSettingsPopup />
           <HelpPopup />
-          <Link href="https://snapshot.org/#/poh.eth/" target="_blank">
-            <Image src="/images/hand.svg" width={28} sx={{ margin: 1 }} />
-          </Link>
         </Row>
       </Col>
     </Row>
