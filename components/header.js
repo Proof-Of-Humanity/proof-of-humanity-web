@@ -236,7 +236,14 @@ function DesktopNavbar() {
         <Row justify="center">
           <Col span={17} className="poh-header-item">
             <NextLink href="/" as="/">
-              <Link className="poh-header-text" variant="navigation">
+              <Link
+                className={
+                  window.location.pathname === "/"
+                    ? "poh-header-text poh-header-text-selected"
+                    : "poh-header-text"
+                }
+                variant="navigation"
+              >
                 {t("header_profiles")}
               </Link>
             </NextLink>

@@ -127,6 +127,8 @@ a:hover {
 }
 
 .poh-header {
+  margin: 0px 0px -10px;
+  padding: 5px 32px 0px;
   /* background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 49.89%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%); */
   /* box-shadow: inset 0px -20px 20px -20px #00000091; */
   background: #171717;
@@ -165,7 +167,7 @@ a:hover {
 
 .poh-header-text,
 .poh-footer-text {
-  font-size: 14px;
+  font-size: 16px;
   box-sizing: border-box;
   margin: 0px 5px;
   min-width: 0;
@@ -173,10 +175,20 @@ a:hover {
   font-weight: 500;
   text-decoration: none;
   /* padding: 12px 0px 0px 12px; */
-  background-color: #22222280;
-  box-shadow: 0px 7px 7px -8px black;
-  padding: 8px 24px;
-  border-radius: 32px;
+  /* background-color: #22222280;
+  box-shadow: 0px 7px 7px -8px black; */
+  border: 1px solid transparent;
+  border-radius: 25px;
+  padding: 8px 40px;
+}
+
+.poh-header-text-selected {
+  background: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 20%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%);
+}
+
+.poh-header-text-selected:hover {
+  border: 1px solid transparent !important; 
+  cursor: default !important;
 }
 
 .poh-drawer-text {
@@ -192,7 +204,12 @@ a:hover {
 .poh-header-text:hover,
 .poh-footer-text:hover {
   color: var(--theme-ui-colors-background, #fffffa) !important;
-  background-color: #222222d6;
+  /* background-color: #222222d6; */
+}
+
+.poh-header-text:hover {
+  border: 1px solid #ffffff66;
+  cursor: pointer;
 }
 
 .poh-drawer-text:hover {
