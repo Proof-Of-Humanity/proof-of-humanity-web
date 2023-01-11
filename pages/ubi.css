@@ -161,6 +161,12 @@ a:hover {
   background-color: #171717;
 }
 
+.dapp-logo {
+  max-height: 82px;
+  width: 60px;
+  margin-left: 10px;
+}
+
 .ant-dropdown-menu {
   min-width: 160px;
   margin-left: -60px;
@@ -172,8 +178,7 @@ a:hover {
   background: transparent;
 }
 
-.poh-header-text,
-.poh-footer-text {
+.poh-header-text {
   font-size: 16px;
   box-sizing: border-box;
   margin: 0px 5px;
@@ -188,6 +193,30 @@ a:hover {
   border-radius: 25px;
   padding: 8px 40px;
 }
+
+.poh-footer-text {
+  border-radius: 0px;
+  line-height: 32px !important;
+  padding: 0px 0px;
+  font-size: 16px;
+  box-sizing: border-box;
+  margin: 0px 5px;
+  min-width: 0;
+  color: var(--theme-ui-colors-background, #fffffa) !important;
+  font-weight: 500;
+  text-decoration: none;
+  /* padding: 12px 0px 0px 12px; */
+  border: 1px solid transparent;
+  /* border-radius: 25px; */
+  /* padding: 8px 40px; */
+}
+
+.poh-footer-text:hover {
+  color: var(--theme-ui-colors-background, #fffffa) !important;
+  /* background-color: #222222d6; */
+  border-bottom: 1px solid white;
+}
+
 
 .poh-header-text-selected {
   background: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 20%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%);
