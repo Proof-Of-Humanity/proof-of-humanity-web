@@ -128,7 +128,7 @@ a:hover {
 
 .poh-header {
   margin: 0px 0px -10px;
-  padding: 5px 32px 0px;
+  padding: 5px 25px 0px 32px;
   /* background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 49.89%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%); */
   /* box-shadow: inset 0px -20px 20px -20px #00000091; */
   background: #171717;
@@ -205,10 +205,6 @@ a:hover {
   border-radius: 25px;
 }
 
-.poh-header-dropdown:hover {
-  border: 1px solid white;
-}
-
 .poh-footer-text {
   border-radius: 0px;
   line-height: 32px !important;
@@ -226,13 +222,15 @@ a:hover {
   /* padding: 8px 40px; */
 }
 
-.poh-footer-text:hover,
-.poh-header-dropdown:hover {
+.poh-footer-text:hover {
   color: var(--theme-ui-colors-background, #fffffa) !important;
   /* background-color: #222222d6; */
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid #fffffa;
 }
 
+.poh-header-dropdown:hover {
+  border: 1px solid #ffffff66;
+}
 
 .poh-header-text-selected {
   background: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 20%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%);

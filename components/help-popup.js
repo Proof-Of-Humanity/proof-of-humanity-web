@@ -59,9 +59,26 @@ export default function HelpPopup({ ...rest }) {
       className="poh-header-dropdown"
       contentStyle={{ width: 248, lineHeight: "initial" }}
       trigger={
-        <IconButton sx={{ cursor: "pointer", marginTop: "3px", width: "40px" }}>
+        <IconButton
+          className="poh-header-text"
+          sx={{
+            backgroundColor: "transparent",
+            backgroundImage: "none !important",
+            color: "white",
+            boxShadow: "none !important",
+            fontSize: 16,
+            borderRadius: 25,
+            width: 50,
+            height: 40,
+            border: "1px solid #ffffff1d",
+            px: "16px !important",
+            py: "8px !important",
+            mx: [0, "4px", "8px"],
+            cursor: "pointer",
+          }}
+        >
           <Image
-            src="/images/help.svg"
+            src="/images/dots.svg"
             crossOrigin="anonymous"
             sx={{ objectFit: "contain" }}
           />

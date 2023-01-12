@@ -102,7 +102,10 @@ function LanguageDropdown() {
   );
 
   return (
-    <Dropdown sx={{ minWidth: 200, cursor: "pointer" }} overlay={languageMenu}>
+    <Dropdown
+      sx={{ minWidth: 200, width: 50, cursor: "pointer" }}
+      overlay={languageMenu}
+    >
       <div
         aria-hidden="true"
         className="poh-header-dropdown"
