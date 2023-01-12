@@ -1,6 +1,7 @@
 import { MenuOutlined } from "@ant-design/icons";
 import { useWindowWidth } from "@react-hook/window-size";
 import { Col, Drawer, Dropdown, Layout, Menu, Row, Typography } from "antd";
+import lodash from "lodash";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "relay-hooks";
@@ -74,12 +75,12 @@ function LanguageDropdown() {
   };
 
   const languages = [
-    { name: "🇬🇧 English", key: "en" },
-    { name: "🇪🇸 Español", key: "es" },
-    { name: "🇵🇹 Português", key: "pt" },
-    { name: "🇫🇷 Français", key: "fr" },
-    { name: "🇮🇹 Italiano", key: "it" },
-    { name: "🇨🇳 中文", key: "cn" },
+    { name: "🇬🇧 English", key: "en", emoji: "🇬🇧" },
+    { name: "🇪🇸 Español", key: "es", emoji: "🇪🇸" },
+    { name: "🇵🇹 Português", key: "pt", emoji: "🇵🇹" },
+    { name: "🇫🇷 Français", key: "fr", emoji: "🇫🇷" },
+    { name: "🇮🇹 Italiano", key: "it", emoji: "🇮🇹" },
+    { name: "🇨🇳 中文", key: "cn", emoji: "🇨🇳" },
   ];
 
   // Remove hardcode to programatical list
@@ -101,18 +102,17 @@ function LanguageDropdown() {
   );
 
   return (
-    <Dropdown sx={{ minWidth: 200, cursor: "pointer" }} overlay={languageMenu}>
+    <Dropdown
+      sx={{ minWidth: 200, width: 50, cursor: "pointer" }}
+      overlay={languageMenu}
+    >
       <div
         aria-hidden="true"
-        className="ant-dropdown-link"
+        className="poh-header-dropdown"
         onClick={(event) => event.preventDefault()}
         onKeyDown={(event) => event.preventDefault()}
       >
-        <Image
-          sx={{ width: 36, cursor: "pointer" }}
-          src="/images/globe.svg"
-          height="auto"
-        />
+        {lodash.find(languages, (x) => x.key === i18n.resolvedLanguage).emoji}
       </div>
     </Dropdown>
   );
@@ -226,6 +226,7 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
 
 function DesktopNavbar() {
   const { t } = useTranslation();
+  const [accounts] = useWeb3("eth", "getAccounts");
 
   return (
     <Row>
@@ -243,7 +244,7 @@ function DesktopNavbar() {
           />
         </Link>
       </Col>
-      <Col className="poh-header-menu" span={17}>
+      <Col className="poh-header-menu" span={15}>
         <Row justify="center">
           <Col span={17} className="poh-header-item">
             <NextLink href="/" as="/">
@@ -262,16 +263,17 @@ function DesktopNavbar() {
           </Col>
         </Row>
       </Col>
-      <Col flex="auto" span={6}>
+      <Col flex="auto" span={8}>
         <Row justify="end" align="middle">
           <WalletConnection
             buttonProps={{
               sx: {
-                backgroundColor: "white",
+                backgroundColor: "transparent",
                 backgroundImage: "none !important",
-                color: "accent",
+                color: "white",
                 boxShadow: "none !important",
-                fontSize: [16, 12],
+                fontSize: 16,
+                border: "1px solid #ffffff1d",
                 px: "16px !important",
                 py: "8px !important",
                 mx: [0, "4px", "8px"],
@@ -286,7 +288,7 @@ function DesktopNavbar() {
             }}
           />
           <LanguageDropdown />
-          <AccountSettingsPopup />
+          {accounts?.length !== 0 ? <AccountSettingsPopup /> : ""}
           <HelpPopup />
         </Row>
       </Col>

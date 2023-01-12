@@ -128,7 +128,7 @@ a:hover {
 
 .poh-header {
   margin: 0px 0px -10px;
-  padding: 5px 32px 0px;
+  padding: 5px 25px 0px 32px;
   /* background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 49.89%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%); */
   /* box-shadow: inset 0px -20px 20px -20px #00000091; */
   background: #171717;
@@ -161,6 +161,12 @@ a:hover {
   background-color: #171717;
 }
 
+.dapp-logo {
+  max-height: 82px;
+  width: 60px;
+  margin-left: 10px;
+}
+
 .ant-dropdown-menu {
   min-width: 160px;
   margin-left: -60px;
@@ -172,8 +178,7 @@ a:hover {
   background: transparent;
 }
 
-.poh-header-text,
-.poh-footer-text {
+.poh-header-text {
   font-size: 16px;
   box-sizing: border-box;
   margin: 0px 5px;
@@ -184,9 +189,47 @@ a:hover {
   /* padding: 12px 0px 0px 12px; */
   /* background-color: #22222280;
   box-shadow: 0px 7px 7px -8px black; */
-  border: 1px solid transparent;
+  border: 1px solid #ffffff1d;
   border-radius: 25px;
   padding: 8px 40px;
+}
+
+.poh-header-dropdown {
+  font-size: 16px;
+  cursor: pointer;
+  margin: 15px 0px 14px;
+  line-height: 35px;
+  padding: 2px 15px;
+  height: 40px;
+  border: 1px solid #ffffff1d;
+  border-radius: 25px;
+}
+
+.poh-footer-text {
+  border-radius: 0px;
+  line-height: 32px !important;
+  padding: 0px 0px;
+  font-size: 16px;
+  box-sizing: border-box;
+  margin: 0px 5px;
+  min-width: 0;
+  color: var(--theme-ui-colors-background, #fffffa) !important;
+  font-weight: 500;
+  text-decoration: none;
+  /* padding: 12px 0px 0px 12px; */
+  border: 1px solid transparent;
+  /* border-radius: 25px; */
+  /* padding: 8px 40px; */
+}
+
+.poh-footer-text:hover {
+  color: var(--theme-ui-colors-background, #fffffa) !important;
+  /* background-color: #222222d6; */
+  border-bottom: 1px solid #fffffa;
+}
+
+.poh-header-dropdown:hover {
+  border: 1px solid #ffffff66;
 }
 
 .poh-header-text-selected {
@@ -211,6 +254,7 @@ a:hover {
 .poh-header-text:hover,
 .poh-footer-text:hover {
   color: var(--theme-ui-colors-background, #fffffa) !important;
+  opacity: 1 !important;
   /* background-color: #222222d6; */
 }
 
@@ -375,7 +419,7 @@ h2.ant-typography {
 
 .poh-nft:hover {
   border: 1px solid #414141;
-  background-color: #2d2d2d;
+  background-color: #1d1d1d;
 }
 
 .search-icon {

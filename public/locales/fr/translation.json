@@ -11,8 +11,8 @@
   "header_settings_account": "Compte",
   "header_settings_notifications": "Notifications",
   "header_settings_withdraw_fees_rewards": "Frais de Retrait et Récompenses",
-  "header_settings_connect_wallet": "Connecter le portefeuille",
-  "header_settings_change_wallet": "Changer de portefeuille",
+  "header_settings_connect_wallet": "Connecter",
+  "header_settings_change_wallet": "Changer",
   "header_settings_connected_infura": "Connecter à Infura",
 
   "header_notifications_enable": "Activer",
