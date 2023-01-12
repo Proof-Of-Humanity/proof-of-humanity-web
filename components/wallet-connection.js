@@ -10,8 +10,8 @@ export default function WalletConnection({ buttonProps }) {
 
   if (accounts?.length === 0) {
     return (
-      <Button {...buttonProps} onClick={connect}>
-        {t("header_connect_button")}
+      <Button {...buttonProps} onClick={connect} className="poh-header-text">
+        {t("header_settings_connect_wallet")}
       </Button>
     );
   }

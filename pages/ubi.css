@@ -189,9 +189,24 @@ a:hover {
   /* padding: 12px 0px 0px 12px; */
   /* background-color: #22222280;
   box-shadow: 0px 7px 7px -8px black; */
-  border: 1px solid transparent;
+  border: 1px solid #ffffff1d;
   border-radius: 25px;
   padding: 8px 40px;
+}
+
+.poh-header-dropdown {
+  font-size: 16px;
+  cursor: pointer;
+  margin: 15px 0px 14px;
+  line-height: 35px;
+  padding: 2px 15px;
+  height: 40px;
+  border: 1px solid #ffffff1d;
+  border-radius: 25px;
+}
+
+.poh-header-dropdown:hover {
+  border: 1px solid white;
 }
 
 .poh-footer-text {
@@ -211,7 +226,8 @@ a:hover {
   /* padding: 8px 40px; */
 }
 
-.poh-footer-text:hover {
+.poh-footer-text:hover,
+.poh-header-dropdown:hover {
   color: var(--theme-ui-colors-background, #fffffa) !important;
   /* background-color: #222222d6; */
   border-bottom: 1px solid white;
@@ -240,6 +256,7 @@ a:hover {
 .poh-header-text:hover,
 .poh-footer-text:hover {
   color: var(--theme-ui-colors-background, #fffffa) !important;
+  opacity: 1 !important;
   /* background-color: #222222d6; */
 }
 
@@ -404,7 +421,7 @@ h2.ant-typography {
 
 .poh-nft:hover {
   border: 1px solid #414141;
-  background-color: #2d2d2d;
+  background-color: #1d1d1d;
 }
 
 .search-icon {

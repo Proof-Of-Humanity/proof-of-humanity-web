@@ -1,7 +1,7 @@
 {
   "poh_unsupported_network": "Red no soportada. Por favor cambiar a {{network}} y refrescar.",
 
-  "header_profiles": "Perfiles",
+  "header_profiles": "Humanos",
   "header_pools": "Piletas",
   "header_submit_profile": "Subir Perfil",
   "header_my_profile": "Mi Perfil",
@@ -11,7 +11,7 @@
   "header_settings_account": "Cuenta",
   "header_settings_notifications": "Notificaciones",
   "header_settings_withdraw_fees_rewards": "Retirar tarifas y recompensas",
-  "header_settings_connect_wallet": "Cambiar direccion",
+  "header_settings_connect_wallet": "Conectar billetera",
   "header_settings_change_wallet": "Cambiar direccion",
   "header_settings_connected_infura": "Conectado a Infura",
 

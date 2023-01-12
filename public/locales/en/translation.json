@@ -1,7 +1,7 @@
 {
   "poh_unsupported_network": "Unsupported network. Please switch to {{network}} and refresh.",
 
-  "header_profiles": "Profiles",
+  "header_profiles": "Humans",
   "header_pools": "Pools",
   "header_submit_profile": "Submit Profile",
   "header_my_profile": "My Profile",
@@ -45,9 +45,9 @@
   "profile_search_search_text": "Search (case sensitive)",
   "profile_search_filter_by_text": "Filter by status",
 
-  "profile_search_all": "All Profiles",
+  "profile_search_all": "All Humans",
   "profile_status_Registered": "Registered",
-  "profile_status_Vouching": "Vouching",
+  "profile_status_Vouching": "Vouching Phase",
   "profile_status_PendingRegistration": "Pending Registration",
   "profile_status_PendingRemoval": "Pending Removal",
   "profile_status_ChallengedRegistration": "Challenged Registration",
