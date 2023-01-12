@@ -223,6 +223,7 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
 
 function DesktopNavbar() {
   const { t } = useTranslation();
+  const [accounts] = useWeb3("eth", "getAccounts");
 
   return (
     <Row>
@@ -284,7 +285,7 @@ function DesktopNavbar() {
             }}
           />
           <LanguageDropdown />
-          <AccountSettingsPopup />
+          {accounts?.length !== 0 ? <AccountSettingsPopup /> : ""}
           <HelpPopup />
         </Row>
       </Col>

@@ -56,6 +56,7 @@ export default function HelpPopup({ ...rest }) {
 
   return (
     <Popup
+      className="poh-header-dropdown"
       contentStyle={{ width: 248, lineHeight: "initial" }}
       trigger={
         <IconButton sx={{ cursor: "pointer", marginTop: "3px", width: "40px" }}>
