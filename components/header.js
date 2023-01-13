@@ -85,7 +85,10 @@ function LanguageDropdown() {
 
   // Remove hardcode to programatical list
   const languageMenu = (
-    <Menu selectedKeys={[i18n.resolvedLanguage]}>
+    <Menu
+      className="popup-language-menu"
+      selectedKeys={[i18n.resolvedLanguage]}
+    >
       {languages.map((language, i, list) => (
         <React.Fragment key={`${language.key}-divider`}>
           <Menu.Item
@@ -238,7 +241,7 @@ function DesktopNavbar() {
           sx={{ display: "flex" }}
         >
           <Image
-            sx={{ width: 130, minWidth: 130 }}
+            sx={{ width: 130, minWidth: 130, marginTop: "-3px" }}
             src="/images/democratic-poh-logo-white.svg"
             height="auto"
           />

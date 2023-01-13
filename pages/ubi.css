@@ -380,11 +380,6 @@ div.ant-typography-h5>textarea,
   margin-bottom: 5%!important;
 }
 
-.header-language-item.ant-dropdown-menu-item-selected {
-  color: #d9945b !important;
-  background-color: #ffe7c9 !important;
-}
-
 h2.ant-typography {
   color: #fff;
 }
@@ -440,6 +435,51 @@ h2.ant-typography {
   color: white;
   font-size: 13px;
   box-shadow: inset 0px 0px 0 1px rgb(100 100 100) !important;
+}
+
+.popup-help-menu, 
+.popup-language-menu {
+  background: rgb(34, 34, 34) !important;
+  border-radius: 10px !important;
+  color: white;
+  font-size: 13px !important;
+  padding: 15px 15px !important;
+  margin: -20px -22px !important;
+  box-shadow: inset 0px 0px 0 1px rgb(100 100 100);
+}
+
+.popup-language-menu {
+  padding: 10px !important;
+  color: white !important;
+  margin: 5px -60px !important;
+}
+
+.ant-dropdown-menu-item {
+  color: white;
+  padding: 5px;
+}
+
+.header-language-item.ant-dropdown-menu-item-selected {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.ant-dropdown-menu-item-selected {
+  background-color: none !important;
+}
+
+.ant-dropdown-menu-item:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+.ant-dropdown-menu-item-divider {
+  display: none;
+}
+
+
+.ant-layout-header {
+  line-height: 70px !important;
 }
 
 .filter-dropdown-list > ul > div > div > li {
