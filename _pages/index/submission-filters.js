@@ -18,7 +18,11 @@ export default function SubmissionFilters({
       value: undefined,
       color: "#fff",
       toString: () =>
-        `${t("profile_search_all")} — ${numberOfSubmissions.toLocaleString()}`,
+        `${t("profile_search_all")} — ${
+          !Number.isNaN(numberOfSubmissions)
+            ? numberOfSubmissions.toLocaleString()
+            : "..."
+        }`,
       query: {},
       Icon: User,
     },
