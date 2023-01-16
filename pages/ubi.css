@@ -437,15 +437,24 @@ h2.ant-typography {
   box-shadow: inset 0px 0px 0 1px rgb(100 100 100) !important;
 }
 
+.poh-address-popup,
 .popup-help-menu, 
 .popup-language-menu {
   background: rgb(34, 34, 34) !important;
   border-radius: 10px !important;
   color: white;
   font-size: 13px !important;
-  padding: 15px 15px !important;
   margin: -20px -22px !important;
   box-shadow: inset 0px 0px 0 1px rgb(100 100 100);
+}
+
+.poh-address-popup {
+  padding: 5px 15px 15px !important;
+}
+
+.popup-help-menu,
+.popup-language-menu {
+  padding: 15px 15px !important;
 }
 
 .popup-language-menu {

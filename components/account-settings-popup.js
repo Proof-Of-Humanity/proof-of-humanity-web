@@ -101,7 +101,12 @@ export default function AccountSettingsPopup({
 
   return (
     <Popup
-      contentStyle={{ width: 490, lineHeight: "initial", cursor: "pointer" }}
+      contentStyle={{
+        width: 490,
+        marginTop: 15,
+        lineHeight: "initial",
+        cursor: "pointer",
+      }}
       trigger={
         <Button
           className="poh-header-text"
@@ -135,10 +140,10 @@ export default function AccountSettingsPopup({
       }
       position="bottom right"
     >
-      <Box sx={{ color: "text", paddingX: 1, paddingY: 2 }}>
-        <Text sx={{ fontWeight: "bold", textAlign: "center" }}>
-          {t("header_settings")}
-        </Text>
+      <Box
+        className="poh-address-popup"
+        sx={{ color: "text", paddingX: 1, paddingY: 2 }}
+      >
         <Tabs>
           <TabList>
             <Tab>{t("header_settings_account")}</Tab>
