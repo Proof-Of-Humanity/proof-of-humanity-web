@@ -1,6 +1,6 @@
-import { Dot } from "@kleros/icons";
 import ReactLoadingSkeleton from "react-loading-skeleton";
 
+import Image from "./image";
 import Text from "./text";
 import { useWeb3 } from "./web3-provider";
 
@@ -13,7 +13,6 @@ export default function NetworkTag({ sx, ...rest }) {
   return web3.ETHNet ? (
     <Text
       sx={{
-        color: "success",
         fontSize: 1,
         fontWeight: "bold",
         textAlign: "center",
@@ -24,10 +23,12 @@ export default function NetworkTag({ sx, ...rest }) {
         ...sx,
       }}
     >
-      <Dot
-        size={8}
+      <Image
+        src="/images/eth.svg"
+        crossOrigin="anonymous"
         sx={{
-          fill: "currentColor",
+          objectFit: "contain",
+          height: "20px",
         }}
       />{" "}
       {capitalize(web3.ETHNet?.name)}

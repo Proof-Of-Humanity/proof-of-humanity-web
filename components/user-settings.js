@@ -93,8 +93,9 @@ export default function UserSettings({
             />
           ))}
           <Field name="email" label="Email" />
-          <Divider />
+          <Divider sx={{ opacity: 0 }} />
           <Button
+            className="poh-button"
             sx={{ display: "block", marginTop: -2, marginX: "auto" }}
             type="submit"
             loading={isSubmitting}

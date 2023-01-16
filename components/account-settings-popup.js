@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "relay-hooks";
-import { Box, Flex, IconButton } from "theme-ui";
+import { Box, Flex } from "theme-ui";
 
 import Button from "./button";
 import Divider from "./divider";
@@ -19,6 +19,18 @@ import { useContract, useWeb3 } from "./web3-provider";
 import { appQuery } from "_pages/index/app-query";
 import ProofOfHumanityAbi from "subgraph/abis/proof-of-humanity";
 import { address as pohAddress } from "subgraph/config";
+
+/**
+ * @summary shortens the username if its a crypto address
+ * @param {object} publicAddress string of username to check
+ * @returns {string} username string
+ */
+const _shortenCryptoName = (publicAddress) => {
+  if (publicAddress.length === 42 && publicAddress.slice(0, 2) === "0x") {
+    return `${publicAddress.slice(0, 6)}...${publicAddress.slice(38, 42)}`;
+  }
+  return publicAddress;
+};
 
 export default function AccountSettingsPopup({
   name,
@@ -89,34 +101,62 @@ export default function AccountSettingsPopup({
 
   return (
     <Popup
-      contentStyle={{ width: 490, lineHeight: "initial", cursor: "pointer" }}
+      contentStyle={{
+        width: 490,
+        marginTop: 15,
+        lineHeight: "initial",
+        cursor: "pointer",
+      }}
       trigger={
-        <IconButton sx={{ cursor: "pointer", marginTop: "3px", width: "40px" }}>
+        <Button
+          className="poh-header-text"
+          sx={{
+            backgroundColor: "transparent",
+            backgroundImage: "none !important",
+            color: "white",
+            boxShadow: "none !important",
+            fontSize: 16,
+            border: "1px solid #ffffff1d",
+            paddingTop: "9px !important",
+            paddingBottom: "5px !important",
+            mx: [0, "4px", "8px"],
+          }}
+        >
           <Image
-            src="/images/ethereum.svg"
+            src="/images/eth.svg"
             crossOrigin="anonymous"
-            sx={{ objectFit: "contain" }}
+            sx={{
+              objectFit: "contain",
+              height: "20px",
+              marginRight: "10px",
+              marginTop: "0px",
+              marginLeft: "-5px",
+            }}
           />
-        </IconButton>
+          {accounts && accounts.length > 0
+            ? _shortenCryptoName(accounts[0])
+            : t("header_settings_connect_wallet")}
+        </Button>
       }
       position="bottom right"
     >
-      <Box sx={{ color: "text", paddingX: 1, paddingY: 2 }}>
-        <Text sx={{ fontWeight: "bold", textAlign: "center" }}>
-          {t("header_settings")}
-        </Text>
+      <Box
+        className="poh-address-popup"
+        sx={{ color: "text", paddingX: 1, paddingY: 2 }}
+      >
         <Tabs>
           <TabList>
             <Tab>{t("header_settings_account")}</Tab>
             <Tab>{t("header_settings_notifications")}</Tab>
           </TabList>
           <TabPanel>
+            <NetworkTag sx={{ mb: 1 }} />
             <Text sx={{ fontSize: 14, marginBottom: 3 }}>
               {accounts &&
                 (accounts.length === 0 ? (
                   t("header_settings_connected_infura")
                 ) : (
-                  <Flex sx={{ alignItems: "center" }}>
+                  <Flex sx={{ alignItems: "center", justifyContent: "center" }}>
                     {photo ? (
                       <Image
                         crossOrigin="anonymous"
@@ -140,9 +180,9 @@ export default function AccountSettingsPopup({
                   </Flex>
                 ))}
             </Text>
-            <NetworkTag sx={{ mb: 1 }} />
-            <Divider />
+            <Divider sx={{ opacity: 0, marginBottom: 15 }} />
             <Button
+              className="poh-button"
               sx={{
                 display: "block",
                 marginTop: -2,
