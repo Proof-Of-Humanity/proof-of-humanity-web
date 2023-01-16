@@ -290,8 +290,8 @@ function DesktopNavbar() {
               },
             }}
           />
-          <LanguageDropdown />
           {accounts?.length !== 0 ? <AccountSettingsPopup /> : ""}
+          <LanguageDropdown />
           <HelpPopup />
         </Row>
       </Col>
