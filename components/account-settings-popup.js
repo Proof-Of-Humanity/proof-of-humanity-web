@@ -150,12 +150,13 @@ export default function AccountSettingsPopup({
             <Tab>{t("header_settings_notifications")}</Tab>
           </TabList>
           <TabPanel>
+            <NetworkTag sx={{ mb: 1 }} />
             <Text sx={{ fontSize: 14, marginBottom: 3 }}>
               {accounts &&
                 (accounts.length === 0 ? (
                   t("header_settings_connected_infura")
                 ) : (
-                  <Flex sx={{ alignItems: "center" }}>
+                  <Flex sx={{ alignItems: "center", justifyContent: "center" }}>
                     {photo ? (
                       <Image
                         crossOrigin="anonymous"
@@ -179,9 +180,9 @@ export default function AccountSettingsPopup({
                   </Flex>
                 ))}
             </Text>
-            <NetworkTag sx={{ mb: 1 }} />
-            <Divider />
+            <Divider sx={{ opacity: 0, marginBottom: 15 }} />
             <Button
+              className="poh-button"
               sx={{
                 display: "block",
                 marginTop: -2,

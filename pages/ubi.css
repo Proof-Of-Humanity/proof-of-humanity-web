@@ -236,6 +236,12 @@ a:hover {
   background: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 20%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%);
 }
 
+.poh-button {
+  background: transparent !important;
+  border: 1px solid white !important;
+  border-radius: 25px !important;
+}
+
 .poh-header-text-selected:hover {
   border: 1px solid transparent !important; 
   cursor: default !important;
@@ -449,7 +455,7 @@ h2.ant-typography {
 }
 
 .poh-address-popup {
-  padding: 5px 15px 15px !important;
+  padding: 5px 15px 25px !important;
 }
 
 .popup-help-menu,
