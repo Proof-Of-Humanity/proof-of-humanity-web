@@ -233,7 +233,7 @@ function DesktopNavbar() {
 
   return (
     <Row>
-      <Col span={2} style={{ display: "flex", alignItems: "center" }}>
+      <Col span={3} style={{ display: "flex", alignItems: "center" }}>
         <Link
           href="https://proofofhumanity.eth.limo"
           target="_blank"
@@ -247,7 +247,7 @@ function DesktopNavbar() {
           />
         </Link>
       </Col>
-      <Col className="poh-header-menu" span={15}>
+      <Col className="poh-header-menu" span={11}>
         <Row justify="center">
           <Col span={17} className="poh-header-item">
             <NextLink href="/" as="/">
@@ -266,7 +266,7 @@ function DesktopNavbar() {
           </Col>
         </Row>
       </Col>
-      <Col flex="auto" span={8}>
+      <Col flex="auto" span={11}>
         <Row justify="end" align="middle">
           <WalletConnection
             buttonProps={{
@@ -316,7 +316,7 @@ export default function AppHeader() {
     }
   }
 
-  const isDesktop = width >= 768;
+  const isDesktop = width >= 800;
 
   return (
     <>
