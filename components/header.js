@@ -1,6 +1,6 @@
 import { MenuOutlined } from "@ant-design/icons";
 import { useWindowWidth } from "@react-hook/window-size";
-import { Col, Drawer, Dropdown, Layout, Menu, Row, Typography } from "antd";
+import { Col, Drawer, Dropdown, Layout, Menu, Row } from "antd";
 import lodash from "lodash";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -19,7 +19,7 @@ import {
 import { appQuery } from "_pages/index/app-query";
 import { useEvidenceFile } from "data";
 
-const { Paragraph } = Typography;
+// const { Paragraph } = Typography;
 const { Header } = Layout;
 
 function MyProfileLink(props) {
@@ -54,8 +54,8 @@ function MyProfileLink(props) {
         {...props}
         className={
           window.location.pathname !== "/"
-            ? "poh-header-text poh-header-text-selected"
-            : "poh-header-text"
+            ? "poh-header-text poh-header-text-mobile poh-drawer-button poh-header-text-selected"
+            : "poh-header-text poh-header-text-mobile poh-drawer-button"
         }
         variant="navigation"
       >
@@ -182,9 +182,9 @@ function AccountSettingsPopup() {
 function MobileNavbar({ toggleMobileMenuOpen }) {
   const [accounts] = useWeb3("eth", "getAccounts");
 
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
 
-  const { props: profile } = useQuery(
+  /* const { props: profile } = useQuery(
     appQuery,
     {
       id: accounts?.[0]?.toLowerCase(),
@@ -193,20 +193,37 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
     { skip: !accounts?.[0] }
   );
 
-  const showSubmitProfile =
+   const showSubmitProfile =
     !profile?.submission ||
     (!profile?.submission?.registered &&
       profile?.submission?.status === "None");
+  */
 
   return (
     <Row>
-      <Col span={showSubmitProfile ? 2 : 12}>
+      <Col span={1}>
         <MenuOutlined
           style={{ color: "#fff" }}
           onClick={() => toggleMobileMenuOpen()}
         />
       </Col>
-      {showSubmitProfile && (
+      <Col span={16}>
+        <Row justify="center" align="middle">
+          <Link href="/" variant="unstyled" sx={{ display: "flex" }}>
+            <Image
+              sx={{
+                width: 130,
+                minWidth: 130,
+                marginTop: "10px",
+                marginLeft: "80px",
+              }}
+              src="/images/democratic-poh-logo-white.svg"
+              height="auto"
+            />
+          </Link>
+        </Row>
+      </Col>
+      {/* {showSubmitProfile && (
         <Col span={12}>
           <Row justify="center">
             <NextLink href="/profile/submit" as="/profile/submit">
@@ -217,10 +234,32 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
             </NextLink>
           </Row>
         </Col>
-      )}
-      <Col span={showSubmitProfile ? 10 : 12}>
+      )} */}
+      <Col span={7} className="mobile-navbar-button">
         <Row justify="end">
-          <LanguageDropdown />
+          <WalletConnection
+            buttonProps={{
+              sx: {
+                backgroundColor: "transparent",
+                backgroundImage: "none !important",
+                color: "white",
+                boxShadow: "none !important",
+                fontSize: 16,
+                border: "1px solid #ffffff1d",
+                px: "16px !important",
+                py: "8px !important",
+                mx: [0, "4px", "8px"],
+              },
+            }}
+            tagProps={{
+              sx: {
+                opacity: 0.8,
+                fontSize: [20, 16, 12],
+                mx: [0, "4px", "8px"],
+              },
+            }}
+          />
+          {accounts?.length !== 0 ? <AccountSettingsPopup /> : ""}
         </Row>
       </Col>
     </Row>
@@ -233,7 +272,7 @@ function DesktopNavbar() {
 
   return (
     <Row>
-      <Col span={2} style={{ display: "flex", alignItems: "center" }}>
+      <Col span={3} style={{ display: "flex", alignItems: "center" }}>
         <Link
           href="https://proofofhumanity.eth.limo"
           target="_blank"
@@ -247,7 +286,7 @@ function DesktopNavbar() {
           />
         </Link>
       </Col>
-      <Col className="poh-header-menu" span={15}>
+      <Col className="poh-header-menu" span={11}>
         <Row justify="center">
           <Col span={17} className="poh-header-item">
             <NextLink href="/" as="/">
@@ -266,7 +305,7 @@ function DesktopNavbar() {
           </Col>
         </Row>
       </Col>
-      <Col flex="auto" span={8}>
+      <Col flex="auto" span={11}>
         <Row justify="end" align="middle">
           <WalletConnection
             buttonProps={{
@@ -300,8 +339,8 @@ function DesktopNavbar() {
 }
 
 export default function AppHeader() {
-  const { connect } = useWeb3();
-  const [accounts] = useWeb3("eth", "getAccounts");
+  // const { connect } = useWeb3();
+  // const [accounts] = useWeb3("eth", "getAccounts");
   const { t } = useTranslation();
 
   const width = useWindowWidth();
@@ -316,13 +355,12 @@ export default function AppHeader() {
     }
   }
 
-  const isDesktop = width >= 768;
+  const isDesktop = width >= 850;
 
   return (
     <>
       <Drawer
         width={200}
-        title="Proof of Humanity"
         placement="left"
         closable={false}
         onClose={() => setMobileMenuOpen(false)}
@@ -330,25 +368,32 @@ export default function AppHeader() {
       >
         <Row onClick={() => setMobileMenuOpen(false)}>
           <NextLink href="/" as="/">
-            <Link className="poh-drawer-text" variant="navigation">
+            <Link
+              className={
+                window.location.pathname === "/"
+                  ? "poh-header-text poh-header-text-mobile poh-drawer-button poh-header-text-selected"
+                  : "poh-header-text poh-header-text-mobile poh-drawer-button"
+              }
+              variant="navigation"
+            >
               {t("header_profiles")}
             </Link>
           </NextLink>
         </Row>
         <Row onClick={() => setMobileMenuOpen(false)}>
-          <MyProfileLink className="poh-drawer-text" />
+          <MyProfileLink className="poh-header-text poh-header-text-mobile poh-drawer-button" />
         </Row>
-        {accounts?.length === 0 && (
+        {/* accounts?.length === 0 && (
           <Row>
             <Paragraph
-              className="poh-drawer-text"
+              className="poh-header-text poh-header-text-mobile poh-drawer-button"
               variant="navigation"
               onClick={connect}
             >
               {t("header_connect_button")}
             </Paragraph>
           </Row>
-        )}
+        ) */}
       </Drawer>
       <Header className="poh-header">
         {isDesktop ? (
