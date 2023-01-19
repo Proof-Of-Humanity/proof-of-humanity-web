@@ -1,3 +1,4 @@
+import { useWindowWidth } from "@react-hook/window-size";
 import { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "relay-hooks";
@@ -43,6 +44,7 @@ export default function AccountSettingsPopup({
   const { t } = useTranslation();
   const [accounts] = useWeb3("eth", "getAccounts");
   const { connect, web3 } = useWeb3();
+  const width = useWindowWidth();
   const { props } = useQuery(appQuery, {
     contributor: accounts?.[0] || zeroAddress,
     id: accounts?.[0] || zeroAddress,
@@ -109,7 +111,11 @@ export default function AccountSettingsPopup({
       }}
       trigger={
         <Button
-          className="poh-header-text"
+          className={
+            width >= 850
+              ? "poh-header-text"
+              : "poh-header-text poh-header-text-mobile"
+          }
           sx={{
             backgroundColor: "transparent",
             backgroundImage: "none !important",
@@ -126,11 +132,12 @@ export default function AccountSettingsPopup({
             src="/images/eth.svg"
             crossOrigin="anonymous"
             sx={{
-              objectFit: "contain",
               height: "20px",
+              width: "20px",
               marginRight: "10px",
               marginTop: "0px",
               marginLeft: "-5px",
+              minWidth: "auto",
             }}
           />
           {accounts && accounts.length > 0
