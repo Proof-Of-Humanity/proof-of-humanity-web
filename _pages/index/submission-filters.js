@@ -117,7 +117,7 @@ export default function SubmissionFilters({
       }}
     >
       <Row style={{ width: "100%", rowGap: "4px" }}>
-        <Col xs={24} md={17}>
+        <Col xs={24} md={16}>
           <Input
             sx={{ marginTop: "2px" }}
             className="filter-input"
@@ -146,7 +146,7 @@ export default function SubmissionFilters({
             }}
           />
         </Col>
-        <Col xs={24} md={7}>
+        <Col xs={24} md={8}>
           <Select
             sx={{
               button: { textAlign: "left", borderRadius: "10px" },
