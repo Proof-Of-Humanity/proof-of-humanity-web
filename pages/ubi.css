@@ -127,8 +127,11 @@ a:hover {
 }
 
 .poh-header {
-  background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 49.89%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%);
-  box-shadow: inset 0px -20px 20px -20px #00000091;
+  margin: 0px 0px -10px;
+  padding: 5px 25px 0px 32px;
+  /* background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 49.89%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%); */
+  /* box-shadow: inset 0px -20px 20px -20px #00000091; */
+  background: #171717;
   /* background-color: #691073; */
   z-index: 1;
   /* color: var(--theme-ui-colors-background,#fffffa); */
@@ -150,11 +153,18 @@ a:hover {
 }
 
 .poh-footer {
-  background-image: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 49.89%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%);
-  box-shadow: inset 0px 20px 20px -20px #00000091;
-  /* background-image: linear-gradient(90.13deg,var(--theme-ui-colors-accent,#b6ff9c) 49.89%,var(--theme-ui-colors-accentComplement,#fdc9d3) 93.37%); */
-  height: 76px;
-  /* background-color: #691073; */
+  margin: -20px 32px 0px 32px;
+  box-shadow: inset 0px 2px black;
+  border-top: 1px solid #2f2f2f;
+  height: 100px;
+  padding: 35px 20px;
+  background-color: #171717;
+}
+
+.dapp-logo {
+  max-height: 82px;
+  width: 60px;
+  margin-left: 10px;
 }
 
 .ant-dropdown-menu {
@@ -162,9 +172,18 @@ a:hover {
   margin-left: -60px;
 }
 
-.poh-header-text,
-.poh-footer-text {
-  font-size: 14px;
+.mobile-navbar-button {
+  padding-top: 15px;
+}
+
+.poh-layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: transparent;
+}
+
+.poh-header-text {
+  font-size: 16px;
   box-sizing: border-box;
   margin: 0px 5px;
   min-width: 0;
@@ -172,17 +191,92 @@ a:hover {
   font-weight: 500;
   text-decoration: none;
   /* padding: 12px 0px 0px 12px; */
-  background-color: #22222280;
-  box-shadow: 0px 7px 7px -8px black;
-  padding: 8px 24px;
-  border-radius: 32px;
+  /* background-color: #22222280;
+  box-shadow: 0px 7px 7px -8px black; */
+  border: 1px solid #ffffff1d;
+  border-radius: 25px;
+  padding: 8px 20px;
+  white-space: nowrap;
+  overflow-x: hidden;
+}
+
+.poh-header-text.poh-header-text-mobile {
+  font-size: 13px;
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+.poh-header-text.poh-header-text-mobile.poh-drawer-button {
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  font-size: 17px;
+  overflow: hidden;
+}
+
+.ant-drawer-wrapper-body {
+  background-color: #1d1d1d;
+  color: white;
+}
+
+.poh-header-dropdown {
+  font-size: 16px;
+  cursor: pointer;
+  margin: 15px 0px 14px;
+  line-height: 35px;
+  padding: 2px 15px;
+  height: 40px;
+  border: 1px solid #ffffff1d;
+  border-radius: 25px;
+}
+
+.poh-footer-text {
+  border-radius: 0px;
+  line-height: 32px !important;
+  padding: 0px 0px;
+  font-size: 16px;
+  box-sizing: border-box;
+  margin: 0px 5px;
+  min-width: 0;
+  color: var(--theme-ui-colors-background, #fffffa) !important;
+  font-weight: 500;
+  text-decoration: none;
+  /* padding: 12px 0px 0px 12px; */
+  border: 1px solid transparent;
+  /* border-radius: 25px; */
+  /* padding: 8px 40px; */
+}
+
+.poh-footer-text:hover {
+  color: var(--theme-ui-colors-background, #fffffa) !important;
+  /* background-color: #222222d6; */
+  border-bottom: 1px solid #fffffa;
+}
+
+.poh-header-dropdown:hover {
+  border: 1px solid #ffffff66;
+}
+
+.poh-header-text-selected {
+  background: linear-gradient(90.13deg, var(--theme-ui-colors-accent, #fbb630) 20%, var(--theme-ui-colors-accentComplement, #ff81b7) 93.37%);
+}
+
+.poh-button {
+  background: transparent !important;
+  border: 1px solid white !important;
+  border-radius: 25px !important;
+}
+
+.poh-header-text-selected:hover {
+  border: 1px solid transparent !important; 
+  cursor: default !important;
 }
 
 .poh-drawer-text {
   font-size: 18px;
   font-weight: 500;
   margin: 12px 0px !important;
-  color: black !important;
+  color: white !important;
   text-decoration: none;
   box-sizing: border-box;
   padding: 12px 0px 0px 12px;
@@ -191,7 +285,13 @@ a:hover {
 .poh-header-text:hover,
 .poh-footer-text:hover {
   color: var(--theme-ui-colors-background, #fffffa) !important;
-  background-color: #222222d6;
+  opacity: 1 !important;
+  /* background-color: #222222d6; */
+}
+
+.poh-header-text:hover {
+  border: 1px solid #ffffff66;
+  cursor: pointer;
 }
 
 .poh-drawer-text:hover {
@@ -311,11 +411,6 @@ div.ant-typography-h5>textarea,
   margin-bottom: 5%!important;
 }
 
-.header-language-item.ant-dropdown-menu-item-selected {
-  color: #d9945b !important;
-  background-color: #ffe7c9 !important;
-}
-
 h2.ant-typography {
   color: #fff;
 }
@@ -350,7 +445,7 @@ h2.ant-typography {
 
 .poh-nft:hover {
   border: 1px solid #414141;
-  background-color: #2d2d2d;
+  background-color: #1d1d1d;
 }
 
 .search-icon {
@@ -371,6 +466,60 @@ h2.ant-typography {
   color: white;
   font-size: 13px;
   box-shadow: inset 0px 0px 0 1px rgb(100 100 100) !important;
+}
+
+.poh-address-popup,
+.popup-help-menu, 
+.popup-language-menu {
+  background: rgb(34, 34, 34) !important;
+  border-radius: 10px !important;
+  color: white;
+  font-size: 13px !important;
+  margin: -20px -22px !important;
+  box-shadow: inset 0px 0px 0 1px rgb(100 100 100);
+}
+
+.poh-address-popup {
+  padding: 5px 15px 25px !important;
+}
+
+.popup-help-menu,
+.popup-language-menu {
+  padding: 15px 15px !important;
+}
+
+.popup-language-menu {
+  padding: 10px !important;
+  color: white !important;
+  margin: 5px -60px !important;
+}
+
+.ant-dropdown-menu-item {
+  color: white;
+  padding: 5px;
+}
+
+.header-language-item.ant-dropdown-menu-item-selected {
+  background-color: transparent !important;
+  color: white !important;
+}
+
+.ant-dropdown-menu-item-selected {
+  background-color: none !important;
+}
+
+.ant-dropdown-menu-item:hover {
+  background: none;
+  text-decoration: underline;
+}
+
+.ant-dropdown-menu-item-divider {
+  display: none;
+}
+
+
+.ant-layout-header {
+  line-height: 70px !important;
 }
 
 .filter-dropdown-list > ul > div > div > li {

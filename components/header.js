@@ -1,6 +1,7 @@
 import { MenuOutlined } from "@ant-design/icons";
 import { useWindowWidth } from "@react-hook/window-size";
-import { Col, Drawer, Dropdown, Layout, Menu, Row, Typography } from "antd";
+import { Col, Drawer, Dropdown, Layout, Menu, Row } from "antd";
+import lodash from "lodash";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "relay-hooks";
@@ -18,7 +19,7 @@ import {
 import { appQuery } from "_pages/index/app-query";
 import { useEvidenceFile } from "data";
 
-const { Paragraph } = Typography;
+// const { Paragraph } = Typography;
 const { Header } = Layout;
 
 function MyProfileLink(props) {
@@ -49,7 +50,15 @@ function MyProfileLink(props) {
 
   return (
     <NextLink href={href} as={link}>
-      <Link {...props} variant="navigation">
+      <Link
+        {...props}
+        className={
+          window.location.pathname !== "/"
+            ? "poh-header-text poh-header-text-mobile poh-drawer-button poh-header-text-selected"
+            : "poh-header-text poh-header-text-mobile poh-drawer-button"
+        }
+        variant="navigation"
+      >
         {showSubmitProfile
           ? t("header_submit_profile")
           : t("header_my_profile")}
@@ -66,17 +75,20 @@ function LanguageDropdown() {
   };
 
   const languages = [
-    { name: "🇬🇧 English", key: "en" },
-    { name: "🇪🇸 Español", key: "es" },
-    { name: "🇵🇹 Português", key: "pt" },
-    { name: "🇫🇷 Français", key: "fr" },
-    { name: "🇮🇹 Italiano", key: "it" },
-    { name: "🇨🇳 中文", key: "cn" },
+    { name: "🇬🇧 English", key: "en", emoji: "🇬🇧" },
+    { name: "🇪🇸 Español", key: "es", emoji: "🇪🇸" },
+    { name: "🇵🇹 Português", key: "pt", emoji: "🇵🇹" },
+    { name: "🇫🇷 Français", key: "fr", emoji: "🇫🇷" },
+    { name: "🇮🇹 Italiano", key: "it", emoji: "🇮🇹" },
+    { name: "🇨🇳 中文", key: "cn", emoji: "🇨🇳" },
   ];
 
   // Remove hardcode to programatical list
   const languageMenu = (
-    <Menu selectedKeys={[i18n.resolvedLanguage]}>
+    <Menu
+      className="popup-language-menu"
+      selectedKeys={[i18n.resolvedLanguage]}
+    >
       {languages.map((language, i, list) => (
         <React.Fragment key={`${language.key}-divider`}>
           <Menu.Item
@@ -93,18 +105,17 @@ function LanguageDropdown() {
   );
 
   return (
-    <Dropdown sx={{ minWidth: 200, cursor: "pointer" }} overlay={languageMenu}>
+    <Dropdown
+      sx={{ minWidth: 200, width: 50, cursor: "pointer" }}
+      overlay={languageMenu}
+    >
       <div
         aria-hidden="true"
-        className="ant-dropdown-link"
+        className="poh-header-dropdown"
         onClick={(event) => event.preventDefault()}
         onKeyDown={(event) => event.preventDefault()}
       >
-        <Image
-          sx={{ width: 36, cursor: "pointer" }}
-          src="/images/globe.svg"
-          height="auto"
-        />
+        {lodash.find(languages, (x) => x.key === i18n.resolvedLanguage).emoji}
       </div>
     </Dropdown>
   );
@@ -171,89 +182,41 @@ function AccountSettingsPopup() {
 function MobileNavbar({ toggleMobileMenuOpen }) {
   const [accounts] = useWeb3("eth", "getAccounts");
 
-  const { t } = useTranslation();
-
-  const { props: profile } = useQuery(
-    appQuery,
-    {
-      id: accounts?.[0]?.toLowerCase(),
-      contributor: accounts?.[0]?.toLowerCase(),
-    },
-    { skip: !accounts?.[0] }
-  );
-
-  const showSubmitProfile =
-    !profile?.submission ||
-    (!profile?.submission?.registered &&
-      profile?.submission?.status === "None");
-
   return (
     <Row>
-      <Col span={showSubmitProfile ? 2 : 12}>
+      <Col span={1}>
         <MenuOutlined
           style={{ color: "#fff" }}
           onClick={() => toggleMobileMenuOpen()}
         />
       </Col>
-      {showSubmitProfile && (
-        <Col span={12}>
-          <Row justify="center">
-            <NextLink href="/profile/submit" as="/profile/submit">
-              <Link className="poh-header-text" variant="navigation">
-                {" "}
-                {t("header_submit_profile")}{" "}
-              </Link>
-            </NextLink>
-          </Row>
-        </Col>
-      )}
-      <Col span={showSubmitProfile ? 10 : 12}>
-        <Row justify="end">
-          <LanguageDropdown />
-        </Row>
-      </Col>
-    </Row>
-  );
-}
-
-function DesktopNavbar() {
-  const { t } = useTranslation();
-
-  return (
-    <Row>
-      <Col span={2} style={{ display: "flex", alignItems: "center" }}>
-        <NextLink href="/" as="/">
-          <Link variant="unstyled" sx={{ display: "flex" }}>
+      <Col span={16}>
+        <Row justify="center" align="middle">
+          <Link href="/" variant="unstyled" sx={{ display: "flex" }}>
             <Image
-              sx={{ width: 105, minWidth: 105 }}
-              src="/images/poh-logo-white.svg"
+              sx={{
+                width: 130,
+                minWidth: 130,
+                marginTop: "10px",
+                marginLeft: "80px",
+              }}
+              src="/images/democratic-poh-logo-white.svg"
               height="auto"
             />
           </Link>
-        </NextLink>
-      </Col>
-      <Col className="poh-header-menu" span={17}>
-        <Row justify="center">
-          <Col span={17} className="poh-header-item">
-            <NextLink href="/" as="/">
-              <Link className="poh-header-text" variant="navigation">
-                {t("header_profiles")}
-              </Link>
-            </NextLink>
-            <MyProfileLink className="poh-header-text" />
-          </Col>
         </Row>
       </Col>
-      <Col flex="auto" span={6}>
-        <Row justify="end" align="middle">
+      <Col span={7} className="mobile-navbar-button">
+        <Row justify="end">
           <WalletConnection
             buttonProps={{
               sx: {
-                backgroundColor: "white",
+                backgroundColor: "transparent",
                 backgroundImage: "none !important",
-                color: "accent",
+                color: "white",
                 boxShadow: "none !important",
-                fontSize: [16, 12],
+                fontSize: 16,
+                border: "1px solid #ffffff1d",
                 px: "16px !important",
                 py: "8px !important",
                 mx: [0, "4px", "8px"],
@@ -267,12 +230,79 @@ function DesktopNavbar() {
               },
             }}
           />
+          {accounts?.length !== 0 ? <AccountSettingsPopup /> : ""}
+        </Row>
+      </Col>
+    </Row>
+  );
+}
+
+function DesktopNavbar() {
+  const { t } = useTranslation();
+  const [accounts] = useWeb3("eth", "getAccounts");
+
+  return (
+    <Row>
+      <Col span={3} style={{ display: "flex", alignItems: "center" }}>
+        <Link
+          href="https://proofofhumanity.eth.limo"
+          target="_blank"
+          variant="unstyled"
+          sx={{ display: "flex" }}
+        >
+          <Image
+            sx={{ width: 130, minWidth: 130, marginTop: "-3px" }}
+            src="/images/democratic-poh-logo-white.svg"
+            height="auto"
+          />
+        </Link>
+      </Col>
+      <Col className="poh-header-menu" span={11}>
+        <Row justify="center">
+          <Col span={17} className="poh-header-item">
+            <NextLink href="/" as="/">
+              <Link
+                className={
+                  window.location.pathname === "/"
+                    ? "poh-header-text poh-header-text-selected"
+                    : "poh-header-text"
+                }
+                variant="navigation"
+              >
+                {t("header_profiles")}
+              </Link>
+            </NextLink>
+            <MyProfileLink />
+          </Col>
+        </Row>
+      </Col>
+      <Col flex="auto" span={11}>
+        <Row justify="end" align="middle">
+          <WalletConnection
+            buttonProps={{
+              sx: {
+                backgroundColor: "transparent",
+                backgroundImage: "none !important",
+                color: "white",
+                boxShadow: "none !important",
+                fontSize: 16,
+                border: "1px solid #ffffff1d",
+                px: "16px !important",
+                py: "8px !important",
+                mx: [0, "4px", "8px"],
+              },
+            }}
+            tagProps={{
+              sx: {
+                opacity: 0.8,
+                fontSize: [20, 16, 12],
+                mx: [0, "4px", "8px"],
+              },
+            }}
+          />
+          {accounts?.length !== 0 ? <AccountSettingsPopup /> : ""}
           <LanguageDropdown />
-          <AccountSettingsPopup />
           <HelpPopup />
-          <Link href="https://snapshot.org/#/poh.eth/" target="_blank">
-            <Image src="/images/hand.svg" width={28} sx={{ margin: 1 }} />
-          </Link>
         </Row>
       </Col>
     </Row>
@@ -280,8 +310,6 @@ function DesktopNavbar() {
 }
 
 export default function AppHeader() {
-  const { connect } = useWeb3();
-  const [accounts] = useWeb3("eth", "getAccounts");
   const { t } = useTranslation();
 
   const width = useWindowWidth();
@@ -296,13 +324,12 @@ export default function AppHeader() {
     }
   }
 
-  const isDesktop = width >= 768;
+  const isDesktop = width >= 850;
 
   return (
     <>
       <Drawer
         width={200}
-        title="Proof of Humanity"
         placement="left"
         closable={false}
         onClose={() => setMobileMenuOpen(false)}
@@ -310,25 +337,21 @@ export default function AppHeader() {
       >
         <Row onClick={() => setMobileMenuOpen(false)}>
           <NextLink href="/" as="/">
-            <Link className="poh-drawer-text" variant="navigation">
+            <Link
+              className={
+                window.location.pathname === "/"
+                  ? "poh-header-text poh-header-text-mobile poh-drawer-button poh-header-text-selected"
+                  : "poh-header-text poh-header-text-mobile poh-drawer-button"
+              }
+              variant="navigation"
+            >
               {t("header_profiles")}
             </Link>
           </NextLink>
         </Row>
         <Row onClick={() => setMobileMenuOpen(false)}>
-          <MyProfileLink className="poh-drawer-text" />
+          <MyProfileLink className="poh-header-text poh-header-text-mobile poh-drawer-button" />
         </Row>
-        {accounts?.length === 0 && (
-          <Row>
-            <Paragraph
-              className="poh-drawer-text"
-              variant="navigation"
-              onClick={connect}
-            >
-              {t("header_connect_button")}
-            </Paragraph>
-          </Row>
-        )}
       </Drawer>
       <Header className="poh-header">
         {isDesktop ? (

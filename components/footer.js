@@ -20,7 +20,7 @@ export default function AppFooter() {
               className="poh-footer-text"
               variant="navigation"
               newTab
-              href="https://proofofhumanity.eth.limo/"
+              href="https://linktr.ee/proofofhumanityDAO"
             >
               {t("footer_learn_more")}
             </Link>
@@ -34,9 +34,9 @@ export default function AppFooter() {
               href="https://ubi.eth.limo"
             >
               <Image
-                sx={{ cursor: "pointer" }}
-                src="/images/ubi-logo.png"
-                width="72"
+                sx={{ cursor: "pointer", marginTop: "-2px" }}
+                src="/images/ubi-logo-color.png"
+                width="82"
                 height="auto"
               />
             </Link>
