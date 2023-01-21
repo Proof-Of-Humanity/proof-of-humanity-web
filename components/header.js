@@ -182,23 +182,6 @@ function AccountSettingsPopup() {
 function MobileNavbar({ toggleMobileMenuOpen }) {
   const [accounts] = useWeb3("eth", "getAccounts");
 
-  // const { t } = useTranslation();
-
-  /* const { props: profile } = useQuery(
-    appQuery,
-    {
-      id: accounts?.[0]?.toLowerCase(),
-      contributor: accounts?.[0]?.toLowerCase(),
-    },
-    { skip: !accounts?.[0] }
-  );
-
-   const showSubmitProfile =
-    !profile?.submission ||
-    (!profile?.submission?.registered &&
-      profile?.submission?.status === "None");
-  */
-
   return (
     <Row>
       <Col span={1}>
@@ -223,18 +206,6 @@ function MobileNavbar({ toggleMobileMenuOpen }) {
           </Link>
         </Row>
       </Col>
-      {/* {showSubmitProfile && (
-        <Col span={12}>
-          <Row justify="center">
-            <NextLink href="/profile/submit" as="/profile/submit">
-              <Link className="poh-header-text" variant="navigation">
-                {" "}
-                {t("header_submit_profile")}{" "}
-              </Link>
-            </NextLink>
-          </Row>
-        </Col>
-      )} */}
       <Col span={7} className="mobile-navbar-button">
         <Row justify="end">
           <WalletConnection
@@ -339,8 +310,6 @@ function DesktopNavbar() {
 }
 
 export default function AppHeader() {
-  // const { connect } = useWeb3();
-  // const [accounts] = useWeb3("eth", "getAccounts");
   const { t } = useTranslation();
 
   const width = useWindowWidth();
@@ -383,17 +352,6 @@ export default function AppHeader() {
         <Row onClick={() => setMobileMenuOpen(false)}>
           <MyProfileLink className="poh-header-text poh-header-text-mobile poh-drawer-button" />
         </Row>
-        {/* accounts?.length === 0 && (
-          <Row>
-            <Paragraph
-              className="poh-header-text poh-header-text-mobile poh-drawer-button"
-              variant="navigation"
-              onClick={connect}
-            >
-              {t("header_connect_button")}
-            </Paragraph>
-          </Row>
-        ) */}
       </Drawer>
       <Header className="poh-header">
         {isDesktop ? (
