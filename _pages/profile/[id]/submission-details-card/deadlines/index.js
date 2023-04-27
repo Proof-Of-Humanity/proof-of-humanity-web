@@ -34,23 +34,16 @@ const deadlinesFragments = {
     }
   `,
 };
-function Deadline({
-  label,
-  datetime,
-  whenDatetime = (now, _datetime) => now < _datetime,
-  displayEvenIfDeadlinePassed = true,
-  button,
-}) {
-  if (displayEvenIfDeadlinePassed || Date.now() < datetime)
-    return (
-      <Text>
-        <Text sx={{ fontWeight: "bold" }}>{label}: </Text>
-        <TimeAgo datetime={datetime} />
-        {whenDatetime(Date.now(), datetime) && button}
-      </Text>
-    );
-  return null;
+
+function Deadline({ label, datetime }) {
+  return (
+    <Text>
+      <Text sx={{ fontWeight: "bold" }}>{label}: </Text>
+      <TimeAgo datetime={datetime} />
+    </Text>
+  );
 }
+
 export default function Deadlines({ submission, contract, status }) {
   const {
     request: [request],
@@ -105,75 +98,41 @@ export default function Deadlines({ submission, contract, status }) {
           submissionTime !== null &&
           submissionTime !== String(0)) ? (
         <>
+          <Deadline label="Accepted" datetime={submissionTime * 1000} />
           <Deadline
-            label="Accepted"
-            datetime={submissionTime * 1000}
-            whenDatetime={(now) =>
-              status === submissionStatusEnum.Registered &&
-              now < renewalTimestamp
-            }
-            button={
+            label={Date.now() > expirationTimestamp ? "Expired" : "Expires"}
+            datetime={expirationTimestamp}
+          />
+          {Date.now() < expirationTimestamp && (
+            <Deadline label="Renewal available" datetime={renewalTimestamp} />
+          )}
+
+          {status === submissionStatusEnum.Registered &&
+            Date.now() < renewalTimestamp && (
               <RemoveButton
                 request={request}
                 contract={contract}
                 submissionID={id}
               />
-            }
-          />
-          <Deadline
-            label="Expires"
-            datetime={expirationTimestamp}
-            button={
-              Date.now() > expirationTimestamp ? (
-                <RemoveButton
-                  request={request}
-                  contract={contract}
-                  submissionID={id}
-                />
-              ) : Date.now() > renewalTimestamp ? (
-                <NextLink
-                  href="/profile/[id]?reapply=true"
-                  as={`/profile/${accounts?.[0]}`}
+            )}
+
+          {isSelf &&
+            (Date.now() > renewalTimestamp ||
+              status === submissionStatusEnum.Removed) && (
+              <NextLink
+                href="/profile/[id]?reapply=true"
+                as={`/profile/${accounts?.[0]}`}
+              >
+                <Button
+                  sx={{
+                    width: "100%",
+                    marginY: 1,
+                  }}
                 >
-                  <Button
-                    sx={{
-                      width: "100%",
-                      marginY: 1,
-                    }}
-                  >
-                    Reapply
-                  </Button>
-                </NextLink>
-              ) : null
-            }
-          />
-          <Deadline
-            label="Renewal available"
-            datetime={renewalTimestamp}
-            displayEvenIfDeadlinePassed={false}
-            whenDatetime={(now, datetime) =>
-              now >= datetime ||
-              status === submissionStatusEnum.Expired ||
-              status === submissionStatusEnum.Removed
-            }
-            button={
-              isSelf && (
-                <NextLink
-                  href="/profile/[id]?reapply=true"
-                  as={`/profile/${accounts?.[0]}`}
-                >
-                  <Button
-                    sx={{
-                      width: "100%",
-                      marginY: 1,
-                    }}
-                  >
-                    Reapply
-                  </Button>
-                </NextLink>
-              )
-            }
-          />
+                  Reapply
+                </Button>
+              </NextLink>
+            )}
         </>
       ) : status === submissionStatusEnum.Removed &&
         submissionTime === null &&
