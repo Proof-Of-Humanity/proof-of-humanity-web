@@ -63,13 +63,20 @@ export default function ProfileNew() {
         web3.contracts?.proofOfHumanity.methods.renewalPeriodDuration().call(),
       ]).then(([submissionDuration, renewalPeriodDuration]) => {
         const renewalTimestamp =
-          (Number(props?.submission?.submissionTime) +
+          (Number(submission?.submissionTime) +
             (submissionDuration - renewalPeriodDuration)) *
           1000;
-        setCanReapply(Date.now() > renewalTimestamp);
+        if (
+          submission?.submissionTime &&
+          submissionDuration &&
+          renewalPeriodDuration &&
+          renewalTimestamp
+        ) {
+          setCanReapply(Date.now() > renewalTimestamp);
+        }
       });
     }
-  });
+  }, [web3, submission, canReapply, setCanReapply]);
 
   useEffect(() => {
     // console.log(submission?.registered);
