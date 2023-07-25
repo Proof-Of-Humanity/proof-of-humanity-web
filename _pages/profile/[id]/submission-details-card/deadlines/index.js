@@ -77,21 +77,21 @@ export default function Deadlines({ submission, contract, status }) {
       status === submissionStatusEnum.PendingRemoval ||
       status === submissionStatusEnum.ChallengedRegistration ||
       status === submissionStatusEnum.ChallengedRemoval ? (
-        <Deadline
-          label="Challenge Deadline"
-          datetime={
-            (Number(request.lastStatusChange) +
-              Number(challengePeriodDuration)) *
-            1000
-          }
-          button={
-            <ChallengeButton
-              request={request}
-              status={status}
-              submissionID={id}
-            />
-          }
-        />
+        <>
+          <Deadline
+            label="Challenge Deadline"
+            datetime={
+              (Number(request.lastStatusChange) +
+                Number(challengePeriodDuration)) *
+              1000
+            }
+          />
+          <ChallengeButton
+            request={request}
+            status={status}
+            submissionID={id}
+          />
+        </>
       ) : status === submissionStatusEnum.Registered ||
         status === submissionStatusEnum.Expired ||
         (status === submissionStatusEnum.Removed &&
