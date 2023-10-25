@@ -101,7 +101,12 @@ function DuplicateInput({ submissionID, setDuplicate }) {
     </Box>
   );
 }
-export default function ChallengeButton({ request, status, submissionID }) {
+export default function ChallengeButton({
+  deadlinePassed,
+  request,
+  status,
+  submissionID,
+}) {
   const {
     metaEvidence: _metaEvidence,
     currentReason: _currentReason,
@@ -149,8 +154,10 @@ export default function ChallengeButton({ request, status, submissionID }) {
             marginY: 1,
             width: "100%",
           }}
-          disabled={disputed && currentReasonIsNotDuplicate}
-          disabledTooltip="Already Challenged"
+          disabled={deadlinePassed || (disputed && currentReasonIsNotDuplicate)}
+          disabledTooltip={
+            deadlinePassed ? "Challenge Deadline Passed" : "Already Challenged"
+          }
           loading={!isGraphSynced}
         >
           Challenge Request
