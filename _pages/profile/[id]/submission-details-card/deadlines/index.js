@@ -90,6 +90,11 @@ export default function Deadlines({ submission, contract, status }) {
             request={request}
             status={status}
             submissionID={id}
+            deadlinePassed={
+              Number(request.lastStatusChange) +
+                Number(challengePeriodDuration) >
+              Date.now() / 1000
+            }
           />
         </>
       ) : status === submissionStatusEnum.Registered ||
