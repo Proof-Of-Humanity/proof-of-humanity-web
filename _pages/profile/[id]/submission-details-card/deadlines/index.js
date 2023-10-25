@@ -92,7 +92,7 @@ export default function Deadlines({ submission, contract, status }) {
             submissionID={id}
             deadlinePassed={
               Number(request.lastStatusChange) +
-                Number(challengePeriodDuration) >
+                Number(challengePeriodDuration) <
               Date.now() / 1000
             }
           />
