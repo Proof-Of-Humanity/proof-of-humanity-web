@@ -155,7 +155,9 @@ export default function ChallengeButton({
             width: "100%",
           }}
           disabled={deadlinePassed || (disputed && currentReasonIsNotDuplicate)}
-          disabledTooltip="Already Challenged"
+          disabledTooltip={
+            deadlinePassed ? "Challenge Deadline Passed" : "Already Challenged"
+          }
           loading={!isGraphSynced}
         >
           Challenge Request
