@@ -1,4 +1,4 @@
-specVersion: 0.0.2
+specVersion: 0.0.5
 schema:
   file: ./schema.graphql
 dataSources:
@@ -11,7 +11,7 @@ dataSources:
       startBlock: {{block}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
         - MetaEvidence
@@ -28,65 +28,65 @@ dataSources:
         - name: ProofOfHumanity
           file: ./abis/proof-of-humanity.json
       eventHandlers:
-        - event: MetaEvidence(indexed uint256,string)
-          handler: metaEvidence
-        - event: ArbitratorComplete(address,indexed address,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
-          handler: arbitratorComplete
+        # - event: MetaEvidence(indexed uint256,string)
+        #   handler: metaEvidence
+        # - event: ArbitratorComplete(address,indexed address,uint256,uint256,uint256,uint256,uint256,uint256,uint256)
+        #   handler: arbitratorComplete
         - event: VouchAdded(indexed address,indexed address)
           handler: vouchAddedByChangeStateToPending
       callHandlers:
-        - function: addSubmissionManually(address[],string[],string[])
-          handler: addSubmissionManually
-        - function: removeSubmissionManually(address)
-          handler: removeSubmissionManually
-        - function: changeSubmissionBaseDeposit(uint256)
-          handler: changeSubmissionBaseDeposit
-        - function: changeDurations(uint64,uint64,uint64)
-          handler: changeDurations
-        - function: changeRequiredNumberOfVouches(uint64)
-          handler: changeRequiredNumberOfVouches
-        - function: changeSharedStakeMultiplier(uint256)
-          handler: changeSharedStakeMultiplier
-        - function: changeWinnerStakeMultiplier(uint256)
-          handler: changeWinnerStakeMultiplier
-        - function: changeLoserStakeMultiplier(uint256)
-          handler: changeLoserStakeMultiplier
-        - function: changeGovernor(address)
-          handler: changeGovernor
-        - function: changeMetaEvidence(string,string)
-          handler: changeMetaEvidence
-        - function: changeArbitrator(address,bytes)
-          handler: changeArbitrator
-        - function: addSubmission(string,string)
-          handler: addSubmission
-        - function: reapplySubmission(string,string)
-          handler: reapplySubmission
-        - function: removeSubmission(address,string)
-          handler: removeSubmission
-        - function: fundSubmission(address)
-          handler: fundSubmission
-        - function: addVouch(address)
-          handler: addVouch
-        - function: removeVouch(address)
-          handler: removeVouch
-        - function: withdrawSubmission()
-          handler: withdrawSubmission
-        - function: changeStateToPending(address,address[],bytes[],uint256[])
-          handler: changeStateToPending
-        - function: challengeRequest(address,uint8,address,string)
-          handler: challengeRequest
-        - function: fundAppeal(address,uint256,uint8)
-          handler: fundAppeal
-        - function: executeRequest(address)
-          handler: executeRequest
+        # - function: addSubmissionManually(address[],string[],string[])
+        #   handler: addSubmissionManually
+        # - function: removeSubmissionManually(address)
+        #   handler: removeSubmissionManually
+        # - function: changeSubmissionBaseDeposit(uint256)
+        #   handler: changeSubmissionBaseDeposit
+        # - function: changeDurations(uint64,uint64,uint64)
+        #   handler: changeDurations
+        # - function: changeRequiredNumberOfVouches(uint64)
+        #   handler: changeRequiredNumberOfVouches
+        # - function: changeSharedStakeMultiplier(uint256)
+        #   handler: changeSharedStakeMultiplier
+        # - function: changeWinnerStakeMultiplier(uint256)
+        #   handler: changeWinnerStakeMultiplier
+        # - function: changeLoserStakeMultiplier(uint256)
+        #   handler: changeLoserStakeMultiplier
+        # - function: changeGovernor(address)
+        #   handler: changeGovernor
+        # - function: changeMetaEvidence(string,string)
+        #   handler: changeMetaEvidence
+        # - function: changeArbitrator(address,bytes)
+        #   handler: changeArbitrator
+        # - function: addSubmission(string,string)
+        #   handler: addSubmission
+        # - function: reapplySubmission(string,string)
+        #   handler: reapplySubmission
+        # - function: removeSubmission(address,string)
+        #   handler: removeSubmission
+        # - function: fundSubmission(address)
+        #   handler: fundSubmission
+        # - function: addVouch(address)
+        #   handler: addVouch
+        # - function: removeVouch(address)
+        #   handler: removeVouch
+        # - function: withdrawSubmission()
+        #   handler: withdrawSubmission
+        # - function: changeStateToPending(address,address[],bytes[],uint256[])
+        #   handler: changeStateToPending
+        # - function: challengeRequest(address,uint8,address,string)
+        #   handler: challengeRequest
+        # - function: fundAppeal(address,uint256,uint8)
+        #   handler: fundAppeal
+        # - function: executeRequest(address)
+        #   handler: executeRequest
         - function: processVouches(address,uint256,uint256)
           handler: processVouches
-        - function: withdrawFeesAndRewards(address,address,uint256,uint256,uint256)
-          handler: withdrawFeesAndRewards
-        - function: rule(uint256,uint256)
-          handler: rule
-        - function: submitEvidence(address,string)
-          handler: submitEvidence
+        # - function: withdrawFeesAndRewards(address,address,uint256,uint256,uint256)
+        #   handler: withdrawFeesAndRewards
+        # - function: rule(uint256,uint256)
+        #   handler: rule
+        # - function: submitEvidence(address,string)
+        #   handler: submitEvidence
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: KlerosLiquid
@@ -97,7 +97,7 @@ dataSources:
       startBlock: {{klerosLiquidBlock}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       entities:
         - Contract
