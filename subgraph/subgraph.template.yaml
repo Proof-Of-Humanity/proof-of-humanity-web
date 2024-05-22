@@ -1,4 +1,8 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
+description: Proof of Humanity subgraph
+features:
+  - fullTextSearch
+  - nonFatalErrors
 schema:
   file: ./schema.graphql
 dataSources:
