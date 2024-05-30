@@ -13,6 +13,7 @@
 
 # Subgraph
 /subgraph/subgraph.yaml
+/subgraph/subgraph.template.grafting.yaml
 
 /subgraph/generated/
 !subgraph/generated/.gitkeep

@@ -76,10 +76,12 @@ function getReason(reason: number): string {
 }
 
 function concatByteArrays(a: ByteArray, b: ByteArray): ByteArray {
-  let out = new Uint8Array(a.length + b.length);
-  for (let i = 0; i < a.length; i++) out[i] = a[i];
-  for (let j = 0; j < b.length; j++) out[a.length + j] = b[j];
-  return out as ByteArray;
+  let out = new ByteArray(a.length + b.length);
+  out.set(a, 0);
+  out.set(b, a.length);
+  /* for (let i = 0; i < a.length; i++) out[i] = a[i];
+  for (let j = 0; j < b.length; j++) out[a.length + j] = b[j]; */
+  return out;
 }
 
 function updateContribution(
@@ -108,6 +110,7 @@ function updateContribution(
   );
 
   let round = Round.load(roundID.toHexString());
+  if (!round) return;
   round.paidFees = roundInfo.value1;
   round.hasPaid = [
     roundInfo.value0 ? roundInfo.value2 == 0 : roundInfo.value2 == 1,
@@ -119,7 +122,7 @@ function updateContribution(
     .keccak256(concatByteArrays(roundID, contributor))
     .toHexString();
   let contribution = Contribution.load(contributionID);
-  if (contribution == null) {
+  if (!contribution) {
     contribution = new Contribution(contributionID);
     contribution.creationTime = time;
     contribution.requestIndex = requestIndex;
@@ -153,7 +156,9 @@ function requestStatusChange(
   time: BigInt
 ): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   let submission = Submission.load(submissionID.toHexString());
+  if (!submission) return;
 
   let requestID = crypto.keccak256(
     concatByteArrays(
@@ -180,10 +185,21 @@ function requestStatusChange(
   request.nbParallelDisputes = BigInt.fromI32(0);
   request.requesterLost = false;
   request.penaltyIndex = BigInt.fromI32(0);
-  request.metaEvidence =
+  let correspondingMetaEvidence = "";
+  if (submission.status == "PendingRemoval") {
+    if (contract.registrationMetaEvidence) {
+      correspondingMetaEvidence = contract.registrationMetaEvidence as string;
+    }
+  } else if (contract.registrationMetaEvidence) {
+    correspondingMetaEvidence = contract.registrationMetaEvidence as string;
+  }
+  request.metaEvidence = correspondingMetaEvidence;
+
+  /* request.metaEvidence =
     submission.status == "PendingRemoval"
-      ? contract.clearingMetaEvidence
-      : contract.registrationMetaEvidence;
+      ? contract.clearingMetaEvidence? contract.clearingMetaEvidence : ""
+      : contract.registrationMetaEvidence? contract.registrationMetaEvidence : "";
+ */
   request.type =
     submission.status == "PendingRemoval" ? "Removal" : "Registration";
   request.resolutionTime = BigInt.fromI32(0);
@@ -258,6 +274,7 @@ function processVouchesHelper(
       )
       .toHexString()
   );
+  if (!request) return;
   let requestVouchesLength = BigInt.fromI32(request.vouches.length);
   let actualIterations = iterations
     .plus(request.penaltyIndex)
@@ -274,10 +291,11 @@ function processVouchesHelper(
     let requestUsedReasons = request.usedReasons;
 
     let voucher = Submission.load(vouches[i]);
+    if (!voucher) return;
     managePreviousStatus(voucher, call);
     voucher.usedVouch = null;
 
-    if (request.ultimateChallenger != null) {
+    if (request.ultimateChallenger) {
       if (
         requestUsedReasons[requestUsedReasons.length - 1] == "Duplicate" ||
         requestUsedReasons[requestUsedReasons.length - 1] == "DoesNotExist"
@@ -298,6 +316,7 @@ function processVouchesHelper(
               )
               .toHexString()
           );
+          if (!voucherRequest) return;
           voucherRequest.requesterLost = true;
           voucherRequest.save();
         }
@@ -318,7 +337,7 @@ export function vouchAddedByChangeStateToPending(event: VouchAddedEvent): void {
   if (functionSig === "0x32fe596f") return; // Ignore if emitted by addVouch.
 
   let submission = Submission.load(event.params._voucher.toHexString());
-  if (submission != null) {
+  if (submission) {
     submission.vouchees = submission.vouchees.concat([
       event.params._submissionID.toHexString(),
     ]);
@@ -327,7 +346,7 @@ export function vouchAddedByChangeStateToPending(event: VouchAddedEvent): void {
     let vouchedSubmission = Submission.load(
       event.params._submissionID.toHexString()
     );
-    if (vouchedSubmission != null) {
+    if (vouchedSubmission) {
       vouchedSubmission.vouchesReceived =
         vouchedSubmission.vouchesReceived.concat([
           event.params._voucher.toHexString(),
@@ -347,7 +366,7 @@ export function metaEvidence(event: MetaEvidenceEvent): void {
   metaEvidence.save();
 
   let contract = Contract.load("0");
-  if (contract == null) return;
+  if (!contract) return;
   contract.metaEvidenceUpdates = contract.metaEvidenceUpdates.plus(
     BigInt.fromI32(1)
   );
@@ -408,6 +427,7 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
   let names = call.inputs._names;
   for (let i = 0; i < submissionIDs.length; i++) {
     let contract = Contract.load("0");
+    if (!contract) return;
     let submission = new Submission(submissionIDs[i].toHexString());
     submission.creationTime = call.block.timestamp;
     submission.status = "None";
@@ -444,7 +464,11 @@ export function addSubmissionManually(call: AddSubmissionManuallyCall): void {
     request.nbParallelDisputes = BigInt.fromI32(0);
     request.requesterLost = false;
     request.penaltyIndex = BigInt.fromI32(0);
-    request.metaEvidence = contract.registrationMetaEvidence;
+    let correspondingMetaEvidence = "";
+    if (contract.registrationMetaEvidence) {
+      correspondingMetaEvidence = contract.registrationMetaEvidence as string;
+    }
+    request.metaEvidence = correspondingMetaEvidence;
     request.registration = true;
     request.evidenceLength = BigInt.fromI32(1);
     request.lastChallengeID = BigInt.fromI32(0);
@@ -503,6 +527,7 @@ export function removeSubmissionManually(
   call: RemoveSubmissionManuallyCall
 ): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
+  if (!submission) return;
   managePreviousStatus(submission, call);
   submission.registered = false;
   submission.latestRequestResolutionTime = call.block.timestamp;
@@ -516,6 +541,7 @@ export function changeSubmissionBaseDeposit(
   call: ChangeSubmissionBaseDepositCall
 ): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   contract.submissionBaseDeposit = call.inputs._submissionBaseDeposit;
   contract.save();
 
@@ -524,6 +550,7 @@ export function changeSubmissionBaseDeposit(
 
 export function changeDurations(call: ChangeDurationsCall): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   contract.submissionDuration = call.inputs._submissionDuration;
   contract.renewalTime = call.inputs._renewalPeriodDuration;
   contract.challengePeriodDuration = call.inputs._challengePeriodDuration;
@@ -537,6 +564,7 @@ export function changeRequiredNumberOfVouches(
   call: ChangeRequiredNumberOfVouchesCall
 ): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   contract.requiredNumberOfVouches = call.inputs._requiredNumberOfVouches;
   contract.save();
 
@@ -547,6 +575,7 @@ export function changeSharedStakeMultiplier(
   call: ChangeSharedStakeMultiplierCall
 ): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   contract.sharedStakeMultiplier = call.inputs._sharedStakeMultiplier;
   contract.save();
 
@@ -557,6 +586,7 @@ export function changeWinnerStakeMultiplier(
   call: ChangeWinnerStakeMultiplierCall
 ): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   contract.winnerStakeMultiplier = call.inputs._winnerStakeMultiplier;
   contract.save();
 
@@ -567,6 +597,7 @@ export function changeLoserStakeMultiplier(
   call: ChangeLoserStakeMultiplierCall
 ): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   contract.loserStakeMultiplier = call.inputs._loserStakeMultiplier;
   contract.save();
 
@@ -575,6 +606,7 @@ export function changeLoserStakeMultiplier(
 
 export function changeGovernor(call: ChangeGovernorCall): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   contract.governor = call.inputs._governor;
   contract.save();
 
@@ -583,6 +615,7 @@ export function changeGovernor(call: ChangeGovernorCall): void {
 
 export function changeMetaEvidence(call: ChangeMetaEvidenceCall): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   contract.metaEvidenceUpdates = contract.metaEvidenceUpdates.plus(
     BigInt.fromI32(1)
   );
@@ -611,6 +644,7 @@ export function changeMetaEvidence(call: ChangeMetaEvidenceCall): void {
 
 export function changeArbitrator(call: ChangeArbitratorCall): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   contract.arbitrator = call.inputs._arbitrator;
   contract.arbitratorExtraData = call.inputs._arbitratorExtraData;
   contract.save();
@@ -621,7 +655,7 @@ export function changeArbitrator(call: ChangeArbitratorCall): void {
 export function addSubmission(call: AddSubmissionCall): void {
   let submissionID = call.from.toHexString();
   let submission = Submission.load(submissionID);
-  if (submission == null) {
+  if (!submission) {
     submission = new Submission(submissionID);
     submission.creationTime = call.block.timestamp;
     submission.registered = false;
@@ -655,6 +689,7 @@ export function addSubmission(call: AddSubmissionCall): void {
 
 export function reapplySubmission(call: ReapplySubmissionCall): void {
   let submission = Submission.load(call.from.toHexString());
+  if (!submission) return;
   managePreviousStatus(submission, call);
   submission.status = "Vouching";
   submission.save();
@@ -674,6 +709,7 @@ export function reapplySubmission(call: ReapplySubmissionCall): void {
 
 export function removeSubmission(call: RemoveSubmissionCall): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
+  if (!submission) return;
   managePreviousStatus(submission, call);
   submission.status = "PendingRemoval";
   submission.save();
@@ -693,6 +729,7 @@ export function removeSubmission(call: RemoveSubmissionCall): void {
 
 export function fundSubmission(call: FundSubmissionCall): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
+  if (!submission) return;
   if (submission.status == "Vouching") {
     let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
     let requestID = crypto.keccak256(
@@ -724,7 +761,7 @@ export function fundSubmission(call: FundSubmissionCall): void {
 
 export function addVouch(call: AddVouchCall): void {
   let submission = Submission.load(call.from.toHexString());
-  if (submission != null) {
+  if (submission) {
     submission.vouchees = submission.vouchees.concat([
       call.inputs._submissionID.toHexString(),
     ]);
@@ -733,7 +770,7 @@ export function addVouch(call: AddVouchCall): void {
     let vouchedSubmission = Submission.load(
       call.inputs._submissionID.toHexString()
     );
-    if (vouchedSubmission != null) {
+    if (vouchedSubmission) {
       vouchedSubmission.vouchesReceived =
         vouchedSubmission.vouchesReceived.concat([call.from.toHexString()]);
       vouchedSubmission.vouchesReceivedLength =
@@ -747,7 +784,7 @@ export function addVouch(call: AddVouchCall): void {
 
 export function removeVouch(call: RemoveVouchCall): void {
   let submission = Submission.load(call.from.toHexString());
-  if (submission != null) {
+  if (submission) {
     let vouchees = submission.vouchees;
     let nextVouchees = new Array<string>();
     for (let i = 0; i < vouchees.length; i++)
@@ -759,7 +796,7 @@ export function removeVouch(call: RemoveVouchCall): void {
     let vouchedSubmission = Submission.load(
       call.inputs._submissionID.toHexString()
     );
-    if (vouchedSubmission != null) {
+    if (vouchedSubmission) {
       let vouchers = vouchedSubmission.vouchesReceived;
       let updatedVouchers = new Array<string>();
       for (let i = 0; i < vouchers.length; i++)
@@ -775,6 +812,7 @@ export function removeVouch(call: RemoveVouchCall): void {
 
 export function withdrawSubmission(call: WithdrawSubmissionCall): void {
   let submission = Submission.load(call.from.toHexString());
+  if (!submission) return;
 
   if (submission.status == "Vouching") {
     managePreviousStatus(submission, call);
@@ -787,6 +825,7 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
       concatByteArrays(call.from, ByteArray.fromUTF8(requestIndex.toString()))
     );
     let request = Request.load(requestID.toHexString());
+    if (!request) return;
     request.resolved = true;
     request.resolutionTime = call.block.timestamp;
     request.save();
@@ -815,11 +854,13 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
     updateSubmissionsRegistry(call);
 
     let round = Round.load(roundID.toHexString());
+    if (!round) return;
     let contributionsIDs = round.contributionIDs;
-    let contributionsLength = round.contributionsLength.toI32() as number;
+    let contributionsLength = round.contributionsLength.toI32(); // as number;
     for (let j = 0; j < contributionsLength; j++) {
       let contributionID = contributionsIDs[j];
       let contribution = Contribution.load(contributionID);
+      if (!contribution) return;
       contribution.requestResolved = true;
       contribution.save();
     }
@@ -828,7 +869,9 @@ export function withdrawSubmission(call: WithdrawSubmissionCall): void {
 
 export function changeStateToPending(call: ChangeStateToPendingCall): void {
   let contract = Contract.load("0");
+  if (!contract) return;
   let submission = Submission.load(call.inputs._submissionID.toHexString());
+  if (!submission) return;
   managePreviousStatus(submission, call);
   submission.status = "PendingRegistration";
   submission.save();
@@ -846,11 +889,13 @@ export function changeStateToPending(call: ChangeStateToPendingCall): void {
       )
       .toHexString()
   );
+  if (!request) return;
   request.lastStatusChange = call.block.timestamp;
 
   let vouchers = submission.vouchesReceived;
   for (let i = 0; i < vouchers.length; i++) {
     let voucher = Submission.load(vouchers[i]);
+    if (!voucher || !voucher.submissionTime) return;
     if (
       !voucher.usedVouch &&
       voucher.registered &&
@@ -873,6 +918,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
   let callInputsReason = getReason(call.inputs._reason);
   let proofOfHumanity = ProofOfHumanity.bind(call.to);
   let submission = Submission.load(call.inputs._submissionID.toHexString());
+  if (!submission) return;
   managePreviousStatus(submission, call);
   submission.disputed = true;
   submission.save();
@@ -886,6 +932,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     )
   );
   let request = Request.load(requestID.toHexString());
+  if (!request) return;
   request.disputed = true;
   request.usedReasons = request.usedReasons.concat([callInputsReason]);
   request.currentReason = callInputsReason;
@@ -921,6 +968,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
     )
   );
   let challenge = Challenge.load(challengeID.toHexString());
+  if (!challenge) return;
   challenge.reason = callInputsReason;
   if (callInputsReason == "Duplicate") {
     challenge.duplicateSubmission = call.inputs._duplicateID.toHexString();
@@ -1021,6 +1069,7 @@ export function challengeRequest(call: ChallengeRequestCall): void {
 
 export function fundAppeal(call: FundAppealCall): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
+  if (!submission) return;
   let requestIndex = submission.requestsLength.minus(BigInt.fromI32(1));
   let requestID = crypto.keccak256(
     concatByteArrays(
@@ -1036,6 +1085,7 @@ export function fundAppeal(call: FundAppealCall): void {
     )
   );
   let challenge = Challenge.load(challengeID.toHexString());
+  if (!challenge) return;
   let roundIndex = challenge.lastRoundID;
   let roundID = crypto.keccak256(
     concatByteArrays(challengeID, ByteArray.fromUTF8(roundIndex.toString()))
@@ -1053,6 +1103,7 @@ export function fundAppeal(call: FundAppealCall): void {
   );
 
   let round = Round.load(roundID.toHexString());
+  if (!round) return;
   if (!round.hasPaid.includes(false)) {
     roundIndex = challenge.lastRoundID.plus(BigInt.fromI32(1));
     round = new Round(
@@ -1095,6 +1146,7 @@ export function executeRequest(call: ExecuteRequestCall): void {
   if (getStatus(submissionInfo.value0) != "None") return;
 
   let submission = Submission.load(call.inputs._submissionID.toHexString());
+  if (!submission) return;
   managePreviousStatus(submission, call);
   submission.status = "None";
   submission.registered = submissionInfo.value3;
@@ -1111,6 +1163,7 @@ export function executeRequest(call: ExecuteRequestCall): void {
     )
   );
   let request = Request.load(requestID.toHexString());
+  if (!request) return;
   request.resolved = true;
   request.resolutionTime = call.block.timestamp;
   request.save();
@@ -1125,6 +1178,8 @@ export function executeRequest(call: ExecuteRequestCall): void {
     call
   );
 
+  let reqAdd = request.requester.slice(0, 20);
+
   updateContribution(
     call.to,
     call.inputs._submissionID,
@@ -1132,22 +1187,25 @@ export function executeRequest(call: ExecuteRequestCall): void {
     BigInt.fromI32(0),
     BigInt.fromI32(0),
     crypto.keccak256(concatByteArrays(challengeID, ByteArray.fromUTF8("0"))),
-    request.requester as Address,
+    changetype<Address>(reqAdd),
     call.block.timestamp
   );
 
   updateSubmissionsRegistry(call);
 
   let challenge = Challenge.load(challengeID.toHexString());
+  if (!challenge) return;
   let roundsIDs = challenge.roundIDs;
   for (let i = 0; i < challenge.roundIDs.length; i++) {
     let round = Round.load(roundsIDs[i]);
+    if (!round) return;
 
     let contributionsIDs = round.contributionIDs;
-    let contributionsLength = round.contributionsLength.toI32() as number;
+    let contributionsLength = round.contributionsLength.toI32(); // as number;
     for (let j = 0; j < contributionsLength; j++) {
       let contributionID = contributionsIDs[j];
       let contribution = Contribution.load(contributionID);
+      if (!contribution) return;
       contribution.requestResolved = true;
       contribution.save();
     }
@@ -1173,6 +1231,7 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
     )
   );
   let request = Request.load(requestID.toHexString());
+  if (!request) return;
 
   let challengeID = crypto.keccak256(
     concatByteArrays(
@@ -1187,7 +1246,7 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
     )
   );
   let round = Round.load(roundID.toHexString());
-  if (round == null) {
+  if (!round) {
     log.warning("Could not find round on tx {} cha {} req {} ben {}", [
       call.transaction.hash.toHexString(),
       challengeID.toHexString(),
@@ -1226,9 +1285,9 @@ export function withdrawFeesAndRewards(call: WithdrawFeesAndRewardsCall): void {
 
   let contribution = Contribution.load(contributionID);
 
-  if (contribution == null) {
+  if (!contribution) {
     if (
-      request.ultimateChallenger != null &&
+      request.ultimateChallenger &&
       call.inputs._beneficiary == (request.ultimateChallenger as Bytes)
     )
       return;
@@ -1260,6 +1319,7 @@ export function rule(call: RuleCall): void {
   let submissionInfo = proofOfHumanity.getSubmissionInfo(disputeData.value1);
 
   let submission = Submission.load(disputeData.value1.toHexString());
+  if (!submission) return;
   managePreviousStatus(submission, call);
   submission.status = getStatus(submissionInfo.value0);
   submission.registered = submissionInfo.value3;
@@ -1278,6 +1338,7 @@ export function rule(call: RuleCall): void {
     )
   );
   let request = Request.load(requestID.toHexString());
+  if (!request) return;
   request.disputed = requestInfo.value0;
   request.lastStatusChange = call.block.timestamp;
   request.resolved = requestInfo.value1;
@@ -1300,7 +1361,7 @@ export function rule(call: RuleCall): void {
       )
       .toHexString()
   );
-  if (challenge == null) {
+  if (!challenge) {
     log.warning("Challenge not found, tx hash {}", [
       call.transaction.hash.toHexString(),
     ]);
@@ -1324,12 +1385,13 @@ export function rule(call: RuleCall): void {
     let roundsIDs = challenge.roundIDs;
     for (let i = 0; i < challenge.roundIDs.length; i++) {
       let round = Round.load(roundsIDs[i]);
-
+      if (!round) return;
       let contributionsIDs = round.contributionIDs;
-      let contributionsLength = round.contributionsLength.toI32() as number;
+      let contributionsLength = round.contributionsLength.toI32(); // as number;
       for (let j = 0; j < contributionsLength; j++) {
         let contributionID = contributionsIDs[j];
         let contribution = Contribution.load(contributionID);
+        if (!contribution) return;
         contribution.requestResolved = true;
         contribution.save();
       }
@@ -1346,6 +1408,7 @@ export function rule(call: RuleCall): void {
 
 export function submitEvidence(call: SubmitEvidenceCall): void {
   let submission = Submission.load(call.inputs._submissionID.toHexString());
+  if (!submission) return;
   let requestID = crypto.keccak256(
     concatByteArrays(
       call.inputs._submissionID,
@@ -1355,6 +1418,7 @@ export function submitEvidence(call: SubmitEvidenceCall): void {
     )
   );
   let request = Request.load(requestID.toHexString());
+  if (!request) return;
   let evidenceIndex = request.evidenceLength;
   request.evidenceLength = evidenceIndex.plus(BigInt.fromI32(1));
   request.save();
@@ -1380,7 +1444,7 @@ export function submitEvidence(call: SubmitEvidenceCall): void {
 
 export function handleAppealPossible(event: AppealPossible): void {
   let pohData = Contract.load("0");
-  if (pohData == null) return; // PoH not deployed yet.
+  if (!pohData) return; // PoH not deployed yet.
   if (pohData.address.toHexString() != event.params._arbitrable.toHexString())
     return; // Event not related to PoH.
 
@@ -1393,7 +1457,7 @@ export function handleAppealPossible(event: AppealPossible): void {
   let submissionID = disputeData.value1;
 
   let submission = Submission.load(submissionID.toHexString());
-  if (submission.seeded) return; // Ignore seeded submissions;
+  if (!submission || submission.seeded) return; // Ignore seeded submissions;
 
   let requestID = crypto.keccak256(
     concatByteArrays(
@@ -1413,7 +1477,7 @@ export function handleAppealPossible(event: AppealPossible): void {
       )
       .toHexString()
   );
-  if (challenge == null) {
+  if (!challenge) {
     log.warning("Challenge not found, tx hash {}", [
       event.transaction.hash.toHexString(),
     ]);
@@ -1433,7 +1497,9 @@ function managePreviousStatus(
   submission: Submission | null,
   call: ethereum.Call
 ): void {
+  if (!submission) return;
   let counter = Counter.load("1");
+  if (!counter) return;
   let one = BigInt.fromI32(1);
   if (submission.status == "Vouching")
     counter.vouchingPhase = counter.vouchingPhase.minus(one);
@@ -1461,7 +1527,9 @@ function managePreviousStatus(
 }
 
 function manageCurrentStatus(submission: Submission | null): void {
+  if (!submission) return;
   let counter = Counter.load("1");
+  if (!counter) return;
   let one = BigInt.fromI32(1);
   if (submission.status == "Vouching")
     counter.vouchingPhase = counter.vouchingPhase.plus(one);
@@ -1485,10 +1553,13 @@ function manageCurrentStatus(submission: Submission | null): void {
 }
 
 function addToCurrentSubmissions(submission: Submission | null): void {
+  if (!submission || !submission.submissionTime) return;
   let submissionsRegistry = SubmissionsRegistry.load("2");
+  if (!submissionsRegistry) return;
+  let timestamp = submission.submissionTime as BigInt;
   let adjacentIndex = findFirstYoungerThan(
     submissionsRegistry.currentSubmissions,
-    submission.submissionTime as BigInt
+    timestamp
   );
   if (adjacentIndex != -1) {
     submissionsRegistry.currentSubmissions =
@@ -1507,7 +1578,9 @@ function removeFromSubmissionsRegistry(
   submission: Submission | null,
   call: ethereum.Call
 ): void {
+  if (!submission) return;
   let submissionsRegistry = SubmissionsRegistry.load("2");
+  if (!submissionsRegistry) return;
   let expired = submissionIsExpired(submission, call);
   let submissionsList = expired
     ? submissionsRegistry.expiredSubmissions
@@ -1526,13 +1599,22 @@ function submissionIsExpired(
   call: ethereum.Call
 ): boolean {
   let contract = Contract.load("0");
-  return call.block.timestamp.ge(
-    submission.submissionTime.plus(contract.submissionDuration)
-  );
+  if (
+    submission &&
+    submission.submissionTime &&
+    contract &&
+    contract.submissionDuration
+  ) {
+    let submissionTime = submission.submissionTime as BigInt;
+    let submissionExpiry = submissionTime.plus(contract.submissionDuration);
+    return call.block.timestamp.ge(submissionExpiry);
+  }
+  return true;
 }
 
 function manageSubmissionsRegistryDurationsChange(call: ethereum.Call): void {
   let submissionsRegistry = SubmissionsRegistry.load("2");
+  if (!submissionsRegistry) return;
   let originAndTarget = moveFromOriginToTargetIf(
     "notExpired",
     submissionsRegistry.expiredSubmissions,
@@ -1546,7 +1628,7 @@ function manageSubmissionsRegistryDurationsChange(call: ethereum.Call): void {
 
 function updateSubmissionsRegistry(call: ethereum.Call): void {
   let submissionsRegistry = SubmissionsRegistry.load("2");
-
+  if (!submissionsRegistry) return;
   let currentSubmissions = submissionsRegistry.currentSubmissions;
   let expiredSubmissions = submissionsRegistry.expiredSubmissions;
   let currentAndExpired = moveFromOriginToTargetIf(
@@ -1561,6 +1643,7 @@ function updateSubmissionsRegistry(call: ethereum.Call): void {
   submissionsRegistry.save();
 
   let counter = Counter.load("1");
+  if (!counter) return;
   counter.registered = BigInt.fromI32(
     submissionsRegistry.currentSubmissions.length
   );
@@ -1577,23 +1660,25 @@ function moveFromOriginToTargetIf(
   call: ethereum.Call
 ): Array<Array<string>> {
   let contract = Contract.load("0");
-  let youngestExpiredSubmissionIndex = findFirstYoungerThan(
-    origin,
-    call.block.timestamp.minus(contract.submissionDuration)
-  );
+  if (contract) {
+    let youngestExpiredSubmissionIndex = findFirstYoungerThan(
+      origin,
+      call.block.timestamp.minus(contract.submissionDuration)
+    ); // as i32;
 
-  if (youngestExpiredSubmissionIndex != -1) {
-    let newOrigin =
-      mode == "expired"
-        ? origin.slice(youngestExpiredSubmissionIndex + 1)
-        : origin.slice(0, youngestExpiredSubmissionIndex + 1);
+    if (youngestExpiredSubmissionIndex != -1) {
+      let newOrigin =
+        mode == "expired"
+          ? origin.slice(youngestExpiredSubmissionIndex + 1)
+          : origin.slice(0, youngestExpiredSubmissionIndex + 1);
 
-    let newTarget =
-      mode == "expired"
-        ? target.concat(origin.slice(0, youngestExpiredSubmissionIndex + 1))
-        : origin.slice(youngestExpiredSubmissionIndex + 1).concat(target);
+      let newTarget =
+        mode == "expired"
+          ? target.concat(origin.slice(0, youngestExpiredSubmissionIndex + 1))
+          : origin.slice(youngestExpiredSubmissionIndex + 1).concat(target);
 
-    return [newOrigin, newTarget];
+      return [newOrigin, newTarget];
+    }
   }
   return [origin, target];
 }
@@ -1602,6 +1687,7 @@ function moveFromOriginToTargetIf(
  * Performs a binary search for the youngest expired submission.
  * @return The index of the youngest expired submission.
  */
+
 function findFirstYoungerThan(
   submissions: Array<string>,
   timestamp: BigInt
@@ -1613,27 +1699,32 @@ function findFirstYoungerThan(
   while (1 + low < high) {
     let middle = Math.floor(low + (high - low) / 2) as i32;
     let submissionMiddle = Submission.load(submissions[middle - 1]);
-
-    let middleExpired = submissionMiddle.submissionTime.lt(timestamp);
-    if (middleExpired) {
-      low = middle;
-    } else {
-      high = middle;
+    if (submissionMiddle && submissionMiddle.submissionTime && timestamp) {
+      let submissionTimeMiddle = submissionMiddle.submissionTime as BigInt;
+      let middleExpired = submissionTimeMiddle.lt(timestamp);
+      if (middleExpired) {
+        low = middle;
+      } else {
+        high = middle;
+      }
     }
   }
 
   let submissionHigh = Submission.load(submissions[high - 1]);
+  if (submissionHigh && submissionHigh.submissionTime) {
+    let submissionHighTime = submissionHigh.submissionTime as BigInt;
+    if (submissionHighTime.lt(timestamp)) return high - 1;
 
-  if (submissionHigh.submissionTime.lt(timestamp)) {
-    return high - 1;
+    if (high > 1) {
+      let submissionLeft = Submission.load(submissions[high - 2]);
+      if (submissionLeft && submissionLeft.submissionTime) {
+        let submissionLeftTime = submissionLeft.submissionTime as BigInt;
+        if (submissionLeftTime.lt(timestamp)) return high - 2;
+      }
+    }
+    if (submissionHighTime.ge(timestamp)) {
+      return -1;
+    }
   }
-  if (high > 1) {
-    let submissionLeft = Submission.load(submissions[high - 2]);
-    if (submissionLeft.submissionTime.lt(timestamp)) return high - 2;
-  }
-  if (submissionHigh.submissionTime.ge(timestamp)) {
-    return -1;
-  }
-
   return high - 1;
 }

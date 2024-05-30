@@ -1,4 +1,12 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
+description: Proof of Humanity subgraph
+features:
+  - fullTextSearch
+  - nonFatalErrors
+  - grafting
+graft:
+  - base: QmbqdLKNN8doCoN9YYPvhrbVvRo6N5KeiYnB3T7ErruGng # Subgraph ID of base subgraph
+  - block: 19977292 # Block number
 schema:
   file: ./schema.graphql
 dataSources:
@@ -11,7 +19,7 @@ dataSources:
       startBlock: {{block}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - MetaEvidence
@@ -97,7 +105,7 @@ dataSources:
       startBlock: {{klerosLiquidBlock}}
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.4
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - Contract
