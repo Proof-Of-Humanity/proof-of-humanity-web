@@ -374,16 +374,8 @@ export default function App({ Component, pageProps }) {
       </Flex>
     );
 
-  // const apiKey = process.env.NEXT_PUBLIC_THEGRAPH_APIKEY;
-  // const subgraphID = process.env.NEXT_PUBLIC_SUBGRAPHID;
-
   const endpoint =
-    networkFromQuery === "goerli"
-      ? `https://api.thegraph.com/subgraphs/name/bilinkis/proof-of-humanity-goerli`
-      : process.env.NEXT_PUBLIC_TESTING === "true"
-      ? `https://api.thegraph.com/subgraphs/name/kleros/proof-of-humanity-${networkFromQuery}`
-      : `https://api.thegraph.com/subgraphs/name/andreimvp/pohv1-test`;
-  // : `https://gateway.thegraph.com/api/${apiKey}/subgraphs/id/${subgraphID}`;
+    "https://api.studio.thegraph.com/query/61738/proof-of-humanity-mainnet/version/latest";
 
   return (
     <ThemeProvider theme={theme}>
