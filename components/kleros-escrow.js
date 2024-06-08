@@ -80,22 +80,20 @@ export default class KlerosEscrow {
     else delete this.tokenContract;
   }
 
-  upload(fileName, bufferOrJSON) {
+  upload(fileName, bufferOrJSON, operation = "evidence") {
     if (typeof bufferOrJSON !== "string" && !Buffer.isBuffer(bufferOrJSON))
       bufferOrJSON = JSON.stringify(bufferOrJSON);
-
-    return fetch(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        fileName,
-        buffer: Buffer.from(bufferOrJSON),
-      }),
-    })
+    const payload = new FormData();
+    payload.append("file", new Blob([Buffer.from(bufferOrJSON)], fileName));
+    return fetch(
+      `${process.env.NEXT_PUBLIC_COURT_FUNCTIONS_URL}/.netlify/functions/upload-to-ipfs?operation=${operation}&pinToGraph=false`,
+      {
+        method: "POST",
+        body: payload,
+      }
+    )
       .then((res) => res.json())
-      .then(({ data }) => `/ipfs/${data[1].hash}${data[0].path}`);
+      .then(({ cids }) => cids[0]);
   }
 
   async getTransactions(address) {
@@ -128,43 +126,48 @@ export default class KlerosEscrow {
       metaEvidence = { ...metaEvidence };
       metaEvidence.fileURI = await this.upload(
         "metaEvidenceFile",
-        metaEvidence.file
+        metaEvidence.file,
+        "metaEvidence"
       );
       delete metaEvidence.file;
     }
 
     const sender = await this.getAccount();
-    const metaEvidenceURI = await this.upload("metaEvidence.json", {
-      ...metaEvidence,
+    const metaEvidenceURI = await this.upload(
+      "metaEvidence.json",
+      {
+        ...metaEvidence,
 
-      category: "Escrow",
-      question: "Which party abided by terms of the contract?",
-      rulingOptions: {
-        type: "single-select",
-        titles: ["Refund Sender", "Pay Receiver"],
-        descriptions: [
-          "Select to return funds to the Sender",
-          "Select to release funds to the Receiver",
-        ],
-      },
-      evidenceDisplayInterfaceURI:
-        "/ipfs/QmfPnVdcCjApHdiCC8wAmyg5iR246JvVuQGQjQYgtF8gZU/index.html",
-      aliases: {
-        [sender]: "sender",
-        [recipient]: "receiver",
-      },
+        category: "Escrow",
+        question: "Which party abided by terms of the contract?",
+        rulingOptions: {
+          type: "single-select",
+          titles: ["Refund Sender", "Pay Receiver"],
+          descriptions: [
+            "Select to return funds to the Sender",
+            "Select to release funds to the Receiver",
+          ],
+        },
+        evidenceDisplayInterfaceURI:
+          "/ipfs/QmfPnVdcCjApHdiCC8wAmyg5iR246JvVuQGQjQYgtF8gZU/index.html",
+        aliases: {
+          [sender]: "sender",
+          [recipient]: "receiver",
+        },
 
-      // Non-standard
-      amount: this.web3.utils.fromWei(String(amount)),
-      arbitrableAddress: this.contract.options.address,
-      receiver: recipient,
-      sender,
-      subCategory: "Cryptocurrency Transaction",
-      timeout,
-      token: this.tokenContract && {
-        address: this.tokenContract.options.address,
+        // Non-standard
+        amount: this.web3.utils.fromWei(String(amount)),
+        arbitrableAddress: this.contract.options.address,
+        receiver: recipient,
+        sender,
+        subCategory: "Cryptocurrency Transaction",
+        timeout,
+        token: this.tokenContract && {
+          address: this.tokenContract.options.address,
+        },
       },
-    });
+      "metaEvidence"
+    );
     return this.contract.methods
       .createTransaction(
         ...(this.tokenContract
