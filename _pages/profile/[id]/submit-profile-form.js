@@ -255,24 +255,36 @@ const SubmitProfileForm = memo(
           contribution,
         }) => {
           [{ pathname: photo }, { pathname: video }] = await Promise.all([
-            uploadWithProgress(sanitize(photo.name), photo.content, {
-              onProgress: onPhotoUploadProgress,
-            }),
-            uploadWithProgress(sanitize(video.name), video.content, {
-              onProgress: onVideoUploadProgress,
-            }),
+            uploadWithProgress(
+              sanitize(photo.name),
+              photo.content,
+              {
+                onProgress: onPhotoUploadProgress,
+              },
+              "file"
+            ),
+            uploadWithProgress(
+              sanitize(video.name),
+              video.content,
+              {
+                onProgress: onVideoUploadProgress,
+              },
+              "file"
+            ),
           ]);
           pageScroll();
           const { pathname: fileURI } = await upload(
             "file.json",
-            JSON.stringify({ name, firstName, lastName, bio, photo, video })
+            JSON.stringify({ name, firstName, lastName, bio, photo, video }),
+            "file"
           );
           const { pathname: evidence } = await uploadWithProgress(
             "registration.json",
             JSON.stringify({ fileURI, name: "Registration" }),
             {
               onProgress: onSubmissionUploadProgress,
-            }
+            },
+            "file"
           );
           if (reapply) {
             const messageParameters = JSON.stringify({

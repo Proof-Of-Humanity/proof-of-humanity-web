@@ -90,7 +90,7 @@ export default function RemoveButton({ request, contract, submissionID }) {
             let evidence = { name, description };
             if (file)
               evidence.fileURI = (
-                await upload(file.name, file.content)
+                await upload(file.name, file.content, "file")
               ).pathname;
             ({ pathname: evidence } = await upload(
               "evidence.json",

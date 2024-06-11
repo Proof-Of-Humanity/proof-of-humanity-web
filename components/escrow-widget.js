@@ -42,7 +42,8 @@ export default function EscrowWidget({
           klerosEscrowRef.current.archon.arbitrable.ipfsGateway
         }${await klerosEscrowRef.current.upload(
           "metaEvidenceFile",
-          metaEvidence.file
+          metaEvidence.file,
+          "metaEvidence"
         )}`;
         if (!cancelled) setMetaEvidenceFileURI(_metaEvidenceFileURI);
       } else if (metaEvidence.fileURI !== metaEvidenceFileURI)
