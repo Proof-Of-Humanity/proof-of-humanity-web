@@ -55,7 +55,7 @@
   "dependencies": {
     "@emotion/core": "^10.0.35",
     "@graphprotocol/graph-ts": "^0.35.1",
-    "@kleros/archon": "^0.10.4",
+    "@kleros/archon": "^2.0.0",
     "@popperjs/core": "^2.5.3",
     "@reach/checkbox": "^0.11.2",
     "@theme-ui/color": "^0.3.1",
@@ -72,7 +72,7 @@
     "lodash.kebabcase": "^4.1.1",
     "lodash.orderby": "^4.6.0",
     "lodash.startcase": "^4.4.0",
-    "next": "^12.1.0",
+    "next": "^14.2.7",
     "path-to-regexp": "^6.1.0",
     "pretty-num": "^0.4.0",
     "react": "^16.13.1",
@@ -103,7 +103,7 @@
     "theme-ui": "^0.3.1",
     "timeago-react": "^3.0.0",
     "typography-theme-sutro": "^0.16.19",
-    "web3": "^1.5.2",
+    "web3": "^4.2.0",
     "web3modal": "^1.9.4",
     "yup": "^0.29.3"
   },
