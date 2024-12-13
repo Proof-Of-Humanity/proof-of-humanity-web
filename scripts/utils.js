@@ -3,19 +3,26 @@ const path = require("path");
 
 const fetch = require("isomorphic-unfetch");
 
-module.exports.uploadToKleros = (
+function uploadToKleros(
   filePath,
-  buffer = fs.readFileSync(filePath)
-) =>
-  fetch(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      fileName: path.basename(filePath),
-      buffer,
-    }),
-  })
+  buffer = fs.readFileSync(filePath),
+  operation = "evidence"
+) {
+  const payload = new FormData();
+  payload.append("file", new Blob(buffer), path.basename(filePath));
+  return fetch(
+    `${process.env.NEXT_PUBLIC_COURT_FUNCTIONS_URL}/.netlify/functions/upload-to-ipfs?operation=${operation}&pinToGraph=false`,
+    {
+      method: "POST",
+      body: payload,
+    }
+  )
     .then((res) => res.json())
-    .then(({ data }) => `/ipfs/${data[1].hash}${data[0].path}`);
+    .then(({ cids }) => cids[0])
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log({ err });
+    });
+}
+
+module.exports.uploadToKleros = uploadToKleros;

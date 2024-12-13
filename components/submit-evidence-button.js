@@ -43,7 +43,11 @@ export default function SubmitEvidenceButton({ contract, args }) {
 
             if (file) {
               setState("uploading-file");
-              const fileUploadResult = await upload(file.name, file.content);
+              const fileUploadResult = await upload(
+                file.name,
+                file.content,
+                "file"
+              );
               evidence.fileURI = fileUploadResult.pathname;
             }
 

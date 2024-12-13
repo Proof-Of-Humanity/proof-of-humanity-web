@@ -1,5 +1,3 @@
-import { Buffer } from "buffer";
-
 import Archon from "@kleros/archon";
 import Dataloader from "dataloader";
 import {
@@ -40,34 +38,39 @@ export default function ArchonProvider({ children }) {
       value={useMemo(
         () => ({
           archon,
-          upload(fileName, buffer) {
-            return fetch(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`, {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                fileName: sanitize(fileName),
-                buffer: Buffer.from(buffer),
-              }),
-            })
+          upload(fileName, buffer, operation = "evidence") {
+            const payload = new FormData();
+            payload.append("file", new Blob([buffer]), sanitize(fileName));
+
+            return fetch(
+              `${process.env.NEXT_PUBLIC_COURT_FUNCTIONS_URL}/.netlify/functions/upload-to-ipfs?operation=${operation}&pinToGraph=false`,
+              {
+                method: "POST",
+                body: payload,
+              }
+            )
               .then((res) => res.json())
               .then(
-                ({ data }) =>
-                  new URL(
-                    `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${data[1].hash}${data[0].path}`
-                  )
+                ({ cids }) =>
+                  new URL(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}${cids[0]}`)
               );
           },
-          uploadWithProgress(fileName, buffer, { onProgress = () => {} } = {}) {
+          uploadWithProgress(
+            fileName,
+            buffer,
+            { onProgress = () => {} } = {},
+            operation = "evidence"
+          ) {
             const xhr = new XMLHttpRequest();
 
             let loadListener;
             let errorListener;
 
             const responsePromise = new Promise((resolve, reject) => {
-              xhr.open("POST", `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/add`);
-              xhr.setRequestHeader("Content-Type", "application/json");
+              xhr.open(
+                "POST",
+                `${process.env.NEXT_PUBLIC_COURT_FUNCTIONS_URL}/.netlify/functions/upload-to-ipfs?operation=${operation}&pinToGraph=false`
+              );
 
               loadListener = () => {
                 resolve(xhr.response);
@@ -85,21 +88,17 @@ export default function ArchonProvider({ children }) {
 
             xhr.upload.addEventListener("progress", onProgress);
 
-            xhr.send(
-              JSON.stringify({
-                fileName,
-                buffer: Buffer.from(buffer),
-              })
-            );
+            const payload = new FormData();
+            payload.append("file", new Blob([buffer]), fileName);
+
+            xhr.send(payload);
 
             const promise = Promise.resolve().then(() =>
               responsePromise
                 .then((res) => JSON.parse(res))
                 .then(
-                  ({ data }) =>
-                    new URL(
-                      `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${data[1].hash}${data[0].path}`
-                    )
+                  ({ cids }) =>
+                    new URL(`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}${cids[0]}`)
                 )
             );
 
