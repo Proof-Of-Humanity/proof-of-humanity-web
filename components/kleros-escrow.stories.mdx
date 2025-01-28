@@ -104,7 +104,7 @@ Creates an escrow transaction.
 | amount\*       | `number  | string                                                                                                                                                                                                                                                           | BN`     | The amount escrowed.                                          |     |
 | recipient\*    | `string` | The address of the recipient.                                                                                                                                                                                                                                    |         |
 | timeout\*      | `number  | string                                                                                                                                                                                                                                                           | BN`     | The time in seconds until the transaction becomes executable. |     |
-| metaEvidence\* | `object` | The [meta evidence object](https://github.com/ethereum/EIPs/issues/1497) for any potential disputes arising. You can add an additional `file` property with a buffer, string, or object, and it will be uploaded to IPFS and `fileURI` will be set appropiately. |         |
+| metaEvidence\* | `object` | The [meta evidence object](https://github.com/ethereum/EIPs/issues/1497) for any potential disputes arising. You can add an additional `file` property with a buffer, string, or object, and it will be uploaded to IPFS and `fileURI` will be set appropriately. |         |
 
 #### Returns `(Promise<object>)`
 
@@ -192,7 +192,7 @@ Uploads evidence to Kleros' IPFS node and submits it for a transaction.
 | Name            | Type     | Description                                                                                                                                                                                                                                                 | Default |
 | --------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- |
 | transactionID\* | `string` | The ID of the transaction.                                                                                                                                                                                                                                  |         |
-| evidence\*      | `object` | The [evidence object](https://github.com/ethereum/EIPs/issues/1497) for any potential disputes arising. You can add an additional `file` property with a buffer, string, or object, and it will be uploaded to IPFS and `fileURI` will be set appropiately. |         |
+| evidence\*      | `object` | The [evidence object](https://github.com/ethereum/EIPs/issues/1497) for any potential disputes arising. You can add an additional `file` property with a buffer, string, or object, and it will be uploaded to IPFS and `fileURI` will be set appropriately. |         |
 
 #### Returns `(Promise<object>)`
 
