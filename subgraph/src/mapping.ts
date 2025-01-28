@@ -331,7 +331,7 @@ function processVouchesHelper(
 }
 
 export function vouchAddedByChangeStateToPending(event: VouchAddedEvent): void {
-  // This handler is exclusively for events VouchAdded events emited
+  // This handler is exclusively for events VouchAdded events emitted
   // by calling changeStateToPending.
   let functionSig = event.transaction.input.toHexString().slice(0, 10);
   if (functionSig === "0x32fe596f") return; // Ignore if emitted by addVouch.
