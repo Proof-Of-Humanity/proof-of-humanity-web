@@ -39,7 +39,7 @@ const metadata = {
     metaEvidence: {
       type: { name: "object", required: true },
       description:
-        "The [meta evidence object](https://github.com/ethereum/EIPs/issues/1497) for any potential disputes arising from a transaction. You can add an additional `file` property with a buffer, string, or object, and it will be uploaded to IPFS and `fileURI` will be set appropiately.",
+        "The [meta evidence object](https://github.com/ethereum/EIPs/issues/1497) for any potential disputes arising from a transaction. You can add an additional `file` property with a buffer, string, or object, and it will be uploaded to IPFS and `fileURI` will be set appropriately.",
       table: {
         type: {
           summary: "object",
