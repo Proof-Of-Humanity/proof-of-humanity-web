@@ -29,3 +29,4 @@ export { default as Video } from "./video";
 export { default as Warning } from "./warning";
 export { default as X } from "./x";
 export { default as Chat } from "./chat";
+export { default as WarningCircle } from "./warning-circle";

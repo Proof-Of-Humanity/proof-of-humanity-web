@@ -1,6 +1,7 @@
 import {
   ArchonProvider,
   Box,
+  Disclaimer,
   Flex,
   HelpPopup,
   Image,
@@ -384,6 +385,7 @@ export default function App({ Component, pageProps }) {
         queries={queries}
         connectToRouteChange={connectToRouteChange}
       >
+        <Disclaimer />
         <Web3Provider
           infuraURL={process.env.NEXT_PUBLIC_INFURA_ENDPOINT}
           contracts={contracts}

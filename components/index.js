@@ -61,3 +61,4 @@ export {
 
 export { NextLink, NextETHLink, createWrapConnection } from "./next-router";
 export { zeroAddress, ethereumAddressRegExp, createEnum } from "./parsing";
+export { default as Disclaimer } from "./disclaimer";
