@@ -39,7 +39,7 @@ const Button = forwardRef(
               return `0 0 1px ${text}`;
             },
           },
-          cursor: disabled ? "not-alowed" : "pointer",
+          cursor: disabled ? "not-allowed" : "pointer",
           ...sx,
         }}
         type={type}
