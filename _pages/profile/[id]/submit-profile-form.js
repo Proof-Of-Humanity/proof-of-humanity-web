@@ -361,18 +361,6 @@ const SubmitProfileForm = memo(
                 diameter={24}
                 sx={{ maxWidth: 388, color: "text", fontWeight: "bold" }}
               />
-              <Text>
-                To improve your privacy, we recommend using an address which is
-                already public or a new one-seeded through{" "}
-                <Link
-                  href="https://tornado.cash"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  tornado.cash
-                </Link>
-                .
-              </Text>
             </Alert>
             <Alert type="muted" title="Advice" sx={{ mb: 3 }}>
               <Text>
@@ -579,13 +567,28 @@ const SubmitProfileForm = memo(
             />
             <Card
               variant="muted"
-              sx={{ fontSize: 1, marginBottom: 2 }}
+              sx={{
+                fontSize: 2,
+                marginBottom: 2,
+                fontWeight: "bold",
+                textUnderlineOffset: 3,
+              }}
               mainSx={{ padding: 0 }}
             >
               <Link newTab href={metaEvidence?.fileURI}>
                 <Text>{metaEvidence && "Registration Rules"}</Text>
               </Link>
             </Card>
+            <Alert
+              type="muted"
+              title="Reminder"
+              sx={{ mb: 3, fontWeight: "bold" }}
+            >
+              <Text>
+                Submissions are final and cannot be edited. Be sure to follow
+                all submission rules to not lose your deposit.
+              </Text>
+            </Alert>
             <Button
               type="submit"
               onClick={(event) => event.preventDefault()}
